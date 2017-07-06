@@ -78,8 +78,6 @@ namespace AendorAssess
         private void showVendorDiscovery()
         {
             string tempvendorname = null;
-            string TempVendorName = Session["tempvendorname"].ToString();
-            string FormID = TempVendorName + "调查表PR-05-01-5";
             tempvendorname = Session["tempvendorname"].ToString();//session赋值
             string formid = tempvendorname + "调查表PR-05-01-5";
             As_Vendor_Discovery Vendor_Discovery = new As_Vendor_Discovery();
