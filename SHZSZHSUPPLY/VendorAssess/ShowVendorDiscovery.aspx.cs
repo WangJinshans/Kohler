@@ -12,14 +12,21 @@ namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class ShowVendorDiscovery : System.Web.UI.Page
     {
+        private string formid = null;
         protected void Page_Load(object sender, EventArgs e)
         {
             if(!IsPostBack)
             {
-                string formid = null;
                 string tempvendorname = null;
-                tempvendorname = Session["tempvendorname"].ToString();
-                formid = tempvendorname + "调查表PR-05-01-5";
+                if (Session["tempvendorname"] != null)
+                {
+                    tempvendorname = Session["tempvendorname"].ToString();
+                    formid = tempvendorname + "调查表PR-05-01-5";
+                }
+                else
+                {
+                    formid = Session["formid"].ToString();
+                }
 
                 As_Vendor_Discovery Vendor_Discovery = new As_Vendor_Discovery();
                 int check = VendorDiscovery_BLL.checkVendorDiscovery(formid);
@@ -33,11 +40,6 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         private void showVendorDiscovery()
         {
-            string formid = null;
-            string tempvendorname = null;
-            tempvendorname = Session["tempvendorname"].ToString();
-            formid = tempvendorname + "调查表PR-05-01-5";
-
             As_Vendor_Discovery Vendor_Discovery = new As_Vendor_Discovery();
             Vendor_Discovery = VendorDiscovery_BLL.checkFlag(formid);
             {
