@@ -1,0 +1,19 @@
+D:\vbproject\SHZSZHSUPPLY\SHZSZHSUPPLY\BO\bin\Debug\BO.dll
+D:\vbproject\SHZSZHSUPPLY\SHZSZHSUPPLY\BO\bin\Debug\BO.pdb
+D:\vbproject\SHZSZHSUPPLY\SHZSZHSUPPLY\BO\obj\Debug\BO.dll
+D:\vbproject\SHZSZHSUPPLY\SHZSZHSUPPLY\BO\obj\Debug\BO.pdb
+\\10.12.3.66\d$\vbproject\SHZSZHSUPPLY\SHZSZHSUPPLY\BO\bin\Debug\BO.dll
+\\10.12.3.66\d$\vbproject\SHZSZHSUPPLY\SHZSZHSUPPLY\BO\bin\Debug\BO.pdb
+\\10.12.3.66\d$\vbproject\SHZSZHSUPPLY\SHZSZHSUPPLY\BO\obj\Debug\BO.csprojResolveAssemblyReference.cache
+\\10.12.3.66\d$\vbproject\SHZSZHSUPPLY\SHZSZHSUPPLY\BO\obj\Debug\BO.dll
+\\10.12.3.66\d$\vbproject\SHZSZHSUPPLY\SHZSZHSUPPLY\BO\obj\Debug\BO.pdb
+D:\vbproject\SHZSZHSUPPLY\SHZSZHSUPPLY\BO\obj\Debug\BO.csprojResolveAssemblyReference.cache
+D:\kohler\app\SHZSZHSUPPLY\SHZSZHSUPPLY\BO\bin\Debug\BO.dll
+D:\kohler\app\SHZSZHSUPPLY\SHZSZHSUPPLY\BO\bin\Debug\BO.pdb
+D:\kohler\app\SHZSZHSUPPLY\SHZSZHSUPPLY\BO\obj\Debug\BO.csprojResolveAssemblyReference.cache
+D:\kohler\app\SHZSZHSUPPLY\SHZSZHSUPPLY\BO\obj\Debug\BO.dll
+D:\kohler\app\SHZSZHSUPPLY\SHZSZHSUPPLY\BO\obj\Debug\BO.pdb
+E:\work\科勒\7.4 update\SHZSZHSUPPLY\SHZSZHSUPPLY\SHZSZHSUPPLY\BO\bin\Debug\BO.dll
+E:\work\科勒\7.4 update\SHZSZHSUPPLY\SHZSZHSUPPLY\SHZSZHSUPPLY\BO\bin\Debug\BO.pdb
+E:\work\科勒\7.4 update\SHZSZHSUPPLY\SHZSZHSUPPLY\SHZSZHSUPPLY\BO\obj\Debug\BO.dll
+E:\work\科勒\7.4 update\SHZSZHSUPPLY\SHZSZHSUPPLY\SHZSZHSUPPLY\BO\obj\Debug\BO.pdb

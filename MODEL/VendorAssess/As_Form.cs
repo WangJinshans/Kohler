@@ -1,0 +1,82 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Model
+{
+    public class As_Form
+    {
+        private string form_ID;
+        private string form_Name;
+        private string form_Path;
+        private string form_Type_ID;
+        private string temp_Vendor_Name;
+
+        public string Form_ID
+        {
+            get
+            {
+                return form_ID;
+            }
+
+            set
+            {
+                form_ID = value;
+            }
+        }
+
+        public string Form_Name
+        {
+            get
+            {
+                return form_Name;
+            }
+
+            set
+            {
+                form_Name = value;
+            }
+        }
+
+        public string Form_Path
+        {
+            get
+            {
+                return form_Path;
+            }
+
+            set
+            {
+                form_Path = value;
+            }
+        }
+
+        public string Form_Type_ID
+        {
+            get
+            {
+                return form_Type_ID;
+            }
+
+            set
+            {
+                form_Type_ID = value;
+            }
+        }
+
+        public string Temp_Vendor_Name
+        {
+            get
+            {
+                return temp_Vendor_Name;
+            }
+
+            set
+            {
+                temp_Vendor_Name = value;
+            }
+        }
+    }
+}

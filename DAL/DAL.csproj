@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{99FD4BC6-3D9A-4356-B21A-39DED69F378F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DAL</RootNamespace>
+    <AssemblyName>DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ItemNotifyInfo\ItemNotify_DAL.cs" />
+    <Compile Include="PlantInfo\PlantInfo_DAL.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SystemAdmin\SystemAdmin_DAL.cs" />
+    <Compile Include="UserInfo\UserInfo_DAL.cs" />
+    <Compile Include="Utility\DBUtil.cs" />
+    <Compile Include="Utility\SqlUtil.cs" />
+    <Compile Include="VenderInfo\ItemCategoryVendertype_DAL.cs" />
+    <Compile Include="VenderInfo\ItemList_DAL.cs" />
+    <Compile Include="VenderInfo\OperationLog_DAL.cs" />
+    <Compile Include="VenderInfo\VenderList_DAL.cs" />
+    <Compile Include="VenderInfo\VenderPlantList_DAL.cs" />
+    <Compile Include="VenderInfo\VenderType_DAL.cs" />
+    <Compile Include="VendorAssess\AddEmployeeVendor_DAL.cs" />
+    <Compile Include="VendorAssess\AddForm_DAL.cs" />
+    <Compile Include="VendorAssess\AssessFlow_DAL.cs" />
+    <Compile Include="VendorAssess\DBHelp.cs" />
+    <Compile Include="VendorAssess\Employee_DAL.cs" />
+    <Compile Include="VendorAssess\FileType_FormType_DAL.cs" />
+    <Compile Include="VendorAssess\File_DAL.cs" />
+    <Compile Include="VendorAssess\File_Type_DAL.cs" />
+    <Compile Include="VendorAssess\Form_File_DAL.cs" />
+    <Compile Include="VendorAssess\SelectApproveForm_DAL.cs" />
+    <Compile Include="VendorAssess\SelectEmployeeVendor_DAL.cs" />
+    <Compile Include="VendorAssess\SelectForm_DAL.cs" />
+    <Compile Include="VendorAssess\TempVendor_DAL.cs" />
+    <Compile Include="VendorAssess\UpdateFlag_DAL.cs" />
+    <Compile Include="VendorAssess\VendorDiscovery_DAL.cs" />
+    <Compile Include="VendorAssess\VendorFile_DAL.cs" />
+    <Compile Include="VendorAssess\VendorForm_DAL.cs" />
+    <Compile Include="VendorAssess\VendorRiskAnalysis_DAL.cs" />
+    <Compile Include="VendorAssess\VendorType_DAL.cs" />
+    <Compile Include="VendorAssess\Write_DAL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BO\BO.csproj">
+      <Project>{D66466EE-FA42-4679-860D-4C4849DF488B}</Project>
+      <Name>BO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MODEL\MODEL.csproj">
+      <Project>{2ebd498a-0c8d-4270-bf02-80814c6a101a}</Project>
+      <Name>MODEL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
