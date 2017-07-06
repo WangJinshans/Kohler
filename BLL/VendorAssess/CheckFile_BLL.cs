@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Model;
 using DAL;
+using BLL.VendorAssess;
 
 namespace BLL
 {
@@ -52,24 +53,23 @@ namespace BLL
         public static int addFormFile(string formTypeID,string tempVendorName,string formID)
         {
             int check = 1;
-            for (int i = 0; i < FileType_FormType_DAL.selectFileTypeID(formTypeID).Count; i++)
+            IList<As_FileType_FormType> formFileList = FileType_FormType_BLL.selectFileTypeID(formTypeID);
+            for (int i = 0; i < formFileList.Count; i++)
             {
-                string filetypeid = FileType_FormType_DAL.selectFileTypeID(formTypeID)[i].File_Type_ID;
-                int result = File_DAL.selectFileID(tempVendorName, formTypeID);//查询是否有记录
+                string filetypeid = formFileList[i].File_Type_ID;
+                int result = File_BLL.selectFileID(tempVendorName, formTypeID);//查询是否有记录
                 if (result == 0)
                 {
                     check = 0;
-
                     return check;   //若没有记录 返回文件不全
                 }
                 else
                 {
                     As_Form_File Form_File = new As_Form_File();
-                    string fileid = File_DAL.selectFileid(tempVendorName, filetypeid);      //查询filed
+                    string fileid = File_BLL.selectFileid(tempVendorName, filetypeid);      //查询filed
                     Form_File.File_ID = fileid;
                     Form_File.Form_ID = formID;
-                    int checkadd = Form_File_DAL.addFormFile(Form_File);  //若有记录，则加入记录        
-                    return checkadd;
+                    int checkadd = FormFile_BLL.addFormFile(Form_File);  //若有上传文件记录，则绑定记录    
                 }
             }
             return check;
