@@ -14,5 +14,13 @@ namespace BLL
         {
             return AddForm_DAL.addForm(form);
         }
+        public static string GetVendorName(string formID)
+        {
+            return AddForm_DAL.GetVendorName(formID);
+        }
+        public static string GetFormID(string name)
+        {
+            return AddForm_DAL.GetFormID(name);
+        }
     }
 }

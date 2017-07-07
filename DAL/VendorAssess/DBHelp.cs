@@ -17,7 +17,7 @@ namespace DAL
             {
 
                 //string connectionString = "Data Source=DESKTOP-CFRHGFO;Initial Catalog=kohler;Integrated Security=True";
-                string connectionString = "server=115.159.40.169;database=kohler;uid=sa;pwd=PWkohler123";
+                string connectionString = "server=.;database=kohler;uid=sa;pwd=wangjinshan123..";
                 if (connection == null)
                 {
                     connection = new SqlConnection(connectionString);

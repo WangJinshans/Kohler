@@ -81,7 +81,21 @@ namespace AendorAssess
                 string tempvendorname = Session["tempvendorname"].ToString();
 
                 //点击不同表格进入到不同界面.
-                if (e.CommandArgument.ToString() == "003") 
+                if (e.CommandArgument.ToString() == "004")//指定供应商申请表
+                {
+                    int checkfile = 0;
+                    string formid = tempvendorname + "指定供应商申请表PR-05-10-2";//
+                    checkfile = CheckFile_BLL.checkFile("001", tempvendorname, formid);//第一个参数传form_type_ID
+                    if (checkfile == 0)
+                    {
+                        Response.Write("<script>window.alert('请先上传完整所需文件！')</script>");
+                    }
+                    else
+                    {
+                        Response.Redirect("VendorDesignatedApply.aspx");
+                    }
+                }
+                else if (e.CommandArgument.ToString() == "003") 
                 {
                     Response.Redirect("VendorRiskAnalysis.aspx");
                 }
@@ -129,6 +143,12 @@ namespace AendorAssess
                 GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
                 Session["tempvendorname"]= GridView3.Rows[drv.RowIndex].Cells[0].Text;
                 Response.Redirect("ShowVendorDiscovery.aspx");
+            }
+            if (e.CommandArgument.ToString() == "指定供应商申请表")//跳进指定供应商申请表
+            {
+                GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
+                Session["tempvendorname"] = GridView3.Rows[drv.RowIndex].Cells[0].Text;
+                Response.Redirect("ShowVendorDesignatedApply.aspx");//指定供应商申请的查看页面
             }
         }
         //上传文件
