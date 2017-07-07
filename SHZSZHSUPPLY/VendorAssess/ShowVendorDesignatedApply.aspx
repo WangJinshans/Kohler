@@ -139,8 +139,8 @@
                 <td colspan="5"><asp:TextBox ID="TextBox24" runat="server" CssClass="auto-style1" Width="313px" ReadOnly="True"></asp:TextBox></td>
             </tr>
         </table>
-        <table>
-            <tr>
+        <table class="gridtable" style="margin: auto; border-collapse: collapse;float:left">
+                <tr>
                     <td>
                         <div width: 1000px; text-align :center ;height: 100%>
             <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
@@ -214,7 +214,7 @@
         </div>
                     </td>
                 </tr>
-        </table>
+            </table>
     </div>
     </form>
 
