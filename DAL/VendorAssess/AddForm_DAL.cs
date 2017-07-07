@@ -1,6 +1,7 @@
 ﻿using Model;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,24 @@ namespace DAL
 
             };
             return DBHelp.GetScalar(sql, sp);
+        }
+
+        public static string GetVendorName(string formID)
+        {
+            string sql = "select Temp_Vendor_Name from As_Form where Form_ID='" + formID + "'";
+            DataTable dt = new DataTable();
+            dt = DBHelp.GetDataSet(sql);
+            string vendorname = dt.Rows[0]["Temp_Vendor_Name"].ToString().Trim();
+            return vendorname;
+        }
+
+        public static string GetFormID(string name)
+        {
+            string sql = "select Form_ID from As_Form where Temp_Vendor_Name='" + name + "'";
+            DataTable dt = new DataTable();
+            dt = DBHelp.GetDataSet(sql);
+            string formid = dt.Rows[0]["Form_ID"].ToString().Trim();
+            return formid;
         }
     }
 }
