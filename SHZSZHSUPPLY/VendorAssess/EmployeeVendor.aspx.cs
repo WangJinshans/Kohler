@@ -102,19 +102,6 @@ namespace AendorAssess
                     }
                     else
                     {
-                        //一开始填写表格就把表As_Employee_ID字段FLag置1.
-                        //int updateFlag = UpdateFlag_BLL.updateFlag(formTypeID, tempvendorname);
-                        
-                        //int check = VendorDiscovery_BLL.checkVendorDiscovery(formid);
-                        //if (check == 0)
-                        //{
-                        //    As_Vendor_Discovery Vendor_Discovery = new As_Vendor_Discovery();
-                        //    Vendor_Discovery.Form_Type_ID = "001";
-                        //    Vendor_Discovery.Form_ID = formid;
-                        //    Vendor_Discovery.Temp_Vendor_Name = tempvendorname;
-                        //    Vendor_Discovery.Flag = 1;
-                        //    int n = VendorDiscovery_BLL.addVendorDiscovery(Vendor_Discovery);
-                        //}
                         Response.Redirect("VendorDiscovery.aspx");
                     }
                     
