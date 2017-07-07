@@ -23,7 +23,7 @@ namespace BLL
             for (int i=0;i<FileType_FormType_DAL.selectFileTypeID(formtypeid).Count;i++)
             {
                 string filetypeid = FileType_FormType_DAL.selectFileTypeID(formtypeid)[i].File_Type_ID;
-                int result=File_DAL.selectFileID(tempvendorname,formtypeid);//查询是否有记录
+                int result=File_DAL.selectFileID(tempvendorname,filetypeid);//查询是否有记录
                 if(result==0)
                 {
                     check = 0;

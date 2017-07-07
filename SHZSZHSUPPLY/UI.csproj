@@ -123,6 +123,15 @@
     <Content Include="VendorAssess\EmployeeVendor.aspx" />
     <Content Include="VendorAssess\index.aspx" />
     <Content Include="VendorAssess\login.aspx" />
+    <Content Include="VendorAssess\Script\jquery-1.4.1.min.js" />
+    <Content Include="VendorAssess\Script\jquery-3.2.1.min.js" />
+    <Content Include="VendorAssess\Script\layer\layer.js" />
+    <Content Include="VendorAssess\Script\layer\skin\default\icon-ext.png" />
+    <Content Include="VendorAssess\Script\layer\skin\default\icon.png" />
+    <Content Include="VendorAssess\Script\layer\skin\default\layer.css" />
+    <Content Include="VendorAssess\Script\layer\skin\default\loading-0.gif" />
+    <Content Include="VendorAssess\Script\layer\skin\default\loading-1.gif" />
+    <Content Include="VendorAssess\Script\layer\skin\default\loading-2.gif" />
     <Content Include="VendorAssess\Script\My97DatePicker\lang\en.js" />
     <Content Include="VendorAssess\Script\My97DatePicker\lang\zh-cn.js" />
     <Content Include="VendorAssess\Script\My97DatePicker\lang\zh-tw.js" />
@@ -136,11 +145,14 @@
     <Content Include="VendorAssess\Script\My97DatePicker\WdatePicker.js" />
     <Content Include="VendorAssess\SelectDepartment.aspx" />
     <Content Include="VendorAssess\ShowApproveForm.aspx" />
+    <Content Include="VendorAssess\ShowVendorDesignatedApply.aspx" />
     <Content Include="VendorAssess\ShowVendorDiscovery.aspx" />
     <Content Include="VendorAssess\SUPPLYRISKANALYSIS.aspx" />
     <Content Include="VendorAssess\VendorAssess.aspx" />
+    <Content Include="VendorAssess\VendorDesignatedApply.aspx" />
     <Content Include="VendorAssess\VendorDiscovery.aspx" />
     <Content Include="VendorAssess\VendorInfo.aspx" />
+    <Content Include="VendorAssess\VendorRiskAnalysis.aspx" />
     <Content Include="WebForm1.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -305,6 +317,13 @@
     <Compile Include="VendorAssess\ShowApproveForm.aspx.designer.cs">
       <DependentUpon>ShowApproveForm.aspx</DependentUpon>
     </Compile>
+    <Compile Include="VendorAssess\ShowVendorDesignatedApply.aspx.cs">
+      <DependentUpon>ShowVendorDesignatedApply.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\ShowVendorDesignatedApply.aspx.designer.cs">
+      <DependentUpon>ShowVendorDesignatedApply.aspx</DependentUpon>
+    </Compile>
     <Compile Include="VendorAssess\ShowVendorDiscovery.aspx.cs">
       <DependentUpon>ShowVendorDiscovery.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -326,6 +345,13 @@
     <Compile Include="VendorAssess\VendorAssess.aspx.designer.cs">
       <DependentUpon>VendorAssess.aspx</DependentUpon>
     </Compile>
+    <Compile Include="VendorAssess\VendorDesignatedApply.aspx.cs">
+      <DependentUpon>VendorDesignatedApply.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\VendorDesignatedApply.aspx.designer.cs">
+      <DependentUpon>VendorDesignatedApply.aspx</DependentUpon>
+    </Compile>
     <Compile Include="VendorAssess\VendorDiscovery.aspx.cs">
       <DependentUpon>VendorDiscovery.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -339,6 +365,13 @@
     </Compile>
     <Compile Include="VendorAssess\VendorInfo.aspx.designer.cs">
       <DependentUpon>VendorInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorAssess\VendorRiskAnalysis.aspx.cs">
+      <DependentUpon>VendorRiskAnalysis.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\VendorRiskAnalysis.aspx.designer.cs">
+      <DependentUpon>VendorRiskAnalysis.aspx</DependentUpon>
     </Compile>
     <Compile Include="WebForm1.aspx.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
@@ -380,6 +413,9 @@
     <EmbeddedResource Include="WebForm1.aspx.resx">
       <DependentUpon>WebForm1.aspx.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Browsers\Default.browser" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
