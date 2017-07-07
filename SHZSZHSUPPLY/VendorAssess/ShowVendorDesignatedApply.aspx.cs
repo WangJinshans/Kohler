@@ -54,7 +54,8 @@ namespace VendorAssess
         }
         private void InitWholeForm()//从数据库初始化整个数据表
         {
-            string vendorname = Session["tempvendorname"].ToString();
+            //string vendorname = Session["tempvendorname"].ToString();
+            string vendorname = AddForm_BLL.GetVendorName(formid);
             form = As_Vendor_Designated_Apply_BLL.GetWholeFormInfo(vendorname);
             TextBox2.Text = form.SAPCode1;
             TextBox3.Text = form.BusinessCategory;
