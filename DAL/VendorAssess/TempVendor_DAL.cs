@@ -24,7 +24,8 @@ namespace DAL
         public static string getTempVendorID(string TempVendorName)
         {
             As_Employee_Vendor Employee_Vendor = null;
-            string sql = "select Temp_Vendor_ID from As_Employee_Vendor where Temp_Vendor_Name=@Temp_Vendor_Name";
+            string sql = "select Temp_Vendor_ID from As_Temp_Vendor where Temp_Vendor_Name=@Temp_Vendor_Name";
+            //string sql = "select Temp_Vendor_ID from As_Employee_Vendor where Temp_Vendor_Name=@Temp_Vendor_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
                  new SqlParameter("Temp_Vendor_Name",TempVendorName)

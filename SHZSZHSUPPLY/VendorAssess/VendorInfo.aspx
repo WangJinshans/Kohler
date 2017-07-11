@@ -12,18 +12,31 @@
             height:400px;
             margin:0 auto;
         }
+        .auto-style1 {
+            height: 58px;
+        }
     </style>
+
+    <script src="Script/jquery-3.2.1.min.js"></script>  
+	<script src="Script/layer/layer.js"></script>  
+    <script>
+        function messageBox(msg) {
+            layer.open({
+                title:'提示信息',
+                content: '' + msg,
+            })
+        }
+    </script>
 </head>
 <body>
     <form id="form1" runat="server" >
         <div>
             <table >
                 <tr>
-                    <td>
-                        <asp:Label ID="Label8" runat="server" Text="供应商临时编号:"></asp:Label>
-                    </td>
-                    <td colspan="2">
-                        <asp:TextBox ID="Temp_Vendor_ID" runat="server"></asp:TextBox><br />
+                    <td class="auto-style1">
+                        &nbsp;</td>
+                    <td colspan="2" class="auto-style1">
+                        <br />
                     </td>
                 </tr>
                 <tr>

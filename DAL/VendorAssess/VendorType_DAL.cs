@@ -53,18 +53,23 @@ namespace DAL
         public static string selectVendorTypeId(string promise, string purchaseMoney, string advanceCharge, string vendorAssign, string vendorType)
         {
             As_Vendor_Type vendor_Type = new As_Vendor_Type();
-            string sql = "SELECT Vendor_Type_ID FROM As_Vendor_Type WHERE Promise='" + promise + "' AND";
-            sql = sql + " Purchase_Money='" + purchaseMoney + "'AND";
-            sql = sql + " Advance_Charge='" + advanceCharge + "'AND";
-            sql = sql + " Vendor_Assign='" + vendorAssign + "'AND";
-            sql = sql + " Vendor_Type='" + vendorType + "'";
+
+            string sql = "Select Vendor_Type_ID FROM As_Vendor_Type WHERE Promise=@Promise and Advance_Charge=@Advance_Charge and Vendor_Assign=@Vendor_Assign and @Purchase_Money>=Min_Money and @Purchase_Money<Max_Money";
+            //string sql = "Select Vendor_Type_ID FROM As_Vendor_Type WHERE Promise='" + promise + "' and Advance_Charge='" + advanceCharge + "' and Vendor_Assign='" + vendorAssign + "' and " + purchaseMoney+">=Min_Money and "+purchaseMoney+"<Max_Money";
+
+
+            string sqls = "SELECT Vendor_Type_ID FROM As_Vendor_Type WHERE Promise='" + promise + "' AND";
+            sqls = sqls + " Purchase_Money='" + purchaseMoney + "'AND";
+            sqls = sqls + " Advance_Charge='" + advanceCharge + "'AND";
+            sqls = sqls + " Vendor_Assign='" + vendorAssign + "'AND";
+            sqls = sqls + " Vendor_Type='" + vendorType + "'";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("Promise",promise),
-                new SqlParameter("Purchase_Money",purchaseMoney),
-                new SqlParameter("Advance_Charge",advanceCharge),
-                new SqlParameter("Vendor_Assign",vendorAssign),
-                new SqlParameter("Vendor_Type",vendorType)
+                new SqlParameter("@Promise",promise),
+                new SqlParameter("@Purchase_Money",Convert.ToInt32(purchaseMoney)),
+                new SqlParameter("@Advance_Charge",advanceCharge),
+                new SqlParameter("@Vendor_Assign",vendorAssign),
+                new SqlParameter("@Vendor_Type",vendorType)
             };
             using (SqlDataReader dr = DBHelp.GetReader(sql, sp))
             {
