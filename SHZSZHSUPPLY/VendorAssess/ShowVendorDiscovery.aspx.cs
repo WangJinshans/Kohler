@@ -42,6 +42,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             As_Vendor_Discovery Vendor_Discovery = new As_Vendor_Discovery();
             Vendor_Discovery = VendorDiscovery_BLL.checkFlag(formid);
+            if (Vendor_Discovery != null)
             {
                 TextBox1.Text = Vendor_Discovery.File_Time;
                 TextBox2.Text = Vendor_Discovery.Temp_Vendor_Name;

@@ -6,11 +6,12 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
+    <%--<base target="_self" />--%> 
 </head>
 <body>
     <form id="form1" runat="server">
     <div>
-    <a href="index.aspx">返回主界面</a>
+    <%--<a href="index.aspx" style="visibility:hidden">返回主界面</a>--%>
         <asp:GridView ID="GridView1" runat="server" AllowSorting="True" AutoGenerateColumns="False" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" BackColor="White" BorderColor="#336666" BorderStyle="Double" BorderWidth="3px" CellPadding="4" GridLines="Horizontal">
             <Columns>
                 <asp:BoundField DataField="Department_ID" HeaderText="Department_ID" SortExpression="Department_ID" />

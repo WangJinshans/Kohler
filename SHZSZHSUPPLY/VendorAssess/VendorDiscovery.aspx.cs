@@ -18,6 +18,8 @@ namespace AendorAssess
         {
             if (!IsPostBack)
             {
+                RegisterRequiresPostBack(TextBox1);
+
                 string formid = null;
                 string tempvendorname = null;
                 As_Vendor_Discovery Vendor_Discovery = new As_Vendor_Discovery();
@@ -32,7 +34,7 @@ namespace AendorAssess
                     Vendor_Discovery.Form_Type_ID = "001";
                     Vendor_Discovery.Form_ID = formid;
                     Vendor_Discovery.Temp_Vendor_Name = tempvendorname;
-                    Vendor_Discovery.Flag = 1;//将表格标志位信息改为已填写
+                    Vendor_Discovery.Flag = 0;//将表格标志位信息改为已填写
                     int n = VendorDiscovery_BLL.addVendorDiscovery(Vendor_Discovery);
 
                     //向FormFile表中添加相应的文件、表格绑定信息
@@ -43,9 +45,22 @@ namespace AendorAssess
                     showVendorDiscovery();
                 }
             }
+            else
+            {
+                //处理postback回调
+                switch (Request["__EVENTTARGET"])
+                {
+                    case "submitForm":
+                        submitForm();
+                        break;
+                    default:
+                        break;
+                }
+            }
 
 
         }
+
 
         /// <summary>
         /// 绑定此表对应的文件信息
@@ -75,6 +90,9 @@ namespace AendorAssess
             }
         }
 
+        /// <summary>
+        /// 显示表格
+        /// </summary>
         private void showVendorDiscovery()
         {
             string tempvendorname = null;
@@ -82,6 +100,7 @@ namespace AendorAssess
             string formid = tempvendorname + "调查表PR-05-01-5";
             As_Vendor_Discovery Vendor_Discovery = new As_Vendor_Discovery();
             Vendor_Discovery = VendorDiscovery_BLL.checkFlag(formid);
+            if (Vendor_Discovery!=null)
             {
                 TextBox1.Text = Vendor_Discovery.File_Time;
                 TextBox2.Text = Vendor_Discovery.Temp_Vendor_Name;
@@ -154,6 +173,10 @@ namespace AendorAssess
 
         }
 
+        /// <summary>
+        /// 显示审批列表
+        /// </summary>
+        /// <param name="FormID"></param>
         public void showapproveform(string FormID)
         {
             As_Approve approve = new As_Approve();
@@ -163,6 +186,11 @@ namespace AendorAssess
             GridView1.DataSource = objpds;
             GridView1.DataBind();
         }
+
+        /// <summary>
+        /// 显示文件列表
+        /// </summary>
+        /// <param name="FormID"></param>
         public void showfilelist(string FormID)
         {
             As_Form_File Form_File = new As_Form_File();
@@ -172,14 +200,20 @@ namespace AendorAssess
             GridView2.DataSource = objpds;
             GridView2.DataBind();
         }
-        public void Button1_Click(object sender, EventArgs e)//提交按钮
+
+        /// <summary>
+        /// 提交表格
+        /// </summary>
+        /// <returns></returns>
+        protected string submitForm()
         {
-            As_Vendor_Discovery Vendor_Discovery = saveForm(2, "提交表格");
+            //形成参数
             string TempVendorName = Session["tempvendorname"].ToString();
             string FormID = TempVendorName + "调查表PR-05-01-5";
 
             //一旦提交就把表As_Vendor_FormType字段FLag置1.
             int updateFlag = UpdateFlag_BLL.updateFlag(FORM_TYPE_ID, TempVendorName);
+            SelectDepartment.doSelect();
 
             //插入到已提交表
             As_Form form = new As_Form();
@@ -190,10 +224,46 @@ namespace AendorAssess
             form.Form_Path = "";
             int add = AddForm_BLL.addForm(form);
 
-            //确定审批流程，这个函数一定放到最后调用（因为在此函数中页面被重定向，无法执行下面的代码）
-            approveaccess(Vendor_Discovery.Form_Type_ID, FormID);
+            Response.Redirect("EmployeeVendor.aspx");
+            return "";
         }
 
+        /// <summary>
+        /// 处理js脚本
+        /// </summary>
+        /// <param name="mypage"></param>
+        /// <param name="strScript"></param>
+        /// <param name="ID"></param>
+        public static void CreateScript(System.Web.UI.Page mypage, string strScript, string ID)
+        {
+            string strscript = "<script language='javascript'>";
+            strscript += strScript;
+            strscript += "</script>";
+            if (!mypage.ClientScript.IsStartupScriptRegistered(ID))
+                mypage.ClientScript.RegisterStartupScript(mypage.GetType(), ID, strscript);
+        }
+
+        /// <summary>
+        /// 网页内部弹出对话框
+        /// </summary>
+        /// <param name="formTypeID"></param>
+        /// <param name="formID"></param>
+        public void newApproveAccess(string formTypeID,string formID)
+        {
+            //形成参数
+            string formtypeid = formTypeID;
+            As_Assess_Flow assess_flow = new As_Assess_Flow();
+            assess_flow = AssessFlow_BLL.getFirstAssessFlow(formtypeid);
+
+            //写入session之后供SelectDepartment页面使用
+            Session["AssessflowInfo"] = assess_flow;
+
+            //如果是用户部门
+            if (assess_flow.User_Department_Assess == "1")
+            {
+                CreateScript(Page, "popUp('"+formID+"');", "SHOW");
+            }
+        }
 
         /// <summary>
         /// 确定审批流程
@@ -239,6 +309,12 @@ namespace AendorAssess
             }
         }
 
+        /// <summary>
+        /// 保存表格
+        /// </summary>
+        /// <param name="flag"></param>
+        /// <param name="manul"></param>
+        /// <returns></returns>
         private As_Vendor_Discovery saveForm(int flag, string manul)
         {
             As_Vendor_Discovery Vendor_Discovery = new As_Vendor_Discovery();
@@ -322,13 +398,27 @@ namespace AendorAssess
                 write.Form_Fill_Time = Vendor_Discovery.File_Time;
                 write.Manul = manul;
                 Write_BLL.addWrite(write);
-                Response.Write("<script>window.alert('操作成功！')</script>");
+                if (flag == 1)
+                {
+                    Response.Write("<script>window.alert('保存成功！')</script>");
+                }
                 return Vendor_Discovery;
             }
             else
             {
                 return null;
             }
+        }
+
+        public void Button1_Click(object sender, EventArgs e)//提交按钮
+        {
+            //形成参数
+            As_Vendor_Discovery Vendor_Discovery = saveForm(2, "提交表格");
+            string TempVendorName = Session["tempvendorname"].ToString();
+            string FormID = TempVendorName + "调查表PR-05-01-5";
+
+            //对于用户部门，使用弹出对话框选择
+            newApproveAccess(Vendor_Discovery.Form_Type_ID, FormID);
         }
 
         protected void Button2_Click(object sender, EventArgs e)
@@ -340,6 +430,5 @@ namespace AendorAssess
         {
             Response.Redirect("EmployeeVendor.aspx");
         }
-
     }
 }

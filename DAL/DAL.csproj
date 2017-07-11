@@ -57,6 +57,7 @@
     <Compile Include="VendorAssess\AddEmployeeVendor_DAL.cs" />
     <Compile Include="VendorAssess\AddForm_DAL.cs" />
     <Compile Include="VendorAssess\AssessFlow_DAL.cs" />
+    <Compile Include="VendorAssess\As_Vendor_Designated_Apply_DAL.cs" />
     <Compile Include="VendorAssess\DBHelp.cs" />
     <Compile Include="VendorAssess\Employee_DAL.cs" />
     <Compile Include="VendorAssess\FileType_FormType_DAL.cs" />

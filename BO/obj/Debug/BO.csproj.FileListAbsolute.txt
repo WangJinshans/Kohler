@@ -17,3 +17,7 @@ E:\work\科勒\7.4 update\SHZSZHSUPPLY\SHZSZHSUPPLY\SHZSZHSUPPLY\BO\bin\Debug\BO
 E:\work\科勒\7.4 update\SHZSZHSUPPLY\SHZSZHSUPPLY\SHZSZHSUPPLY\BO\bin\Debug\BO.pdb
 E:\work\科勒\7.4 update\SHZSZHSUPPLY\SHZSZHSUPPLY\SHZSZHSUPPLY\BO\obj\Debug\BO.dll
 E:\work\科勒\7.4 update\SHZSZHSUPPLY\SHZSZHSUPPLY\SHZSZHSUPPLY\BO\obj\Debug\BO.pdb
+E:\work\科勒\github\branch\SHZSZHSUPPLY\BO\bin\Debug\BO.dll
+E:\work\科勒\github\branch\SHZSZHSUPPLY\BO\bin\Debug\BO.pdb
+E:\work\科勒\github\branch\SHZSZHSUPPLY\BO\obj\Debug\BO.dll
+E:\work\科勒\github\branch\SHZSZHSUPPLY\BO\obj\Debug\BO.pdb

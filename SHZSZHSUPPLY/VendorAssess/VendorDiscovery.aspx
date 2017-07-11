@@ -7,7 +7,57 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>供应商调查表</title>
 
-
+	<script type="text/javascript" src="Script/My97DatePicker/WdatePicker.js" ></script>
+	<script src="Script/jquery-3.2.1.min.js"></script>  
+	<script src="Script/layer/layer.js"></script>  
+	<script type="text/javascript">  
+		$(function () {  
+			layer.config({  
+				extend: ['skin/default/layer.css'], //加载新皮肤  
+				skin: 'layer-ext-espresso' //一旦设定，所有弹层风格都采用此主题。  
+			});  
+		});  
+  
+		//弹出框  
+		function popUp(formid) {
+			layer.open({
+				title: '请选择审批部门',
+				content: 'SelectDepartment.aspx?formid='+formid,
+				type: 2,
+				area: ['750px', '400px'],
+				shade: 0.3,
+				shadeClose: false, //点击遮罩关闭
+				btn: ['确定'],
+				yes: function (index, layero) {
+					__myDoPostBack('submitForm', '');
+					layer.close(index);
+				},
+				cancel: function (index, layero) {
+					if (confirm('确定要关闭么')) { //只有当点击confirm框的确定时，该层才会关闭
+						layer.close(index)
+					}
+					return false;
+				},
+				success: function (layero, index) {
+					console.log(layero, index);
+				}
+			});
+		}  
+	</script>  
+	<script type="text/javascript">
+	
+		function __myDoPostBack(eventTarget, eventArgument) {
+			var theForm = document.forms['form2'];
+			if (!theForm) {
+				theForm = document.form1;
+			}
+			if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+				theForm.__EVENTTARGET.value = eventTarget;
+				theForm.__EVENTARGUMENT.value = eventArgument;
+				theForm.submit();
+		}
+	}
+</script>
 	<style type="text/css">
 table.gridtable {
 	font-family: verdana,arial,sans-serif;
@@ -72,9 +122,10 @@ table.gridtable td {
 			}
 
 		.t {
-			border: 0px;
+			border-style: none;
+			border-color: inherit;
+			border-width: 0px;
 			overflow: hidden;
-			width: 95%;
 			text-align: center;
 		}
 
@@ -111,8 +162,9 @@ table.gridtable td {
 		</style>
 </head>
 <body style="margin: auto">
-
-	<form id="form1" runat="server">
+	<form id="form2" runat="server">
+		<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+		<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
 		<div style="text-align: center">
 			<table style="margin: auto; border-collapse: collapse">
 				<caption style="font-size: xx-large">供应商调查表</caption>
@@ -121,8 +173,8 @@ table.gridtable td {
 				</tr>
 				<tr>
 					<td colspan="8" style="text-align: right" class="auto-style3">填表时间：</td>
-					<td class="auto-style3">
-						<asp:TextBox ID="TextBox1" runat="server" CssClass="t"></asp:TextBox>
+					<td class="auto-style3" style="text-align:left">
+						<asp:TextBox runat="server" id="TextBox1" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" height="100%" width="100%" ReadOnly="True" />
 					</td>
 				</tr>
 				<tr>
