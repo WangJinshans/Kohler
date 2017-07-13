@@ -13,6 +13,7 @@ namespace Model
         private string form_ID;
         private string form_Fill_Time;
         private string manul;
+        private string temp_Vendor_ID;
 
         public int Id
         {
@@ -76,6 +77,19 @@ namespace Model
             set
             {
                 manul = value;
+            }
+        }
+
+        public string Temp_Vendor_ID
+        {
+            get
+            {
+                return temp_Vendor_ID;
+            }
+
+            set
+            {
+                temp_Vendor_ID = value;
             }
         }
     }

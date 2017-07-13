@@ -77,6 +77,7 @@ namespace Model
         private string file_Time;
         private string conclusion;
         private int flag;
+        private string bar_Code;
 
         public string Form_ID
         {
@@ -973,6 +974,19 @@ namespace Model
             set
             {
                 flag = value;
+            }
+        }
+
+        public string Bar_Code
+        {
+            get
+            {
+                return bar_Code;
+            }
+
+            set
+            {
+                bar_Code = value;
             }
         }
     }

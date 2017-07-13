@@ -11,6 +11,8 @@ namespace Model
         private string vendor_Type_ID;
         private string promise;
         private string purchase_Money;
+        private int min_money;
+        private int max_money;
         private string advance_Charge;
         private string vendor_Assign;
         private string vendor_Type;
@@ -90,6 +92,32 @@ namespace Model
             set
             {
                 vendor_Type = value;
+            }
+        }
+
+        public int Max_money
+        {
+            get
+            {
+                return Max_money;
+            }
+
+            set
+            {
+                Max_money = value;
+            }
+        }
+
+        public int Min_money
+        {
+            get
+            {
+                return min_money;
+            }
+
+            set
+            {
+                min_money = value;
             }
         }
     }

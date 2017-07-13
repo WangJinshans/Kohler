@@ -15,6 +15,7 @@ namespace Model
         private string four;
         private string five;
         private string kci;
+        private string temp_Vendor_ID;
 
         public string Form_ID
         {
@@ -104,6 +105,19 @@ namespace Model
             set
             {
                 kci = value;
+            }
+        }
+
+        public string Temp_Vendor_ID
+        {
+            get
+            {
+                return temp_Vendor_ID;
+            }
+
+            set
+            {
+                temp_Vendor_ID = value;
             }
         }
     }

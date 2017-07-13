@@ -36,6 +36,8 @@ namespace Model
         private string persident;
         private DateTime presidenDate;
         private DateTime finalDate;
+        private string bar_Code;
+        private string form_id;
 
         public string VendorName
         {
@@ -361,6 +363,32 @@ namespace Model
             set
             {
                 persident = value;
+            }
+        }
+
+        public string Bar_Code
+        {
+            get
+            {
+                return bar_Code;
+            }
+
+            set
+            {
+                bar_Code = value;
+            }
+        }
+
+        public string Form_id
+        {
+            get
+            {
+                return form_id;
+            }
+
+            set
+            {
+                form_id = value;
             }
         }
     }

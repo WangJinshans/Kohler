@@ -4,6 +4,8 @@ namespace Model
 
     public partial class As_Vendor_Risk
     {
+        private string bar_Code;
+
         public int ID { get; set; }
 
         public string Form_ID { get; set; }
@@ -100,5 +102,17 @@ namespace Model
 
         public string Product { get; set; }
 
+        public string Bar_Code
+        {
+            get
+            {
+                return bar_Code;
+            }
+
+            set
+            {
+                bar_Code = value;
+            }
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace Model
         private string form_Path;
         private string form_Type_ID;
         private string temp_Vendor_Name;
+        private string temp_Vendor_ID;
 
         public string Form_ID
         {
@@ -76,6 +77,19 @@ namespace Model
             set
             {
                 temp_Vendor_Name = value;
+            }
+        }
+
+        public string Temp_Vendor_ID
+        {
+            get
+            {
+                return temp_Vendor_ID;
+            }
+
+            set
+            {
+                temp_Vendor_ID = value;
             }
         }
     }

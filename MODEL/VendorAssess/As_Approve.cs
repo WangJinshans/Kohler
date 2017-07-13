@@ -13,6 +13,7 @@ namespace Model
         private string assess_Flag;
         private DateTime assess_Time;
         private string assess_Reason;
+        private string temp_Vendor_ID;
 
         public string Form_ID
         {
@@ -77,6 +78,19 @@ namespace Model
             set
             {
                 assess_Time = value;
+            }
+        }
+
+        public string Temp_Vendor_ID
+        {
+            get
+            {
+                return temp_Vendor_ID;
+            }
+
+            set
+            {
+                temp_Vendor_ID = value;
             }
         }
     }

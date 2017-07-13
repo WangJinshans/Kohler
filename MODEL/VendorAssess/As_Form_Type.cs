@@ -10,6 +10,7 @@ namespace Model
     {
         private string form_Type_ID;
         private string form_Type_Name;
+        private int form_Type_Priority;
 
         public string Form_Type_ID
         {
@@ -34,6 +35,19 @@ namespace Model
             set
             {
                 form_Type_Name = value;
+            }
+        }
+
+        public int Form_Type_Priority
+        {
+            get
+            {
+                return form_Type_Priority;
+            }
+
+            set
+            {
+                form_Type_Priority = value;
             }
         }
     }
