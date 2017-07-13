@@ -65,5 +65,17 @@ namespace Model
                 id = value;
             }
         }
+        public string Normal_Vendor_ID
+        {
+            get
+            {
+                return normal_Vendor_ID;
+            }
+
+            set
+            {
+                normal_Vendor_ID = value;
+            }
+        }
     }
 }
