@@ -11,9 +11,10 @@ namespace Model
         private string form_ID;
         private string position_Name;
         private string assess_Flag;
-        private DateTime assess_Time;
+        private string assess_Time;
         private string assess_Reason;
         private string temp_Vendor_ID;
+        private string factory_Name;
 
         public string Form_ID
         {
@@ -68,7 +69,7 @@ namespace Model
             }
         }
 
-        public DateTime Assess_Time
+        public string Assess_Time
         {
             get
             {
@@ -91,6 +92,19 @@ namespace Model
             set
             {
                 temp_Vendor_ID = value;
+            }
+        }
+
+        public string Factory_Name
+        {
+            get
+            {
+                return factory_Name;
+            }
+
+            set
+            {
+                factory_Name = value;
             }
         }
     }

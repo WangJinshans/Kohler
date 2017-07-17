@@ -7,139 +7,159 @@ namespace DAL
 {
     public class As_Vendor_Designated_Apply_DAL
     {
-        public static int SaveWholeForm(As_Vendor_Designated_Apply avda)
+        public static int updateForm(As_Vendor_Designated_Apply vendor_Designated)
         {
-            string sql = "INSERT INTO As_Vendor_Designated_Apply(vendorName,SAPCode,businessCategory,effectiveTime) VALUES(@vendorName,@SAPCode,@businessCategory,@effectiveTime)";
+            string sql = "update As_Vendor_Designated_Apply SET vendorName=@vendorName,SAPCode=@SAPCode,businessCategory=@businessCategory,effectiveTime=@effectiveTime,purchaseAmount=@purchaseAmount,reason=@reason,initiator=@initiator,initiatorDate=@initiatorDate,applicant=@applicant,requestDeptHead=@requestDeptHead,finManager=@finManager,applicantDate=@applicantDate,purchasingManager=@purchasingManager,GM=@GM,purchasingManagerDtae=@purchasingManagerDtae,GMDate=@GMDate,director=@director,supplyChainDirector=@supplyChainDirector,directorDtae=@directorDtae,supplyChainDirectorDate=@supplyChainDirectorDate,finalDate=@finalDate,president=@president,Temp_Vendor_ID=@Temp_Vendor_ID,Form_Type_ID=@Form_Type_ID,Flag=@Flag,requestDeptHeadDate=@requestDeptHeadDate,finManagerDate=@finManagerDate where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@vendorName",vendor_Designated.VendorName),
+                new SqlParameter("@SAPCode",vendor_Designated.SAPCode1),
+                new SqlParameter("@businessCategory",vendor_Designated.BusinessCategory),
+                new SqlParameter("@effectiveTime",vendor_Designated.EffectiveTime),
+                new SqlParameter("@purchaseAmount",vendor_Designated.PurchaseAmount),
+                new SqlParameter("@reason",vendor_Designated.Reason),
+                new SqlParameter("@initiator",vendor_Designated.Initiator),
+                new SqlParameter("@initiatorDate",vendor_Designated.InitiatorDate),
+                new SqlParameter("@applicant",vendor_Designated.Applicant),
+                new SqlParameter("@requestDeptHead",vendor_Designated.RequestDeptHead),
+                new SqlParameter("@finManager",vendor_Designated.FinManager),
+                new SqlParameter("@applicantDate",vendor_Designated.ApplicantDate),
+                new SqlParameter("@purchasingManager",vendor_Designated.PurchasingManager),
+                new SqlParameter("@GM",vendor_Designated.GM),
+                new SqlParameter("@purchasingManagerDtae",vendor_Designated.PurchasingManagerDtae),
+                new SqlParameter("@GMDate",vendor_Designated.GMDate1),
+                new SqlParameter("@director",vendor_Designated.Director),
+                new SqlParameter("@supplyChainDirector",vendor_Designated.SupplyChainDirector),
+                new SqlParameter("@directorDtae",vendor_Designated.DirectorDtae),
+                new SqlParameter("@supplyChainDirectorDate",vendor_Designated.SupplyChainDirectorDate),
+                new SqlParameter("@finalDate",vendor_Designated.FinalDate),
+                new SqlParameter("@president",vendor_Designated.Persident),
+                new SqlParameter("@Form_ID",vendor_Designated.Form_id),
+                new SqlParameter("@Temp_Vendor_ID",vendor_Designated.Temp_Vendor_ID),
+                new SqlParameter("@Form_Type_ID",vendor_Designated.Form_Type_ID),
+                new SqlParameter("@Flag",vendor_Designated.Flag),
+                new SqlParameter("@requestDeptHeadDate",vendor_Designated.RequestDeptHeadDate),
+                new SqlParameter("@finManagerDate",vendor_Designated.FinManagerDate)
+            };
+            return DBHelp.ExecuteCommand(sql, sp);
+        }
+
+        public static As_Vendor_Designated_Apply getForm(object FormId)
+        {
+            As_Vendor_Designated_Apply vendorApply = null;
+            string sql = "select * from As_Vendor_Designated_Apply WHERE Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",FormId)
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    vendorApply = new As_Vendor_Designated_Apply();
+                    vendorApply.VendorName = Convert.ToString(dr["vendorName"]);
+                    vendorApply.SAPCode1 = Convert.ToString(dr["SAPCode"]);
+                    vendorApply.BusinessCategory = Convert.ToString(dr["businessCategory"]);
+                    vendorApply.EffectiveTime = Convert.ToString(dr["effectiveTime"]);
+                    vendorApply.PurchaseAmount = Convert.ToString(dr["purchaseAmount"]);
+                    vendorApply.Reason = Convert.ToString(dr["reason"]);
+                    vendorApply.Initiator = Convert.ToString(dr["initiator"]);
+                    vendorApply.InitiatorDate = Convert.ToString(dr["initiatorDate"]);
+                    vendorApply.Applicant = Convert.ToString(dr["applicant"]);
+                    vendorApply.RequestDeptHead = Convert.ToString(dr["requestDeptHead"]);
+                    vendorApply.RequestDeptHeadDate = Convert.ToString(dr["requestDeptHeadDate"]);
+                    vendorApply.FinManager = Convert.ToString(dr["finManager"]);
+                    vendorApply.FinManagerDate = Convert.ToString(dr["finManagerDate"]);
+                    vendorApply.ApplicantDate = Convert.ToString(dr["applicantDate"]);
+                    vendorApply.PurchasingManager = Convert.ToString(dr["purchasingManager"]);
+                    vendorApply.GM = Convert.ToString(dr["GM"]);
+                    vendorApply.PurchasingManagerDtae = Convert.ToString(dr["purchasingManagerDtae"]);
+                    vendorApply.GMDate1 = Convert.ToString(dr["GMDate"]);
+                    vendorApply.Director = Convert.ToString(dr["director"]);
+                    vendorApply.SupplyChainDirector = Convert.ToString(dr["supplyChainDirector"]);
+                    vendorApply.DirectorDtae = Convert.ToString(dr["directorDtae"]);
+                    vendorApply.SupplyChainDirectorDate = Convert.ToString(dr["supplyChainDirectorDate"]);
+                    vendorApply.PresidenDate = Convert.ToString(dr["presidenDate"]);
+                    vendorApply.FinalDate = Convert.ToString(dr["finalDate"]);
+                    vendorApply.Persident = Convert.ToString(dr["president"]);
+                    vendorApply.Form_id = Convert.ToString(dr["Form_ID"]);
+                    vendorApply.Bar_Code = Convert.ToString(dr["Bar_Code"]);
+                    vendorApply.Temp_Vendor_ID = Convert.ToString(dr["Temp_Vendor_ID"]);
+                    vendorApply.Form_Type_ID = Convert.ToString(dr["Form_Type_ID"]);
+                    vendorApply.Flag = Convert.ToInt32(dr["Flag"]);
+                }
+            }
+            return vendorApply;
+        }
+
+        public static int getFlag(object formId)
+        {
+            int flag = -1;
+            string sql = "select Flag from As_Vendor_Designated_Apply where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+             {
+                new SqlParameter("@Form_ID",formId)
+             };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                   flag = Convert.ToInt32(dr["Flag"]);
+                }
+            }
+            return flag;
+        }
+
+        public static string getFormID(string tempVendorID)
+        {
+            string formID = "";
+            string sql = "select Form_ID from As_Vendor_Designated_Apply where Temp_Vendor_ID=@Temp_Vendor_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("Temp_Vendor_ID",tempVendorID)
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    formID = dr["Form_ID"].ToString();
+                }
+            }
+            return formID;
+        }
+
+        public static int addForm(As_Vendor_Designated_Apply vendorDesignatedApply)
+        {
+            string sql = "insert into As_Vendor_Designated_Apply (vendorName, Temp_Vendor_ID, Form_Type_ID, Flag) VALUES (@vendorName, @Temp_Vendor_ID,@Form_Type_ID,@Flag)";
             SqlParameter[] sp = new SqlParameter[]
                 {
-                    new SqlParameter("@vendorName",avda.VendorName),
-                    new SqlParameter("@SAPCode",avda.SAPCode1),
-                    new SqlParameter("@businessCategory",avda.BusinessCategory),
-                    new SqlParameter("@effectiveTime",avda.EffectiveTime),
-                    //new SqlParameter("@purchaseAmount",avda.PurchaseAmount),
-                    //new SqlParameter("@reason",avda.Reason),
-                    //new SqlParameter("@initiator",avda.Initiator),
-                    //new SqlParameter("@initiatorDate",avda.Date),
-                    //new SqlParameter("@applicant",avda.Applicant),
-                    //new SqlParameter("@requestDeptHead",avda.RequestDeptHead),
-                    //new SqlParameter("@finManager",avda.FinManager),
-                    //new SqlParameter("@applicantDate",avda.ApplicantDate),
-                    //new SqlParameter("@requestDeptHeadDate",avda.RequestDeptHeadDate),
-                    //new SqlParameter("@finManagerDate",avda.FinManagerDate),
-                    //new SqlParameter("@purchasingManager",avda.PurchasingManager),
-                    //new SqlParameter("@GM",avda.GM1),
-                    //new SqlParameter("@purchasingManagerDtae",avda.PurchasingManagerDtae),
-                    //new SqlParameter("@GMDate",avda.GMDate1),
-                    //new SqlParameter("@director",avda.Director),
-                    //new SqlParameter("@supplyChainDirector",avda.SupplyChainDirector),
-                    //new SqlParameter("@directorDtae",avda.DirectorDtae),
-                    //new SqlParameter("@supplyChainDirectorDate",avda.SupplyChainDirectorDate),
-                    //new SqlParameter("@persident",avda.Persident),
-                    //new SqlParameter("@presidenDate",avda.PresidenDate),
-                    //new SqlParameter("@finalDate",avda.FinalDate)
+                    new SqlParameter("@vendorName",vendorDesignatedApply.VendorName),
+                    new SqlParameter("@Temp_Vendor_ID",vendorDesignatedApply.Temp_Vendor_ID),
+                    new SqlParameter("@Form_Type_ID",vendorDesignatedApply.Form_Type_ID),
+                    new SqlParameter("@Flag",vendorDesignatedApply.Flag)
                 };
             return DBHelp.GetScalar(sql, sp);//ExecuteScalar()方法执行查询返回插入成功的行数
         }
 
-        public static int GetAsVendorDesignatedApplyFormID(As_Vendor_Designated_Apply avda)
+        public static int checkVendorDesignatedApply(string formID)//查询是否有表记录,1为存在 0为不存在
         {
-            string sql = "select ID from As_Vendor_Designated_Apply where vendorName=@vendorName";
+            string sql = "select * from As_Vendor_Designated_Apply where Form_ID=@Form_ID";
             SqlParameter[] sp = new SqlParameter[]
-                {
-                    new SqlParameter("@vendorName",avda.VendorName),
-                    //new SqlParameter("@SAPCode",avda.SAPCode1),
-                    //new SqlParameter("@businessCategory",avda.BusinessCategory)
-                    //new SqlParameter("@effectiveTime",avda.EffectiveTime),
-                    //new SqlParameter("@purchaseAmount",avda.PurchaseAmount),
-                    //new SqlParameter("@reason",avda.Reason),
-                    //new SqlParameter("@initiator",avda.Initiator),
-                    //new SqlParameter("@initiatorDate",avda.Date),
-                    //new SqlParameter("@applicant",avda.Applicant),
-                    //new SqlParameter("@requestDeptHead",avda.RequestDeptHead),
-                    //new SqlParameter("@finManager",avda.FinManager),
-                    //new SqlParameter("@applicantDate",avda.ApplicantDate),
-                    //new SqlParameter("@requestDeptHeadDate",avda.RequestDeptHeadDate),
-                    //new SqlParameter("@finManagerDate",avda.FinManagerDate),
-                    //new SqlParameter("@purchasingManager",avda.PurchasingManager),
-                    //new SqlParameter("@GM",avda.GM1),
-                    //new SqlParameter("@purchasingManagerDtae",avda.PurchasingManagerDtae),
-                    //new SqlParameter("@GMDate",avda.GMDate1),
-                    //new SqlParameter("@director",avda.Director),
-                    //new SqlParameter("@supplyChainDirector",avda.SupplyChainDirector),
-                    //new SqlParameter("@directorDtae",avda.DirectorDtae),
-                    //new SqlParameter("@supplyChainDirectorDate",avda.SupplyChainDirectorDate),
-                    //new SqlParameter("@persident",avda.Persident),
-                    //new SqlParameter("@presidenDate",avda.PresidenDate),
-                    //new SqlParameter("@finalDate",avda.FinalDate)
-                };
-            DataTable dt = new DataTable();
-            dt= DBHelp.GetDataSet(sql, sp);//初始化dt
-            int ID = 0;
-            if (dt != null && dt.Rows.Count > 0)
             {
-                ID = int.Parse(dt.Rows[0]["ID"].ToString().Trim());//获取ID
-            }
-            return ID;//ExecuteScalar()方法执行查询返回插入成功的行数
-        }
-
-        public static As_Vendor_Designated_Apply GetWholeFormInfo(string vendorname)
-        {
-            As_Vendor_Designated_Apply vda = new As_Vendor_Designated_Apply();
-            string sql = "select * from As_Vendor_Designated_Apply where vendorName='" + vendorname + "'";
-            DataTable dt = DBHelp.GetDataSet(sql);
-            if (dt.Rows.Count > 0 && dt != null)
+                new SqlParameter("@Form_ID",formID)
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
             {
-                vda.VendorName = dt.Rows[0]["vendorName"].ToString().Trim();
-                vda.SAPCode1 = dt.Rows[0]["SAPCode"].ToString().Trim();
-                vda.BusinessCategory = dt.Rows[0]["businessCategory"].ToString().Trim();
-                vda.EffectiveTime = Convert.ToDateTime(dt.Rows[0]["effectiveTime"].ToString().Trim());
+                return 1;
             }
-            return vda;
+            else
+            {
+                return 0;
+            }
         }
-        public static int UpdateWholeFormInfo(As_Vendor_Designated_Apply avda)
-        {
-            As_Vendor_Designated_Apply vda = new As_Vendor_Designated_Apply();
-            //string sql = "UPDATE As_Vendor_Designated_Apply SET vendorName=@vendorName,"
-            //    +"SAPCode=@SAPCode, businessCategory=@businessCategory,effectiveTime=@effectiveTime,"
-            //    +"purchaseAmount=@purchaseAmount,reason=@reason,initiator=@initiator,"
-            //    +"initiatorDate=@initiatorDate, applicant =@applicant, requestDeptHead =@requestDeptHead,"
-            //    +"finManager =@finManager,applicantDate=@applicantDate ,requestDeptHeadDate =@requestDeptHeadDate,"
-            //    +"finManagerDate =@finManagerDate,purchasingManager=@purchasingManager,GM=@GM, "
-            //    +"purchasingManagerDtae = @purchasingManagerDtae,GMDate = @GMDate, director = @director,"
-            //    +"supplyChainDirector = @supplyChainDirector, directorDtae =@directorDtae,"
-            //    +"supplyChainDirectorDate=@supplyChainDirectorDate,persident=@persident,"
-            //    +"finalDate=@finalDate";
-            string sql = "UPDATE As_Vendor_Designated_Apply SET vendorName=@vendorName,"
-                + "SAPCode=@SAPCode, businessCategory=@businessCategory,effectiveTime=@effectiveTime";
-            SqlParameter[] sp = new SqlParameter[]
-                {
-                    new SqlParameter("@vendorName",avda.VendorName),
-                    new SqlParameter("@SAPCode",avda.SAPCode1),
-                    new SqlParameter("@businessCategory",avda.BusinessCategory),
-                    new SqlParameter("@effectiveTime",avda.EffectiveTime),
-                    //new SqlParameter("@purchaseAmount",avda.PurchaseAmount),
-                    //new SqlParameter("@reason",avda.Reason),
-                    //new SqlParameter("@initiator",avda.Initiator),
-                    //new SqlParameter("@initiatorDate",avda.Date),
-                    //new SqlParameter("@applicant",avda.Applicant),
-                    //new SqlParameter("@requestDeptHead",avda.RequestDeptHead),
-                    //new SqlParameter("@finManager",avda.FinManager),
-                    //new SqlParameter("@applicantDate",avda.ApplicantDate),
-                    //new SqlParameter("@requestDeptHeadDate",avda.RequestDeptHeadDate),
-                    //new SqlParameter("@finManagerDate",avda.FinManagerDate),
-                    //new SqlParameter("@purchasingManager",avda.PurchasingManager),
-                    //new SqlParameter("@GM",avda.GM1),
-                    //new SqlParameter("@purchasingManagerDtae",avda.PurchasingManagerDtae),
-                    //new SqlParameter("@GMDate",avda.GMDate1),
-                    //new SqlParameter("@director",avda.Director),
-                    //new SqlParameter("@supplyChainDirector",avda.SupplyChainDirector),
-                    //new SqlParameter("@directorDtae",avda.DirectorDtae),
-                    //new SqlParameter("@supplyChainDirectorDate",avda.SupplyChainDirectorDate),
-                    //new SqlParameter("@persident",avda.Persident),
-                    //new SqlParameter("@finalDate",avda.FinalDate)
-                };
-            return DBHelp.ExecuteCommand(sql, sp);
-        }
-        
     }
 }

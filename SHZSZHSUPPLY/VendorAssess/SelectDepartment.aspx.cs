@@ -40,51 +40,48 @@ namespace AendorAssess
             Form_AssessFlow.Four = assess_flow.Assess_Four_ID;
             Form_AssessFlow.Five = assess_flow.Assess_Five_ID;
             Form_AssessFlow.Kci = assess_flow.Assess_Six_ID;
+            Form_AssessFlow.Temp_Vendor_ID = Session["tempVendorID"].ToString();
+            Form_AssessFlow.Factory_Name = Session["factory"].ToString();
 
             
             approve = new As_Approve();
             approve.Form_ID= Request.QueryString["formid"];
             approve.Assess_Flag = "0";  //0为未通过
             approve.Assess_Reason = "";
-            approve.Assess_Time = DateTime.Now;
+            approve.Assess_Time = DateTime.Now.ToString();
+            approve.Temp_Vendor_ID = Session["tempVendorID"].ToString();
+            approve.Factory_Name = Session["factory"].ToString();
         }
 
         public static void doSelect()
         {
             //添加此表的审批流程到动态写入表
-            AssessFlow_BLL.addFormAssessFlow(Form_AssessFlow); 
+            AssessFlow_BLL.addFormAssessFlow(Form_AssessFlow);
 
             //TODO 2017-7-6::判断审批顺序，截留越界的批准,预防重复插入，最好先检查是否已经存在
             //添加员工所要审批的表格
-            if (Form_AssessFlow.First == null) { }
-            else
+
+            if (Form_AssessFlow.First != "")
             {
                 approve.Position_Name = Form_AssessFlow.First;
                 AssessFlow_BLL.addApprove(approve);
             }
-
-            if (Form_AssessFlow.Second == null) { }
-            else
+            if (Form_AssessFlow.Second != "")
             {
                 approve.Position_Name = Form_AssessFlow.Second;
                 AssessFlow_BLL.addApprove(approve);
             }
-
-            if (Form_AssessFlow.Third == null) { }
-            else
+            if (Form_AssessFlow.Third!= "")
             {
                 approve.Position_Name = Form_AssessFlow.Third;
                 AssessFlow_BLL.addApprove(approve);
             }
-
-            if (Form_AssessFlow.Four == null) { }
-            else
+            if (Form_AssessFlow.Four != "")
             {
                 approve.Position_Name = Form_AssessFlow.Four;
                 AssessFlow_BLL.addApprove(approve);
             }
-            if (Form_AssessFlow.Five == null) { }
-            else
+            if (Form_AssessFlow.Five != "")
             {
                 approve.Position_Name = Form_AssessFlow.Five;
                 AssessFlow_BLL.addApprove(approve);

@@ -43,11 +43,12 @@
 </head>
 <body>
     <form id="form1" runat="server">
+    <div style="text-align:right">PR-05-10-2</div>
     <div>
         <table style="margin: auto; border-collapse:initial" cellpadding="0" cellspacing="0">
             <caption style="font-size:xx-large; " class="auto-style2">上海科勒有限公司</caption>
             <tr>
-                <td colspan="6">指定供应商申请表</td>
+                <td colspan="6" style="text-align:center">指定供应商申请表</td>
             </tr>
             <tr>
                 <td colspan="1" >供应商名称*</td>
@@ -104,11 +105,11 @@
                 <td colspan="1">Purchasing Manager: </td>
                 <td colspan="2"><asp:TextBox ID="TextBox15" runat="server" CssClass="auto-style1" Width="281px" ReadOnly="True"></asp:TextBox> </td>
                 <td colspan="1" class="auto-style3">GM: </td>
-                <td colspan="2"><asp:TextBox ID="TextBox17" runat="server" CssClass="auto-style1" Width="344px" ReadOnly="True"></asp:TextBox> </td>
+                <td colspan="2"><asp:TextBox ID="TextBox16" runat="server" CssClass="auto-style1" Width="344px" ReadOnly="True"></asp:TextBox> </td>
             </tr>
             <tr>
                 <td colspan="1">Dtae: </td>
-                <td colspan="2"><asp:TextBox ID="TextBox16" runat="server" CssClass="auto-style1" Width="280px" ReadOnly="True"></asp:TextBox> </td>
+                <td colspan="2"><asp:TextBox ID="TextBox17" runat="server" CssClass="auto-style1" Width="280px" ReadOnly="True"></asp:TextBox> </td>
                 <td colspan="1" class="auto-style3">Date: </td>
                 <td colspan="2"><asp:TextBox ID="TextBox18" runat="server" CssClass="auto-style1" Width="344px" ReadOnly="True"></asp:TextBox> </td>
             </tr>

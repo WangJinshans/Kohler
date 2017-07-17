@@ -63,17 +63,22 @@
     <Compile Include="VendorAssess\FileType_FormType_DAL.cs" />
     <Compile Include="VendorAssess\File_DAL.cs" />
     <Compile Include="VendorAssess\File_Type_DAL.cs" />
+    <Compile Include="VendorAssess\FormType_DAL.cs" />
     <Compile Include="VendorAssess\Form_File_DAL.cs" />
     <Compile Include="VendorAssess\SelectApproveForm_DAL.cs" />
     <Compile Include="VendorAssess\SelectEmployeeVendor_DAL.cs" />
     <Compile Include="VendorAssess\SelectForm_DAL.cs" />
     <Compile Include="VendorAssess\TempVendor_DAL.cs" />
     <Compile Include="VendorAssess\UpdateFlag_DAL.cs" />
+    <Compile Include="VendorAssess\VendorBlockOrUnBlock_DAL.cs" />
+    <Compile Include="VendorAssess\VendorCreation_DAL.cs" />
     <Compile Include="VendorAssess\VendorDiscovery_DAL.cs" />
+    <Compile Include="VendorAssess\VendorExtend_DAL.cs" />
     <Compile Include="VendorAssess\VendorFile_DAL.cs" />
     <Compile Include="VendorAssess\VendorForm_DAL.cs" />
     <Compile Include="VendorAssess\VendorRiskAnalysis_DAL.cs" />
     <Compile Include="VendorAssess\VendorType_DAL.cs" />
+    <Compile Include="VendorAssess\Vendor_Risk_Analysis_Notes_DAL.cs" />
     <Compile Include="VendorAssess\Write_DAL.cs" />
   </ItemGroup>
   <ItemGroup>

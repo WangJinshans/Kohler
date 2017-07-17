@@ -220,7 +220,7 @@ table.gridtable td {
 			<td class="td-label-style">Low</td>
 			<td class="td-label-style">Med</td>
 			<td class="td-label-style">High</td>
-			<td ><asp:TextBox runat="server" ID="TextBox9" Enabled="false" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
+			<td >&nbsp;</td>
 		</tr>
 		<tr>
 			<td >Corporate Strategy 公司战略*</td>

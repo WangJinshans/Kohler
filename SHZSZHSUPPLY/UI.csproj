@@ -143,14 +143,24 @@
     <Content Include="VendorAssess\Script\My97DatePicker\skin\whyGreen\datepicker.css" />
     <Content Include="VendorAssess\Script\My97DatePicker\skin\whyGreen\img.gif" />
     <Content Include="VendorAssess\Script\My97DatePicker\WdatePicker.js" />
+    <Content Include="VendorAssess\Script\PDF\js\html2canvas.js" />
+    <Content Include="VendorAssess\Script\PDF\js\jspdf.debug.js" />
+    <Content Include="VendorAssess\Script\PDF\js\main.js" />
     <Content Include="VendorAssess\SelectDepartment.aspx" />
     <Content Include="VendorAssess\ShowApproveForm.aspx" />
+    <Content Include="VendorAssess\ShowVendorBlockOrUnBlock.aspx" />
+    <Content Include="VendorAssess\ShowVendorCreation.aspx" />
     <Content Include="VendorAssess\ShowVendorDesignatedApply.aspx" />
     <Content Include="VendorAssess\ShowVendorDiscovery.aspx" />
+    <Content Include="VendorAssess\ShowVendorExtend.aspx" />
+    <Content Include="VendorAssess\ShowVendorRiskAnalysis.aspx" />
     <Content Include="VendorAssess\SUPPLYRISKANALYSIS.aspx" />
     <Content Include="VendorAssess\VendorAssess.aspx" />
+    <Content Include="VendorAssess\VendorBlockOrUnBlock.aspx" />
+    <Content Include="VendorAssess\VendorCreation.aspx" />
     <Content Include="VendorAssess\VendorDesignatedApply.aspx" />
     <Content Include="VendorAssess\VendorDiscovery.aspx" />
+    <Content Include="VendorAssess\VendorExtend.aspx" />
     <Content Include="VendorAssess\VendorInfo.aspx" />
     <Content Include="VendorAssess\VendorRiskAnalysis.aspx" />
     <Content Include="WebForm1.aspx" />
@@ -226,6 +236,11 @@
       <DependentUpon>MainPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="VenderInfo\SharedItemMA.aspx.cs">
       <DependentUpon>SharedItemMA.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -317,6 +332,20 @@
     <Compile Include="VendorAssess\ShowApproveForm.aspx.designer.cs">
       <DependentUpon>ShowApproveForm.aspx</DependentUpon>
     </Compile>
+    <Compile Include="VendorAssess\ShowVendorBlockOrUnBlock.aspx.cs">
+      <DependentUpon>ShowVendorBlockOrUnBlock.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\ShowVendorBlockOrUnBlock.aspx.designer.cs">
+      <DependentUpon>ShowVendorBlockOrUnBlock.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorAssess\ShowVendorCreation.aspx.cs">
+      <DependentUpon>ShowVendorCreation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\ShowVendorCreation.aspx.designer.cs">
+      <DependentUpon>ShowVendorCreation.aspx</DependentUpon>
+    </Compile>
     <Compile Include="VendorAssess\ShowVendorDesignatedApply.aspx.cs">
       <DependentUpon>ShowVendorDesignatedApply.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -331,6 +360,20 @@
     <Compile Include="VendorAssess\ShowVendorDiscovery.aspx.designer.cs">
       <DependentUpon>ShowVendorDiscovery.aspx</DependentUpon>
     </Compile>
+    <Compile Include="VendorAssess\ShowVendorExtend.aspx.cs">
+      <DependentUpon>ShowVendorExtend.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\ShowVendorExtend.aspx.designer.cs">
+      <DependentUpon>ShowVendorExtend.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorAssess\ShowVendorRiskAnalysis.aspx.cs">
+      <DependentUpon>ShowVendorRiskAnalysis.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\ShowVendorRiskAnalysis.aspx.designer.cs">
+      <DependentUpon>ShowVendorRiskAnalysis.aspx</DependentUpon>
+    </Compile>
     <Compile Include="VendorAssess\SUPPLYRISKANALYSIS.aspx.cs">
       <DependentUpon>SUPPLYRISKANALYSIS.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -338,12 +381,29 @@
     <Compile Include="VendorAssess\SUPPLYRISKANALYSIS.aspx.designer.cs">
       <DependentUpon>SUPPLYRISKANALYSIS.aspx</DependentUpon>
     </Compile>
+    <Compile Include="VendorAssess\Util\LocalApproveManager.cs" />
+    <Compile Include="VendorAssess\Util\LocalConvert.cs" />
+    <Compile Include="VendorAssess\Util\LocalScriptManager.cs" />
     <Compile Include="VendorAssess\VendorAssess.aspx.cs">
       <DependentUpon>VendorAssess.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="VendorAssess\VendorAssess.aspx.designer.cs">
       <DependentUpon>VendorAssess.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorAssess\VendorBlockOrUnBlock.aspx.cs">
+      <DependentUpon>VendorBlockOrUnBlock.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\VendorBlockOrUnBlock.aspx.designer.cs">
+      <DependentUpon>VendorBlockOrUnBlock.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorAssess\VendorCreation.aspx.cs">
+      <DependentUpon>VendorCreation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\VendorCreation.aspx.designer.cs">
+      <DependentUpon>VendorCreation.aspx</DependentUpon>
     </Compile>
     <Compile Include="VendorAssess\VendorDesignatedApply.aspx.cs">
       <DependentUpon>VendorDesignatedApply.aspx</DependentUpon>
@@ -358,6 +418,13 @@
     </Compile>
     <Compile Include="VendorAssess\VendorDiscovery.aspx.designer.cs">
       <DependentUpon>VendorDiscovery.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorAssess\VendorExtend.aspx.cs">
+      <DependentUpon>VendorExtend.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\VendorExtend.aspx.designer.cs">
+      <DependentUpon>VendorExtend.aspx</DependentUpon>
     </Compile>
     <Compile Include="VendorAssess\VendorInfo.aspx.cs">
       <DependentUpon>VendorInfo.aspx</DependentUpon>
@@ -416,6 +483,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Browsers\Default.browser" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

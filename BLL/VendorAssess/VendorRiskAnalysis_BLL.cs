@@ -41,7 +41,7 @@ namespace BLL
             {
                 return VendorRiskAnalysis_DAL.getVendorRiskAnalysis(formID);
             }
-            return null;
+            return VendorRiskAnalysis_DAL.getVendorRiskAnalysis(formID);
         }
 
         /// <summary>
@@ -49,9 +49,25 @@ namespace BLL
         /// </summary>
         /// <param name="vendorRisk"></param>
         /// <returns></returns>
-        public static int updateVendorRisk(As_Vendor_Risk vendorRisk)
+        public static int updateVendorRisk(As_Vendor_Risk vendorRisk,IList<As_Vendor_Risk_Notes> list)
         {
-            return VendorRiskAnalysis_DAL.updateVendorRisk(vendorRisk);
+            return VendorRiskAnalysis_DAL.updateVendorRisk(vendorRisk,list);
+        }
+
+        public static string getFormID(string tempVendorID)
+        {
+            return VendorRiskAnalysis_DAL.getFormID(tempVendorID);
+        }
+
+        public static Dictionary<string, string> checkNotes(string formID)
+        {
+            List<As_Vendor_Risk_Notes> list = Vendor_Risk_Analysis_Notes_DAL.getNotes(formID);
+            Dictionary<string, string> dc = new Dictionary<string, string>();
+            foreach (As_Vendor_Risk_Notes item in list)
+            {
+                dc.Add(item.Property_Name, item.Notes);
+            }
+            return dc;
         }
     }
 }

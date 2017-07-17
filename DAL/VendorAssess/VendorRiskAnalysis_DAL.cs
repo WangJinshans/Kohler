@@ -17,10 +17,10 @@ namespace DAL.VendorAssess
         /// <returns></returns>
         public static int addVendorRisk(As_Vendor_Risk vendorRisk)
         {
-            string sql = "insert into As_Vendor_Risk(Form_ID,Form_Type_ID,Supplier,Flag) values(@Form_ID,@Form_Type_ID,@Supplier,@Flag)";
+            string sql = "insert into As_Vendor_Risk(Temp_Vendor_ID,Form_Type_ID,Supplier,Flag) values(@Temp_Vendor_ID,@Form_Type_ID,@Supplier,@Flag)";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("@Form_ID",vendorRisk.Form_ID),
+                new SqlParameter("@Temp_Vendor_ID",vendorRisk.Temp_Vendor_ID),
                 new SqlParameter("@Supplier",vendorRisk.Supplier),
                 new SqlParameter("@Flag",vendorRisk.Flag),
                 new SqlParameter("@Form_Type_ID",vendorRisk.Form_Type_ID)
@@ -45,6 +45,25 @@ namespace DAL.VendorAssess
             return dt.Rows.Count > 0 ? 1 : 0;
         }
 
+        public static string getFormID(string tempVendorID)
+        {
+            string formID = "";
+            string sql = "select Form_ID from As_Vendor_Risk where Temp_Vendor_ID=@Temp_Vendor_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("Temp_Vendor_ID",tempVendorID)
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    formID = dr["Form_ID"].ToString();
+                }
+            }
+            return formID;
+        }
+
         /// <summary>
         /// 查询此风险分析表是否被修改
         /// </summary>
@@ -52,20 +71,19 @@ namespace DAL.VendorAssess
         /// <returns>0未修改，1已修改</returns>
         public static int getVendorRiskAnalysisFlag(string formID)
         {
+            int flag = -1;
             string sql = "select Flag from As_Vendor_Risk where Form_ID=@Form_ID";
 
-            As_Vendor_Risk vendorRisk = null;
             SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@Form_ID", formID) };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)
             {
-                vendorRisk = new As_Vendor_Risk();
                 foreach (DataRow item in dt.Rows)
                 {
-                    vendorRisk.Flag = Convert.ToInt32(item["Flag"]);
+                    flag = Convert.ToInt32(item["Flag"]);
                 }
             }
-            return vendorRisk.Flag;
+            return flag;
         }
 
         /// <summary>
@@ -73,23 +91,14 @@ namespace DAL.VendorAssess
         /// </summary>
         /// <param name="vendorRisk"></param>
         /// <returns></returns>
-        public static int updateVendorRisk(As_Vendor_Risk vendorRisk)
+        public static int updateVendorRisk(As_Vendor_Risk vendorRisk, IList<As_Vendor_Risk_Notes> list)
         {
-            string sql = "update As_Vendor_Risk set Date=@Date,Flag=@Flag where Form_ID=@Form_ID";
-            SqlParameter[] sp = new SqlParameter[]
-            {
-                new SqlParameter("@Date",vendorRisk.Date),
-                new SqlParameter("@Flag",vendorRisk.Flag),
-                new SqlParameter("@Form_ID",vendorRisk.Form_ID)
-            };
-            /*string sql = "update As_Vendor_Risk set Product=@Product,Supplier=@Supplier,Part_No=@Part_No,Manufacturer=@Manufacturer,Where_Used=@Where_Used,Annual_Spend=@Annual_Spend,Overall_Risk_Category=@Overall_Risk_Category,General_Assessment=@General_Assessment,Contingency_Plan=@Contingency_Plan,Urgency=@Urgency,Complete_By=@Complete_By,Compiled_By=@Compiled_By,Date=@Date,Corporate_Strategy=@Corporate_Strategy,Stability=@Stability,Contractual=@Contractual,Third_Party_Involvement=@Third_Party_Involvement,Location=@Location,Transport=@Transport,Seasonality=@Seasonality,Environmental_Capacity=@Environmental_Capacity,Stocks=@Stocks,Dedicated_Facilities=@Dedicated_Facilities,Recycling_Policy=@Recycling_Policy,Communication=@Communication,Financial=@Financial,Kohler_Forward_Plan=@Kohler_Forward_Plan,Supplier_Forward_Plan=@Supplier_Forward_Plan,Price=@Price,Change_Of_Source=@Change_Of_Source,Annual_Shutdown=@Annual_Shutdown,Computer_Systems=@Computer_Systems,Intellectual_Property_Kohler=@Intellectual_Property_Kohler,Relationship=@Relationship,Technological_Capacity=@Technological_Capacity,Machine_Breakdown=@Machine_Breakdown,Quality_Accreditation=@Quality_Accreditation,Audit_Failure=@Audit_Failure,Alternative_Supplier=@Alternative_Supplier,Alternative_Materials=@Alternative_Materials,Complexity=@Complexity,Research_And_Development=@Research_And_Development,Rejections_Or_Complaints=@Rejections_Or_Complaints,Specifications=@Specifications,Flag=@Flag where Form_ID=@Form_ID";
+            string sql = "update As_Vendor_Risk SET Form_Type_ID=@Form_Type_ID,Supplier=@Supplier,Part_No=@Part_No,Manufacturer=@Manufacturer,Where_Used=@Where_Used,Annual_Spend=@Annual_Spend,Overall_Risk_Category=@Overall_Risk_Category,General_Assessment=@General_Assessment,Contingency_Plan=@Contingency_Plan,Urgency=@Urgency,Complete_By=@Complete_By,Compiled_By=@Compiled_By,Date=@Date,Corporate_Strategy=@Corporate_Strategy,Stability=@Stability,Contractual=@Contractual,Third_Party_Involvement=@Third_Party_Involvement,Location=@Location,Transport=@Transport,Seasonality=@Seasonality,Environmental_Capacity=@Environmental_Capacity,Stocks=@Stocks,Dedicated_Facilities=@Dedicated_Facilities,Recycling_Policy=@Recycling_Policy,Communication=@Communication,Financial=@Financial,Kohler_Forward_Plan=@Kohler_Forward_Plan,Supplier_Forward_Plan=@Supplier_Forward_Plan,Change_Of_Source=@Change_Of_Source,Annual_Shutdown=@Annual_Shutdown,Computer_Systems=@Computer_Systems,Intellectual_Property_Kohler=@Intellectual_Property_Kohler,Relationship=@Relationship,Technological_Capacity=@Technological_Capacity,Machine_Breakdown=@Machine_Breakdown,Quality_Accreditation=@Quality_Accreditation,Audit_Failure=@Audit_Failure,Alternative_Supplier=@Alternative_Supplier,Alternative_Materials=@Alternative_Materials,Complexity=@Complexity,Research_And_Development=@Research_And_Development,Rejections_Or_Complaints=@Rejections_Or_Complaints,Specifications=@Specifications,Flag=@Flag,Product=@Product,Temp_Vendor_ID=@Temp_Vendor_ID where Form_ID=@Form_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Form_ID",vendorRisk.Form_ID),
                 new SqlParameter("@Form_Type_ID",vendorRisk.Form_Type_ID),
-                new SqlParameter("@Product",vendorRisk.Product),
                 new SqlParameter("@Supplier",vendorRisk.Supplier),
-                new SqlParameter("@Flag",vendorRisk.Flag),
                 new SqlParameter("@Part_No",vendorRisk.Part_No),
                 new SqlParameter("@Manufacturer",vendorRisk.Manufacturer),
                 new SqlParameter("@Where_Used",vendorRisk.Where_Used),
@@ -116,7 +125,6 @@ namespace DAL.VendorAssess
                 new SqlParameter("@Financial",vendorRisk.Financial),
                 new SqlParameter("@Kohler_Forward_Plan",vendorRisk.Kohler_Forward_Plan),
                 new SqlParameter("@Supplier_Forward_Plan",vendorRisk.Supplier_Forward_Plan),
-                new SqlParameter("@Price",vendorRisk.Price),
                 new SqlParameter("@Change_Of_Source",vendorRisk.Change_Of_Source),
                 new SqlParameter("@Annual_Shutdown",vendorRisk.Annual_Shutdown),
                 new SqlParameter("@Computer_Systems",vendorRisk.Computer_Systems),
@@ -131,9 +139,19 @@ namespace DAL.VendorAssess
                 new SqlParameter("@Complexity",vendorRisk.Complexity),
                 new SqlParameter("@Research_And_Development",vendorRisk.Research_And_Development),
                 new SqlParameter("@Rejections_Or_Complaints",vendorRisk.Rejections_Or_Complaints),
-                new SqlParameter("@Specifications",vendorRisk.Specifications)
-            };*/
-            return DBHelp.ExecuteCommand(sql, sp);
+                new SqlParameter("@Specifications",vendorRisk.Specifications),
+                new SqlParameter("@Flag",vendorRisk.Flag),
+                new SqlParameter("@Product",vendorRisk.Product),
+                new SqlParameter("@Temp_Vendor_ID",vendorRisk.Temp_Vendor_ID)
+            };
+            int result = DBHelp.ExecuteCommand(sql, sp);
+
+            Vendor_Risk_Analysis_Notes_DAL.deleteNotes(vendorRisk.Form_ID);
+            foreach (As_Vendor_Risk_Notes item in list)
+            {
+                Vendor_Risk_Analysis_Notes_DAL.addNotes(item);
+            }
+            return result;
         }
 
         /// <summary>
@@ -151,11 +169,57 @@ namespace DAL.VendorAssess
             if (dt.Rows.Count>0)
             {
                 vendorRisk = new As_Vendor_Risk();
-                foreach (DataRow item in dt.Rows)
+                foreach (DataRow dr in dt.Rows)
                 {
-                    vendorRisk.Date = Convert.ToDateTime(item["Date"]);
-                    vendorRisk.Flag = Convert.ToInt32(item["Flag"]);
-                    //TODO::给vendorRisk赋值
+                    vendorRisk.Form_ID = Convert.ToString(dr["Form_ID"]);
+                    vendorRisk.Form_Type_ID = Convert.ToString(dr["Form_Type_ID"]);
+                    vendorRisk.Supplier = Convert.ToString(dr["Supplier"]);
+                    vendorRisk.Part_No = Convert.ToString(dr["Part_No"]);
+                    vendorRisk.Manufacturer = Convert.ToString(dr["Manufacturer"]);
+                    vendorRisk.Where_Used = Convert.ToString(dr["Where_Used"]);
+                    vendorRisk.Annual_Spend = Convert.ToDouble(dr["Annual_Spend"]);
+                    vendorRisk.Overall_Risk_Category = Convert.ToByte(dr["Overall_Risk_Category"]);
+                    vendorRisk.General_Assessment = Convert.ToString(dr["General_Assessment"]);
+                    vendorRisk.Contingency_Plan = Convert.ToString(dr["Contingency_Plan"]);
+                    vendorRisk.Urgency = Convert.ToString(dr["Urgency"]);
+                    vendorRisk.Complete_By = Convert.ToString(dr["Complete_By"]);
+                    vendorRisk.Compiled_By = Convert.ToString(dr["Compiled_By"]);
+                    vendorRisk.Date = Convert.ToDateTime(dr["Date"]);
+                    vendorRisk.Corporate_Strategy = Convert.ToByte(dr["Corporate_Strategy"]);
+                    vendorRisk.Stability = Convert.ToByte(dr["Stability"]);
+                    vendorRisk.Contractual = Convert.ToByte(dr["Contractual"]);
+                    vendorRisk.Third_Party_Involvement = Convert.ToByte(dr["Third_Party_Involvement"]);
+                    vendorRisk.Location = Convert.ToByte(dr["Location"]);
+                    vendorRisk.Transport = Convert.ToByte(dr["Transport"]);
+                    vendorRisk.Seasonality = Convert.ToByte(dr["Seasonality"]);
+                    vendorRisk.Environmental_Capacity = Convert.ToByte(dr["Environmental_Capacity"]);
+                    vendorRisk.Stocks = Convert.ToByte(dr["Stocks"]);
+                    vendorRisk.Dedicated_Facilities = Convert.ToByte(dr["Dedicated_Facilities"]);
+                    vendorRisk.Recycling_Policy = Convert.ToByte(dr["Recycling_Policy"]);
+                    vendorRisk.Communication = Convert.ToByte(dr["Communication"]);
+                    vendorRisk.Financial = Convert.ToByte(dr["Financial"]);
+                    vendorRisk.Kohler_Forward_Plan = Convert.ToByte(dr["Kohler_Forward_Plan"]);
+                    vendorRisk.Supplier_Forward_Plan = Convert.ToByte(dr["Supplier_Forward_Plan"]);
+                    //vendorRisk.Price = Convert.ToByte(dr["Price"]);
+                    vendorRisk.Change_Of_Source = Convert.ToByte(dr["Change_Of_Source"]);
+                    vendorRisk.Annual_Shutdown = Convert.ToByte(dr["Annual_Shutdown"]);
+                    vendorRisk.Computer_Systems = Convert.ToByte(dr["Computer_Systems"]);
+                    vendorRisk.Intellectual_Property_Kohler = Convert.ToByte(dr["Intellectual_Property_Kohler"]);
+                    vendorRisk.Relationship = Convert.ToByte(dr["Relationship"]);
+                    vendorRisk.Technological_Capacity = Convert.ToByte(dr["Technological_Capacity"]);
+                    vendorRisk.Machine_Breakdown = Convert.ToByte(dr["Machine_Breakdown"]);
+                    vendorRisk.Quality_Accreditation = Convert.ToByte(dr["Quality_Accreditation"]);
+                    vendorRisk.Audit_Failure = Convert.ToByte(dr["Audit_Failure"]);
+                    vendorRisk.Alternative_Supplier = Convert.ToByte(dr["Alternative_Supplier"]);
+                    vendorRisk.Alternative_Materials = Convert.ToByte(dr["Alternative_Materials"]);
+                    vendorRisk.Complexity = Convert.ToByte(dr["Complexity"]);
+                    vendorRisk.Research_And_Development = Convert.ToByte(dr["Research_And_Development"]);
+                    vendorRisk.Rejections_Or_Complaints = Convert.ToByte(dr["Rejections_Or_Complaints"]);
+                    vendorRisk.Specifications = Convert.ToByte(dr["Specifications"]);
+                    vendorRisk.Flag = Convert.ToInt32(dr["Flag"]);
+                    vendorRisk.Product = Convert.ToString(dr["Product"]);
+                    vendorRisk.Bar_Code = Convert.ToString(dr["Bar_Code"]);
+                    vendorRisk.Temp_Vendor_ID = Convert.ToString(dr["Temp_Vendor_ID"]);
                 }
             }
             return vendorRisk;

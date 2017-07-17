@@ -22,7 +22,7 @@ namespace DAL
                     Approve.Form_ID = Convert.ToString(dr["Form_ID"]);
                     Approve.Position_Name = Convert.ToString(dr["Position_Name"]);
                     Approve.Assess_Flag = Convert.ToString(dr["Assess_Flag"]);
-                    Approve.Assess_Time= Convert.ToDateTime(dr["Assess_Time"]);
+                    Approve.Assess_Time= Convert.ToString(dr["Assess_Time"]);
                     Approve.Assess_Reason = Convert.ToString(dr["Assess_Reason"]);
                     list.Add(Approve);
                 }

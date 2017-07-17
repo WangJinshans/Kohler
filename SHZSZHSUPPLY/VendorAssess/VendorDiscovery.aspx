@@ -174,7 +174,7 @@ table.gridtable td {
 				<tr>
 					<td colspan="8" style="text-align: right" class="auto-style3">填表时间：</td>
 					<td class="auto-style3" style="text-align:left">
-						<asp:TextBox runat="server" id="TextBox1" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" height="100%" width="100%" ReadOnly="True" />
+						<asp:TextBox runat="server" id="TextBox1" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" height="100%" width="100%" />
 					</td>
 				</tr>
 				<tr>

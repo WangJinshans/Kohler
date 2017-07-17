@@ -21,9 +21,29 @@ namespace DAL
             };
             return DBHelp.GetScalar(sql, sp);
         }
+
+        public static string getTempVendorName(string tempVendorID)
+        {
+            string tempVendorName = "";
+            string sql = "select Temp_Vendor_Name from As_Temp_Vendor where Temp_Vendor_ID=@Temp_Vendor_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("Temp_Vendor_ID",tempVendorID)
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    tempVendorName = Convert.ToString(dr["Temp_Vendor_Name"]);
+                }
+            }
+            return tempVendorName;
+        }
+
         public static string getTempVendorID(string TempVendorName)
         {
-            As_Employee_Vendor Employee_Vendor = null;
+            string tempVendorID = "";
             string sql = "select Temp_Vendor_ID from As_Temp_Vendor where Temp_Vendor_Name=@Temp_Vendor_Name";
             //string sql = "select Temp_Vendor_ID from As_Employee_Vendor where Temp_Vendor_Name=@Temp_Vendor_Name";
             SqlParameter[] sp = new SqlParameter[]
@@ -33,13 +53,12 @@ namespace DAL
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)
             {
-                Employee_Vendor = new As_Employee_Vendor();
                 foreach (DataRow dr in dt.Rows)
                 {
-                    Employee_Vendor.Temp_Vendor_ID = Convert.ToString(dr["Temp_Vendor_ID"]);
+                    tempVendorID = Convert.ToString(dr["Temp_Vendor_ID"]);
                 }
             }
-            return Employee_Vendor.Temp_Vendor_ID;
+            return tempVendorID;
         }
     }
 }

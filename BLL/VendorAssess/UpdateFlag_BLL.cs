@@ -9,9 +9,9 @@ namespace BLL
 {
     public class UpdateFlag_BLL
     {
-        public static int updateFlag(string formTypeID, string tempVendorName)//更新供应商信息
+        public static int updateFlag(string formTypeID, string tempVendorID)//更新供应商信息
         {
-            return UpdateFlag_DAL.updateFlag(formTypeID, tempVendorName);
+            return UpdateFlag_DAL.updateFlag(formTypeID, tempVendorID);
         }
 
         public static int updateFileFlag(string fileTypeID, string tempVendorid)

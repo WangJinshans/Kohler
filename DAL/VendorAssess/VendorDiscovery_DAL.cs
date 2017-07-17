@@ -11,14 +11,20 @@ namespace DAL
 {
     public class VendorDiscovery_DAL
     {
+        /// <summary>
+        /// 添加新建表格
+        /// </summary>
+        /// <param name="Vendor_Discovery"></param>
+        /// <returns></returns>
         public static int addVendorDiscovery(As_Vendor_Discovery Vendor_Discovery) //初始化表格赋值表格编号和表格种类编号
         {
-            string sql = "insert into As_Vendor_Discovery(Form_ID,Temp_Vendor_Name,Flag)values(@Form_ID,@Temp_Vendor_Name,@Flag)";
+            string sql = "insert into As_Vendor_Discovery(Form_Type_ID,Temp_Vendor_ID,Temp_Vendor_Name,Flag)values(@Form_Type_ID,@Temp_Vendor_ID,@Temp_Vendor_Name,@Flag)";
             SqlParameter[] sp = new SqlParameter[]
             {
-               new SqlParameter("@Form_ID",Vendor_Discovery.Form_ID),
                new SqlParameter("@Temp_Vendor_Name",Vendor_Discovery.Temp_Vendor_Name),
-               new SqlParameter("@Flag",Vendor_Discovery.Flag)
+               new SqlParameter("@Flag",Vendor_Discovery.Flag),
+               new SqlParameter("@Form_Type_ID",Vendor_Discovery.Form_Type_ID),
+               new SqlParameter("@Temp_Vendor_ID",Vendor_Discovery.Temp_Vendor_ID)
             };
             return DBHelp.GetScalar(sql, sp);
 
@@ -26,7 +32,7 @@ namespace DAL
 
         public static int updateVendorDiscovery(As_Vendor_Discovery Vendor_Discovery)//更新供应商调查表
         {
-            string sql = "update As_Vendor_Discovery set Temp_Vendor_Name=@Temp_Vendor_Name,Legal_Person=@Legal_Person, Address=@Address,Tel=@Tel,Fax=@Fax,Product_Name_One=@Product_Name_One,Size_One=@Size_One,Quality_One=@Quality_One, Product_Name_Two =@Product_Name_Two, Size_Two =@Size_Two,Quality_Two =@Quality_Two,Product_Name_Three=@Product_Name_Three ,Size_Three =@Size_Three,Quality_Three =@Quality_Three,Position_Environment_One=@Position_Environment_One,Envir_Protection_System_One=@Envir_Protection_System_One, Position_Environment_Two = @Position_Environment_Two,Envir_Protection_System_Two = @Envir_Protection_System_Two, Position_Environment_Three = @Position_Environment_Three,Envir_Protection_System_Three = @Envir_Protection_System_Three, Product_Ability =@Product_Ability,Last_Sale=@Last_Sale,Main_CusMark_One=@Main_CusMark_One,Main_CusMark_Two =@Main_CusMark_Two,Main_CusMark_Three=@Main_CusMark_Three,Register_Capital = @Register_Capital, Fixed_Assets = @Fixed_Assets, Flow_Capital = @Flow_Capital,Pay_Condition = @Pay_Condition,Employee_Num = @Employee_Num,Manager = @Manager,Quality_Person = @Quality_Person, Tech_Person = @Tech_Person,Company_Area = @Company_Area, Factory_Area = @Factory_Area,Entrepot_Area = @Entrepot_Area,Week_Turn_Num = @Week_Turn_Num,Week_Wrok_Time = @Week_Wrok_Time,Produce_Load = @Produce_Load,Product_material_One = @Product_material_One,Region_One = @Region_One,Material_Store_Conditon_One = @Material_Store_Conditon_One,Product_material_Two = @Product_material_Two,Region_Two = @Region_Two,Material_Store_Conditon_Two = @Material_Store_Conditon_Two, Product_material_Three = @Product_material_Three ,Region_Three = @Region_Three, Material_Store_Conditon_Three = @Material_Store_Conditon_Three,ISO = @ISO ,Transport = @Transport, Check_Device = @Check_Device,Send_Ability = @Send_Ability, Purchase_Period = @Purchase_Period,Min_Order_Num = @Min_Order_Num,Vendor_Participate = @Vendor_Participate,Produce_Flow = @Produce_Flow,Product_Book_Flow = @Product_Book_Flow ,Manage_Dimension = @Manage_Dimension,Employee_Experience = @Employee_Experience,File_Time = @File_Time,Conclusion = @Conclusion,Device_Name=@Device_Name,Device_Size=@Device_Size,Device_Year=@Device_Year,Device_Factory=@Device_Factory,Device_Condition=@Device_Condition where Form_ID=@Form_ID";
+            string sql = "update As_Vendor_Discovery set Temp_Vendor_Name=@Temp_Vendor_Name,Legal_Person=@Legal_Person, Address=@Address,Tel=@Tel,Fax=@Fax,Product_Name_One=@Product_Name_One,Size_One=@Size_One,Quality_One=@Quality_One, Product_Name_Two =@Product_Name_Two, Size_Two =@Size_Two,Quality_Two =@Quality_Two,Product_Name_Three=@Product_Name_Three ,Size_Three =@Size_Three,Quality_Three =@Quality_Three,Position_Environment_One=@Position_Environment_One,Envir_Protection_System_One=@Envir_Protection_System_One, Position_Environment_Two = @Position_Environment_Two,Envir_Protection_System_Two = @Envir_Protection_System_Two, Position_Environment_Three = @Position_Environment_Three,Envir_Protection_System_Three = @Envir_Protection_System_Three, Product_Ability =@Product_Ability,Last_Sale=@Last_Sale,Main_CusMark_One=@Main_CusMark_One,Main_CusMark_Two =@Main_CusMark_Two,Main_CusMark_Three=@Main_CusMark_Three,Register_Capital = @Register_Capital, Fixed_Assets = @Fixed_Assets, Flow_Capital = @Flow_Capital,Pay_Condition = @Pay_Condition,Employee_Num = @Employee_Num,Manager = @Manager,Quality_Person = @Quality_Person, Tech_Person = @Tech_Person,Company_Area = @Company_Area, Factory_Area = @Factory_Area,Entrepot_Area = @Entrepot_Area,Week_Turn_Num = @Week_Turn_Num,Week_Wrok_Time = @Week_Wrok_Time,Produce_Load = @Produce_Load,Product_material_One = @Product_material_One,Region_One = @Region_One,Material_Store_Conditon_One = @Material_Store_Conditon_One,Product_material_Two = @Product_material_Two,Region_Two = @Region_Two,Material_Store_Conditon_Two = @Material_Store_Conditon_Two, Product_material_Three = @Product_material_Three ,Region_Three = @Region_Three, Material_Store_Conditon_Three = @Material_Store_Conditon_Three,ISO = @ISO ,Transport = @Transport, Check_Device = @Check_Device,Send_Ability = @Send_Ability, Purchase_Period = @Purchase_Period,Min_Order_Num = @Min_Order_Num,Vendor_Participate = @Vendor_Participate,Produce_Flow = @Produce_Flow,Product_Book_Flow = @Product_Book_Flow ,Manage_Dimension = @Manage_Dimension,Employee_Experience = @Employee_Experience,File_Time = @File_Time,Conclusion = @Conclusion,Device_Name=@Device_Name,Device_Size=@Device_Size,Device_Year=@Device_Year,Device_Factory=@Device_Factory,Device_Condition=@Device_Condition,Flag=@Flag where Form_ID=@Form_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Form_ID",Vendor_Discovery.Form_ID),
@@ -97,9 +103,33 @@ namespace DAL
                 new SqlParameter("@Employee_Experience",Vendor_Discovery.Employee_Experience),
                 new SqlParameter("@File_Time",Vendor_Discovery.File_Time),
                 new SqlParameter("@Conclusion",Vendor_Discovery.Conclusion),
-
+                new SqlParameter("@Flag",Vendor_Discovery.Flag)
             };
             return DBHelp.ExecuteCommand(sql, sp);
+        }
+
+        /// <summary>
+        /// 获取表格标识
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <returns></returns>
+        public static string getFormID(string tempVendorID)
+        {
+            string formID = "";
+            string sql = "select Form_ID from As_Vendor_Discovery where Temp_Vendor_ID=@Temp_Vendor_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("Temp_Vendor_ID",tempVendorID)
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    formID = dr["Form_ID"].ToString();
+                }
+            }
+            return formID;
         }
 
         public static int checkVendorDiscovery(string FormId)//查询是否有表记录,1为存在 0为不存在
@@ -200,7 +230,6 @@ namespace DAL
                     Vendor_Discovery.Product_Book_Flow = Convert.ToString(dr["Product_Book_Flow"]);
                     Vendor_Discovery.Manage_Dimension = Convert.ToString(dr["Manage_Dimension"]);
                     Vendor_Discovery.Employee_Experience = Convert.ToString(dr["Employee_Experience"]);
-                    Vendor_Discovery.File_Time = Convert.ToString(dr["File_Time"]);
                     Vendor_Discovery.Conclusion = Convert.ToString(dr["Conclusion"]);
                 }
 

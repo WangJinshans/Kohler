@@ -19,14 +19,14 @@ namespace BLL
             return File_DAL.selectFile(sql);
         }
 
-        public static int selectFileID(string tempvendorname, string filetypeid)//根据供应商名称与文件类型查询文件的id是否存在
+        public static int selectFileID(string tempVendorID, string filetypeid)//根据供应商名称与文件类型查询文件的id是否存在
         {
-            return File_DAL.selectFileID(tempvendorname, filetypeid);
+            return File_DAL.selectFileID(tempVendorID, filetypeid);
         }
 
-        public static string selectFileid(string tempvendorname, string filetypeid)    //返回文件id
+        public static string selectFileid(string tempVendorID, string filetypeid)    //返回文件id
         {
-            return File_DAL.selectFileid(tempvendorname,filetypeid);
+            return File_DAL.selectFileid(tempVendorID,filetypeid);
         }
     }
 }

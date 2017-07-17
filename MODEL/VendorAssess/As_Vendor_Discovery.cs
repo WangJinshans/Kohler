@@ -78,6 +78,7 @@ namespace Model
         private string conclusion;
         private int flag;
         private string bar_Code;
+        private string temp_Vendor_ID;
 
         public string Form_ID
         {
@@ -987,6 +988,19 @@ namespace Model
             set
             {
                 bar_Code = value;
+            }
+        }
+
+        public string Temp_Vendor_ID
+        {
+            get
+            {
+                return temp_Vendor_ID;
+            }
+
+            set
+            {
+                temp_Vendor_ID = value;
             }
         }
     }

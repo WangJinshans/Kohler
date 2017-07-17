@@ -12,27 +12,18 @@ namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class ShowVendorDiscovery : System.Web.UI.Page
     {
-        private string formid = null;
+        private string formID = null;
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
-                string tempvendorname = null;
-                if (Session["tempvendorname"] != null)
-                {
-                    tempvendorname = Session["tempvendorname"].ToString();
-                    formid = tempvendorname + "调查表PR-05-01-5";
-                }
-                else
-                {
-                    formid = Session["formid"].ToString();
-                }
+                //重新获取session
+                getSessionInfo();
 
-                As_Vendor_Discovery Vendor_Discovery = new As_Vendor_Discovery();
-                int check = VendorDiscovery_BLL.checkVendorDiscovery(formid);
-                if(check>0)
+                int check = VendorDiscovery_BLL.checkVendorDiscovery(formID);
+                if (check > 0)
                 {
-                    showVendorDiscovery();  
+                    showVendorDiscovery();
                 }
             }
 
@@ -40,8 +31,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         private void showVendorDiscovery()
         {
-            As_Vendor_Discovery Vendor_Discovery = new As_Vendor_Discovery();
-            Vendor_Discovery = VendorDiscovery_BLL.checkFlag(formid);
+            As_Vendor_Discovery Vendor_Discovery = VendorDiscovery_BLL.checkFlag(formID);
             if (Vendor_Discovery != null)
             {
                 TextBox1.Text = Vendor_Discovery.File_Time;
@@ -111,8 +101,8 @@ namespace SHZSZHSUPPLY.VendorAssess
                 TextBox40.Text = Vendor_Discovery.Employee_Experience;
                 TextBox48.Text = Vendor_Discovery.Conclusion;
             }
-            showapproveform(formid);
-            showfilelist(formid);
+            showapproveform(formID);
+            showfilelist(formID);
 
         }
         public void showapproveform(string FormID)
@@ -135,21 +125,59 @@ namespace SHZSZHSUPPLY.VendorAssess
         }
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            //TODO::简单的审批权限控制，通过之后无法再拒绝，拒绝之后无法再通过，拒绝需要填写原因，三厂区分
+            GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
+            string formid = GridView1.Rows[drv.RowIndex].Cells[0].Text;
+            string positionName = GridView1.Rows[drv.RowIndex].Cells[1].Text;
+
             if (e.CommandName == "approvesuccess")
             {
-
-                GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
-                string formid = GridView1.Rows[drv.RowIndex].Cells[0].Text;
-                string positionname = Session["Position_Name"].ToString();
-                int i = AssessFlow_BLL.updateApprove(formid, positionname);
-                if (i == 1)
+                if (positionName.Equals(Session["Position_Name"].ToString()))
                 {
-                    //Response.Redirect("Vendor_Discovery.aspx");
-                }else if (e.CommandName == "fail")
+                    int i = AssessFlow_BLL.updateApprove(formid, positionName);
+                    if (i == 1)
+                    {
+                        Response.Write("<script>window.alert('成功通过审批！');window.location.href='ShowVendorDiscovery.aspx'</script>");
+                    }
+                    else
+                    {
+                        Response.Write("<script>window.alert('操作失败！');window.location.href='ShowVendorDiscovery.aspx'</script>");
+                    }
+                }
+                else
                 {
-                    int j = AssessFlow_BLL.updateApproveFail(formid, positionname);
+                    Response.Write("<script>window.alert('当前登录账号无对应权限！')</script>");
+                }
+                
+            }
+            else if (e.CommandName == "fail")
+            {
+                if (positionName.Equals(Session["Position_Name"].ToString()))
+                {
+                    int i = AssessFlow_BLL.updateApproveFail(formid, positionName);
+                    if (i == 1)
+                    {
+                        Response.Write("<script>window.alert('成功拒绝审批！');window.location.href='ShowVendorDiscovery.aspx'</script>");
+                    }
+                    else
+                    {
+                        Response.Write("<script>window.alert('操作失败！');window.location.href='ShowVendorDiscovery.aspx'</script>");
+                    }
+                }
+                else
+                {
+                    Response.Write("<script>window.alert('当前登录账号无对应权限！')</script>");
                 }
             }
+            //TODO::如果是最后一个审批人，设置完成状态或者hold等待kci
+        }
+
+        /// <summary>
+        /// 重新读取session
+        /// </summary>
+        private void getSessionInfo()
+        {
+            formID = Session["formID"].ToString();
         }
     }
 }

@@ -16,6 +16,7 @@ namespace Model
         private string five;
         private string kci;
         private string temp_Vendor_ID;
+        private string factory_Name;
 
         public string Form_ID
         {
@@ -118,6 +119,19 @@ namespace Model
             set
             {
                 temp_Vendor_ID = value;
+            }
+        }
+
+        public string Factory_Name
+        {
+            get
+            {
+                return factory_Name;
+            }
+
+            set
+            {
+                factory_Name = value;
             }
         }
     }

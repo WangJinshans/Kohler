@@ -13,7 +13,7 @@ namespace DAL
     {
         public static int addFile(As_File File)//添加文件
         {
-            string sql = "insert into As_File(File_ID,File_Name,File_Path,File_Enable_Time,File_Due_Time,Temp_Vendor_Name,File_Type_ID) values(@File_ID,@File_Name,@File_Path,@File_Enable_Time,@File_Due_Time,@Temp_Vendor_Name,@File_Type_ID)";
+            string sql = "insert into As_File(File_ID,File_Name,File_Path,File_Enable_Time,File_Due_Time,Temp_Vendor_Name,File_Type_ID,Temp_Vendor_ID) values(@File_ID,@File_Name,@File_Path,@File_Enable_Time,@File_Due_Time,@Temp_Vendor_Name,@File_Type_ID,@Temp_Vendor_ID)";
             sql += " ;SELECT @@IDENTITY";
             SqlParameter[] sp = new SqlParameter[]
             {
@@ -23,18 +23,26 @@ namespace DAL
                 new SqlParameter("@File_Enable_Time",File.File_Enable_Time),
                 new SqlParameter("@File_Due_Time",File.File_Due_Time),
                 new SqlParameter("@Temp_Vendor_Name",File.Temp_Vendor_Name),
-                new SqlParameter("@File_Type_ID",File.File_Type_ID)
+                new SqlParameter("@File_Type_ID",File.File_Type_ID),
+                new SqlParameter("@Temp_Vendor_ID",File.Temp_Vendor_ID)
             };
             return DBHelp.GetScalar(sql, sp);
         }
-        public static string selectFileid(string tempvendorname,string filetypeid)    //返回文件id
+
+        /// <summary>
+        /// 获取指定id供应商的已上传文件id
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <param name="filetypeid"></param>
+        /// <returns></returns>
+        public static string selectFileid(string tempVendorID,string filetypeid)    //返回文件id
         {
             As_File File = null;
-            string sql = "select File_ID from As_File where File_Type_ID=@File_Type_ID and Temp_Vendor_Name=@Temp_Vendor_Name";
+            string sql = "select File_ID from As_File where File_Type_ID=@File_Type_ID and Temp_Vendor_ID=@Temp_Vendor_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@File_Type_ID",filetypeid),
-                new SqlParameter("@Temp_Vendor_Name",tempvendorname)
+                new SqlParameter("@Temp_Vendor_ID",tempVendorID)
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if(dt.Rows.Count>0)
@@ -83,13 +91,13 @@ namespace DAL
             return list;
         }
 
-        public static int selectFileID(string tempvendorname,string filetypeid)//根据供应商名称与文件类型查询文件的id是否存在
+        public static int selectFileID(string tempVendorID,string filetypeid)//根据供应商名称与文件类型查询文件的id是否存在
         {
-            string sql = "select File_ID from As_File where File_Type_ID=@File_Type_ID and Temp_Vendor_Name=@Temp_Vendor_Name";
+            string sql = "select File_ID from As_File where File_Type_ID=@File_Type_ID and Temp_Vendor_ID=@Temp_Vendor_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@File_Type_ID",filetypeid),
-                new SqlParameter("@Temp_Vendor_Name",tempvendorname)
+                new SqlParameter("@Temp_Vendor_ID",tempVendorID)
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)

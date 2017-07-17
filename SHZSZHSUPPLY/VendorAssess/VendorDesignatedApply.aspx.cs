@@ -1,224 +1,310 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using Model;
 using BLL;
+using System.Web.UI.WebControls;
+using AendorAssess;
+using SHZSZHSUPPLY.VendorAssess.Util;
 
 namespace VendorAssess
 {
     public partial class VendorDesignatedApply : System.Web.UI.Page
     {
-        private static string vendername;//在页面加载的时候初始化为临时供应商名称 防止session过期
-        private As_Vendor_Designated_Apply form;//在Page_Load中被初始化
+        public const string FORM_TYPE_ID = "004";
+        private string tempVendorID = "";
+        private string tempVendorName = "";
+        private string formID = "";
+        private string submit = "";
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            form = new As_Vendor_Designated_Apply();
-            //供应商名称由session获得 不可编辑
             if (!IsPostBack)
             {
-                string formid = null;
-                string tempvendorname = null;
-                tempvendorname = Session["tempvendorname"].ToString();//session赋值
-                form.VendorName = tempvendorname;//临时供应商名称
-                vendername = tempvendorname;
-                formid = tempvendorname + "指定供应商申请表PR-05-10-2";
+                //获取session信息
+                getSessionInfo();
 
-                int updateFlag = UpdateFlag_BLL.updateFlag("004", tempvendorname);//
+                int check = As_Vendor_Designated_Apply_BLL.checkVendorDesignatedApply(formID);
+                if (check == 0)//数据库中不存在这张表，则自动初始化
+                {
+                    As_Vendor_Designated_Apply vendorDesignatedApply = new As_Vendor_Designated_Apply();
+                    vendorDesignatedApply.Form_Type_ID = FORM_TYPE_ID;
+                    vendorDesignatedApply.VendorName = tempVendorName;
+                    vendorDesignatedApply.Temp_Vendor_ID = tempVendorID;
+                    vendorDesignatedApply.Flag = 0;//将表格标志位信息改为初始
 
-                As_Vendor_Discovery Vendor_Discovery = new As_Vendor_Discovery();
-                As_Form forms = new As_Form();
-                forms.Form_ID = formid;
-                forms.Form_Name = "指定供应商申请表";
-                forms.Form_Type_ID = "004";
-                forms.Temp_Vendor_Name = tempvendorname;
-                forms.Form_Path = "";
-                //       操作表：As_Form
-                int add = AddForm_BLL.addForm(forms);
+                    //名字只读
+                    TextBox1.Text = tempVendorName;//
+                    TextBox1.ReadOnly = true;
 
-                TextBox1.Text = tempvendorname;//
+                    int n = As_Vendor_Designated_Apply_BLL.addForm(vendorDesignatedApply);
+                    if (n == 0)
+                    {
+                        Response.Write("<script>window.alert('表格初始化错误（新建插入失败）！')</script>");
+                        return;
+                    }
+                    else
+                    {
+                        //获取formID信息
+                        getSessionInfo();
+
+                        //向FormFile表中添加相应的文件、表格绑定信息
+                        bindingFormWithFile();
+                    }
+                }
+                else
+                {
+                    showForm();
+                }
+            }
+            else
+            {
+                //处理postback回调
+                switch (Request["__EVENTTARGET"])
+                {
+                    case "submitForm":
+                        submitForm();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+
+        }
+
+        /// <summary>
+        /// 绑定此表对应的文件信息
+        /// </summary>
+        public void bindingFormWithFile()
+        {
+            if (CheckFile_BLL.bindFormFile(FORM_TYPE_ID, tempVendorID, formID) == 0)
+            {
+                Response.Write("<script>window.alert('表格初始化错误（文件绑定失败）！')</script>");//若没有记录 返回文件不全
+            }
+        }
+
+        /// <summary>
+        /// 重新读取session
+        /// </summary>
+        private void getSessionInfo()
+        {
+            tempVendorID = Session["tempVendorID"].ToString();
+            tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
+            formID = As_Vendor_Designated_Apply_BLL.getFormID(tempVendorID);
+            submit = Request.QueryString["submit"];
+        }
+
+        /// <summary>
+        /// 显示表格
+        /// </summary>
+        private void showForm()
+        {
+            As_Vendor_Designated_Apply Vendor_Designated = As_Vendor_Designated_Apply_BLL.checkFlag(formID);
+            if (Vendor_Designated != null)
+            {
+                TextBox1.Text = Vendor_Designated.VendorName;//
                 TextBox1.ReadOnly = true;
-                InitWholeForm();
+                TextBox2.Text = Vendor_Designated.SAPCode1;
+                TextBox3.Text = Vendor_Designated.BusinessCategory;
+                TextBox4.Text = Vendor_Designated.EffectiveTime.ToString();
+                TextBox5.Text = Vendor_Designated.PurchaseAmount;
+                TextBox6.Text = Vendor_Designated.Reason;
+                TextBox7.Text = Vendor_Designated.Initiator;
+                TextBox8.Text = Vendor_Designated.Date.ToString();
+                TextBox9.Text = Vendor_Designated.Applicant;
+                TextBox10.Text = Vendor_Designated.RequestDeptHead;
+                TextBox11.Text = Vendor_Designated.FinManager;
+                TextBox12.Text = Vendor_Designated.ApplicantDate.ToString();
+                TextBox13.Text = Vendor_Designated.RequestDeptHeadDate.ToString();
+                TextBox14.Text = Vendor_Designated.FinManagerDate.ToString();
+                TextBox15.Text = Vendor_Designated.PurchasingManager;
+                TextBox16.Text = Vendor_Designated.GM;
+                TextBox17.Text = Vendor_Designated.PurchasingManagerDtae.ToString();
+                TextBox18.Text = Vendor_Designated.GMDate1.ToString();
+                TextBox19.Text = Vendor_Designated.Director;
+                TextBox20.Text = Vendor_Designated.SupplyChainDirector;
+                TextBox21.Text = Vendor_Designated.DirectorDtae.ToString();
+                TextBox22.Text = Vendor_Designated.SupplyChainDirectorDate.ToString();
+                TextBox23.Text = Vendor_Designated.Persident;
+                TextBox24.Text = Vendor_Designated.FinalDate.ToString();
             }
+            //展示附件
+            showfilelist(formID);
         }
-        private void InitWholeForm()//从数据库初始化整个数据表
+
+        /// <summary>
+        /// 显示审批列表
+        /// </summary>
+        /// <param name="FormID"></param>
+        public void showApproveForm(string FormID)
         {
-            string vendorname= Session["tempvendorname"].ToString();
-            form = As_Vendor_Designated_Apply_BLL.GetWholeFormInfo(vendorname);
-            TextBox2.Text = form.SAPCode1;
-            TextBox3.Text = form.BusinessCategory;
-            TextBox4.Text = form.EffectiveTime.ToString();
-            //TextBox5.Text = form.PurchaseAmount;
-            //TextBox6.Text = form.Reason;
-            //TextBox7.Text = form.Initiator;
-            //TextBox8.Text = form.Date.ToString();
-            //TextBox9.Text = form.Applicant;
-            //TextBox10.Text = form.RequestDeptHead;
-            //TextBox11.Text = form.FinManager;
-            //TextBox12.Text = form.ApplicantDate.ToString();
-            //TextBox13.Text = form.RequestDeptHeadDate.ToString();
-            //TextBox14.Text = form.FinManagerDate.ToString();
-            //TextBox15.Text = form.PurchasingManager;
-            //TextBox16.Text = form.GM1;
-            //TextBox17.Text = form.PurchasingManagerDtae.ToString();
-            //TextBox18.Text = form.GMDate1.ToString();
-            //TextBox19.Text = form.Director;
-            //TextBox20.Text = form.SupplyChainDirector;
-            //TextBox21.Text = form.DirectorDtae.ToString();
-            //TextBox22.Text = form.SupplyChainDirectorDate.ToString();
-            //TextBox23.Text = form.Persident;
-            //TextBox24.Text = form.FinalDate.ToString();
+            As_Approve approve = new As_Approve();
+            string sql = "SELECT * FROM As_Approve WHERE Form_ID='" + FormID + "'";
+            PagedDataSource objpds = new PagedDataSource();
+            objpds.DataSource = AssessFlow_BLL.listApprove(sql);
+            //GridView1.DataSource = objpds;
+            //GridView1.DataBind();
         }
-        private bool SaveWholeForm()//将整个数据表保存到数据库中
+
+        /// <summary>
+        /// 显示文件列表
+        /// </summary>
+        /// <param name="FormID"></param>
+        public void showfilelist(string FormID)
         {
-            int result = 0;//插入成功后返回1
-            form = getThisFormInfo();
-            result = As_Vendor_Designated_Apply_BLL.SaveWholeForm(form);//
-            if (result == 1)
+            As_Form_File Form_File = new As_Form_File();
+            string sql = "select * from As_Form_File where Form_ID='" + FormID + "'";
+            PagedDataSource objpds = new PagedDataSource();
+            objpds.DataSource = FormFile_BLL.listFile(sql);
+            GridView2.DataSource = objpds;
+            GridView2.DataBind();
+        }
+
+        /// <summary>
+        /// 提交表格
+        /// </summary>
+        /// <returns></returns>
+        protected string submitForm()
+        {
+            //读取session
+            getSessionInfo();
+
+            SelectDepartment.doSelect();
+
+            //一旦提交就把表As_Vendor_FormType字段FLag置1.
+            int updateFlag = UpdateFlag_BLL.updateFlag(FORM_TYPE_ID, tempVendorID);
+
+            //插入到已提交表
+            As_Form form = new As_Form();
+            form.Form_ID = formID;
+            form.Form_Name = "指定供应商申请表";
+            form.Form_Type_ID = FORM_TYPE_ID;
+            form.Temp_Vendor_Name = tempVendorName;
+            form.Form_Path = "";
+            form.Temp_Vendor_ID = tempVendorID;
+            int add = AddForm_BLL.addForm(form);
+
+            Response.Redirect("EmployeeVendor.aspx");
+            return "";
+        }
+
+        /// <summary>
+        /// 网页内部弹出，确定用户部门流程
+        /// </summary>
+        /// <param name="formTypeID"></param>
+        /// <param name="formID"></param>
+        public void newApproveAccess(string formTypeID, string formID)
+        {
+            //形成参数
+            As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(formTypeID);
+
+            //写入session之后供SelectDepartment页面使用
+            Session["AssessflowInfo"] = assess_flow;
+            Session["tempVendorID"] = tempVendorID;
+            Session["factory"] = "上海科勒";//TODO:自动三厂选择
+
+            //如果是用户部门
+            if (assess_flow.User_Department_Assess == "1")
             {
-                return true;//保存成功
+                LocalScriptManager.CreateScript(Page, "popUp('" + formID + "');", "SHOW");
             }
             else
             {
-                return false;
+                Session["tempvendorname"] = tempVendorName;
+                Session["Employee_ID"] = Session["Employee_ID"];
+                Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx'</script>");
             }
         }
 
-        protected void Button1_Click(object sender, EventArgs e)
+
+        /// <summary>
+        /// 保存表格
+        /// </summary>
+        /// <param name="flag"></param>
+        /// <param name="manul"></param>
+        /// <returns></returns>
+        private As_Vendor_Designated_Apply saveForm(int flag, string manul)
         {
-            int thisFormID = 0;
-            As_Vendor_Designated_Apply form1 = new As_Vendor_Designated_Apply();
-            form1 = this.getThisFormInfo();
-            thisFormID = As_Vendor_Designated_Apply_BLL.GetAsVendorDesignatedApplyFormID(form1);
-            bool ok = false;
-            if (thisFormID != 0)//若这个表的ID能查出来 则说明已经填写过该表 点击保存会执行update操作
+            //读取session
+            getSessionInfo();
+
+            As_Vendor_Designated_Apply Vendor_Designated = new As_Vendor_Designated_Apply();
+            Vendor_Designated.Form_id = formID;
+            Vendor_Designated.Form_Type_ID = FORM_TYPE_ID;
+            Vendor_Designated.Temp_Vendor_ID = tempVendorID;
+            Vendor_Designated.VendorName = tempVendorName;//临时供应商名称
+            Vendor_Designated.SAPCode1 = TextBox2.Text.ToString().Trim();
+            Vendor_Designated.BusinessCategory = TextBox3.Text.ToString().Trim();
+            Vendor_Designated.EffectiveTime = TextBox4.Text.ToString().Trim();//将字符转化为datetime类型
+            Vendor_Designated.PurchaseAmount = TextBox5.Text.ToString().Trim();
+            Vendor_Designated.Reason = TextBox6.Text.ToString().Trim();
+            Vendor_Designated.Initiator = TextBox7.Text.ToString().Trim();
+            Vendor_Designated.InitiatorDate = TextBox8.Text.ToString().Trim();
+            Vendor_Designated.Applicant = TextBox9.Text.ToString().Trim();
+            Vendor_Designated.RequestDeptHead = TextBox10.Text.ToString().Trim();
+            Vendor_Designated.FinManager = TextBox11.Text.ToString().Trim();
+            Vendor_Designated.ApplicantDate = TextBox12.Text.ToString().Trim();
+            Vendor_Designated.RequestDeptHeadDate = TextBox13.Text.ToString().Trim();
+            Vendor_Designated.FinManagerDate = TextBox14.Text.ToString().Trim();
+            Vendor_Designated.PurchasingManager = TextBox15.Text.ToString().Trim();
+            Vendor_Designated.GM = TextBox16.Text.ToString().Trim();
+            Vendor_Designated.PurchasingManagerDtae = TextBox17.Text.ToString().Trim();
+            Vendor_Designated.GMDate1 = TextBox18.Text.ToString().Trim();
+            Vendor_Designated.Director = TextBox19.Text.ToString().Trim();
+            Vendor_Designated.SupplyChainDirector = TextBox20.Text.ToString().Trim();
+            Vendor_Designated.DirectorDtae = TextBox21.Text.ToString().Trim();
+            Vendor_Designated.SupplyChainDirectorDate = TextBox22.Text.ToString().Trim();
+            Vendor_Designated.Persident = TextBox23.Text.ToString().Trim();
+            Vendor_Designated.FinalDate = TextBox24.Text.ToString().Trim();
+            Vendor_Designated.Flag = flag;
+            
+            int join = As_Vendor_Designated_Apply_BLL.updateForm(Vendor_Designated);
+            if (join > 0)
             {
-                ok = UpdateWholeForm();
-                if (ok)
+                As_Write write = new As_Write();                     //将填写信息记录
+                write.Employee_ID = Session["Employee_ID"].ToString();
+                write.Form_ID = Vendor_Designated.Form_id;
+                write.Form_Fill_Time = DateTime.Now.ToString();
+                write.Manul = manul;
+                write.Temp_Vendor_ID = tempVendorID;
+                Write_BLL.addWrite(write);
+                if (flag == 1)
                 {
-                    ClientScript.RegisterStartupScript(GetType(), "message", "<script>alert('保存成功！');</script>");
+                    Response.Write("<script>window.alert('保存成功！')</script>");
                 }
-                else
-                {
-                    ClientScript.RegisterStartupScript(GetType(), "message", "<script>alert('保存失败！');</script>");
-                }
+                return Vendor_Designated;
             }
             else
             {
-                ok = SaveWholeForm();
-                if (ok)
-                {
-                    ClientScript.RegisterStartupScript(GetType(), "message", "<script>alert('保存成功！');</script>");
-                }
-                else
-                {
-                    ClientScript.RegisterStartupScript(GetType(), "message", "<script>alert('保存失败！');</script>");
-                }
+                return null;
             }
         }
-        private bool UpdateWholeForm()
+
+
+        public void Button1_Click(object sender, EventArgs e)//提交按钮
         {
-            int result = 0;//插入成功后返回1
-            form.VendorName = Session["tempvendorname"].ToString();//临时供应商名称
-            form.SAPCode1 = TextBox2.Text.ToString().Trim();
-            form.BusinessCategory = TextBox3.Text.ToString().Trim();
-            form.EffectiveTime = DateTime.Now;
-            //form.EffectiveTime = DateTime.Parse(TextBox4.Text.ToString().Trim());//将字符转化为datetime类型
-            form.PurchaseAmount = TextBox5.Text.ToString().Trim();
-            form.Reason = TextBox6.Text.ToString().Trim();
-            form.Initiator = TextBox7.Text.ToString().Trim();
-            form.Date = DateTime.Now;
-            //form.Date = DateTime.Parse(TextBox8.Text.ToString().Trim());
-            form.Applicant = TextBox9.Text.ToString().Trim();
-            form.RequestDeptHead = TextBox10.Text.ToString().Trim();
-            form.FinManager = TextBox11.Text.ToString().Trim();
-            form.ApplicantDate = DateTime.Now;
-            form.RequestDeptHeadDate = DateTime.Now;
-            form.FinManagerDate = DateTime.Now;
-            //form.ApplicantDate = DateTime.Parse(TextBox12.Text.ToString().Trim());
-            //form.RequestDeptHeadDate = DateTime.Parse(TextBox13.Text.ToString().Trim());
-            //form.FinManagerDate = DateTime.Parse(TextBox14.Text.ToString().Trim());
-            form.PurchasingManager = TextBox15.Text.ToString().Trim();
-            form.GM1 = TextBox16.Text.ToString().Trim();
-            form.PurchasingManagerDtae = DateTime.Now;
-            form.GMDate1 = DateTime.Now;
-            //form.PurchasingManagerDtae = DateTime.Parse(TextBox17.Text.ToString().Trim());
-            //form.GMDate1 = DateTime.Parse(TextBox18.Text.ToString().Trim());
-            form.Director = TextBox19.Text.ToString().Trim();
-            form.SupplyChainDirector = TextBox20.Text.ToString().Trim();
-            form.DirectorDtae = DateTime.Now;
-            form.SupplyChainDirectorDate = DateTime.Now;
-            //form.DirectorDtae = DateTime.Parse(TextBox21.Text.ToString().Trim());
-            //form.SupplyChainDirectorDate = DateTime.Parse(TextBox22.Text.ToString().Trim());
-            form.PresidenDate = DateTime.Now;
-            form.Persident = TextBox23.Text.ToString().Trim();
-            form.FinalDate = DateTime.Now;
-            //form.FinalDate = DateTime.Parse(TextBox24.Text.ToString().Trim());
-            result = As_Vendor_Designated_Apply_BLL.UpdateWholeFormInfo(form);//跟新整个表
-            if (result == 1)
+            if (submit == "yes")
             {
-                return true;//更新成功
+                //形成参数
+                As_Vendor_Designated_Apply Vendor_Designated = saveForm(2, "提交表格");
+
+                //对于用户部门，使用弹出对话框选择
+                newApproveAccess(FORM_TYPE_ID, formID);
             }
             else
             {
-                return false;
+                Response.Write("<script>window.alert('无法提交！')</script>");
             }
-        }
-        private As_Vendor_Designated_Apply getThisFormInfo()
-        {
-            form = new As_Vendor_Designated_Apply();
-            form.VendorName = Session["tempvendorname"].ToString();//临时供应商名称
-            form.SAPCode1 = TextBox2.Text.ToString().Trim();
-            form.BusinessCategory = TextBox3.Text.ToString().Trim();
-            form.EffectiveTime = DateTime.Now;
-            //form.EffectiveTime = DateTime.Parse(TextBox4.Text.ToString().Trim());//将字符转化为datetime类型
-            form.PurchaseAmount = TextBox5.Text.ToString().Trim();
-            form.Reason = TextBox6.Text.ToString().Trim();
-            form.Initiator = TextBox7.Text.ToString().Trim();
-            //form.Date = DateTime.Parse(TextBox8.Text.ToString().Trim());
-            form.Applicant = TextBox9.Text.ToString().Trim();
-            form.RequestDeptHead = TextBox10.Text.ToString().Trim();
-            form.FinManager = TextBox11.Text.ToString().Trim();
-            //form.ApplicantDate = DateTime.Parse(TextBox12.Text.ToString().Trim());
-            //form.RequestDeptHeadDate = DateTime.Parse(TextBox13.Text.ToString().Trim());
-            //form.FinManagerDate = DateTime.Parse(TextBox14.Text.ToString().Trim());
-            form.PurchasingManager = TextBox15.Text.ToString().Trim();
-            form.GM1 = TextBox16.Text.ToString().Trim();
-            //form.PurchasingManagerDtae = DateTime.Parse(TextBox17.Text.ToString().Trim());
-            //form.GMDate1 = DateTime.Parse(TextBox18.Text.ToString().Trim());
-            form.Director = TextBox19.Text.ToString().Trim();
-            form.SupplyChainDirector = TextBox20.Text.ToString().Trim();
-            //form.DirectorDtae = DateTime.Parse(TextBox21.Text.ToString().Trim());
-            //form.SupplyChainDirectorDate = DateTime.Parse(TextBox22.Text.ToString().Trim());
-            form.Persident = TextBox23.Text.ToString().Trim();
-            //form.FinalDate = DateTime.Parse(TextBox24.Text.ToString().Trim());
-            return form;
         }
 
         protected void Button2_Click(object sender, EventArgs e)
         {
-            As_Vendor_Designated_Apply adva = null;
-            adva = this.getThisFormInfo();
-            string TempVendorName = vendername;
-            string FormID = TempVendorName + "指定供应商申请表PR-05-10-2";//命名
-            SaveWholeForm();
-            approveaccess("004", FormID);//确定审批的流程 formTypeID为004 表示指定供应商申请表
+            saveForm(1, "保存表格");
         }
-        private void approveaccess(string formTypeID, string formId)
+
+
+        protected void Button3_Click(object sender, EventArgs e)
         {
-            string formtypeid = formTypeID;
-            As_Assess_Flow assess_flow = new As_Assess_Flow();
-            assess_flow = AssessFlow_BLL.getFirstAssessFlow(formtypeid);
-            Session["AssessflowInfo"] = assess_flow;
-            string i = assess_flow.User_Department_Assess;
-            if (i == "1")
-            {
-                string s_url;
-                s_url = "SelectDepartment.aspx?formId=" + formId;
-                Response.Redirect(s_url);
-            }
+            Response.Redirect("EmployeeVendor.aspx");
         }
     }
 }

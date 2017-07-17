@@ -17,8 +17,8 @@ namespace DAL
             {
 
                 //string connectionString = "Data Source=DESKTOP-CFRHGFO;Initial Catalog=kohler;Integrated Security=True";
-                //string connectionString = "server=.;database=kohler;uid=sa;pwd=mxdlzg159";
-                string connectionString = "server=115.159.40.169;database=kohler;uid=sa;pwd=PWkohler123";
+                string connectionString = "server=.;database=kohler;uid=sa;pwd=mxdlzg159";
+                //string connectionString = "server=115.159.40.169;database=kohler;uid=sa;pwd=PWkohler123";
                 if (connection == null)
                 {
                     connection = new SqlConnection(connectionString);
@@ -63,7 +63,8 @@ namespace DAL
         {
             SqlCommand cmd = new SqlCommand(sql, Connection);
             cmd.Parameters.AddRange(values);
-            int result = Convert.ToInt32(cmd.ExecuteScalar());
+            //int result = Convert.ToInt32(cmd.ExecuteScalar());
+            int result = cmd.ExecuteNonQuery();
             return result;
         }
 

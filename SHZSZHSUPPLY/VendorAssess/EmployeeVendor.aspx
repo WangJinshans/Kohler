@@ -117,6 +117,7 @@ table.gridtable td {
 											SortExpression="Temp_Vendor_Name" />
 										<asp:BoundField DataField="Form_Name" HeaderText="表格名称" 
 											SortExpression="Form_Name" />
+										<asp:BoundField DataField="Form_ID" HeaderText="表格编号" SortExpression="Form_ID" />
 										<asp:BoundField DataField="DepotSummary" HeaderText="DepotSummary" 
 											SortExpression="DepotSummary" Visible="False" />
 										<asp:TemplateField>

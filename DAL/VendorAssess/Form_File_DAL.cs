@@ -12,11 +12,12 @@ namespace DAL
     {
         public static int addFormFile(As_Form_File Form_File)
         {
-            string sql = "insert into As_Form_File(Form_ID,File_ID) values (@Form_ID,@File_ID)";
+            string sql = "insert into As_Form_File(Form_ID,File_ID,Temp_Vendor_ID) values (@Form_ID,@File_ID,@Temp_Vendor_ID)";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Form_ID",Form_File.Form_ID),
-                new SqlParameter("File_ID",Form_File.File_ID)
+                new SqlParameter("@File_ID",Form_File.File_ID),
+                new SqlParameter("@Temp_Vendor_ID",Form_File.Temp_Vendor_ID)
             };
             return DBHelp.GetScalar(sql,sp);
         }
@@ -32,6 +33,7 @@ namespace DAL
                     As_Form_File Form_File = new As_Form_File();
                     Form_File.Form_ID = Convert.ToString(dr["Form_ID"]);
                     Form_File.File_ID = Convert.ToString(dr["File_ID"]);
+                    Form_File.Temp_Vendor_ID = Convert.ToString(dr["Temp_Vendor_ID"]);
                     list.Add(Form_File);
                 }
             }

@@ -14,30 +14,33 @@ namespace Model
         private string vendorName;
         private string SAPCode;
         private string businessCategory;
-        private DateTime effectiveTime;
+        private string effectiveTime;
         private string purchaseAmount;
         private string reason;
         private string initiator;
-        private DateTime initiatorDate;
+        private string initiatorDate;
         private string applicant;
         private string requestDeptHead;
         private string finManager;
-        private DateTime applicantDate;
-        private DateTime requestDeptHeadDate;
-        private DateTime finManagerDate;
+        private string applicantDate;
+        private string requestDeptHeadDate;
+        private string finManagerDate;
         private string purchasingManager;
-        private string GM;
-        private DateTime purchasingManagerDtae;
-        private DateTime GMDate;
+        private string gM;
+        private string purchasingManagerDtae;
+        private string GMDate;
         private string director;
         private string supplyChainDirector; //供应链最高层
-        private DateTime directorDtae;
-        private DateTime supplyChainDirectorDate;
-        private string persident;
-        private DateTime presidenDate;
-        private DateTime finalDate;
+        private string directorDtae;
+        private string supplyChainDirectorDate;
+        private string president;
+        private string presidenDate;
+        private string finalDate;
         private string bar_Code;
         private string form_id;
+        private string form_Type_ID;
+        private string temp_Vendor_ID;
+        private int flag;
 
         public string VendorName
         {
@@ -78,7 +81,7 @@ namespace Model
             }
         }
 
-        public DateTime EffectiveTime
+        public string EffectiveTime
         {
             get
             {
@@ -130,16 +133,16 @@ namespace Model
             }
         }
 
-        public DateTime Date
+        public string Date
         {
             get
             {
-                return initiatorDate;
+                return InitiatorDate;
             }
 
             set
             {
-                initiatorDate = value;
+                InitiatorDate = value;
             }
         }
 
@@ -182,7 +185,7 @@ namespace Model
             }
         }
 
-        public DateTime ApplicantDate
+        public string ApplicantDate
         {
             get
             {
@@ -195,7 +198,7 @@ namespace Model
             }
         }
 
-        public DateTime RequestDeptHeadDate
+        public string RequestDeptHeadDate
         {
             get
             {
@@ -208,7 +211,7 @@ namespace Model
             }
         }
 
-        public DateTime FinManagerDate
+        public string FinManagerDate
         {
             get
             {
@@ -234,20 +237,20 @@ namespace Model
             }
         }
 
-        public string GM1
+        public string GM
         {
             get
             {
-                return GM;
+                return gM;
             }
 
             set
             {
-                GM = value;
+                gM = value;
             }
         }
 
-        public DateTime PurchasingManagerDtae
+        public string PurchasingManagerDtae
         {
             get
             {
@@ -260,7 +263,7 @@ namespace Model
             }
         }
 
-        public DateTime GMDate1
+        public string GMDate1
         {
             get
             {
@@ -299,7 +302,7 @@ namespace Model
             }
         }
 
-        public DateTime DirectorDtae
+        public string DirectorDtae
         {
             get
             {
@@ -312,7 +315,7 @@ namespace Model
             }
         }
 
-        public DateTime SupplyChainDirectorDate
+        public string SupplyChainDirectorDate
         {
             get
             {
@@ -327,7 +330,7 @@ namespace Model
 
         
 
-        public DateTime FinalDate
+        public string FinalDate
         {
             get
             {
@@ -340,7 +343,7 @@ namespace Model
             }
         }
 
-        public DateTime PresidenDate
+        public string PresidenDate
         {
             get
             {
@@ -357,12 +360,12 @@ namespace Model
         {
             get
             {
-                return persident;
+                return president;
             }
 
             set
             {
-                persident = value;
+                president = value;
             }
         }
 
@@ -391,5 +394,58 @@ namespace Model
                 form_id = value;
             }
         }
+
+        public string Form_Type_ID
+        {
+            get
+            {
+                return form_Type_ID;
+            }
+
+            set
+            {
+                form_Type_ID = value;
+            }
+        }
+
+        public string Temp_Vendor_ID
+        {
+            get
+            {
+                return temp_Vendor_ID;
+            }
+
+            set
+            {
+                temp_Vendor_ID = value;
+            }
+        }
+
+        public int Flag
+        {
+            get
+            {
+                return flag;
+            }
+
+            set
+            {
+                flag = value;
+            }
+        }
+
+        public string InitiatorDate
+        {
+            get
+            {
+                return initiatorDate;
+            }
+
+            set
+            {
+                initiatorDate = value;
+            }
+        }
+
     }
 }

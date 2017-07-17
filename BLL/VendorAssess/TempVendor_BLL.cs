@@ -14,5 +14,10 @@ namespace BLL
         {
             return TempVendor_DAL.getTempVendorID(TempVendorName);
         }
+
+        public static string getTempVendorName(string tempVendorID)
+        {
+            return TempVendor_DAL.getTempVendorName(tempVendorID);
+        }
     }
 }

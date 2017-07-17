@@ -40,7 +40,7 @@ namespace DAL
         public static int addFormAssessFlow(As_Form_AssessFlow Form_AssessFlow)
         {
 
-            string sql = "insert into As_Form_AssessFlow values(@Form_ID,@First,@Second,@Third,@Four,@Five,@kci)";
+            string sql = "insert into As_Form_AssessFlow values(@Form_ID,@First,@Second,@Third,@Four,@Five,@kci,@tempVendorID,@factory)";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("Form_ID",Form_AssessFlow.Form_ID),
@@ -49,21 +49,26 @@ namespace DAL
                 new SqlParameter("Third",Form_AssessFlow.Third),
                 new SqlParameter("Four",Form_AssessFlow.Four),
                 new SqlParameter("Five",Form_AssessFlow.Five),
-                new SqlParameter("kci",Form_AssessFlow.Kci)
+                new SqlParameter("kci",Form_AssessFlow.Kci),
+                new SqlParameter("tempVendorID",Form_AssessFlow.Temp_Vendor_ID),
+                new SqlParameter("factory",Form_AssessFlow.Factory_Name)
             };
             return DBHelp.GetScalar(sql, sp);
         }
         public static int addApprove(As_Approve approve)
         {
 
-            string sql = "insert into As_approve values(@Form_ID,@Position_Name,@Assess_Flag,@Assess_Time,@Assess_Reason)";
+            string sql = "insert into As_approve values(@Form_ID,@Position_Name,@Assess_Flag,@Assess_Time,@Assess_Reason,@Temp_Vendor_ID,@Factory_Name)";
+            Object ob = DBNull.Value;
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("Form_ID",approve.Form_ID),
                 new SqlParameter("Position_Name",approve.Position_Name),
                 new SqlParameter("Assess_Flag",approve.Assess_Flag),
-                new SqlParameter("Assess_Time",approve.Assess_Time),
-                new SqlParameter("Assess_Reason",approve.Assess_Reason)
+                new SqlParameter("Assess_Time",ob),
+                new SqlParameter("Assess_Reason",approve.Assess_Reason),
+                new SqlParameter("Temp_Vendor_ID",approve.Temp_Vendor_ID),
+                new SqlParameter("Factory_Name",approve.Factory_Name)
             };
             return DBHelp.GetScalar(sql, sp);
         }
@@ -80,17 +85,26 @@ namespace DAL
                     Approve.Form_ID = Convert.ToString(dr["Form_ID"]);
                     Approve.Position_Name = Convert.ToString(dr["Position_Name"]);
                     Approve.Assess_Reason = Convert.ToString(dr["Assess_Reason"]);
-                    Approve.Assess_Time = Convert.ToDateTime(dr["Assess_Time"]);
+                    Approve.Assess_Time = Convert.ToString(dr["Assess_Time"]);
+                    Approve.Factory_Name = dr["Factory_Name"].ToString();
                     list.Add(Approve);
                 }
             }
             return list;
         }
 
+        //TODO::同意的时候，检查审批人和申请人是否为同一厂，检查审批人和审批流程是否为同一厂
         public static int updateApprove(string formid,string positionname)
         {
-            string sql = "UPDATE As_Approve SET Assess_flag='已通过' WHERE Form_ID='" + formid+"'and Position_Name='"+ positionname + "'";
-            return DBHelp.ExecuteCommand(sql);
+            string sql = "UPDATE As_Approve SET Assess_flag='已通过',Assess_Time=@Assess_Time WHERE Form_ID=@Form_ID and Position_Name=@Position_Name";
+            //string sql = "UPDATE As_Approve SET Assess_flag='已通过' WHERE Form_ID='" + formid+"'and Position_Name='"+ positionname + "'";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Assess_Time",DateTime.Now),
+                new SqlParameter("@Form_ID",formid),
+                new SqlParameter("@Position_Name",positionname)
+            };
+            return DBHelp.ExecuteCommand(sql,sp);
         }
         public static int updateApproveFail(string formid, string positionname)
         {

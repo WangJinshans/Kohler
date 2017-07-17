@@ -15,7 +15,7 @@ namespace Model
         private string file_Due_Time;
         private string temp_Vendor_Name;
         private string file_Type_ID;
-
+        private string temp_Vendor_ID;
 
         public string File_ID
         {
@@ -105,6 +105,19 @@ namespace Model
             set
             {
                 temp_Vendor_Name = value;
+            }
+        }
+
+        public string Temp_Vendor_ID
+        {
+            get
+            {
+                return temp_Vendor_ID;
+            }
+
+            set
+            {
+                temp_Vendor_ID = value;
             }
         }
     }

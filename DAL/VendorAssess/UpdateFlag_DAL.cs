@@ -10,9 +10,9 @@ namespace DAL
 {
     public class UpdateFlag_DAL
     {
-        public static int updateFlag(string formTypeId,string tempVendorName)
+        public static int updateFlag(string formTypeId,string tempVendorID)
         {
-            string sql= "UPDATE As_Vendor_FormType SET flag=1 WHERE Form_Type_ID='"+ formTypeId+ "'AND Temp_Vendor_Name='"+ tempVendorName + "'";
+            string sql= "UPDATE As_Vendor_FormType SET flag=1 WHERE Form_Type_ID='"+ formTypeId+ "'AND Temp_Vendor_ID='"+ tempVendorID + "'";
             return DBHelp.ExecuteCommand(sql);
         }
 

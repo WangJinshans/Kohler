@@ -34,10 +34,25 @@ namespace BLL
                 VendorDiscovery = VendorDiscovery_DAL.getVendorDiscovery(FormId);
                 return VendorDiscovery;
             }
+            else if(flag == 2)
+            {
+                VendorDiscovery = VendorDiscovery_DAL.getVendorDiscovery(FormId);
+                return VendorDiscovery;
+            }
+            else if (flag == 0)
+            {
+                VendorDiscovery = VendorDiscovery_DAL.getVendorDiscovery(FormId);
+                return VendorDiscovery;
+            }
             else
             {
                 return null;
             }
+        }
+
+        public static string getFormID(string tempVendorID)
+        {
+            return VendorDiscovery_DAL.getFormID(tempVendorID);
         }
 
     }

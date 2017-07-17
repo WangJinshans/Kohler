@@ -63,8 +63,11 @@
     <Compile Include="VendorAssess\As_Temp_Vendor.cs" />
     <Compile Include="VendorAssess\As_VendorType_FileType.cs" />
     <Compile Include="VendorAssess\As_VendorType_FormType.cs" />
+    <Compile Include="VendorAssess\As_Vendor_Block_Or_UnBlock.cs" />
+    <Compile Include="VendorAssess\As_Vendor_Creation.cs" />
     <Compile Include="VendorAssess\As_Vendor_Designated_Apply.cs" />
     <Compile Include="VendorAssess\As_Vendor_Discovery.cs" />
+    <Compile Include="VendorAssess\As_Vendor_Extend.cs" />
     <Compile Include="VendorAssess\As_Vendor_FileType.cs" />
     <Compile Include="VendorAssess\As_Vendor_FormType.cs" />
     <Compile Include="VendorAssess\As_Vendor_Risk.cs" />

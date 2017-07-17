@@ -69,13 +69,17 @@
     <Compile Include="VendorAssess\File_Type_BLL.cs" />
     <Compile Include="VendorAssess\FillVendorInfo_BLL.cs" />
     <Compile Include="VendorAssess\FormFile_BLL.cs" />
+    <Compile Include="VendorAssess\FormType_BLL.cs" />
     <Compile Include="VendorAssess\SelectApproveForm_BLL.cs" />
     <Compile Include="VendorAssess\SelectEmployeeVendor_BLL.cs" />
     <Compile Include="VendorAssess\SelectForm_BLL.cs" />
     <Compile Include="VendorAssess\TempVendor_BLL.cs" />
     <Compile Include="VendorAssess\UpdateFlag_BLL.cs" />
     <Compile Include="VendorAssess\VendorAssess.cs" />
+    <Compile Include="VendorAssess\VendorBlockOrUnBlock_BLL.cs" />
+    <Compile Include="VendorAssess\VendorCreation_BLL.cs" />
     <Compile Include="VendorAssess\VendorDiscovery_BLL.cs" />
+    <Compile Include="VendorAssess\VendorExtend_BLL.cs" />
     <Compile Include="VendorAssess\VendorRiskAnalysis_BLL.cs" />
     <Compile Include="VendorAssess\Write_BLL.cs" />
   </ItemGroup>

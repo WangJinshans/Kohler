@@ -99,12 +99,12 @@ namespace Model
         {
             get
             {
-                return Max_money;
+                return max_money;
             }
 
             set
             {
-                Max_money = value;
+                max_money = value;
             }
         }
 
