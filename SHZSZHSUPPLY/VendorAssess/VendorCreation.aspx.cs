@@ -11,7 +11,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class VendorCreation : System.Web.UI.Page
     {
-        public const string FORM_NAME = "供应商信息表";
+        public const string FORM_NAME = "供应商信息表(建立)";
         public const string FORM_TYPE_ID = "017";
         private string tempVendorID = "";
         private string tempVendorName = "";
@@ -50,7 +50,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                         //向FormFile表中添加相应的文件、表格绑定信息
                         bindingFormWithFile();
                     }
-                    
+
                 }
                 else
                 {

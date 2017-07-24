@@ -1,5 +1,7 @@
 ﻿using DAL;
 using MODEL;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace BLL
 {
@@ -12,6 +14,10 @@ namespace BLL
 
         }
 
+        public static string getFormID(string tempVendorID)//获取FormID
+        {
+            return VendorBlockOrUnBlock_DAL.getFormID(tempVendorID);
+        }
         public static int updateVendorBlock(As_Vendor_Block_Or_UnBlock Block_UnBlock)//更新供应商调查表
         {
 
@@ -25,9 +31,9 @@ namespace BLL
             return VendorBlockOrUnBlock_DAL.checkVendorBlock(FormId);
         }
 
-        public static As_Vendor_Block_Or_UnBlock getVendorBlock(string FormId)//按照表格编号和供应商名称查询供应商调查表
+        public static As_Vendor_Block_Or_UnBlock getVendorBlock(string formID)//按照表格编号和供应商名称查询供应商调查表
         {
-            return VendorBlockOrUnBlock_DAL.getVendorBlock(FormId);
+            return VendorBlockOrUnBlock_DAL.getVendorBlock(formID);
         }
 
         public static int getVendorBlockFlag(string FormId)//按照表格编号和供应商名称查询相应记录返回flag

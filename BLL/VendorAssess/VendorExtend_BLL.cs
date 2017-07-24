@@ -1,4 +1,5 @@
-﻿using DAL.VendorAssess;
+﻿using System;
+using DAL.VendorAssess;
 using MODEL;
 
 
@@ -35,6 +36,10 @@ namespace BLL
             return VendorExtend_DAL.getVendorExtendFlag(FormId);
         }
 
+        public static string getFormID(string tempVendorID)
+        {
+            return VendorExtend_DAL.getFormID(tempVendorID);
+        }
     }
 }
 

@@ -12,33 +12,34 @@ namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class ShowVendorExtend : System.Web.UI.Page
     {
-        private As_Vendor_Extend Vendor;
-        private string Temp_Vendor_ID;
-        private string Form_ID;
+        private string formID = null;
         protected void Page_Load(object sender, EventArgs e)
         {
-            Vendor = VendorExtend_BLL.getVendorExtend(Temp_Vendor_ID);
-            if (Vendor != null)
+            int check = VendorExtend_BLL.checkVendorExtend(formID);
+            if (check > 0)
             {
-                showForm(Vendor);
+                showForm();
             }
-            showapproveform(Form_ID);
-            showfilelist(Form_ID);
+
+            showapproveform(formID);
+            showfilelist(formID);
         }
 
-        private void showForm(As_Vendor_Extend v)
+        private void showForm()
         {
-            TextBox1.Text = v.Purpose1;
-            dropDownList1.Text = v.Laguage1;
-            TextBox2.Text = v.Initiator_Name1;
-            TextBox3.Text = v.Initiator_Tel1;
-            TextBox4.Text = v.Company_Code1;
-            TextBox5.Text = v.Vendor_Code1;
-            TextBox6.Text = v.From_Company1;
-            TextBox7.Text = v.Email1;
-            TextBox8.Text = v.Money_Type1;
-            TextBox9.Text = v.Line_Manager1;
-            TextBox10.Text = v.Comments1;
+            As_Vendor_Extend v = new As_Vendor_Extend();
+            v = VendorExtend_BLL.getVendorExtend(formID);
+            TextBox1.Text = v.Purpose;
+            dropDownList1.Text = v.Laguage;
+            TextBox2.Text = v.Initiator_Name;
+            TextBox3.Text = v.Initiator_Tel;
+            TextBox4.Text = v.Company_Code;
+            TextBox5.Text = v.Vendor_Code;
+            TextBox6.Text = v.From_Company;
+            TextBox7.Text = v.Email;
+            TextBox8.Text = v.Money_Type;
+            TextBox9.Text = v.Line_Manager;
+            TextBox10.Text = v.Comments;
         }
         public void showfilelist(string FormID)
         {
@@ -62,23 +63,47 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
+            string formid = GridView1.Rows[drv.RowIndex].Cells[0].Text;
+            string positionName = Session["Position_Name"].ToString();
             if (e.CommandName == "approvesuccess")
             {
-
-                GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
-                string formid = GridView1.Rows[drv.RowIndex].Cells[0].Text;
-                string positionname = Session["Position_Name"].ToString();
-                int i = AssessFlow_BLL.updateApprove(formid, positionname);
-                if (i == 1)
+                if (positionName.Equals(Session["Position_Name"].ToString()))
                 {
-                    //Response.Redirect("Vendor_Discovery.aspx");
+                    int i = AssessFlow_BLL.updateApprove(formid, positionName);
+                    if (i == 1)
+                    {
+                        Response.Write("<script>window.alert('成功通过审批！');window.location.href='ShowVendorDiscovery.aspx'</script>");
+                    }
+                    else
+                    {
+                        Response.Write("<script>window.alert('操作失败！');window.location.href='ShowVendorDiscovery.aspx'</script>");
+                    }
                 }
-                else if (e.CommandName == "fail")
+                else
                 {
-                    int j = AssessFlow_BLL.updateApproveFail(formid, positionname);
+                    Response.Write("<script>window.alert('当前登录账号无对应权限！')</script>");
+                }
+            }
+            else if (e.CommandName == "fail")
+            {
+                if (positionName.Equals(Session["Position_Name"].ToString()))
+                {
+                    int i = AssessFlow_BLL.updateApproveFail(formid, positionName);
+                    if (i == 1)
+                    {
+                        Response.Write("<script>window.alert('成功拒绝审批！');window.location.href='ShowVendorDiscovery.aspx'</script>");
+                    }
+                    else
+                    {
+                        Response.Write("<script>window.alert('操作失败！');window.location.href='ShowVendorDiscovery.aspx'</script>");
+                    }
+                }
+                else
+                {
+                    Response.Write("<script>window.alert('当前登录账号无对应权限！')</script>");
                 }
             }
         }
-
     }
 }

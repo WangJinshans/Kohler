@@ -2,42 +2,48 @@
 using Model;
 using MODEL;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class ShowVendorBlockOrUnBlock : System.Web.UI.Page
     {
-        private As_Vendor_Block_Or_UnBlock Vendor;
-        private string Temp_Vendor_ID;
-        private string Form_ID;
+        private string formID = null;
         protected void Page_Load(object sender, EventArgs e)
         {
-            Vendor = VendorBlockOrUnBlock_BLL.getVendorBlock(Temp_Vendor_ID);
-            if (Vendor != null)
+            if (!IsPostBack)
             {
-                showForm(Vendor);
+                getSessionInfo();
+                int check = VendorBlockOrUnBlock_BLL.checkVendorBlock(formID);
+                if (check > 0)
+                {
+                    showVendorBlock();
+                }
             }
-            showapproveform(Form_ID);
-            showfilelist(Form_ID);
+
         }
 
-        private void showForm(As_Vendor_Block_Or_UnBlock v)
+        private void showVendorBlock()
         {
-            TextBox1.Text = v.Purpose1;
-            dropDownList1.Text = v.Laguage1;
-            TextBox2.Text = v.Initiator_Name1;
-            TextBox3.Text = v.Initiator_Tel1;
-            TextBox4.Text = v.Company_Code1;
-            TextBox5.Text = v.Vendor_Code1;
-            TextBox6.Text = v.Line_Manager1;
-            TextBox7.Text = v.Purchasing_Manager1;
-            TextBox8.Text = v.Comments1;
+            As_Vendor_Block_Or_UnBlock v = new As_Vendor_Block_Or_UnBlock();
+            v = VendorBlockOrUnBlock_BLL.getVendorBlock(formID);
+            if (v != null)
+            {
+                TextBox1.Text = v.Purpose;
+                dropDownList1.Text = v.Laguage;
+                TextBox2.Text = v.Initiator_Name;
+                TextBox3.Text = v.Initiator_Tel;
+                TextBox4.Text = v.Company_Code;
+                TextBox5.Text = v.Vendor_Code;
+                TextBox6.Text = v.Line_Manager;
+                TextBox7.Text = v.Purchasing_Manager;
+                TextBox8.Text = v.Comments;
+            }
+            showapproveform(formID);
+            showfilelist(formID);
         }
+
+
         public void showfilelist(string FormID)
         {
             As_Form_File Form_File = new As_Form_File();
@@ -58,6 +64,13 @@ namespace SHZSZHSUPPLY.VendorAssess
             GridView1.DataBind();
         }
 
+
+        private void getSessionInfo()
+        {
+            formID = Session["formID"].ToString();
+        }
+
+
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName == "approvesuccess")
@@ -65,15 +78,44 @@ namespace SHZSZHSUPPLY.VendorAssess
 
                 GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
                 string formid = GridView1.Rows[drv.RowIndex].Cells[0].Text;
-                string positionname = Session["Position_Name"].ToString();
-                int i = AssessFlow_BLL.updateApprove(formid, positionname);
-                if (i == 1)
+                string positionName = GridView1.Rows[drv.RowIndex].Cells[1].Text;
+                if (e.CommandName == "approvesuccess")
                 {
-                    //Response.Redirect("Vendor_Discovery.aspx");
+                    if (positionName.Equals(Session["Position_Name"].ToString()))
+                    {
+                        int i = AssessFlow_BLL.updateApprove(formid, positionName);
+                        if (i == 1)
+                        {
+                            Response.Write("<script>window.alert('成功通过审批！');window.location.href='ShowVendorDesignatedApply.aspx'</script>");
+                        }
+                        else if (e.CommandName == "fail")
+                        {
+                            Response.Write("<script>window.alert('操作失败！');window.location.href='ShowVendorDesignatedApply.aspx'</script>");
+                        }
+                    }
+                    else
+                    {
+                        Response.Write("<script>window.alert('当前登录账号无对应权限！')</script>");
+                    }
                 }
                 else if (e.CommandName == "fail")
                 {
-                    int j = AssessFlow_BLL.updateApproveFail(formid, positionname);
+                    if (positionName.Equals(Session["Position_Name"].ToString()))
+                    {
+                        int i = AssessFlow_BLL.updateApproveFail(formid, positionName);
+                        if (i == 1)
+                        {
+                            Response.Write("<script>window.alert('成功拒绝审批！');window.location.href='ShowVendorDesignatedApply.aspx'</script>");
+                        }
+                        else
+                        {
+                            Response.Write("<script>window.alert('操作失败！');window.location.href='ShowVendorDesignatedApply.aspx'</script>");
+                        }
+                    }
+                    else
+                    {
+                        Response.Write("<script>window.alert('当前登录账号无对应权限！')</script>");
+                    }
                 }
             }
         }

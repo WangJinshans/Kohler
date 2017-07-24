@@ -257,7 +257,7 @@ table.gridtable td {
             </tr>
         </table>
         <div>
-            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" CellPadding="4" ForeColor="#333333" GridLines="None">
+            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
 				<AlternatingRowStyle BackColor="White" />
 				<Columns>
 					<asp:BoundField DataField="Form_ID" HeaderText="表格编号"

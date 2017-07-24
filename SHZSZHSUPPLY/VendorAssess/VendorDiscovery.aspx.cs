@@ -1,12 +1,7 @@
 ﻿using BLL;
-using BLL.VendorAssess;
 using Model;
 using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace AendorAssess
@@ -218,7 +213,6 @@ namespace AendorAssess
             form.Form_Path = "";
             form.Temp_Vendor_ID = tempVendorID;
             int add = AddForm_BLL.addForm(form);
-
             Response.Redirect("EmployeeVendor.aspx");
             return "";
         }

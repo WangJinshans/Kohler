@@ -22,6 +22,26 @@ namespace DAL
 
         }
 
+        public static string getFormID(string tempVendorID)
+        {
+            string formID = "";
+            string sql = "select Form_ID from As_Vendor_Block_Or_UnBlock where Temp_Vendor_ID=@Temp_Vendor_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("Temp_Vendor_ID",tempVendorID)
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    formID = dr["Form_ID"].ToString();
+                }
+            }
+            return formID;
+        }
+
+
         public static int updateVendorBlock(As_Vendor_Block_Or_UnBlock Block_UnBlock)//更新供应商调查表
         {
             string sql = "update As_Vendor_Block_Or_UnBlock set Language=@Language,"
@@ -50,12 +70,12 @@ namespace DAL
 
 
 
-        public static int checkVendorBlock(string temp_vendor_name)//查询是否有表记录,1为存在 0为不存在
+        public static int checkVendorBlock(string formID)//查询是否有表记录,1为存在 0为不存在
         {
-            string sql = "select * from As_Vendor_Block_Or_UnBlock where Temp_Vendor_Name=@Temp_Vendor_Name";
+            string sql = "select * from As_Vendor_Block_Or_UnBlock where Form_ID=@Form_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("@Temp_Vendor_Name",temp_vendor_name)
+                new SqlParameter("@Form_ID",formID)
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)
@@ -68,13 +88,13 @@ namespace DAL
             }
         }
 
-        public static As_Vendor_Block_Or_UnBlock getVendorBlock(string Temp_Vendor_Name)//按照表格编号和供应商名称查询供应商调查表
+        public static As_Vendor_Block_Or_UnBlock getVendorBlock(string formID)//按照表格编号和供应商名称查询供应商调查表
         {
             As_Vendor_Block_Or_UnBlock Block_UnBlock = null;
-            string sql = "select * from As_Vendor_Block_Or_UnBlock where Temp_Vendor_Name=@Temp_Vendor_Name";
+            string sql = "select * from As_Vendor_Block_Or_UnBlock where Form_ID=@Form_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("@Temp_Vendor_Name",Temp_Vendor_Name)
+                new SqlParameter("@Form_ID",formID)
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)

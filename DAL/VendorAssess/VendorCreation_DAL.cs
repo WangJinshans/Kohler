@@ -120,12 +120,6 @@ namespace DAL
                 new SqlParameter("@flag",vendorCreation.Flag),
                 new SqlParameter("@Form_Type_ID",vendorCreation.Form_Type_ID),
                 new SqlParameter("@Temp_Vendor_ID",vendorCreation.Temp_Vendor_ID)
-                //new SqlParameter("@Bar_Code",vendorCreation.Bar_Code),
-                //new SqlParameter("@Line_Manager",vendorRisk.Date),
-                //new SqlParameter("@Purchasing_Manager",vendorRisk.Flag),
-                //new SqlParameter("@Ministry_Of_Law",vendorRisk.Form_ID),
-                //new SqlParameter("@Accounting_Dept",vendorRisk.Date),
-                //new SqlParameter("@Chief_Inspector",vendorRisk.Flag),
             };
             return DBHelp.ExecuteCommand(sql, sp);
         }

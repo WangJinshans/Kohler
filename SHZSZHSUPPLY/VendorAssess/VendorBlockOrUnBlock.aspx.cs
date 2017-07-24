@@ -1,6 +1,7 @@
 ﻿using BLL;
 using Model;
 using MODEL;
+using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
 using System.Web.UI.WebControls;
 
@@ -9,49 +10,113 @@ namespace SHZSZHSUPPLY.VendorAssess
     public partial class VendorBlockOrUnBlock : System.Web.UI.Page
     {
         private As_Vendor_Block_Or_UnBlock Vendor;
-        private string Temp_Vendor_ID = "hhhh";
+        public const string FORM_NAME = "供应商信息表(恢复/删除/block)";
+        public const string FORM_TYPE_ID = "019";//未改
+        private string tempVendorID = "";
+        private string tempVendorName = "";
+        private string formID = "";
+        private string submit = "";
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                int check = VendorBlockOrUnBlock_BLL.checkVendorBlock(Temp_Vendor_ID);//检查是否存在这张表
+                getSessionInfo();
+                int check = VendorBlockOrUnBlock_BLL.checkVendorBlock(formID);//检查是否存在这张表
                 if (check == 0)//数据库中不存在这张表，则自动初始化
                 {
                     Vendor = new As_Vendor_Block_Or_UnBlock();
-                    Vendor.Form_Type_ID = "001";
-                    Vendor.Temp_Vendor_Name = Temp_Vendor_ID;
+                    Vendor.Form_Type_ID = FORM_TYPE_ID;
+                    Vendor.Temp_Vendor_Name = tempVendorID;
                     Vendor.Flag = 0;//将表格标志位信息改为已填写
                     int n = VendorBlockOrUnBlock_BLL.addVendorBlock(Vendor);
+                    if (n == 0)
+                    {
+                        Response.Write("<script>window.alert('表格初始化错误（新建插入失败）！')</script>");
+                        return;
+                    }
+                    else
+                    {
+                        //获取formID信息
+                        getSessionInfo();
+
+                        //向FormFile表中添加相应的文件、表格绑定信息
+                        bindingFormWithFile();
+                    }
                 }
                 else
                 {
-                    Vendor = VendorBlockOrUnBlock_BLL.getVendorBlock(Temp_Vendor_ID);
+                    Vendor = VendorBlockOrUnBlock_BLL.getVendorBlock(formID);
                     showForm(Vendor);
                 }
+            }
+            else
+            {
+               //
             }
         }
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            Vendor = getVendorBlock();
-            saveForm(Vendor);
+            saveForm(1,"保存");
         }
 
         protected void Button2_Click(object sender, EventArgs e)
         {
-
+            if (submit == "yes")
+            {
+                saveForm(1, "提交");
+                approveAssess(formID);
+            }
+            else
+            {
+                Response.Write("<script>window.alert('无法提交！')</script>");
+            }
         }
 
         protected void Button3_Click(object sender, EventArgs e)
         {
+            Response.Redirect("EmployeeVendor.aspx");
+        }
 
+        private void bindingFormWithFile()
+        {
+            if (CheckFile_BLL.bindFormFile(FORM_TYPE_ID, tempVendorID, formID) == 0)
+            {
+                Response.Write("<script>window.alert('表格初始化错误（文件绑定失败）！')</script>");//若没有记录 返回文件不全
+            }
+        }
+
+
+        public void approveAssess(string formId)
+        {
+            if (LocalApproveManager.doAddApprove(formId, FORM_TYPE_ID, tempVendorID, "上海科勒"))
+            {
+                //插入到已提交表
+                As_Form form = new As_Form();
+                form.Form_ID = formID;
+                form.Form_Name = FORM_NAME;
+                form.Form_Type_ID = FORM_TYPE_ID;
+                form.Temp_Vendor_Name = tempVendorName;
+                form.Form_Path = "";//表格位置
+                form.Temp_Vendor_ID = tempVendorID;
+                int add = AddForm_BLL.addForm(form);
+
+                //一旦提交就把表As_Vendor_FormType字段FLag置1.
+                int updateFlag = UpdateFlag_BLL.updateFlag(FORM_TYPE_ID, tempVendorID);
+
+                //更新session
+                Session["tempvendorname"] = tempVendorName;
+                Session["Employee_ID"] = Session["Employee_ID"];
+                Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx'</script>");
+            }
         }
 
         private As_Vendor_Block_Or_UnBlock getVendorBlock()
         {
             As_Vendor_Block_Or_UnBlock v = new As_Vendor_Block_Or_UnBlock();
-            v.Temp_Vendor_Name = "hhh";
-            v.Temp_Vendor_ID = "hhhdsa";
+            v.Temp_Vendor_Name = tempVendorName;
+            v.Temp_Vendor_ID = tempVendorID;
             v.Bar_Code = "PR-05-07-04";
             v.Form_Type_ID = "001";
             v.Laguage = dropDownList1.SelectedValue.ToString().Trim();
@@ -65,10 +130,36 @@ namespace SHZSZHSUPPLY.VendorAssess
             v.Comments = TextBox8.Text.ToString().Trim();
             return v;
         }
-        private void saveForm(As_Vendor_Block_Or_UnBlock v)
+
+        private As_Vendor_Block_Or_UnBlock saveForm(int flag, string manul)
         {
-            VendorBlockOrUnBlock_BLL.updateVendorBlock(v);
+            //读取session
+            getSessionInfo();
+            As_Vendor_Block_Or_UnBlock v = new As_Vendor_Block_Or_UnBlock();
+            v = getVendorBlock();
+            v.Flag = flag;
+            int join = VendorBlockOrUnBlock_BLL.updateVendorBlock(v);
+            if (join > 0)
+            {
+                As_Write write = new As_Write();//将填写信息记录
+                write.Employee_ID = Session["Employee_ID"].ToString();
+                write.Form_ID = formID;
+                write.Form_Fill_Time = DateTime.Now.ToString();
+                write.Manul = manul;
+                write.Temp_Vendor_ID = tempVendorID;
+                Write_BLL.addWrite(write);
+                if (flag == 1)
+                {
+                    Response.Write("<script>window.alert('保存成功！')</script>");
+                }
+                return v;
+            }
+            else
+            {
+                return null;
+            }
         }
+
         private void showForm(As_Vendor_Block_Or_UnBlock v)
         {
             TextBox1.Text = v.Purpose;
@@ -90,6 +181,13 @@ namespace SHZSZHSUPPLY.VendorAssess
             objpds.DataSource = FormFile_BLL.listFile(sql);
             GridView1.DataSource = objpds;
             GridView1.DataBind();
+        }
+        private void getSessionInfo()
+        {
+            tempVendorID = Session["tempVendorID"].ToString();
+            tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
+            formID = VendorBlockOrUnBlock_BLL.getFormID(tempVendorID);
+            submit = Request.QueryString["submit"];
         }
     }
 }

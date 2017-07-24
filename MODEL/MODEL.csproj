@@ -49,6 +49,7 @@
     <Compile Include="VendorAssess\As_Assess_Flow.cs" />
     <Compile Include="VendorAssess\As_Authority.cs" />
     <Compile Include="VendorAssess\As_Authority_Position.cs" />
+    <Compile Include="VendorAssess\As_Contract_Approval.cs" />
     <Compile Include="VendorAssess\As_Department.cs" />
     <Compile Include="VendorAssess\As_Employee.cs" />
     <Compile Include="VendorAssess\As_Employee_Vendor.cs" />

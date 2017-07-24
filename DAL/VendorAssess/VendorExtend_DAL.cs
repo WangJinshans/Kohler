@@ -49,14 +49,31 @@ namespace DAL.VendorAssess
             return DBHelp.ExecuteCommand(sql, sp);
         }
 
-
-
-        public static int checkVendorExtend(string tempvendorID)//查询是否有表记录,1为存在 0为不存在
+        public static string getFormID(string tempVendorID)
         {
-            string sql = "select * from As_Vendor_Extend where Temp_Vendor_Name=@Temp_Vendor_Name";
+            string formID = "";
+            string sql = "select Form_ID from As_Vendor_Extend where Temp_Vendor_ID=@Temp_Vendor_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("@Temp_Vendor_Name",tempvendorID)
+                new SqlParameter("Temp_Vendor_ID",tempVendorID)
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    formID = dr["Form_ID"].ToString();
+                }
+            }
+            return formID;
+        }
+
+        public static int checkVendorExtend(string formID)//查询是否有表记录,1为存在 0为不存在
+        {
+            string sql = "select * from As_Vendor_Extend where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",formID)
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)
@@ -69,13 +86,13 @@ namespace DAL.VendorAssess
             }
         }
 
-        public static As_Vendor_Extend getVendorExtend(string tempvendorname)//
+        public static As_Vendor_Extend getVendorExtend(string Form_ID)//
         {
             As_Vendor_Extend VendorExtend = null;
-            string sql = "select * from As_Vendor_Extend where Temp_Vendor_Name=@Temp_Vendor_Name";
+            string sql = "select * from As_Vendor_Extend where Form_ID=@Form_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("@Temp_Vendor_Name",tempvendorname)
+                new SqlParameter("@Form_ID",Form_ID)
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)
