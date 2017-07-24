@@ -34,9 +34,8 @@ namespace AendorAssess
                     int n = VendorDiscovery_BLL.addVendorDiscovery(Vendor_Discovery);
                     if (n == 0)
                     {
-                        //TODO::bug，无论是否插入成功均返回了0
-                        //Response.Write("<script>window.alert('表格初始化错误（新建插入失败）！')</script>");
-                        //return;
+                        Response.Write("<script>window.alert('表格初始化错误（新建插入失败）！')</script>");
+                        return;
                     }
                     else
                     {

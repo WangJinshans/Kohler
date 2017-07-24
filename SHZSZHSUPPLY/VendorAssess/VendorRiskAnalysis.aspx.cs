@@ -301,6 +301,9 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         public void Button1_Click(object sender, EventArgs e)//提交按钮
         {
+            //session
+            getSessionInfo();
+
             if (submit == "yes")
             {
                 saveForm(2, "提交表格");

@@ -151,6 +151,9 @@ namespace AendorAssess
                         pageRedirect("VendorDesignatedApply.aspx", "004");
                     }
                     break;
+                case "016":
+                    pageRedirect("VendorSelection.aspx", "016");
+                    break;
                 case "017":
                     if (CheckFile_BLL.checkFile("017",tempVendorID) == 0)
                     {
