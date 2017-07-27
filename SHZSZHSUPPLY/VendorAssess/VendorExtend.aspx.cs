@@ -16,6 +16,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         private string formID = "";
         private string submit = "";
         private static string language;//判断语言
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -27,6 +28,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     vendor.Form_Type_ID = FORM_TYPE_ID;
                     vendor.Temp_Vendor_Name = tempVendorID;
                     vendor.Flag = 0;//将表格标志位信息改为已填写
+                    Image1.Visible = false;
                     int n = VendorExtend_BLL.addVendorExtend(vendor);
                     if (n == 0)
                     {
@@ -103,7 +105,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             v.From_Company = TextBox6.Text.ToString().Trim();
             v.Email = TextBox7.Text.ToString().Trim();
             v.Money_Type = TextBox8.Text.ToString().Trim();
-            v.Line_Manager= TextBox9.Text.ToString().Trim();
+            //v.Line_Manager= Image1.ImageUrl.ToString().Trim();
             v.Comments = TextBox10.Text.ToString().Trim();
             return v;
         }
@@ -149,10 +151,9 @@ namespace SHZSZHSUPPLY.VendorAssess
                 TextBox6.Text = v.From_Company;
                 TextBox7.Text = v.Email;
                 TextBox8.Text = v.Money_Type;
-                TextBox9.Text = v.Line_Manager;
+                Image1.ImageUrl = v.Line_Manager;
                 TextBox10.Text = v.Comments;
-            }
-            
+            }    
         }
 
         private void bindingFormWithFile()

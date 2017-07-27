@@ -1,11 +1,7 @@
-﻿using BLL;
+using BLL;
 using Model;
 using MODEL;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace SHZSZHSUPPLY.VendorAssess
@@ -13,13 +9,13 @@ namespace SHZSZHSUPPLY.VendorAssess
     public partial class ShowContractApprovalForm : System.Web.UI.Page
     {
         private string formID = null;
+        private string positionName = null;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                //重新获取session
+               //重新获取session
                 getSessionInfo();
-
                 int check = ContractApproval_BLL.checkContractApproval(formID);
                 if (check > 0)
                 {
@@ -33,7 +29,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             As_Approve approve = new As_Approve();
             string sql = "SELECT * FROM As_Approve WHERE Form_ID='" + FormID + "'";
             PagedDataSource objpds = new PagedDataSource();
-            objpds.DataSource = AssessFlow_BLL.listApprove(sql);
+            objpds.DataSource = AssessFlow_BLL.listApprove(sql,positionName);
             GridView1.DataSource = objpds;
             GridView1.DataBind();
         }
@@ -117,26 +113,38 @@ namespace SHZSZHSUPPLY.VendorAssess
                 Textbox80.Text = contractApproval.Other_Provisions_Page;
                 Textbox81.Text = contractApproval.Other_Provisions_Clause;
                 Textbox82.Text = contractApproval.Other_Provisions_Details;
-                Textbox26.Text = contractApproval.Legal_Head;
                 Textbox42.Text = contractApproval.SourcingSpecialist_Signature;
-                Textbox58.Text = contractApproval.User_Dept_Head_Signature;
-                Textbox63.Text = contractApproval.SC_Leader_Signature;
-                Textbox67.Text = contractApproval.Finance_Leader_Signature;
-                Textbox71.Text = contractApproval.General_Manager_Signature;
+                hideImage(contractApproval.Legal_Head, Image5);
+                hideImage(contractApproval.User_Dept_Head_Signature, Image1);
+                hideImage(contractApproval.SC_Leader_Signature, Image2);
+                hideImage(contractApproval.Finance_Leader_Signature, Image3);
+                hideImage(contractApproval.General_Manager_Signature, Image4);
+
                 Textbox75.Text = contractApproval.SourcingSpecialist_Date;
                 Textbox79.Text = contractApproval.User_Dept_Head_Date;
                 Textbox83.Text = contractApproval.SC_Leader_Date;
                 Textbox84.Text = contractApproval.Finance_Leader_Date;
                 Textbox85.Text = contractApproval.General_Manager_Date;
                 checkBoxInit(contractApproval);
+            }
+            else
+            {
+                Image1.Visible = false;
+                Image2.Visible = false;
+                Image3.Visible = false;
+                Image4.Visible = false;
+                Image5.Visible = false;
 
             }
+
         }
+        
         private void getSessionInfo()
         {
-            //formID = Session["formID"].ToString();ContractApproval_003
-            formID = "ContractApproval_003";
+            formID = Session["formID"].ToString();
+            positionName = Session["Position_Name"].ToString();
         }
+        
         private void checkBoxInit(As_Contract_Approval contractApproval)
         {
             if (contractApproval.Purchase_Type == "Direct")
@@ -273,6 +281,18 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
             showapproveform(formID);
             showfilelist(formID);
+        }
+
+        private void hideImage(string signature, Image image)
+        {
+            if (signature != "")
+            {
+                image.ImageUrl = signature;
+            }
+            else
+            {
+                image.Visible = false;
+            }
         }
 
         public void showfilelist(string FormID)

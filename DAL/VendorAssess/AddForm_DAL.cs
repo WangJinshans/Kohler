@@ -13,7 +13,7 @@ namespace DAL
     {
         public static int addForm(As_Form form)
         {
-            string sql = "INSERT INTO As_Form VALUES(@Form_ID,@form_name,@Form_Path,@Form_Type_ID,@Temp_Vendor_Name,@Temp_Vendor_ID)";
+            string sql = "INSERT INTO As_Form(Form_ID,Form_Name,Form_Path,Form_Type_ID,Temp_Vendor_Name,Temp_Vendor_ID) VALUES(@Form_ID,@Form_Name,@Form_Path,@Form_Type_ID,@Temp_Vendor_Name,@Temp_Vendor_ID)";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("Form_ID",form.Form_ID),
@@ -35,12 +35,12 @@ namespace DAL
             return vendorname;
         }
 
-        public static string GetFormID(string name)
+        public static string GetForm_Type_ID(string formID)
         {
-            string sql = "select Form_ID from As_Form where Temp_Vendor_Name='" + name + "'";
+            string sql = "select Form_Type_ID from As_Form where Form_ID='" + formID + "'";
             DataTable dt = new DataTable();
             dt = DBHelp.GetDataSet(sql);
-            string formid = dt.Rows[0]["Form_ID"].ToString().Trim();
+            string formid = dt.Rows[0]["Form_Type_ID"].ToString().Trim();
             return formid;
         }
     }

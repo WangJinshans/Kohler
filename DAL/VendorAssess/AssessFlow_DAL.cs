@@ -58,7 +58,7 @@ namespace DAL
         public static int addApprove(As_Approve approve)
         {
 
-            string sql = "insert into As_approve values(@Form_ID,@Position_Name,@Assess_Flag,@Assess_Time,@Assess_Reason,@Temp_Vendor_ID,@Factory_Name)";
+            string sql = "insert into As_approve values(@Form_ID,@Position_Name,@Assess_Flag,@Assess_Time,@Assess_Reason,@Temp_Vendor_ID,@Factory_Name,@Form_Type_Name,@Temp_Vendor_Name)";
             Object ob = DBNull.Value;
             SqlParameter[] sp = new SqlParameter[]
             {
@@ -68,7 +68,9 @@ namespace DAL
                 new SqlParameter("Assess_Time",ob),
                 new SqlParameter("Assess_Reason",approve.Assess_Reason),
                 new SqlParameter("Temp_Vendor_ID",approve.Temp_Vendor_ID),
-                new SqlParameter("Factory_Name",approve.Factory_Name)
+                new SqlParameter("Factory_Name",approve.Factory_Name),
+                new SqlParameter("Form_Type_Name",approve.Form_Type_Name),
+                new SqlParameter("Temp_Vendor_Name",approve.Temp_Vendor_Name)
             };
             return DBHelp.GetScalar(sql, sp);
         }
@@ -87,6 +89,8 @@ namespace DAL
                     Approve.Assess_Reason = Convert.ToString(dr["Assess_Reason"]);
                     Approve.Assess_Time = Convert.ToString(dr["Assess_Time"]);
                     Approve.Factory_Name = dr["Factory_Name"].ToString();
+                    Approve.Temp_Vendor_Name = dr["Temp_Vendor_Name"].ToString();
+                    Approve.Form_Type_Name = dr["Form_Type_Name"].ToString();
                     list.Add(Approve);
                 }
             }

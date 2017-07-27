@@ -22,9 +22,14 @@ namespace BLL
         {
             return AssessFlow_DAL.addApprove(approve);
         }
-        public static IList<As_Approve> listApprove(string sql)
+        public static IList<As_Approve> listApprove(string sql,string positionName)
         {
-            return AssessFlow_DAL.listApprove(sql);
+            IList<As_Approve> list = AssessFlow_DAL.listApprove(sql);
+            if (list.Count>0 && list[0].Position_Name.Equals(positionName))
+            {
+                return list;
+            }
+            return null;
         }
         public static int updateApprove(string formid,string positionname)//更新供应商信息
         {

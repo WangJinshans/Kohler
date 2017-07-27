@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../Script/layui/css/layui.css" media="all">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>填写选择</legend>
+    </fieldset>
+
+    <form class="layui-form" action="">
+
+        <div class="layui-form-item" style="visibility:hidden;display:none" id="selectTemplate">
+            <div class="layui-inline">
+                <label class="layui-form-label">搜索选择框</label>
+                <div class="layui-input-inline">
+                    <select name="modules" lay-verify="required" lay-search="">
+                        <option value="">选择或搜索员工</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+
+    </form>
+    <script src="../Script/jquery-3.2.1.min.js"></script>
+    <!--<script src="Script/layui/lay/modules/layer.js"></script>-->
+    <!--<script src="Script/layui/lay/modules/form.js"></script>-->
+    <!--<script src="Script/layui/lay/dest/layui.all.js"></script>-->
+    <script src="../Script/layui/layui.js" charset="utf-8"></script>
+    <script>
+        //layui.use(['form', 'layedit', 'laydate'], function(){
+        //  var form = layui.form()
+        //  ,layer = layui.layer
+        //  ,layedit = layui.layedit
+        //  ,laydate = layui.laydate;
+        //});
+    </script>
+    <script>
+        function addSelect(department, idList, nameList) {
+            var idL = eval(idList);
+            var nameL = eval(nameList);
+            layui.use(['form','layer'], function () {
+                var form = layui.form(),
+                    layer = layui.layer;
+
+                var tpNode = document.getElementById('selectTemplate');
+                tpNode.style = 'visibility:visible;display:normal';
+                node = jQuery.clone(tpNode, true, true);
+                node.childNodes[1].childNodes[1].innerHTML = department;
+                node.childNodes[1].childNodes[3].childNodes[1].name = department;
+
+                var select = node.childNodes[1].childNodes[3].childNodes[1];
+                for (var i = 0; i < idL.length; i++) {
+                    var option = document.createElement("option");
+                    option.value = idL[i];
+                    option.innerText = nameL[i];
+                    select.appendChild(option);
+                }
+
+                document.getElementsByClassName('layui-form')[0].appendChild(node);
+                tpNode.style = 'visibility:hidden;display:none';
+                form.render();
+            })
+
+            //var formItem = document.createElement("div");
+            //formItem.className = "layui-form-item";
+            //var inLine = document.createElement("div");
+            //inLine.className = "layui-inline";
+            //var lbDepartment = document.createElement("label");
+            //lbDepartment.className = "layui-form-label";
+            //lbDepartment.innerText = "测试";
+            //var inputInline = document.createElement("div");
+            //inputInline.className = "layui-input-inline";
+            //var selectItem = document.createElement("select");
+            //selectItem.name = "department";
+            //selectItem.lay-varify = "required";
+            //selectItem.lay-search = "";
+            //var option = document.createElement("option");
+            //option.value = "";
+            //option.innerText = "选择或搜索";
+            //var option1 = document.createElement("option");
+            //option1.value = "1";
+            //option1.innerText = "layer";
+            //selectItem.appendChild(option);
+            //selectItem.appendChild(option1);
+            //inputInline.appendChild(selectItem);
+            //lbDepartment.appendChild(inputInline);
+            //inLine.appendChild(lbDepartment);
+            //formItem.appendChild(inLine);
+            //document.getElementsByClassName("layui-form")[0].appendChild(formItem);
+        }
+        function getResult(departmentList) {
+            var result = {};
+            for (var i = 0; i < departmentList.length; i++) {
+                var select = document.getElementsByName(departmentList[i])[0];
+                if (select.value != "") {
+                    result[departmentList[i]] = select.value;
+                }
+            }
+            return result;
+        }
+    </script>
+
+</body>
+</html>

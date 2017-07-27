@@ -77,6 +77,7 @@ namespace AendorAssess
             As_Temp_Vendor Temp_Vendor = new As_Temp_Vendor();
             Temp_Vendor.Temp_Vendor_Name = Temp_Vendor_Name.Text.Trim();
             Temp_Vendor.Vendor_Type_ID = vendorTypeID;
+            Temp_Vendor.Purchase_Amount = Convert.ToInt32(purchaseMoney);
             int joinTempVendor = FillVendorInfo_BLL.addTempVendor(Temp_Vendor);
 
             //获取临时供应商编号

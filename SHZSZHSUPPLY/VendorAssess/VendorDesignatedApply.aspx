@@ -72,7 +72,7 @@
 		function popUp(formid) {
 			layer.open({
 				title: '请选择审批部门',
-				content: 'SelectDepartment.aspx?formid='+formid,
+				content: 'SelectDepartment.aspx?formid=' + formid,
 				type: 2,
 				area: ['750px', '400px'],
 				shade: 0.3,
@@ -159,9 +159,10 @@
                 <td colspan="1">Applicant: </td>
                 <td colspan="1"><asp:TextBox ID="TextBox9" runat="server" CssClass="auto-style1" ></asp:TextBox> </td>
                 <td colspan="1">Request Dept Head: </td>
-                <td colspan="1" class="auto-style3"><asp:TextBox ID="TextBox10" runat="server" CssClass="auto-style1" ></asp:TextBox> </td>
+                <td colspan="1" class="auto-style3">
+                    <asp:Image ImageUrl="imageurl" ID="Image1" runat="server" /> </td>
                 <td colspan="1">FIN Manager: </td>
-                <td colspan="1"><asp:TextBox ID="TextBox11" runat="server" CssClass="auto-style1" ></asp:TextBox> </td>
+                <td colspan="1"><asp:Image ImageUrl="imageurl" ID="Image2" runat="server" /> </td>
             </tr>
              <tr>
                 <td colspan="1">Date: </td>
@@ -173,9 +174,11 @@
             </tr>
             <tr>
                 <td colspan="1">Purchasing Manager: </td>
-                <td colspan="2"><asp:TextBox ID="TextBox15" runat="server" CssClass="auto-style1" Width="281px" ></asp:TextBox> </td>
+                <td colspan="2"><asp:Image ImageUrl="imageurl" ID="Image3" runat="server" /> </td>
                 <td colspan="1" class="auto-style3">GM: </td>
-                <td colspan="2"><asp:TextBox ID="TextBox16" runat="server" CssClass="auto-style1" Width="344px" ></asp:TextBox> </td>
+                <td colspan="2">
+                    <asp:Image ID="Image4" runat="server" ImageUrl="imageurl" />
+                </td>
             </tr>
             <tr>
                 <td colspan="1">Dtae: </td>
@@ -185,9 +188,13 @@
             </tr>
             <tr>
                 <td colspan="1">Director: </td>
-                <td colspan="2"><asp:TextBox ID="TextBox19" runat="server" CssClass="auto-style1" Width="280px" ></asp:TextBox> </td>
+                <td colspan="2">
+                    <asp:Image ID="Image5" runat="server" ImageUrl="imageurl" />
+                </td>
                 <td colspan="1" class="auto-style3">Supply Chain Director: </td>
-                <td colspan="2"><asp:TextBox ID="TextBox20" runat="server" CssClass="auto-style1" Width="344px" ></asp:TextBox> </td>
+                <td colspan="2">
+                    <asp:Image ID="Image6" runat="server" ImageUrl="imageurl" />
+                </td>
             </tr>
             <tr>
                 <td colspan="6" style="text-align:right">(Note: purchase value equal to or above RMB 100K,  Supply Chain Director's approval is required)</td>
@@ -200,7 +207,9 @@
             </tr>
             <tr>
                 <td colspan="1"> President:</td>
-                <td colspan="5" style="text-align:left"> <asp:TextBox ID="TextBox23" runat="server" CssClass="auto-style1" Width="407px" ></asp:TextBox></td>
+                <td colspan="5" style="text-align:left"> 
+                    <asp:Image ID="Image7" runat="server" ImageUrl="imageurl" />
+                </td>
             </tr>
             <tr>
                 <td colspan="6" style="text-align:left">(Note: purchase value equal to or above RMB 100K,  President's approval is required)</td>

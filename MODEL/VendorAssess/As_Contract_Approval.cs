@@ -93,8 +93,8 @@ namespace MODEL
         private string penalty_Detail_Details;
 
         private string changes;//是否有改动
-        private string strand_Contract;//是否标准合同
-
+        private string standard_Contract;//是否标准合同
+      
         private string notice_Page;
         private string notice_Clause;
         private string notice_Commitment;
@@ -1751,19 +1751,6 @@ namespace MODEL
             }
         }
 
-        public string Strand_Contract
-        {
-            get
-            {
-                return strand_Contract;
-            }
-
-            set
-            {
-                strand_Contract = value;
-            }
-        }
-
         public string Bar_Code
         {
             get
@@ -1774,6 +1761,19 @@ namespace MODEL
             set
             {
                 bar_Code = value;
+            }
+        }
+
+        public string Standard_Contract
+        {
+            get
+            {
+                return standard_Contract;
+            }
+
+            set
+            {
+                standard_Contract = value;
             }
         }
     }

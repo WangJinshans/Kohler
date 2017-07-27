@@ -9,6 +9,7 @@ namespace VendorAssess
 {
     public partial class VendorDesignatedApply : System.Web.UI.Page
     {
+        public const string FORM_NAME = "指定供应商表";
         public const string FORM_TYPE_ID = "004";
         private string tempVendorID = "";
         private string tempVendorName = "";
@@ -21,7 +22,14 @@ namespace VendorAssess
             {
                 //获取session信息
                 getSessionInfo();
-
+                //在非show页面中不需要进行显示
+                Image1.Visible = false;
+                Image2.Visible = false;
+                Image3.Visible = false;
+                Image4.Visible = false;
+                Image5.Visible = false;
+                Image6.Visible = false;
+                Image7.Visible = false;
                 int check = As_Vendor_Designated_Apply_BLL.checkVendorDesignatedApply(formID);
                 if (check == 0)//数据库中不存在这张表，则自动初始化
                 {
@@ -111,39 +119,39 @@ namespace VendorAssess
                 TextBox7.Text = Vendor_Designated.Initiator;
                 TextBox8.Text = Vendor_Designated.Date.ToString();
                 TextBox9.Text = Vendor_Designated.Applicant;
-                TextBox10.Text = Vendor_Designated.RequestDeptHead;
-                TextBox11.Text = Vendor_Designated.FinManager;
+                Image1.ImageUrl = Vendor_Designated.RequestDeptHead;
+                Image2.ImageUrl = Vendor_Designated.FinManager;
                 TextBox12.Text = Vendor_Designated.ApplicantDate.ToString();
                 TextBox13.Text = Vendor_Designated.RequestDeptHeadDate.ToString();
                 TextBox14.Text = Vendor_Designated.FinManagerDate.ToString();
-                TextBox15.Text = Vendor_Designated.PurchasingManager;
-                TextBox16.Text = Vendor_Designated.GM;
+                Image3.ImageUrl = Vendor_Designated.PurchasingManager;
+                Image4.ImageUrl = Vendor_Designated.GM;
                 TextBox17.Text = Vendor_Designated.PurchasingManagerDtae.ToString();
                 TextBox18.Text = Vendor_Designated.GMDate1.ToString();
-                TextBox19.Text = Vendor_Designated.Director;
-                TextBox20.Text = Vendor_Designated.SupplyChainDirector;
+                Image5.ImageUrl = Vendor_Designated.Director;
+                Image6.ImageUrl = Vendor_Designated.SupplyChainDirector;
                 TextBox21.Text = Vendor_Designated.DirectorDtae.ToString();
                 TextBox22.Text = Vendor_Designated.SupplyChainDirectorDate.ToString();
-                TextBox23.Text = Vendor_Designated.Persident;
+                Image7.ImageUrl = Vendor_Designated.Persident;
                 TextBox24.Text = Vendor_Designated.FinalDate.ToString();
             }
             //展示附件
             showfilelist(formID);
         }
 
-        /// <summary>
-        /// 显示审批列表
-        /// </summary>
-        /// <param name="FormID"></param>
-        public void showApproveForm(string FormID)
-        {
-            As_Approve approve = new As_Approve();
-            string sql = "SELECT * FROM As_Approve WHERE Form_ID='" + FormID + "'";
-            PagedDataSource objpds = new PagedDataSource();
-            objpds.DataSource = AssessFlow_BLL.listApprove(sql);
-            //GridView1.DataSource = objpds;
-            //GridView1.DataBind();
-        }
+        ///// <summary>
+        ///// 显示审批列表
+        ///// </summary>
+        ///// <param name="FormID"></param>
+        //public void showApproveForm(string FormID)
+        //{
+        //    As_Approve approve = new As_Approve();
+        //    string sql = "SELECT * FROM As_Approve WHERE Form_ID='" + FormID + "'";
+        //    PagedDataSource objpds = new PagedDataSource();
+        //    objpds.DataSource = AssessFlow_BLL.listApprove(sql,positionName);
+        //    //GridView1.DataSource = objpds;
+        //    //GridView1.DataBind();
+        //}
 
         /// <summary>
         /// 显示文件列表
@@ -201,6 +209,8 @@ namespace VendorAssess
             Session["AssessflowInfo"] = assess_flow;
             Session["tempVendorID"] = tempVendorID;
             Session["factory"] = "上海科勒";//TODO:自动三厂选择
+            Session["form_name"] = FORM_NAME;
+            Session["tempVendorName"] = tempVendorName;
 
             //如果是用户部门
             if (assess_flow.User_Department_Assess == "1")
@@ -240,21 +250,21 @@ namespace VendorAssess
             Vendor_Designated.Initiator = TextBox7.Text.ToString().Trim();
             Vendor_Designated.InitiatorDate = TextBox8.Text.ToString().Trim();
             Vendor_Designated.Applicant = TextBox9.Text.ToString().Trim();
-            Vendor_Designated.RequestDeptHead = TextBox10.Text.ToString().Trim();
-            Vendor_Designated.FinManager = TextBox11.Text.ToString().Trim();
-            Vendor_Designated.ApplicantDate = TextBox12.Text.ToString().Trim();
-            Vendor_Designated.RequestDeptHeadDate = TextBox13.Text.ToString().Trim();
-            Vendor_Designated.FinManagerDate = TextBox14.Text.ToString().Trim();
-            Vendor_Designated.PurchasingManager = TextBox15.Text.ToString().Trim();
-            Vendor_Designated.GM = TextBox16.Text.ToString().Trim();
-            Vendor_Designated.PurchasingManagerDtae = TextBox17.Text.ToString().Trim();
-            Vendor_Designated.GMDate1 = TextBox18.Text.ToString().Trim();
-            Vendor_Designated.Director = TextBox19.Text.ToString().Trim();
-            Vendor_Designated.SupplyChainDirector = TextBox20.Text.ToString().Trim();
-            Vendor_Designated.DirectorDtae = TextBox21.Text.ToString().Trim();
-            Vendor_Designated.SupplyChainDirectorDate = TextBox22.Text.ToString().Trim();
-            Vendor_Designated.Persident = TextBox23.Text.ToString().Trim();
-            Vendor_Designated.FinalDate = TextBox24.Text.ToString().Trim();
+            //Vendor_Designated.RequestDeptHead = TextBox10.Text.ToString().Trim();
+            //Vendor_Designated.FinManager = TextBox11.Text.ToString().Trim();
+            //Vendor_Designated.ApplicantDate = TextBox12.Text.ToString().Trim();
+            //Vendor_Designated.RequestDeptHeadDate = TextBox13.Text.ToString().Trim();
+            //Vendor_Designated.FinManagerDate = TextBox14.Text.ToString().Trim();
+            //Vendor_Designated.PurchasingManager = TextBox15.Text.ToString().Trim();
+            //Vendor_Designated.GM = TextBox16.Text.ToString().Trim();
+            //Vendor_Designated.PurchasingManagerDtae = TextBox17.Text.ToString().Trim();
+            //Vendor_Designated.GMDate1 = TextBox18.Text.ToString().Trim();
+            //Vendor_Designated.Director = TextBox19.Text.ToString().Trim();
+            //Vendor_Designated.SupplyChainDirector = TextBox20.Text.ToString().Trim();
+            //Vendor_Designated.DirectorDtae = TextBox21.Text.ToString().Trim();
+            //Vendor_Designated.SupplyChainDirectorDate = TextBox22.Text.ToString().Trim();
+            //Vendor_Designated.Persident = TextBox23.Text.ToString().Trim();
+            //Vendor_Designated.FinalDate = TextBox24.Text.ToString().Trim();
             Vendor_Designated.Flag = flag;
             
             int join = As_Vendor_Designated_Apply_BLL.updateForm(Vendor_Designated);

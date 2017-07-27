@@ -9,7 +9,7 @@ namespace DAL
     {
         public static int updateForm(As_Vendor_Designated_Apply vendor_Designated)
         {
-            string sql = "update As_Vendor_Designated_Apply SET vendorName=@vendorName,SAPCode=@SAPCode,businessCategory=@businessCategory,effectiveTime=@effectiveTime,purchaseAmount=@purchaseAmount,reason=@reason,initiator=@initiator,initiatorDate=@initiatorDate,applicant=@applicant,requestDeptHead=@requestDeptHead,finManager=@finManager,applicantDate=@applicantDate,purchasingManager=@purchasingManager,GM=@GM,purchasingManagerDtae=@purchasingManagerDtae,GMDate=@GMDate,director=@director,supplyChainDirector=@supplyChainDirector,directorDtae=@directorDtae,supplyChainDirectorDate=@supplyChainDirectorDate,finalDate=@finalDate,president=@president,Temp_Vendor_ID=@Temp_Vendor_ID,Form_Type_ID=@Form_Type_ID,Flag=@Flag,requestDeptHeadDate=@requestDeptHeadDate,finManagerDate=@finManagerDate where Form_ID=@Form_ID";
+            string sql = "update As_Vendor_Designated_Apply SET vendorName=@vendorName,SAPCode=@SAPCode,businessCategory=@businessCategory,effectiveTime=@effectiveTime,purchaseAmount=@purchaseAmount,reason=@reason,initiator=@initiator,initiatorDate=@initiatorDate,applicant=@applicant where Form_ID=@Form_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@vendorName",vendor_Designated.VendorName),
@@ -21,24 +21,24 @@ namespace DAL
                 new SqlParameter("@initiator",vendor_Designated.Initiator),
                 new SqlParameter("@initiatorDate",vendor_Designated.InitiatorDate),
                 new SqlParameter("@applicant",vendor_Designated.Applicant),
-                new SqlParameter("@requestDeptHead",vendor_Designated.RequestDeptHead),
-                new SqlParameter("@finManager",vendor_Designated.FinManager),
-                new SqlParameter("@applicantDate",vendor_Designated.ApplicantDate),
-                new SqlParameter("@purchasingManager",vendor_Designated.PurchasingManager),
-                new SqlParameter("@GM",vendor_Designated.GM),
-                new SqlParameter("@purchasingManagerDtae",vendor_Designated.PurchasingManagerDtae),
-                new SqlParameter("@GMDate",vendor_Designated.GMDate1),
-                new SqlParameter("@director",vendor_Designated.Director),
-                new SqlParameter("@supplyChainDirector",vendor_Designated.SupplyChainDirector),
-                new SqlParameter("@directorDtae",vendor_Designated.DirectorDtae),
-                new SqlParameter("@supplyChainDirectorDate",vendor_Designated.SupplyChainDirectorDate),
-                new SqlParameter("@finalDate",vendor_Designated.FinalDate),
-                new SqlParameter("@president",vendor_Designated.Persident),
-                new SqlParameter("@Form_ID",vendor_Designated.Form_id),
-                new SqlParameter("@Temp_Vendor_ID",vendor_Designated.Temp_Vendor_ID),
-                new SqlParameter("@Form_Type_ID",vendor_Designated.Form_Type_ID),
-                new SqlParameter("@Flag",vendor_Designated.Flag),
-                new SqlParameter("@requestDeptHeadDate",vendor_Designated.RequestDeptHeadDate),
+                //new SqlParameter("@requestDeptHead",vendor_Designated.RequestDeptHead),
+                //new SqlParameter("@finManager",vendor_Designated.FinManager),
+                //new SqlParameter("@applicantDate",vendor_Designated.ApplicantDate),
+                //new SqlParameter("@purchasingManager",vendor_Designated.PurchasingManager),
+                //new SqlParameter("@GM",vendor_Designated.GM),
+                //new SqlParameter("@purchasingManagerDtae",vendor_Designated.PurchasingManagerDtae),
+                //new SqlParameter("@GMDate",vendor_Designated.GMDate1),
+                //new SqlParameter("@director",vendor_Designated.Director),
+                //new SqlParameter("@supplyChainDirector",vendor_Designated.SupplyChainDirector),
+                //new SqlParameter("@directorDtae",vendor_Designated.DirectorDtae),
+                //new SqlParameter("@supplyChainDirectorDate",vendor_Designated.SupplyChainDirectorDate),
+                //new SqlParameter("@finalDate",vendor_Designated.FinalDate),
+                //new SqlParameter("@president",vendor_Designated.Persident),
+                //new SqlParameter("@Form_ID",vendor_Designated.Form_id),
+                //new SqlParameter("@Temp_Vendor_ID",vendor_Designated.Temp_Vendor_ID),
+                //new SqlParameter("@Form_Type_ID",vendor_Designated.Form_Type_ID),
+                //new SqlParameter("@Flag",vendor_Designated.Flag),
+                //new SqlParameter("@requestDeptHeadDate",vendor_Designated.RequestDeptHeadDate),
                 new SqlParameter("@finManagerDate",vendor_Designated.FinManagerDate)
             };
             return DBHelp.ExecuteCommand(sql, sp);
@@ -69,20 +69,20 @@ namespace DAL
                     vendorApply.Applicant = Convert.ToString(dr["applicant"]);
                     vendorApply.RequestDeptHead = Convert.ToString(dr["requestDeptHead"]);
                     vendorApply.RequestDeptHeadDate = Convert.ToString(dr["requestDeptHeadDate"]);
-                    vendorApply.FinManager = Convert.ToString(dr["finManager"]);
-                    vendorApply.FinManagerDate = Convert.ToString(dr["finManagerDate"]);
+                    vendorApply.FinManager = Convert.ToString(dr["Finance_Leader"]);
+                    vendorApply.FinManagerDate = Convert.ToString(dr["Finance_Leader_Date"]);
                     vendorApply.ApplicantDate = Convert.ToString(dr["applicantDate"]);
-                    vendorApply.PurchasingManager = Convert.ToString(dr["purchasingManager"]);
-                    vendorApply.GM = Convert.ToString(dr["GM"]);
-                    vendorApply.PurchasingManagerDtae = Convert.ToString(dr["purchasingManagerDtae"]);
-                    vendorApply.GMDate1 = Convert.ToString(dr["GMDate"]);
-                    vendorApply.Director = Convert.ToString(dr["director"]);
-                    vendorApply.SupplyChainDirector = Convert.ToString(dr["supplyChainDirector"]);
-                    vendorApply.DirectorDtae = Convert.ToString(dr["directorDtae"]);
-                    vendorApply.SupplyChainDirectorDate = Convert.ToString(dr["supplyChainDirectorDate"]);
-                    vendorApply.PresidenDate = Convert.ToString(dr["presidenDate"]);
+                    vendorApply.PurchasingManager = Convert.ToString(dr["Purchasing_Manager"]);
+                    vendorApply.GM = Convert.ToString(dr["General_Manager"]);
+                    vendorApply.PurchasingManagerDtae = Convert.ToString(dr["Purchasing_Manager_Date"]);
+                    vendorApply.GMDate1 = Convert.ToString(dr["General_Manager_Date"]);
+                    vendorApply.Director = Convert.ToString(dr["Director"]);
+                    vendorApply.SupplyChainDirector = Convert.ToString(dr["Supplier_Chain_Leader"]);
+                    vendorApply.DirectorDtae = Convert.ToString(dr["Director_Dtae"]);
+                    vendorApply.SupplyChainDirectorDate = Convert.ToString(dr["Supplier_Chain_Leader_Date"]);
+                    vendorApply.PresidenDate = Convert.ToString(dr["President_Date"]);
                     vendorApply.FinalDate = Convert.ToString(dr["finalDate"]);
-                    vendorApply.Persident = Convert.ToString(dr["president"]);
+                    vendorApply.Persident = Convert.ToString(dr["President"]);
                     vendorApply.Form_id = Convert.ToString(dr["Form_ID"]);
                     vendorApply.Bar_Code = Convert.ToString(dr["Bar_Code"]);
                     vendorApply.Temp_Vendor_ID = Convert.ToString(dr["Temp_Vendor_ID"]);

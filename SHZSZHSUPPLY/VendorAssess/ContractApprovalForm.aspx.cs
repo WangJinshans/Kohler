@@ -20,6 +20,11 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Textbox79.Visible = false;
+            Textbox83.Visible = false;
+            Textbox84.Visible = false;
+            Textbox85.Visible = false;
+
             if (!IsPostBack)
             {
                 //获取session信息
@@ -32,6 +37,11 @@ namespace SHZSZHSUPPLY.VendorAssess
                     vendorContract.Form_Type_ID = FORM_TYPE_ID;
                     vendorContract.Vendor_Name = tempVendorName;
                     vendorContract.Flag = 0;//将表格标志位信息改为0
+
+                    Image1.Visible = false;
+                    Image2.Visible = false;
+                    Image3.Visible = false;
+                    Image4.Visible = false;
 
                     //名字只读
 
@@ -61,7 +71,10 @@ namespace SHZSZHSUPPLY.VendorAssess
                 switch (Request["__EVENTTARGET"])
                 {
                     case "submitForm":
-                        submitForm();
+                        StandardContractSubmitForm();
+                        break;
+                    case "nonSubmitForm":
+                        nonStandardContractSubmitForm();
                         break;
                     default:
                         break;
@@ -70,7 +83,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         }
 
-        protected string submitForm()
+        protected string StandardContractSubmitForm()
         {
             //读取session
             getSessionInfo();
@@ -79,7 +92,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
             //一旦提交就把表As_Vendor_FormType字段FLag置1.
             int updateFlag = UpdateFlag_BLL.updateFlag(FORM_TYPE_ID, tempVendorID);
-
+            
             //插入到已提交表
             As_Form form = new As_Form();
             form.Form_ID = formID;
@@ -94,6 +107,31 @@ namespace SHZSZHSUPPLY.VendorAssess
             return "";
         }
 
+        protected string nonStandardContractSubmitForm()//非标准合同的回掉函数
+        {
+            //读取session
+            getSessionInfo();
+
+            SelectDepartment.doSelect();
+            
+            //一旦提交就把表As_Vendor_FormType字段FLag置1.
+            int updateFlag = UpdateFlag_BLL.updateFlag(FORM_TYPE_ID, tempVendorID);
+            //将该表的标准合同置为yes
+            UpdateFlag_BLL.updateNonStandardConstractFlag(formID);
+            //插入到已提交表
+            As_Form form = new As_Form();
+            form.Form_ID = formID;
+            form.Form_Name = FORM_NAME;
+            form.Form_Type_ID = FORM_TYPE_ID;
+            form.Temp_Vendor_Name = tempVendorName;
+            form.Form_Path = "";
+            form.Temp_Vendor_ID = tempVendorID;
+            int add = AddForm_BLL.addForm(form);
+
+            Response.Redirect("EmployeeVendor.aspx");
+            return "";
+        }
+        
         private void showConstractApproval()
         {
             As_Contract_Approval contractApproval = ContractApproval_BLL.getContractApproval(formID);
@@ -174,12 +212,17 @@ namespace SHZSZHSUPPLY.VendorAssess
                 Textbox80.Text = contractApproval.Other_Provisions_Page;
                 Textbox81.Text = contractApproval.Other_Provisions_Clause;
                 Textbox82.Text = contractApproval.Other_Provisions_Details;
-                Textbox26.Text = contractApproval.Legal_Head;
+                //Textbox26.Text = contractApproval.Legal_Head;
+                hideImage(contractApproval.Legal_Head, Image5);
                 Textbox42.Text = contractApproval.SourcingSpecialist_Signature;
-                Textbox58.Text = contractApproval.User_Dept_Head_Signature;
-                Textbox63.Text = contractApproval.SC_Leader_Signature;
-                Textbox67.Text = contractApproval.Finance_Leader_Signature;
-                Textbox71.Text = contractApproval.General_Manager_Signature;
+                hideImage(contractApproval.User_Dept_Head_Signature, Image1);
+                hideImage(contractApproval.SC_Leader_Signature, Image2);
+                hideImage(contractApproval.Finance_Leader_Signature, Image3);
+                hideImage(contractApproval.General_Manager_Signature, Image4);
+                //Image1.ImageUrl = contractApproval.User_Dept_Head_Signature;
+                //Image2.ImageUrl = contractApproval.SC_Leader_Signature;
+                //Image3.ImageUrl = contractApproval.Finance_Leader_Signature;
+                //Image4.ImageUrl = contractApproval.General_Manager_Signature;
                 Textbox75.Text = contractApproval.SourcingSpecialist_Date;
                 Textbox79.Text = contractApproval.User_Dept_Head_Date;
                 Textbox83.Text = contractApproval.SC_Leader_Date;
@@ -189,6 +232,19 @@ namespace SHZSZHSUPPLY.VendorAssess
 
             }
         }
+
+        private void hideImage(string signature, Image image)
+        {
+            if (signature != "")
+            {
+                image.ImageUrl = signature;
+            }
+            else
+            {
+                image.Visible = false;
+            }
+        }
+
         private void checkBoxInit(As_Contract_Approval contractApproval)
         {
             if (contractApproval.Purchase_Type == "Direct")
@@ -319,13 +375,13 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         private void getSessionInfo()
         {
-            //tempVendorID = Session["tempVendorID"].ToString();
-            //tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
+            tempVendorID = Session["tempVendorID"].ToString();
+            tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
             //formID = VendorCreation_BLL.getFormID(tempVendorID);
-            //submit = Request.QueryString["submit"];
-            tempVendorID = "TempVendor20";
-            tempVendorName = "hshs";
-            formID = ContractApproval_BLL.getFormID(tempVendorID);
+            submit = Request.QueryString["submit"];
+            //tempVendorID = "TempVendor20";
+            //tempVendorName = "hshs";
+            formID = ContractApproval_BLL.getFormID(tempVendorID);//获取FormID
         }
 
         protected void Button2_Click(object sender, EventArgs e)
@@ -335,6 +391,8 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void Button1_Click(object sender, EventArgs e)
         {
+            getSessionInfo();
+
             if (submit == "yes")
             {
                 saveForm(2, "提交表格");
@@ -371,8 +429,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             if (join > 0)
             {
                 As_Write write = new As_Write();//将填写信息记录
-                //write.Employee_ID = Session["Employee_ID"].ToString();
-                write.Employee_ID = "ko18524";
+                write.Employee_ID = Session["Employee_ID"].ToString();
                 write.Form_ID = formID;
                 write.Form_Fill_Time = DateTime.Now.ToString();
                 write.Manul = manul;
@@ -389,6 +446,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 return null;
             }
         }
+        
         private As_Contract_Approval getContractApproval()
         {
             As_Contract_Approval contractApproval = new As_Contract_Approval();
@@ -470,12 +528,13 @@ namespace SHZSZHSUPPLY.VendorAssess
             contractApproval.Other_Provisions_Page = Textbox80.Text;
             contractApproval.Other_Provisions_Clause = Textbox81.Text;
             contractApproval.Other_Provisions_Details = Textbox82.Text;
-            contractApproval.Legal_Head = Textbox26.Text;
+            //contractApproval.Legal_Head = Textbox26.Text;
             contractApproval.SourcingSpecialist_Signature = Textbox42.Text;
-            contractApproval.User_Dept_Head_Signature = Textbox58.Text;
-            contractApproval.SC_Leader_Signature = Textbox63.Text;
-            contractApproval.Finance_Leader_Signature = Textbox67.Text;
-            contractApproval.General_Manager_Signature = Textbox71.Text;
+            //contractApproval.User_Dept_Head_Signature = Textbox58.Text;
+            //contractApproval.SC_Leader_Signature = Textbox63.Text;
+            //contractApproval.Finance_Leader_Signature = Textbox67.Text;
+            //contractApproval.General_Manager_Signature = Textbox71.Text;
+
             contractApproval.SourcingSpecialist_Date = Textbox75.Text;
             contractApproval.User_Dept_Head_Date = Textbox79.Text;
             contractApproval.SC_Leader_Date = Textbox83.Text;
@@ -703,8 +762,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
                 }
             }
-            // 用户部门承诺性
-            if (assess_flow.User_Department_Assess == "1")
+            else if (assess_flow.User_Department_Assess == "1")
             {
                 //ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>popUp(formID);</script>");
                 LocalScriptManager.CreateScript(Page, "popUp('" + formID + "');", "SHOW");

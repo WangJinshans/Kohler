@@ -15,6 +15,8 @@ namespace Model
         private string assess_Reason;
         private string temp_Vendor_ID;
         private string factory_Name;
+        private string form_Type_Name;
+        private string temp_Vendor_Name;
 
         public string Form_ID
         {
@@ -105,6 +107,32 @@ namespace Model
             set
             {
                 factory_Name = value;
+            }
+        }
+
+        public string Form_Type_Name
+        {
+            get
+            {
+                return form_Type_Name;
+            }
+
+            set
+            {
+                form_Type_Name = value;
+            }
+        }
+
+        public string Temp_Vendor_Name
+        {
+            get
+            {
+                return temp_Vendor_Name;
+            }
+
+            set
+            {
+                temp_Vendor_Name = value;
             }
         }
     }

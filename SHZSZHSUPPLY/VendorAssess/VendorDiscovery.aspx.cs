@@ -161,19 +161,19 @@ namespace AendorAssess
             showfilelist(formID);
         }
 
-        /// <summary>
-        /// 显示审批列表
-        /// </summary>
-        /// <param name="FormID"></param>
-        public void showapproveform(string FormID)
-        {
-            As_Approve approve = new As_Approve();
-            string sql = "SELECT * FROM As_Approve WHERE Form_ID='" + FormID + "'";
-            PagedDataSource objpds = new PagedDataSource();
-            objpds.DataSource = AssessFlow_BLL.listApprove(sql);
-            GridView1.DataSource = objpds;
-            GridView1.DataBind();
-        }
+        ///// <summary>
+        ///// 显示审批列表
+        ///// </summary>
+        ///// <param name="FormID"></param>
+        //public void showapproveform(string FormID)
+        //{
+        //    As_Approve approve = new As_Approve();
+        //    string sql = "SELECT * FROM As_Approve WHERE Form_ID='" + FormID + "'";
+        //    PagedDataSource objpds = new PagedDataSource();
+        //    objpds.DataSource = AssessFlow_BLL.listApprove(sql);
+        //    GridView1.DataSource = objpds;
+        //    GridView1.DataBind();
+        //}
 
         /// <summary>
         /// 显示文件列表
@@ -200,9 +200,6 @@ namespace AendorAssess
 
             SelectDepartment.doSelect();
 
-            //一旦提交就把表As_Vendor_FormType字段FLag置1.
-            int updateFlag = UpdateFlag_BLL.updateFlag(FORM_TYPE_ID, tempVendorID);
-
             //插入到已提交表
             As_Form form = new As_Form();
             form.Form_ID = formID;
@@ -212,6 +209,10 @@ namespace AendorAssess
             form.Form_Path = "";
             form.Temp_Vendor_ID = tempVendorID;
             int add = AddForm_BLL.addForm(form);
+
+            //一旦提交就把表As_Vendor_FormType字段FLag置1.
+            int updateFlag = UpdateFlag_BLL.updateFlag(FORM_TYPE_ID, tempVendorID);
+
             Response.Redirect("EmployeeVendor.aspx");
             return "";
         }
@@ -230,6 +231,8 @@ namespace AendorAssess
             Session["AssessflowInfo"] = assess_flow;
             Session["tempVendorID"] = tempVendorID;
             Session["factory"] = "上海科勒";//TODO:自动三厂选择
+            Session["form_name"] = FORM_NAME;
+            Session["tempVendorName"] = tempVendorName;
 
             //如果是用户部门
             if (assess_flow.User_Department_Assess == "1")

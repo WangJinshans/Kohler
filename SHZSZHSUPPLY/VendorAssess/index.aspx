@@ -47,6 +47,12 @@
         <a href="EmployeeVendor.aspx">供应商文件管理</a>
     </div>
     <div>
+        <a href="FormWaitToFill.aspx">待填写表格</a>
+    </div>
+    <div>
+        <a href="KCI.aspx">KCI审批</a>
+    </div>
+    <div>
         <a href="ShowApproveForm.aspx">待审批表格</a>
     </div>
     </form>

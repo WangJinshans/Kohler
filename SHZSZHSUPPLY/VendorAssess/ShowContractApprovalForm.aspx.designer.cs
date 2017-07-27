@@ -661,13 +661,13 @@ namespace SHZSZHSUPPLY.VendorAssess {
         protected global::System.Web.UI.WebControls.TextBox Textbox22;
         
         /// <summary>
-        /// Textbox26 控件。
+        /// Image5 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Textbox26;
+        protected global::System.Web.UI.WebControls.Image Image5;
         
         /// <summary>
         /// Textbox30 控件。
@@ -985,40 +985,40 @@ namespace SHZSZHSUPPLY.VendorAssess {
         protected global::System.Web.UI.WebControls.TextBox Textbox42;
         
         /// <summary>
-        /// Textbox58 控件。
+        /// Image1 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Textbox58;
+        protected global::System.Web.UI.WebControls.Image Image1;
         
         /// <summary>
-        /// Textbox63 控件。
+        /// Image2 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Textbox63;
+        protected global::System.Web.UI.WebControls.Image Image2;
         
         /// <summary>
-        /// Textbox67 控件。
+        /// Image3 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Textbox67;
+        protected global::System.Web.UI.WebControls.Image Image3;
         
         /// <summary>
-        /// Textbox71 控件。
+        /// Image4 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Textbox71;
+        protected global::System.Web.UI.WebControls.Image Image4;
         
         /// <summary>
         /// CheckBox31 控件。

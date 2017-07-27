@@ -57,7 +57,15 @@
     <Compile Include="VendorAssess\AddEmployeeVendor_DAL.cs" />
     <Compile Include="VendorAssess\AddForm_DAL.cs" />
     <Compile Include="VendorAssess\AssessFlow_DAL.cs" />
+    <Compile Include="VendorAssess\As_Bidding_Approval_DAL.cs" />
     <Compile Include="VendorAssess\As_Vendor_Designated_Apply_DAL.cs" />
+    <Compile Include="VendorAssess\CheckFlag_DAL.cs" />
+    <Compile Include="VendorAssess\ContractApproval_DAL.cs" />
+    <Compile Include="VendorAssess\EditFlow_DAL.cs" />
+    <Compile Include="VendorAssess\EmployeeForm_DAL.cs" />
+    <Compile Include="VendorAssess\KCIApproval_DAL.cs" />
+    <Compile Include="VendorAssess\Signature_DAL.cs" />
+    <Compile Include="VendorAssess\VendorSelectionSupplier_DAL.cs" />
     <Compile Include="VendorAssess\DBHelp.cs" />
     <Compile Include="VendorAssess\Employee_DAL.cs" />
     <Compile Include="VendorAssess\FileType_FormType_DAL.cs" />
@@ -77,6 +85,7 @@
     <Compile Include="VendorAssess\VendorFile_DAL.cs" />
     <Compile Include="VendorAssess\VendorForm_DAL.cs" />
     <Compile Include="VendorAssess\VendorRiskAnalysis_DAL.cs" />
+    <Compile Include="VendorAssess\VendorSelection_DAL.cs" />
     <Compile Include="VendorAssess\VendorType_DAL.cs" />
     <Compile Include="VendorAssess\Vendor_Risk_Analysis_Notes_DAL.cs" />
     <Compile Include="VendorAssess\Write_DAL.cs" />

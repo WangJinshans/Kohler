@@ -120,8 +120,13 @@
     <Content Include="VenderInfo\VenderNoExist.aspx" />
     <Content Include="Scripts\webform1_iframe_redirect_VenderMaintenance.js" />
     <Content Include="VendorAssess\BiddingApprovalForm.aspx" />
+    <Content Include="VendorAssess\ContractApprovalForm.aspx" />
+    <Content Include="VendorAssess\Html_Template\Html_Test_Page.html" />
     <Content Include="VendorAssess\EmployeeVendor.aspx" />
+    <Content Include="VendorAssess\FormWaitToFill.aspx" />
+    <Content Include="VendorAssess\Html_Template\File_Upload_Page.html" />
     <Content Include="VendorAssess\index.aspx" />
+    <Content Include="VendorAssess\KCI.aspx" />
     <Content Include="VendorAssess\login.aspx" />
     <Content Include="VendorAssess\Script\jquery-1.4.1.min.js" />
     <Content Include="VendorAssess\Script\jquery-3.2.1.min.js" />
@@ -132,6 +137,106 @@
     <Content Include="VendorAssess\Script\layer\skin\default\loading-0.gif" />
     <Content Include="VendorAssess\Script\layer\skin\default\loading-1.gif" />
     <Content Include="VendorAssess\Script\layer\skin\default\loading-2.gif" />
+    <Content Include="VendorAssess\Script\layui\css\layui.css" />
+    <Content Include="VendorAssess\Script\layui\css\layui.mobile.css" />
+    <Content Include="VendorAssess\Script\layui\css\modules\code.css" />
+    <Content Include="VendorAssess\Script\layui\css\modules\laydate\icon.png" />
+    <Content Include="VendorAssess\Script\layui\css\modules\laydate\laydate.css" />
+    <Content Include="VendorAssess\Script\layui\css\modules\layer\default\icon-ext.png" />
+    <Content Include="VendorAssess\Script\layui\css\modules\layer\default\icon.png" />
+    <Content Include="VendorAssess\Script\layui\css\modules\layer\default\layer.css" />
+    <Content Include="VendorAssess\Script\layui\css\modules\layer\default\loading-0.gif" />
+    <Content Include="VendorAssess\Script\layui\css\modules\layer\default\loading-1.gif" />
+    <Content Include="VendorAssess\Script\layui\css\modules\layer\default\loading-2.gif" />
+    <Content Include="VendorAssess\Script\layui\font\iconfont.svg" />
+    <Content Include="VendorAssess\Script\layui\images\face\0.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\1.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\10.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\11.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\12.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\13.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\14.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\15.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\16.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\17.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\18.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\19.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\2.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\20.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\21.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\22.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\23.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\24.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\25.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\26.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\27.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\28.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\29.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\3.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\30.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\31.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\32.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\33.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\34.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\35.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\36.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\37.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\38.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\39.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\4.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\40.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\41.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\42.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\43.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\44.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\45.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\46.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\47.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\48.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\49.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\5.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\50.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\51.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\52.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\53.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\54.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\55.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\56.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\57.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\58.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\59.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\6.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\60.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\61.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\62.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\63.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\64.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\65.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\66.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\67.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\68.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\69.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\7.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\70.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\71.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\8.gif" />
+    <Content Include="VendorAssess\Script\layui\images\face\9.gif" />
+    <Content Include="VendorAssess\Script\layui\layui.js" />
+    <Content Include="VendorAssess\Script\layui\lay\dest\layui.all.js" />
+    <Content Include="VendorAssess\Script\layui\lay\modules\code.js" />
+    <Content Include="VendorAssess\Script\layui\lay\modules\element.js" />
+    <Content Include="VendorAssess\Script\layui\lay\modules\flow.js" />
+    <Content Include="VendorAssess\Script\layui\lay\modules\form.js" />
+    <Content Include="VendorAssess\Script\layui\lay\modules\jquery.js" />
+    <Content Include="VendorAssess\Script\layui\lay\modules\laydate.js" />
+    <Content Include="VendorAssess\Script\layui\lay\modules\layedit.js" />
+    <Content Include="VendorAssess\Script\layui\lay\modules\layer.js" />
+    <Content Include="VendorAssess\Script\layui\lay\modules\laypage.js" />
+    <Content Include="VendorAssess\Script\layui\lay\modules\laytpl.js" />
+    <Content Include="VendorAssess\Script\layui\lay\modules\mobile.js" />
+    <Content Include="VendorAssess\Script\layui\lay\modules\tree.js" />
+    <Content Include="VendorAssess\Script\layui\lay\modules\upload.js" />
+    <Content Include="VendorAssess\Script\layui\lay\modules\util.js" />
     <Content Include="VendorAssess\Script\My97DatePicker\lang\en.js" />
     <Content Include="VendorAssess\Script\My97DatePicker\lang\zh-cn.js" />
     <Content Include="VendorAssess\Script\My97DatePicker\lang\zh-tw.js" />
@@ -143,18 +248,48 @@
     <Content Include="VendorAssess\Script\My97DatePicker\skin\whyGreen\datepicker.css" />
     <Content Include="VendorAssess\Script\My97DatePicker\skin\whyGreen\img.gif" />
     <Content Include="VendorAssess\Script\My97DatePicker\WdatePicker.js" />
+    <Content Include="VendorAssess\Script\Own\fileUploader.js" />
     <Content Include="VendorAssess\Script\PDF\js\html2canvas.js" />
     <Content Include="VendorAssess\Script\PDF\js\jspdf.debug.js" />
     <Content Include="VendorAssess\Script\PDF\js\main.js" />
     <Content Include="VendorAssess\SelectDepartment.aspx" />
     <Content Include="VendorAssess\ShowApproveForm.aspx" />
+    <Content Include="VendorAssess\ShowBiddingApprovalForm.aspx" />
+    <Content Include="VendorAssess\ShowContractApprovalForm.aspx" />
     <Content Include="VendorAssess\ShowVendorBlockOrUnBlock.aspx" />
     <Content Include="VendorAssess\ShowVendorCreation.aspx" />
     <Content Include="VendorAssess\ShowVendorDesignatedApply.aspx" />
     <Content Include="VendorAssess\ShowVendorDiscovery.aspx" />
     <Content Include="VendorAssess\ShowVendorExtend.aspx" />
     <Content Include="VendorAssess\ShowVendorRiskAnalysis.aspx" />
-    <Content Include="VendorAssess\SUPPLYRISKANALYSIS.aspx" />
+    <Content Include="VendorAssess\Html_Template\EditEmployeeSelection.html" />
+    <Content Include="VendorAssess\Script\fine-uploader\continue.gif" />
+    <Content Include="VendorAssess\Script\fine-uploader\dnd.js" />
+    <Content Include="VendorAssess\Script\fine-uploader\dnd.min.js" />
+    <Content Include="VendorAssess\Script\fine-uploader\edit.gif" />
+    <Content Include="VendorAssess\Script\fine-uploader\fine-uploader-gallery.css" />
+    <Content Include="VendorAssess\Script\fine-uploader\fine-uploader-gallery.min.css" />
+    <Content Include="VendorAssess\Script\fine-uploader\fine-uploader-new.css" />
+    <Content Include="VendorAssess\Script\fine-uploader\fine-uploader-new.min.css" />
+    <Content Include="VendorAssess\Script\fine-uploader\fine-uploader.core.js" />
+    <Content Include="VendorAssess\Script\fine-uploader\fine-uploader.core.min.js" />
+    <Content Include="VendorAssess\Script\fine-uploader\fine-uploader.css" />
+    <Content Include="VendorAssess\Script\fine-uploader\fine-uploader.js" />
+    <Content Include="VendorAssess\Script\fine-uploader\fine-uploader.min.css" />
+    <Content Include="VendorAssess\Script\fine-uploader\fine-uploader.min.js" />
+    <Content Include="VendorAssess\Script\fine-uploader\jquery.fine-uploader.js" />
+    <Content Include="VendorAssess\Script\fine-uploader\jquery.fine-uploader.min.js" />
+    <Content Include="VendorAssess\Script\fine-uploader\loading.gif" />
+    <Content Include="VendorAssess\Script\fine-uploader\pause.gif" />
+    <Content Include="VendorAssess\Script\fine-uploader\placeholders\not_available-generic.png" />
+    <Content Include="VendorAssess\Script\fine-uploader\placeholders\waiting-generic.png" />
+    <Content Include="VendorAssess\Script\fine-uploader\processing.gif" />
+    <Content Include="VendorAssess\Script\fine-uploader\retry.gif" />
+    <Content Include="VendorAssess\Script\fine-uploader\templates\default.html" />
+    <Content Include="VendorAssess\Script\fine-uploader\templates\gallery.html" />
+    <Content Include="VendorAssess\Script\fine-uploader\templates\simple-thumbnails.html" />
+    <Content Include="VendorAssess\Script\fine-uploader\trash.gif" />
+    <Content Include="VendorAssess\ShowVendorSelection.aspx" />
     <Content Include="VendorAssess\VendorAssess.aspx" />
     <Content Include="VendorAssess\VendorBlockOrUnBlock.aspx" />
     <Content Include="VendorAssess\VendorCreation.aspx" />
@@ -163,6 +298,7 @@
     <Content Include="VendorAssess\VendorExtend.aspx" />
     <Content Include="VendorAssess\VendorInfo.aspx" />
     <Content Include="VendorAssess\VendorRiskAnalysis.aspx" />
+    <Content Include="VendorAssess\VendorSelection.aspx" />
     <Content Include="WebForm1.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -290,12 +426,22 @@
     <Compile Include="VenderInfo\VenderNoExist.aspx.designer.cs">
       <DependentUpon>VenderNoExist.aspx</DependentUpon>
     </Compile>
+    <Compile Include="VendorAssess\ASHX\File_Upload_End_Point.ashx.cs">
+      <DependentUpon>File_Upload_End_Point.ashx</DependentUpon>
+    </Compile>
     <Compile Include="VendorAssess\BiddingApprovalForm.aspx.cs">
       <DependentUpon>BiddingApprovalForm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="VendorAssess\BiddingApprovalForm.aspx.designer.cs">
       <DependentUpon>BiddingApprovalForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorAssess\ContractApprovalForm.aspx.cs">
+      <DependentUpon>ContractApprovalForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\ContractApprovalForm.aspx.designer.cs">
+      <DependentUpon>ContractApprovalForm.aspx</DependentUpon>
     </Compile>
     <Compile Include="VendorAssess\EmployeeVendor.aspx.cs">
       <DependentUpon>EmployeeVendor.aspx</DependentUpon>
@@ -304,12 +450,26 @@
     <Compile Include="VendorAssess\EmployeeVendor.aspx.designer.cs">
       <DependentUpon>EmployeeVendor.aspx</DependentUpon>
     </Compile>
+    <Compile Include="VendorAssess\FormWaitToFill.aspx.cs">
+      <DependentUpon>FormWaitToFill.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\FormWaitToFill.aspx.designer.cs">
+      <DependentUpon>FormWaitToFill.aspx</DependentUpon>
+    </Compile>
     <Compile Include="VendorAssess\index.aspx.cs">
       <DependentUpon>index.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="VendorAssess\index.aspx.designer.cs">
       <DependentUpon>index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorAssess\KCI.aspx.cs">
+      <DependentUpon>KCI.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\KCI.aspx.designer.cs">
+      <DependentUpon>KCI.aspx</DependentUpon>
     </Compile>
     <Compile Include="VendorAssess\login.aspx.cs">
       <DependentUpon>login.aspx</DependentUpon>
@@ -331,6 +491,20 @@
     </Compile>
     <Compile Include="VendorAssess\ShowApproveForm.aspx.designer.cs">
       <DependentUpon>ShowApproveForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorAssess\ShowBiddingApprovalForm.aspx.cs">
+      <DependentUpon>ShowBiddingApprovalForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\ShowBiddingApprovalForm.aspx.designer.cs">
+      <DependentUpon>ShowBiddingApprovalForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorAssess\ShowContractApprovalForm.aspx.cs">
+      <DependentUpon>ShowContractApprovalForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\ShowContractApprovalForm.aspx.designer.cs">
+      <DependentUpon>ShowContractApprovalForm.aspx</DependentUpon>
     </Compile>
     <Compile Include="VendorAssess\ShowVendorBlockOrUnBlock.aspx.cs">
       <DependentUpon>ShowVendorBlockOrUnBlock.aspx</DependentUpon>
@@ -374,12 +548,15 @@
     <Compile Include="VendorAssess\ShowVendorRiskAnalysis.aspx.designer.cs">
       <DependentUpon>ShowVendorRiskAnalysis.aspx</DependentUpon>
     </Compile>
-    <Compile Include="VendorAssess\SUPPLYRISKANALYSIS.aspx.cs">
-      <DependentUpon>SUPPLYRISKANALYSIS.aspx</DependentUpon>
+    <Compile Include="VendorAssess\ShowVendorSelection.aspx.cs">
+      <DependentUpon>ShowVendorSelection.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="VendorAssess\SUPPLYRISKANALYSIS.aspx.designer.cs">
-      <DependentUpon>SUPPLYRISKANALYSIS.aspx</DependentUpon>
+    <Compile Include="VendorAssess\ShowVendorSelection.aspx.designer.cs">
+      <DependentUpon>ShowVendorSelection.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorAssess\Util\BasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="VendorAssess\Util\LocalApproveManager.cs" />
     <Compile Include="VendorAssess\Util\LocalConvert.cs" />
@@ -440,6 +617,13 @@
     <Compile Include="VendorAssess\VendorRiskAnalysis.aspx.designer.cs">
       <DependentUpon>VendorRiskAnalysis.aspx</DependentUpon>
     </Compile>
+    <Compile Include="VendorAssess\VendorSelection.aspx.cs">
+      <DependentUpon>VendorSelection.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\VendorSelection.aspx.designer.cs">
+      <DependentUpon>VendorSelection.aspx</DependentUpon>
+    </Compile>
     <Compile Include="WebForm1.aspx.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -458,6 +642,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Upload\" />
+    <Folder Include="VendorAssess\TEST\files\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Account\Web.config" />
@@ -489,6 +674,22 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="VendorAssess\Script\layui\font\iconfont.eot" />
+    <Content Include="VendorAssess\Script\layui\font\iconfont.ttf" />
+    <Content Include="VendorAssess\Script\layui\font\iconfont.woff" />
+    <Content Include="VendorAssess\Script\fine-uploader\dnd.js.map" />
+    <Content Include="VendorAssess\Script\fine-uploader\dnd.min.js.map" />
+    <Content Include="VendorAssess\Script\fine-uploader\fine-uploader-gallery.min.css.map" />
+    <Content Include="VendorAssess\Script\fine-uploader\fine-uploader-new.min.css.map" />
+    <Content Include="VendorAssess\Script\fine-uploader\fine-uploader.core.js.map" />
+    <Content Include="VendorAssess\Script\fine-uploader\fine-uploader.core.min.js.map" />
+    <Content Include="VendorAssess\Script\fine-uploader\fine-uploader.js.map" />
+    <Content Include="VendorAssess\Script\fine-uploader\fine-uploader.min.css.map" />
+    <Content Include="VendorAssess\Script\fine-uploader\fine-uploader.min.js.map" />
+    <Content Include="VendorAssess\Script\fine-uploader\jquery.fine-uploader.js.map" />
+    <Content Include="VendorAssess\Script\fine-uploader\jquery.fine-uploader.min.js.map" />
+    <Content Include="VendorAssess\Script\fine-uploader\LICENSE" />
+    <Content Include="VendorAssess\ASHX\File_Upload_End_Point.ashx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

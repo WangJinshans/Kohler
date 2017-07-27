@@ -103,22 +103,22 @@ namespace VendorAssess {
         protected global::System.Web.UI.WebControls.TextBox TextBox9;
         
         /// <summary>
-        /// TextBox10 控件。
+        /// Image1 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox10;
+        protected global::System.Web.UI.WebControls.Image Image1;
         
         /// <summary>
-        /// TextBox11 控件。
+        /// Image2 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox11;
+        protected global::System.Web.UI.WebControls.Image Image2;
         
         /// <summary>
         /// TextBox12 控件。
@@ -148,22 +148,22 @@ namespace VendorAssess {
         protected global::System.Web.UI.WebControls.TextBox TextBox14;
         
         /// <summary>
-        /// TextBox15 控件。
+        /// Image3 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox15;
+        protected global::System.Web.UI.WebControls.Image Image3;
         
         /// <summary>
-        /// TextBox16 控件。
+        /// Image4 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox16;
+        protected global::System.Web.UI.WebControls.Image Image4;
         
         /// <summary>
         /// TextBox17 控件。
@@ -184,22 +184,22 @@ namespace VendorAssess {
         protected global::System.Web.UI.WebControls.TextBox TextBox18;
         
         /// <summary>
-        /// TextBox19 控件。
+        /// Image5 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox19;
+        protected global::System.Web.UI.WebControls.Image Image5;
         
         /// <summary>
-        /// TextBox20 控件。
+        /// Image6 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox20;
+        protected global::System.Web.UI.WebControls.Image Image6;
         
         /// <summary>
         /// TextBox21 控件。
@@ -220,13 +220,13 @@ namespace VendorAssess {
         protected global::System.Web.UI.WebControls.TextBox TextBox22;
         
         /// <summary>
-        /// TextBox23 控件。
+        /// Image7 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox23;
+        protected global::System.Web.UI.WebControls.Image Image7;
         
         /// <summary>
         /// TextBox24 控件。

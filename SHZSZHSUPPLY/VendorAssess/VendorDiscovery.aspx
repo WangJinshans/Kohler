@@ -7,22 +7,22 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>供应商调查表</title>
 
-	<script type="text/javascript" src="Script/My97DatePicker/WdatePicker.js" ></script>
-	<script src="Script/jquery-3.2.1.min.js"></script>  
-	<script src="Script/layer/layer.js"></script>  
-	<script type="text/javascript">  
-		$(function () {  
-			layer.config({  
+	<script type="text/javascript" src="Script/My97DatePicker/WdatePicker.js"></script>
+	<script src="Script/jquery-3.2.1.min.js"></script>
+	<script src="Script/layer/layer.js"></script>
+	<script type="text/javascript">
+		$(function () {
+			layer.config({
 				extend: ['skin/default/layer.css'], //加载新皮肤  
 				skin: 'layer-ext-espresso' //一旦设定，所有弹层风格都采用此主题。  
-			});  
-		});  
-  
+			});
+		});
+
 		//弹出框  
 		function popUp(formid) {
 			layer.open({
 				title: '请选择审批部门',
-				content: 'SelectDepartment.aspx?formid='+formid,
+				content: 'SelectDepartment.aspx?formid=' + formid,
 				type: 2,
 				area: ['750px', '400px'],
 				shade: 0.3,
@@ -42,10 +42,10 @@
 					console.log(layero, index);
 				}
 			});
-		}  
-	</script>  
+		}
+	</script>
 	<script type="text/javascript">
-	
+
 		function __myDoPostBack(eventTarget, eventArgument) {
 			var theForm = document.forms['form2'];
 			if (!theForm) {
@@ -55,32 +55,35 @@
 				theForm.__EVENTTARGET.value = eventTarget;
 				theForm.__EVENTARGUMENT.value = eventArgument;
 				theForm.submit();
+			}
 		}
-	}
-</script>
+	</script>
 	<style type="text/css">
-table.gridtable {
-	font-family: verdana,arial,sans-serif;
-	font-size:11px;
-	color:#333333;
-	border-width: 1px;
-	border-color: #666666;
-	border-collapse: collapse;
-}
-table.gridtable th {
-	border-width: 1px;
-	padding: 8px;
-	border-style: solid;
-	border-color: #666666;
-	background-color: #dedede;
-}
-table.gridtable td {
-	border-width: 1px;
-	padding: 8px;
-	border-style: solid;
-	border-color: #666666;
-	background-color: #ffffff;
-}
+		table.gridtable {
+			font-family: verdana,arial,sans-serif;
+			font-size: 11px;
+			color: #333333;
+			border-width: 1px;
+			border-color: #666666;
+			border-collapse: collapse;
+		}
+
+			table.gridtable th {
+				border-width: 1px;
+				padding: 8px;
+				border-style: solid;
+				border-color: #666666;
+				background-color: #dedede;
+			}
+
+			table.gridtable td {
+				border-width: 1px;
+				padding: 8px;
+				border-style: solid;
+				border-color: #666666;
+				background-color: #ffffff;
+			}
+
 		.div {
 			width: 600px;
 			height: 200px;
@@ -159,7 +162,7 @@ table.gridtable td {
 		.auto-style3 {
 			height: 37px;
 		}
-		</style>
+	</style>
 </head>
 <body style="margin: auto">
 	<form id="form2" runat="server">
@@ -173,8 +176,8 @@ table.gridtable td {
 				</tr>
 				<tr>
 					<td colspan="8" style="text-align: right" class="auto-style3">填表时间：</td>
-					<td class="auto-style3" style="text-align:left">
-						<asp:TextBox runat="server" id="TextBox1" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" height="100%" width="100%" />
+					<td class="auto-style3" style="text-align: left">
+						<asp:TextBox runat="server" ID="TextBox1" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" Height="100%" Width="100%" />
 					</td>
 				</tr>
 				<tr>
@@ -461,84 +464,84 @@ table.gridtable td {
 					<td colspan="7"></td>
 				</tr>
 			</table>
-			</div>
-			
-			<div style="text-align: center">
-				<asp:Button ID="Button1" runat="server" Text="提交" CssClass="button" OnClick="Button1_Click" />
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       
+		</div>
+
+		<div style="text-align: center">
+			<asp:Button ID="Button1" runat="server" Text="提交" CssClass="button" OnClick="Button1_Click" />
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       
 			<asp:Button ID="Button2" runat="server" Text="保存" CssClass="button" OnClick="Button2_Click" />
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<asp:Button ID="Button3" runat="server" Text="返回" CssClass="button" OnClick="Button3_Click" />
-			</div>
-			<div style="float:left">
-				<table>
+		</div>
+		<div style="float: left">
+			<table>
 				<tr>
 					<asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" CellPadding="4" ForeColor="#333333" GridLines="None">
 						<AlternatingRowStyle BackColor="White" />
-				<Columns>
-					<asp:BoundField DataField="Form_ID" HeaderText="表格编号"
-						SortExpression="Form_ID" />
-					<asp:BoundField DataField="Position_Name" HeaderText="职位名称"
-						SortExpression="Position_Name" />
-					<asp:BoundField DataField="Assess_Flag" HeaderText="审批状态"
-						SortExpression="Assess_Flag" />
-					<asp:TemplateField>
-						<ItemTemplate>
-							<asp:LinkButton ID="lbtapprovesuccess" runat="server" CommandName="approvesuccess"
-								CommandArgument='<%# Eval("Form_ID") %>'>通过审批</asp:LinkButton>
-						</ItemTemplate>
-					</asp:TemplateField>
-					<asp:TemplateField>
-						<ItemTemplate>
-							<asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="fail"
-								CommandArgument='<%# Eval("Form_ID") %>'>拒绝审批</asp:LinkButton>
-						</ItemTemplate>
-					</asp:TemplateField>
+						<Columns>
+							<asp:BoundField DataField="Form_ID" HeaderText="表格编号"
+								SortExpression="Form_ID" />
+							<asp:BoundField DataField="Position_Name" HeaderText="职位名称"
+								SortExpression="Position_Name" />
+							<asp:BoundField DataField="Assess_Flag" HeaderText="审批状态"
+								SortExpression="Assess_Flag" />
+							<asp:TemplateField>
+								<ItemTemplate>
+									<asp:LinkButton ID="lbtapprovesuccess" runat="server" CommandName="approvesuccess"
+										CommandArgument='<%# Eval("Form_ID") %>'>通过审批</asp:LinkButton>
+								</ItemTemplate>
+							</asp:TemplateField>
+							<asp:TemplateField>
+								<ItemTemplate>
+									<asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="fail"
+										CommandArgument='<%# Eval("Form_ID") %>'>拒绝审批</asp:LinkButton>
+								</ItemTemplate>
+							</asp:TemplateField>
 
 
-				</Columns>
+						</Columns>
 						<EditRowStyle BackColor="#2461BF" />
-				<FooterStyle BackColor="#507CD1" ForeColor="White" Font-Bold="True" />
-				<HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-				<PagerStyle ForeColor="White" HorizontalAlign="Center" BackColor="#2461BF" />
-				<RowStyle BackColor="#EFF3FB" />
-				<SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
-				<SortedAscendingCellStyle BackColor="#F5F7FB" />
-				<SortedAscendingHeaderStyle BackColor="#6D95E1" />
-				<SortedDescendingCellStyle BackColor="#E9EBEF" />
-				<SortedDescendingHeaderStyle BackColor="#4870BE" />
-			</asp:GridView>
+						<FooterStyle BackColor="#507CD1" ForeColor="White" Font-Bold="True" />
+						<HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+						<PagerStyle ForeColor="White" HorizontalAlign="Center" BackColor="#2461BF" />
+						<RowStyle BackColor="#EFF3FB" />
+						<SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
+						<SortedAscendingCellStyle BackColor="#F5F7FB" />
+						<SortedAscendingHeaderStyle BackColor="#6D95E1" />
+						<SortedDescendingCellStyle BackColor="#E9EBEF" />
+						<SortedDescendingHeaderStyle BackColor="#4870BE" />
+					</asp:GridView>
 				</tr>
 				<tr>
 					<asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" CellPadding="4" GridLines="None" ForeColor="#333333">
 						<AlternatingRowStyle BackColor="White" ForeColor="#284775" />
-				<Columns>
-					<asp:BoundField DataField="Form_ID" HeaderText="表格编号"
-						SortExpression="Form_ID" />
-					<asp:BoundField DataField="File_ID" HeaderText="文件编号"
-						SortExpression="File_ID" />
+						<Columns>
+							<asp:BoundField DataField="Form_ID" HeaderText="表格编号"
+								SortExpression="Form_ID" />
+							<asp:BoundField DataField="File_ID" HeaderText="文件编号"
+								SortExpression="File_ID" />
 
-					<asp:TemplateField>
-						<ItemTemplate>
-							<asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="fail"
-								CommandArgument='<%# Eval("File_ID") %>'>查看文件</asp:LinkButton>
-						</ItemTemplate>
-					</asp:TemplateField>
-				</Columns>
+							<asp:TemplateField>
+								<ItemTemplate>
+									<asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="fail"
+										CommandArgument='<%# Eval("File_ID") %>'>查看文件</asp:LinkButton>
+								</ItemTemplate>
+							</asp:TemplateField>
+						</Columns>
 						<EditRowStyle BackColor="#999999" />
-				<FooterStyle BackColor="#5D7B9D" ForeColor="White" Font-Bold="True" />
-				<HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-				<PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
-				<RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
-				<SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
-				<SortedAscendingCellStyle BackColor="#E9E7E2" />
-				<SortedAscendingHeaderStyle BackColor="#506C8C" />
-				<SortedDescendingCellStyle BackColor="#FFFDF8" />
-				<SortedDescendingHeaderStyle BackColor="#6F8DAE" />
-			</asp:GridView>
+						<FooterStyle BackColor="#5D7B9D" ForeColor="White" Font-Bold="True" />
+						<HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+						<PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
+						<RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
+						<SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
+						<SortedAscendingCellStyle BackColor="#E9E7E2" />
+						<SortedAscendingHeaderStyle BackColor="#506C8C" />
+						<SortedDescendingCellStyle BackColor="#FFFDF8" />
+						<SortedDescendingHeaderStyle BackColor="#6F8DAE" />
+					</asp:GridView>
 				</tr>
 			</table>
-			
+
 		</div>
 	</form>
 </body>

@@ -18,5 +18,20 @@ namespace BLL
         {
             return Employee_DAL.selectEmployee(sql);
         }
+
+        public static List<string> viewGetEmployeeID(string department)
+        {
+            return Employee_DAL.viewGetEmployeeID(department);
+        }
+
+        public static List<string> viewGetEmployeeName(string department)
+        {
+            return Employee_DAL.viewGetEmployeeName(department);
+        }
+
+        public static string getEmployeeDepartment(string currentEmployeeID)
+        {
+            return Employee_DAL.getEmployeeDepartment(currentEmployeeID);
+        }
     }
 }

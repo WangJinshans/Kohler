@@ -230,7 +230,8 @@ table.gridtable td {
             </tr>
             <tr>
                 <td colspan="1" style="text-align:left" class="auto-style3">直线经理审批(Intercompany vendor 需要 VM Leader Liu Junling审批）</td>
-                <td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox9" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                <td colspan="1" style="text-align:left" class="auto-style6">
+                    <asp:Image ImageUrl="imageurl" ID="Image1" runat="server" /></td>
             </tr>
              <tr>
                 <td colspan="2" style="text-align:center;background-color:black;color:#ffffff">Comments</td>

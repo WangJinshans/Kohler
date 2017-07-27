@@ -57,7 +57,7 @@
         }
     </script>
     <script>
-        function popUp(formid) {
+        function popUp(formid,result) {
             layer.open({
                 title: '请选择审批部门',
                 content: 'SelectDepartment.aspx?formid=' + formid+"&kci="+"1",
@@ -67,8 +67,14 @@
                 shadeClose: false, //点击遮罩关闭
                 btn: ['确定'],
                 yes: function (index, layero) {
-                    __myDoPostBack('submitForm', '');
-                    layer.closeAll();
+                    if (result == "yes") {
+                        __myDoPostBack('submitForm', '');//回掉标准合同函数
+                        layer.closeAll();
+                    }
+                    else {
+                        __myDoPostBack('nonSubmitForm', '');//回掉非标准合同函数
+                        layer.closeAll();
+                    }
                 },
                 cancel: function (index, layero) {
                     if (confirm('确定要关闭么')) { //只有当点击confirm框的确定时，该层才会关闭
@@ -100,7 +106,7 @@
             layer.open({
                 title: '提示信息',
                 content: '' + msg,
-                btn: ['确定', '取消'],
+                btn: ['是', '否'],
                 btn1: function (index, layero) {
                     layer.close('index');
                     popUp(formid)//调用popUp函数在
@@ -381,7 +387,8 @@
                     <td><asp:TextBox runat="server" ID="Textbox18" BorderStyle="None"/></td>
                     <td style="text-align:center"><asp:CheckBox Text="" runat="server" ID="CheckBox20"/></td>
                     <td colspan="8"><asp:TextBox runat="server" ID="Textbox22" BorderStyle="None"/></td>
-                    <td colspan="2" rowspan="9"><asp:TextBox runat="server" ID="Textbox26" BorderStyle="None"/></td>
+                    <td colspan="2" rowspan="9">
+                        <asp:Image ImageUrl="imageurl" ID="Image5" runat="server" /></td>
                     <td colspan="2" rowspan="9" style="text-align:center">Legal Head Head<br>法律领导</td>
                 </tr>
                 <tr>
@@ -464,13 +471,18 @@
                     <td colspan="1" style="text-align:left;border-style:none;">Signature:</td>
                     <td colspan="2" style="text-align:center;border-left:0;border-top:0;"><asp:TextBox runat="server" ID="Textbox42" BorderStyle="None"/></td>
                     <td colspan="1" style="text-align:left;border-style:none;">Signature:</td>
-                    <td colspan="2" style="text-align:center;border-left:0;border-top:0;"><asp:TextBox runat="server" ID="Textbox58" BorderStyle="None"/></td>
+                    <td colspan="2" style="text-align:center;border-left:0;border-top:0;">
+                        <asp:Image ImageUrl="imageurl" ID="Image1" runat="server" /></td>
                     <td colspan="1" style="text-align:left;border-style:none;">Signature:</td>
-                    <td colspan="2" style="text-align:center;border-left:0;border-top:0;"><asp:TextBox runat="server" ID="Textbox63" BorderStyle="None"/></td>
+                    <td colspan="2" style="text-align:center;border-left:0;border-top:0;">
+                        <asp:Image ImageUrl="imageurl" ID="Image2" runat="server" /></td>
                     <td colspan="1" style="text-align:left;border-style:none;">Signature:</td>
-                    <td colspan="2" style="text-align:center;border-left:0;border-top:0;"><asp:TextBox runat="server" ID="Textbox67" BorderStyle="None"/></td>
+                    <td colspan="2" style="text-align:center;border-left:0;border-top:0;">
+                        <asp:Image ImageUrl="imageurl" ID="Image3" runat="server" /></td>
                     <td colspan="1" style="text-align:left;border-style:none;">Signature:</td>
-                    <td colspan="2" style="text-align:center;border-left:0;border-top:0;"><asp:TextBox runat="server" ID="Textbox71" BorderStyle="None"/></td>
+                    <td colspan="2" style="text-align:center;border-left:0;border-top:0;">
+                        <asp:Image ImageUrl="imageurl" ID="Image4" runat="server" /></td>
+
                 </tr>
                 <tr>
                     <td colspan="2" style="text-align:center;border-style:none">危险源辨别、评价控制</td>
@@ -524,8 +536,8 @@
                 </tr>
             </table>
          <div style="text-align:center">
-            <asp:Button ID="Button1" runat="server" Text="保存" OnClick="Button1_Click"/>&nbsp;&nbsp;&nbsp;&nbsp;
-            <asp:Button ID="Button2" runat="server" Text="提交" style="height: 21px" OnClick="Button2_Click" />&nbsp;&nbsp;&nbsp;&nbsp;
+            <asp:Button ID="Button1" runat="server" Text="提交" OnClick="Button1_Click"/>&nbsp;&nbsp;&nbsp;&nbsp;
+            <asp:Button ID="Button2" runat="server" Text="保存" style="height: 21px" OnClick="Button2_Click" />&nbsp;&nbsp;&nbsp;&nbsp;
             <asp:Button ID="Button3" runat="server" Text="返回" OnClick="Button3_Click" />
         </div>
         <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" CellPadding="4" GridLines="None" ForeColor="#333333">

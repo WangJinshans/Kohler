@@ -204,23 +204,24 @@
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">直线经理审批</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox27" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6">
+                    <asp:Image ImageUrl="imageurl" ID="Image1" runat="server" /></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">采购经理审批</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox28" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:Image ImageUrl="imageurl" ID="Image2" runat="server" /></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">法务部审批 （如果供应商的收款银行在海外，请提供）</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox29" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:Image ImageUrl="imageurl" ID="Image3" runat="server" /></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">财务经理审批（如果账期是“根据合同付款”或者“小于60天”，请提供）</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox30" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:Image ImageUrl="imageurl" ID="Image4" runat="server" /></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">总监审批 （特殊事宜）</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox31" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:Image ImageUrl="imageurl" ID="Image5" runat="server" /></td>
 			</tr>
 			<tr>
 				<td colspan="2" style="text-align:center;background-color:black;color:#ffffff">Comments</td>

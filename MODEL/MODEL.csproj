@@ -49,17 +49,22 @@
     <Compile Include="VendorAssess\As_Assess_Flow.cs" />
     <Compile Include="VendorAssess\As_Authority.cs" />
     <Compile Include="VendorAssess\As_Authority_Position.cs" />
+    <Compile Include="VendorAssess\As_Bidding_Approval.cs" />
     <Compile Include="VendorAssess\As_Contract_Approval.cs" />
     <Compile Include="VendorAssess\As_Department.cs" />
+    <Compile Include="VendorAssess\As_Edit_Flow.cs" />
     <Compile Include="VendorAssess\As_Employee.cs" />
+    <Compile Include="VendorAssess\As_Employee_Form.cs" />
     <Compile Include="VendorAssess\As_Employee_Vendor.cs" />
     <Compile Include="VendorAssess\As_File.cs" />
     <Compile Include="VendorAssess\As_FileType_FormType.cs" />
     <Compile Include="VendorAssess\As_File_Type.cs" />
     <Compile Include="VendorAssess\As_Form.cs" />
     <Compile Include="VendorAssess\As_Form_AssessFlow.cs" />
+    <Compile Include="VendorAssess\As_Form_EditFlow.cs" />
     <Compile Include="VendorAssess\As_Form_File.cs" />
     <Compile Include="VendorAssess\As_Form_Type.cs" />
+    <Compile Include="VendorAssess\As_KCI_Approval.cs" />
     <Compile Include="VendorAssess\As_Position.cs" />
     <Compile Include="VendorAssess\As_Temp_Vendor.cs" />
     <Compile Include="VendorAssess\As_VendorType_FileType.cs" />
@@ -73,8 +78,11 @@
     <Compile Include="VendorAssess\As_Vendor_FormType.cs" />
     <Compile Include="VendorAssess\As_Vendor_Risk.cs" />
     <Compile Include="VendorAssess\As_Vendor_Risk_Notes.cs" />
+    <Compile Include="VendorAssess\As_Vendor_Selection.cs" />
+    <Compile Include="VendorAssess\As_Vendor_Selection_Supplier.cs" />
     <Compile Include="VendorAssess\As_Vendor_Type.cs" />
     <Compile Include="VendorAssess\As_Write.cs" />
+    <Compile Include="VendorAssess\As_Bidding_Approval_Item.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

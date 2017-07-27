@@ -73,7 +73,7 @@ namespace DAL
 
         public static int updateVendorCreation(As_Vendor_Creation vendorCreation)
         {
-            string sql = "update As_VendorCreation SET Purpose=@Purpose,Initiator_Name=@Initiator_Name,Initiator_Tel=@Initiator_Tel,Company_Code=@Company_Code,Vendor_Code=@Vendor_Code,Vendor_Name=@Vendor_Name,Street=@Street,City=@City,Country=@Country,Region=@Region,Language=@Language,Telephone_No=@Telephone_No,Fax_No=@Fax_No,Email_Address_One=@Email_Address_One,Email_Address_Two=@Email_Address_Two,Tax_Identification_Number=@Tax_Identification_Number,Payment_Term=@Payment_Term,Payment_Method=@Payment_Method,Bank_Code=@Bank_Code,Bank_Name=@Bank_Name,Bank_Country=@Bank_Country,Bank_Account=@Bank_Account,Money_Type=@Money_Type,Trade_Onym=@Trade_Onym,Line_Manager=@Line_Manager,Purchasing_Manager=@Purchasing_Manager,Ministry_Of_Law=@Ministry_Of_Law,Accounting_Dept=@Accounting_Dept,Chief_Inspector=@Chief_Inspector,Comments=@Comments,flag=@flag,Form_Type_ID=@Form_Type_ID,Temp_Vendor_ID=@Temp_Vendor_ID where Form_ID=@Form_ID";
+            string sql = "update As_VendorCreation SET Purpose=@Purpose,Initiator_Name=@Initiator_Name,Initiator_Tel=@Initiator_Tel,Company_Code=@Company_Code,Vendor_Code=@Vendor_Code,Vendor_Name=@Vendor_Name,Street=@Street,City=@City,Country=@Country,Region=@Region,Language=@Language,Telephone_No=@Telephone_No,Fax_No=@Fax_No,Email_Address_One=@Email_Address_One,Email_Address_Two=@Email_Address_Two,Tax_Identification_Number=@Tax_Identification_Number,Payment_Term=@Payment_Term,Payment_Method=@Payment_Method,Bank_Code=@Bank_Code,Bank_Name=@Bank_Name,Bank_Country=@Bank_Country,Bank_Account=@Bank_Account,Money_Type=@Money_Type,Trade_Onym=@Trade_Onym,Comments=@Comments,flag=@flag,Form_Type_ID=@Form_Type_ID,Temp_Vendor_ID=@Temp_Vendor_ID where Form_ID=@Form_ID";
 
             //string sqls = "update As_VendorCreation set Purpose=@Purpose,Initiator_Name=@Initiator_Name,"
             //    + "Initiator_Tel=@Initiator_Tel,Company_Code=@Company_Code,Vendor_Code=@Vendor_Code,"
@@ -111,11 +111,11 @@ namespace DAL
                 new SqlParameter("@Bank_Account",vendorCreation.Bank_Account),
                 new SqlParameter("@Money_Type",vendorCreation.Money_Type),
                 new SqlParameter("@Trade_Onym",vendorCreation.Trade_Onym),
-                new SqlParameter("@Line_Manager",vendorCreation.Line_Manager),
-                new SqlParameter("@Purchasing_Manager",vendorCreation.Purchasing_Manager),
-                new SqlParameter("@Ministry_Of_Law",vendorCreation.Ministry_Of_Law),
-                new SqlParameter("@Accounting_Dept",vendorCreation.Accounting_Dept),
-                new SqlParameter("@Chief_Inspector",vendorCreation.Chief_Inspector),
+                //new SqlParameter("@Line_Manager",vendorCreation.Line_Manager),
+                //new SqlParameter("@Purchasing_Manager",vendorCreation.Purchasing_Manager),
+                //new SqlParameter("@Ministry_Of_Law",vendorCreation.Ministry_Of_Law),
+                //new SqlParameter("@Accounting_Dept",vendorCreation.Accounting_Dept),
+                //new SqlParameter("@Chief_Inspector",vendorCreation.Chief_Inspector),
                 new SqlParameter("@Comments",vendorCreation.Comments),
                 new SqlParameter("@flag",vendorCreation.Flag),
                 new SqlParameter("@Form_Type_ID",vendorCreation.Form_Type_ID),
@@ -164,9 +164,9 @@ namespace DAL
                     vendorCreation.Trade_Onym = item["Trade_Onym"].ToString().Trim();
                     vendorCreation.Line_Manager = item["Line_Manager"].ToString().Trim();
                     vendorCreation.Purchasing_Manager = item["Purchasing_Manager"].ToString().Trim();
-                    vendorCreation.Ministry_Of_Law = item["Ministry_Of_Law"].ToString().Trim();
-                    vendorCreation.Accounting_Dept = item["Accounting_Dept"].ToString().Trim();
-                    vendorCreation.Chief_Inspector = item["Chief_Inspector"].ToString().Trim();
+                    vendorCreation.Ministry_Of_Law = item["Legal_Affair_Department"].ToString().Trim();
+                    vendorCreation.Accounting_Dept = item["Finance_Leader"].ToString().Trim();
+                    vendorCreation.Chief_Inspector = item["General_Manager"].ToString().Trim();
                     vendorCreation.Comments = item["Comments"].ToString().Trim();
                     vendorCreation.Flag = Convert.ToInt32(item["Flag"]);
                 }

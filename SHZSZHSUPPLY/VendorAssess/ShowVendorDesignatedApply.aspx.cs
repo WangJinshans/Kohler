@@ -8,7 +8,7 @@ namespace VendorAssess
     public partial class ShowVendorDesignatedApply : System.Web.UI.Page
     {
         private string formID = null;
-
+        private string positionName = null;
         /// <summary>
         /// Page Load
         /// </summary>
@@ -39,9 +39,9 @@ namespace VendorAssess
         private void showapproveform(string FormID)
         {
             As_Approve approve = new As_Approve();
-            string sql = "SELECT * FROM As_Approve WHERE Form_ID='" + FormID + "'";
+            string sql = "SELECT * FROM View_Approve_Top WHERE Form_ID='" + FormID + "'";
             PagedDataSource objpds = new PagedDataSource();
-            objpds.DataSource = AssessFlow_BLL.listApprove(sql);
+            objpds.DataSource = AssessFlow_BLL.listApprove(sql,positionName);
             GridView1.DataSource = objpds;
             GridView1.DataBind();
         }
@@ -69,34 +69,54 @@ namespace VendorAssess
                 TextBox7.Text = form.Initiator;
                 TextBox8.Text = form.Date.ToString();
                 TextBox9.Text = form.Applicant;
-                TextBox10.Text = form.RequestDeptHead;
-                TextBox11.Text = form.FinManager;
+                hideImage(form.RequestDeptHead, Image1);
+                hideImage(form.FinManager, Image2);
+                //Image1.ImageUrl = form.RequestDeptHead;
+                //Image2.ImageUrl = form.FinManager;
                 TextBox12.Text = form.ApplicantDate.ToString();
                 TextBox13.Text = form.RequestDeptHeadDate.ToString();
                 TextBox14.Text = form.FinManagerDate.ToString();
-                TextBox15.Text = form.PurchasingManager;
-                TextBox16.Text = form.GM;
+                hideImage(form.PurchasingManager, Image3);
+                hideImage(form.GM, Image4);
+                //Image3.ImageUrl = form.PurchasingManager;
+                //Image4.ImageUrl = form.GM;
                 TextBox17.Text = form.PurchasingManagerDtae.ToString();
                 TextBox18.Text = form.GMDate1.ToString();
-                TextBox19.Text = form.Director;
-                TextBox20.Text = form.SupplyChainDirector;
+                hideImage(form.Director, Image5);
+                hideImage(form.SupplyChainDirector, Image6);
+                //Image5.ImageUrl = form.Director;
+                //Image6.ImageUrl = form.SupplyChainDirector;
                 TextBox21.Text = form.DirectorDtae.ToString();
                 TextBox22.Text = form.SupplyChainDirectorDate.ToString();
-                TextBox23.Text = form.Persident;
+                hideImage(form.Persident, Image7);
+                //Image7.ImageUrl = form.Persident;
                 TextBox24.Text = form.FinalDate.ToString();
+            }
+            else
+            {
+                Image1.Visible = false;//设置不可见
+                Image2.Visible = false;
+                Image3.Visible = false;
+                Image4.Visible = false;
+                Image5.Visible = false;
+                Image6.Visible = false;
+                Image7.Visible = false;
             }
         }
 
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            //重新读取session信息
+            getSessionInfo();
+
             //TODO::简单的审批权限控制，通过之后无法再拒绝，拒绝之后无法再通过，拒绝需要填写原因，三厂区分
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
             string formid = GridView1.Rows[drv.RowIndex].Cells[0].Text;
-            string positionName = GridView1.Rows[drv.RowIndex].Cells[1].Text;
+            string selectPositionName = GridView1.Rows[drv.RowIndex].Cells[1].Text;
 
             if (e.CommandName == "approvesuccess")
             {
-                if (positionName.Equals(Session["Position_Name"].ToString()))
+                if (selectPositionName.Equals(Session["Position_Name"].ToString()))
                 {
                     int i = AssessFlow_BLL.updateApprove(formid, positionName);
                     if (i == 1)
@@ -116,7 +136,7 @@ namespace VendorAssess
             }
             else if (e.CommandName == "fail")
             {
-                if (positionName.Equals(Session["Position_Name"].ToString()))
+                if (selectPositionName.Equals(Session["Position_Name"].ToString()))
                 {
                     int i = AssessFlow_BLL.updateApproveFail(formid, positionName);
                     if (i == 1)
@@ -141,6 +161,20 @@ namespace VendorAssess
         private void getSessionInfo()
         {
             formID = Session["formID"].ToString();
+            positionName = Session["Position_Name"].ToString();
         }
+
+        private void hideImage(string signature, Image image)
+        {
+            if (signature != "")
+            {
+                image.ImageUrl = signature;
+            }
+            else
+            {
+                image.Visible = false;
+            }
+        }
+
     }
 }

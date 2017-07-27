@@ -13,6 +13,7 @@ namespace SHZSZHSUPPLY.VendorAssess
     public partial class ShowVendorExtend : System.Web.UI.Page
     {
         private string formID = null;
+        private string positionName = null;
         protected void Page_Load(object sender, EventArgs e)
         {
             int check = VendorExtend_BLL.checkVendorExtend(formID);
@@ -20,7 +21,10 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 showForm();
             }
-
+            else
+            {
+                Image1.Visible = false;
+            }
             showapproveform(formID);
             showfilelist(formID);
         }
@@ -38,9 +42,11 @@ namespace SHZSZHSUPPLY.VendorAssess
             TextBox6.Text = v.From_Company;
             TextBox7.Text = v.Email;
             TextBox8.Text = v.Money_Type;
-            TextBox9.Text = v.Line_Manager;
+            //Image1.ImageUrl = v.Line_Manager;
+            hideImage(v.Line_Manager, Image1);
             TextBox10.Text = v.Comments;
         }
+        
         public void showfilelist(string FormID)
         {
             As_Form_File Form_File = new As_Form_File();
@@ -50,13 +56,23 @@ namespace SHZSZHSUPPLY.VendorAssess
             GridView2.DataSource = objpds;
             GridView2.DataBind();
         }
-
+        private void hideImage(string signature, Image image)
+        {
+            if (signature != "")
+            {
+                image.ImageUrl = signature;
+            }
+            else
+            {
+                image.Visible = false;
+            }
+        }
         public void showapproveform(string FormID)
         {
             As_Approve approve = new As_Approve();
             string sql = "SELECT * FROM As_Approve WHERE Form_ID='" + FormID + "'";
             PagedDataSource objpds = new PagedDataSource();
-            objpds.DataSource = AssessFlow_BLL.listApprove(sql);
+            objpds.DataSource = AssessFlow_BLL.listApprove(sql,positionName);
             GridView1.DataSource = objpds;
             GridView1.DataBind();
         }

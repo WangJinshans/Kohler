@@ -1,20 +1,16 @@
 ﻿using BLL;
 using Model;
+using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace AendorAssess
 {
     public partial class EmployeeVendor : System.Web.UI.Page
     {
+        private static string temp_Vendor_ID;//可能因为得不到值  所以加了static
         private static IList<As_Vendor_FormType> list = new List<As_Vendor_FormType>();
-
-
-
         /// <summary>
         /// Page Load
         /// </summary>
@@ -50,17 +46,23 @@ namespace AendorAssess
                 //根据供应商类型编号查询所有未填写表格类型
                 string sql = "SELECT * FROM As_Vendor_FormType WHERE Temp_Vendor_ID='" + e.CommandArgument.ToString() + "'and flag ='0'";
                 PagedDataSource objpds = new PagedDataSource();
+                IList<As_Vendor_FormType> gridView2list = new List<As_Vendor_FormType>();
+                gridView2list= SelectEmployeeVendor_BLL.listVendorFormType(sql);
 
-                list = SelectEmployeeVendor_BLL.listVendorFormType(sql);
+                //提交判断的list status中1代表已经完成审批 0代表未完成审批
+                //string sql1 = "SELECT * FROM As_Form_Type,As_Form WHERE As_Form_Type.Form_Type_ID=As_Form.Form_Type_ID and Temp_Vendor_ID='" + e.CommandArgument.ToString() + "'and Status='1'";
+                //list = SelectEmployeeVendor_BLL.listVendorFormType(sql1);
 
-                objpds.DataSource = list;
+                temp_Vendor_ID = e.CommandArgument.ToString();//获取temp_Vendor_ID;方便后面获取最小值时使用
+                objpds.DataSource = gridView2list;
                 //获取数据源
                 GridView2.DataSource = objpds;
                 //绑定数据源
                 GridView2.DataBind();
 
+                //TODO::查询所有待确认表格
 
-                //根据供应商类型编号查询所有已填写表格
+                //根据供应商类型编号查询所有已提交表格
                 As_Form form = new As_Form();
                 string sql2 = "SELECT * FROM As_Form WHERE Temp_Vendor_Name='" + GridView1.Rows[drv.RowIndex].Cells[2].Text + "'";
                 PagedDataSource objpds2 = new PagedDataSource();
@@ -108,7 +110,6 @@ namespace AendorAssess
                 string formTypeID = e.CommandArgument.ToString();
                 string tempVendorID = TempVendor_BLL.getTempVendorID(tempvendorname);
                 Session["tempVendorID"] = tempVendorID;
-
                 //点击不同表格进入到不同界面.
                 switchPage(e.CommandArgument.ToString(), tempVendorID);
             }
@@ -131,6 +132,21 @@ namespace AendorAssess
                 case "002":
                     pageRedirect("BiddingApprovalform.aspx", "002");
                     break;
+                case "011":
+                    pageRedirect("BiddingApprovalform.aspx", "011");
+                    break;
+                case "012":
+                    pageRedirect("BiddingApprovalform.aspx", "012");
+                    break;
+                case "013":
+                    pageRedirect("BiddingApprovalform.aspx", "013");
+                    break;
+                case "014":
+                    pageRedirect("BiddingApprovalform.aspx", "014");
+                    break;
+                case "015":
+                    pageRedirect("BiddingApprovalform.aspx", "015");
+                    break;
                 case "003":
                     if (CheckFile_BLL.checkFile("003",tempVendorID) == 0)
                     {
@@ -150,6 +166,24 @@ namespace AendorAssess
                     {
                         pageRedirect("VendorDesignatedApply.aspx", "004");
                     }
+                    break;
+                case "005":
+                    pageRedirect("ContractApprovalForm.aspx", "005");
+                    break;
+                case "006":
+                    pageRedirect("ContractApprovalForm.aspx", "006");
+                    break;
+                case "007":
+                    pageRedirect("ContractApprovalForm.aspx", "007");
+                    break;
+                case "008":
+                    pageRedirect("ContractApprovalForm.aspx", "008");
+                    break;
+                case "009":
+                    pageRedirect("ContractApprovalForm.aspx", "009");
+                    break;
+                case "010":
+                    pageRedirect("ContractApprovalForm.aspx", "010");
                     break;
                 case "016":
                     pageRedirect("VendorSelection.aspx", "016");
@@ -178,10 +212,18 @@ namespace AendorAssess
         {
             //获取信息
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
-            Session["formID"]= GridView3.Rows[drv.RowIndex].Cells[2].Text;
-
+            Session["formID"] = GridView3.Rows[drv.RowIndex].Cells[2].Text;
+            string switchPage = "";//由于多张表都叫合同审批表只是金额不同 填写查看时进入相同的表
+            if (e.CommandArgument.ToString().Contains("合同审批表"))
+            {
+                switchPage = "合同审批表(承诺<=RMB1.5M)";
+            }
+            else
+            {
+                switchPage = e.CommandArgument.ToString();
+            }
             //选择
-            switch (e.CommandArgument.ToString())
+            switch (switchPage)
             {
                 case "供应商调查表":
                     Response.Redirect("ShowVendorDiscovery.aspx");
@@ -189,11 +231,20 @@ namespace AendorAssess
                 case "指定供应商申请表":
                     Response.Redirect("ShowVendorDesignatedApply.aspx");
                     break;
-                case "供应商信息表":
+                case "供应商信息表(建立)":
                     Response.Redirect("ShowVendorCreation.aspx");
                     break;
                 case "供应商风险分析表":
                     Response.Redirect("ShowVendorRiskAnalysis.aspx");
+                    break;
+                case "合同审批表(承诺<=RMB1.5M)":
+                    Response.Redirect("ShowContractApprovalForm.aspx");
+                    break;
+                case "合同审批表(非承诺<=RMB3M)":
+                    Response.Redirect("ShowContractApprovalForm.aspx");
+                    break;
+                case "供应商选择表":
+                    Response.Redirect("ShowVendorSelection.aspx");
                     break;
                 default:
                     break;
@@ -209,48 +260,13 @@ namespace AendorAssess
         {
             if (e.CommandName == "UpLoad")
             {
-                string fullFileName = FileUpload1.PostedFile.FileName;//取出本地路径
-                string fileName = fullFileName.Substring(fullFileName.LastIndexOf("\\") + 1);//取出文件名
-                string type = fullFileName.Substring(fullFileName.LastIndexOf(".") + 1);//限定格式为pdf
-                if (type == "pdf")
-                {
-                    //文件保存在服务器的files文件中
-                    string saveFileName = Server.MapPath("/files") + "//" + fileName;
-                    FileUpload1.PostedFile.SaveAs(saveFileName);
-
-                    //向数据库中存储相应通知的附件的目录  
-                    As_File file = new As_File();     //创建附件的实体  
-
-                    file.File_Name = fileName;               //附件名  
-                    file.File_Path = saveFileName;        //附件的存储路径  
-                    file.Temp_Vendor_ID = Session["tempVendorID"].ToString();
-                    string tempvendorname = Session["tempvendorname"].ToString();
-
-                    file.Temp_Vendor_Name = tempvendorname;
-                    file.File_ID = tempvendorname + fileName;
-                    file.File_Enable_Time = "100";
-                    file.File_Due_Time = "200";
-                    GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
-                    file.File_Type_ID = GridView4.Rows[drv.RowIndex].Cells[2].Text;
-
-                    string Temp_Vendor_ID = TempVendor_BLL.getTempVendorID(tempvendorname);
-                    int join = File_BLL.addFile(file);
-                    int flag = UpdateFlag_BLL.updateFileFlag(file.File_Type_ID, Temp_Vendor_ID);
-                    if (join > 0 && flag > 0)
-                    {
-                        ClientScript.RegisterStartupScript(GetType(), "message", "<script>alert('上传成功！');</script>");
-                    }
-                    else
-                    {
-                        ClientScript.RegisterStartupScript(GetType(), "message", "<script>alert('上传失败！');</script>");
-                    }
-
-                    
-                }
-
-
+                GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
+                string tempVendorID = Session["tempVendorID"].ToString();
+                string tempVendorName = Session["tempvendorname"].ToString();
+                string fileTypeID = GridView4.Rows[drv.RowIndex].Cells[2].Text;
+                string requestType = "fileUpload";
+                LocalScriptManager.CreateScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}')",requestType,tempVendorID,tempVendorName,fileTypeID), "upload");
             }
-
         }
 
         protected void GridView5_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -261,15 +277,54 @@ namespace AendorAssess
         {
             //得到当前选中的的优先顺序数
             int selectedFormPriorityNumber = getSelectedFormPriorityNumber(formTypeID);
-
-            if (isMinimum(selectedFormPriorityNumber))
+            int type = Convert.ToInt32(formTypeID);
+            if (type == 2 || (type >= 11 && type <= 15)) 
             {
-                Response.Redirect(aimPageName+"?submit=" + "yes");
+                if (CheckFile_BLL.checkFile(formTypeID, Session["tempVendorID"].ToString()) == 0)
+                {
+                    Response.Write("<script>window.alert('请先上传完整所需文件！')</script>");
+                }
+                else
+                {
+                    if (isMinimum(selectedFormPriorityNumber,Session["tempVendorID"].ToString()))
+                    {
+                        Response.Redirect(aimPageName + "?submit=yes&type=" + formTypeID);
+                    }
+                    else
+                    {
+                        Response.Redirect(aimPageName + "?submit=no&type=" + formTypeID);
+                    }
+                }
+            }
+            else if (type >=5 && type <= 9){
+                if (CheckFile_BLL.checkFile(formTypeID, Session["tempVendorID"].ToString()) == 0)
+                {
+                    Response.Write("<script>window.alert('请先上传完整所需文件！')</script>");
+                }
+                else
+                {
+                    if (isMinimum(selectedFormPriorityNumber,Session["tempVendorID"].ToString()))
+                    {
+                        Response.Redirect(aimPageName + "?submit=yes&type=" + formTypeID);
+                    }
+                    else
+                    {
+                        Response.Redirect(aimPageName + "?submit=no&type=" + formTypeID);
+                    }
+                }
             }
             else
             {
-                Response.Redirect(aimPageName + "?submit=" + "no");
+                if (isMinimum(selectedFormPriorityNumber,Session["tempVendorID"].ToString()))
+                {
+                    Response.Redirect(aimPageName + "?submit=" + "yes");
+                }
+                else
+                {
+                    Response.Redirect(aimPageName + "?submit=" + "no");
+                }
             }
+
         }
 
         /// <summary>
@@ -287,25 +342,26 @@ namespace AendorAssess
         /// </summary>
         /// <param name="number"></param>
         /// <returns></returns>
-        private bool isMinimum(int number)
+        private bool isMinimum(int number,string temp_Vendor_ID)
         {
-            List<string> vendorlist = new List<string>();
-            if (list != null && list.Count > 0)
-            {
-                for (int i = 0; i < list.Count; i++)
-                {
-                    vendorlist.Add(list[i].Form_Type_ID);
-                }
-            }
-            int minimum = FormType_BLL.getMinimumFormPriorityNumber(vendorlist);
-            if (number <= minimum) //优先级是最高的 
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            //List<string> vendorlist = new List<string>();
+            //if (list != null && list.Count > 0)
+            //{
+            //    for (int i = 0; i < list.Count; i++)
+            //    {
+            //        vendorlist.Add(list[i].Form_Type_ID);
+            //    }
+            //}
+            //int minimum = FormType_BLL.getMinimumFormPriorityNumber(vendorlist);
+            //if (number <= minimum) //优先级是最高的 
+            //{
+            //    return true;
+            //}
+            //else
+            //{
+            //    return false;
+            //}
+            return FormType_BLL.isMinimumFormPriorityNumber(number, temp_Vendor_ID);
         }
     }
 }

@@ -47,8 +47,8 @@ namespace DAL
             string sql = "update As_Vendor_Block_Or_UnBlock set Language=@Language,"
                 + "Temp_Vendor_ID=Temp_Vendor_ID,Form_Type_ID=@Form_Type_ID,Bar_Code=@Bar_Code,"
                 + "Purpose=@Purpose,Initiator_Name=@Initiator_Name,Initiator_Tel=@Initiator_Tel,"
-                + "Company_Code=@Company_Code,Vendor_Code=@Vendor_Code,Line_Manager=@Line_Manager,"
-                + "Purchasing_Manager=@Purchasing_Manager,Comments=@Comments where Temp_Vendor_Name=@Temp_Vendor_Name";
+                + "Company_Code=@Company_Code,Vendor_Code=@Vendor_Code,"
+                + "Comments=@Comments where Temp_Vendor_Name=@Temp_Vendor_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_ID",Block_UnBlock.Temp_Vendor_ID),
@@ -60,8 +60,8 @@ namespace DAL
                 new SqlParameter("@Initiator_Tel",Block_UnBlock.Initiator_Tel),
                 new SqlParameter("@Company_Code",Block_UnBlock.Company_Code),
                 new SqlParameter("@Vendor_Code",Block_UnBlock.Vendor_Code),
-                new SqlParameter("@Line_Manager",Block_UnBlock.Line_Manager),
-                new SqlParameter("@Purchasing_Manager",Block_UnBlock.Purchasing_Manager),
+                //new SqlParameter("@Line_Manager",Block_UnBlock.Line_Manager),
+                //new SqlParameter("@Purchasing_Manager",Block_UnBlock.Purchasing_Manager),
                 new SqlParameter("@Comments",Block_UnBlock.Comments),
                 new SqlParameter("@Temp_Vendor_Name",Block_UnBlock.Temp_Vendor_Name)
             };

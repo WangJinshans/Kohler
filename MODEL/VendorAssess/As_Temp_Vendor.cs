@@ -13,6 +13,7 @@ namespace Model
         private string vendor_Type_ID;
         private string normal_Vendor_ID;
         private int id;
+        private int purchase_Amount;
 
         public string Temp_Vendor_ID
         {
@@ -75,6 +76,19 @@ namespace Model
             set
             {
                 normal_Vendor_ID = value;
+            }
+        }
+
+        public int Purchase_Amount
+        {
+            get
+            {
+                return purchase_Amount;
+            }
+
+            set
+            {
+                purchase_Amount = value;
             }
         }
     }

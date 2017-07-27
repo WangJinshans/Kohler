@@ -1,4 +1,4 @@
-﻿using BLL;
+using BLL;
 using Model;
 using MODEL;
 using System;
@@ -9,6 +9,8 @@ namespace SHZSZHSUPPLY.VendorAssess
     public partial class ShowVendorBlockOrUnBlock : System.Web.UI.Page
     {
         private string formID = null;
+        private string positionName = null;
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -35,9 +37,14 @@ namespace SHZSZHSUPPLY.VendorAssess
                 TextBox3.Text = v.Initiator_Tel;
                 TextBox4.Text = v.Company_Code;
                 TextBox5.Text = v.Vendor_Code;
-                TextBox6.Text = v.Line_Manager;
-                TextBox7.Text = v.Purchasing_Manager;
+                hideImage(v.Line_Manager, Image1);
+                hideImage(v.Purchasing_Manager, Image2);
                 TextBox8.Text = v.Comments;
+            }
+            else
+            {
+                Image1.Visible = false;
+                Image2.Visible = false;
             }
             showapproveform(formID);
             showfilelist(formID);
@@ -59,7 +66,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             As_Approve approve = new As_Approve();
             string sql = "SELECT * FROM As_Approve WHERE Form_ID='" + FormID + "'";
             PagedDataSource objpds = new PagedDataSource();
-            objpds.DataSource = AssessFlow_BLL.listApprove(sql);
+            objpds.DataSource = AssessFlow_BLL.listApprove(sql,positionName);
             GridView1.DataSource = objpds;
             GridView1.DataBind();
         }
@@ -68,6 +75,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         private void getSessionInfo()
         {
             formID = Session["formID"].ToString();
+            positionName = Session["Position_Name"].ToString();
         }
 
 
@@ -117,6 +125,18 @@ namespace SHZSZHSUPPLY.VendorAssess
                         Response.Write("<script>window.alert('当前登录账号无对应权限！')</script>");
                     }
                 }
+            }
+        }
+
+        private void hideImage(string signature, Image image)
+        {
+            if (signature != "")
+            {
+                image.ImageUrl = signature;
+            }
+            else
+            {
+                image.Visible = false;
             }
         }
     }

@@ -61,7 +61,15 @@
     <Compile Include="VendorAssess\AddEmployeeVendor_BLL.cs" />
     <Compile Include="VendorAssess\AddForm_BLL.cs" />
     <Compile Include="VendorAssess\AssessFlow_BLL.cs" />
+    <Compile Include="VendorAssess\As_Bidding_Approval_BLL.cs" />
     <Compile Include="VendorAssess\As_Vendor_Designated_Apply_BLL.cs" />
+    <Compile Include="VendorAssess\CheckFlag_BLL.cs" />
+    <Compile Include="VendorAssess\ContractApproval_BLL.cs" />
+    <Compile Include="VendorAssess\EmployeeForm_BLL.cs" />
+    <Compile Include="VendorAssess\EditFlow_BLL.cs" />
+    <Compile Include="VendorAssess\KCIApproval_BLL.cs" />
+    <Compile Include="VendorAssess\Signature_BLL.cs" />
+    <Compile Include="VendorAssess\VendorSelectionSupplier_BLL.cs" />
     <Compile Include="VendorAssess\CheckFile_BLL.cs" />
     <Compile Include="VendorAssess\Employee_BLL.cs" />
     <Compile Include="VendorAssess\FileType_FormType_BLL.cs" />
@@ -81,6 +89,8 @@
     <Compile Include="VendorAssess\VendorDiscovery_BLL.cs" />
     <Compile Include="VendorAssess\VendorExtend_BLL.cs" />
     <Compile Include="VendorAssess\VendorRiskAnalysis_BLL.cs" />
+    <Compile Include="VendorAssess\VendorSelection_BLL.cs" />
+    <Compile Include="VendorAssess\VendorType_BLL.cs" />
     <Compile Include="VendorAssess\Write_BLL.cs" />
   </ItemGroup>
   <ItemGroup>

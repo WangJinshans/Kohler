@@ -13,6 +13,7 @@ namespace SHZSZHSUPPLY.VendorAssess
     public partial class ShowVendorDiscovery : System.Web.UI.Page
     {
         private string formID = null;
+        private string positionName = null;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -108,9 +109,9 @@ namespace SHZSZHSUPPLY.VendorAssess
         public void showapproveform(string FormID)
         {
             As_Approve approve = new As_Approve();
-            string sql = "SELECT * FROM As_Approve WHERE Form_ID='" + FormID + "'";
+            string sql = "SELECT * FROM View_Approve_Top WHERE Form_ID='" + FormID + "'";
             PagedDataSource objpds = new PagedDataSource();
-            objpds.DataSource = AssessFlow_BLL.listApprove(sql);
+            objpds.DataSource = AssessFlow_BLL.listApprove(sql,positionName);
             GridView1.DataSource = objpds;
             GridView1.DataBind();
         }
@@ -125,14 +126,17 @@ namespace SHZSZHSUPPLY.VendorAssess
         }
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            //重新读取session信息
+            getSessionInfo();
+
             //TODO::简单的审批权限控制，通过之后无法再拒绝，拒绝之后无法再通过，拒绝需要填写原因，三厂区分
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
             string formid = GridView1.Rows[drv.RowIndex].Cells[0].Text;
-            string positionName = GridView1.Rows[drv.RowIndex].Cells[1].Text;
+            string selectPositionName = GridView1.Rows[drv.RowIndex].Cells[1].Text;
 
             if (e.CommandName == "approvesuccess")
             {
-                if (positionName.Equals(Session["Position_Name"].ToString()))
+                if (selectPositionName.Equals(positionName))
                 {
                     int i = AssessFlow_BLL.updateApprove(formid, positionName);
                     if (i == 1)
@@ -152,7 +156,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
             else if (e.CommandName == "fail")
             {
-                if (positionName.Equals(Session["Position_Name"].ToString()))
+                if (selectPositionName.Equals(positionName))
                 {
                     int i = AssessFlow_BLL.updateApproveFail(formid, positionName);
                     if (i == 1)
@@ -178,6 +182,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         private void getSessionInfo()
         {
             formID = Session["formID"].ToString();
+            positionName = Session["Position_Name"].ToString();
         }
     }
 }

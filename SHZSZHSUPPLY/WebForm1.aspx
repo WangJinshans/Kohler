@@ -45,7 +45,7 @@
      
      .style6
      {
-         width:1000px;
+         width:100%;
          height:100%;
      }
      
@@ -53,7 +53,9 @@
      
         .iFrame1
         {
-            width: 1000px;
+            width: 100%;
+            height: 637px;
+            margin-left: 0px;
         }
              
      
@@ -112,95 +114,87 @@
 </head>
 <body   style ="margin:0">
     <form id="form1" runat="server" class="style1"  >
-    
-   
-   <table  cellpadding="0" cellspacing="0" class="style2" align="center"  >
-  <tr>
-  <td class="style3">
-      <asp:Image ID="Image1" runat="server" ImageUrl="~/pic/logo1.jpg"  CssClass ="style3" ImageAlign ="AbsBottom"/>
-      </td>
-  <td class="style4">
-      <asp:Image ID="Image2" runat="server" ImageUrl="~/pic/logo2.jpg" CssClass ="style4" ImageAlign ="AbsBottom"  />
-      </td>
-  </tr>
- 
-   </table>
-   <table cellpadding="0" cellspacing="0" class="style5" align="center">
-   <tr>
-   <td bgcolor="#324143" style="width:250px">
-       <asp:Label ID="Label1" runat="server" Text="Welcome:"  style="font-weight: 700; font-size: small; color: #FFFFFF"></asp:Label>
-       <asp:Label ID="Label2" runat="server" Text="Label"  style="font-weight: 700; font-size: small; color: #FFFFFF"></asp:Label>
-       <asp:Label ID="Label3" runat="server" Text="Label" style="font-weight: 700; font-size: small; color: #FFFFFF"></asp:Label>
-       </td>
+        <table cellpadding="0" cellspacing="0" class="style2" align="center">
+            <tr>
+                <td class="style3">
+                    <asp:Image ID="Image1" runat="server" ImageUrl="~/pic/logo1.jpg" CssClass="style3" ImageAlign="AbsBottom" />
+                </td>
+                <td class="style4">
+                    <asp:Image ID="Image2" runat="server" ImageUrl="~/pic/logo2.jpg" CssClass="style4" ImageAlign="AbsBottom" />
+                </td>
+            </tr>
+        </table>
+        <table cellpadding="0" cellspacing="0" class="style5" align="center">
+            <tr>
+                <td bgcolor="#324143" style="width: 250px">
+                    <asp:Label ID="Label1" runat="server" Text="Welcome:" Style="font-weight: 700; font-size: small; color: #FFFFFF"></asp:Label>
+                    <asp:Label ID="Label2" runat="server" Text="Label" Style="font-weight: 700; font-size: small; color: #FFFFFF"></asp:Label>
+                    <asp:Label ID="Label3" runat="server" Text="Label" Style="font-weight: 700; font-size: small; color: #FFFFFF"></asp:Label>
+                </td>
 
-       <td bgcolor="#324143" >
-         
-<ul id="jsddm"  >
-	<li><a href="#" style =" text-align :center ">供应商管理</a>
-		<ul>
-			<li><a href="VenderInfo/VenderCreate.aspx" target="iFrame1" >供应商信息创建 </a></li>
-			<li><a href="VenderInfo/VenderMaintenance.aspx" target="iFrame1" >供应商信息编辑</a></li>
-			<li><a href="VenderInfo/VenderInfoDisplay.aspx" target="iFrame1" >供应商信息查看</a></li>
-            <li><a href="VenderInfo/SharedItemMA.aspx" target="iFrame1" >供应商变更及文档删除</a></li>
-             
-           
-		</ul>
-	</li>
-	<li><a href="#" style =" text-align :center ">供应商评估</a>
-		<ul>
-			<li><a href="#" target="iFrame1" >供应商评估</a></li>
-		</ul>
-	</li>
-    <li><a href="VendorAssess/login.aspx" target="iFrame1">供应商审批</a>
-    </li>
-	<li><a href="#" style =" text-align :center ">价格走势</a>
-        <ul>
-    	    <li><a href="#" target="iFrame1" >价格走势</a></li>
-			
-       </ul>
-    </li>
-	<li ><a href="#" style =" text-align :center ">报表</a>
-       <ul>
-    	    <li><a href="#" target="iFrame1" >报表</a></li>
-			
-       </ul>
-    </li>
+                <td bgcolor="#324143">
 
-    	<li style=" border-right: 1px solid white;" ><a href="#" style =" text-align :center ">系统管理</a>
-       <ul>
-    	    <li><a href="#" target="iFrame1" >文档类型管理</a></li>
-              <li><a href="#" target="iFrame1" >用户权限分配</a></li>
-			
-       </ul>
-    </li>
-    <li style=" border-right: 1px solid white;" ><a href="Login.aspx" style =" text-align :center ">退出</a>
-       
-    </li>
+                    <ul id="jsddm">
+                        <li><a href="#" style="text-align: center">供应商管理</a>
+                            <ul>
+                                <li><a href="VenderInfo/VenderCreate.aspx" target="iFrame1">供应商信息创建 </a></li>
+                                <li><a href="VenderInfo/VenderMaintenance.aspx" target="iFrame1">供应商信息编辑</a></li>
+                                <li><a href="VenderInfo/VenderInfoDisplay.aspx" target="iFrame1">供应商信息查看</a></li>
+                                <li><a href="VenderInfo/SharedItemMA.aspx" target="iFrame1">供应商变更及文档删除</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#" style="text-align: center">供应商评估</a>
+                            <ul>
+                                <li><a href="#" target="iFrame1">供应商评估</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="VendorAssess/login.aspx" target="iFrame1">供应商审批</a>
+                        </li>
+                        <li><a href="#" style="text-align: center">价格走势</a>
+                            <ul>
+                                <li><a href="#" target="iFrame1">价格走势</a></li>
 
-	   </ul>
-       
-       
-       </td>
-  
-   </tr>
-   </table>
-  
+                            </ul>
+                        </li>
+                        <li><a href="#" style="text-align: center">报表</a>
+                            <ul>
+                                <li><a href="#" target="iFrame1">报表</a></li>
 
+                            </ul>
+                        </li>
 
-  <div>
-  <table class="style6" cellpadding ="0" cellspacing ="0" align="center">
-  <tr>
-  <td>
- <iframe name="iFrame1" height ="400px"  class ="iFrame1" marginwidth ="0"  frameborder="0" id="iFrame1"  scrolling ="yes" 
-          runat ="server" ></iframe>
-   
-      ·</td></tr></table></div>
-  <div>
-  <table class="style2" cellpadding ="0" cellspacing ="0" align="center">
-  <tr><td style=" font-size :small; font-family :Arial ; text-align:center; border-top:1 " 
-          class="style2">上海科勒 2016年12月<input id="Hidden1" type="hidden" /></td></tr></table></div>
-   
-        
+                        <li style="border-right: 1px solid white;"><a href="#" style="text-align: center">系统管理</a>
+                            <ul>
+                                <li><a href="#" target="iFrame1">文档类型管理</a></li>
+                                <li><a href="#" target="iFrame1">用户权限分配</a></li>
+
+                            </ul>
+                        </li>
+                        <li style="border-right: 1px solid white;"><a href="Login.aspx" style="text-align: center">退出</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+
+        <div>
+            <table class="style6" cellpadding="0" cellspacing="0" align="center">
+                <tr>
+                    <td>
+                        <iframe name="iFrame1" class="iFrame1" marginwidth="0" frameborder="0" id="iFrame1" scrolling="yes"
+                            runat="server"></iframe>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <table cellpadding="0" cellspacing="0" align="center" style="width:100%;height:50px;">
+                <tr>
+                    <td style="font-size: small; font-family: Arial; text-align: center; border-top: 1"
+                        class="style2">上海科勒 2016年12月<input id="Hidden1" type="hidden" /></td>
+                </tr>
+            </table>
+        </div>
 
     <script type="text/javascript">
         var iframeids = ["iFrame1"]
@@ -273,18 +267,7 @@
 
      </script>
 
-    
-
-   
-
-
     </form>
-    
-        
-
-   
-
-
 </body>
 
 </html>

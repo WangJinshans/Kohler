@@ -271,7 +271,9 @@
                     <td><asp:TextBox runat="server" ID="Textbox18" BorderStyle="None" ReadOnly="true" /></td>
                     <td style="text-align:center"><asp:CheckBox Text="" runat="server" ID="CheckBox20" disabled="disabled" onclick="choose(20)"/></td>
                     <td colspan="8"><asp:TextBox runat="server" ID="Textbox22" BorderStyle="None" ReadOnly="true" /></td>
-                    <td colspan="2" rowspan="9"><asp:TextBox runat="server" ID="Textbox26" BorderStyle="None" ReadOnly="true" /></td>
+                    <td colspan="2" rowspan="9">
+                        <asp:Image ID="Image5" runat="server" ImageUrl="imageurl" />
+                    </td>
                     <td colspan="2" rowspan="9" style="text-align:center">Legal Head Head<br>法律领导</td>
                 </tr>
                 <tr>
@@ -348,19 +350,24 @@
                     <td colspan="3" style="border-bottom:0;"></td>
                     <td colspan="3" style="border-bottom:0;"></td>
                 </tr>
-                <tr>
+               <tr>
                     <td colspan="2" style="text-align:center;border-style:none">安全施工协议</td>
                     <td colspan="1" style="text-align:center;border-top:0;border-left:0;border-bottom:0;"><asp:CheckBox Text="" runat="server" ID="CheckBox30" disabled="disabled" onclick="choose(30)"/></td>
                     <td colspan="1" style="text-align:left;border-style:none;">Signature:</td>
                     <td colspan="2" style="text-align:center;border-left:0;border-top:0;"><asp:TextBox runat="server" ID="Textbox42" BorderStyle="None" ReadOnly="true" /></td>
                     <td colspan="1" style="text-align:left;border-style:none;">Signature:</td>
-                    <td colspan="2" style="text-align:center;border-left:0;border-top:0;"><asp:TextBox runat="server" ID="Textbox58" BorderStyle="None" ReadOnly="true" /></td>
+                    <td colspan="2" style="text-align:center;border-left:0;border-top:0;">
+                        <asp:Image ImageUrl="imageurl" ID="Image1" runat="server" /></td>
                     <td colspan="1" style="text-align:left;border-style:none;">Signature:</td>
-                    <td colspan="2" style="text-align:center;border-left:0;border-top:0;"><asp:TextBox runat="server" ID="Textbox63" BorderStyle="None" ReadOnly="true" /></td>
+                    <td colspan="2" style="text-align:center;border-left:0;border-top:0;"><asp:Image ImageUrl="imageurl" ID="Image2" runat="server" /></td>
                     <td colspan="1" style="text-align:left;border-style:none;">Signature:</td>
-                    <td colspan="2" style="text-align:center;border-left:0;border-top:0;"><asp:TextBox runat="server" ID="Textbox67" BorderStyle="None" ReadOnly="true" /></td>
+                    <td colspan="2" style="text-align:center;border-left:0;border-top:0;">
+                        <asp:Image ID="Image3" runat="server" ImageUrl="imageurl" />
+                    </td>
                     <td colspan="1" style="text-align:left;border-style:none;">Signature:</td>
-                    <td colspan="2" style="text-align:center;border-left:0;border-top:0;"><asp:TextBox runat="server" ID="Textbox71" BorderStyle="None" ReadOnly="true" /></td>
+                    <td colspan="2" style="text-align:center;border-left:0;border-top:0;">
+                        <asp:Image ID="Image4" runat="server" ImageUrl="imageurl" />
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="2" style="text-align:center;border-style:none">危险源辨别、评价控制</td>

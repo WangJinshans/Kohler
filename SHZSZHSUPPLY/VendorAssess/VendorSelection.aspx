@@ -7,6 +7,133 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title></title>
 	<script type="text/javascript" src="Script/My97DatePicker/WdatePicker.js" ></script>
+    <script src="Script/layui/layui.js"></script>
+	<script src="Script/jquery-3.2.1.min.js"></script>  
+    <script src="Script/Own/fileUploader.js"></script>
+    <script>
+        var la_layer;
+        layui.use(['layer'], function () {
+            la_layer = layui.layer;
+        });
+    </script>
+    <script>
+        function JSONLength(obj) {  
+            var size = 0, key;  
+            for (key in obj) {  
+                if (obj.hasOwnProperty(key))
+                    size++;
+            }  
+            return size;
+        };
+
+        function R_D_Confirm(hasFile,tempVendorID,tempVendorName) {
+            layui.use(['layer'], function () {
+                la_layer = layui.layer;
+                la_layer.open({
+                    content: '是否已经获得R&D部分填写授权？',
+                    btn: ['是', '否'],
+                    yes: function (index, layero) {
+                        if (hasFile) {
+                            la_layer.msg("保存表格，变更fill flag",{time:1000}, function () {
+                                __myDoPostBack("fileUploadResult", true);
+                            });
+                        } else {
+                            la_layer.msg("请上传填写授权文件或其他证明材料", { time: 1000 }, function () {
+                                requestType = "multiFillUpload";
+                                fileTypeID = "032";
+                                uploadFile(requestType, tempVendorID, tempVendorName, fileTypeID, function (result) {
+                                    if (result['success']) {
+                                        __myDoPostBack("fileUploadResult", true);
+                                    } else {
+                                        la_layer.msg("文件检查失败");
+                                    }
+                                });
+                            });
+                        }
+                    },
+                    btn2: function (index, layero) {
+                        la_layer.msg("保存表格，变更fill flag", {icon:1,time:1000} , function () {
+                            __myDoPostBack("fileUploadResult", true);
+                        });
+                        
+                    }
+                });
+            });
+        }
+
+        function selectEmployeeID(departments, idList, nameList) {
+            var dpL = eval(departments);
+            var idL = eval(idList);
+            var nameL = eval(nameList);
+
+            layui.use(['form', 'layer'], function () {
+                var layer = layui.layer;
+                layer.open({
+                    type: 2,
+                    title: '选择部门',
+                    maxmin: true,
+                    content: './Html_Template/EditEmployeeSelection.html',
+                    area: ['500px', '420px'],
+                    shadeClose: false,
+                    btn: ['确定'],
+                    yes: function(index,layero){
+                        var iframeWin = window[layero.find('iframe')[0]['name']];
+                        var result = iframeWin.getResult(dpL);
+                        if (JSONLength(result) != dpL.length) {
+                            layer.msg("请确认是否已经正确选择");
+                        } else {
+                            layer.close(index);
+                            layer.msg("填写选择完毕，请重新提交本表格", { time: 1000 }, function () {
+                                __myDoPostBack("selectResult", JSON.stringify(result));
+                            });
+                        }
+                    },
+                    success: function (layero,index) {
+                        var iframeWin = window[layero.find('iframe')[0]['name']];
+                        for (var i = 0; i < dpL.length; i++) {
+                            iframeWin.addSelect(dpL[i], idL, nameL);
+                        }
+                    },
+                    cancel: function (index,layero) {
+                        return false;
+                    }
+                });
+            });
+        }
+
+        function layerMsgFunc(msg, func) {
+            layui.use(['layer'], function () {
+                la_layer = layui.layer;
+                la_layer.msg(msg, {time:1000} ,function () {
+                    if (func != null) {
+                        func();
+                    }
+                });
+            });
+        }
+
+        function layerMsg(msg) {
+            layui.use(['layer'], function () {
+                la_layer = layui.layer;
+                la_layer.msg(msg);
+            });
+        }
+    </script>
+
+    <script type="text/javascript">
+	
+		function __myDoPostBack(eventTarget, eventArgument) {
+			var theForm = document.forms['form1'];
+			if (!theForm) {
+				theForm = document.form1;
+			}
+			if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+				theForm.__EVENTTARGET.value = eventTarget;
+				theForm.__EVENTARGUMENT.value = eventArgument;
+				theForm.submit();
+		}
+	}
+    </script>
 	<script>
 		function setScore(textbox,score) {
 			var tb = document.getElementById(textbox);
@@ -57,6 +184,7 @@
 			setPoint(pointPos, document.getElementById("TextBox"+totalPos).value, pointPercent);
 		}
 	</script>
+
 	<style>
 		.td-border-none-right{
 			border-right:none;
@@ -100,6 +228,12 @@
 			background: -moz-linear-gradient(top, #dbd8da, #c9c9c9);
 		}
 	</style>
+  <link rel="stylesheet" href="Script\layui\css\layui.css" />
+</head>
+<body>
+	<form id="form1" runat="server">
+        <input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+		<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
 </head>
 <body>
 	<form id="form1" runat="server">
@@ -638,6 +772,8 @@
 
 		<div style="text-align: center">
 		<asp:Button ID="Button1" runat="server" Text="提交" CssClass="button" OnClick="Button1_Click" />
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
+    <asp:Button ID="Button4" runat="server" Text="确认" CssClass="button" OnClick="Button4_Click" />
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       
 		<asp:Button ID="Button2" runat="server" Text="保存" CssClass="button" OnClick="Button2_Click" />
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

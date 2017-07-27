@@ -39,5 +39,16 @@ namespace DAL
             }
             return list;
         }
+
+        public static int checkFormFile(string formID, string fileType)
+        {
+            string sql = "select * from View_Form_File where Form_ID=@Form_ID and File_Type_ID=@File_Type_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",formID),
+                new SqlParameter("@File_Type_ID",fileType)
+            };
+            return DBHelp.GetScalar(sql, sp);
+        }
     }
 }

@@ -65,5 +65,14 @@ namespace BLL
             }
             return check;
         }
+
+        internal static bool checkExistFile(string formID, string fileType)
+        {
+            if (Form_File_DAL.checkFormFile(formID, fileType) > 0)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

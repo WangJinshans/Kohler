@@ -13,11 +13,12 @@ namespace DAL
     {
         public static int addTempVendor(As_Temp_Vendor Temp_Vendor)
         {
-            string sql = "INSERT INTO As_Temp_Vendor(Temp_Vendor_Name,Vendor_Type_ID)VALUES(@Temp_Vendor_Name,@Vendor_Type_ID)";
+            string sql = "INSERT INTO As_Temp_Vendor(Temp_Vendor_Name,Vendor_Type_ID,Purchase_Amount)VALUES(@Temp_Vendor_Name,@Vendor_Type_ID,@Purchase_Amount)";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_Name",Temp_Vendor.Temp_Vendor_Name),
                 new SqlParameter("@Vendor_Type_ID",Temp_Vendor.Vendor_Type_ID),
+                new SqlParameter("@Purchase_Amount",Temp_Vendor.Purchase_Amount)
             };
             return DBHelp.GetScalar(sql, sp);
         }

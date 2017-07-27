@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../Script/layui/css/layui.css" media="all">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>填写选择</legend>
+    </fieldset>
+
+    <form class="layui-form" action="">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">单行选择框</label>
+            <div class="layui-input-block">
+                <select name="interest" lay-filter="aihao">
+                    <option value=""></option>
+                    <option value="0">写作</option>
+                    <option value="1" selected="">阅读</option>
+                    <option value="2">游戏</option>
+                    <option value="3">音乐</option>
+                    <option value="4">旅行</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">分组选择框</label>
+                <div class="layui-input-inline">
+                    <select name="quiz">
+                        <option value="">请选择问题</option>
+                        <optgroup label="城市记忆">
+                            <option value="你工作的第一个城市">你工作的第一个城市</option>
+                        </optgroup>
+                        <optgroup label="学生时代">
+                            <option value="你的工号">你的工号</option>
+                            <option value="你最喜欢的老师">你最喜欢的老师</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">搜索选择框</label>
+                <div class="layui-input-inline">
+                    <select name="modules" lay-verify="required" lay-search="">
+                        <option value="">直接选择或搜索选择</option>
+                        <option value="1">layer</option>
+                        <option value="2">form</option>
+                        <option value="3">layim</option>
+                        <option value="4">element</option>
+                        <option value="5">laytpl</option>
+                        <option value="6">upload</option>
+                        <option value="7">laydate</option>
+                        <option value="8">laypage</option>
+                        <option value="9">flow</option>
+                        <option value="10">util</option>
+                        <option value="11">code</option>
+                        <option value="12">tree</option>
+                        <option value="13">layedit</option>
+                        <option value="14">nav</option>
+                        <option value="15">tab</option>
+                        <option value="16">table</option>
+                        <option value="17">select</option>
+                        <option value="18">checkbox</option>
+                        <option value="19">switch</option>
+                        <option value="20">radio</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">联动选择框</label>
+            <div class="layui-input-inline">
+                <select name="quiz1">
+                    <option value="">请选择省</option>
+                    <option value="浙江" selected="">浙江省</option>
+                    <option value="你的工号">江西省</option>
+                    <option value="你最喜欢的老师">福建省</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="quiz2">
+                    <option value="">请选择市</option>
+                    <option value="杭州">杭州</option>
+                    <option value="宁波" disabled="">宁波</option>
+                    <option value="温州">温州</option>
+                    <option value="温州">台州</option>
+                    <option value="温州">绍兴</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="quiz3">
+                    <option value="">请选择县/区</option>
+                    <option value="西湖区">西湖区</option>
+                    <option value="余杭区">余杭区</option>
+                    <option value="拱墅区">临安市</option>
+                </select>
+            </div>
+        </div>
+
+
+        <button onclick="uploadFile('1111','2222','3333','4444')" type="button">nsaf</button>
+    </form>
+    <script src="../Script/layui/layui.js" charset="utf-8"></script>
+    <script src="../Script/Own/fileUploader.js" charset="utf-8"></script>
+    <script>
+        layui.use(['form', 'layedit', 'laydate'], function(){
+          var form = layui.form()
+          ,layer = layui.layer
+          ,layedit = layui.layedit
+          ,laydate = layui.laydate;
+
+        //监听提交
+          form.on('submit(demo1)', function(data){
+            layer.alert(JSON.stringify(data.field), {
+              title: '最终的提交信息'
+            })
+            return false;
+          });
+        });
+    </script>
+    <script>
+        function test() {
+            var department = ['采购部', '质量部', '财务部'];
+            layui.use(['form', 'layer'], function () {
+                var layer = layui.layer;
+                layer.open({
+                    type: 2,
+                    title: '选择部门',
+                    maxmin: true,
+                    content: './Html_Template/File_Upload_Page.html',
+                    area: ['500px', '420px'],
+                    shadeClose: false,
+                    btn: ['确定'],
+                    yes: function(index,layero){
+                        //var iframeWin = window[layero.find('iframe')[0]['name']];
+                        //var result = iframeWin.getResult(department);
+                        //if (result.length != department.length) {
+                        //    layer.msg("请确认是否已经正确选择");
+                        //} else {
+                        //    layer.msg(result[0]);
+                        //    layer.close(index);
+                        //}
+                    },
+                    success: function (layero,index) {
+                        //var iframeWin = window[layero.find('iframe')[0]['name']];
+                        //iframeWin.addSelect('财务部', ['1', '2'], ['name1', 'name2']);
+                        //iframeWin.addSelect('质量部', ['3', '4'], ['name1', 'name2']);
+                        //iframeWin.addSelect('采购部', ['5', '6'], ['name1', 'name2']);
+                    },
+                    cancel: function (index,layero) {
+                        return false;
+                    }
+                });
+            });
+        }
+
+    </script>
+
+</body>
+</html>

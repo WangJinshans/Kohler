@@ -18,9 +18,9 @@ namespace BLL
         {
             return AddForm_DAL.GetVendorName(formID);
         }
-        public static string GetFormID(string name)
+        public static string GetForm_Type_ID(string formID)
         {
-            return AddForm_DAL.GetFormID(name);
+            return AddForm_DAL.GetForm_Type_ID(formID);
         }
     }
 }

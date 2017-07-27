@@ -29,6 +29,8 @@ namespace SHZSZHSUPPLY.VendorAssess
                     Vendor.Form_Type_ID = FORM_TYPE_ID;
                     Vendor.Temp_Vendor_Name = tempVendorID;
                     Vendor.Flag = 0;//将表格标志位信息改为已填写
+                    Image1.Visible = false;
+                    Image2.Visible = false;
                     int n = VendorBlockOrUnBlock_BLL.addVendorBlock(Vendor);
                     if (n == 0)
                     {
@@ -125,8 +127,8 @@ namespace SHZSZHSUPPLY.VendorAssess
             v.Initiator_Tel = TextBox3.Text.ToString().Trim();
             v.Company_Code = TextBox4.Text.ToString().Trim();
             v.Vendor_Code = TextBox5.Text.ToString().Trim();
-            v.Line_Manager = TextBox6.Text.ToString().Trim();
-            v.Purchasing_Manager= TextBox7.Text.ToString().Trim();
+            v.Line_Manager = Image1.ImageUrl.ToString().Trim();
+            v.Purchasing_Manager= Image2.ImageUrl.ToString().Trim();
             v.Comments = TextBox8.Text.ToString().Trim();
             return v;
         }
@@ -168,8 +170,8 @@ namespace SHZSZHSUPPLY.VendorAssess
             TextBox3.Text = v.Initiator_Tel;
             TextBox4.Text = v.Company_Code;
             TextBox5.Text = v.Vendor_Code;
-            TextBox6.Text = v.Line_Manager;
-            TextBox7.Text = v.Purchasing_Manager;
+            Image1.ImageUrl = v.Line_Manager;//直线经理的签名
+            Image2.ImageUrl = v.Purchasing_Manager;//销售经理的签名
             TextBox8.Text = v.Comments;
         }
 

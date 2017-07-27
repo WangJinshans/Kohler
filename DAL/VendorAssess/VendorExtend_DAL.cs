@@ -26,7 +26,7 @@ namespace DAL.VendorAssess
                 + "Temp_Vendor_ID=Temp_Vendor_ID,Form_Type_ID=@Form_Type_ID,Bar_Code=@Bar_Code,"
                 + "Purpose=@Purpose,Initiator_Name=@Initiator_Name,Initiator_Tel=@Initiator_Tel,"
                 + "Company_Code=@Company_Code,Vendor_Code=@Vendor_Code,From_Company=@From_Company,"
-                + "Email=@Email,Money_Type=@Money_Type,Line_Manager=@Line_Manager,Comments=@Comments"
+                + "Email=@Email,Money_Type=@Money_Type,Comments=@Comments"
                 + " where Temp_Vendor_Name=@Temp_Vendor_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
@@ -42,7 +42,7 @@ namespace DAL.VendorAssess
                 new SqlParameter("@From_Company",VendorExtend.From_Company),
                 new SqlParameter("@Email",VendorExtend.Email),
                 new SqlParameter("@Money_Type",VendorExtend.Money_Type),
-                new SqlParameter("@Line_Manager",VendorExtend.Line_Manager),
+                //new SqlParameter("@Line_Manager",VendorExtend.Line_Manager),
                 new SqlParameter("Comments",VendorExtend.Comments),
                 new SqlParameter("@Temp_Vendor_Name",VendorExtend.Temp_Vendor_Name)
             };

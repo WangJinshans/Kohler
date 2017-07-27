@@ -4,7 +4,6 @@ using Model;
 using MODEL;
 using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
-using System.Collections.Generic;
 using System.Web.UI.WebControls;
 
 namespace SHZSZHSUPPLY.VendorAssess
@@ -35,7 +34,11 @@ namespace SHZSZHSUPPLY.VendorAssess
                     vendorCreation.Flag = 0;//将表格标志位信息改为0
 
                     //名字只读
-
+                    Image1.Visible = false;
+                    Image2.Visible = false;
+                    Image3.Visible = false;
+                    Image4.Visible = false;
+                    Image5.Visible = false;
                     int n = VendorCreation_BLL.addVendorCreation(vendorCreation);
                     if (n == 0)
                     {
@@ -113,11 +116,14 @@ namespace SHZSZHSUPPLY.VendorAssess
                 TextBox24.Text = vendor.Bank_Account;
                 TextBox25.Text = vendor.Money_Type;
                 TextBox26.Text = vendor.Trade_Onym;
-                TextBox27.Text = vendor.Line_Manager;
-                TextBox28.Text = vendor.Purchasing_Manager;
-                TextBox29.Text = vendor.Ministry_Of_Law;
-                TextBox30.Text = vendor.Accounting_Dept;
-                TextBox31.Text = vendor.Chief_Inspector;
+
+                //动态签名的不需要在非show页面进行显示
+
+                //Image1.ImageUrl = vendor.Line_Manager;
+                //Image2.ImageUrl = vendor.Purchasing_Manager;
+                //Image3.ImageUrl = vendor.Ministry_Of_Law;
+                //Image4.ImageUrl = vendor.Accounting_Dept;
+                //Image5.ImageUrl = vendor.Chief_Inspector;
                 TextBox32.Text = vendor.Comments;
             }
 
@@ -173,11 +179,11 @@ namespace SHZSZHSUPPLY.VendorAssess
             vendor.Bank_Account = TextBox24.Text;
             vendor.Money_Type = TextBox25.Text;
             vendor.Trade_Onym = TextBox26.Text;
-            vendor.Line_Manager = TextBox27.Text;
-            vendor.Purchasing_Manager = TextBox28.Text;
-            vendor.Ministry_Of_Law = TextBox29.Text;
-            vendor.Accounting_Dept = TextBox30.Text;
-            vendor.Chief_Inspector = TextBox31.Text;
+            vendor.Line_Manager = Image1.ImageUrl.ToString().Trim();
+            vendor.Purchasing_Manager = Image2.ImageUrl.ToString().Trim();
+            vendor.Ministry_Of_Law = Image3.ImageUrl.ToString().Trim();
+            vendor.Accounting_Dept = Image4.ImageUrl.ToString().Trim();
+            vendor.Chief_Inspector = Image5.ImageUrl.ToString().Trim();
             vendor.Comments = TextBox32.Text;
             vendor.Temp_Vendor_ID = tempVendorID;
 

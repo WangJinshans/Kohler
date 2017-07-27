@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MODEL.VendorAssess;
 using DAL.VendorAssess;
+using Model;
 
 namespace BLL.VendorAssess
 {
@@ -34,6 +35,25 @@ namespace BLL.VendorAssess
         public static int updateVendorSelection(As_Vendor_Selection vendorSelection)
         {
             return VendorSelection_DAL.updateVendorSelection(vendorSelection);
+        }
+
+        public static bool checkDepartment(string currentEmployeeID, As_Edit_Flow edtFlow)
+        {
+            string department = Employee_BLL.getEmployeeDepartment(currentEmployeeID);
+            if (department.Equals(edtFlow.Edit_One_Department))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static bool checkRDFile(string formID,string fileType)
+        {
+            if (CheckFile_BLL.checkExistFile(formID,fileType))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

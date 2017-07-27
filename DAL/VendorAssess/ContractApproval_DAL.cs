@@ -76,91 +76,86 @@ namespace DAL
         {
 
             string sql = "update As_Contract_Approval set Ref_No=@Ref_No,Purchase_Type=@Purchase_Type,"
-               
+
                 + "Sourcing_Specialist=@Sourcing_Specialist,User_Dept=@User_Dept,Contract_Subject=@Contract_Subject,"
-                
+
                 + "Contract_Annual_Amount=@Contract_Annual_Amount,Contract_StartTime=@Contract_StartTime,"
-                
+
                 + "Contract_EndTime=@Contract_EndTime,Vendor_Name=@Vendor_Name,Existing_Vendor=@Existing_Vendor,"
-                
+
                 + "Years=@Years,Purchase_Description=@Purchase_Description,Payment_Terms_Page=@Payment_Terms_Page,"
-                
+
                 + "Payment_Terms_Clause=@Payment_Terms_Clause,Payment_Terms_Commitment=@Payment_Terms_Commitment,"
-                
+
                 + "Payment_Terms_Details=@Payment_Terms_Details,Fin_Leader=@Fin_Leader,User_Dept_Head_One=@User_Dept_Head_One,"
-                
+
                 + "User_Dept_Head_Two=@User_Dept_Head_Two,Price_Adjustment_Page=@Price_Adjustment_Page,Price_Adjustment_Clause=@Price_Adjustment_Clause,"
-                
+
                 + "Price_Adjustment_Commitment=@Price_Adjustment_Commitment,Price_Adjustment_Details=@Price_Adjustment_Details,"
-                
+
                 + "Volume_Page=@Volume_Page,Volume_Clause=@Volume_Clause,Volume_Commitment=@Volume_Commitment,"
-                
+
                 + "Volume_Details=@Volume_Details,Period_Page=@Period_Page,Period_Clause=@Period_Clause,"
-                
+
                 + "Period_Commitment=@Period_Commitment,Period_Details=@Period_Details,Rebate_Page=@Rebate_Page,"
-                
+
                 + "Rebate_Clause = @Rebate_Clause,Rebate_Commitment = @Rebate_Commitment,Rebate_Details = @Rebate_Details,"
-                
+
                 + "Work_Scope_Page = @Work_Scope_Page,Work_Scope_Clause = @Work_Scope_Clause,Work_Scope_Commitment=Work_Scope_Commitment,"
-                
+
                 + "Work_Scope_Details=@Work_Scope_Details,Acceptence_Criteria_Page=@Acceptence_Criteria_Page,"
-                
+
                 + "Acceptence_Criteria_Clause=@Acceptence_Criteria_Clause,Acceptence_Criteria_Commitment=@Acceptence_Criteria_Commitment,"
-                
+
                 + "Acceptence_Criteria_Details=@Acceptence_Criteria_Details,Warranty_Page=@Warranty_Page,"
-                
+
                 + "Warranty_Clause=@Warranty_Clause,Warranty_Commitment=@Warranty_Commitment,Warranty_Details=@Warranty_Details,"
-                
+
                 + "Termination_Page=@Termination_Page,Termination_Clause=@Termination_Clause,Termination_Commitment=@Termination_Commitment,"
-                
+
                 + "Termination_Details=@Termination_Details,Exclusivity_Page=@Exclusivity_Page,Exclusivity_Clause=@Exclusivity_Clause,"
-                
+
                 + "Exclusivity_Commitment=@Exclusivity_Commitment,Exclusivity_Details=@Exclusivity_Details,"
-                
+
                 + "Other_Terms_Page=@Other_Terms_Page,Other_Terms_Clause=@Other_Terms_Clause,Other_Terms_Commitment=@Other_Terms_Commitment,"
-                
+
                 + "Other_Terms_Details=@Other_Terms_Details,Penalty_Detail_Page=@Penalty_Detail_Page,Penalty_Detail_Clause=@Penalty_Detail_Clause,"
-                
+
                 + "Penalty_Detail_Details=@Penalty_Detail_Details,Changes=@Changes,Notice_Page=@Notice_Page,"
-                
+
                 + "Notice_Clause=@Notice_Clause,Notice_Commitment=@Notice_Commitment,Notice_Details=@Notice_Details,"
-                
+
                 + "Confidentiality_Page=@Confidentiality_Page,Confidentiality_Clause=@Confidentiality_Clause,Confidentiality_Commitment=@Confidentiality_Commitment,"
-                
+
                 + "Confidentiality_Details=@Confidentiality_Details,Announcement_Page=@Announcement_Page,"
-                
+
                 + "Announcement_Clause=@Announcement_Clause,Announcement_Commitment=@Announcement_Commitment,Announcement_Details=@Announcement_Details,"
-                
+
                 + "Waivers_Page=@Waivers_Page,Waivers_Clause=@Waivers_Clause,Waivers_Commitment=@Waivers_Commitment,"
-                
+
                 + "Waivers_Details=@Waivers_Details,Severalbility_Page=@Severalbility_Page,Severalbility_Clause=@Severalbility_Clause,"
-                
+
                 + "Severalbility_Commitment = @Severalbility_Commitment,Severalbility_Details = @Severalbility_Details,Force_Majeure = @Force_Majeure,"
-                
+
                 + "Force_Clause = @Force_Clause,Force_Commitment = @Force_Commitment,Force_Details=Force_Details,"
-                
+
                 + "Delegation_Page=@Delegation_Page,Delegation_Clause=@Delegation_Clause,Delegation_Commitment=@Delegation_Commitment,"
-                
+
                 + "Delegation_Details=@Delegation_Details,Dispute_Resolution_Page=@Dispute_Resolution_Page,"
-                
+
                 + "Dispute_Resolution_Clause=@Dispute_Resolution_Clause,Dispute_Resolution_Commitment=@Dispute_Resolution_Commitment,"
-                
+
                 + "Dispute_Resolution_Details=@Dispute_Resolution_Details,Other_Provisions_Page=@Other_Provisions_Page,Other_Provisions_Clause=@Other_Provisions_Clause,"
-                
+
                 + "Other_Provisions_Commitment=@Other_Provisions_Commitment,Other_Provisions_Details=@Other_Provisions_Details,Safety_Manual=@Safety_Manual,"
-                
+
                 + "Safety_Construction_Agreement=@Safety_Construction_Agreement,Evaluation_Control=@Evaluation_Control,"
-                
+
                 + "Envouriment_Factory_List=@Envouriment_Factory_List,ACT=@ACT,Ergonomic_Confirmation=@Ergonomic_Confirmation,"
 
-                + "EHS=@EHS,SourcingSpecialist_Signature=@SourcingSpecialist_Signature,SourcingSpecialist_Date=@SourcingSpecialist_Date,"
-                
-                + "User_Dept_Head_Signature=@User_Dept_Head_Signature,User_Dept_Head_Date=@User_Dept_Head_Date,SC_Leader_Signature=@SC_Leader_Signature,"
-                
-                + "SC_Leader_Date=@SC_Leader_Date,Finance_Leader_Signature=@Finance_Leader_Signature,Finance_Leader_Date=@Finance_Leader_Date,"
-                
-                + "General_Manager_Signature=@General_Manager_Signature,General_Manager_Date=@General_Manager_Date,Legal_Head=@Legal_Head where Form_ID=@Form_ID";
+                + "EHS=@EHS,SourcingSpecialist_Signature=@SourcingSpecialist_Signature,SourcingSpecialist_Date=@SourcingSpecialist_Date "
 
+                + "where Form_ID=@Form_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Ref_No",vendorContract.Ref_No),
@@ -271,16 +266,29 @@ namespace DAL
                 new SqlParameter("@EHS",vendorContract.EHS),
                 new SqlParameter("@SourcingSpecialist_Signature",vendorContract.SourcingSpecialist_Signature),
                 new SqlParameter("@SourcingSpecialist_Date",vendorContract.SourcingSpecialist_Date),
-                new SqlParameter("@User_Dept_Head_Signature",vendorContract.User_Dept_Head_Signature),
-                new SqlParameter("@User_Dept_Head_Date",vendorContract.User_Dept_Head_Date),
-                new SqlParameter("@SC_Leader_Signature",vendorContract.SC_Leader_Signature),
-                new SqlParameter("@SC_Leader_Date",vendorContract.SC_Leader_Date),
-                new SqlParameter("@Finance_Leader_Signature",vendorContract.Finance_Leader_Signature),
-                new SqlParameter("@Finance_Leader_Date",vendorContract.Finance_Leader_Date),
-                new SqlParameter("@General_Manager_Signature",vendorContract.General_Manager_Signature),
-                new SqlParameter("@General_Manager_Date",vendorContract.General_Manager_Date),
-                new SqlParameter("@Legal_Head",vendorContract.Legal_Head),
+                //new SqlParameter("@User_Dept_Head_Signature",vendorContract.User_Dept_Head_Signature),
+                //new SqlParameter("@User_Dept_Head_Date",vendorContract.User_Dept_Head_Date),
+                //new SqlParameter("@SC_Leader_Signature",vendorContract.SC_Leader_Signature),
+                //new SqlParameter("@SC_Leader_Date",vendorContract.SC_Leader_Date),
+                //new SqlParameter("@Finance_Leader_Signature",vendorContract.Finance_Leader_Signature),
+                //new SqlParameter("@Finance_Leader_Date",vendorContract.Finance_Leader_Date),
+                //new SqlParameter("@General_Manager_Signature",vendorContract.General_Manager_Signature),
+                //new SqlParameter("@General_Manager_Date",vendorContract.General_Manager_Date),
+                //new SqlParameter("@Legal_Head",vendorContract.Legal_Head),
                 new SqlParameter("@Form_ID",vendorContract.Form_ID)
+            };
+            return DBHelp.ExecuteCommand(sql, sp);
+        }
+
+        public static int setNonStandardContract(string Form_ID)
+        {
+            string sql = "update As_Contract_Approval set Standard_Contract=@Standard_Contract where Form_ID=@Form_ID";
+
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Standard_Contract","no"),
+                new SqlParameter("@Form_ID",Form_ID)
+               
             };
             return DBHelp.ExecuteCommand(sql, sp);
         }
@@ -403,17 +411,17 @@ namespace DAL
                     vendorContract.EHS = item["EHS"].ToString().Trim();
                     vendorContract.SourcingSpecialist_Signature = item["SourcingSpecialist_Signature"].ToString().Trim();
                     vendorContract.SourcingSpecialist_Date = item["SourcingSpecialist_Date"].ToString().Trim();
-                    vendorContract.User_Dept_Head_Signature = item["User_Dept_Head_Signature"].ToString().Trim();
-                    vendorContract.User_Dept_Head_Date = item["User_Dept_Head_Date"].ToString().Trim(); //TODO::???英文名？？？
-                    vendorContract.SC_Leader_Signature = item["SC_Leader_Signature"].ToString().Trim();
-                    vendorContract.SC_Leader_Date = item["SC_Leader_Date"].ToString().Trim();
-                    vendorContract.Finance_Leader_Signature = item["Finance_Leader_Signature"].ToString().Trim();
+                    vendorContract.User_Dept_Head_Signature = item["User_Department_Manager"].ToString().Trim();
+                    vendorContract.User_Dept_Head_Date = item["User_Department_Manager_Date"].ToString().Trim(); //TODO::???英文名？？？
+                    vendorContract.SC_Leader_Signature = item["Purchasing_Manager"].ToString().Trim();
+                    vendorContract.SC_Leader_Date = item["Purchasing_Manager_Date"].ToString().Trim();
+                    vendorContract.Finance_Leader_Signature = item["Finance_Leader"].ToString().Trim();
                     vendorContract.Finance_Leader_Date = item["Finance_Leader_Date"].ToString().Trim();
-                    vendorContract.General_Manager_Signature = item["General_Manager_Signature"].ToString().Trim();
+                    vendorContract.General_Manager_Signature = item["General_Manager"].ToString().Trim();
                     vendorContract.General_Manager_Date = item["General_Manager_Date"].ToString().Trim();
-                    vendorContract.Legal_Head = item["Legal_Head"].ToString().Trim();
+                    vendorContract.Legal_Head = item["Legal_Affair_Department"].ToString().Trim();
                     vendorContract.Form_ID = item["Form_ID"].ToString().Trim();
-
+                    vendorContract.Standard_Contract = item["Standard_Contract"].ToString().Trim();
                 }
                 return vendorContract;
             }
