@@ -42,7 +42,10 @@ namespace SHZSZHSUPPLY.VendorAssess
                     Image2.Visible = false;
                     Image3.Visible = false;
                     Image4.Visible = false;
-
+                    Image5.Visible = false;
+                    Image6.Visible = false;
+                    Image7.Visible = false;
+                    Image8.Visible = false;
                     //名字只读
 
                     int n = ContractApproval_BLL.addContractApproval(vendorContract);
@@ -146,11 +149,12 @@ namespace SHZSZHSUPPLY.VendorAssess
                 Textbox7.Text = contractApproval.Contract_StartTime;
                 Textbox86.Text = contractApproval.Contract_EndTime;
                 Textbox8.Text = contractApproval.Vendor_Name;
-                Textbox15.Text = contractApproval.User_Dept_Head_One;
+                //hideImage(contractApproval.User_Dept_Head_One, Image8);
                 Textbox11.Text = contractApproval.Payment_Terms_Page;
                 Textbox9.Text = contractApproval.Payment_Terms_Clause;
                 Textbox13.Text = contractApproval.Payment_Terms_Details;
-                Textbox14.Text = contractApproval.Fin_Leader;
+                //Textbox14.Text = contractApproval.Fin_Leader;
+                //hideImage(contractApproval.Fin_Leader, Image7);
                 Textbox16.Text = contractApproval.Price_Adjustment_Page;
                 Textbox17.Text = contractApproval.Price_Adjustment_Clause;
                 Textbox19.Text = contractApproval.Price_Adjustment_Details;
@@ -184,7 +188,8 @@ namespace SHZSZHSUPPLY.VendorAssess
                 Textbox56.Text = contractApproval.Penalty_Detail_Page;
                 Textbox57.Text = contractApproval.Penalty_Detail_Clause;
                 Textbox59.Text = contractApproval.Penalty_Detail_Details;
-                Textbox87.Text = contractApproval.User_Dept_Head_Two;
+                //Textbox87.Text = contractApproval.User_Dept_Head_Two;
+                //hideImage(contractApproval.User_Dept_Head_Two, Image6);
                 Textbox12.Text = contractApproval.Notice_Page;
                 Textbox18.Text = contractApproval.Notice_Clause;
                 Textbox22.Text = contractApproval.Notice_Details;
@@ -213,12 +218,13 @@ namespace SHZSZHSUPPLY.VendorAssess
                 Textbox81.Text = contractApproval.Other_Provisions_Clause;
                 Textbox82.Text = contractApproval.Other_Provisions_Details;
                 //Textbox26.Text = contractApproval.Legal_Head;
-                hideImage(contractApproval.Legal_Head, Image5);
-                Textbox42.Text = contractApproval.SourcingSpecialist_Signature;
-                hideImage(contractApproval.User_Dept_Head_Signature, Image1);
-                hideImage(contractApproval.SC_Leader_Signature, Image2);
-                hideImage(contractApproval.Finance_Leader_Signature, Image3);
-                hideImage(contractApproval.General_Manager_Signature, Image4);
+                //hideImage(contractApproval.Legal_Head, Image5);
+                //Textbox42.Text = contractApproval.SourcingSpecialist_Signature;
+                Image9.ImageUrl = contractApproval.SourcingSpecialist_Signature;//申请人自己填写
+                //hideImage(contractApproval.User_Dept_Head_Signature, Image1);
+                //hideImage(contractApproval.SC_Leader_Signature, Image2);
+                //hideImage(contractApproval.Finance_Leader_Signature, Image3);
+                //hideImage(contractApproval.General_Manager_Signature, Image4);
                 //Image1.ImageUrl = contractApproval.User_Dept_Head_Signature;
                 //Image2.ImageUrl = contractApproval.SC_Leader_Signature;
                 //Image3.ImageUrl = contractApproval.Finance_Leader_Signature;
@@ -233,17 +239,17 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
         }
 
-        private void hideImage(string signature, Image image)
-        {
-            if (signature != "")
-            {
-                image.ImageUrl = signature;
-            }
-            else
-            {
-                image.Visible = false;
-            }
-        }
+        //private void hideImage(string signature, Image image)
+        //{
+        //    if (signature != "")
+        //    {
+        //        image.ImageUrl = signature;
+        //    }
+        //    else
+        //    {
+        //        image.Visible = false;
+        //    }
+        //}
 
         private void checkBoxInit(As_Contract_Approval contractApproval)
         {
@@ -377,10 +383,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
-            //formID = VendorCreation_BLL.getFormID(tempVendorID);
             submit = Request.QueryString["submit"];
-            //tempVendorID = "TempVendor20";
-            //tempVendorName = "hshs";
             formID = ContractApproval_BLL.getFormID(tempVendorID);//获取FormID
         }
 
@@ -462,11 +465,11 @@ namespace SHZSZHSUPPLY.VendorAssess
             contractApproval.Vendor_Name = Textbox8.Text;
             contractApproval.Payment_Terms_Clause = Textbox9.Text;
             contractApproval.Years = Textbox10.Text;
-            contractApproval.User_Dept_Head_One = Textbox15.Text;
+            //contractApproval.User_Dept_Head_One = Textbox15.Text;
             contractApproval.Payment_Terms_Page = Textbox11.Text;
             contractApproval.Contract_EndTime = Textbox86.Text;
             contractApproval.Payment_Terms_Details = Textbox13.Text;
-            contractApproval.Fin_Leader = Textbox14.Text;
+            //contractApproval.Fin_Leader = Textbox14.Text;
             contractApproval.Price_Adjustment_Page = Textbox16.Text;
             contractApproval.Price_Adjustment_Clause = Textbox17.Text;
             contractApproval.Price_Adjustment_Details = Textbox19.Text;
@@ -500,7 +503,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             contractApproval.Penalty_Detail_Page = Textbox56.Text;
             contractApproval.Penalty_Detail_Clause = Textbox57.Text;
             contractApproval.Penalty_Detail_Details = Textbox59.Text;
-            contractApproval.User_Dept_Head_Two = Textbox87.Text;
+            //contractApproval.User_Dept_Head_Two = Textbox87.Text;
             contractApproval.Notice_Page = Textbox12.Text;
             contractApproval.Notice_Clause = Textbox18.Text;
             contractApproval.Notice_Details = Textbox22.Text;
@@ -528,8 +531,9 @@ namespace SHZSZHSUPPLY.VendorAssess
             contractApproval.Other_Provisions_Page = Textbox80.Text;
             contractApproval.Other_Provisions_Clause = Textbox81.Text;
             contractApproval.Other_Provisions_Details = Textbox82.Text;
+            contractApproval.SourcingSpecialist_Signature = Image9.ImageUrl;
             //contractApproval.Legal_Head = Textbox26.Text;
-            contractApproval.SourcingSpecialist_Signature = Textbox42.Text;
+            //contractApproval.SourcingSpecialist_Signature = Textbox42.Text;
             //contractApproval.User_Dept_Head_Signature = Textbox58.Text;
             //contractApproval.SC_Leader_Signature = Textbox63.Text;
             //contractApproval.Finance_Leader_Signature = Textbox67.Text;
@@ -748,7 +752,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             Session["AssessflowInfo"] = assess_flow;
             Session["tempVendorID"] = tempVendorID;
             Session["factory"] = "上海科勒";//TODO:自动三厂选择
-
+            Session["form_name"] = FORM_NAME;
             //通过tempvendorID判断是否是非承诺性供应商 如果是则后面点击否的时候需要KCI进行审批 否则不需要
             string promise = VendorType_BLL.selectVendorPromise(tempVendorID);//获取promise
             if (promise == "0")//非承诺性且是用户部门 走kci

@@ -18,6 +18,12 @@ namespace BLL
         {
             return AddForm_DAL.GetVendorName(formID);
         }
+
+        public static int deleteForm(string formID)
+        {
+            return AddForm_DAL.deleteForm(formID);
+        }
+
         public static string GetForm_Type_ID(string formID)
         {
             return AddForm_DAL.GetForm_Type_ID(formID);

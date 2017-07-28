@@ -83,6 +83,10 @@ namespace Model
         private string purchasing_Manager;
         private string quality_Manager;
 
+        private string user_Department_Manager;
+        private string purchasing_Manager;
+        private string quality_Manager;
+
         public string Form_ID
         {
             get

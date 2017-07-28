@@ -32,6 +32,16 @@ namespace DAL
             return DBHelp.ExecuteCommand(sql, sp);
         }
 
+        public static int rejectKCIApproval(string Form_ID)//在KCI界面进行的操作
+        {
+            string sql = "delete from As_KCI_Approval where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",Form_ID)
+            };
+            return DBHelp.ExecuteCommand(sql, sp);
+        }
+
 
         public static int setApprovalFinished(string Form_Type_ID, int approval,string Temp_Vendor_ID)//需要KCI审批的在KCI审批完成之后标志该表的审批完成
         {

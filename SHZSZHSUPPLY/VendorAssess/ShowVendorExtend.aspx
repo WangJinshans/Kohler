@@ -247,21 +247,6 @@ table.gridtable td {
                     <asp:TextBox ID="TextBox10" runat="server" CssClass="t" Height="35px" ReadOnly="true"></asp:TextBox>
                 </td>
             </tr>
-            <tr>
-                <td colspan="2" style="text-align:center;background-color:black;color:#ffffff">SELF CHECKING</td>
-            </tr>
-            <tr>
-                <td colspan="1" style="text-align:left" class="auto-style3">所有蓝色区域均已填写</td>
-                <td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox12" runat="server" CssClass="t" Height="35px" ReadOnly="true"></asp:TextBox></td>
-            </tr>
-            <tr>
-                <td colspan="1" style="text-align:left" class="auto-style3">所有需要的申请均获得且已附在邮件中</td>
-                <td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox13" runat="server" CssClass="t" Height="35px" ReadOnly="true"></asp:TextBox></td>
-            </tr>
-            <tr>
-                <td colspan="1" style="text-align:left" class="auto-style3">已经将此TAB标示为红色</td>
-                <td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox14" runat="server" CssClass="t" Height="35px" ReadOnly="true"></asp:TextBox></td>
-            </tr>
         </table>
         <div>
             <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" CellPadding="4" ForeColor="#333333" GridLines="None">

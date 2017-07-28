@@ -57,57 +57,57 @@
             margin-left: 0px;
         }
         </style>
-        <script type="text/javascript" src="Script/My97DatePicker/WdatePicker.js" ></script>
-    <script src="Script/jquery-3.2.1.min.js"></script>  
-	<script src="Script/layer/layer.js"></script>  
-	<script type="text/javascript">  
-		$(function () {  
-			layer.config({  
-				extend: ['skin/default/layer.css'], //加载新皮肤  
-				skin: 'layer-ext-espresso' //一旦设定，所有弹层风格都采用此主题。  
-			});  
-		});  
-  
-		//弹出框  
-		function popUp(formid) {
-			layer.open({
-				title: '请选择审批部门',
-				content: 'SelectDepartment.aspx?formid=' + formid,
-				type: 2,
-				area: ['750px', '400px'],
-				shade: 0.3,
-				shadeClose: false, //点击遮罩关闭
-				btn: ['确定'],
-				yes: function (index, layero) {
-					__myDoPostBack('submitForm', '');
-					layer.close(index);
-				},
-				cancel: function (index, layero) {
-					if (confirm('确定要关闭么')) { //只有当点击confirm框的确定时，该层才会关闭
-						layer.close(index)
-					}
-					return false;
-				},
-				success: function (layero, index) {
-					console.log(layero, index);
-				}
-			});
-		}  
-	</script>  
-	<script type="text/javascript">
-	
-		function __myDoPostBack(eventTarget, eventArgument) {
-			var theForm = document.forms['form1'];
-			if (!theForm) {
-				theForm = document.form1;
-			}
-			if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
-				theForm.__EVENTTARGET.value = eventTarget;
-				theForm.__EVENTARGUMENT.value = eventArgument;
-				theForm.submit();
-		}
-	}
+    <script type="text/javascript" src="Script/My97DatePicker/WdatePicker.js"></script>
+    <script src="Script/jquery-3.2.1.min.js"></script>
+    <script src="Script/layer/layer.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            layer.config({
+                extend: ['skin/default/layer.css'], //加载新皮肤  
+                skin: 'layer-ext-espresso' //一旦设定，所有弹层风格都采用此主题。  
+            });
+        });
+	</script>
+     <script>
+        function __myDoPostBack(eventTarget, eventArgument) {
+            var theForm = document.forms['form1'];
+            if (!theForm) {
+                theForm = document.form1;
+            }
+            if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+                theForm.__EVENTTARGET.value = eventTarget;
+                theForm.__EVENTARGUMENT.value = eventArgument;
+                theForm.submit();
+            }
+        }
     </script>
+    <script>
+        function popUp(formid) {
+            layer.open({
+                title: '请选择审批部门',
+                content: 'SelectDepartment.aspx?formid=' + formid,
+                type: 2,
+                area: ['750px', '400px'],
+                shade: 0.3,
+                shadeClose: false, //点击遮罩关闭
+                btn: ['确定'],
+                yes: function (index, layero) {
+                    __myDoPostBack('submitForm', '');
+                    layer.close(index);
+                },
+                cancel: function (index, layero) {
+                    if (confirm('确定要关闭么')) { //只有当点击confirm框的确定时，该层才会关闭
+                        layer.close(index)
+                    }
+                    return false;
+                },
+                success: function (layero, index) {
+                    console.log(layero, index);
+                }
+            });
+        }
+    </script>
+   
 </head>
 <body>
     <form id="form1" runat="server">
@@ -157,7 +157,8 @@
             </tr>
             <tr>
                 <td colspan="1">Applicant: </td>
-                <td colspan="1"><asp:TextBox ID="TextBox9" runat="server" CssClass="auto-style1" ></asp:TextBox> </td>
+                <td colspan="1">
+                    <asp:Image ImageUrl="imageurl" ID="Image8" runat="server" /> </td>
                 <td colspan="1">Request Dept Head: </td>
                 <td colspan="1" class="auto-style3">
                     <asp:Image ImageUrl="imageurl" ID="Image1" runat="server" /> </td>

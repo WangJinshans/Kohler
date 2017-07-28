@@ -87,9 +87,9 @@ namespace DAL
 
                 + "Payment_Terms_Clause=@Payment_Terms_Clause,Payment_Terms_Commitment=@Payment_Terms_Commitment,"
 
-                + "Payment_Terms_Details=@Payment_Terms_Details,Fin_Leader=@Fin_Leader,User_Dept_Head_One=@User_Dept_Head_One,"
+                + "Payment_Terms_Details=@Payment_Terms_Details,"
 
-                + "User_Dept_Head_Two=@User_Dept_Head_Two,Price_Adjustment_Page=@Price_Adjustment_Page,Price_Adjustment_Clause=@Price_Adjustment_Clause,"
+                + "Price_Adjustment_Page=@Price_Adjustment_Page,Price_Adjustment_Clause=@Price_Adjustment_Clause,"
 
                 + "Price_Adjustment_Commitment=@Price_Adjustment_Commitment,Price_Adjustment_Details=@Price_Adjustment_Details,"
 
@@ -174,9 +174,9 @@ namespace DAL
                 new SqlParameter("@Payment_Terms_Clause",vendorContract.Payment_Terms_Clause),
                 new SqlParameter("@Payment_Terms_Commitment",vendorContract.Payment_Terms_Commitment),
                 new SqlParameter("@Payment_Terms_Details",vendorContract.Payment_Terms_Details),
-                new SqlParameter("@Fin_Leader",vendorContract.Fin_Leader),
-                new SqlParameter("@User_Dept_Head_One",vendorContract.User_Dept_Head_One),
-                new SqlParameter("@User_Dept_Head_Two",vendorContract.User_Dept_Head_Two),
+                //new SqlParameter("@Fin_Leader",vendorContract.Fin_Leader),
+                //new SqlParameter("@User_Dept_Head_One",vendorContract.User_Dept_Head_One),
+                //new SqlParameter("@User_Dept_Head_Two",vendorContract.User_Dept_Head_Two),
                 new SqlParameter("@Price_Adjustment_Page",vendorContract.Price_Adjustment_Page),
                 new SqlParameter("@Price_Adjustment_Clause",vendorContract.Price_Adjustment_Clause),
                 new SqlParameter("@Price_Adjustment_Commitment",vendorContract.Price_Adjustment_Commitment),
@@ -320,9 +320,9 @@ namespace DAL
                     vendorContract.Payment_Terms_Clause = item["Payment_Terms_Clause"].ToString().Trim();
                     vendorContract.Payment_Terms_Commitment = item["Payment_Terms_Commitment"].ToString().Trim();
                     vendorContract.Payment_Terms_Details = item["Payment_Terms_Details"].ToString().Trim();
-                    vendorContract.Fin_Leader = item["Fin_Leader"].ToString().Trim();
-                    vendorContract.User_Dept_Head_One = item["User_Dept_Head_One"].ToString().Trim();
-                    vendorContract.User_Dept_Head_Two = item["User_Dept_Head_Two"].ToString().Trim();
+                    vendorContract.Fin_Leader = item["Finance_Leader_One"].ToString().Trim();
+                    vendorContract.User_Dept_Head_One = item["User_Department_Manager_One"].ToString().Trim();
+                    vendorContract.User_Dept_Head_Two = item["User_Department_Manager_Two"].ToString().Trim();
                     vendorContract.Price_Adjustment_Page = item["Price_Adjustment_Page"].ToString().Trim();
                     vendorContract.Price_Adjustment_Clause = item["Price_Adjustment_Clause"].ToString().Trim();
                     vendorContract.Price_Adjustment_Commitment = item["Price_Adjustment_Commitment"].ToString().Trim();

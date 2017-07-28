@@ -19,6 +19,9 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
+            Image1.Visible = false;//非show页面中不可操作
+            Image2.Visible = false;
             if (!IsPostBack)
             {
                 getSessionInfo();
@@ -29,8 +32,6 @@ namespace SHZSZHSUPPLY.VendorAssess
                     Vendor.Form_Type_ID = FORM_TYPE_ID;
                     Vendor.Temp_Vendor_Name = tempVendorID;
                     Vendor.Flag = 0;//将表格标志位信息改为已填写
-                    Image1.Visible = false;
-                    Image2.Visible = false;
                     int n = VendorBlockOrUnBlock_BLL.addVendorBlock(Vendor);
                     if (n == 0)
                     {
@@ -92,7 +93,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         public void approveAssess(string formId)
         {
-            if (LocalApproveManager.doAddApprove(formId, FORM_TYPE_ID, tempVendorID, "上海科勒"))
+            if (LocalApproveManager.doAddApprove(formId, FORM_TYPE_ID, tempVendorID, "上海科勒", FORM_NAME))
             {
                 //插入到已提交表
                 As_Form form = new As_Form();

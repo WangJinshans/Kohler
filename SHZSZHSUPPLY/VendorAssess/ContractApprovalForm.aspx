@@ -260,7 +260,8 @@
                 </tr>
                 <tr>
                     <td colspan="16"><asp:TextBox runat="server" ID="Textbox4" BorderStyle="None" Width="890px"/></td>
-                    <td colspan="2"><asp:TextBox runat="server" ID="Textbox15" BorderStyle="None"/></td>
+                    <td colspan="2">
+                        <asp:Image ImageUrl="imageurl" ID="Image8" runat="server" /></td>
                     <td colspan="2" style="text-align:center">User Dept Head<br>使用部门领导</td>
                 </tr>
                 <tr>
@@ -277,7 +278,8 @@
                     <td class="auto-style2"><asp:TextBox runat="server" ID="Textbox9" BorderStyle="None"/></td>
                     <td style="text-align:center" class="auto-style2"><asp:CheckBox Text="" runat="server" ID="CheckBox6"/></td>
                     <td colspan="8" class="auto-style2"><asp:TextBox runat="server" ID="Textbox13" BorderStyle="None"></asp:TextBox></td>
-                    <td colspan="2" class="auto-style2"><asp:TextBox runat="server" ID="Textbox14" BorderStyle="None"/></td>
+                    <td colspan="2" class="auto-style2">
+                        <asp:Image ImageUrl="imageurl" ID="Image7" runat="server" /></td>
                     <td colspan="2" style="text-align:center" class="auto-style2">FIN Leader<br>财务领导</td>
                 </tr>
                 <tr>
@@ -286,7 +288,8 @@
                     <td><asp:TextBox runat="server" ID="Textbox17" BorderStyle="None"/></td>
                     <td style="text-align:center"><asp:CheckBox Text="" runat="server" ID="CheckBox7"/></td>
                     <td colspan="8"><asp:TextBox runat="server" ID="Textbox19" BorderStyle="None"/></td>
-                    <td colspan="2" rowspan="11"><asp:TextBox runat="server" ID="Textbox87" BorderStyle="None"/></td>
+                    <td colspan="2" rowspan="11">
+                        <asp:Image ImageUrl="imageurl" ID="Image6" runat="server" /></td>
                     <td colspan="2" rowspan="11">User Dept Head使用部门领导</td>
                 </tr>
                 <tr>
@@ -469,7 +472,8 @@
                     <td colspan="2" style="text-align:center;border-style:none">安全施工协议</td>
                     <td colspan="1" style="text-align:center;border-top:0;border-left:0;border-bottom:0;"><asp:CheckBox Text="" runat="server" ID="CheckBox30"/></td>
                     <td colspan="1" style="text-align:left;border-style:none;">Signature:</td>
-                    <td colspan="2" style="text-align:center;border-left:0;border-top:0;"><asp:TextBox runat="server" ID="Textbox42" BorderStyle="None"/></td>
+                    <td colspan="2" style="text-align:center;border-left:0;border-top:0;">
+                        <asp:Image ImageUrl="imageurl" ID="Image9" runat="server" /></td>
                     <td colspan="1" style="text-align:left;border-style:none;">Signature:</td>
                     <td colspan="2" style="text-align:center;border-left:0;border-top:0;">
                         <asp:Image ImageUrl="imageurl" ID="Image1" runat="server" /></td>

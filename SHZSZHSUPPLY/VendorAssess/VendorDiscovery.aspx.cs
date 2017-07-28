@@ -17,6 +17,9 @@ namespace AendorAssess
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Image1.Visible = false;
+            Image2.Visible = false;
+            Image3.Visible = false;
             if (!IsPostBack)
             {
                 //获取session信息

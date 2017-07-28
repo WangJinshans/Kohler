@@ -48,11 +48,13 @@ namespace SHZSZHSUPPLY.VendorAssess
                 Textbox7.Text = contractApproval.Contract_StartTime;
                 Textbox86.Text = contractApproval.Contract_EndTime;
                 Textbox8.Text = contractApproval.Vendor_Name;
-                Textbox15.Text = contractApproval.User_Dept_Head_One;
+                //Textbox15.Text = contractApproval.User_Dept_Head_One;
+                hideImage(contractApproval.User_Dept_Head_One, Image8);
                 Textbox11.Text = contractApproval.Payment_Terms_Page;
                 Textbox9.Text = contractApproval.Payment_Terms_Clause;
                 Textbox13.Text = contractApproval.Payment_Terms_Details;
-                Textbox14.Text = contractApproval.Fin_Leader;
+                //Textbox14.Text = contractApproval.Fin_Leader;
+                hideImage(contractApproval.Fin_Leader, Image7);
                 Textbox16.Text = contractApproval.Price_Adjustment_Page;
                 Textbox17.Text = contractApproval.Price_Adjustment_Clause;
                 Textbox19.Text = contractApproval.Price_Adjustment_Details;
@@ -86,7 +88,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 Textbox56.Text = contractApproval.Penalty_Detail_Page;
                 Textbox57.Text = contractApproval.Penalty_Detail_Clause;
                 Textbox59.Text = contractApproval.Penalty_Detail_Details;
-                Textbox87.Text = contractApproval.User_Dept_Head_Two;
+                hideImage(contractApproval.User_Dept_Head_Two, Image6);
                 Textbox12.Text = contractApproval.Notice_Page;
                 Textbox18.Text = contractApproval.Notice_Clause;
                 Textbox22.Text = contractApproval.Notice_Details;
@@ -120,7 +122,6 @@ namespace SHZSZHSUPPLY.VendorAssess
                 hideImage(contractApproval.SC_Leader_Signature, Image2);
                 hideImage(contractApproval.Finance_Leader_Signature, Image3);
                 hideImage(contractApproval.General_Manager_Signature, Image4);
-
                 Textbox75.Text = contractApproval.SourcingSpecialist_Date;
                 Textbox79.Text = contractApproval.User_Dept_Head_Date;
                 Textbox83.Text = contractApproval.SC_Leader_Date;
@@ -135,7 +136,9 @@ namespace SHZSZHSUPPLY.VendorAssess
                 Image3.Visible = false;
                 Image4.Visible = false;
                 Image5.Visible = false;
-
+                Image6.Visible = false;
+                Image7.Visible = false;
+                Image8.Visible = false;
             }
 
         }

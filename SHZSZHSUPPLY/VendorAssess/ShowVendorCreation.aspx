@@ -241,25 +241,6 @@
                     <asp:TextBox ID="TextBox32" runat="server" CssClass="t" Height="35px" ReadOnly="true"></asp:TextBox>
                 </td>
             </tr>
-            <tr>
-                <td colspan="2" style="text-align:center;background-color:black;color:#ffffff">SELF CHECKING</td>
-            </tr>
-            <tr>
-                <td colspan="1" style="text-align:left" class="auto-style5">所有蓝色区域均已填写</td>
-                <td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox33" runat="server" CssClass="t" Height="35px" ReadOnly="true"></asp:TextBox></td>
-            </tr>
-            <tr>
-                <td colspan="1" style="text-align:left" class="auto-style5">所有需要的supporting均已在邮件中提供</td>
-                <td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox34" runat="server" CssClass="t" Height="35px" ReadOnly="true"></asp:TextBox></td>
-            </tr>
-            <tr>
-                <td colspan="1" style="text-align:left" class="auto-style5">所有需要的申请均获得且已附在邮件中</td>
-                <td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox35" runat="server" CssClass="t" Height="35px" ReadOnly="true"></asp:TextBox></td>
-            </tr>
-            <tr>
-                <td colspan="1" style="text-align:left" class="auto-style5">已经将此TAB标示为红色</td>
-                <td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox36" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
-            </tr>
         </table>
         <table class="gridtable" style="margin: auto; border-collapse: collapse;float:left">
                 <tr>

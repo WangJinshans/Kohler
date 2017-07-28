@@ -9,7 +9,7 @@ namespace VendorAssess
 {
     public partial class VendorDesignatedApply : System.Web.UI.Page
     {
-        public const string FORM_NAME = "指定供应商表";
+        public const string FORM_NAME = "指定供应商申请表";
         public const string FORM_TYPE_ID = "004";
         private string tempVendorID = "";
         private string tempVendorName = "";
@@ -18,18 +18,26 @@ namespace VendorAssess
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
+            //在非show页面中不可操作
+            Image1.Visible = false;
+            Image2.Visible = false;
+            Image3.Visible = false;
+            Image4.Visible = false;
+            Image5.Visible = false;
+            Image6.Visible = false;
+            Image7.Visible = false;
+            TextBox13.Visible = false;//时间控件隐藏
+            TextBox14.Visible = false;
+            TextBox18.Visible = false;
+            TextBox17.Visible = false;
+            TextBox21.Visible = false;
+            TextBox22.Visible = false;
+            TextBox24.Visible = false;
             if (!IsPostBack)
             {
                 //获取session信息
                 getSessionInfo();
-                //在非show页面中不需要进行显示
-                Image1.Visible = false;
-                Image2.Visible = false;
-                Image3.Visible = false;
-                Image4.Visible = false;
-                Image5.Visible = false;
-                Image6.Visible = false;
-                Image7.Visible = false;
                 int check = As_Vendor_Designated_Apply_BLL.checkVendorDesignatedApply(formID);
                 if (check == 0)//数据库中不存在这张表，则自动初始化
                 {
@@ -66,6 +74,7 @@ namespace VendorAssess
             else
             {
                 //处理postback回调
+                string res = Request["__EVENTTARGET"];
                 switch (Request["__EVENTTARGET"])
                 {
                     case "submitForm":
@@ -118,7 +127,7 @@ namespace VendorAssess
                 TextBox6.Text = Vendor_Designated.Reason;
                 TextBox7.Text = Vendor_Designated.Initiator;
                 TextBox8.Text = Vendor_Designated.Date.ToString();
-                TextBox9.Text = Vendor_Designated.Applicant;
+                Image8.ImageUrl = Vendor_Designated.Applicant;
                 Image1.ImageUrl = Vendor_Designated.RequestDeptHead;
                 Image2.ImageUrl = Vendor_Designated.FinManager;
                 TextBox12.Text = Vendor_Designated.ApplicantDate.ToString();
@@ -249,7 +258,8 @@ namespace VendorAssess
             Vendor_Designated.Reason = TextBox6.Text.ToString().Trim();
             Vendor_Designated.Initiator = TextBox7.Text.ToString().Trim();
             Vendor_Designated.InitiatorDate = TextBox8.Text.ToString().Trim();
-            Vendor_Designated.Applicant = TextBox9.Text.ToString().Trim();
+            Vendor_Designated.Applicant = Image8.ImageUrl;
+            //Vendor_Designated.Applicant = TextBox9.Text.ToString().Trim();
             //Vendor_Designated.RequestDeptHead = TextBox10.Text.ToString().Trim();
             //Vendor_Designated.FinManager = TextBox11.Text.ToString().Trim();
             //Vendor_Designated.ApplicantDate = TextBox12.Text.ToString().Trim();
@@ -292,6 +302,7 @@ namespace VendorAssess
 
         public void Button1_Click(object sender, EventArgs e)//提交按钮
         {
+            getSessionInfo();
             if (submit == "yes")
             {
                 //形成参数

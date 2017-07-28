@@ -56,7 +56,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                          * 建立一张数据表  Position 和 URL(签名文件)
                          */
                         //添加法务部的签名
-                        Signature_BLL.setSignature(formID, "法务部","Legal_Affair_Department");
+                        Signature_BLL.setSignature(formID, "法务部", "Legal_Affair_Department");
                         KCIApproval_BLL.setApprovalFinished(Form_Type_ID, 4, temp_vendor_ID);//整张表的审批完成
                     }
                 }
@@ -93,8 +93,13 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
             else if (e.CommandName == "fail")//KCI审批不过
             {
-                KCIApproval_BLL.updateKCIApproval(formID, 0);//KCI审批完成 但是失败
+                //KCIApproval_BLL.rejectKCIApproval(formID);//KCI审批完成 但是失败 直接删掉该记录
+                //需要删除As_Form 避免主键重复
+                AddForm_BLL.deleteForm(formID);
+                KCIApproval_BLL.updateKCIApproval(formID, 2);//KCI审批完成  2表示需要再次进行KCI审批
                 KCIApproval_BLL.setApprovalFinished(Form_Type_ID, 0, temp_vendor_ID);//整张表的审批完成  该表需要在修改之后重新进行审批
+
+
                 /*
                  * 重新审批的时候  需要将该表的整个流程重新走过 需要删除As_Form_AccessFlow  
                  * 修改提交的flag为0 否则无法再次提交

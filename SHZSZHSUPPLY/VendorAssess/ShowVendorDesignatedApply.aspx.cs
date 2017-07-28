@@ -69,7 +69,8 @@ namespace VendorAssess
                 TextBox6.Text = form.Reason;
                 TextBox7.Text = form.Initiator;
                 TextBox8.Text = form.Date.ToString();
-                TextBox9.Text = form.Applicant;
+                //TextBox9.Text = form.Applicant;
+                hideImage(form.Applicant, Image8);
                 hideImage(form.RequestDeptHead, Image1);
                 hideImage(form.FinManager, Image2);
                 //Image1.ImageUrl = form.RequestDeptHead;

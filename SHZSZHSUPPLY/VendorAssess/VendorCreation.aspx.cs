@@ -19,6 +19,11 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Image1.Visible = false;//非show页面中不可操作
+            Image2.Visible = false;
+            Image3.Visible = false;
+            Image4.Visible = false;
+            Image5.Visible = false;
             if (!IsPostBack)
             {
                 //获取session信息
@@ -34,11 +39,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     vendorCreation.Flag = 0;//将表格标志位信息改为0
 
                     //名字只读
-                    Image1.Visible = false;
-                    Image2.Visible = false;
-                    Image3.Visible = false;
-                    Image4.Visible = false;
-                    Image5.Visible = false;
+                
                     int n = VendorCreation_BLL.addVendorCreation(vendorCreation);
                     if (n == 0)
                     {
@@ -216,7 +217,8 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// <param name="formId"></param>
         public void approveAssess(string formId)
         {
-            if (LocalApproveManager.doAddApprove(formId,FORM_TYPE_ID,tempVendorID,"上海科勒"))
+            //需要Form_Type_Name 暂时更更改该函数参数
+            if (LocalApproveManager.doAddApprove(formId,FORM_TYPE_ID,tempVendorID,"上海科勒", FORM_NAME))
             {
                 //插入到已提交表
                 As_Form form = new As_Form();
@@ -240,6 +242,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void Button1_Click(object sender, EventArgs e)
         {
+            getSessionInfo();
             if (submit == "yes")
             {
                 saveForm(2, "提交表格");

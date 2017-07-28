@@ -93,7 +93,8 @@
             </tr>
             <tr>
                 <td colspan="1">Applicant: </td>
-                <td colspan="1"><asp:TextBox ID="TextBox9" runat="server" CssClass="auto-style1" ReadOnly="True"></asp:TextBox> </td>
+                <td colspan="1">
+                    <asp:Image ImageUrl="imageurl" ID="Image8" runat="server" /> </td>
                 <td colspan="1">Request Dept Head: </td>
                 <td colspan="1" class="auto-style3">
                     <asp:Image ImageUrl="imageurl" ID="Image1" runat="server" /> </td>

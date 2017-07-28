@@ -19,6 +19,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         
         protected void Page_Load(object sender, EventArgs e)
         {
+            Image1.Visible = false;
             if (!IsPostBack)
             {
                 int check = VendorExtend_BLL.checkVendorExtend(formID);//检查是否存在这张表
@@ -28,7 +29,6 @@ namespace SHZSZHSUPPLY.VendorAssess
                     vendor.Form_Type_ID = FORM_TYPE_ID;
                     vendor.Temp_Vendor_Name = tempVendorID;
                     vendor.Flag = 0;//将表格标志位信息改为已填写
-                    Image1.Visible = false;
                     int n = VendorExtend_BLL.addVendorExtend(vendor);
                     if (n == 0)
                     {
@@ -167,7 +167,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         public void approveAssess(string formId)
         {
-            if (LocalApproveManager.doAddApprove(formId, FORM_TYPE_ID, tempVendorID, "上海科勒"))
+            if (LocalApproveManager.doAddApprove(formId, FORM_TYPE_ID, tempVendorID, "上海科勒", FORM_NAME))
             {
                 //插入到已提交表
                 As_Form form = new As_Form();

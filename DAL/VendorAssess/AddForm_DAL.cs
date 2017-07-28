@@ -26,6 +26,17 @@ namespace DAL
             return DBHelp.GetScalar(sql, sp);
         }
 
+        public static int deleteForm(string formID)
+        {
+            string sql = "delete from As_Form where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("Form_ID",formID)
+               
+            };
+            return DBHelp.ExecuteCommand(sql, sp);
+        }
+
         public static string GetVendorName(string formID)
         {
             string sql = "select Temp_Vendor_Name from As_Form where Form_ID='" + formID + "'";

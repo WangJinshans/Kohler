@@ -20,7 +20,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
         /// </summary>
         /// <param name="formID"></param>
         /// <param name="FORM_TYPE_ID"></param>
-        public static bool doAddApprove(string formID,string FORM_TYPE_ID,string tempVendorID,string factory)
+        public static bool doAddApprove(string formID,string FORM_TYPE_ID,string tempVendorID,string factory,string Form_Type_Name)
         {
             //实例化审批流程
             As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(FORM_TYPE_ID);
@@ -42,7 +42,9 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             approve.Assess_Reason = "";
             approve.Assess_Time = DateTime.Now.ToString();
             approve.Temp_Vendor_ID = tempVendorID;
+            approve.Temp_Vendor_Name = TempVendor_BLL.getTempVendorName(tempVendorID);
             approve.Factory_Name = factory;
+            approve.Form_Type_Name = Form_Type_Name;
 
             //添加此表的审批流程到动态写入表
             AssessFlow_BLL.addFormAssessFlow(Form_AssessFlow);

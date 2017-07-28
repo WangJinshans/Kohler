@@ -228,6 +228,9 @@ namespace AendorAssess
                 case "供应商调查表":
                     Response.Redirect("ShowVendorDiscovery.aspx");
                     break;
+                case "bidding form比价资料/会议纪要(非承诺<=RMB1.5M)":
+                    Response.Redirect("ShowBiddingApprovalForm.aspx");
+                    break;
                 case "指定供应商申请表":
                     Response.Redirect("ShowVendorDesignatedApply.aspx");
                     break;

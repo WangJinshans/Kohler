@@ -420,7 +420,7 @@
 						<asp:TextBox ID="TextBox35" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="3">
 						<asp:TextBox ID="TextBox59" runat="server" CssClass="t"></asp:TextBox></td>
-					<td colspan="3">
+					<td colspan="3" style="border-right:0;">
 						<asp:TextBox ID="TextBox60" runat="server" CssClass="t"></asp:TextBox></td>
 				</tr>
 				<tr>
@@ -461,7 +461,10 @@
 				</tr>
 				<tr>
 					<td colspan="2">签名</td>
-					<td colspan="7"></td>
+					<td colspan="2"><asp:Image ImageUrl="imageurl" ID="Image1" runat="server" /></td>
+					<td colspan="2"><asp:Image ImageUrl="imageurl" ID="Image2" runat="server" /></td>
+					<td colspan="2" style="border-right:0;"><asp:Image ImageUrl="imageurl" ID="Image3" runat="server" /></td>
+
 				</tr>
 			</table>
 		</div>

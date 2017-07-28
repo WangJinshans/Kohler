@@ -49,6 +49,7 @@ namespace AendorAssess
                     Response.Redirect("ShowVendorDesignatedApply.aspx");
                     break;
                 case "合同审批表":
+                    Response.Redirect("ShowContractApprovalForm.aspx");
                     break;
                 case "供应商选择表":
                     Response.Redirect("ShowVendorSelection.aspx");

@@ -276,7 +276,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// <param name="formId"></param>
         public void approveAssess(string formId)
         {
-            if (LocalApproveManager.doAddApprove(formId, FORM_TYPE_ID, tempVendorID, "上海科勒"))
+            if (LocalApproveManager.doAddApprove(formId, FORM_TYPE_ID, tempVendorID, "上海科勒", FORM_NAME))
             {
                 //插入到已提交表
                 As_Form form = new As_Form();

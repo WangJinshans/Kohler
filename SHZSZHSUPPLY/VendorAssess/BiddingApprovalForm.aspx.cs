@@ -35,6 +35,11 @@ namespace AendorAssess
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Image1.Visible = false;
+            Image2.Visible = false;
+            Image3.Visible = false;
+            Image4.Visible = false;//在非show页面中图片控件不可操作
+
             if (!IsPostBack)
             {
                 //获取session信息
@@ -123,6 +128,7 @@ namespace AendorAssess
                 TextBox18.Text = biddingForm.Reason_Two;
                 //TODO::image
 
+                
                 int[] arr = { 0, 0, 0, 0, 0 };
                 for (int i = 0; i < biddingForm.ProjectList.Count; i++)
                 {
@@ -177,6 +183,19 @@ namespace AendorAssess
             }
             //展示附件
             showfilelist(formID);
+        }
+
+
+        private void hideImage(string signature, Image image)
+        {
+            if (signature != "")
+            {
+                image.ImageUrl = signature;
+            }
+            else
+            {
+                image.Visible = false;
+            }
         }
 
         /// <summary>

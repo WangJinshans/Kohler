@@ -16,6 +16,10 @@ namespace BLL.VendorAssess
             return KCIApproval_DAL.updateKCIApproval(Form_ID, approval);
         }
 
+        public static int rejectKCIApproval(string formID)
+        {
+            return KCIApproval_DAL.rejectKCIApproval(formID);
+        }
 
         public static int setApprovalFinished(string Form_ID, int approval,string Temp_Vendor_ID)//需要KCI审批的在KCI审批完成之后标志该表的审批完成
         {

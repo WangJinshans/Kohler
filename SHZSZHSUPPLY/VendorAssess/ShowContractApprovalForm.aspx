@@ -149,7 +149,9 @@
                 </tr>
                 <tr>
                     <td colspan="16"><asp:TextBox runat="server" ReadOnly="true" ID="Textbox4" BorderStyle="None" Width="890px"/></td>
-                    <td colspan="2"><asp:TextBox runat="server" ReadOnly="true" ID="Textbox15" BorderStyle="None"/></td>
+                    <td colspan="2">
+                        <asp:Image ID="Image8" runat="server" ImageUrl="imageurl" />
+                    </td>
                     <td colspan="2" style="text-align:center">User Dept Head<br>使用部门领导</td>
                 </tr>
                 <tr>
@@ -166,7 +168,9 @@
                     <td class="auto-style2"><asp:TextBox runat="server" ID="Textbox9" BorderStyle="None"/></td>
                     <td style="text-align:center" class="auto-style2"><asp:CheckBox Text="" runat="server" ID="CheckBox6" disabled="disabled" onclick="choose(6)"/></td>
                     <td colspan="8" class="auto-style2"><asp:TextBox runat="server" ID="Textbox13" BorderStyle="None" ReadOnly="true" ></asp:TextBox></td>
-                    <td colspan="2" class="auto-style2"><asp:TextBox runat="server" ID="Textbox14" BorderStyle="None" ReadOnly="true" /></td>
+                    <td colspan="2" class="auto-style2">
+                        <asp:Image ID="Image7" runat="server" ImageUrl="imageurl" />
+                    </td>
                     <td colspan="2" style="text-align:center" class="auto-style2">FIN Leader<br>财务领导</td>
                 </tr>
                 <tr>
@@ -175,7 +179,9 @@
                     <td><asp:TextBox runat="server" ID="Textbox17" BorderStyle="None"/></td>
                     <td style="text-align:center"><asp:CheckBox Text="" runat="server" ID="CheckBox7" disabled="disabled"  onclick="choose(7)"/></td>
                     <td colspan="8"><asp:TextBox runat="server" ID="Textbox19" BorderStyle="None" ReadOnly="true" /></td>
-                    <td colspan="2" rowspan="11"><asp:TextBox runat="server" ID="Textbox87" BorderStyle="None" ReadOnly="true" /></td>
+                    <td colspan="2" rowspan="11">
+                        <asp:Image ID="Image6" runat="server" ImageUrl="imageurl" />
+                    </td>
                     <td colspan="2" rowspan="11">User Dept Head使用部门领导</td>
                 </tr>
                 <tr>

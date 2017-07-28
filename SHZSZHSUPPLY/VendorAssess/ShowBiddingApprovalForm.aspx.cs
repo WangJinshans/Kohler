@@ -32,6 +32,18 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         }
 
+
+        private void hideImage(string signature, Image image)
+        {
+            if (signature != "")
+            {
+                image.ImageUrl = signature;
+            }
+            else
+            {
+                image.Visible = false;
+            }
+        }
         /// <summary>
         /// 显示表格
         /// </summary>
@@ -59,6 +71,11 @@ namespace SHZSZHSUPPLY.VendorAssess
                 TextBox17.Text = biddingForm.Reason_One;
                 TextBox18.Text = biddingForm.Reason_Two;
                 //TODO::image
+
+                hideImage(biddingForm.Supplier_Chain_Leader, Image2);
+                hideImage(biddingForm.Initiator, Image1);
+                hideImage(biddingForm.Business_Leader, Image4);
+                hideImage(biddingForm.Finance_Leader, Image3);
 
                 int[] arr = { 0, 0, 0, 0, 0 };
                 for (int i = 0; i < biddingForm.ProjectList.Count; i++)

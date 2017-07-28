@@ -34,18 +34,25 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             As_Vendor_Extend v = new As_Vendor_Extend();
             v = VendorExtend_BLL.getVendorExtend(formID);
-            TextBox1.Text = v.Purpose;
-            dropDownList1.Text = v.Laguage;
-            TextBox2.Text = v.Initiator_Name;
-            TextBox3.Text = v.Initiator_Tel;
-            TextBox4.Text = v.Company_Code;
-            TextBox5.Text = v.Vendor_Code;
-            TextBox6.Text = v.From_Company;
-            TextBox7.Text = v.Email;
-            TextBox8.Text = v.Money_Type;
-            //Image1.ImageUrl = v.Line_Manager;
-            hideImage(v.Line_Manager, Image1);
-            TextBox10.Text = v.Comments;
+            if (v != null)
+            {
+                TextBox1.Text = v.Purpose;
+                dropDownList1.Text = v.Laguage;
+                TextBox2.Text = v.Initiator_Name;
+                TextBox3.Text = v.Initiator_Tel;
+                TextBox4.Text = v.Company_Code;
+                TextBox5.Text = v.Vendor_Code;
+                TextBox6.Text = v.From_Company;
+                TextBox7.Text = v.Email;
+                TextBox8.Text = v.Money_Type;
+                //Image1.ImageUrl = v.Line_Manager;
+                hideImage(v.Line_Manager, Image1);
+                TextBox10.Text = v.Comments;
+            }
+            else
+            {
+                Image1.Visible = false;
+            }
         }
         
         public void showfilelist(string FormID)

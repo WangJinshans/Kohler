@@ -20,23 +20,23 @@ namespace BLL
              * 如果获取的已经审批完成的表格中 最大值 < 当前优先级-1 说明还存在未审批完成的表格
              * 无法提交
              */
-            int max = 0; //为0确保第一张表可以提交
+            int min = 100; //为0确保第一张表可以提交
             List<int> numbers = new List<int>();
             numbers = FormType_DAL.getVendorFormPriorityNumber(temp_Vendor_ID);
             for (int i = 0; i < numbers.Count; i++)
             {
-                if (numbers[i] > max)
+                if (min>numbers[i])
                 {
-                    max = numbers[i];//max为最大值
+                    min = numbers[i];//min为最小值
                 }
             }
-            if (max < (number - 1))
+            if (min <= number)
             {
-                return false;
+                return true;
             }
             else
             {
-                return true;
+                return false;
             }
         }
     }

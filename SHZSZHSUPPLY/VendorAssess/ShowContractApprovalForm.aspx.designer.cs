@@ -157,13 +157,13 @@ namespace SHZSZHSUPPLY.VendorAssess {
         protected global::System.Web.UI.WebControls.TextBox Textbox4;
         
         /// <summary>
-        /// Textbox15 控件。
+        /// Image8 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Textbox15;
+        protected global::System.Web.UI.WebControls.Image Image8;
         
         /// <summary>
         /// Textbox11 控件。
@@ -202,13 +202,13 @@ namespace SHZSZHSUPPLY.VendorAssess {
         protected global::System.Web.UI.WebControls.TextBox Textbox13;
         
         /// <summary>
-        /// Textbox14 控件。
+        /// Image7 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Textbox14;
+        protected global::System.Web.UI.WebControls.Image Image7;
         
         /// <summary>
         /// Textbox16 控件。
@@ -247,13 +247,13 @@ namespace SHZSZHSUPPLY.VendorAssess {
         protected global::System.Web.UI.WebControls.TextBox Textbox19;
         
         /// <summary>
-        /// Textbox87 控件。
+        /// Image6 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Textbox87;
+        protected global::System.Web.UI.WebControls.Image Image6;
         
         /// <summary>
         /// Textbox20 控件。
