@@ -56,6 +56,7 @@
     <Compile Include="VenderInfo\VenderType_DAL.cs" />
     <Compile Include="VendorAssess\AddEmployeeVendor_DAL.cs" />
     <Compile Include="VendorAssess\AddForm_DAL.cs" />
+    <Compile Include="VendorAssess\Approve_DAL.cs" />
     <Compile Include="VendorAssess\AssessFlow_DAL.cs" />
     <Compile Include="VendorAssess\As_Bidding_Approval_DAL.cs" />
     <Compile Include="VendorAssess\As_Vendor_Designated_Apply_DAL.cs" />

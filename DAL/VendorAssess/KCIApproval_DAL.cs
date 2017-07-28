@@ -61,7 +61,7 @@ namespace DAL
                 foreach (DataRow item in dt.Rows)
                 {
                     kciApproval.Form_ID = item["Form_ID"].ToString().Trim();
-                    kciApproval.Status = Convert.ToInt32(item["Flag"].ToString().Trim());
+                    kciApproval.Flag = Convert.ToInt32(item["Flag"].ToString().Trim());
                     kciApproval.Temp_Vendor_ID = item["Temp_Vendor_ID"].ToString().Trim();
                     kciApproval.Position_Name = item["Position_Name"].ToString().Trim();
                 }
@@ -82,7 +82,7 @@ namespace DAL
                 {
                     As_KCI_Approval kciApproval = new As_KCI_Approval();
                     kciApproval.Form_ID = dr["Form_ID"].ToString().Trim();
-                    kciApproval.Status = Convert.ToInt32(dr["Flag"].ToString().Trim());
+                    kciApproval.Flag = Convert.ToInt32(dr["Flag"].ToString().Trim());
                     kciApproval.Temp_Vendor_ID = dr["Temp_Vendor_ID"].ToString().Trim();
                     kciApproval.Position_Name = dr["Position_Name"].ToString().Trim();
                     list.Add(kciApproval);

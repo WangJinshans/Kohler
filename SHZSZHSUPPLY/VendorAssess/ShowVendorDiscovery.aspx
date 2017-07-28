@@ -6,6 +6,10 @@
 <head runat="server">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>供应商调查表</title>
+    <script src="Script/jquery-3.2.1.min.js"></script>
+	<script src="Script/layui/layui.js"></script>
+	<script src="Script/Own/fileUploader.js"></script>
+    <link rel="stylesheet" href="Script/layui/css/layui.css" />
 	<style type="text/css">
 		table.gridtable {
 			font-family: verdana,arial,sans-serif;
@@ -412,7 +416,9 @@
 				</tr>
 				<tr>
 					<td colspan="2">签名</td>
-					<td colspan="7"></td>
+					<td colspan="2"><asp:Image ImageUrl="imageurl" ID="Image1" runat="server" /></td>
+					<td colspan="2"><asp:Image ImageUrl="imageurl" ID="Image2" runat="server" /></td>
+					<td colspan="2" style="border-right:0;"><asp:Image ImageUrl="imageurl" ID="Image3" runat="server" /></td>
 				</tr>
 			</table>
 

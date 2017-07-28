@@ -31,3 +31,40 @@ function getUploadResult() {
     return uploadFileResult;
 }
 
+function message(msg) {
+    layui.use(['layer'], function () {
+        var layer = layui.layer;
+        layer.msg(msg);
+    })
+}
+
+function openReasonDialog(form_id,position_name,factory_name,callback) {
+    layui.use(['layer'], function () {
+        var layer = layui.layer;
+        layer.prompt({
+            formType: 2,
+            value: '',
+            title: '请输入拒绝原因或理由',
+            area: ['800px', '250px'] //自定义文本域宽高
+        }, function (value, index, elem) {
+            if (callback != null) {
+                callback(value);
+            } else {
+                $.ajax({
+                    type: "post",
+                    async:false,
+                    url: "./ASHX/Database_Handler.ashx",
+                    data: { requestType: 'approveReason', formID: form_id, positionName: position_name, factoryName: factory_name, reason: value },
+                    dataType: "json",
+                    success: function (data, textStatus) {
+                        message("已拒绝");
+                        layer.close(index);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        layer.msg("操作失败");
+                    }
+                });
+            }
+        });
+    });
+}

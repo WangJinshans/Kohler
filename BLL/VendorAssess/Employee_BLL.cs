@@ -33,5 +33,10 @@ namespace BLL
         {
             return Employee_DAL.getEmployeeDepartment(currentEmployeeID);
         }
+
+        public static string getEmployeeFactory(string currentEmployeeID)
+        {
+            return Employee_DAL.getEmployeeFactory(currentEmployeeID);
+        }
     }
 }

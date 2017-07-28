@@ -10,7 +10,9 @@ namespace MODEL
         private string form_ID;
         private string temp_Vendor_ID;
         private string position_Name;
-        private int status;
+        private int flag;
+        private string reason;
+        private string time;
 
         public string Form_ID
         {
@@ -51,16 +53,42 @@ namespace MODEL
             }
         }
 
-        public int Status
+        public int Flag
         {
             get
             {
-                return status;
+                return flag;
             }
 
             set
             {
-                status = value;
+                flag = value;
+            }
+        }
+
+        public string Reason
+        {
+            get
+            {
+                return reason;
+            }
+
+            set
+            {
+                reason = value;
+            }
+        }
+
+        public string Time
+        {
+            get
+            {
+                return time;
+            }
+
+            set
+            {
+                time = value;
             }
         }
     }

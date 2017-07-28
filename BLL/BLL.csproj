@@ -60,6 +60,7 @@
     <Compile Include="VenderInfo\VenderType_BLL.cs" />
     <Compile Include="VendorAssess\AddEmployeeVendor_BLL.cs" />
     <Compile Include="VendorAssess\AddForm_BLL.cs" />
+    <Compile Include="VendorAssess\Approve_BLL.cs" />
     <Compile Include="VendorAssess\AssessFlow_BLL.cs" />
     <Compile Include="VendorAssess\As_Bidding_Approval_BLL.cs" />
     <Compile Include="VendorAssess\As_Vendor_Designated_Apply_BLL.cs" />

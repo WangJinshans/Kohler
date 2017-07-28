@@ -234,9 +234,6 @@
 	<form id="form1" runat="server">
         <input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
 		<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
-</head>
-<body>
-	<form id="form1" runat="server">
 	<div>
 	<table style="width:170%;margin:auto;border-collapse:collapse" border="1">
 		<caption style="font-size:xx-large">Supplier Selection Form     供应商选择表</caption>

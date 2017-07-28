@@ -121,10 +121,12 @@
     <Content Include="Scripts\webform1_iframe_redirect_VenderMaintenance.js" />
     <Content Include="VendorAssess\BiddingApprovalForm.aspx" />
     <Content Include="VendorAssess\ContractApprovalForm.aspx" />
+    <Content Include="VendorAssess\Html_Template\Approve_Reason.html" />
     <Content Include="VendorAssess\Html_Template\Html_Test_Page.html" />
     <Content Include="VendorAssess\EmployeeVendor.aspx" />
     <Content Include="VendorAssess\FormWaitToFill.aspx" />
     <Content Include="VendorAssess\Html_Template\File_Upload_Page.html" />
+    <Content Include="VendorAssess\Html_Template\UIPage.aspx" />
     <Content Include="VendorAssess\index.aspx" />
     <Content Include="VendorAssess\KCI.aspx" />
     <Content Include="VendorAssess\login.aspx" />
@@ -426,6 +428,9 @@
     <Compile Include="VenderInfo\VenderNoExist.aspx.designer.cs">
       <DependentUpon>VenderNoExist.aspx</DependentUpon>
     </Compile>
+    <Compile Include="VendorAssess\ASHX\Database_Handler.ashx.cs">
+      <DependentUpon>Database_Handler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="VendorAssess\ASHX\File_Upload_End_Point.ashx.cs">
       <DependentUpon>File_Upload_End_Point.ashx</DependentUpon>
     </Compile>
@@ -456,6 +461,12 @@
     </Compile>
     <Compile Include="VendorAssess\FormWaitToFill.aspx.designer.cs">
       <DependentUpon>FormWaitToFill.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorAssess\Html_Template\UIPage.aspx.cs">
+      <DependentUpon>UIPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorAssess\Html_Template\UIPage.aspx.designer.cs">
+      <DependentUpon>UIPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="VendorAssess\index.aspx.cs">
       <DependentUpon>index.aspx</DependentUpon>
@@ -690,6 +701,7 @@
     <Content Include="VendorAssess\Script\fine-uploader\jquery.fine-uploader.min.js.map" />
     <Content Include="VendorAssess\Script\fine-uploader\LICENSE" />
     <Content Include="VendorAssess\ASHX\File_Upload_End_Point.ashx" />
+    <Content Include="VendorAssess\ASHX\Database_Handler.ashx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

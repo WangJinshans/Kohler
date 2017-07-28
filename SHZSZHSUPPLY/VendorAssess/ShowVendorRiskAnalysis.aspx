@@ -6,6 +6,12 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title>供应商风险分析表-展示</title>
+
+    <script src="Script/jquery-3.2.1.min.js"></script>
+	<script src="Script/layui/layui.js"></script>
+	<script src="Script/Own/fileUploader.js"></script>
+    <link rel="stylesheet" href="Script/layui/css/layui.css" />
+
 	<style type="text/css">
 	 
 		.td-label-style {

@@ -117,5 +117,7 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
         public string newUuid { get; set; }
         public string error { get; set; }
         public string message { get; set; }
+
+        public int status { get; set; }
     }
 }

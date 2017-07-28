@@ -111,9 +111,9 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
-		<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
-    <div style="text-align:right">PR-05-10-2</div><br>
+        <%--<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+		<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />--%>
+    <div style="text-align:right">PR-05-10-2</div>
     <div style="text-align: center">
         <table style="margin: auto; border-collapse:initial" cellpadding="0" cellspacing="0">
             <caption style="font-size:xx-large; " class="auto-style2">上海科勒有限公司</caption>
@@ -228,7 +228,7 @@
         <asp:Button ID="Button3" runat="server" Text="返回" CssClass="button" OnClick="Button3_Click" />
     </div>
     <div>
-        <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" CellPadding="4" GridLines="None" ForeColor="#333333">
+        <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" CellPadding="4" GridLines="None" ForeColor="#333333" OnRowCommand="GridView2_RowCommand">
 						<AlternatingRowStyle BackColor="White" ForeColor="#284775" />
 				<Columns>
 					<asp:BoundField DataField="Form_ID" HeaderText="表格编号"
@@ -238,7 +238,7 @@
 
 					<asp:TemplateField>
 						<ItemTemplate>
-							<asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="fail"
+							<asp:LinkButton ID="lbtFile" runat="server" CommandName="file"
 								CommandArgument='<%# Eval("File_ID") %>'>查看文件</asp:LinkButton>
 						</ItemTemplate>
 					</asp:TemplateField>

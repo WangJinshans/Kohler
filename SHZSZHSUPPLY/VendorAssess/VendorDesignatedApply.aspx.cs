@@ -316,5 +316,13 @@ namespace VendorAssess
         {
             Response.Redirect("EmployeeVendor.aspx");
         }
+
+        protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "file")
+            {
+                Response.Write("<script>alert('文件!');window.open('../files/7.pdf');</script>");
+            }
+        }
     }
 }

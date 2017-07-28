@@ -37,6 +37,32 @@ namespace DAL
 
             return Assess_Flow;
         }
+
+        public static As_Form_AssessFlow getFormAssessFlow(string formID)
+        {
+            string sql = "select * from As_Form_AssessFlow where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",formID)
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count>0)
+            {
+                DataRow dr = dt.Rows[0];
+                As_Form_AssessFlow flow = new As_Form_AssessFlow();
+                flow.First = dr["First"].ToString();
+                flow.Second = dr["Second"].ToString();
+                flow.Third = dr["Third"].ToString();
+                flow.Four = dr["Four"].ToString();
+                flow.Five = dr["Five"].ToString();
+                flow.Kci = dr["KCI"].ToString();
+                flow.Temp_Vendor_ID = dr["Temp_Vendor_ID"].ToString();
+                flow.Factory_Name = dr["Factory_Name"].ToString();
+                return flow;
+            }
+            return null;
+        }
+
         public static int addFormAssessFlow(As_Form_AssessFlow Form_AssessFlow)
         {
 

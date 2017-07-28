@@ -34,12 +34,12 @@ namespace DAL
                 //new SqlParameter("@supplyChainDirectorDate",vendor_Designated.SupplyChainDirectorDate),
                 //new SqlParameter("@finalDate",vendor_Designated.FinalDate),
                 //new SqlParameter("@president",vendor_Designated.Persident),
-                //new SqlParameter("@Form_ID",vendor_Designated.Form_id),
+                new SqlParameter("@Form_ID",vendor_Designated.Form_id)
                 //new SqlParameter("@Temp_Vendor_ID",vendor_Designated.Temp_Vendor_ID),
                 //new SqlParameter("@Form_Type_ID",vendor_Designated.Form_Type_ID),
                 //new SqlParameter("@Flag",vendor_Designated.Flag),
                 //new SqlParameter("@requestDeptHeadDate",vendor_Designated.RequestDeptHeadDate),
-                new SqlParameter("@finManagerDate",vendor_Designated.FinManagerDate)
+                //new SqlParameter("@finManagerDate",vendor_Designated.FinManagerDate)
             };
             return DBHelp.ExecuteCommand(sql, sp);
         }

@@ -56,7 +56,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                          * 建立一张数据表  Position 和 URL(签名文件)
                          */
                         //添加法务部的签名
-                        Signature_BLL.setSignature(formID, "法务部");
+                        Signature_BLL.setSignature(formID, "法务部","Legal_Affair_Department");
                         KCIApproval_BLL.setApprovalFinished(Form_Type_ID, 4, temp_vendor_ID);//整张表的审批完成
                     }
                 }

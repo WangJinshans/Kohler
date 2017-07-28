@@ -79,6 +79,9 @@ namespace Model
         private int flag;
         private string bar_Code;
         private string temp_Vendor_ID;
+        private string user_Department_Manager;
+        private string purchasing_Manager;
+        private string quality_Manager;
 
         public string Form_ID
         {
@@ -1001,6 +1004,45 @@ namespace Model
             set
             {
                 temp_Vendor_ID = value;
+            }
+        }
+
+        public string User_Department_Manager
+        {
+            get
+            {
+                return user_Department_Manager;
+            }
+
+            set
+            {
+                user_Department_Manager = value;
+            }
+        }
+
+        public string Purchasing_Manager
+        {
+            get
+            {
+                return purchasing_Manager;
+            }
+
+            set
+            {
+                purchasing_Manager = value;
+            }
+        }
+
+        public string Quality_Manager
+        {
+            get
+            {
+                return quality_Manager;
+            }
+
+            set
+            {
+                quality_Manager = value;
             }
         }
     }

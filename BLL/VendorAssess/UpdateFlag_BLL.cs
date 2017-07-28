@@ -39,5 +39,15 @@ namespace BLL
         {
             return UpdateFlag_DAL.updateEditFlowFlag(formID, tempVendorID);
         }
+
+        public static int updateFlagWaitKCI(string formTypeID, string tempVendorID)
+        {
+            return UpdateFlag_DAL.updateFlagWaitKCI(formTypeID, tempVendorID);
+        }
+
+        public static int updateFlagAsApproved(string formTypeID,string tempVendorID)
+        {
+            return UpdateFlag_DAL.updateFlagAsApproved(formTypeID, tempVendorID);
+        }
     }
 }

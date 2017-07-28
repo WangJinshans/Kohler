@@ -39,5 +39,10 @@ namespace BLL
         {
             return AssessFlow_DAL.updateApproveFail(formid, positionname);
         }
+
+        public static As_Form_AssessFlow getFormAssessFlow(string formID)
+        {
+            return AssessFlow_DAL.getFormAssessFlow(formID);
+        }
     }
 }

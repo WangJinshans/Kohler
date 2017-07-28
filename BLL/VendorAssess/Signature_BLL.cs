@@ -5,28 +5,24 @@ namespace BLL.VendorAssess
 {
     public class Signature_BLL
     {
-        public static void setSignature(string formID, string position)
+        public static void setSignature(string formID, string position, string dataField)
         {
             string tableName = "";//哪张表
-            string positionName = "";//表中的哪个职位  附加谁的签名
             string signatureurl = getPositionNameUrl(position);//获取签名的文件地址
             tableName = switchFormID(formID);
-            positionName = switchPositionName(position);
             //通过formID确定是具体的那一张表
             if (signatureurl != null)
             {
-                string sql = "update " + tableName + " set " + positionName + "='" + signatureurl + "' where Form_ID='" + formID + "'";
+                string sql = "update " + tableName + " set " + dataField + "='" + signatureurl + "' where Form_ID='" + formID + "'";
                 Signature_DAL.Signature(sql);
             }
         }
 
-        public static void setSignatureDate(string formID, string position)
+        public static void setSignatureDate(string formID, string position, string dataField)
         {
             string tableName = "";//哪张表
-            string positionNameDate = "";
+            string positionNameDate = dataField + "_Date";
             tableName = switchFormID(formID);
-            positionNameDate = switchPositionName(position)+"_Date";
-            //通过formID确定是具体的那一张表
             string sql = "update " + tableName + " set " + positionNameDate + "='" + DateTime.Now.ToString().Trim() + "' where Form_ID='" + formID + "'";
             Signature_DAL.SignatureDate(sql);
         }

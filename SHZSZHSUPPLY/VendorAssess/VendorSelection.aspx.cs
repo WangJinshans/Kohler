@@ -36,13 +36,13 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            foreach (Control item in this.Controls[3].Controls)
-            {
-                if (item is TextBox && item.ID.Contains("TextBox"))
-                {
-                    ((TextBox)item).Text = "0";
-                }
-            }
+            //foreach (Control item in this.Controls[3].Controls)
+            //{
+            //    if (item is TextBox && item.ID.Contains("TextBox"))
+            //    {
+            //        ((TextBox)item).Text = "0";
+            //    }
+            //}
 
             if (!IsPostBack)
             {
@@ -368,7 +368,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             if (saveForm(1, "保存表格") != null)
             {
-                LocalScriptManager.CreateScript(Page, String.Format("layerMsg({0})", "保存成功！"), "saveForm");
+                LocalScriptManager.CreateScript(Page, String.Format("layerMsg('{0}')", "保存成功！"), "saveForm");
             }
         }
 

@@ -138,15 +138,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 if (selectPositionName.Equals(positionName))
                 {
-                    int i = AssessFlow_BLL.updateApproveFail(formid, positionName);
-                    if (i == 1)
-                    {
-                        Response.Write("<script>window.alert('成功拒绝审批！');window.location.href='ShowVendorSelection.aspx'</script>");
-                    }
-                    else
-                    {
-                        Response.Write("<script>window.alert('操作失败！');window.location.href='ShowVendorSelection.aspx'</script>");
-                    }
+                    LocalScriptManager.CreateScript(Page, String.Format("openReasonDialog('{0}','{1}','{2}',{3})", formID, positionName, Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString()), "null"), "reasonDialog");
                 }
                 else
                 {

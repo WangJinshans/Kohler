@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Model;
 using BLL;
-
+using SHZSZHSUPPLY.VendorAssess.Util;
 
 namespace SHZSZHSUPPLY.VendorAssess
 {
@@ -101,6 +101,15 @@ namespace SHZSZHSUPPLY.VendorAssess
                 TextBox39.Text = Vendor_Discovery.Manage_Dimension;
                 TextBox40.Text = Vendor_Discovery.Employee_Experience;
                 TextBox48.Text = Vendor_Discovery.Conclusion;
+                hideImage(Vendor_Discovery.User_Department_Manager, Image1);
+                hideImage(Vendor_Discovery.Purchasing_Manager, Image2);
+                hideImage(Vendor_Discovery.Quality_Manager, Image3);
+            }
+            else
+            {
+                Image1.Visible = false;
+                Image2.Visible = false;
+                Image3.Visible = false;
             }
             showapproveform(formID);
             showfilelist(formID);
@@ -124,6 +133,19 @@ namespace SHZSZHSUPPLY.VendorAssess
             GridView2.DataSource = objpds;
             GridView2.DataBind();
         }
+
+        private void hideImage(string signature, Image image)
+        {
+            if (signature != "")
+            {
+                image.ImageUrl = signature;
+            }
+            else
+            {
+                image.Visible = false;
+            }
+        }
+
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             //重新读取session信息
@@ -138,8 +160,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 if (selectPositionName.Equals(positionName))
                 {
-                    int i = AssessFlow_BLL.updateApprove(formid, positionName);
-                    if (i == 1)
+                    if (LocalApproveManager.doSuccessApprove(formID,Session["tempVendorID"].ToString(),"001",positionName))
                     {
                         Response.Write("<script>window.alert('成功通过审批！');window.location.href='ShowVendorDiscovery.aspx'</script>");
                     }
@@ -158,15 +179,8 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 if (selectPositionName.Equals(positionName))
                 {
-                    int i = AssessFlow_BLL.updateApproveFail(formid, positionName);
-                    if (i == 1)
-                    {
-                        Response.Write("<script>window.alert('成功拒绝审批！');window.location.href='ShowVendorDiscovery.aspx'</script>");
-                    }
-                    else
-                    {
-                        Response.Write("<script>window.alert('操作失败！');window.location.href='ShowVendorDiscovery.aspx'</script>");
-                    }
+                    //TODO::表格状态回滚，返回填写，重新开始审批
+                    LocalScriptManager.CreateScript(Page,String.Format("openReasonDialog('{0}','{1}','{2}',{3})", formID,positionName,Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString()),"null"),"reasonDialog");
                 }
                 else
                 {

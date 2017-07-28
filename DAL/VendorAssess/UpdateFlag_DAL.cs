@@ -42,9 +42,21 @@ namespace DAL
             return DBHelp.ExecuteCommand(sql);
         }
 
+        public static int updateFlagAsApproved(string formTypeID, string tempVendorID)
+        {
+            string sql = "UPDATE As_Vendor_FormType SET flag=4 WHERE Form_Type_ID='" + formTypeID + "'AND Temp_Vendor_ID='" + tempVendorID + "'";
+            return DBHelp.ExecuteCommand(sql);
+        }
+
         public static int updateFlagAsHold(object formTypeID, string tempVendorID)
         {
             string sql = "UPDATE As_Vendor_FormType SET flag=2 WHERE Form_Type_ID='" + formTypeID + "'AND Temp_Vendor_ID='" + tempVendorID + "'";
+            return DBHelp.ExecuteCommand(sql);
+        }
+
+        public static int updateFlagWaitKCI(string formTypeID,string tempVendorID)
+        {
+            string sql = "UPDATE As_Vendor_FormType SET flag=3 WHERE Form_Type_ID='" + formTypeID + "'AND Temp_Vendor_ID='" + tempVendorID + "'";
             return DBHelp.ExecuteCommand(sql);
         }
     }
