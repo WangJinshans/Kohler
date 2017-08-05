@@ -23,13 +23,13 @@ namespace DAL.VendorAssess
             return url;
         }
 
-        public static void Signature(string sql)
+        public static int Signature(string sql)
         {
-            DBHelp.ExecuteCommand(sql);
+            return DBHelp.ExecuteCommand(sql);
         }
-        public static void SignatureDate(string sql)
+        public static int SignatureDate(string sql)
         {
-            DBHelp.ExecuteCommand(sql);
+            return DBHelp.ExecuteCommand(sql);
         }
     }
 }

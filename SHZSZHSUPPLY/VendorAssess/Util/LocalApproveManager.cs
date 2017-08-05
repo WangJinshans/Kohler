@@ -101,12 +101,13 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             }
             else//非最终  签名
             {
-                if (AssessFlow_BLL.updateApprove(formID, positionName)>0)
+                //进行签名处理
+                if (Signature_BLL.setSignature(formID, positionName)&&Signature_BLL.setSignatureDate(formID, positionName))
                 {
-                    //进行签名处理
-                    Signature_BLL.setSignature(formID, positionName);
-                    Signature_BLL.setSignatureDate(formID, positionName);
-                    return true;
+                    if (AssessFlow_BLL.updateApprove(formID, positionName) > 0)
+                    {
+                        return true;
+                    }
                 }
             }
 

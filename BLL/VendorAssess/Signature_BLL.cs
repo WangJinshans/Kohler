@@ -30,7 +30,7 @@ namespace BLL.VendorAssess
          */
 
 
-        public static void setSignature(string formID, string position)
+        public static bool setSignature(string formID, string position)
         {
             string tableName = "";//哪张表
             string signatureurl = getPositionNameUrl(position);//获取签名的文件地址
@@ -40,17 +40,25 @@ namespace BLL.VendorAssess
             if (signatureurl != ""&&tableName!=""&&posotionName!="")//确定该表是否需要签名
             {
                 string sql = "update " + tableName + " set " + posotionName + "='" + signatureurl + "' where Form_ID='" + formID + "'";
-                Signature_DAL.Signature(sql);
+                if (Signature_DAL.Signature(sql)>0)
+                {
+                    return true;
+                }
             }
+            return false;
         }
 
-        public static void setSignatureDate(string formID, string position)
+        public static bool setSignatureDate(string formID, string position)
         {
             string tableName = "";//哪张表
             string positionNameDate = switchPositionName(position) + "_Date";
             tableName = switchFormID(formID);
             string sql = "update " + tableName + " set " + positionNameDate + "='" + DateTime.Now.ToString().Trim() + "' where Form_ID='" + formID + "'";
-            Signature_DAL.SignatureDate(sql);
+            if (Signature_DAL.SignatureDate(sql)>0)
+            {
+                return true;
+            }
+            return false;
         }
 
         private static string getPositionNameUrl(string position)//获取当前职位的签名地址绝对路径
