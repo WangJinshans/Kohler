@@ -291,6 +291,14 @@
     <Content Include="VendorAssess\Script\fine-uploader\templates\simple-thumbnails.html" />
     <Content Include="VendorAssess\Script\fine-uploader\trash.gif" />
     <Content Include="VendorAssess\ShowVendorSelection.aspx" />
+    <Content Include="VendorAssess\TEST\files\Finance_Leader.jpg" />
+    <Content Include="VendorAssess\TEST\files\General_Manager.jpg" />
+    <Content Include="VendorAssess\TEST\files\Legal_Affair_Department.jpg" />
+    <Content Include="VendorAssess\TEST\files\Purchasing_Manager.jpg" />
+    <Content Include="VendorAssess\TEST\files\Quality_Dept_Manager.jpg" />
+    <Content Include="VendorAssess\TEST\files\signature.jpg" />
+    <Content Include="VendorAssess\TEST\files\Supplier_Chain_Leader.jpg" />
+    <Content Include="VendorAssess\TEST\files\User_Department.jpg" />
     <Content Include="VendorAssess\VendorAssess.aspx" />
     <Content Include="VendorAssess\VendorBlockOrUnBlock.aspx" />
     <Content Include="VendorAssess\VendorCreation.aspx" />
@@ -646,7 +654,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Upload\" />
-    <Folder Include="VendorAssess\TEST\files\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Account\Web.config" />
