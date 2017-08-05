@@ -23,9 +23,9 @@ namespace BLL
         }
 
         //查询供应商类型编号
-        public static string selectVendorTypeId(string promise,string purchaseMoney, string advanceCharge, string vendorAssign, string vendorType)
+        public static string selectVendorTypeId(bool promise, bool advanceCharge, bool vendorAssign, string vendorType)
         {
-            return VendorType_DAL.selectVendorTypeId(promise, purchaseMoney, advanceCharge, vendorAssign, vendorType);
+            return VendorType_DAL.selectVendorTypeId(promise, advanceCharge, vendorAssign, vendorType);
         }
         //添加临时供应商
         public static int addTempVendor(As_Temp_Vendor Temp_Vendor)
@@ -42,6 +42,20 @@ namespace BLL
         public static  int  addVendorFileType(As_Vendor_FileType Vendor_FileType)
         {
             return VendorFile_DAL.addVendorFileType(Vendor_FileType);
+        }
+
+        /// <summary>
+        /// 动态绑定供应商的表格和文件
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <param name="checked1"></param>
+        /// <param name="checked2"></param>
+        /// <param name="checked3"></param>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        public static int addNewVendorFormAndFile(string tempVendorID, bool promise, bool assign, bool charge, string money)
+        {
+            return TempVendor_DAL.addBindVendorFormAndFile(tempVendorID, promise, assign, charge, money);
         }
     }
 }

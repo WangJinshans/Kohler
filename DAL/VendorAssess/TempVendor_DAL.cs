@@ -61,5 +61,28 @@ namespace DAL
             }
             return tempVendorID;
         }
+
+        public static int addBindVendorFormAndFile(string tempVendorID, bool promise, bool assign, bool charge, string money)
+        {
+            SqlCommand cmd = new SqlCommand("newVendorProcedure", DBHelp.Connection);
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@temp_vendor_id",tempVendorID),
+                new SqlParameter("@promise",promise.ToString()),
+                new SqlParameter("@assign",assign.ToString()),
+                new SqlParameter("@charge",charge.ToString()),
+                new SqlParameter("@money",Convert.ToInt32(money))
+            };
+            SqlParameter paramReturn = new SqlParameter("@return", SqlDbType.Int);
+            paramReturn.Direction = ParameterDirection.ReturnValue;
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Clear();
+            cmd.Parameters.AddRange(sp);
+            cmd.Parameters.Add(paramReturn);
+            cmd.ExecuteNonQuery();
+            DBHelp.Connection.Close();
+            return Convert.ToInt32(paramReturn.Value);
+        }
     }
 }

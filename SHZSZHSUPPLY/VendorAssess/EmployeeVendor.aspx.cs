@@ -18,12 +18,15 @@ namespace AendorAssess
         /// <param name="e"></param>
         protected void Page_Load(object sender, EventArgs e)
         {
-            //TODO::处理session过期问题,封装数据库操作到DAL层
-            string sql = "select * from As_Employee_Vendor where Employee_ID='" + Session["Employee_ID"].ToString() + "'";
-            PagedDataSource objpds = new PagedDataSource();
-            objpds.DataSource = SelectEmployeeVendor_BLL.selectEmployeeVendor(sql);
-            GridView1.DataSource = objpds;
-            GridView1.DataBind();
+            if (!IsPostBack)
+            {
+                //TODO::处理session过期问题,封装数据库操作到DAL层
+                string sql = "select * from As_Employee_Vendor where Employee_ID='" + Session["Employee_ID"].ToString() + "'";
+                PagedDataSource objpds = new PagedDataSource();
+                objpds.DataSource = SelectEmployeeVendor_BLL.selectEmployeeVendor(sql);
+                GridView1.DataSource = objpds;
+                GridView1.DataBind();
+            }
         }
 
         /// <summary>
@@ -44,7 +47,7 @@ namespace AendorAssess
             {
                 As_Vendor_FormType Vendor_Form = new As_Vendor_FormType();
                 //根据供应商类型编号查询所有未填写表格类型
-                string sql = "SELECT * FROM As_Vendor_FormType WHERE Temp_Vendor_ID='" + e.CommandArgument.ToString() + "'and flag ='0'";
+                string sql = "SELECT * FROM View_Vendor_FormType WHERE Temp_Vendor_ID='" + e.CommandArgument.ToString() + "'and flag ='0'";
                 PagedDataSource objpds = new PagedDataSource();
                 IList<As_Vendor_FormType> gridView2list = new List<As_Vendor_FormType>();
                 gridView2list= SelectEmployeeVendor_BLL.listVendorFormType(sql);
@@ -117,26 +120,20 @@ namespace AendorAssess
 
         private void switchPage(string commandArgument, string tempVendorID)
         {
+            string result = CheckFile_BLL.checkFileWithResult(commandArgument, tempVendorID);
+            if (!result.Equals(""))
+            {
+                LocalScriptManager.CreateScript(Page, "lay_message('请上传："+result+"')", "msg");
+                return;
+            }
+
             switch (commandArgument)
             {
                 case "001":
-                    if (CheckFile_BLL.checkFile("001", tempVendorID) == 0)
-                    {
-                        Response.Write("<script>window.alert('请先上传完整所需文件！')</script>");
-                    }
-                    else
-                    {
-                        pageRedirect("VendorDiscovery.aspx","001");
-                    }
+                    pageRedirect("VendorDiscovery.aspx","001");
                     break;
                 case "002":
                     pageRedirect("BiddingApprovalform.aspx", "002");
-                    break;
-                case "011":
-                    pageRedirect("BiddingApprovalform.aspx", "011");
-                    break;
-                case "012":
-                    pageRedirect("BiddingApprovalform.aspx", "012");
                     break;
                 case "013":
                     pageRedirect("BiddingApprovalform.aspx", "013");
@@ -147,25 +144,20 @@ namespace AendorAssess
                 case "015":
                     pageRedirect("BiddingApprovalform.aspx", "015");
                     break;
+                case "016":
+                    pageRedirect("BiddingApprovalform.aspx", "016");
+                    break;
+                case "017":
+                    pageRedirect("BiddingApprovalform.aspx", "017");
+                    break;
                 case "003":
-                    if (CheckFile_BLL.checkFile("003",tempVendorID) == 0)
-                    {
-                        Response.Write("<script>window.alert('请先上传完整所需文件！')</script>");
-                    }
-                    else
-                    {
-                        pageRedirect("VendorRiskAnalysis.aspx", "003");
-                    }
+                    pageRedirect("VendorRiskAnalysis.aspx", "003");
                     break;
                 case "004":
-                    if (CheckFile_BLL.checkFile("004", tempVendorID) == 0)
-                    {
-                        Response.Write("<script>window.alert('请先上传完整所需文件！')</script>");
-                    }
-                    else
-                    {
-                        pageRedirect("VendorDesignatedApply.aspx", "004");
-                    }
+                    pageRedirect("VendorDesignatedApply.aspx", "004");
+                    break;
+                case "025":
+                    pageRedirect("VendorDesignatedApply.aspx", "025");
                     break;
                 case "005":
                     pageRedirect("ContractApprovalForm.aspx", "005");
@@ -185,18 +177,17 @@ namespace AendorAssess
                 case "010":
                     pageRedirect("ContractApprovalForm.aspx", "010");
                     break;
-                case "016":
-                    pageRedirect("VendorSelection.aspx", "016");
+                case "011":
+                    pageRedirect("ContractApprovalForm.aspx", "011");
                     break;
-                case "017":
-                    if (CheckFile_BLL.checkFile("017",tempVendorID) == 0)
-                    {
-                        Response.Write("<script>window.alert('请先上传完整所需文件！')</script>");
-                    }
-                    else
-                    {
-                        pageRedirect("VendorCreation.aspx", "017");
-                    }
+                case "012":
+                    pageRedirect("ContractApprovalForm.aspx", "012");
+                    break;
+                case "018":
+                    pageRedirect("VendorSelection.aspx", "018");
+                    break;
+                case "019":
+                    pageRedirect("VendorCreation.aspx", "019");
                     break;
                 default:
                     break;

@@ -24,7 +24,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         private List<As_Employee_Form> employeeFormList;
 
         public const string FORM_NAME = "供应商选择表";
-        public const string FORM_TYPE_ID = "016";
+        public const string FORM_TYPE_ID = "018";
         private string tempVendorID = "";
         private string tempVendorName = "";
         private string formID = "";

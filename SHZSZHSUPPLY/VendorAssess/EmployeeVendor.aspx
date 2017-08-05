@@ -36,6 +36,14 @@
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
     <script src="Script/Own/fileUploader.js"></script>
+    <script>
+        function lay_message(msg) {
+            layui.use(['layer'], function () {
+                var layer = layui.layer;
+                layer.msg(msg, { time: 2000 });
+            })
+        }
+    </script>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -92,6 +100,8 @@
                                 SortExpression="Form_Type_ID" Visible="False" />
                             <asp:BoundField DataField="Form_Type_Name" HeaderText="表格名称"
                                 SortExpression="Form_Type_Name" />
+                            <asp:BoundField DataField="Form_Type_Is_Optional" HeaderText="性质" NullDisplayText=""
+                                SortExpression="Form_Type_Is_Optional" />
 
                             <asp:BoundField DataField="DepotSummary" HeaderText="DepotSummary"
                                 SortExpression="DepotSummary" Visible="False" />

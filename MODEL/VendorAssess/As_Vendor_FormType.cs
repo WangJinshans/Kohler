@@ -14,6 +14,7 @@ namespace Model
         private string temp_Vendor_Name;
         private int flag;
         private string form_Type_Name;
+        private string form_Type_Is_Optional;
 
         public int Id
         {
@@ -90,6 +91,19 @@ namespace Model
             set
             {
                 form_Type_Name = value;
+            }
+        }
+
+        public string Form_Type_Is_Optional
+        {
+            get
+            {
+                return form_Type_Is_Optional;
+            }
+
+            set
+            {
+                form_Type_Is_Optional = value;
             }
         }
     }

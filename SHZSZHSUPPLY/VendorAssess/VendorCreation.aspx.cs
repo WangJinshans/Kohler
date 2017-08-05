@@ -11,7 +11,7 @@ namespace SHZSZHSUPPLY.VendorAssess
     public partial class VendorCreation : System.Web.UI.Page
     {
         public const string FORM_NAME = "供应商信息表(建立)";
-        public const string FORM_TYPE_ID = "017";
+        public const string FORM_TYPE_ID = "019";
         private string tempVendorID = "";
         private string tempVendorName = "";
         private string formID = "";

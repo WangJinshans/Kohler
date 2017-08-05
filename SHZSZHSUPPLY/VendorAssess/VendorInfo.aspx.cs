@@ -42,6 +42,11 @@ namespace AendorAssess
                 LocalScriptManager.CreateScript(Page, "messageBox('" + "请输入正确的金额" + "');", "Purchase_Money");
                 return false;
             }
+            if (!Promise.Checked && !Advance_Charge.Checked && !Vendor_Assign.Checked)
+            {
+                LocalScriptManager.CreateScript(Page, "messageBox('" + "请选择承诺、预付款、指定选项" + "');", "Purchase_Money");
+                return false;
+            }
             return true;
         }
 
@@ -55,23 +60,9 @@ namespace AendorAssess
             //给供应商基本信息赋值
             string vendorType = DropDownList1.SelectedValue.Trim();
             string purchaseMoney= Purchase_Money.Text.Trim();
-            string promise="0";
-            string advanceCharge="0";
-            string vendorAssign="0";
-            if (Promise.Checked == true)
-            {
-                promise = "1";
-            }
-            if (Advance_Charge.Checked == true)
-            {
-                advanceCharge = "1";
-            }
-            if (Vendor_Assign.Checked == true)
-            {
-                vendorAssign = "1";
-            }       
+            
             //查询供应商类型编号
-            string vendorTypeID = FillVendorInfo_BLL.selectVendorTypeId(promise, purchaseMoney, advanceCharge, vendorAssign, vendorType);
+            string vendorTypeID = FillVendorInfo_BLL.selectVendorTypeId(Promise.Checked,Advance_Charge.Checked,Vendor_Assign.Checked,vendorType);
 
             //添加临时供应商信息
             As_Temp_Vendor Temp_Vendor = new As_Temp_Vendor();
@@ -91,42 +82,15 @@ namespace AendorAssess
             Employee_Vendor.Vendor_Type_ID = vendorTypeID;
             int addEmployeeVendor = AddEmployeeVendor_BLL.addEmployeeVendor(Employee_Vendor);
 
-            //根据供应商类型编号查询所需表格类型编号
-            string sql = "SELECT * FROM As_VendorType_FormType WHERE Vendor_Type_ID='" + vendorTypeID + "'";
-            PagedDataSource objpds = new PagedDataSource();
-            objpds.DataSource = FillVendorInfo_BLL.listVendorTypeFormType(sql);
-
-
-            //添加供应商的所有表格
-            As_Vendor_FormType Vendor_FormType = new As_Vendor_FormType();
-            Vendor_FormType.Temp_Vendor_ID = tempVendorID;// Temp_Vendor_ID.Text.Trim();
-            Vendor_FormType.Temp_Vendor_Name = Temp_Vendor_Name.Text.Trim();
-            for (int i = 0; i < FillVendorInfo_BLL.listVendorTypeFormType(sql).Count; i++)
+            int bindResult = FillVendorInfo_BLL.addNewVendorFormAndFile(tempVendorID, Promise.Checked, Vendor_Assign.Checked, Advance_Charge.Checked, Purchase_Money.Text.Trim());
+            if (bindResult == 1)
             {
-                Vendor_FormType.Form_Type_Name = FillVendorInfo_BLL.listVendorTypeFormType(sql)[i].Form_Type_Name;
-                Vendor_FormType.Form_Type_ID = FillVendorInfo_BLL.listVendorTypeFormType(sql)[i].Form_Type_ID;
-                int addVendorFormType = FillVendorInfo_BLL.addVendorFormType(Vendor_FormType);
+                Response.Write("<script>window.alert('新建成功');window.location.href='index.aspx'</script>");
             }
-
-            //根据供应商类型编号查询所需文件类型编号
-            string sql1= "select * from As_VendorType_FileType where VendorType_ID='"+ vendorTypeID + "'";
-            PagedDataSource objpds1 = new PagedDataSource();
-            objpds1.DataSource = FillVendorInfo_BLL.listVendorTypeFileType(sql1);
-
-
-            //添加供应商的所有文件
-            As_Vendor_FileType Vendor_FileType = new As_Vendor_FileType();
-            Vendor_FileType.Temp_Vendor_ID = tempVendorID;// Temp_Vendor_ID.Text.Trim();
-
-            for (int i = 0; i < FillVendorInfo_BLL.listVendorTypeFileType(sql1).Count; i++)
+            else
             {
-                Vendor_FileType.FileType_ID = FillVendorInfo_BLL.listVendorTypeFileType(sql1)[i].FileType_ID;
-                Vendor_FileType.FileType_Name = File_Type_BLL.selectFileTypeName(Vendor_FileType.FileType_ID);
-                int addVendorFileType = FillVendorInfo_BLL.addVendorFileType(Vendor_FileType);
+                Response.Write("<script>window.alert('供应商创建失败');window.location.href='index.aspx'</script>");
             }
-
-
-            Response.Write("<script>window.alert('新建成功');window.location.href='index.aspx'</script>");
         }
 
         protected void Button2_Click(object sender, EventArgs e)

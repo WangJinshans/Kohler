@@ -126,7 +126,6 @@
     <Content Include="VendorAssess\EmployeeVendor.aspx" />
     <Content Include="VendorAssess\FormWaitToFill.aspx" />
     <Content Include="VendorAssess\Html_Template\File_Upload_Page.html" />
-    <Content Include="VendorAssess\Html_Template\UIPage.aspx" />
     <Content Include="VendorAssess\index.aspx" />
     <Content Include="VendorAssess\KCI.aspx" />
     <Content Include="VendorAssess\login.aspx" />
@@ -461,12 +460,6 @@
     </Compile>
     <Compile Include="VendorAssess\FormWaitToFill.aspx.designer.cs">
       <DependentUpon>FormWaitToFill.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="VendorAssess\Html_Template\UIPage.aspx.cs">
-      <DependentUpon>UIPage.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="VendorAssess\Html_Template\UIPage.aspx.designer.cs">
-      <DependentUpon>UIPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="VendorAssess\index.aspx.cs">
       <DependentUpon>index.aspx</DependentUpon>

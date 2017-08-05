@@ -11,7 +11,7 @@ namespace SHZSZHSUPPLY.VendorAssess
     {
         private As_Vendor_Block_Or_UnBlock Vendor;
         public const string FORM_NAME = "供应商信息表(恢复/删除/block)";
-        public const string FORM_TYPE_ID = "019";//未改
+        public const string FORM_TYPE_ID = "021";//未改
         private string tempVendorID = "";
         private string tempVendorName = "";
         private string formID = "";

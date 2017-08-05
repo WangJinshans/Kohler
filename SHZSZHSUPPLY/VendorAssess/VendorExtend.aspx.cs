@@ -10,7 +10,7 @@ namespace SHZSZHSUPPLY.VendorAssess
     public partial class VendorExtend : System.Web.UI.Page
     {
         public const string FORM_NAME = "供应商信息表(扩展)";
-        public const string FORM_TYPE_ID = "020";
+        public const string FORM_TYPE_ID = "022";
         private string tempVendorID = "";
         private string tempVendorName = "";
         private string formID = "";

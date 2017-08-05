@@ -11,7 +11,7 @@ namespace BLL
     public class CheckFile_BLL
     {
         /// <summary>
-        /// 检查必要的文件是否已经上传（但是还没有与对应的表格建立联系）
+        /// 未绑定状态下检查必要的文件是否已经上传（但是还没有与对应的表格建立联系）
         /// </summary>
         /// <param name="formtypeid"></param>
         /// <param name="tempVendorID"></param>
@@ -31,6 +31,39 @@ namespace BLL
             }
             return check;
 
+        }
+
+        /// <summary>
+        /// 未绑定状态下查询必要的文件是否已经上传，如果没有，返回需要上传的文件类型名称
+        /// </summary>
+        /// <param name="formTypeID"></param>
+        /// <param name="tempVendorID"></param>
+        /// <returns></returns>
+        public static string checkFileWithResult(string formTypeID,string tempVendorID)
+        {
+            string check = "";
+            IList<As_FileType_FormType> list = FileType_FormType_DAL.selectFileTypeID(formTypeID);
+            IList<string> nameList = FileType_FormType_DAL.selectFileTypeName(formTypeID);
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                string filetypeid = list[i].File_Type_ID;
+                int result = File_DAL.selectFileID(tempVendorID, filetypeid);//查询是否有记录
+                if (result == 0)
+                {
+                    check += nameList[i];
+                    check += "、";
+                }
+            }
+            try
+            {
+                check = check.Remove(check.Length - 1, 1);
+            }
+            catch (Exception)
+            {
+                check = "";
+            }
+            return check;
         }
 
         /// <summary>
@@ -66,6 +99,12 @@ namespace BLL
             return check;
         }
 
+        /// <summary>
+        /// 从已经绑定的表格-文件中查询
+        /// </summary>
+        /// <param name="formID"></param>
+        /// <param name="fileType"></param>
+        /// <returns></returns>
         internal static bool checkExistFile(string formID, string fileType)
         {
             if (Form_File_DAL.checkFormFile(formID, fileType) > 0)
