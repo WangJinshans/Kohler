@@ -28,7 +28,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         public void showapproveform(string FormID)
         {
             As_Approve approve = new As_Approve();
-            string sql = "SELECT * FROM As_Approve WHERE Form_ID='" + FormID + "'";
+            string sql = "SELECT * FROM View_Approve_Top WHERE Form_ID='" + FormID + "'";
             PagedDataSource objpds = new PagedDataSource();
             objpds.DataSource = AssessFlow_BLL.listApprove(sql,positionName);
             GridView1.DataSource = objpds;
@@ -319,14 +319,14 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 if (positionName.Equals(Session["Position_Name"].ToString()))
                 {
-                    int i = AssessFlow_BLL.updateApprove(formid, positionName);
-                    if (i == 1)
+                    //int i = AssessFlow_BLL.updateApprove(formid, positionName);
+                    if (LocalApproveManager.doSuccessApprove(formid, Session["tempVendorID"].ToString(), "008", positionName))
                     {
-                        Response.Write("<script>window.alert('成功通过审批！');window.location.href='ShowVendorDesignatedApply.aspx'</script>");
+                        Response.Write("<script>window.alert('成功通过审批！');window.location.href='ShowContractApprovalForm.aspx'</script>");
                     }
                     else
                     {
-                        Response.Write("<script>window.alert('操作失败！');window.location.href='ShowVendorDesignatedApply.aspx'</script>");
+                        Response.Write("<script>window.alert('操作失败！');window.location.href='ShowContractApprovalForm.aspx'</script>");
                     }
                 }
                 else

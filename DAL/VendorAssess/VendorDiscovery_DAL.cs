@@ -231,6 +231,9 @@ namespace DAL
                     Vendor_Discovery.Manage_Dimension = Convert.ToString(dr["Manage_Dimension"]);
                     Vendor_Discovery.Employee_Experience = Convert.ToString(dr["Employee_Experience"]);
                     Vendor_Discovery.Conclusion = Convert.ToString(dr["Conclusion"]);
+                    Vendor_Discovery.Purchasing_Manager= Convert.ToString(dr["Purchasing_Manager"]);
+                    Vendor_Discovery.Quality_Manager= Convert.ToString(dr["Quality_Dept_Manager"]);
+                    Vendor_Discovery.User_Department_Manager = Convert.ToString(dr["User_Department_Manager"]);
                 }
 
             }

@@ -67,8 +67,8 @@ namespace DAL
                     vendorApply.Initiator = Convert.ToString(dr["initiator"]);
                     vendorApply.InitiatorDate = Convert.ToString(dr["initiatorDate"]);
                     vendorApply.Applicant = Convert.ToString(dr["applicant"]);
-                    vendorApply.RequestDeptHead = Convert.ToString(dr["requestDeptHead"]);
-                    vendorApply.RequestDeptHeadDate = Convert.ToString(dr["requestDeptHeadDate"]);
+                    vendorApply.RequestDeptHead = Convert.ToString(dr["User_Department_Manager"]);
+                    vendorApply.RequestDeptHeadDate = Convert.ToString(dr["User_Department_Manager_Date"]);
                     vendorApply.FinManager = Convert.ToString(dr["Finance_Leader"]);
                     vendorApply.FinManagerDate = Convert.ToString(dr["Finance_Leader_Date"]);
                     vendorApply.ApplicantDate = Convert.ToString(dr["applicantDate"]);

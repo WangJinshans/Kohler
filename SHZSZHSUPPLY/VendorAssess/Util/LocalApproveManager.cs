@@ -84,21 +84,28 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
 
         public static bool doSuccessApprove(string formID, string tempVendorID, string formTypeID, string positionName)
         {
-            int result = isFinalApprove(formID, positionName);
+             int result = isFinalApprove(formID, positionName);
 
-            //KCI最终
+            //最终  即将进行KCI
             if (result == KCI_FINAL)
             {
+                Signature_BLL.setSignature(formID, positionName);//签名
+                Signature_BLL.setSignatureDate(formID, positionName);
                 return doKCIApprove(formID, tempVendorID, formTypeID, positionName);
             }//正常最终
-            else if (result == NORMAL_FINAL)
+            else if (result == NORMAL_FINAL)//签名
             {
+                Signature_BLL.setSignature(formID, positionName);//签名
+                Signature_BLL.setSignatureDate(formID, positionName);
                 return doFinalApprove(formID, tempVendorID, formTypeID, positionName);
             }
-            else//非最终
+            else//非最终  签名
             {
                 if (AssessFlow_BLL.updateApprove(formID, positionName)>0)
                 {
+                    //进行签名处理
+                    Signature_BLL.setSignature(formID, positionName);
+                    Signature_BLL.setSignatureDate(formID, positionName);
                     return true;
                 }
             }
@@ -112,16 +119,23 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
         {
             As_Form_AssessFlow flow = AssessFlow_BLL.getFormAssessFlow(formID);
             List<string> flowSequence = new List<string> { flow.First, flow.Second, flow.Third, flow.Four, flow.Five };
-
-            foreach (string item in flowSequence)
+            List<string> flowSequences = new List<string>();
+            //foreach (string item in flowSequence)
+            //{
+            //    if (item == "")
+            //    {
+            //        flowSequence.Remove(item);
+            //    }
+            //}
+            for (int i = 0; i < flowSequence.Count; i++)
             {
-                if (item == "")
+                if (flowSequence[i] != "")
                 {
-                    flowSequence.Remove(item);
+                    flowSequences.Add(flowSequence[i]);
                 }
             }
 
-            if (positionName.Equals(flowSequence[flowSequence.Count-1]))
+            if (positionName.Equals(flowSequences[flowSequences.Count-1]))
             {
                 if (flow.Kci == "1")
                 {
@@ -155,7 +169,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             kciApproval.Form_ID = formID;
             kciApproval.Temp_Vendor_ID = tempVendorID;
             kciApproval.Flag = 0;
-            kciApproval.Position_Name = positionName;
+            kciApproval.Position_Name = "采购部经理";
             int rs3 = KCIApproval_BLL.addKCIApproval(kciApproval);
 
             if (rs1 > 0 && rs2 > 0 && rs3>0)

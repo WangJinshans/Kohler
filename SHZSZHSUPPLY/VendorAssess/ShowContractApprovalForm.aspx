@@ -10,7 +10,8 @@
 	<script src="Script/layui/layui.js"></script>
 	<script src="Script/Own/fileUploader.js"></script>
     <script src="Script/My97DatePicker/WdatePicker.js"></script>
-
+    <script src="Script/PDF/js/html2canvas.js"></script>
+    <script src="Script/PDF/js/jspdf.debug.js"></script>
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
     <style type="text/css">
 		.t {
@@ -56,10 +57,53 @@
              height: 10px;
          }
 		 </style>
+     <script>
+        function takeScreenshot() {
+            html2canvas(document.getElementById("table1"), {
+                // 渲染完成时调用，获得 canvas
+                onrendered: function (canvas) {
+                    var contentWidth = canvas.width;
+                    var contentHeight = canvas.height;
+                    //一页pdf显示html页面生成的canvas高度;
+                    var pageHeight = contentWidth / 592.28 * 841.89;
+                    //未生成pdf的html页面高度
+                    var leftHeight = contentHeight;
+                    //页面偏移
+                    var position = 0;
+                    //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
+                    var imgWidth = 595.28;
+                    var imgHeight = 592.28 / contentWidth * contentHeight;
+
+                    var pageData = canvas.toDataURL('image/jpeg', 1.0);
+
+                    var pdf = new jsPDF('', 'pt', 'a4');
+
+                    //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
+                    //当内容未超过pdf一页显示的范围，无需分页
+                    if (leftHeight < pageHeight) {
+                        pdf.addImage(pageData, 'JPEG', 20, 20, imgWidth-50, imgHeight);
+                    } else {
+                        while (leftHeight > 0) {
+                            pdf.addImage(pageData, 'JPEG', 20, position+20, imgWidth-50, imgHeight-100)
+                            leftHeight -= pageHeight;
+                            position -= 841.89;
+                            //避免添加空白页
+                            if (leftHeight > 0) {
+                                pdf.addPage();
+                            }
+                        }
+                    }
+                    pdf.save('content.pdf');
+                },
+                background: "#f7f7f7"    //设置PDF背景色（默认透明，实际显示为黑色）
+            });
+        }
+    </script>
 </head>
 <body>
     <form id="form1" runat="server">
-        <table style="margin: auto; border-collapse:collapse" cellpadding="0" cellspacing="0">
+        <input type="button" value="Pdf" onclick="takeScreenshot()" />
+        <table id="table1" style="margin: auto; border-collapse:collapse" cellpadding="0" cellspacing="0">
                 <tr>
                     <td colspan="14" style="text-align:center;border-right:0;font-size:small;">Contract Approval Form - Purchasing<br>合同批准格式——采购</td>
                     <td colspan="2" style="border-right:0;border-left:0;">Ref No.:<br>合同编号：</td>
@@ -98,7 +142,7 @@
                     <td colspan="2" rowspan="1" style="border:none">
                         <asp:Label Text="Sourcing Specialist:" runat="server" BorderStyle="None" /></td>
                     <td colspan="6" rowspan="2" style="border-collapse:collapse;border-top:0;border-left:0;color:#00ffff">
-                        <asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox2" ReadOnly="true"/>
+                        <asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox2" ReadOnly="true" Height="28px" Width="558px"/>
                     </td>
                     <td colspan="3" style="border-collapse:collapse;border-top:0;border-bottom:0;border-right:0;">Contract Annual Amount:</td>
                     <td colspan="3" rowspan="2" style="border-collapse:collapse;border-top:0;border-left:0;">

@@ -109,10 +109,10 @@
                 btn: ['是', '否'],
                 btn1: function (index, layero) {
                     layer.close('index');
-                    popUp(formid)//调用popUp函数在
+                    popUp(formid,"yes")//调用popUp函数在
                 },
                 btn2: function (index, layero) {
-                    popUp(formid)//调用popUp函数在
+                    popUp(formid,"no")//调用popUp函数在
                     layer.close('index');
                 }
             })
@@ -473,7 +473,7 @@
                     <td colspan="1" style="text-align:center;border-top:0;border-left:0;border-bottom:0;"><asp:CheckBox Text="" runat="server" ID="CheckBox30"/></td>
                     <td colspan="1" style="text-align:left;border-style:none;">Signature:</td>
                     <td colspan="2" style="text-align:center;border-left:0;border-top:0;">
-                        <asp:Image ImageUrl="imageurl" ID="Image9" runat="server" /></td>
+                        <asp:TextBox runat="server" ID="Textbox14" /></td>
                     <td colspan="1" style="text-align:left;border-style:none;">Signature:</td>
                     <td colspan="2" style="text-align:center;border-left:0;border-top:0;">
                         <asp:Image ImageUrl="imageurl" ID="Image1" runat="server" /></td>

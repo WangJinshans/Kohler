@@ -26,7 +26,7 @@ namespace AendorAssess
             if (e.CommandName == "showDetails")
             {
                 GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
-
+                Session["tempVendorID"] = TempVendor_BLL.getTempVendorID(GridView1.Rows[drv.RowIndex].Cells[2].Text.ToString().Trim());//获取temp_Vendor_ID 并放入Session
                 Session["formid"] = GridView1.Rows[drv.RowIndex].Cells[0].Text;
                 string formname = GridView1.Rows[drv.RowIndex].Cells[1].Text;//获取点击的那张表的名称
 

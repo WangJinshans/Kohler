@@ -10,6 +10,8 @@
     <script src="Script/jquery-3.2.1.min.js"></script>
 	<script src="Script/layui/layui.js"></script>
 	<script src="Script/Own/fileUploader.js"></script>
+    <script src="Script/PDF/js/html2canvas.js"></script>
+    <script src="Script/PDF/js/jspdf.debug.js"></script>
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
 
 	<style type="text/css">
@@ -146,11 +148,89 @@ table.gridtable td {
 }
 		
 	</style>
+    <script>
+        function takeScreenshot() {
+            html2canvas(document.getElementById("div1"), {
+                // 渲染完成时调用，获得 canvas
+                onrendered: function (canvas) {
+                    // 从 canvas 提取图片数据
+                    //var imgData = canvas.toDataURL('image/jpeg');
+                    //var canWidth = canvas.width;
+                    //var canHeight = canvas.height;
+                    //var arrDPI = js_getDPI();//获取显示器DPI
+                    //var dpiX = 96;
+                    //var dpiY = 96;
+                    //if (arrDPI.length > 0) {
+                    //    dpiX = arrDPI[0];
+                    //    dpiY = arrDPI[1];
+                    //}
+                    //var doc = new jsPDF("p", "mm", [230,315]);
+                    ////doc.text('', 10, 20);
+                    ////var doc = new jsPDF('', 'in', [(canWidth) / dpiX, (canHeight + 10) / dpiY]);//设置PDF宽高为要显示的元素的宽高，将像素转化为英寸  
+                    //doc.addImage(imgData, 'JPEG', 10, 10,209,297);
+                    ////doc.addImage(imgData, 'JPEG', 0, 0, 0, 0);
+                    //doc.save(filename);
+                    var contentWidth = canvas.width;
+                    var contentHeight = canvas.height;
+
+                    //一页pdf显示html页面生成的canvas高度;
+                    var pageHeight = contentWidth / 592.28 * 841.89;
+                    //未生成pdf的html页面高度
+                    var leftHeight = contentHeight;
+                    //页面偏移
+                    var position = 0;
+                    //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
+                    var imgWidth = 595.28;
+                    var imgHeight = 592.28 / contentWidth * contentHeight;
+
+                    var pageData = canvas.toDataURL('image/jpeg', 1.0);
+
+                    var pdf = new jsPDF('', 'pt', 'a4');
+
+                    //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
+                    //当内容未超过pdf一页显示的范围，无需分页
+                    if (leftHeight < pageHeight) {
+                        pdf.addImage(pageData, 'JPEG', 20, 20, imgWidth-50, imgHeight-50);
+                    } else {
+                        while (leftHeight > 0) {
+                            pdf.addImage(pageData, 'JPEG', 20, position+20, imgWidth-50, imgHeight-300)
+                            leftHeight -= pageHeight;
+                            position -= 841.89;
+                            //避免添加空白页
+                            if (leftHeight > 0) {
+                                pdf.addPage();
+                            }
+                        }
+                    }
+                    pdf.save('content.pdf');
+                },
+                background: "#f7f7f7"    //设置PDF背景色（默认透明，实际显示为黑色）
+            });
+        }
+        function js_getDPI() {
+            var arrDPI = new Array();
+            if (window.screen.deviceXDPI != undefined) {
+                arrDPI[0] = window.screen.deviceXDPI;
+                arrDPI[1] = window.screen.deviceYDPI;
+            }
+            else {
+                var tmpNode = document.createElement("DIV");
+                tmpNode.style.cssText = "width:1in;height:1in;position:absolute;left:0px;top:0px;z-index:99;visibility:hidden";
+                document.body.appendChild(tmpNode);
+                arrDPI[0] = parseInt(tmpNode.offsetWidth);
+                arrDPI[1] = parseInt(tmpNode.offsetHeight);
+                tmpNode.parentNode.removeChild(tmpNode);
+            }
+            return arrDPI;
+        }
+    </script>
 </head>
 <body>
 	<form id="form1" runat="server">
-		<div style="text-align:center">
-	<table aria-readonly="true" style="width:100%; margin:auto; border-collapse:collapse" cellpadding:"0" cellspacing="0" border="1">
+        <input type="button" value="Pdf" onclick="takeScreenshot()" />
+    <div style="text-align: center" id="div1">
+        
+        <table aria-readonly="true" id="table1" style="width:100%; margin:auto; border-collapse:collapse" cellpadding:"0" cellspacing="0" border="1">
 		<caption style="font-size:xx-large">供应商风险分析表</caption>
 		<tr>
 			<td colspan="9" style="text-align:right">编号：PR-05-13-0</td>
@@ -210,8 +290,6 @@ table.gridtable td {
 			<td ><asp:TextBox ReadOnly="true" runat="server" id="TextBox8" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" height="100%" width="90%" /></td>
 		</tr>
 	</table>
-	</div>
-	<div style="text-align:center">
 		<table style="width:100%;margin:auto; border-collapse:collapse" cellpadding:"0" cellspacing="0" border="1">
 			<caption style="font-size:x-large ">SUPPLY RISK ANALYSIS</caption>
 		<tr>
@@ -233,7 +311,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton6" Text=" " runat="server" GroupName="1" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox10" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"> </asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >Stability (of company) 公司稳定性</td>
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton7" Text=" " runat="server" GroupName="2" /></td>
@@ -241,7 +318,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton9" Text=" " runat="server" GroupName="2" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox11" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >Contractual 契约*</td>
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton10" Text=" " runat="server" GroupName="3" /></td>
@@ -249,7 +325,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton12" Text=" " runat="server" GroupName="3" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox12" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >Third party involvement 第三方参与*</td>
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton13" Text=" " runat="server" GroupName="4" /></td>
@@ -257,7 +332,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton15" Text=" " runat="server" GroupName="4" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox13" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 	</table>
 	<table style="width:100%;margin:auto; border-collapse:collapse" cellpadding:"0" cellspacing="0" border="1">
 			<caption style="font-size:x-large ">&nbsp</caption>
@@ -280,7 +354,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton18" Text=" " runat="server" GroupName="5" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox14" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >Transport 交通*</td>
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton19" Text=" " runat="server" GroupName="6" /></td>
@@ -288,7 +361,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton21" Text=" " runat="server" GroupName="6" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox15" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >Seasonality 季节性*</td>
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton22" Text=" " runat="server" GroupName="7" /></td>
@@ -296,7 +368,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton24" Text=" " runat="server" GroupName="7" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox16" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >Capacity 能力*</td>
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton25" Text=" " runat="server" GroupName="8" /></td>
@@ -304,7 +375,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton27" Text=" " runat="server" GroupName="8" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox17" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >Stocks 库存*</td>
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton28" Text=" " runat="server" GroupName="9" /></td>
@@ -312,7 +382,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton30" Text=" " runat="server" GroupName="9" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox18" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >Dedicated facilities 专用设备*</td>
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton31" Text=" " runat="server" GroupName="10" /></td>
@@ -320,7 +389,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton33" Text=" " runat="server" GroupName="10" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox19" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >Recycling policy 再循环政策*</td>
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton34" Text=" " runat="server" GroupName="11" /></td>
@@ -328,7 +396,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton36" Text=" " runat="server" GroupName="11" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox20" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 	</table>
 	<table style="width:100%;margin:auto; border-collapse:collapse" cellpadding:"0" cellspacing="0" border="1">
 			<caption style="font-size:x-large ">&nbsp</caption>
@@ -359,7 +426,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton42" Text=" " runat="server" GroupName="13" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox22" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >(Lack of) Forward planning (Kohler)
 				<br />
@@ -369,7 +435,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton45" Text=" " runat="server" GroupName="14" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox23" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >(Lack of) Forward planning (supplier)
 				<br />
@@ -379,7 +444,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton48" Text=" " runat="server" GroupName="15" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox24" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >Change of source (site) of manufacture
 				<br />
@@ -389,7 +453,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton51" Text=" " runat="server" GroupName="16" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox25" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >Annual Shutdown
 				<br />
@@ -399,7 +462,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton54" Text=" " runat="server" GroupName="17" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox26" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >Computer systems 计算机系统*</td>
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton55" Text=" " runat="server" GroupName="18" /></td>
@@ -407,7 +469,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton57" Text=" " runat="server" GroupName="18" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox27" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >Intellectual property rights of Kohler
 				<br />
@@ -417,7 +478,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton60" Text=" " runat="server" GroupName="19" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox28" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >Relationship between manufacturer / agent
 				<br />
@@ -427,11 +487,9 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton63" Text=" " runat="server" GroupName="20" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox29" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 	</table>
-
 		<table style="width:100%;margin:auto; border-collapse:collapse" cellpadding:"0" cellspacing="0" border="1">
-			<caption style="font-size:x-large ">&nbsp</caption>
+			<caption style="font-size:x-large;">&nbsp</caption>
 		<tr>
 			<td class="risk-label-left">Technological</td>
 			<td class="td-label-text-center-bold" colspan="3">RISK</td>
@@ -451,7 +509,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton66" Text=" " runat="server" GroupName="21" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox30" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >Machine breakdown 机器故障*</td>
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton67" Text=" " runat="server" GroupName="22" /></td>
@@ -459,7 +516,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton69" Text=" " runat="server" GroupName="22" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox31" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >Quality accreditation 质量认证*</td>
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton70" Text=" " runat="server" GroupName="23" /></td>
@@ -467,7 +523,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton72" Text=" " runat="server" GroupName="23" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox32" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >Audit failure (SQM) 审查失败*</td>
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton73" Text=" " runat="server" GroupName="24" /></td>
@@ -475,7 +530,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton75" Text=" " runat="server" GroupName="24" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox33" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >Alternative supplier 可替换供应商*</td>
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton76" Text=" " runat="server" GroupName="25" /></td>
@@ -483,7 +537,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton78" Text=" " runat="server" GroupName="25" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox34" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >Alternative materials 可替换的原材料*</td>
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton79" Text=" " runat="server" GroupName="26" /></td>
@@ -491,7 +544,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton81" Text=" " runat="server" GroupName="26" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox35" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >Complexity 复杂性*</td>
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton82" Text=" " runat="server" GroupName="27" /></td>
@@ -499,7 +551,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton84" Text=" " runat="server" GroupName="27" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox36" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >Research &amp; Development 研究与开发*</td>
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton85" Text=" " runat="server" GroupName="28" /></td>
@@ -507,7 +558,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton87" Text=" " runat="server" GroupName="28" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox37" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >Rejections / complaints 拒绝,投诉*</td>
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton88" Text=" " runat="server" GroupName="29" /></td>
@@ -515,7 +565,6 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton90" Text=" " runat="server" GroupName="29" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox38" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 		<tr>
 			<td >Specifications 说明*</td>
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton91" Text=" " runat="server" GroupName="30" /></td>
@@ -523,10 +572,8 @@ table.gridtable td {
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton93" Text=" " runat="server" GroupName="30" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox39" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
 	</table>
 	</div>
-
 		<div>
 			<table class="gridtable" style="margin: auto; border-collapse: collapse;float:left">
 				<tr>

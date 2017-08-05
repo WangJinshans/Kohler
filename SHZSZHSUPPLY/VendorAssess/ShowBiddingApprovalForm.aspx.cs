@@ -168,7 +168,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 if (selectPositionName.Equals(positionName))
                 {
                     int i = AssessFlow_BLL.updateApprove(formid, positionName);
-                    if (i == 1)
+                    if (LocalApproveManager.doSuccessApprove(formID, Session["tempVendorID"].ToString(), "002", positionName))
                     {
                         Response.Write("<script>window.alert('成功通过审批！');window.location.href='ShowBiddingApprovalForm.aspx'</script>");
                     }

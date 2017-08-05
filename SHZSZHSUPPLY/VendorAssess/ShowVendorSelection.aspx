@@ -10,6 +10,8 @@
     <script src="Script/jquery-3.2.1.min.js"></script>
 	<script src="Script/layui/layui.js"></script>
 	<script src="Script/Own/fileUploader.js"></script>
+    <script src="Script/PDF/js/html2canvas.js"></script>
+    <script src="Script/PDF/js/jspdf.debug.js"></script>
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
 
     <style>
@@ -62,12 +64,57 @@
 			text-align: center;
 		}
     </style>
+
+       <script>
+        function takeScreenshot() {
+            html2canvas(document.getElementById("div1"), {
+                // 渲染完成时调用，获得 canvas
+                onrendered: function (canvas) {
+                    var contentWidth = canvas.width;
+                    var contentHeight = canvas.height;
+                    //一页pdf显示html页面生成的canvas高度;
+                    var pageHeight = contentWidth / 592.28 * 841.89;
+                    //未生成pdf的html页面高度
+                    var leftHeight = contentHeight;
+                    //页面偏移
+                    var position = 0;
+                    //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
+                    var imgWidth = 595.28;
+                    var imgHeight = 592.28 / contentWidth * contentHeight;
+
+                    var pageData = canvas.toDataURL('image/jpeg', 1.0);
+
+                    var pdf = new jsPDF('', 'pt', 'a4');
+
+                    //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
+                    //当内容未超过pdf一页显示的范围，无需分页
+                    if (leftHeight < pageHeight) {
+                        pdf.addImage(pageData, 'JPEG', 20, 20, imgWidth-50, imgHeight);
+                    } else {
+                        while (leftHeight > 0) {
+                            pdf.addImage(pageData, 'JPEG', 20, position+20, imgWidth-50, imgHeight-100)
+                            leftHeight -= pageHeight;
+                            position -= 841.89;
+                            //避免添加空白页
+                            if (leftHeight > 0) {
+                                pdf.addPage();
+                            }
+                        }
+                    }
+                    pdf.save('content.pdf');
+                },
+                background: "#f7f7f7"    //设置PDF背景色（默认透明，实际显示为黑色）
+            });
+        }
+    </script>
+
 </head>
 <body>
     <form id="form1" runat="server">
+        <input type="button" value="Pdf" onclick="takeScreenshot()" />
         <input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
 		<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
-	<div>
+	<div id="div1">
 	<table style="width:170%;margin:auto;border-collapse:collapse" border="1">
 		<caption style="font-size:xx-large">Supplier Selection Form     供应商选择表</caption>
 		<tr>

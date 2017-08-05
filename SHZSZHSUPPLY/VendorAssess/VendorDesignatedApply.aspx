@@ -113,9 +113,9 @@
     <form id="form1" runat="server">
         <%--<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
 		<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />--%>
-    <div style="text-align:right">PR-05-10-2</div>
     <div style="text-align: center">
         <table style="margin: auto; border-collapse:initial" cellpadding="0" cellspacing="0">
+            <caption style="font-size:small;text-align:right;border-style:none;">PR-05-10-2</caption>
             <caption style="font-size:xx-large; " class="auto-style2">上海科勒有限公司</caption>
             <tr>
                 <td colspan="6">指定供应商申请表</td>

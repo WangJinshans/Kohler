@@ -976,13 +976,13 @@ namespace SHZSZHSUPPLY.VendorAssess {
         protected global::System.Web.UI.WebControls.CheckBox CheckBox30;
         
         /// <summary>
-        /// Image9 控件。
+        /// Textbox14 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image9;
+        protected global::System.Web.UI.WebControls.TextBox Textbox14;
         
         /// <summary>
         /// Image1 控件。

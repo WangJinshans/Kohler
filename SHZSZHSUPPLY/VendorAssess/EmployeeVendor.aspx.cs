@@ -270,55 +270,124 @@ namespace AendorAssess
         private void pageRedirect(string aimPageName,string formTypeID)
         {
             //得到当前选中的的优先顺序数
-            int selectedFormPriorityNumber = getSelectedFormPriorityNumber(formTypeID);
             int type = Convert.ToInt32(formTypeID);
-            if (type == 2 || (type >= 11 && type <= 15)) 
+            int selectedFormPriorityNumber = getSelectedFormPriorityNumber(formTypeID);
+            //获取可选与非可选 如果是可选 检查它前面是否有正在审批的  如果是必选直接走
+            string optional = getOptional(selectedFormPriorityNumber);
+            if (optional == "可选")
             {
-                if (CheckFile_BLL.checkFile(formTypeID, Session["tempVendorID"].ToString()) == 0)
+                if (type == 2 || (type >= 11 && type <= 15))
                 {
-                    Response.Write("<script>window.alert('请先上传完整所需文件！')</script>");
-                }
-                else
-                {
-                    if (isMinimum(selectedFormPriorityNumber,Session["tempVendorID"].ToString()))
+                    if (CheckFile_BLL.checkFile(formTypeID, Session["tempVendorID"].ToString()) == 0)
                     {
-                        Response.Redirect(aimPageName + "?submit=yes&type=" + formTypeID);
+                        Response.Write("<script>window.alert('请先上传完整所需文件！')</script>");
                     }
                     else
                     {
-                        Response.Redirect(aimPageName + "?submit=no&type=" + formTypeID);
+                        if (withOutAccess(selectedFormPriorityNumber, Session["tempVendorID"].ToString())&& isOptionalMinimum(selectedFormPriorityNumber, Session["tempVendorID"].ToString())&& isRequiredMinimum(selectedFormPriorityNumber, Session["tempVendorID"].ToString()))
+                        {
+                            Response.Redirect(aimPageName + "?submit=yes&type=" + formTypeID);
+                        }
+                        else
+                        {
+                            Response.Redirect(aimPageName + "?submit=no&type=" + formTypeID);
+                        }
                     }
                 }
-            }
-            else if (type >=5 && type <= 9){
-                if (CheckFile_BLL.checkFile(formTypeID, Session["tempVendorID"].ToString()) == 0)
+                else if (type >= 5 && type <= 9)
                 {
-                    Response.Write("<script>window.alert('请先上传完整所需文件！')</script>");
-                }
-                else
-                {
-                    if (isMinimum(selectedFormPriorityNumber,Session["tempVendorID"].ToString()))
+                    if (CheckFile_BLL.checkFile(formTypeID, Session["tempVendorID"].ToString()) == 0)
                     {
-                        Response.Redirect(aimPageName + "?submit=yes&type=" + formTypeID);
+                        Response.Write("<script>window.alert('请先上传完整所需文件！')</script>");
                     }
                     else
                     {
-                        Response.Redirect(aimPageName + "?submit=no&type=" + formTypeID);
+                        if (withOutAccess(selectedFormPriorityNumber, Session["tempVendorID"].ToString())&& isOptionalMinimum(selectedFormPriorityNumber, Session["tempVendorID"].ToString())&& isRequiredMinimum(selectedFormPriorityNumber, Session["tempVendorID"].ToString()))
+                        {
+                            Response.Redirect(aimPageName + "?submit=yes&type=" + formTypeID);
+                        }
+                        else
+                        {
+                            Response.Redirect(aimPageName + "?submit=no&type=" + formTypeID);
+                        }
                     }
-                }
-            }
-            else
-            {
-                if (isMinimum(selectedFormPriorityNumber,Session["tempVendorID"].ToString()))
-                {
-                    Response.Redirect(aimPageName + "?submit=" + "yes");
                 }
                 else
                 {
-                    Response.Redirect(aimPageName + "?submit=" + "no");
+                    if (withOutAccess(selectedFormPriorityNumber, Session["tempVendorID"].ToString())&& isOptionalMinimum(selectedFormPriorityNumber, Session["tempVendorID"].ToString())&& isRequiredMinimum(selectedFormPriorityNumber, Session["tempVendorID"].ToString()))
+                    {
+                        Response.Redirect(aimPageName + "?submit=" + "yes");
+                    }
+                    else
+                    {
+                        Response.Redirect(aimPageName + "?submit=" + "no");
+                    }
                 }
-            }
 
+                
+            }
+            if (optional == "必选")
+            {
+                if (type == 2 || (type >= 11 && type <= 15))
+                {
+                    if (CheckFile_BLL.checkFile(formTypeID, Session["tempVendorID"].ToString()) == 0)
+                    {
+                        Response.Write("<script>window.alert('请先上传完整所需文件！')</script>");
+                    }
+                    else
+                    {
+                        if (isMinimum(selectedFormPriorityNumber, Session["tempVendorID"].ToString()))
+                        {
+                            Response.Redirect(aimPageName + "?submit=yes&type=" + formTypeID);
+                        }
+                        else
+                        {
+                            Response.Redirect(aimPageName + "?submit=no&type=" + formTypeID);
+                        }
+                    }
+                }
+                else if (type >= 5 && type <= 9)
+                {
+                    if (CheckFile_BLL.checkFile(formTypeID, Session["tempVendorID"].ToString()) == 0)
+                    {
+                        Response.Write("<script>window.alert('请先上传完整所需文件！')</script>");
+                    }
+                    else
+                    {
+                        if (isMinimum(selectedFormPriorityNumber, Session["tempVendorID"].ToString()))
+                        {
+                            Response.Redirect(aimPageName + "?submit=yes&type=" + formTypeID);
+                        }
+                        else
+                        {
+                            Response.Redirect(aimPageName + "?submit=no&type=" + formTypeID);
+                        }
+                    }
+                }
+                else
+                {
+                    if (isMinimum(selectedFormPriorityNumber, Session["tempVendorID"].ToString()))
+                    {
+                        Response.Redirect(aimPageName + "?submit=" + "yes");
+                    }
+                    else
+                    {
+                        Response.Redirect(aimPageName + "?submit=" + "no");
+                    }
+                }
+            }
+            
+
+        }
+
+        private string getOptional(int selectedFormPriorityNumber)
+        {
+            return FormType_BLL.getOptional(selectedFormPriorityNumber);
+        }
+
+        private bool withOutAccess(int number,string temp_vendor_ID)
+        {
+            return FormType_BLL.withOutAccess(number, temp_vendor_ID);
         }
 
         /// <summary>
@@ -338,24 +407,25 @@ namespace AendorAssess
         /// <returns></returns>
         private bool isMinimum(int number,string temp_Vendor_ID)
         {
-            //List<string> vendorlist = new List<string>();
-            //if (list != null && list.Count > 0)
-            //{
-            //    for (int i = 0; i < list.Count; i++)
-            //    {
-            //        vendorlist.Add(list[i].Form_Type_ID);
-            //    }
-            //}
-            //int minimum = FormType_BLL.getMinimumFormPriorityNumber(vendorlist);
-            //if (number <= minimum) //优先级是最高的 
-            //{
-            //    return true;
-            //}
-            //else
-            //{
-            //    return false;
-            //}
-            return FormType_BLL.isMinimumFormPriorityNumber(number, temp_Vendor_ID);
+            bool ok=withOutAccess(number, Session["tempVendorID"].ToString());
+            if (ok)
+            {
+                return FormType_BLL.isMinimumFormPriorityNumber(number, temp_Vendor_ID);
+            }
+            else
+            {
+                return false;
+            }
+            
+        }
+
+        private bool isOptionalMinimum(int number, string temp_Vendor_ID)
+        {
+            return FormType_BLL.isOptionalMinimum(number, temp_Vendor_ID);
+        }
+        private bool isRequiredMinimum(int number, string temp_Vendor_ID)//可选表前面的必须表都已经审完
+        {
+            return FormType_BLL.isRequiredMinimum(number, temp_Vendor_ID);
         }
     }
 }

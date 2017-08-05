@@ -16,7 +16,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         private string positionName = null;
 
         /// <summary>
-        /// formID怎么得到  通过表审批的formID确定每一张表
+        /// 
         /// 
         /// </summary>
         /// <param name="sender"></param>
@@ -142,11 +142,15 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 if (selectPositionName.Equals(positionName))
                 {
-                    int i = AssessFlow_BLL.updateApprove(formid, positionName);
-                    if (i == 1)
+                    //int i = AssessFlow_BLL.updateApprove(formid, positionName);
+                    if (LocalApproveManager.doSuccessApprove(formID, Session["tempVendorID"].ToString(), "003", positionName))
                     {
                         Response.Write("<script>window.alert('成功通过审批！');window.location.href='ShowVendorRiskAnalysis.aspx'</script>");
                     }
+                    //if (i == 1)
+                    //{
+                    //    Response.Write("<script>window.alert('成功通过审批！');window.location.href='ShowVendorRiskAnalysis.aspx'</script>");
+                    //}
                     else
                     {
                         Response.Write("<script>window.alert('操作失败！');window.location.href='ShowVendorRiskAnalysis.aspx'</script>");
