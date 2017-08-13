@@ -48,17 +48,24 @@ namespace BLL.VendorAssess
             return false;
         }
 
-        public static bool setSignatureDate(string formID, string position)
+        public static int setSignatureDate(string formID, string position)
         {
-            string tableName = "";//哪张表
-            string positionNameDate = switchPositionName(position) + "_Date";
-            tableName = switchFormID(formID);
-            string sql = "update " + tableName + " set " + positionNameDate + "='" + DateTime.Now.ToString().Trim() + "' where Form_ID='" + formID + "'";
-            if (Signature_DAL.SignatureDate(sql)>0)
+            try
             {
-                return true;
+                string tableName = "";//哪张表
+                string positionNameDate = switchPositionName(position) + "_Date";
+                tableName = switchFormID(formID);
+                string sql = "update " + tableName + " set " + positionNameDate + "='" + DateTime.Now.ToString().Trim() + "' where Form_ID='" + formID + "'";
+                if (Signature_DAL.SignatureDate(sql) > 0)
+                {
+                    return 1;//SUCCESS
+                }
             }
-            return false;
+            catch (Exception)
+            {
+                return 2;//NO DATE
+            }
+            return -1;//ERROR
         }
 
         private static string getPositionNameUrl(string position)//获取当前职位的签名地址绝对路径

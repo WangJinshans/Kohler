@@ -13,20 +13,21 @@ namespace DAL
     {
         public static int addForm(As_Form form)
         {
-            string sql = "INSERT INTO As_Form(Form_ID,Form_Name,Form_Path,Form_Type_ID,Temp_Vendor_Name,Temp_Vendor_ID) VALUES(@Form_ID,@Form_Name,@Form_Path,@Form_Type_ID,@Temp_Vendor_Name,@Temp_Vendor_ID)";
+            string sql = "INSERT INTO As_Form(Form_ID,Form_Type_Name,Form_Path,Form_Type_ID,Temp_Vendor_Name,Temp_Vendor_ID,Factory_Name) VALUES(@Form_ID,@Form_Type_Name,@Form_Path,@Form_Type_ID,@Temp_Vendor_Name,@Temp_Vendor_ID,@Factory_Name)";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("Form_ID",form.Form_ID),
-                new SqlParameter("Form_Name",form.Form_Name),
+                new SqlParameter("Form_Type_Name",form.Form_Type_Name),
                 new SqlParameter("Form_Path",form.Form_Path),
                 new SqlParameter("Form_Type_ID",form.Form_Type_ID),
                 new SqlParameter("Temp_Vendor_Name",form.Temp_Vendor_Name),
-                new SqlParameter("Temp_Vendor_ID",form.Temp_Vendor_ID)
+                new SqlParameter("Temp_Vendor_ID",form.Temp_Vendor_ID),
+                new SqlParameter("Factory_Name",form.Factory)
             };
             return DBHelp.GetScalar(sql, sp);
         }
 
-        public static int deleteForm(string formID)
+        public static bool deleteForm(string formID)
         {
             string sql = "delete from As_Form where Form_ID=@Form_ID";
             SqlParameter[] sp = new SqlParameter[]
@@ -34,7 +35,11 @@ namespace DAL
                 new SqlParameter("Form_ID",formID)
                
             };
-            return DBHelp.ExecuteCommand(sql, sp);
+            if (DBHelp.ExecuteCommand(sql, sp)>0)
+            {
+                return true;
+            }
+            return false;
         }
 
         public static string GetVendorName(string formID)

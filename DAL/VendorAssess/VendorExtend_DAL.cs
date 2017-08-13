@@ -10,11 +10,12 @@ namespace DAL.VendorAssess
     {
         public static int addVendorExtend(As_Vendor_Extend VendorExtend) //初始化表格赋值表格编号和表格种类编号
         {
-            string sql = "insert into As_Vendor_Extend(Temp_Vendor_Name,Flag)values(@Temp_Vendor_Name,@Flag)";
+            string sql = "insert into As_Vendor_Extend(Temp_Vendor_Name,Flag,Factory_Name)values(@Temp_Vendor_Name,@Flag,@Factory_Name)";
             SqlParameter[] sp = new SqlParameter[]
             {
                new SqlParameter("@Temp_Vendor_Name",VendorExtend.Temp_Vendor_Name),
-               new SqlParameter("@Flag",VendorExtend.Flag)
+               new SqlParameter("@Flag",VendorExtend.Flag),
+               new SqlParameter("@Factory_Name",VendorExtend.Factory_Name)
             };
             return DBHelp.GetScalar(sql, sp);
 

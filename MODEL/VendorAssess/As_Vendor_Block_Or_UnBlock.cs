@@ -23,6 +23,7 @@ namespace MODEL
         private string line_Manager;
         private string purchasing_Manager;
         private string comments;
+        private string factory_Name;
 
         public string Form_ID
         {
@@ -216,6 +217,19 @@ namespace MODEL
             set
             {
                 comments = value;
+            }
+        }
+
+        public string Factory_Name
+        {
+            get
+            {
+                return factory_Name;
+            }
+
+            set
+            {
+                factory_Name = value;
             }
         }
     }

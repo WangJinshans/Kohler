@@ -7,10 +7,20 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>供应商调查表</title>
 
+	<link rel="stylesheet" href="Script/layui/css/layui.css" />
 	<script type="text/javascript" src="Script/My97DatePicker/WdatePicker.js"></script>
-	<script src="Script/jquery-3.2.1.min.js"></script>
-	<script src="Script/layer/layer.js"></script>
+    <script src="Script/jquery-3.2.1.min.js"></script>
+    <script src="Script/layui/layui.js"></script>
+    <script src="Script/Own/fileUploader.js"></script>
 	<script type="text/javascript">
+	    onload = function () {
+	        var obj = parent.document.getElementById("iFrame1");  //取得父页面IFrame对象  
+	        //alert(obj.height); //弹出父页面中IFrame中设置的高度
+
+
+	        obj.height = this.document.body.scrollHeight + "px";  //调整父页面中IFrame的高度为此页面的高度
+	    }
+
 		$(function () {
 			layer.config({
 				extend: ['skin/default/layer.css'], //加载新皮肤  
@@ -19,32 +29,32 @@
 		});
 
 		//弹出框  
-		function popUp(formid) {
-			layer.open({
-				title: '请选择审批部门',
-				content: 'SelectDepartment.aspx?formid=' + formid,
-				type: 2,
-				area: ['750px', '400px'],
-				shade: 0.3,
-				shadeClose: false, //点击遮罩关闭
-				btn: ['确定'],
-				yes: function (index, layero) {
-					__myDoPostBack('submitForm', '');
-					layer.close(index);
-				},
-				cancel: function (index, layero) {
-					if (confirm('确定要关闭么')) { //只有当点击confirm框的确定时，该层才会关闭
-						layer.close(index)
-					}
-					return false;
-				},
-				success: function (layero, index) {
-					console.log(layero, index);
-				}
-			});
-		}
+		//function popUp(formid) {
+		//	layer.open({
+		//		title: '请选择审批部门',
+		//		content: 'SelectDepartment.aspx?formid=' + formid,
+		//		type: 2,
+		//		area: ['750px', '400px'],
+		//		shade: 0.3,
+		//		shadeClose: false, //点击遮罩关闭
+		//		btn: ['确定'],
+		//		yes: function (index, layero) {
+		//			__myDoPostBack('submitForm', '');
+		//			layer.close(index);
+		//		},
+		//		cancel: function (index, layero) {
+		//			if (confirm('确定要关闭么')) { //只有当点击confirm框的确定时，该层才会关闭
+		//				layer.close(index)
+		//			}
+		//			return false;
+		//		},
+		//		success: function (layero, index) {
+		//			console.log(layero, index);
+		//		}
+		//	});
+		//}
 	</script>
-	<script type="text/javascript">
+	<%--<script type="text/javascript">
 
 		function __myDoPostBack(eventTarget, eventArgument) {
 			var theForm = document.forms['form2'];
@@ -57,7 +67,7 @@
 				theForm.submit();
 			}
 		}
-	</script>
+	</script>--%>
 	<style type="text/css">
 		table.gridtable {
 			font-family: verdana,arial,sans-serif;
@@ -165,9 +175,9 @@
 	</style>
 </head>
 <body style="margin: auto">
-	<form id="form2" runat="server">
-		<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
-		<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+	<form id="form1" runat="server">
+		<%--<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+		<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />--%>
 		<div style="text-align: center">
 			<table style="margin: auto; border-collapse: collapse">
 				<caption style="font-size: xx-large">供应商调查表</caption>

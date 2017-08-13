@@ -26,6 +26,7 @@ namespace DAL
                     Approve.Assess_Reason = Convert.ToString(dr["Assess_Reason"]);
                     Approve.Temp_Vendor_Name = Convert.ToString(dr["Temp_Vendor_Name"]);
                     Approve.Form_Type_Name = Convert.ToString(dr["Form_Type_Name"]);
+                    Approve.Form_Type_ID = Convert.ToString(dr["Form_Type_ID"]);
                     list.Add(Approve);
                 }
 

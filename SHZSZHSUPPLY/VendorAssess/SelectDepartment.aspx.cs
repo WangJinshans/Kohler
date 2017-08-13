@@ -3,6 +3,7 @@ using BLL.VendorAssess;
 using Model;
 using MODEL;
 using System;
+using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -12,7 +13,8 @@ namespace AendorAssess
     {
         private static As_Form_AssessFlow Form_AssessFlow;
         private static As_Approve approve;
-
+        public static Dictionary<string, string> paramInfo;
+        public static Page originPage;
 
         protected void Page_Load(object sender, EventArgs e)
         {

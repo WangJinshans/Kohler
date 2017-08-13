@@ -36,6 +36,9 @@ namespace AendorAssess
         /// <param name="e"></param>
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            //
+            string factoryName = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString());
+
             //row
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
 
@@ -47,7 +50,7 @@ namespace AendorAssess
             {
                 As_Vendor_FormType Vendor_Form = new As_Vendor_FormType();
                 //根据供应商类型编号查询所有未填写表格类型
-                string sql = "SELECT * FROM View_Vendor_FormType WHERE Temp_Vendor_ID='" + e.CommandArgument.ToString() + "'and flag ='0'";
+                string sql = "SELECT * FROM View_Vendor_FormType WHERE Temp_Vendor_ID='" + e.CommandArgument.ToString() + "'and flag ='0' and Factory_Name='"+factoryName+"'";
                 PagedDataSource objpds = new PagedDataSource();
                 IList<As_Vendor_FormType> gridView2list = new List<As_Vendor_FormType>();
                 gridView2list= SelectEmployeeVendor_BLL.listVendorFormType(sql);
@@ -67,7 +70,7 @@ namespace AendorAssess
 
                 //根据供应商类型编号查询所有已提交表格
                 As_Form form = new As_Form();
-                string sql2 = "SELECT * FROM As_Form WHERE Temp_Vendor_Name='" + GridView1.Rows[drv.RowIndex].Cells[2].Text + "'";
+                string sql2 = String.Format("SELECT * FROM As_Form WHERE Temp_Vendor_ID='{0}' and Factory_Name='{1}'", e.CommandArgument.ToString(), factoryName);
                 PagedDataSource objpds2 = new PagedDataSource();
                 objpds2.DataSource = SelectForm_BLL.selectForm(sql2);
                 //获取数据源
@@ -77,7 +80,7 @@ namespace AendorAssess
 
 
                 //根据供应商类型编号查询所有待上传文件
-                string sql3 = "select * from As_Vendor_FileType where Temp_Vendor_ID='" + e.CommandArgument.ToString() + "'and flag ='0'";
+                string sql3 = String.Format("SELECT * FROM As_Vendor_FileType WHERE flag=0 and Temp_Vendor_ID='{0}' and Factory_Name='{1}'", e.CommandArgument.ToString(), factoryName);
                 PagedDataSource objpds3 = new PagedDataSource();
                 objpds3.DataSource = SelectEmployeeVendor_BLL.listVendorFileType(sql3);
                 //获取数据源
@@ -87,7 +90,8 @@ namespace AendorAssess
 
                 //根据供应商类型编号查询所有已上传文件
                 As_File file = new As_File();
-                string sql4 = "SELECT * FROM As_File WHERE Temp_Vendor_Name='" + GridView1.Rows[drv.RowIndex].Cells[2].Text + "'";
+                string sql4 = String.Format("SELECT * FROM As_File WHERE Temp_Vendor_ID='{0}' and Factory_Name in ('{1}','ALL')", e.CommandArgument.ToString(), factoryName);
+                //string sql4 = "SELECT * FROM As_File WHERE Temp_Vendor_ID='" + e.CommandArgument.ToString() + "' and Factory_Name='" + factoryName + "'";
                 PagedDataSource objpds4 = new PagedDataSource();
                 objpds4.DataSource = File_BLL.selectFile(sql4);
                 //获取数据源
@@ -204,41 +208,69 @@ namespace AendorAssess
             //获取信息
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
             Session["formID"] = GridView3.Rows[drv.RowIndex].Cells[2].Text;
-            string switchPage = "";//由于多张表都叫合同审批表只是金额不同 填写查看时进入相同的表
-            if (e.CommandArgument.ToString().Contains("合同审批表"))
+            Session["formTypeID"] = e.CommandArgument.ToString();
+
+            switch (e.CommandArgument.ToString())
             {
-                switchPage = "合同审批表(承诺<=RMB1.5M)";
-            }
-            else
-            {
-                switchPage = e.CommandArgument.ToString();
-            }
-            //选择
-            switch (switchPage)
-            {
-                case "供应商调查表":
+                case "001":
                     Response.Redirect("ShowVendorDiscovery.aspx");
                     break;
-                case "bidding form比价资料/会议纪要(非承诺<=RMB1.5M)":
-                    Response.Redirect("ShowBiddingApprovalForm.aspx");
+                case "002":
+                    Response.Redirect("ShowBiddingApprovalform.aspx");
                     break;
-                case "指定供应商申请表":
-                    Response.Redirect("ShowVendorDesignatedApply.aspx");
+                case "013":
+                    Response.Redirect("ShowBiddingApprovalform.aspx");
                     break;
-                case "供应商信息表(建立)":
-                    Response.Redirect("ShowVendorCreation.aspx");
+                case "014":
+                    Response.Redirect("ShowBiddingApprovalform.aspx");
                     break;
-                case "供应商风险分析表":
+                case "015":
+                    Response.Redirect("ShowBiddingApprovalform.aspx");
+                    break;
+                case "016":
+                    Response.Redirect("ShowBiddingApprovalform.aspx");
+                    break;
+                case "017":
+                    Response.Redirect("ShowBiddingApprovalform.aspx");
+                    break;
+                case "003":
                     Response.Redirect("ShowVendorRiskAnalysis.aspx");
                     break;
-                case "合同审批表(承诺<=RMB1.5M)":
+                case "004":
+                    Response.Redirect("ShowVendorDesignatedApply.aspx");
+                    break;
+                case "025":
+                    Response.Redirect("ShowVendorDesignatedApply.aspx");
+                    break;
+                case "005":
                     Response.Redirect("ShowContractApprovalForm.aspx");
                     break;
-                case "合同审批表(非承诺<=RMB3M)":
+                case "006":
                     Response.Redirect("ShowContractApprovalForm.aspx");
                     break;
-                case "供应商选择表":
+                case "007":
+                    Response.Redirect("ShowContractApprovalForm.aspx");
+                    break;
+                case "008":
+                    Response.Redirect("ShowContractApprovalForm.aspx");
+                    break;
+                case "009":
+                    Response.Redirect("ShowContractApprovalForm.aspx");
+                    break;
+                case "010":
+                    Response.Redirect("ShowContractApprovalForm.aspx");
+                    break;
+                case "011":
+                    Response.Redirect("ShowContractApprovalForm.aspx");
+                    break;
+                case "012":
+                    Response.Redirect("ShowContractApprovalForm.aspx");
+                    break;
+                case "018":
                     Response.Redirect("ShowVendorSelection.aspx");
+                    break;
+                case "019":
+                    Response.Redirect("ShowVendorCreation.aspx");
                     break;
                 default:
                     break;

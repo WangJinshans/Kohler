@@ -6,6 +6,11 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title>供应商风险分析表</title>
+    <link rel="stylesheet" href="Script/layui/css/layui.css" />
+    <script src="Script/jquery-3.2.1.min.js"></script>
+    <script src="Script/layui/layui.js"></script>
+    <script src="Script/Own/fileUploader.js"></script>
+	<script type="text/javascript" src="Script/My97DatePicker/WdatePicker.js" ></script>
 	<style type="text/css">
 	 
 		.td-label-style {
@@ -140,7 +145,6 @@ table.gridtable td {
 }
 		
 	</style>
-	<script type="text/javascript" src="Script/My97DatePicker/WdatePicker.js" ></script>
 </head>
 
 <body>

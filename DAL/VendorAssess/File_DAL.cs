@@ -13,8 +13,7 @@ namespace DAL
     {
         public static int addFile(As_File File)//添加文件
         {
-            string sql = "insert into As_File(File_ID,File_Name,File_Path,File_Enable_Time,File_Due_Time,Temp_Vendor_Name,File_Type_ID,Temp_Vendor_ID) values(@File_ID,@File_Name,@File_Path,@File_Enable_Time,@File_Due_Time,@Temp_Vendor_Name,@File_Type_ID,@Temp_Vendor_ID)";
-            sql += " ;SELECT @@IDENTITY";
+            string sql = "insert into As_File(File_ID,File_Name,File_Path,File_Enable_Time,File_Due_Time,Temp_Vendor_Name,File_Type_ID,Temp_Vendor_ID,Factory_Name) values(@File_ID,@File_Name,@File_Path,@File_Enable_Time,@File_Due_Time,@Temp_Vendor_Name,@File_Type_ID,@Temp_Vendor_ID,@Factory_Name)";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@File_ID",File.File_ID),
@@ -24,7 +23,8 @@ namespace DAL
                 new SqlParameter("@File_Due_Time",File.File_Due_Time),
                 new SqlParameter("@Temp_Vendor_Name",File.Temp_Vendor_Name),
                 new SqlParameter("@File_Type_ID",File.File_Type_ID),
-                new SqlParameter("@Temp_Vendor_ID",File.Temp_Vendor_ID)
+                new SqlParameter("@Temp_Vendor_ID",File.Temp_Vendor_ID),
+                new SqlParameter("@Factory_Name",File.Factory_Name)
             };
             return DBHelp.GetScalar(sql, sp);
         }

@@ -20,5 +20,19 @@ namespace DAL.VendorAssess
             };
             return DBHelp.ExecuteCommand(sql, sp);
         }
+
+        public static bool deleteApproveRecord(string formID)
+        {
+            string sql = "delete from As_Approve where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",formID)
+            };
+            if (DBHelp.ExecuteCommand(sql,sp)>0)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

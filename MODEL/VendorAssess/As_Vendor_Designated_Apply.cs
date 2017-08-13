@@ -41,6 +41,7 @@ namespace Model
         private string form_Type_ID;
         private string temp_Vendor_ID;
         private int flag;
+        private string factory_Name;
 
         public string VendorName
         {
@@ -447,5 +448,17 @@ namespace Model
             }
         }
 
+        public string Factory_Name
+        {
+            get
+            {
+                return factory_Name;
+            }
+
+            set
+            {
+                factory_Name = value;
+            }
+        }
     }
 }

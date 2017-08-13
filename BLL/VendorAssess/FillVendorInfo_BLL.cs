@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL;
 using Model;
+using System.Web;
 
 namespace BLL
 {
@@ -30,6 +31,21 @@ namespace BLL
         //添加临时供应商
         public static int addTempVendor(As_Temp_Vendor Temp_Vendor)
         {
+            Temp_Vendor.SH = Temp_Vendor.ZS = Temp_Vendor.ZH = DBNull.Value.ToString();
+            switch (Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_Id"].ToString()))
+            {
+                case "上海科勒":
+                    Temp_Vendor.SH = "上海科勒";
+                    break;
+                case "中山科勒":
+                    Temp_Vendor.ZS = "中山科勒";
+                    break;
+                case "珠海科勒":
+                    Temp_Vendor.ZH = "珠海科勒";
+                    break;
+                default:
+                    break;
+            }
             return TempVendor_DAL.addTempVendor(Temp_Vendor);
         }
         //添加供应商_表格
@@ -53,9 +69,9 @@ namespace BLL
         /// <param name="checked3"></param>
         /// <param name="v"></param>
         /// <returns></returns>
-        public static int addNewVendorFormAndFile(string tempVendorID, bool promise, bool assign, bool charge, string money)
+        public static int addNewVendorFormAndFile(string tempVendorID, bool promise, bool assign, bool charge, string money,string factory)
         {
-            return TempVendor_DAL.addBindVendorFormAndFile(tempVendorID, promise, assign, charge, money);
+            return TempVendor_DAL.addBindVendorFormAndFile(tempVendorID, promise, assign, charge, money,factory);
         }
     }
 }

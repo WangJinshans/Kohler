@@ -6,9 +6,13 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
+
+    <link rel="stylesheet" href="Script/layui/css/layui.css" />
     <script src="Script/My97DatePicker/WdatePicker.js"></script>
     <script src="Script/jquery-3.2.1.min.js"></script>  
 	<script src="Script/layer/layer.js"></script>  
+    <script src="Script/Own/fileUploader.js"></script>
+
     <script type="text/javascript" >
        function initMoney(){
            var money = document.getElementById("Textbox6").value;
@@ -43,7 +47,7 @@
            } 
        }
     </script>
-    <script>
+    <%--<script>
         function __myDoPostBack(eventTarget, eventArgument) {
             var theForm = document.forms['form1'];
             if (!theForm) {
@@ -55,7 +59,7 @@
                 theForm.submit();
             }
         }
-    </script>
+    </script>--%>
     <script>
         function popUp(formid,result) {
             layer.open({
@@ -167,8 +171,8 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
-		<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+        <%--<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+		<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />--%>
         <div style="text-align:right;font-size:small;">PR-05-17-3</div>
             <table style="margin: auto; border-collapse:collapse" cellpadding="0" cellspacing="0">
                 <tr>

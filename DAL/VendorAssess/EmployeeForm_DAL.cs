@@ -23,6 +23,20 @@ namespace DAL.VendorAssess
             return DBHelp.ExecuteCommand(sql, sp);
         }
 
+        public static bool deleteEmployeeForm(string formID)
+        {
+            string sql = "delete from As_Employee_Form where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",formID)
+            };
+            if (DBHelp.ExecuteCommand(sql, sp) > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public static int changeFillFlag(string employeeID,string Form_ID, int flag)
         {
             string sql = "update As_Employee_Form set Fill_Flag=@Fill_Flag where Employee_ID=@Employee_ID and Form_ID=@Form_ID";

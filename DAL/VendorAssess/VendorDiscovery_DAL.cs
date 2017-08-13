@@ -18,13 +18,14 @@ namespace DAL
         /// <returns></returns>
         public static int addVendorDiscovery(As_Vendor_Discovery Vendor_Discovery) //初始化表格赋值表格编号和表格种类编号
         {
-            string sql = "insert into As_Vendor_Discovery(Form_Type_ID,Temp_Vendor_ID,Temp_Vendor_Name,Flag)values(@Form_Type_ID,@Temp_Vendor_ID,@Temp_Vendor_Name,@Flag)";
+            string sql = "insert into As_Vendor_Discovery(Form_Type_ID,Temp_Vendor_ID,Temp_Vendor_Name,Flag,Factory_Name)values(@Form_Type_ID,@Temp_Vendor_ID,@Temp_Vendor_Name,@Flag,@Factory_Name)";
             SqlParameter[] sp = new SqlParameter[]
             {
                new SqlParameter("@Temp_Vendor_Name",Vendor_Discovery.Temp_Vendor_Name),
                new SqlParameter("@Flag",Vendor_Discovery.Flag),
                new SqlParameter("@Form_Type_ID",Vendor_Discovery.Form_Type_ID),
-               new SqlParameter("@Temp_Vendor_ID",Vendor_Discovery.Temp_Vendor_ID)
+               new SqlParameter("@Temp_Vendor_ID",Vendor_Discovery.Temp_Vendor_ID),
+               new SqlParameter("@Factory_Name",Vendor_Discovery.Factory_Name)
             };
             return DBHelp.GetScalar(sql, sp);
 

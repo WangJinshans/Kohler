@@ -37,9 +37,10 @@ namespace SHZSZHSUPPLY.VendorAssess
                     vendorCreation.Form_Type_ID = FORM_TYPE_ID;
                     vendorCreation.Vendor_Name = tempVendorName;
                     vendorCreation.Flag = 0;//将表格标志位信息改为0
+                    vendorCreation.Factory_Name = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString());
 
                     //名字只读
-                
+
                     int n = VendorCreation_BLL.addVendorCreation(vendorCreation);
                     if (n == 0)
                     {
@@ -218,24 +219,8 @@ namespace SHZSZHSUPPLY.VendorAssess
         public void approveAssess(string formId)
         {
             //需要Form_Type_Name 暂时更更改该函数参数
-            if (LocalApproveManager.doAddApprove(formId,FORM_TYPE_ID,tempVendorID,"上海科勒", FORM_NAME))
+            if (LocalApproveManager.doAddApprove(formId, FORM_NAME, FORM_TYPE_ID,tempVendorID))
             {
-                //插入到已提交表
-                As_Form form = new As_Form();
-                form.Form_ID = formID;
-                form.Form_Name = FORM_NAME;
-                form.Form_Type_ID = FORM_TYPE_ID;
-                form.Temp_Vendor_Name = tempVendorName;
-                form.Form_Path = "";
-                form.Temp_Vendor_ID = tempVendorID;
-                int add = AddForm_BLL.addForm(form);
-
-                //一旦提交就把表As_Vendor_FormType字段FLag置1.
-                int updateFlag = UpdateFlag_BLL.updateFlag(FORM_TYPE_ID, tempVendorID);
-
-                //更新session
-                Session["tempvendorname"] = tempVendorName;
-                Session["Employee_ID"] = Session["Employee_ID"];
                 Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx'</script>");
             }
         }

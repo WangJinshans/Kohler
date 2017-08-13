@@ -46,6 +46,7 @@ namespace MODEL
         private int flag;//标志位
         private string temp_Vendor_ID;
         private string bar_Code;
+        private string factory_Name;
 
         public string Form_ID
         {
@@ -525,6 +526,19 @@ namespace MODEL
             set
             {
                 bar_Code = value;
+            }
+        }
+
+        public string Factory_Name
+        {
+            get
+            {
+                return factory_Name;
+            }
+
+            set
+            {
+                factory_Name = value;
             }
         }
     }

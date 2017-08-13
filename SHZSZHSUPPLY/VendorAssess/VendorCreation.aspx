@@ -6,6 +6,10 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title></title>
+    <link rel="stylesheet" href="Script/layui/css/layui.css" />
+    <script src="Script/jquery-3.2.1.min.js"></script>
+    <script src="Script/layui/layui.js"></script>
+    <script src="Script/Own/fileUploader.js"></script>
 	 <style type="text/css">
 		.t {
 			border: 0px;

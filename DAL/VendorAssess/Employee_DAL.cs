@@ -112,7 +112,7 @@ namespace DAL
         public static As_Employee getEmolyeeById(string employee_ID)
         {
             As_Employee Employee = null;
-            string sql = "SELECT * FROM As_Employee WHERE Employee_ID=@employee_ID";
+            string sql = "SELECT * FROM View_Employee_Department WHERE Employee_ID=@employee_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@employee_ID",employee_ID)
@@ -126,7 +126,8 @@ namespace DAL
                     Employee.Employee_ID = Convert.ToString(dr["Employee_ID"]);
                     Employee.Employee_Name = Convert.ToString(dr["Employee_Name"]);
                     Employee.Employee_Email = Convert.ToString(dr["Employee_Email"]);
-                    Employee.Department_ID = Convert.ToString(dr["Department_ID"]);
+                    //Employee.Department_ID = Convert.ToString(dr["Department_ID"]);
+                    Employee.Department_Name = Convert.ToString(dr["Department_Name"]);
                     Employee.Positon_Name = Convert.ToString(dr["Positon_Name"]);
                     Employee.Employee_Password = Convert.ToString(dr["Employee_Password"]);
                 }

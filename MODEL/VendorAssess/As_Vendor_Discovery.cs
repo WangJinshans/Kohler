@@ -82,6 +82,7 @@ namespace Model
         private string user_Department_Manager;
         private string purchasing_Manager;
         private string quality_Manager;
+        private string factory_Name;
 
 
         public string Form_ID
@@ -1044,6 +1045,19 @@ namespace Model
             set
             {
                 quality_Manager = value;
+            }
+        }
+
+        public string Factory_Name
+        {
+            get
+            {
+                return factory_Name;
+            }
+
+            set
+            {
+                factory_Name = value;
             }
         }
     }

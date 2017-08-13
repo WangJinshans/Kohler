@@ -8,12 +8,23 @@ namespace Model
 {
     public class As_Write
     {
+        public const string APPROVE_SUCCESS = "审批通过";
+        public const string APPROVE_FAIL = "审批失败";
+        public const string FORM_EDIT = "表格动作";
+        public const string NORMAL_ACTION = "常规";
+
         private int id;
         private string employee_ID;
         private string form_ID;
         private string form_Fill_Time;
         private string manul;
         private string temp_Vendor_ID;
+        private string manul_Type;
+
+        public As_Write()
+        {
+            manul_Type = NORMAL_ACTION;
+        }
 
         public int Id
         {
@@ -90,6 +101,19 @@ namespace Model
             set
             {
                 temp_Vendor_ID = value;
+            }
+        }
+
+        public string Manul_Type
+        {
+            get
+            {
+                return manul_Type;
+            }
+
+            set
+            {
+                manul_Type = value;
             }
         }
     }

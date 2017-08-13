@@ -177,7 +177,7 @@
             </tr>
         </table>
 
-        <div>
+        <div style="position:relative;width:100%">
             <table class="style6" cellpadding="0" cellspacing="0" align="center">
                 <tr>
                     <td>
@@ -187,15 +187,15 @@
                 </tr>
             </table>
         </div>
-        <div>
-            <table cellpadding="0" cellspacing="0" align="center" style="width:100%;height:50px;">
+        <div style="position:fixed;bottom:0px;left:40%; margin:0 auto;width:20%;height:50px">
+            <div style="font-size: small; font-family: Arial; text-align: center; border-top: 1;margin-top:20px">上海科勒 2016年12月</div>
+            <%--<table cellpadding="0" cellspacing="0" align="center" style="width:100%;height:50px;">
                 <tr>
                     <td style="font-size: small; font-family: Arial; text-align: center; border-top: 1"
                         class="style2">上海科勒 2016年12月<input id="Hidden1" type="hidden" /></td>
                 </tr>
-            </table>
+            </table>--%>
         </div>
-
     <script type="text/javascript">
         var iframeids = ["iFrame1"]
         var iframehide = "yes"

@@ -133,13 +133,14 @@ namespace DAL
 
         public static int addForm(As_Vendor_Designated_Apply vendorDesignatedApply)
         {
-            string sql = "insert into As_Vendor_Designated_Apply (vendorName, Temp_Vendor_ID, Form_Type_ID, Flag) VALUES (@vendorName, @Temp_Vendor_ID,@Form_Type_ID,@Flag)";
+            string sql = "insert into As_Vendor_Designated_Apply (vendorName, Temp_Vendor_ID, Form_Type_ID, Flag,Factory_Name) VALUES (@vendorName, @Temp_Vendor_ID,@Form_Type_ID,@Flag,@Factory_Name)";
             SqlParameter[] sp = new SqlParameter[]
                 {
                     new SqlParameter("@vendorName",vendorDesignatedApply.VendorName),
                     new SqlParameter("@Temp_Vendor_ID",vendorDesignatedApply.Temp_Vendor_ID),
                     new SqlParameter("@Form_Type_ID",vendorDesignatedApply.Form_Type_ID),
-                    new SqlParameter("@Flag",vendorDesignatedApply.Flag)
+                    new SqlParameter("@Flag",vendorDesignatedApply.Flag),
+                    new SqlParameter("@Factory_Name",vendorDesignatedApply.Factory_Name)
                 };
             return DBHelp.GetScalar(sql, sp);//ExecuteScalar()方法执行查询返回插入成功的行数
         }

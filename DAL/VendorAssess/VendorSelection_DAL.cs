@@ -60,13 +60,14 @@ namespace DAL.VendorAssess
 
         public static int addVendorSelection(As_Vendor_Selection vendor_Selection)
         {
-            string sql = "insert into As_Vendor_Selection(Temp_Vendor_ID,Form_Type_ID,Temp_Vendor_Name,Flag) values(@Temp_Vendor_ID,@Form_Type_ID,@Temp_Vendor_Name,@Flag)";
+            string sql = "insert into As_Vendor_Selection(Temp_Vendor_ID,Form_Type_ID,Temp_Vendor_Name,Flag,Factory_Name) values(@Temp_Vendor_ID,@Form_Type_ID,@Temp_Vendor_Name,@Flag,@Factory_Name)";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_ID",vendor_Selection.Temp_Vendor_ID),
                 new SqlParameter("@Temp_Vendor_Name",vendor_Selection.Temp_Vendor_Name),
                 new SqlParameter("@Flag",vendor_Selection.Flag),
-                new SqlParameter("@Form_Type_ID",vendor_Selection.Form_Type_ID)
+                new SqlParameter("@Form_Type_ID",vendor_Selection.Form_Type_ID),
+                new SqlParameter("@Factory_Name",vendor_Selection.Factory_Name)
             };
             return DBHelp.GetScalar(sql, sp);
         }

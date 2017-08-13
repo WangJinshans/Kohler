@@ -12,6 +12,7 @@ namespace Model
         private string employee_Name;
         private string employee_Email;
         private string department_ID;
+        private string department_Name;
         private string positon_Name;
         private string employee_Password;
 
@@ -90,6 +91,19 @@ namespace Model
             set
             {
                 employee_Password = value;
+            }
+        }
+
+        public string Department_Name
+        {
+            get
+            {
+                return department_Name;
+            }
+
+            set
+            {
+                department_Name = value;
             }
         }
     }

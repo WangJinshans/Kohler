@@ -49,6 +49,19 @@ namespace DAL.VendorAssess
             return null;
         }
 
+        public static bool deleteFormEditFlow(string formID)
+        {
+            string sql = "delete from As_Form_EditFlow where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",formID)
+            };
+            if (DBHelp.ExecuteCommand(sql, sp) > 0)
+            {
+                return true;
+            }
+            return false;
+        }
 
         public static int addFormEditFlow(As_Form_EditFlow formEditFlow)
         {

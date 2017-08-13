@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Web;
 
 namespace DAL
 {
@@ -32,12 +34,28 @@ namespace DAL
             return min;
         }
 
+        public static bool setFormFlag(string formTypeID,string tempVendorID, int flag)
+        {
+            string sql = "update As_Vendor_FormType set flag=@flag where Form_Type_ID=@Form_Type_ID and Temp_Vendor_ID=@Temp_Vendor_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@flag",flag),
+                new SqlParameter("@Form_Type_ID",formTypeID),
+                new SqlParameter("@Temp_Vendor_ID",tempVendorID)
+            };
+            if (DBHelp.ExecuteCommand(sql,sp)>0)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public static Dictionary<int, string> getVendorFormPriorityNumber(string temp_Vendor_ID)
         {
             List<int> numbers = new List<int>();
             Dictionary<int, string> dictionary = new Dictionary<int, string>();
             //获取该供应商所有需要填写的且已经审批完成的表格
-            string sql = "select Form_Type_Priority_Number,Form_Type_Is_Optional from As_Form_Type,As_Vendor_FormType where As_Form_Type.Form_Type_ID=As_Vendor_FormType.Form_Type_ID and As_Vendor_FormType.flag <> '4' and As_Vendor_FormType.Temp_Vendor_ID='" + temp_Vendor_ID + "'";
+            string sql = "select Form_Type_Priority_Number,Form_Type_Is_Optional from As_Form_Type,As_Vendor_FormType where As_Form_Type.Form_Type_ID=As_Vendor_FormType.Form_Type_ID and As_Vendor_FormType.flag <> '4' and As_Vendor_FormType.Temp_Vendor_ID='" + temp_Vendor_ID + "' and Factory_Name='"+Employee_DAL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString())+"'";
             DataTable dt = DBHelp.GetDataSet(sql);
             if (dt.Rows.Count > 0)
             {
@@ -67,7 +85,7 @@ namespace DAL
         public static List<int> getRequiredNumbers(string temp_Vendor_ID)
         {
             List<int> numbers = new List<int>();
-            string sql = "select Form_Type_Priority_Number from As_Form_Type,As_Vendor_FormType where As_Form_Type.Form_Type_ID=As_Vendor_FormType.Form_Type_ID and As_Vendor_FormType.flag <> '4' and As_Form_Type.Form_Type_Is_Optional ='必选' and As_Vendor_FormType.Temp_Vendor_ID='" + temp_Vendor_ID + "'";
+            string sql = "select Form_Type_Priority_Number from As_Form_Type,As_Vendor_FormType where As_Form_Type.Form_Type_ID=As_Vendor_FormType.Form_Type_ID and As_Vendor_FormType.flag <> '4' and As_Form_Type.Form_Type_Is_Optional ='必选' and As_Vendor_FormType.Temp_Vendor_ID='" + temp_Vendor_ID + "' and Factory_Name='" + Employee_DAL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString()) + "'";
             DataTable dt = DBHelp.GetDataSet(sql);
             int number;
             if (dt.Rows.Count > 0)
@@ -90,7 +108,7 @@ namespace DAL
         public static List<int> getOptionalNumbers(string temp_Vendor_ID)
         {
             List<int> numbers = new List<int>();
-            string sql = "select Form_Type_Priority_Number from As_Form_Type,As_Vendor_FormType where As_Form_Type.Form_Type_ID=As_Vendor_FormType.Form_Type_ID and As_Vendor_FormType.flag <> '4' and As_Form_Type.Form_Type_Is_Optional ='可选' and As_Vendor_FormType.Temp_Vendor_ID='" + temp_Vendor_ID + "'";
+            string sql = "select Form_Type_Priority_Number from As_Form_Type,As_Vendor_FormType where As_Form_Type.Form_Type_ID=As_Vendor_FormType.Form_Type_ID and As_Vendor_FormType.flag <> '4' and As_Form_Type.Form_Type_Is_Optional ='可选' and As_Vendor_FormType.Temp_Vendor_ID='" + temp_Vendor_ID + "' and Factory_Name='" + Employee_DAL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString()) + "'";
             DataTable dt = DBHelp.GetDataSet(sql);
             int number;
             if (dt.Rows.Count > 0)
@@ -108,7 +126,7 @@ namespace DAL
         public static bool getAccessPriorityNumber(string temp_Vendor_ID)
         {
             List<int> numbers = new List<int>();
-            string sql = "select Form_Type_Priority_Number from As_Form_Type,As_Vendor_FormType where As_Form_Type.Form_Type_ID=As_Vendor_FormType.Form_Type_ID and As_Vendor_FormType.flag <> '4' and As_Vendor_FormType.flag <> '0' and As_Vendor_FormType.Temp_Vendor_ID='" + temp_Vendor_ID + "'";
+            string sql = "select Form_Type_Priority_Number from As_Form_Type,As_Vendor_FormType where As_Form_Type.Form_Type_ID=As_Vendor_FormType.Form_Type_ID and As_Vendor_FormType.flag <> '4' and As_Vendor_FormType.flag <> '0' and As_Vendor_FormType.Temp_Vendor_ID='" + temp_Vendor_ID + "' and Factory_Name='" + Employee_DAL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString()) + "'";
             DataTable dt = DBHelp.GetDataSet(sql);
             if (dt.Rows.Count > 0)
             {

@@ -16,6 +16,10 @@ namespace Model
         private string temp_Vendor_Name;
         private string file_Type_ID;
         private string temp_Vendor_ID;
+        private bool is_Shared;
+        private string file_Type_Range;
+        private string file_Type_Name;
+        private string factory_Name;
 
         public string File_ID
         {
@@ -118,6 +122,58 @@ namespace Model
             set
             {
                 temp_Vendor_ID = value;
+            }
+        }
+
+        public bool Is_Shared
+        {
+            get
+            {
+                return is_Shared;
+            }
+
+            set
+            {
+                is_Shared = value;
+            }
+        }
+
+        public string File_Type_Range
+        {
+            get
+            {
+                return file_Type_Range;
+            }
+
+            set
+            {
+                file_Type_Range = value;
+            }
+        }
+
+        public string File_Type_Name
+        {
+            get
+            {
+                return file_Type_Name;
+            }
+
+            set
+            {
+                file_Type_Name = value;
+            }
+        }
+
+        public string Factory_Name
+        {
+            get
+            {
+                return factory_Name;
+            }
+
+            set
+            {
+                factory_Name = value;
             }
         }
     }

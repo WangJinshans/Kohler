@@ -6,6 +6,10 @@ using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
 using System.Web.UI.WebControls;
 
+/*
+ * 由于合同审批表的承诺影响审批提交，所以本页内均使用自定义approve过程函数，和LocalApproveManager中的提交过程无关
+ */
+
 namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class ContractApprovalForm : System.Web.UI.Page
@@ -45,8 +49,9 @@ namespace SHZSZHSUPPLY.VendorAssess
                     vendorContract.Form_Type_ID = FORM_TYPE_ID;
                     vendorContract.Vendor_Name = tempVendorName;
                     vendorContract.Flag = 0;//将表格标志位信息改为0
+                    vendorContract.Factory_Name = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString());
 
-                    
+
                     //名字只读
 
                     int n = ContractApproval_BLL.addContractApproval(vendorContract);
@@ -100,7 +105,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             //插入到已提交表
             As_Form form = new As_Form();
             form.Form_ID = formID;
-            form.Form_Name = FORM_NAME;
+            form.Form_Type_Name = FORM_NAME;
             form.Form_Type_ID = FORM_TYPE_ID;
             form.Temp_Vendor_Name = tempVendorName;
             form.Form_Path = "";
@@ -123,7 +128,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             //插入到已提交表
             As_Form form = new As_Form();
             form.Form_ID = formID;
-            form.Form_Name = FORM_NAME;
+            form.Form_Type_Name = FORM_NAME;
             form.Form_Type_ID = FORM_TYPE_ID;
             form.Temp_Vendor_Name = tempVendorName;
             form.Form_Path = "";

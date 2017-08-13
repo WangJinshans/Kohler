@@ -39,11 +39,19 @@ namespace DAL
                     Vendor_FormType.Form_Type_ID = Convert.ToString(dr["Form_Type_ID"]);
                     Vendor_FormType.Temp_Vendor_Name = Convert.ToString(dr["Temp_Vendor_Name"]);
                     Vendor_FormType.Form_Type_Name = Convert.ToString(dr["Form_Type_Name"]);
-                    Vendor_FormType.Form_Type_Is_Optional = Convert.ToString(dr["Form_Type_Is_Optional"]);
-                    if (Vendor_FormType.Form_Type_Is_Optional == "可选")
+                    try
+                    {
+                        Vendor_FormType.Form_Type_Is_Optional = Convert.ToString(dr["Form_Type_Is_Optional"]);
+                        if (Vendor_FormType.Form_Type_Is_Optional == "可选")
+                        {
+                            Vendor_FormType.Form_Type_Is_Optional = null;
+                        }
+                    }
+                    catch (Exception)
                     {
                         Vendor_FormType.Form_Type_Is_Optional = null;
                     }
+
                     list.Add(Vendor_FormType);
                 }
             }

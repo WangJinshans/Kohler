@@ -131,15 +131,17 @@
                         <Columns>
                             <asp:BoundField DataField="Temp_Vendor_Name" HeaderText="供应商名称"
                                 SortExpression="Temp_Vendor_Name" />
-                            <asp:BoundField DataField="Form_Name" HeaderText="表格名称"
-                                SortExpression="Form_Name" />
+                            <asp:BoundField DataField="Form_Type_Name" HeaderText="表格名称"
+                                SortExpression="Form_Type_Name" />
                             <asp:BoundField DataField="Form_ID" HeaderText="表格编号" SortExpression="Form_ID" />
+                            <asp:BoundField DataField="Form_Type_ID" HeaderText="表格类型编号"
+                                SortExpression="Form_Type_ID" Visible="False" />
                             <asp:BoundField DataField="DepotSummary" HeaderText="DepotSummary"
                                 SortExpression="DepotSummary" Visible="False" />
                             <asp:TemplateField>
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lbtShowDetails" runat="server" CommandName="showDetails"
-                                        CommandArgument='<%# Eval("Form_Name") %>'>查看</asp:LinkButton>
+                                        CommandArgument='<%# Eval("Form_Type_ID") %>'>查看</asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>
 

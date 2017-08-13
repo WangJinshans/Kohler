@@ -54,24 +54,7 @@
        
             <asp:Label ID="Label3" runat="server" Text="你好"></asp:Label>
         </div>
-        <%--<div>
-            <a href="VendorInfo.aspx">新建审批</a>
-        </div>
-        <div>
-            <a href="VendorInfo.aspx">审批状态查看</a>
-        </div>
-        <div>
-            <a href="EmployeeVendor.aspx">供应商文件管理</a>
-        </div>
-        <div>
-            <a href="FormWaitToFill.aspx">待填写表格</a>
-        </div>
-        <div>
-            <a href="KCI.aspx">KCI审批</a>
-        </div>
-        <div>
-            <a href="ShowApproveForm.aspx">待审批表格</a>
-        </div>--%>
+        
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 0px;">
             <legend>审批导航</legend>
         </fieldset>
@@ -80,13 +63,13 @@
                 <a href="javascript:;">新建</a>
                 <dl class="layui-nav-child">
                     <dd><a href="VendorInfo.aspx">新建审批</a></dd>
-                    <dd><a href="javascript:;">供应商复用</a></dd>
+                    <dd><a href="VendorSharedUse.aspx">供应商复用</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item layui-nav-itemed">
                 <a href="javascript:;">状态</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="javascript:;">审批状态查看</a></dd>
+                    <dd><a href="ApprovalProgress.aspx">审批状态查看</a></dd>
                     <dd><a href="EmployeeVendor.aspx">供应商文件管理</a></dd>
                 </dl>
             </li>

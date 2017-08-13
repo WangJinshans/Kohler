@@ -165,6 +165,8 @@ namespace MODEL
         private string general_Manager_Signature;
         private string general_Manager_Date;
 
+        private string factory_Name;
+
         public string Form_ID
         {
             get
@@ -1774,6 +1776,19 @@ namespace MODEL
             set
             {
                 standard_Contract = value;
+            }
+        }
+
+        public string Factory_Name
+        {
+            get
+            {
+                return factory_Name;
+            }
+
+            set
+            {
+                factory_Name = value;
             }
         }
     }

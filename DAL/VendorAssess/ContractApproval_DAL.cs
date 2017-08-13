@@ -61,13 +61,14 @@ namespace DAL
 
         public static int addContractApproval(As_Contract_Approval vendorContract)//添加表
         {
-            string sql = "insert into As_Contract_Approval(Temp_Vendor_ID,Vendor_Name,Form_Type_ID,Flag) values(@Temp_Vendor_ID,@Vendor_Name,@Form_Type_ID,@Flag) SELECT @@IDENTITY AS returnName";
+            string sql = "insert into As_Contract_Approval(Temp_Vendor_ID,Vendor_Name,Form_Type_ID,Flag,Factory_Name) values(@Temp_Vendor_ID,@Vendor_Name,@Form_Type_ID,@Flag,@Factory_Name) SELECT @@IDENTITY AS returnName";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_ID",vendorContract.Temp_Vendor_ID),
                 new SqlParameter("@Vendor_Name",vendorContract.Vendor_Name),
                 new SqlParameter("@Form_Type_ID",vendorContract.Form_Type_ID),
-                new SqlParameter("@Flag",vendorContract.Flag)
+                new SqlParameter("@Flag",vendorContract.Flag),
+                new SqlParameter("@Factory_Name",vendorContract.Factory_Name)
             };
             return DBHelp.GetScalar(sql, sp);
         }

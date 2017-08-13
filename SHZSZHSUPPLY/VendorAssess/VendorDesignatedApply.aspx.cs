@@ -46,6 +46,7 @@ namespace VendorAssess
                     vendorDesignatedApply.VendorName = tempVendorName;
                     vendorDesignatedApply.Temp_Vendor_ID = tempVendorID;
                     vendorDesignatedApply.Flag = 0;//将表格标志位信息改为初始
+                    vendorDesignatedApply.Factory_Name = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString());
 
                     //名字只读
                     TextBox1.Text = tempVendorName;//
@@ -78,7 +79,7 @@ namespace VendorAssess
                 switch (Request["__EVENTTARGET"])
                 {
                     case "submitForm":
-                        submitForm();
+                        LocalApproveManager.submitForm();
                         break;
                     default:
                         break;
@@ -193,7 +194,7 @@ namespace VendorAssess
             //插入到已提交表
             As_Form form = new As_Form();
             form.Form_ID = formID;
-            form.Form_Name = "指定供应商申请表";
+            form.Form_Type_Name = "指定供应商申请表";
             form.Form_Type_ID = FORM_TYPE_ID;
             form.Temp_Vendor_Name = tempVendorName;
             form.Form_Path = "";
@@ -309,7 +310,7 @@ namespace VendorAssess
                 As_Vendor_Designated_Apply Vendor_Designated = saveForm(2, "提交表格");
 
                 //对于用户部门，使用弹出对话框选择
-                newApproveAccess(FORM_TYPE_ID, formID);
+                LocalApproveManager.doApproveWithSelection(Page, formID, FORM_NAME, FORM_TYPE_ID, tempVendorID, tempVendorName, Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString()));
             }
             else
             {

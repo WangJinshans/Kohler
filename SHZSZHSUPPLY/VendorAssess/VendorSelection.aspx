@@ -11,6 +11,13 @@
 	<script src="Script/jquery-3.2.1.min.js"></script>  
     <script src="Script/Own/fileUploader.js"></script>
     <script>
+        onload = function () {
+                var obj = parent.document.getElementById("iFrame1");  //取得父页面IFrame对象  
+                //alert(obj.height); //弹出父页面中IFrame中设置的高度
+
+
+                obj.height = this.document.body.scrollHeight + "px";  //调整父页面中IFrame的高度为此页面的高度
+        }
         var la_layer;
         layui.use(['layer'], function () {
             la_layer = layui.layer;
@@ -120,7 +127,7 @@
         }
     </script>
 
-    <script type="text/javascript">
+    <%--<script type="text/javascript">
 	
 		function __myDoPostBack(eventTarget, eventArgument) {
 			var theForm = document.forms['form1'];
@@ -133,7 +140,7 @@
 				theForm.submit();
 		}
 	}
-    </script>
+    </script>--%>
 	<script>
 		function setScore(textbox,score) {
 			var tb = document.getElementById(textbox);
@@ -233,8 +240,8 @@
 
 <body>
 	<form id="form1" runat="server">
-        <input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
-		<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+        <%--<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+		<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />--%>
 	<div>
 	<table style="width:170%;margin:auto;border-collapse:collapse" border="1">
 		<caption style="font-size:xx-large">Supplier Selection Form     供应商选择表</caption>

@@ -119,6 +119,7 @@
     <Content Include="VenderInfo\VenderMaintenance.aspx" />
     <Content Include="VenderInfo\VenderNoExist.aspx" />
     <Content Include="Scripts\webform1_iframe_redirect_VenderMaintenance.js" />
+    <Content Include="VendorAssess\ApprovalProgress.aspx" />
     <Content Include="VendorAssess\BiddingApprovalForm.aspx" />
     <Content Include="VendorAssess\ContractApprovalForm.aspx" />
     <Content Include="VendorAssess\Html_Template\Approve_Reason.html" />
@@ -126,6 +127,7 @@
     <Content Include="VendorAssess\EmployeeVendor.aspx" />
     <Content Include="VendorAssess\FormWaitToFill.aspx" />
     <Content Include="VendorAssess\Html_Template\File_Upload_Page.html" />
+    <Content Include="VendorAssess\Html_Template\PageTemplate.aspx" />
     <Content Include="VendorAssess\index.aspx" />
     <Content Include="VendorAssess\KCI.aspx" />
     <Content Include="VendorAssess\login.aspx" />
@@ -308,6 +310,7 @@
     <Content Include="VendorAssess\VendorInfo.aspx" />
     <Content Include="VendorAssess\VendorRiskAnalysis.aspx" />
     <Content Include="VendorAssess\VendorSelection.aspx" />
+    <Content Include="VendorAssess\VendorSharedUse.aspx" />
     <Content Include="WebForm1.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -435,6 +438,13 @@
     <Compile Include="VenderInfo\VenderNoExist.aspx.designer.cs">
       <DependentUpon>VenderNoExist.aspx</DependentUpon>
     </Compile>
+    <Compile Include="VendorAssess\ApprovalProgress.aspx.cs">
+      <DependentUpon>ApprovalProgress.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\ApprovalProgress.aspx.designer.cs">
+      <DependentUpon>ApprovalProgress.aspx</DependentUpon>
+    </Compile>
     <Compile Include="VendorAssess\ASHX\Database_Handler.ashx.cs">
       <DependentUpon>Database_Handler.ashx</DependentUpon>
     </Compile>
@@ -468,6 +478,13 @@
     </Compile>
     <Compile Include="VendorAssess\FormWaitToFill.aspx.designer.cs">
       <DependentUpon>FormWaitToFill.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorAssess\Html_Template\PageTemplate.aspx.cs">
+      <DependentUpon>PageTemplate.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\Html_Template\PageTemplate.aspx.designer.cs">
+      <DependentUpon>PageTemplate.aspx</DependentUpon>
     </Compile>
     <Compile Include="VendorAssess\index.aspx.cs">
       <DependentUpon>index.aspx</DependentUpon>
@@ -635,6 +652,13 @@
     </Compile>
     <Compile Include="VendorAssess\VendorSelection.aspx.designer.cs">
       <DependentUpon>VendorSelection.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorAssess\VendorSharedUse.aspx.cs">
+      <DependentUpon>VendorSharedUse.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\VendorSharedUse.aspx.designer.cs">
+      <DependentUpon>VendorSharedUse.aspx</DependentUpon>
     </Compile>
     <Compile Include="WebForm1.aspx.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>

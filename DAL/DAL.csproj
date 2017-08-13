@@ -34,6 +34,7 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,6 +57,7 @@
     <Compile Include="VenderInfo\VenderType_DAL.cs" />
     <Compile Include="VendorAssess\AddEmployeeVendor_DAL.cs" />
     <Compile Include="VendorAssess\AddForm_DAL.cs" />
+    <Compile Include="VendorAssess\ApprovalProgress_DAL.cs" />
     <Compile Include="VendorAssess\Approve_DAL.cs" />
     <Compile Include="VendorAssess\AssessFlow_DAL.cs" />
     <Compile Include="VendorAssess\As_Bidding_Approval_DAL.cs" />

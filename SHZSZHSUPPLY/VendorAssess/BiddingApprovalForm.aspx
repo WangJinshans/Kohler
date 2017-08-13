@@ -6,6 +6,12 @@
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>BiddingApprovalForm</title>
+
+    <link rel="stylesheet" href="Script/layui/css/layui.css" />
+    <script src="Script/jquery-3.2.1.min.js"></script>  
+	<script src="Script/layer/layer.js"></script>  
+    <script src="Script/Own/fileUploader.js"></script>
+
     <style type="text/css">
         h1 {
             text-align: center;

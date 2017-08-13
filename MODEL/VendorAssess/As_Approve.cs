@@ -17,6 +17,7 @@ namespace Model
         private string factory_Name;
         private string form_Type_Name;
         private string temp_Vendor_Name;
+        private string form_Type_ID;
 
         public string Form_ID
         {
@@ -133,6 +134,19 @@ namespace Model
             set
             {
                 temp_Vendor_Name = value;
+            }
+        }
+
+        public string Form_Type_ID
+        {
+            get
+            {
+                return form_Type_ID;
+            }
+
+            set
+            {
+                form_Type_ID = value;
             }
         }
     }

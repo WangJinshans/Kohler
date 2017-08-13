@@ -1,7 +1,9 @@
-﻿using BLL;
+﻿using AendorAssess;
+using BLL;
 using BLL.VendorAssess;
 using Model;
 using MODEL;
+using SHZSZHSUPPLY.VendorAssess.Html_Template;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,8 +22,11 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
         /// </summary>
         /// <param name="formID"></param>
         /// <param name="FORM_TYPE_ID"></param>
-        public static bool doAddApprove(string formID,string FORM_TYPE_ID,string tempVendorID,string factory,string Form_Type_Name)
+        public static bool doAddApprove(string formID,string FORM_NAME,string FORM_TYPE_ID,string tempVendorID)
         {
+            string Form_Type_Name = FORM_NAME;
+            string factory = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
+
             //实例化审批流程
             As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(FORM_TYPE_ID);
             As_Form_AssessFlow Form_AssessFlow = new As_Form_AssessFlow();
@@ -78,13 +83,109 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                 AssessFlow_BLL.addApprove(approve);
             }
 
+            //插入到已提交表
+            As_Form form = new As_Form();
+            form.Form_ID = formID;
+            form.Form_Type_Name = Form_Type_Name;
+            form.Form_Type_ID = FORM_TYPE_ID;
+            form.Temp_Vendor_Name = TempVendor_BLL.getTempVendorName(tempVendorID);
+            form.Form_Path = "";
+            form.Temp_Vendor_ID = tempVendorID;
+            int add = AddForm_BLL.addForm(form);
+
+            //一旦提交就把表As_Vendor_FormType字段FLag置1.
+            int updateFlag = UpdateFlag_BLL.updateFlag(FORM_TYPE_ID, tempVendorID);
+
+            //更新session
+            HttpContext.Current.Session["tempvendorname"] = form.Temp_Vendor_Name;
+            HttpContext.Current.Session["Employee_ID"] = HttpContext.Current.Session["Employee_ID"];
+            
+            //result
+            if (updateFlag>0 && add>0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static bool doApproveWithSelection(System.Web.UI.Page page, string formID,string FORM_NAME,string FORM_TYPE_ID,string tempVendorID,string tempVendorName,string factory)
+        {
+            Dictionary<string, string> dc = new Dictionary<string, string>();
+            dc.Add("FormID", formID);
+            dc.Add("FormName", FORM_NAME);
+            dc.Add("FormTypeID", FORM_TYPE_ID);
+            dc.Add("TempVendorID", tempVendorID);
+            dc.Add("TempVendorName", tempVendorName);
+            dc.Add("Factory", factory);
+            SelectDepartment.paramInfo = dc;
+            SelectDepartment.originPage = page;
+
+            //形成参数
+            As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(FORM_TYPE_ID);
+
+            //写入session之后供SelectDepartment页面使用
+            HttpContext.Current.Session["AssessflowInfo"] = assess_flow;
+            HttpContext.Current.Session["tempVendorID"] = tempVendorID;
+            HttpContext.Current.Session["factory"] = "上海科勒";//TODO:自动三厂选择
+            HttpContext.Current.Session["form_name"] = FORM_NAME;
+            HttpContext.Current.Session["tempVendorName"] = tempVendorName;
+
+            //如果是用户部门
+            if (assess_flow.User_Department_Assess == "1")
+            {
+                LocalScriptManager.CreateScript(page, "popUp('" + formID + "');", "SHOW");
+            }
+            else
+            {
+                //TODO::这里不能这样写，具体参考Creation的写法，这里暂时不改
+                HttpContext.Current.Session["tempvendorname"] = tempVendorName;
+                HttpContext.Current.Session["Employee_ID"] = HttpContext.Current.Session["Employee_ID"];
+                HttpContext.Current.Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx'</script>");
+            }
+
             return true;
         }
 
+        internal static bool submitForm()
+        {
+            //读取session
+            //getSessionInfo();
+
+            SelectDepartment.doSelect();
+            Dictionary<string, string> dc = SelectDepartment.paramInfo;
+
+            //插入到已提交表
+            As_Form form = new As_Form();
+            form.Form_ID = dc["FormID"];
+            form.Form_Type_Name = dc["FormName"];
+            form.Form_Type_ID = dc["FormTypeID"];
+            form.Temp_Vendor_Name = dc["TempVendorName"];
+            form.Form_Path = "";
+            form.Temp_Vendor_ID = dc["TempVendorID"];
+            form.Factory = dc["Factory"];
+            int add = AddForm_BLL.addForm(form);
+
+            //一旦提交就把表As_Vendor_FormType字段FLag置1.
+            int updateFlag = UpdateFlag_BLL.updateFlag(dc["FormTypeID"], dc["TempVendorID"]);
+
+            HttpContext.Current.Response.Redirect("EmployeeVendor.aspx");//TODO::提示成功后跳转
+            return true;
+        }
 
         public static bool doSuccessApprove(string formID, string tempVendorID, string formTypeID, string positionName)
         {
-             int result = isFinalApprove(formID, positionName);
+            int result = isFinalApprove(formID, positionName);
+
+            //写出日志
+            As_Employee ae = Employee_BLL.getEmolyeeById(HttpContext.Current.Session["Employee_ID"].ToString());
+            As_Write aw = new As_Write();
+            aw.Employee_ID = ae.Employee_ID;
+            aw.Form_ID = formID;
+            aw.Form_Fill_Time = DateTime.Now.ToString();
+            aw.Manul = ae.Positon_Name + ae.Employee_Name + ":审批已通过    时间：" + aw.Form_Fill_Time;
+            aw.Manul_Type = As_Write.APPROVE_SUCCESS;
+            aw.Temp_Vendor_ID = tempVendorID;
+            Write_BLL.addWrite(aw);
 
             //最终  即将进行KCI
             if (result == KCI_FINAL)
@@ -97,12 +198,13 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             {
                 Signature_BLL.setSignature(formID, positionName);//签名
                 Signature_BLL.setSignatureDate(formID, positionName);
+                Write_BLL.writeLog(formID, "系统内部审批完成", As_Write.APPROVE_SUCCESS, tempVendorID);
                 return doFinalApprove(formID, tempVendorID, formTypeID, positionName);
             }
             else//非最终  签名
             {
                 //进行签名处理
-                if (Signature_BLL.setSignature(formID, positionName)&&Signature_BLL.setSignatureDate(formID, positionName))
+                if (Signature_BLL.setSignature(formID, positionName)&&Signature_BLL.setSignatureDate(formID, positionName)!=-1)
                 {
                     if (AssessFlow_BLL.updateApprove(formID, positionName) > 0)
                     {
@@ -110,6 +212,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                     }
                 }
             }
+
 
             //签名，写入数据库，图片路径
             return false;
@@ -196,6 +299,15 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             }
             return false;
             //TODO::邮件通知
+        }
+
+        /// <summary>
+        /// 表格审批未通过，状态回滚
+        /// </summary>
+        /// <returns></returns>
+        public static bool resetFormStatus(string formID,string formTypeID,string tempVendorID)
+        {
+            return Approve_BLL.resetFormStatus(formID, formTypeID, tempVendorID);
         }
 
     }

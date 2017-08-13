@@ -19,7 +19,7 @@ namespace BLL
             return AddForm_DAL.GetVendorName(formID);
         }
 
-        public static int deleteForm(string formID)
+        public static bool deleteForm(string formID)
         {
             return AddForm_DAL.deleteForm(formID);
         }

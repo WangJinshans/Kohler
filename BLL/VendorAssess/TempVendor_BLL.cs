@@ -19,5 +19,10 @@ namespace BLL
         {
             return TempVendor_DAL.getTempVendorName(tempVendorID);
         }
+
+        public static bool checkUsed(string tempVendorID, string factoryName)
+        {
+            return TempVendor_DAL.getUsed(tempVendorID, factoryName);
+        }
     }
 }

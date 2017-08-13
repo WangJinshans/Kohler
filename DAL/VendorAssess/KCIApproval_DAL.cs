@@ -32,6 +32,20 @@ namespace DAL
             return DBHelp.ExecuteCommand(sql, sp);
         }
 
+        public static bool deleteKCIApproval(string formID)
+        {
+            string sql = "delete from As_KCI_Approval where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",formID)
+            };
+            if (DBHelp.ExecuteCommand(sql,sp)>0)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public static int rejectKCIApproval(string Form_ID)//在KCI界面进行的操作
         {
             string sql = "delete from As_KCI_Approval where Form_ID=@Form_ID";

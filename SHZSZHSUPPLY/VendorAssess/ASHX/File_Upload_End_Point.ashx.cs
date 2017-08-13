@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
+using System.Web.SessionState;
 
 namespace SHZSZHSUPPLY.VendorAssess.ASHX
 {
     /// <summary>
     /// File_Upload_End_Point 的摘要说明
     /// </summary>
-    public class File_Upload_End_Point : IHttpHandler
+    public class File_Upload_End_Point : IHttpHandler, IRequiresSessionState
     {
 
         public void ProcessRequest(HttpContext context)
@@ -62,6 +63,7 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             file.File_Enable_Time = "100";
             file.File_Due_Time = "200";
             file.File_Type_ID = fileTypeID;
+            file.Factory_Name = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
 
             int join = File_BLL.addFile(file);
             int flag = UpdateFlag_BLL.updateFileFlag(fileTypeID, tempVendorID);
@@ -96,6 +98,8 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             file.File_Enable_Time = "100";
             file.File_Due_Time = "200";
             file.File_Type_ID = fileTypeID;
+            file.Factory_Name = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
+
 
             int join = File_BLL.addFile(file);
             if (join > 0)

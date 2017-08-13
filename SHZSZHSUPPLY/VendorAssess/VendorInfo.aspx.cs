@@ -80,9 +80,10 @@ namespace AendorAssess
             Employee_Vendor.Temp_Vendor_ID = tempVendorID;// Temp_Vendor_ID.Text.Trim();
             Employee_Vendor.Temp_Vendor_Name= Temp_Vendor_Name.Text.Trim();
             Employee_Vendor.Vendor_Type_ID = vendorTypeID;
+            Employee_Vendor.Type = As_Employee_Vendor.NEW_VENDOR;
             int addEmployeeVendor = AddEmployeeVendor_BLL.addEmployeeVendor(Employee_Vendor);
 
-            int bindResult = FillVendorInfo_BLL.addNewVendorFormAndFile(tempVendorID, Promise.Checked, Vendor_Assign.Checked, Advance_Charge.Checked, Purchase_Money.Text.Trim());
+            int bindResult = FillVendorInfo_BLL.addNewVendorFormAndFile(tempVendorID, Promise.Checked, Vendor_Assign.Checked, Advance_Charge.Checked, Purchase_Money.Text.Trim(),Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString()));
             if (bindResult == 1)
             {
                 Response.Write("<script>window.alert('新建成功');window.location.href='index.aspx'</script>");

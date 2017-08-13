@@ -6,9 +6,13 @@
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
+    <link rel="stylesheet" href="Script/layui/css/layui.css" />
 </head>
 <body>
     <form id="form1" runat="server">
+        <div>
+            <a href="./index.aspx" class="layui-btn layui-btn layui-btn-small" style="float:left;margin-right:100px">返回</a>
+        </div>
         <div>
             <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
                 <AlternatingRowStyle BackColor="White" />
@@ -19,12 +23,14 @@
                         SortExpression="Form_Type_Name" />
                     <asp:BoundField DataField="Temp_Vendor_Name" HeaderText="供应商名称"
                         SortExpression="Temp_Vendor_Name" />
+                    <asp:BoundField DataField="Form_Type_ID" HeaderText="表格类型编号"
+                        SortExpression="Form_Type_ID" Visible="false" />
                     <asp:BoundField DataField="DepotSummary" HeaderText="DepotSummary"
                         SortExpression="DepotSummary" Visible="False" />
                     <asp:TemplateField>
                         <ItemTemplate>
                             <asp:LinkButton ID="lbtShowDetails" runat="server" CommandName="showDetails"
-                                CommandArgument='<%# Eval("Form_ID") %>'>开始审批</asp:LinkButton>
+                                CommandArgument='<%# Eval("Form_Type_ID") %>'>开始审批</asp:LinkButton>
                         </ItemTemplate>
                     </asp:TemplateField>
 

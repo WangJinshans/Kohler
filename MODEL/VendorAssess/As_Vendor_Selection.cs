@@ -21,6 +21,7 @@ namespace MODEL.VendorAssess
         private string supplier_Four_ID;
         private string supplier_Five_ID;
         private string temp_Vendor_Name;
+        private string factory_Name;
 
         public string Form_ID
         {
@@ -201,6 +202,19 @@ namespace MODEL.VendorAssess
             set
             {
                 temp_Vendor_Name = value;
+            }
+        }
+
+        public string Factory_Name
+        {
+            get
+            {
+                return factory_Name;
+            }
+
+            set
+            {
+                factory_Name = value;
             }
         }
     }

@@ -38,6 +38,20 @@ namespace DAL
             return Assess_Flow;
         }
 
+        public static bool deleteAssessFlow(string formID)
+        {
+            string sql = "delete from As_Form_AssessFlow where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("Form_ID",formID)
+            };
+            if (DBHelp.ExecuteCommand(sql,sp)>0)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public static As_Form_AssessFlow getFormAssessFlow(string formID)
         {
             string sql = "select * from As_Form_AssessFlow where Form_ID=@Form_ID";

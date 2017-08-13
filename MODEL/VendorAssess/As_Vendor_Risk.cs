@@ -6,6 +6,7 @@ namespace Model
     {
         private string bar_Code;
         private string temp_Vendor_ID;
+        private string factory_Name;
 
         public int ID { get; set; }
 
@@ -126,6 +127,19 @@ namespace Model
             set
             {
                 temp_Vendor_ID = value;
+            }
+        }
+
+        public string Factory_Name
+        {
+            get
+            {
+                return factory_Name;
+            }
+
+            set
+            {
+                factory_Name = value;
             }
         }
     }

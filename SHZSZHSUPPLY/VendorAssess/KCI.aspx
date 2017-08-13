@@ -6,12 +6,16 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
+    <link rel="stylesheet" href="Script/layui/css/layui.css" />
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
  <script src="Script/Own/fileUploader.js"></script>
 </head>
 <body>
     <form id="form1" runat="server">
+        <div>
+            <a href="./index.aspx" class="layui-btn layui-btn layui-btn-small" style="float:left;margin-right:100px">返回</a>
+        </div>
         <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" CellPadding="4" GridLines="None" ForeColor="#333333" OnRowCommand="GridView1_RowCommand">
 						<AlternatingRowStyle BackColor="White" ForeColor="#284775" />
 				<Columns>

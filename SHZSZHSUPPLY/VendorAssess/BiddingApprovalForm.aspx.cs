@@ -53,6 +53,7 @@ namespace AendorAssess
                     biddingApproval.Temp_Vendor_Name = tempVendorName;
                     biddingApproval.Temp_Vendor_ID = tempVendorID;
                     biddingApproval.Flag = 0;//将表格标志位信息改为已填写
+                    biddingApproval.Factory_Name = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString());
 
                     int n = As_Bidding_Approval_BLL.addBiddingForm(biddingApproval);
                     if (n == 0)
@@ -80,7 +81,7 @@ namespace AendorAssess
                 switch (Request["__EVENTTARGET"])
                 {
                     case "submitForm":
-                        submitForm();
+                        LocalApproveManager.submitForm();
                         break;
                     default:
                         break;
@@ -226,7 +227,7 @@ namespace AendorAssess
             //插入到已提交表
             As_Form form = new As_Form();
             form.Form_ID = formID;
-            form.Form_Name = FORM_NAME;
+            form.Form_Type_Name = FORM_NAME;
             form.Form_Type_ID = FORM_TYPE_ID;
             form.Temp_Vendor_Name = tempVendorName;
             form.Form_Path = "";
@@ -350,7 +351,8 @@ namespace AendorAssess
                 saveForm(2, "提交表格");
 
                 //对于用户部门，使用弹出对话框选择
-                newApproveAccess(FORM_TYPE_ID, formID);
+                //newApproveAccess(FORM_TYPE_ID, formID);
+                LocalApproveManager.doApproveWithSelection(Page, formID, FORM_NAME, FORM_TYPE_ID, tempVendorID, tempVendorName, Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString()));
             }
             else
             {

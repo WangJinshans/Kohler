@@ -13,14 +13,37 @@ namespace DAL
     {
         public static int addTempVendor(As_Temp_Vendor Temp_Vendor)
         {
-            string sql = "INSERT INTO As_Temp_Vendor(Temp_Vendor_Name,Vendor_Type_ID,Purchase_Amount)VALUES(@Temp_Vendor_Name,@Vendor_Type_ID,@Purchase_Amount)";
+            string sql = "INSERT INTO As_Temp_Vendor(Temp_Vendor_Name,Vendor_Type_ID,Purchase_Amount,SH,ZS,ZH)VALUES(@Temp_Vendor_Name,@Vendor_Type_ID,@Purchase_Amount,@SH,@ZS,@ZH)";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_Name",Temp_Vendor.Temp_Vendor_Name),
                 new SqlParameter("@Vendor_Type_ID",Temp_Vendor.Vendor_Type_ID),
-                new SqlParameter("@Purchase_Amount",Temp_Vendor.Purchase_Amount)
+                new SqlParameter("@Purchase_Amount",Temp_Vendor.Purchase_Amount),
+                new SqlParameter("@SH",Temp_Vendor.SH),
+                new SqlParameter("@ZS",Temp_Vendor.ZS),
+                new SqlParameter("@ZH",Temp_Vendor.ZH)
             };
             return DBHelp.GetScalar(sql, sp);
+        }
+
+        public static bool getUsed(string tempVendorID, string factoryName)
+        {
+            string sql = "select * From As_Temp_Vendor where Temp_Vendor_ID=@Temp_Vendor_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Temp_Vendor_ID",tempVendorID)
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count>0)
+            {
+                if (dt.Rows[0]["SH"].ToString().Equals(factoryName)||
+                    dt.Rows[0]["ZS"].ToString().Equals(factoryName)||
+                    dt.Rows[0]["ZH"].ToString().Equals(factoryName))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public static string getTempVendorName(string tempVendorID)
@@ -62,7 +85,7 @@ namespace DAL
             return tempVendorID;
         }
 
-        public static int addBindVendorFormAndFile(string tempVendorID, bool promise, bool assign, bool charge, string money)
+        public static int addBindVendorFormAndFile(string tempVendorID, bool promise, bool assign, bool charge, string money,string factory)
         {
             SqlCommand cmd = new SqlCommand("newVendorProcedure", DBHelp.Connection);
             SqlParameter[] sp = new SqlParameter[]
@@ -71,7 +94,8 @@ namespace DAL
                 new SqlParameter("@promise",promise.ToString()),
                 new SqlParameter("@assign",assign.ToString()),
                 new SqlParameter("@charge",charge.ToString()),
-                new SqlParameter("@money",Convert.ToInt32(money))
+                new SqlParameter("@money",Convert.ToInt32(money)),
+                new SqlParameter("@factory",factory.ToString())
             };
             SqlParameter paramReturn = new SqlParameter("@return", SqlDbType.Int);
             paramReturn.Direction = ParameterDirection.ReturnValue;

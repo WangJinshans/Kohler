@@ -69,11 +69,12 @@ namespace DAL.VendorAssess
 
         public static int addVendorBiddingApprovalForm(As_Bidding_Approval vendorApproval)
         {
-            string sql = "insert into As_Bidding_Approval_Form(Temp_Vendor_ID,Flag)values(@Temp_Vendor_ID,@Flag)";
+            string sql = "insert into As_Bidding_Approval_Form(Temp_Vendor_ID,Flag,Factory_Name)values(@Temp_Vendor_ID,@Flag,@Factory_Name)";
             SqlParameter[] sp = new SqlParameter[]
             {
                new SqlParameter("@Temp_Vendor_ID",vendorApproval.Temp_Vendor_ID),
-               new SqlParameter("@Flag",vendorApproval.Flag)
+               new SqlParameter("@Flag",vendorApproval.Flag),
+               new SqlParameter("@Factory_Name",vendorApproval.Factory_Name)
             };
             return DBHelp.GetScalar(sql, sp);
         }

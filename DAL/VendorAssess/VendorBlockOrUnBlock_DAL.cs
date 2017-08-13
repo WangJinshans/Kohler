@@ -12,11 +12,12 @@ namespace DAL
     {
         public static int addVendorBlock(As_Vendor_Block_Or_UnBlock Block_UnBlock) //初始化表格赋值表格编号和表格种类编号
         {
-            string sql = "insert into As_Vendor_Block_Or_UnBlock(Temp_Vendor_Name,Flag)values(@Temp_Vendor_Name,@Flag)";
+            string sql = "insert into As_Vendor_Block_Or_UnBlock(Temp_Vendor_Name,Flag,Factory_Name)values(@Temp_Vendor_Name,@Flag,@Factory_Name)";
             SqlParameter[] sp = new SqlParameter[]
             {
                new SqlParameter("@Temp_Vendor_Name",Block_UnBlock.Temp_Vendor_Name),
-               new SqlParameter("@Flag",Block_UnBlock.Flag)
+               new SqlParameter("@Flag",Block_UnBlock.Flag),
+               new SqlParameter("@Factory_Name",Block_UnBlock.Factory_Name)
             };
             return DBHelp.GetScalar(sql, sp);
 
