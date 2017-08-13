@@ -162,7 +162,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             form.Temp_Vendor_Name = dc["TempVendorName"];
             form.Form_Path = "";
             form.Temp_Vendor_ID = dc["TempVendorID"];
-            form.Factory = dc["Factory"];
+            form.Factory_Name = dc["Factory"];
             int add = AddForm_BLL.addForm(form);
 
             //一旦提交就把表As_Vendor_FormType字段FLag置1.
