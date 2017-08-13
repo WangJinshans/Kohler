@@ -22,7 +22,7 @@ namespace DAL
                 new SqlParameter("Form_Type_ID",form.Form_Type_ID),
                 new SqlParameter("Temp_Vendor_Name",form.Temp_Vendor_Name),
                 new SqlParameter("Temp_Vendor_ID",form.Temp_Vendor_ID),
-                new SqlParameter("Factory_Name",form.Factory)
+                new SqlParameter("Factory_Name",form.Factory_Name)
             };
             return DBHelp.GetScalar(sql, sp);
         }
