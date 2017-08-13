@@ -1,7 +1,6 @@
 ﻿using DAL;
-using System.Collections;
 using System.Collections.Generic;
-using System;
+using System.Data;
 
 namespace BLL
 {
@@ -42,6 +41,11 @@ namespace BLL
         {
             //获取该表是否可选
             return FormType_DAL.getOptional(selectedFormPriorityNumber);
+        }
+        public static string getOptional(string formID)
+        {
+            //获取该表是否可选
+            return FormType_DAL.getOptional(formID);
         }
 
         public static bool withOutAccess(int number, string temp_vendor_ID)
@@ -105,6 +109,21 @@ namespace BLL
             {
                 return false;
             }
+        }
+
+        public static string getFormNameByTypeID(string form_Type_ID)
+        {
+            DataTable table = new DataTable();
+            string formName = "";
+            table = FormType_DAL.getFormNameByTypeID(form_Type_ID);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    formName = dr["Form_Type_Name"].ToString().Trim();
+                }
+            }
+            return formName;
         }
     }
 }

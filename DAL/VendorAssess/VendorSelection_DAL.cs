@@ -27,13 +27,16 @@ namespace DAL.VendorAssess
             return flag;
         }
 
-        public static string getFormID(string tempVendorID)
+        public static string getFormID(string tempVendorID,string form_Name,string factory)
         {
             string formID = "";
-            string sql = "select Form_ID from As_Vendor_Selection where Temp_Vendor_ID=@Temp_Vendor_ID";
+            string sql = "select Form_ID from As_NewForms_ID where Temp_Vendor_ID=@Temp_Vendor_ID and Form_ID=@Form_ID and Factory_Name=@Factory_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("Temp_Vendor_ID",tempVendorID)
+                new SqlParameter("@Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("@Form_Name",form_Name),
+                new SqlParameter("@Factory_Name",factory)
+
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)
@@ -56,6 +59,21 @@ namespace DAL.VendorAssess
             DataTable dt = DBHelp.GetDataSet(sql, sp);
 
             return dt.Rows.Count > 0 ? 1 : 0; 
+        }
+
+        public static int SubmitOk(string formID)
+        {
+            int submit = -1;
+            string sql = "select Submit from As_Vendor_Selection WHERE Form_ID='" + formID + "'";
+            DataTable dt = DBHelp.GetDataSet(sql);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    submit = Convert.ToInt32(dr["Submit"]);
+                }
+            }
+            return submit;
         }
 
         public static int addVendorSelection(As_Vendor_Selection vendor_Selection)
@@ -98,6 +116,7 @@ namespace DAL.VendorAssess
                     vendorSelection.Supplier_Four_ID = Convert.ToString(dr["Supplier_Four_ID"]);
                     vendorSelection.Supplier_Five_ID = Convert.ToString(dr["Supplier_Five_ID"]);
                     vendorSelection.Temp_Vendor_Name = Convert.ToString(dr["Temp_Vendor_Name"]);
+                    vendorSelection.Factory_Name= Convert.ToString(dr["Factory_Name"]);
                 }
             }
             return vendorSelection;

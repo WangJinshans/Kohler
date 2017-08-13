@@ -82,6 +82,21 @@ namespace DAL
             return optional;
         }
 
+        public static string getOptional(string formID)
+        {
+            string sql = "select As_Form_Type.Form_Type_Is_Optional from As_Form_Type,As_Form where As_Form_Type.Form_Type_ID=As_Form.Form_Type_ID and As_Form.Form_ID='" + formID + "'";
+            DataTable dt = DBHelp.GetDataSet(sql);
+            string optional = "";
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    optional = dr["Form_Type_Is_Optional"].ToString();
+                }
+            }
+            return optional;
+        }
+
         public static List<int> getRequiredNumbers(string temp_Vendor_ID)
         {
             List<int> numbers = new List<int>();
@@ -98,6 +113,12 @@ namespace DAL
                 return numbers;
             }
             return null;
+        }
+
+        public static DataTable getFormNameByTypeID(string form_Type_ID)
+        {
+            string sql = "select Form_Type_Name from As_Form_Type where Form_Type_ID='" + form_Type_ID + "'";
+            return DBHelp.GetDataSet(sql);
         }
 
         /// <summary>

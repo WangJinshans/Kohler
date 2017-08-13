@@ -10,6 +10,7 @@ namespace AendorAssess
     public partial class EmployeeVendor : System.Web.UI.Page
     {
         private static string temp_Vendor_ID;//可能因为得不到值  所以加了static
+        private static string factory_Name;
         private static IList<As_Vendor_FormType> list = new List<As_Vendor_FormType>();
         /// <summary>
         /// Page Load
@@ -18,6 +19,7 @@ namespace AendorAssess
         /// <param name="e"></param>
         protected void Page_Load(object sender, EventArgs e)
         {
+            factory_Name = Session["Factory_Name"].ToString().Trim();
             if (!IsPostBack)
             {
                 //TODO::处理session过期问题,封装数据库操作到DAL层
@@ -55,7 +57,7 @@ namespace AendorAssess
                 IList<As_Vendor_FormType> gridView2list = new List<As_Vendor_FormType>();
                 gridView2list= SelectEmployeeVendor_BLL.listVendorFormType(sql);
 
-                //提交判断的list status中1代表已经完成审批 0代表未完成审批
+                
                 //string sql1 = "SELECT * FROM As_Form_Type,As_Form WHERE As_Form_Type.Form_Type_ID=As_Form.Form_Type_ID and Temp_Vendor_ID='" + e.CommandArgument.ToString() + "'and Status='1'";
                 //list = SelectEmployeeVendor_BLL.listVendorFormType(sql1);
 
@@ -67,18 +69,13 @@ namespace AendorAssess
                 GridView2.DataBind();
 
                 //TODO::查询所有待确认表格
-
                 //根据供应商类型编号查询所有已提交表格
                 As_Form form = new As_Form();
-                string sql2 = String.Format("SELECT * FROM As_Form WHERE Temp_Vendor_ID='{0}' and Factory_Name='{1}'", e.CommandArgument.ToString(), factoryName);
+                string sql2 = String.Format("SELECT * FROM As_Form WHERE Temp_Vendor_ID='{0}' and Factory_Name='{1}' and Status='new'", e.CommandArgument.ToString(), factoryName);
                 PagedDataSource objpds2 = new PagedDataSource();
                 objpds2.DataSource = SelectForm_BLL.selectForm(sql2);
-                //获取数据源
                 GridView3.DataSource = objpds2;
-                //绑定数据源
                 GridView3.DataBind();
-
-
                 //根据供应商类型编号查询所有待上传文件
                 string sql3 = String.Format("SELECT * FROM As_Vendor_FileType WHERE flag=0 and Temp_Vendor_ID='{0}' and Factory_Name='{1}'", e.CommandArgument.ToString(), factoryName);
                 PagedDataSource objpds3 = new PagedDataSource();
@@ -88,10 +85,9 @@ namespace AendorAssess
                 //绑定数据源
                 GridView4.DataBind();
 
-                //根据供应商类型编号查询所有已上传文件
+                //根据供应商类型编号查询所有已上传文件 
                 As_File file = new As_File();
-                string sql4 = String.Format("SELECT * FROM As_File WHERE Temp_Vendor_ID='{0}' and Factory_Name in ('{1}','ALL')", e.CommandArgument.ToString(), factoryName);
-                //string sql4 = "SELECT * FROM As_File WHERE Temp_Vendor_ID='" + e.CommandArgument.ToString() + "' and Factory_Name='" + factoryName + "'";
+                string sql4 = String.Format("SELECT * FROM As_File WHERE Temp_Vendor_ID='{0}' and Factory_Name in ('{1}','ALL') and Status='new'", e.CommandArgument.ToString(), factoryName);
                 PagedDataSource objpds4 = new PagedDataSource();
                 objpds4.DataSource = File_BLL.selectFile(sql4);
                 //获取数据源
@@ -291,7 +287,7 @@ namespace AendorAssess
                 string tempVendorName = Session["tempvendorname"].ToString();
                 string fileTypeID = GridView4.Rows[drv.RowIndex].Cells[2].Text;
                 string requestType = "fileUpload";
-                LocalScriptManager.CreateScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}')",requestType,tempVendorID,tempVendorName,fileTypeID), "upload");
+                LocalScriptManager.CreateScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}','{4}')",requestType,tempVendorID,tempVendorName,fileTypeID,factory_Name), "upload");
             }
         }
 
@@ -355,8 +351,6 @@ namespace AendorAssess
                         Response.Redirect(aimPageName + "?submit=" + "no");
                     }
                 }
-
-                
             }
             if (optional == "必选")
             {

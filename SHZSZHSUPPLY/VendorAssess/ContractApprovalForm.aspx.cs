@@ -16,6 +16,7 @@ namespace SHZSZHSUPPLY.VendorAssess
     {
         public const string FORM_NAME = "合同审批表";
         public const string FORM_TYPE_ID = "005";
+        private static string factory = "";
         private string tempVendorID = "";
         private string tempVendorName = "";
         private string formID = "";
@@ -133,6 +134,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             form.Temp_Vendor_Name = tempVendorName;
             form.Form_Path = "";
             form.Temp_Vendor_ID = tempVendorID;
+            form.Factory_Name = factory;
             int add = AddForm_BLL.addForm(form);
             //一旦提交就把表As_Vendor_FormType字段FLag置1.
             int updateFlag = UpdateFlag_BLL.updateFlag(FORM_TYPE_ID, tempVendorID);
@@ -389,8 +391,9 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
+            factory = Session["Factory_Name"].ToString().Trim();
             submit = Request.QueryString["submit"];
-            formID = ContractApproval_BLL.getFormID(tempVendorID);//获取FormID
+            formID = ContractApproval_BLL.getFormID(tempVendorID,FORM_NAME,factory);//获取FormID
         }
 
         protected void Button2_Click(object sender, EventArgs e)
@@ -401,7 +404,8 @@ namespace SHZSZHSUPPLY.VendorAssess
         protected void Button1_Click(object sender, EventArgs e)
         {
             getSessionInfo();
-
+            int submits = 1;
+            submits = ContractApproval_BLL.SubmitOk(formID);
             if (submit == "yes")
             {
                 saveForm(2, "提交表格");
@@ -475,7 +479,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             contractApproval.Payment_Terms_Page = Textbox11.Text;
             contractApproval.Contract_EndTime = Textbox86.Text;
             contractApproval.Payment_Terms_Details = Textbox13.Text;
-            //contractApproval.Fin_Leader = Textbox14.Text;
+            //contractApproval.Fin_Leader = Textbox14.Text;xunlei
             contractApproval.Price_Adjustment_Page = Textbox16.Text;
             contractApproval.Price_Adjustment_Clause = Textbox17.Text;
             contractApproval.Price_Adjustment_Details = Textbox19.Text;

@@ -182,15 +182,16 @@
     <div id="fine-uploader-validation" style="min-height: 260px"></div>
 
     <script>
-        var requestType, tempVendorID, tempVendorName, fileTypeID;
+        var requestType, tempVendorID, tempVendorName, fileTypeID, factory_Name;
         var resultJSON;
 
         
-        function setOwnParams(type,vendorID,vendorName,typeID) {
+        function setOwnParams(type,vendorID,vendorName,typeID,factory) {
             tempVendorID = vendorID;
             tempVendorName = vendorName;
             fileTypeID = typeID;
             requestType = type;
+            factory_Name = factory;//厂
         }
 
         function getUploadResult() {
@@ -269,7 +270,8 @@
                 requestType: requestType,
                 tempVendorID: tempVendorID,
                 tempVendorName: tempVendorName,
-                fileTypeID: fileTypeID
+                fileTypeID: fileTypeID,
+                factory_Name: "test"
             });
             restrictedUploader.uploadStoredFiles();
         }

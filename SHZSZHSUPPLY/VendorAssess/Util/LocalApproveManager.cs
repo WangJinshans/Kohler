@@ -292,8 +292,13 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
         {
             int rs1 = AssessFlow_BLL.updateApprove(formID, positionName);
             int rs2 = UpdateFlag_BLL.updateFlagAsApproved(formTypeID, tempVendorID);
-
-            if (rs1>0 && rs2>0)
+            int times = FormOverDue_BLL.getLastedForm(formID);
+            int rs3 = 1;//之所以为1 是为了在times=0的时候不会造成任何影响
+            if (times > 0) //表示过期重新审批到了最后一个  需要把重新审批的表的标签 改成已通过
+            {
+                rs3 = UpdateFlag_BLL.updateReAccessFormStatus(formID, tempVendorID);//成功返回2 失败返回-1
+            }
+            if (rs1>0 && rs2>0 && rs3>0)
             {
                 return true;
             }

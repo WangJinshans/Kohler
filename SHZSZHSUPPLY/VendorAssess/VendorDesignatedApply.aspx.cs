@@ -11,6 +11,7 @@ namespace VendorAssess
     {
         public const string FORM_NAME = "指定供应商申请表";
         public const string FORM_TYPE_ID = "004";
+        private static string factory;
         private string tempVendorID = "";
         private string tempVendorName = "";
         private string formID = "";
@@ -107,7 +108,8 @@ namespace VendorAssess
         {
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
-            formID = As_Vendor_Designated_Apply_BLL.getFormID(tempVendorID);
+            factory= Session["Factory_Name"].ToString().Trim();
+            formID = As_Vendor_Designated_Apply_BLL.getFormID(tempVendorID,FORM_NAME,factory);
             submit = Request.QueryString["submit"];
         }
 
@@ -199,6 +201,7 @@ namespace VendorAssess
             form.Temp_Vendor_Name = tempVendorName;
             form.Form_Path = "";
             form.Temp_Vendor_ID = tempVendorID;
+            form.Factory_Name = factory;
             int add = AddForm_BLL.addForm(form);
 
             Response.Redirect("EmployeeVendor.aspx");
@@ -304,7 +307,9 @@ namespace VendorAssess
         public void Button1_Click(object sender, EventArgs e)//提交按钮
         {
             getSessionInfo();
-            if (submit == "yes")
+            int submits = 1;
+            submits = As_Vendor_Designated_Apply_BLL.SubmitOk(formID);
+            if (submit == "yes" && submits == 0)
             {
                 //形成参数
                 As_Vendor_Designated_Apply Vendor_Designated = saveForm(2, "提交表格");

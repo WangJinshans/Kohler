@@ -12,6 +12,7 @@ namespace AendorAssess
         public const string FORM_TYPE_ID = "001";
         private string tempVendorID = "";
         private string tempVendorName = "";
+        private string factory = "";
         private string formID = "";
         private string submit = "";
 
@@ -213,6 +214,7 @@ namespace AendorAssess
             form.Temp_Vendor_Name = tempVendorName;
             form.Form_Path = "";
             form.Temp_Vendor_ID = tempVendorID;
+            form.Factory_Name = factory;
             int add = AddForm_BLL.addForm(form);
 
             //一旦提交就把表As_Vendor_FormType字段FLag置1.
@@ -408,7 +410,8 @@ namespace AendorAssess
         {
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
-            formID = VendorDiscovery_BLL.getFormID(tempVendorID);
+            factory= Session["Factory_Name"].ToString().Trim();
+            formID = VendorDiscovery_BLL.getFormID(tempVendorID,FORM_NAME,factory);
             submit = Request.QueryString["submit"];
         }
 
@@ -416,12 +419,18 @@ namespace AendorAssess
         {
             //重新获取session信息和get信息
             getSessionInfo();
-
-            if (submit == "yes")
+            int submits = 1;
+            submits = VendorDiscovery_BLL.SubmitOk(formID);//为1表示已经提交过了  不能再次提交了
+            if (submit == "yes" && submits == 0)
             {
                 //形成参数
                 As_Vendor_Discovery Vendor_Discovery = saveForm(2, "提交表格");
-
+                //更改表格是否可再次提交的标志
+                int result = UpdateFlag_BLL.setFormUnSubmit(formID);
+                if (result == -1)
+                {
+                    return;//失败
+                }
                 //对于用户部门，使用弹出对话框选择
                 //newApproveAccess(FORM_TYPE_ID, formID);
                 LocalApproveManager.doApproveWithSelection(Page,formID, FORM_NAME, FORM_TYPE_ID, tempVendorID, tempVendorName, Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString()));

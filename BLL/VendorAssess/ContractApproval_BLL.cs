@@ -1,4 +1,6 @@
-﻿using DAL;
+﻿using System;
+using BLL.VendorAssess;
+using DAL;
 using MODEL;
 
 namespace BLL
@@ -18,10 +20,10 @@ namespace BLL
             return ContractApproval_DAL.getContractApprovalFlag(formID);
         }
 
-        public static string getFormID(string tempVendorID)
+        public static string getFormID(string tempVendorID,string form_Name,string factory)
         {
 
-            return ContractApproval_DAL.getFormID(tempVendorID);
+            return ContractApproval_DAL.getFormID(tempVendorID,form_Name,factory);
         }
 
         public static int addContractApproval(As_Contract_Approval vendorContract)//添加表
@@ -38,6 +40,11 @@ namespace BLL
         public static As_Contract_Approval getContractApproval(string formID)
         {
             return ContractApproval_DAL.getContractApproval(formID);
+        }
+
+        public static int SubmitOk(string formID)
+        {
+            return ContractApproval_DAL.SubmitOk(formID);
         }
     }
 }

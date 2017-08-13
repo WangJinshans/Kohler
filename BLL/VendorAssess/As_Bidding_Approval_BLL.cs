@@ -21,20 +21,34 @@ namespace BLL.VendorAssess
         {
             return As_Bidding_Approval_DAL.addVendorBiddingApprovalForm(vendorApproval);
         }
+        public static string over_NewBiddingForm(As_Bidding_Approval vendorApproval)//添加表
+        {
+            return null;
+            //return As_Bidding_Approval_DAL.over_NewBiddingForm(vendorApproval);
+        }
 
         public static int updateBiddingForm(As_Bidding_Approval vendorApproval)
         {
             return As_Bidding_Approval_DAL.updateVendorBiddingApprovalForm(vendorApproval);
         }
 
-        public static string getFormID(string tempVendorID)
+        public static string getFormID(string tempVendorID,string form_name,string factory)
         {
-            return As_Bidding_Approval_DAL.getFormID(tempVendorID);
+            return As_Bidding_Approval_DAL.getFormID(tempVendorID, form_name, factory);
         }
 
         public static As_Bidding_Approval getBiddingForm(string formID)
         {
             return As_Bidding_Approval_DAL.getVendorBiddingApprovalForm(formID);
+        }
+        public static As_Bidding_Approval getBiddingForm(string formID,int times)
+        {
+            return As_Bidding_Approval_DAL.getVendorBiddingApprovalForm(formID);
+        }
+
+        public static int SubmitOk(string formID)
+        {
+            return As_Bidding_Approval_DAL.SubmitOk(formID);
         }
     }
 }

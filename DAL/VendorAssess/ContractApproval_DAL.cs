@@ -40,13 +40,31 @@ namespace DAL
             return vendorContract.Flag;
         }
 
-        public static string getFormID(string tempVendorID)
+        public static int SubmitOk(string formID)
+        {
+            int submit = -1;
+            string sql = "select Submit from As_Contract_Approval WHERE Form_ID='" + formID + "'";
+            DataTable dt = DBHelp.GetDataSet(sql);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    submit = Convert.ToInt32(dr["Submit"]);
+                }
+            }
+            return submit;
+        }
+
+        public static string getFormID(string tempVendorID,string form_Name,string factory)
         {
             string formID = "";
-            string sql = "select Form_ID from As_Contract_Approval where Temp_Vendor_ID=@Temp_Vendor_ID";
+            string sql = "select Form_ID from As_NewForms_ID where Temp_Vendor_ID=@Temp_Vendor_ID and Form_Name=@Form_Name and Factory_Name=@Factory_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("Temp_Vendor_ID",tempVendorID)
+                new SqlParameter("@Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("@Form_Name",form_Name),
+                new SqlParameter("@Factory_Name",factory)
+
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)
@@ -423,6 +441,8 @@ namespace DAL
                     vendorContract.Legal_Head = item["Legal_Affair_Department"].ToString().Trim();
                     vendorContract.Form_ID = item["Form_ID"].ToString().Trim();
                     vendorContract.Standard_Contract = item["Standard_Contract"].ToString().Trim();
+                    vendorContract.Temp_Vendor_ID= item["Temp_Vendor_ID"].ToString().Trim();
+                    vendorContract.Factory_Name= item["Factory_Name"].ToString().Trim();
                 }
                 return vendorContract;
             }

@@ -44,6 +44,21 @@ namespace DAL
             return DBHelp.ExecuteCommand(sql, sp);
         }
 
+        public static int SubmitOk(string formID)
+        {
+            int submit = -1;
+            string sql = "select Submit from As_Vendor_Designated_Apply WHERE Form_ID='" + formID + "'";
+            DataTable dt = DBHelp.GetDataSet(sql);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    submit = Convert.ToInt32(dr["Submit"]);
+                }
+            }
+            return submit;
+        }
+
         public static As_Vendor_Designated_Apply getForm(object FormId)
         {
             As_Vendor_Designated_Apply vendorApply = null;
@@ -88,6 +103,7 @@ namespace DAL
                     vendorApply.Temp_Vendor_ID = Convert.ToString(dr["Temp_Vendor_ID"]);
                     vendorApply.Form_Type_ID = Convert.ToString(dr["Form_Type_ID"]);
                     vendorApply.Flag = Convert.ToInt32(dr["Flag"]);
+                    vendorApply.Factory_Name= Convert.ToString(dr["Factory_Name"]);
                 }
             }
             return vendorApply;
@@ -112,13 +128,15 @@ namespace DAL
             return flag;
         }
 
-        public static string getFormID(string tempVendorID)
+        public static string getFormID(string tempVendorID,string form_Name,string factory)
         {
             string formID = "";
-            string sql = "select Form_ID from As_Vendor_Designated_Apply where Temp_Vendor_ID=@Temp_Vendor_ID";
+            string sql = "select Form_ID from As_NewForms_ID where Temp_Vendor_ID=@Temp_Vendor_ID and Fomr_Name=@Form_Name and Factory_Name=@Factory_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("Temp_Vendor_ID",tempVendorID)
+                new SqlParameter("Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("@Form_Name",form_Name),
+                new SqlParameter("@Factory_Name",factory)
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)

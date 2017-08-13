@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Model;
+using BLL.VendorAssess;
 
 namespace BLL
 {
@@ -54,9 +55,9 @@ namespace BLL
             return VendorRiskAnalysis_DAL.updateVendorRisk(vendorRisk,list);
         }
 
-        public static string getFormID(string tempVendorID)
+        public static string getFormID(string tempVendorID,string form_name,string factory)
         {
-            return VendorRiskAnalysis_DAL.getFormID(tempVendorID);
+            return VendorRiskAnalysis_DAL.getFormID(tempVendorID, form_name, factory);
         }
 
         public static Dictionary<string, string> checkNotes(string formID)
@@ -68,6 +69,11 @@ namespace BLL
                 dc.Add(item.Property_Name, item.Notes);
             }
             return dc;
+        }
+
+        public static int SubmitOk(string formID)
+        {
+            return VendorRiskAnalysis_DAL.SubmitOk(formID);
         }
     }
 }

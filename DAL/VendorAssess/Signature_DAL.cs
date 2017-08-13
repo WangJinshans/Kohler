@@ -29,7 +29,17 @@ namespace DAL.VendorAssess
         }
         public static int SignatureDate(string sql)
         {
-            return DBHelp.ExecuteCommand(sql);
+            int result;
+            try
+            {
+                DBHelp.ExecuteCommand(sql);
+                result = 1;
+            }
+            catch (Exception e)
+            {
+                result = 2;
+            }
+            return result;
         }
     }
 }

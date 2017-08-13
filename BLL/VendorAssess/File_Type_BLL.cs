@@ -14,5 +14,9 @@ namespace BLL
         {
             return File_Type_DAL.selectFileTypeName(FileTypeID);
         }
+        public static string selectFileTypeID(string FileTypeName)
+        {
+            return File_Type_DAL.selectFileTypeID(FileTypeName);
+        }
     }
 }

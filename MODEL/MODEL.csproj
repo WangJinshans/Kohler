@@ -58,13 +58,16 @@
     <Compile Include="VendorAssess\As_Employee_Vendor.cs" />
     <Compile Include="VendorAssess\As_File.cs" />
     <Compile Include="VendorAssess\As_FileType_FormType.cs" />
+    <Compile Include="VendorAssess\As_File_OverDue.cs" />
     <Compile Include="VendorAssess\As_File_Type.cs" />
     <Compile Include="VendorAssess\As_Form.cs" />
     <Compile Include="VendorAssess\As_Form_AssessFlow.cs" />
     <Compile Include="VendorAssess\As_Form_EditFlow.cs" />
     <Compile Include="VendorAssess\As_Form_File.cs" />
+    <Compile Include="VendorAssess\As_Form_OverDue.cs" />
     <Compile Include="VendorAssess\As_Form_Type.cs" />
     <Compile Include="VendorAssess\As_KCI_Approval.cs" />
+    <Compile Include="VendorAssess\As_New_Forms.cs" />
     <Compile Include="VendorAssess\As_Position.cs" />
     <Compile Include="VendorAssess\As_Temp_Vendor.cs" />
     <Compile Include="VendorAssess\As_VendorType_FileType.cs" />
@@ -76,6 +79,7 @@
     <Compile Include="VendorAssess\As_Vendor_Extend.cs" />
     <Compile Include="VendorAssess\As_Vendor_FileType.cs" />
     <Compile Include="VendorAssess\As_Vendor_FormType.cs" />
+    <Compile Include="VendorAssess\As_Vendor_Form_Type.cs" />
     <Compile Include="VendorAssess\As_Vendor_Risk.cs" />
     <Compile Include="VendorAssess\As_Vendor_Risk_Notes.cs" />
     <Compile Include="VendorAssess\As_Vendor_Selection.cs" />

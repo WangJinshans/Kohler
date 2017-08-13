@@ -2,44 +2,55 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace Model
+namespace MODEL.VendorAssess
 {
-    public class As_Vendor_FileType
+    public class As_Vendor_Form_Type
     {
         private string temp_Vendor_ID;
-        private string fileType_ID;
-        private string fileType_Name;
+        private string form_Type_ID;
+        private string temp_Vendor_Name;
         private int flag;
-        private string file_ID;
+        private string form_Type_Name;
+        private string form_ID;
         private string factory_Name;
 
-
-
-        public string FileType_ID
+        public string Temp_Vendor_ID
         {
             get
             {
-                return fileType_ID;
+                return temp_Vendor_ID;
             }
 
             set
             {
-                fileType_ID = value;
+                temp_Vendor_ID = value;
             }
         }
 
-        public string FileType_Name
+        public string Form_Type_ID
         {
             get
             {
-                return fileType_Name;
+                return form_Type_ID;
             }
 
             set
             {
-                fileType_Name = value;
+                form_Type_ID = value;
+            }
+        }
+
+        public string Temp_Vendor_Name
+        {
+            get
+            {
+                return temp_Vendor_Name;
+            }
+
+            set
+            {
+                temp_Vendor_Name = value;
             }
         }
 
@@ -56,30 +67,29 @@ namespace Model
             }
         }
 
-
-        public string Temp_Vendor_ID
+        public string Form_Type_Name
         {
             get
             {
-                return temp_Vendor_ID;
+                return form_Type_Name;
             }
 
             set
             {
-                temp_Vendor_ID = value;
+                form_Type_Name = value;
             }
         }
 
-        public string File_ID
+        public string Form_ID
         {
             get
             {
-                return file_ID;
+                return form_ID;
             }
 
             set
             {
-                file_ID = value;
+                form_ID = value;
             }
         }
 

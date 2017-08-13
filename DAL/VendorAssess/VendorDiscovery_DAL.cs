@@ -31,6 +31,21 @@ namespace DAL
 
         }
 
+        public static int SubmitOk(string formId)
+        {
+            int submit = -1;
+            string sql = "select Submit from As_Vendor_Discovery WHERE Form_ID='" + formId + "'";
+            DataTable dt = DBHelp.GetDataSet(sql);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    submit = Convert.ToInt32(dr["Submit"]);
+                }
+            }
+            return submit;
+        }
+
         public static int updateVendorDiscovery(As_Vendor_Discovery Vendor_Discovery)//更新供应商调查表
         {
             string sql = "update As_Vendor_Discovery set Temp_Vendor_Name=@Temp_Vendor_Name,Legal_Person=@Legal_Person, Address=@Address,Tel=@Tel,Fax=@Fax,Product_Name_One=@Product_Name_One,Size_One=@Size_One,Quality_One=@Quality_One, Product_Name_Two =@Product_Name_Two, Size_Two =@Size_Two,Quality_Two =@Quality_Two,Product_Name_Three=@Product_Name_Three ,Size_Three =@Size_Three,Quality_Three =@Quality_Three,Position_Environment_One=@Position_Environment_One,Envir_Protection_System_One=@Envir_Protection_System_One, Position_Environment_Two = @Position_Environment_Two,Envir_Protection_System_Two = @Envir_Protection_System_Two, Position_Environment_Three = @Position_Environment_Three,Envir_Protection_System_Three = @Envir_Protection_System_Three, Product_Ability =@Product_Ability,Last_Sale=@Last_Sale,Main_CusMark_One=@Main_CusMark_One,Main_CusMark_Two =@Main_CusMark_Two,Main_CusMark_Three=@Main_CusMark_Three,Register_Capital = @Register_Capital, Fixed_Assets = @Fixed_Assets, Flow_Capital = @Flow_Capital,Pay_Condition = @Pay_Condition,Employee_Num = @Employee_Num,Manager = @Manager,Quality_Person = @Quality_Person, Tech_Person = @Tech_Person,Company_Area = @Company_Area, Factory_Area = @Factory_Area,Entrepot_Area = @Entrepot_Area,Week_Turn_Num = @Week_Turn_Num,Week_Wrok_Time = @Week_Wrok_Time,Produce_Load = @Produce_Load,Product_material_One = @Product_material_One,Region_One = @Region_One,Material_Store_Conditon_One = @Material_Store_Conditon_One,Product_material_Two = @Product_material_Two,Region_Two = @Region_Two,Material_Store_Conditon_Two = @Material_Store_Conditon_Two, Product_material_Three = @Product_material_Three ,Region_Three = @Region_Three, Material_Store_Conditon_Three = @Material_Store_Conditon_Three,ISO = @ISO ,Transport = @Transport, Check_Device = @Check_Device,Send_Ability = @Send_Ability, Purchase_Period = @Purchase_Period,Min_Order_Num = @Min_Order_Num,Vendor_Participate = @Vendor_Participate,Produce_Flow = @Produce_Flow,Product_Book_Flow = @Product_Book_Flow ,Manage_Dimension = @Manage_Dimension,Employee_Experience = @Employee_Experience,File_Time = @File_Time,Conclusion = @Conclusion,Device_Name=@Device_Name,Device_Size=@Device_Size,Device_Year=@Device_Year,Device_Factory=@Device_Factory,Device_Condition=@Device_Condition,Flag=@Flag where Form_ID=@Form_ID";
@@ -114,13 +129,15 @@ namespace DAL
         /// </summary>
         /// <param name="tempVendorID"></param>
         /// <returns></returns>
-        public static string getFormID(string tempVendorID)
+        public static string getFormID(string tempVendorID,string form_Name,string factory)
         {
             string formID = "";
-            string sql = "select Form_ID from As_Vendor_Discovery where Temp_Vendor_ID=@Temp_Vendor_ID";
+            string sql = "select Form_ID from As_NewForms_ID where Temp_Vendor_ID=@Temp_Vendor_ID and Form_Name=@Form_Name and Factory_Name=@Factory_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("Temp_Vendor_ID",tempVendorID)
+                new SqlParameter("Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("Form_Name",form_Name),
+                new SqlParameter("Factory_Name",factory),
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)
@@ -173,6 +190,7 @@ namespace DAL
                     Vendor_Discovery.Address = Convert.ToString(dr["Address"]);
                     Vendor_Discovery.Tel = Convert.ToString(dr["Tel"]);
                     Vendor_Discovery.Fax = Convert.ToString(dr["Fax"]);
+                    Vendor_Discovery.Temp_Vendor_ID = Convert.ToString(dr["Temp_Vendor_ID"]);
                     Vendor_Discovery.Product_Name_One = Convert.ToString(dr["Product_Name_One"]);
                     Vendor_Discovery.Size_One = Convert.ToString(dr["Size_One"]);
                     Vendor_Discovery.Quality_One = Convert.ToString(dr["Quality_One"]);
@@ -235,6 +253,7 @@ namespace DAL
                     Vendor_Discovery.Purchasing_Manager= Convert.ToString(dr["Purchasing_Manager"]);
                     Vendor_Discovery.Quality_Manager= Convert.ToString(dr["Quality_Dept_Manager"]);
                     Vendor_Discovery.User_Department_Manager = Convert.ToString(dr["User_Department_Manager"]);
+                    Vendor_Discovery.Factory_Name = Convert.ToString(dr["Factory_Name"]);
                 }
 
             }

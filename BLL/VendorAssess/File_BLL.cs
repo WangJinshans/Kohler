@@ -28,5 +28,23 @@ namespace BLL
         {
             return File_DAL.selectFileid(tempVendorID,filetypeid);
         }
+        
+        public static int getLastedFile(string tempVendorID, string filetypeid,string factory_Name)    //返回文件id
+        {
+            List<int> list = new List<int>();
+            int max = -1;
+            list = File_DAL.getLastedFile(tempVendorID, filetypeid, factory_Name);
+            if (list.Count > 0)
+            {
+                foreach (int number in list)
+                {
+                    if (max < number)
+                    {
+                        max = number;//得到最大值 即为最新的文件
+                    }
+                }
+            }
+            return max;
+        }
     }
 }

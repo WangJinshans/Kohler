@@ -50,13 +50,30 @@ namespace DAL.VendorAssess
             return DBHelp.ExecuteCommand(sql, sp);
         }
 
-        public static string getFormID(string tempVendorID)
+        public static int SubmitOk(string formID)
+        {
+            int submit = -1;
+            string sql = "select Submit from As_Vendor_Extend WHERE Form_ID='" + formID + "'";
+            DataTable dt = DBHelp.GetDataSet(sql);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    submit = Convert.ToInt32(dr["Submit"]);
+                }
+            }
+            return submit;
+        }
+
+        public static string getFormID(string tempVendorID,string form_Name,string factory)
         {
             string formID = "";
-            string sql = "select Form_ID from As_Vendor_Extend where Temp_Vendor_ID=@Temp_Vendor_ID";
+            string sql = "select Form_ID from As_Vendor_Extend where Temp_Vendor_ID=@Temp_Vendor_ID and Form_Name=@Form_Name and Factory_Name=Factory_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("Temp_Vendor_ID",tempVendorID)
+                new SqlParameter("@Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("@Form_Name",form_Name),
+                new SqlParameter("@Factory_Name",factory)
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)
@@ -87,7 +104,7 @@ namespace DAL.VendorAssess
             }
         }
 
-        public static As_Vendor_Extend getVendorExtend(string Form_ID)//
+        public static As_Vendor_Extend getVendorExtend(string Form_ID)
         {
             As_Vendor_Extend VendorExtend = null;
             string sql = "select * from As_Vendor_Extend where Form_ID=@Form_ID";
@@ -117,6 +134,7 @@ namespace DAL.VendorAssess
                     VendorExtend.Money_Type = Convert.ToString(dr["Money_Type"]);
                     VendorExtend.Line_Manager = Convert.ToString(dr["Line_Manager"]);
                     VendorExtend.Comments = Convert.ToString(dr["Comments"]);
+                    VendorExtend.Factory_Name= Convert.ToString(dr["Factory_Name"]);
                 }
 
             }

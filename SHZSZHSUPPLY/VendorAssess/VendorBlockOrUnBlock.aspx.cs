@@ -10,6 +10,7 @@ namespace SHZSZHSUPPLY.VendorAssess
     public partial class VendorBlockOrUnBlock : System.Web.UI.Page
     {
         private As_Vendor_Block_Or_UnBlock Vendor;
+        private static string factory;
         public const string FORM_NAME = "供应商信息表(恢复/删除/block)";
         public const string FORM_TYPE_ID = "021";//未改
         private string tempVendorID = "";
@@ -68,7 +69,9 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void Button2_Click(object sender, EventArgs e)
         {
-            if (submit == "yes")
+            int submits = 1;
+            submits = VendorBlockOrUnBlock_BLL.SubmitOk(formID);
+            if (submit == "yes" && submits == 0)
             {
                 saveForm(1, "提交");
                 approveAssess(formID);
@@ -175,7 +178,8 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
-            formID = VendorBlockOrUnBlock_BLL.getFormID(tempVendorID);
+            factory = Session["Factory_Name"].ToString().Trim();
+            formID = VendorBlockOrUnBlock_BLL.getFormID(tempVendorID,FORM_NAME, factory);
             submit = Request.QueryString["submit"];
         }
     }

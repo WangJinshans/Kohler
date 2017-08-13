@@ -39,13 +39,31 @@ namespace DAL
             return vendorcreation.Flag;
         }
 
-        public static string getFormID(string tempVendorID)
+        public static int SubmitOk(string formID)
+        {
+            int submit = -1;
+            string sql = "select Submit from As_VendorCreation WHERE Form_ID='" + formID + "'";
+            DataTable dt = DBHelp.GetDataSet(sql);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    submit = Convert.ToInt32(dr["Submit"]);
+                }
+            }
+            return submit;
+        }
+
+        public static string getFormID(string tempVendorID,string form_Name,string factory)
         {
             string formID = "";
-            string sql = "select Form_ID from As_VendorCreation where Temp_Vendor_ID=@Temp_Vendor_ID";
+            string sql = "select Form_ID from As_NewForms_ID where Temp_Vendor_ID=@Temp_Vendor_ID and Form_Name=@Form_Name and Factory_Name=@Factory_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("Temp_Vendor_ID",tempVendorID)
+                new SqlParameter("@Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("@Form_Name",form_Name),
+                new SqlParameter("@Factory_Name",factory)
+
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)
@@ -170,6 +188,8 @@ namespace DAL
                     vendorCreation.Chief_Inspector = item["General_Manager"].ToString().Trim();
                     vendorCreation.Comments = item["Comments"].ToString().Trim();
                     vendorCreation.Flag = Convert.ToInt32(item["Flag"]);
+                    vendorCreation.Temp_Vendor_ID= item["Temp_Vendor_ID"].ToString().Trim();
+                    vendorCreation.Factory_Name= item["Factory_Name"].ToString().Trim();
                 }
                 return vendorCreation;
             }

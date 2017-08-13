@@ -14,6 +14,7 @@ namespace SHZSZHSUPPLY.VendorAssess
     {
         public const string FORM_NAME = "供应商风险分析表";
         public const string FORM_TYPE_ID = "003";
+        private static string factory = "";
         private string tempVendorID = "";
         private string tempVendorName = "";
         private string formID = "";
@@ -72,7 +73,8 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
-            formID = VendorRiskAnalysis_BLL .getFormID(tempVendorID);
+            factory = Session["Factory_Name"].ToString().Trim();
+            formID = VendorRiskAnalysis_BLL .getFormID(tempVendorID,FORM_NAME,factory);
             submit = Request.QueryString["submit"];
         }
 
@@ -288,7 +290,8 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             //session
             getSessionInfo();
-
+            int submits = 1;
+            submits = VendorRiskAnalysis_BLL.SubmitOk(formID);
             if (submit == "yes")
             {
                 saveForm(2, "提交表格");

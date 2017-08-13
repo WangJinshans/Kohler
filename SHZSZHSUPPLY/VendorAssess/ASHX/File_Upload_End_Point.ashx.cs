@@ -43,7 +43,7 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             }
         }
 
-        private void doFileUpload(HttpContext context)
+private void doFileUpload(HttpContext context)
         {
             HttpPostedFile postFile = context.Request.Files["qqfile"];
             string path = HttpContext.Current.Server.MapPath("../../files/") + postFile.FileName;
@@ -76,6 +76,41 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
                 context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = false, error = "数据库写入失败" }));
             }
 
+        }
+
+
+
+
+        private void reDoFileUpload(HttpContext context)
+        {
+            HttpPostedFile postFile = context.Request.Files["qqfile"];
+            string path = HttpContext.Current.Server.MapPath("../../files/") + postFile.FileName;
+            string tempVendorID = context.Request.Params["tempVendorID"];
+            string tempVendorName = context.Request.Params["tempVendorName"];
+            string fileTypeID = context.Request.Params["fileTypeID"];
+            postFile.SaveAs(path);
+
+            As_File file = new As_File();
+            file.File_Name = postFile.FileName;
+            file.File_Path = path;
+            file.Temp_Vendor_ID = tempVendorID;
+            file.Temp_Vendor_Name = tempVendorName;
+            file.File_ID = tempVendorName + file.File_Name; ;
+            file.File_Enable_Time = "100";
+            file.File_Due_Time = "200";
+            file.File_Type_ID = fileTypeID;
+            file.Factory_Name = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
+            
+            int join = File_BLL.addFile(file);
+            int flag = UpdateFlag_BLL.updateFileFlag(fileTypeID, tempVendorID);
+            if (join > 0 && flag > 0)
+            {
+                context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, message = "数据库写入完毕，文件上传完成" }));
+            }
+            else
+            {
+                context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = false, error = "数据库写入失败" }));
+            }
         }
 
         private void multiFillUpload(HttpContext context)

@@ -48,13 +48,15 @@ namespace DAL.VendorAssess
             return VendorApproval.Flag;
         }
 
-        public static string getFormID(string tempVendorID)
+        public static string getFormID(string tempVendorID,string form_Name,string factory)
         {
             string formID = "";
-            string sql = "select Form_ID from As_Bidding_Approval_Form where Temp_Vendor_ID=@Temp_Vendor_ID";
+            string sql = "select Form_ID from As_NewForms_ID where Temp_Vendor_ID=@Temp_Vendor_ID and Form_Name=@Form_Name and Factory_Name=@Factory_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("@Temp_Vendor_ID",tempVendorID)
+                new SqlParameter("@Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("@Form_Name",form_Name),
+                new SqlParameter("@Factory_Name",factory)
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)
@@ -65,6 +67,21 @@ namespace DAL.VendorAssess
                 }
             }
             return formID;
+        }
+
+        public static int SubmitOk(string formID)
+        {
+            int submit = -1;
+            string sql = "select Submit from As_Bidding_Approval_Form WHERE Form_ID='" + formID + "'";
+            DataTable dt = DBHelp.GetDataSet(sql);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    submit = Convert.ToInt32(dr["Submit"]);
+                }
+            }
+            return submit;
         }
 
         public static int addVendorBiddingApprovalForm(As_Bidding_Approval vendorApproval)
@@ -185,6 +202,7 @@ namespace DAL.VendorAssess
                     Vendor_Approval.Form_Type_ID = Convert.ToString(dr["Form_Type_ID"]);
                     Vendor_Approval.Temp_Vendor_ID = Convert.ToString(dr["Temp_Vendor_ID"]);
                     Vendor_Approval.Temp_Vendor_Name = Convert.ToString(dr["Temp_Vendor_Name"]);
+                    Vendor_Approval.Factory_Name= Convert.ToString(dr["Factory_Name"]);
                     //Vendor_Approval.Bar_Code = Convert.ToString(dr["Bar_Code"]);
                     Vendor_Approval.Flag = Convert.ToInt32(dr["Flag"]);
                 }

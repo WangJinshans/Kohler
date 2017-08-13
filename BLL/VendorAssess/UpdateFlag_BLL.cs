@@ -50,5 +50,14 @@ namespace BLL
         {
             return UpdateFlag_DAL.updateFlagAsApproved(formTypeID, tempVendorID, Employee_DAL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString()));
         }
+        public static int updateReAccessFormStatus(string formID, string tempVendorID)
+        {
+            return UpdateFlag_DAL.updateReAccessFormStatus(formID, tempVendorID);
+        }
+        public static int setFormUnSubmit(string formID)
+        {
+            return UpdateFlag_DAL.setFormUnSubmit(formID);
+        }
+        
     }
 }

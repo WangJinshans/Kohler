@@ -1,7 +1,9 @@
-﻿using DAL;
+﻿using BLL.VendorAssess;
+using DAL;
 using MODEL;
 using System.Data;
 using System.Data.SqlClient;
+using System;
 
 namespace BLL
 {
@@ -14,10 +16,6 @@ namespace BLL
 
         }
 
-        public static string getFormID(string tempVendorID)//获取FormID
-        {
-            return VendorBlockOrUnBlock_DAL.getFormID(tempVendorID);
-        }
         public static int updateVendorBlock(As_Vendor_Block_Or_UnBlock Block_UnBlock)//更新供应商调查表
         {
 
@@ -41,5 +39,14 @@ namespace BLL
             return VendorBlockOrUnBlock_DAL.getVendorBlockFlag(FormId);
         }
 
+        public static string getFormID(string tempVendorID, string fORM_NAME, string factory)
+        {
+            return VendorBlockOrUnBlock_DAL.getFormID(tempVendorID, fORM_NAME, factory);
+        }
+
+        public static int SubmitOk(string formID)
+        {
+            return VendorBlockOrUnBlock_DAL.SubmitOk(formID);
+        }
     }
 }

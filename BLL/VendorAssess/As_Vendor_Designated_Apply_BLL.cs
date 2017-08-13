@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DAL;
 using Model;
+using BLL.VendorAssess;
 
 namespace BLL
 {
@@ -19,9 +20,9 @@ namespace BLL
             return As_Vendor_Designated_Apply_DAL.addForm(vendorDesignatedApply);
         }
 
-        public static string getFormID(string tempVendorID)
+        public static string getFormID(string tempVendorID,string form_Name,string factory)
         {
-            return As_Vendor_Designated_Apply_DAL.getFormID(tempVendorID);
+            return As_Vendor_Designated_Apply_DAL.getFormID(tempVendorID, form_Name,factory);
         }
 
         public static As_Vendor_Designated_Apply checkFlag(string formID)
@@ -52,6 +53,11 @@ namespace BLL
         public static int updateForm(As_Vendor_Designated_Apply vendor_Designated)
         {
             return As_Vendor_Designated_Apply_DAL.updateForm(vendor_Designated);
+        }
+
+        public static int SubmitOk(string formID)
+        {
+            return As_Vendor_Designated_Apply_DAL.SubmitOk(formID);
         }
     }
 }

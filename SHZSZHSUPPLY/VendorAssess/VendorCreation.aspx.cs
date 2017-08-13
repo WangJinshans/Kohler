@@ -12,6 +12,7 @@ namespace SHZSZHSUPPLY.VendorAssess
     {
         public const string FORM_NAME = "供应商信息表(建立)";
         public const string FORM_TYPE_ID = "019";
+        private static string factory;
         private string tempVendorID = "";
         private string tempVendorName = "";
         private string formID = "";
@@ -83,7 +84,8 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
-            formID = VendorCreation_BLL.getFormID(tempVendorID);
+            factory = Session["Factory_Name"].ToString().Trim();
+            formID = VendorCreation_BLL.getFormID(tempVendorID,FORM_NAME,factory);
             submit = Request.QueryString["submit"];
         }
 
@@ -228,7 +230,9 @@ namespace SHZSZHSUPPLY.VendorAssess
         protected void Button1_Click(object sender, EventArgs e)
         {
             getSessionInfo();
-            if (submit == "yes")
+            int submits = 1;
+            submits = VendorCreation_BLL.SubmitOk(formID);
+            if (submit == "yes" && submits == 0)
             {
                 saveForm(2, "提交表格");
                 approveAssess(formID);

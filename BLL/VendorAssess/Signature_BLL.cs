@@ -35,6 +35,10 @@ namespace BLL.VendorAssess
             string tableName = "";//哪张表
             string signatureurl = getPositionNameUrl(position);//获取签名的文件地址
             tableName = switchFormID(formID);
+            if (tableName == "")
+            {
+                return true;//压根儿不需要签名的表
+            }
             string posotionName = switchPositionName(position);
             //通过formID确定是具体的那一张表
             if (signatureurl != ""&&tableName!=""&&posotionName!="")//确定该表是否需要签名

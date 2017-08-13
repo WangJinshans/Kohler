@@ -127,7 +127,36 @@
                 </tr>
                 <tr>
                     <asp:Label ID="Label3" runat="server" Text="已提交表格"></asp:Label>
-                    <asp:GridView ID="GridView3" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView3_RowCommand" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4">
+                  <%--  <asp:GridView ID="GridView3" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView3_RowCommand" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4">
+                        <Columns>
+                            <asp:BoundField DataField="Form_ID" HeaderText="表格编号" SortExpression="Form_ID" />
+                            <asp:BoundField DataField="Form_Name" HeaderText="表格名称" SortExpression="Form_Name" />
+                            <asp:BoundField DataField="Temp_Vendor_ID" HeaderText="供应商编号"
+                                SortExpression="Temp_Vendor_ID" />
+                            <asp:BoundField DataField="Factory_Name" HeaderText="厂"
+                                SortExpression="Factory_Name" />
+                            <asp:BoundField DataField="DepotSummary" HeaderText="DepotSummary"
+                                SortExpression="DepotSummary" Visible="False" />
+                            <asp:TemplateField>
+                                <ItemTemplate>
+                                    <asp:LinkButton ID="lbtShowDetails" runat="server" CommandName="showDetails"
+                                        CommandArgument='<%# Eval("Form_Name") %>'>查看</asp:LinkButton>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+
+
+                        </Columns>
+                        <FooterStyle BackColor="#FFFFCC" ForeColor="#330099" />
+                        <HeaderStyle BackColor="#990000" Font-Bold="True" ForeColor="#FFFFCC" />
+                        <PagerStyle BackColor="#FFFFCC" ForeColor="#330099" HorizontalAlign="Center" />
+                        <RowStyle BackColor="White" ForeColor="#330099" />
+                        <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="#663399" />
+                        <SortedAscendingCellStyle BackColor="#FEFCEB" />
+                        <SortedAscendingHeaderStyle BackColor="#AF0101" />
+                        <SortedDescendingCellStyle BackColor="#F6F0C0" />
+                        <SortedDescendingHeaderStyle BackColor="#7E0000" />
+                    </asp:GridView>--%>
+                     <asp:GridView ID="GridView3" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView3_RowCommand" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4">
                         <Columns>
                             <asp:BoundField DataField="Temp_Vendor_Name" HeaderText="供应商名称"
                                 SortExpression="Temp_Vendor_Name" />

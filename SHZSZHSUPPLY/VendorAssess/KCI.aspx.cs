@@ -77,7 +77,12 @@ namespace SHZSZHSUPPLY.VendorAssess
                     ApprovalFinished(formID, Form_Type_ID, temp_vendor_ID);
                 }
 
-
+                int times = FormOverDue_BLL.getLastedForm(formID);
+                int rs3 = 1;//之所以为1 是为了在times=0的时候不会造成任何影响
+                if (times > 0) //表示过期重新审批到了最后一个  需要把重新审批的表的标签 改成已通过
+                {
+                    UpdateFlag_BLL.updateReAccessFormStatus(formID, temp_vendor_ID);//成功返回2 失败返回-1
+                }
 
                 /*
                  * 因为合同审批表是整个审批流程中的最后一个环节 一旦合同审批表通过

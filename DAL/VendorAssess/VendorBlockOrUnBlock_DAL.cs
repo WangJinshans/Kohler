@@ -23,13 +23,15 @@ namespace DAL
 
         }
 
-        public static string getFormID(string tempVendorID)
+        public static string getFormID(string tempVendorID,string form_Name,string factory)
         {
             string formID = "";
-            string sql = "select Form_ID from As_Vendor_Block_Or_UnBlock where Temp_Vendor_ID=@Temp_Vendor_ID";
+            string sql = "select Form_ID from As_NewForms_ID where Temp_Vendor_ID=@Temp_Vendor_ID and Form_Name=@Form_Name and Factory_Name=@Factory_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("Temp_Vendor_ID",tempVendorID)
+                new SqlParameter("@Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("@Form_Name",form_Name),
+                new SqlParameter("@Factory_Name",factory)
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)
@@ -42,6 +44,20 @@ namespace DAL
             return formID;
         }
 
+        public static int SubmitOk(string formID)
+        {
+            int submit = -1;
+            string sql = "select Submit from As_Vendor_Block_Or_UnBlock WHERE Form_ID='" + formID + "'";
+            DataTable dt = DBHelp.GetDataSet(sql);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    submit = Convert.ToInt32(dr["Submit"]);
+                }
+            }
+            return submit;
+        }
 
         public static int updateVendorBlock(As_Vendor_Block_Or_UnBlock Block_UnBlock)//更新供应商调查表
         {
@@ -117,6 +133,7 @@ namespace DAL
                     Block_UnBlock.Line_Manager = Convert.ToString(dr["Line_Manager"]);
                     Block_UnBlock.Purchasing_Manager = Convert.ToString(dr["Purchasing_Manager"]);
                     Block_UnBlock.Comments = Convert.ToString(dr["Comments"]);
+                    Block_UnBlock.Factory_Name= Convert.ToString(dr["Factory_Name"]);
                 }
 
             }

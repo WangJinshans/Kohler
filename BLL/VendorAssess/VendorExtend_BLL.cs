@@ -1,7 +1,7 @@
 ﻿using System;
 using DAL.VendorAssess;
 using MODEL;
-
+using BLL.VendorAssess;
 
 namespace BLL
 {
@@ -26,7 +26,6 @@ namespace BLL
 
         public static As_Vendor_Extend getVendorExtend(string FormId)//
         {
-
             return VendorExtend_DAL.getVendorExtend(FormId);
         }
 
@@ -36,9 +35,14 @@ namespace BLL
             return VendorExtend_DAL.getVendorExtendFlag(FormId);
         }
 
-        public static string getFormID(string tempVendorID)
+        public static string getFormID(string tempVendorID,string form_Name,string factory)
         {
-            return VendorExtend_DAL.getFormID(tempVendorID);
+            return VendorExtend_DAL.getFormID(tempVendorID, form_Name, factory);
+        }
+
+        public static int SubmitOk(string formID)
+        {
+            return VendorExtend_DAL.SubmitOk(formID);
         }
     }
 }

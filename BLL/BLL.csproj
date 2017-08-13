@@ -69,7 +69,10 @@
     <Compile Include="VendorAssess\ContractApproval_BLL.cs" />
     <Compile Include="VendorAssess\EmployeeForm_BLL.cs" />
     <Compile Include="VendorAssess\EditFlow_BLL.cs" />
+    <Compile Include="VendorAssess\FileOverDue_BLL.cs" />
+    <Compile Include="VendorAssess\FormOverDue_BLL.cs" />
     <Compile Include="VendorAssess\KCIApproval_BLL.cs" />
+    <Compile Include="VendorAssess\NewForms_BLL.cs" />
     <Compile Include="VendorAssess\Signature_BLL.cs" />
     <Compile Include="VendorAssess\VendorSelectionSupplier_BLL.cs" />
     <Compile Include="VendorAssess\CheckFile_BLL.cs" />

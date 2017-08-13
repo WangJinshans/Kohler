@@ -17,6 +17,7 @@ namespace AendorAssess
         public const string FORM_NAME = "bidding form比价资料/会议纪要";
         public  string FORM_TYPE_ID = "002";
         private string tempVendorID = "";
+        private static string factory_Name;
         private string tempVendorName = "";
         private string formID = "";
         private string submit = "";
@@ -28,7 +29,9 @@ namespace AendorAssess
         {
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
-            formID = As_Bidding_Approval_BLL.getFormID(tempVendorID);
+            factory_Name = Session["Factory_Name"].ToString().Trim();
+            formID = As_Bidding_Approval_BLL.getFormID(tempVendorID, factory_Name,FORM_NAME);
+           
             submit = Request.QueryString["submit"];
             FORM_TYPE_ID = Request.QueryString["type"];
         }
@@ -203,7 +206,7 @@ namespace AendorAssess
         /// 显示文件列表
         /// </summary>
         /// <param name="FormID"></param>
-        public void showfilelist(string FormID)
+        public void showfilelist(string FormID)//当Form_ID改变之后 不需要动  只需要获取更新后的Form_ID即可
         {
             As_Form_File Form_File = new As_Form_File();
             string sql = "select * from As_Form_File where Form_ID='" + FormID + "'";
@@ -232,6 +235,7 @@ namespace AendorAssess
             form.Temp_Vendor_Name = tempVendorName;
             form.Form_Path = "";
             form.Temp_Vendor_ID = tempVendorID;
+            form.Factory_Name = factory_Name;
             int add = AddForm_BLL.addForm(form);
 
             //一旦提交就把表As_Vendor_FormType字段FLag置1.
@@ -344,8 +348,9 @@ namespace AendorAssess
         {
             //重新获取session信息和get信息
             getSessionInfo();
-
-            if (submit == "yes")
+            int submits = 1;
+            submits = As_Bidding_Approval_BLL.SubmitOk(formID);
+            if (submit == "yes" && submits == 0)
             {
                 //形成参数
                 saveForm(2, "提交表格");

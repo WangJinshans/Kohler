@@ -66,7 +66,10 @@
     <Compile Include="VendorAssess\ContractApproval_DAL.cs" />
     <Compile Include="VendorAssess\EditFlow_DAL.cs" />
     <Compile Include="VendorAssess\EmployeeForm_DAL.cs" />
+    <Compile Include="VendorAssess\FileOverDue_DAL.cs" />
+    <Compile Include="VendorAssess\FormOverDue_DAL.cs" />
     <Compile Include="VendorAssess\KCIApproval_DAL.cs" />
+    <Compile Include="VendorAssess\NewForms_DAL.cs" />
     <Compile Include="VendorAssess\Signature_DAL.cs" />
     <Compile Include="VendorAssess\VendorSelectionSupplier_DAL.cs" />
     <Compile Include="VendorAssess\DBHelp.cs" />

@@ -1,4 +1,5 @@
-﻿using DAL;
+﻿using BLL.VendorAssess;
+using DAL;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,11 @@ namespace BLL
         public static int checkVendorDiscovery(string FormId)//检查是否有记录
         {
             return VendorDiscovery_DAL.checkVendorDiscovery(FormId);
+        }
+
+        public static int SubmitOk(string FormId)//检查是否有记录
+        {
+            return VendorDiscovery_DAL.SubmitOk(FormId);
         }
 
         public static As_Vendor_Discovery checkFlag(string FormId)//查看供应商信息
@@ -50,9 +56,9 @@ namespace BLL
             }
         }
 
-        public static string getFormID(string tempVendorID)
+        public static string getFormID(string tempVendorID,string form_Name,string factory)
         {
-            return VendorDiscovery_DAL.getFormID(tempVendorID);
+            return VendorDiscovery_DAL.getFormID(tempVendorID,form_Name, factory);
         }
 
     }

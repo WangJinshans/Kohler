@@ -80,6 +80,13 @@
                 </dl>
             </li>
             <li class="layui-nav-item layui-nav-itemed">
+                <a href="javascript:;">过期重审</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="FormOverDue.aspx">申请表过期</a></dd>
+                    <dd><a href="FileOverDue.aspx">文件过期</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item layui-nav-itemed">
                 <a href="javascript:;">审批</a>
                 <dl class="layui-nav-child">
                     <dd><a href="KCI.aspx">KCI审批</a></dd>

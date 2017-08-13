@@ -10,6 +10,7 @@ namespace SHZSZHSUPPLY.VendorAssess
     public partial class VendorExtend : System.Web.UI.Page
     {
         public const string FORM_NAME = "供应商信息表(扩展)";
+        private static string factory = "";
         public const string FORM_TYPE_ID = "022";
         private string tempVendorID = "";
         private string tempVendorName = "";
@@ -64,6 +65,8 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void Button2_Click(object sender, EventArgs e)//提交
         {
+            int submits = 1;
+            submits = VendorExtend_BLL.SubmitOk(formID);
             if (submit == "yes")
             {
                 saveForm(2, "提交");
@@ -179,7 +182,8 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
-            formID = VendorExtend_BLL.getFormID(tempVendorID);
+            factory = Session["Factory_Name"].ToString().Trim();
+            formID = VendorExtend_BLL.getFormID(tempVendorID,FORM_NAME,factory);
             submit = Request.QueryString["submit"];
         }
     }

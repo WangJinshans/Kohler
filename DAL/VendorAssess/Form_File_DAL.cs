@@ -22,6 +22,17 @@ namespace DAL
             return DBHelp.GetScalar(sql,sp);
         }
 
+        public static DataTable listFileID(string temp_Vendor_ID, string form_ID)
+        {
+            string sql = "select File_ID from As_Form_File where Form_ID='" + form_ID + "' and Temp_Vendor_ID='" + temp_Vendor_ID + "'";
+            return DBHelp.GetDataSet(sql);
+        }
+
+        public static DataTable listFileID(string sql)
+        {
+            throw new NotImplementedException();
+        }
+
         public static IList<As_Form_File> listFile(string sql)
         {
             IList<As_Form_File> list = new List<As_Form_File>();

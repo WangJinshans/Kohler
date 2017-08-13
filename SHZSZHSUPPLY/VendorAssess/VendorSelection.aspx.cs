@@ -24,6 +24,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         private List<As_Employee_Form> employeeFormList;
 
         public const string FORM_NAME = "供应商选择表";
+        private static string factory = "";
         public const string FORM_TYPE_ID = "018";
         private string tempVendorID = "";
         private string tempVendorName = "";
@@ -134,7 +135,8 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
-            formID = VendorSelection_BLL.getFormID(tempVendorID);
+            factory = Session["Factory_Name"].ToString().Trim();
+            formID = VendorSelection_BLL.getFormID(tempVendorID, FORM_NAME, factory);
             submit = Request.QueryString["submit"];
         }
 
@@ -227,6 +229,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             form.Temp_Vendor_Name = tempVendorName;
             form.Form_Path = "";
             form.Temp_Vendor_ID = tempVendorID;
+            form.Factory_Name = factory;
             int add = AddForm_BLL.addForm(form);
 
             //一旦提交就把表As_Vendor_FormType字段FLag置1.
@@ -351,8 +354,9 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             //重新获取session信息和get信息
             getSessionInfo();
-
-            if (submit == "yes")
+            int submits = 1;
+            submits = VendorSelection_BLL.SubmitOk(formID);
+            if (submit == "yes" && submits==0)
             {
                 //形成参数
                 As_Vendor_Selection Vendor_Selection = saveForm(2, "提交表格");
