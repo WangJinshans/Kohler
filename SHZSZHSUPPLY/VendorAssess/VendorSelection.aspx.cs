@@ -354,9 +354,9 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             //重新获取session信息和get信息
             getSessionInfo();
-            int submits = 1;
-            submits = VendorSelection_BLL.SubmitOk(formID);
-            if (submit == "yes" && submits==0)
+            //int submits = 1;
+            //submits = VendorSelection_BLL.SubmitOk(formID);
+            if (submit == "yes")
             {
                 //形成参数
                 As_Vendor_Selection Vendor_Selection = saveForm(2, "提交表格");

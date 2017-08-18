@@ -419,9 +419,9 @@ namespace AendorAssess
         {
             //重新获取session信息和get信息
             getSessionInfo();
-            int submits = 1;
-            submits = VendorDiscovery_BLL.SubmitOk(formID);//为1表示已经提交过了  不能再次提交了
-            if (submit == "yes" && submits == 0)
+            //int submits = 1;
+            //submits = VendorDiscovery_BLL.SubmitOk(formID);//为1表示已经提交过了  不能再次提交了
+            if (submit == "yes")
             {
                 //形成参数
                 As_Vendor_Discovery Vendor_Discovery = saveForm(2, "提交表格");

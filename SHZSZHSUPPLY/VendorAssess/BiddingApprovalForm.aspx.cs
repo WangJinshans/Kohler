@@ -348,9 +348,9 @@ namespace AendorAssess
         {
             //重新获取session信息和get信息
             getSessionInfo();
-            int submits = 1;
-            submits = As_Bidding_Approval_BLL.SubmitOk(formID);
-            if (submit == "yes" && submits == 0)
+            //int submits = 1;
+            //submits = As_Bidding_Approval_BLL.SubmitOk(formID);
+            if (submit == "yes")
             {
                 //形成参数
                 saveForm(2, "提交表格");

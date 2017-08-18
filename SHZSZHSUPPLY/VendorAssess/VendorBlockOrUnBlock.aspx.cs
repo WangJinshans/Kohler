@@ -69,9 +69,9 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void Button2_Click(object sender, EventArgs e)
         {
-            int submits = 1;
-            submits = VendorBlockOrUnBlock_BLL.SubmitOk(formID);
-            if (submit == "yes" && submits == 0)
+            //int submits = 1;
+            //submits = VendorBlockOrUnBlock_BLL.SubmitOk(formID);
+            if (submit == "yes")
             {
                 saveForm(1, "提交");
                 approveAssess(formID);

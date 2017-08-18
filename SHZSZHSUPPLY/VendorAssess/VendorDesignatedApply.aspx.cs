@@ -10,7 +10,7 @@ namespace VendorAssess
     public partial class VendorDesignatedApply : System.Web.UI.Page
     {
         public const string FORM_NAME = "指定供应商申请表";
-        public const string FORM_TYPE_ID = "004";
+        public const string FORM_TYPE_ID = "025";
         private static string factory;
         private string tempVendorID = "";
         private string tempVendorName = "";
@@ -307,9 +307,9 @@ namespace VendorAssess
         public void Button1_Click(object sender, EventArgs e)//提交按钮
         {
             getSessionInfo();
-            int submits = 1;
-            submits = As_Vendor_Designated_Apply_BLL.SubmitOk(formID);
-            if (submit == "yes" && submits == 0)
+            //int submits = 1;
+            //submits = As_Vendor_Designated_Apply_BLL.SubmitOk(formID);
+            if (submit == "yes")
             {
                 //形成参数
                 As_Vendor_Designated_Apply Vendor_Designated = saveForm(2, "提交表格");

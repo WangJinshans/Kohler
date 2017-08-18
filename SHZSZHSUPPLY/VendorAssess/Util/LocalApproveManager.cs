@@ -91,6 +91,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             form.Temp_Vendor_Name = TempVendor_BLL.getTempVendorName(tempVendorID);
             form.Form_Path = "";
             form.Temp_Vendor_ID = tempVendorID;
+            form.Factory_Name = factory;
             int add = AddForm_BLL.addForm(form);
 
             //一旦提交就把表As_Vendor_FormType字段FLag置1.
@@ -292,12 +293,19 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
         {
             int rs1 = AssessFlow_BLL.updateApprove(formID, positionName);
             int rs2 = UpdateFlag_BLL.updateFlagAsApproved(formTypeID, tempVendorID);
-            int times = FormOverDue_BLL.getLastedForm(formID);
             int rs3 = 1;//之所以为1 是为了在times=0的时候不会造成任何影响
-            if (times > 0) //表示过期重新审批到了最后一个  需要把重新审批的表的标签 改成已通过
+            bool isOverDue = false;
+            isOverDue = FormOverDue_BLL.isOverDue(formID);
+            if (isOverDue)//属于过期表   需要把重新审批的表的标签 改成已通过
             {
-                rs3 = UpdateFlag_BLL.updateReAccessFormStatus(formID, tempVendorID);//成功返回2 失败返回-1
+                string oldFormID = FormOverDue_BLL.getOldFormID(formID);//对于已经在重新审批中的表 oldFormID 在As_Vendor_FormType_History一定存在 在过期表中也一定存在
+                rs3 = UpdateFlag_BLL.updateReAccessFormStatus(oldFormID, tempVendorID);//成功返回2 失败返回-1
             }
+            //int times = FormOverDue_BLL.getLastedForm(formID);
+            //if (times > 0) //表示过期重新审批到了最后一个  需要把重新审批的表的标签 改成已通过
+            //{
+                
+            //}
             if (rs1>0 && rs2>0 && rs3>0)
             {
                 return true;

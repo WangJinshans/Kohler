@@ -14,8 +14,8 @@ namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class ContractApprovalForm : System.Web.UI.Page
     {
-        public const string FORM_NAME = "合同审批表";
-        public const string FORM_TYPE_ID = "005";
+        public const string FORM_NAME = "合同审批表(承诺<=RMB1.5M)";
+        public const string FORM_TYPE_ID = "008";
         private static string factory = "";
         private string tempVendorID = "";
         private string tempVendorName = "";
@@ -110,6 +110,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             form.Form_Type_ID = FORM_TYPE_ID;
             form.Temp_Vendor_Name = tempVendorName;
             form.Form_Path = "";
+            form.Factory_Name = factory;
             form.Temp_Vendor_ID = tempVendorID;
             int add = AddForm_BLL.addForm(form);
 
@@ -404,8 +405,8 @@ namespace SHZSZHSUPPLY.VendorAssess
         protected void Button1_Click(object sender, EventArgs e)
         {
             getSessionInfo();
-            int submits = 1;
-            submits = ContractApproval_BLL.SubmitOk(formID);
+            //int submits = 1;
+            //submits = ContractApproval_BLL.SubmitOk(formID);
             if (submit == "yes")
             {
                 saveForm(2, "提交表格");

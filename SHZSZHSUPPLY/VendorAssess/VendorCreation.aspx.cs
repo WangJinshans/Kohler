@@ -230,9 +230,9 @@ namespace SHZSZHSUPPLY.VendorAssess
         protected void Button1_Click(object sender, EventArgs e)
         {
             getSessionInfo();
-            int submits = 1;
-            submits = VendorCreation_BLL.SubmitOk(formID);
-            if (submit == "yes" && submits == 0)
+            //int submits = 1;
+            //submits = VendorCreation_BLL.SubmitOk(formID);
+            if (submit == "yes")
             {
                 saveForm(2, "提交表格");
                 approveAssess(formID);

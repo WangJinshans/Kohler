@@ -290,8 +290,8 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             //session
             getSessionInfo();
-            int submits = 1;
-            submits = VendorRiskAnalysis_BLL.SubmitOk(formID);
+            //int submits = 1;
+            //submits = VendorRiskAnalysis_BLL.SubmitOk(formID);
             if (submit == "yes")
             {
                 saveForm(2, "提交表格");

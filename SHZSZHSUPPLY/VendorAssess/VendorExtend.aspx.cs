@@ -65,8 +65,8 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void Button2_Click(object sender, EventArgs e)//提交
         {
-            int submits = 1;
-            submits = VendorExtend_BLL.SubmitOk(formID);
+            //int submits = 1;
+            //submits = VendorExtend_BLL.SubmitOk(formID);
             if (submit == "yes")
             {
                 saveForm(2, "提交");
