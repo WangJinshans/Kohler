@@ -89,7 +89,7 @@ namespace BLL
                 else
                 {
                     As_Form_File Form_File = new As_Form_File();
-                    string fileid = File_BLL.selectFileid(tempVendorID, filetypeid);      //查询filed
+                    string fileid = File_BLL.selectFileid(tempVendorID, filetypeid);      //查询filed Status='new'
                     Form_File.File_ID = fileid;
                     Form_File.Form_ID = formID;
                     Form_File.Temp_Vendor_ID = tempVendorID;

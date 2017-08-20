@@ -209,7 +209,7 @@ namespace AendorAssess
         public void showfilelist(string FormID)//当Form_ID改变之后 不需要动  只需要获取更新后的Form_ID即可
         {
             As_Form_File Form_File = new As_Form_File();
-            string sql = "select * from As_Form_File where Form_ID='" + FormID + "'";
+            string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
             PagedDataSource objpds = new PagedDataSource();
             objpds.DataSource = FormFile_BLL.listFile(sql);
             GridView2.DataSource = objpds;
@@ -374,5 +374,17 @@ namespace AendorAssess
         {
             Response.Redirect("EmployeeVendor.aspx");
         }
+
+        protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
+            string fileID = GridView2.Rows[drv.RowIndex].Cells[1].ToString().Trim();//获取fileID
+            string filePath = As_Bidding_Approval_BLL.getFilePath(fileID);
+            if (filePath != "")
+            {
+                ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>viewFile('" + filePath + "');</script>");
+            }
+        }
+
     }
 }

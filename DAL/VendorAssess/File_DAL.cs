@@ -50,6 +50,11 @@ namespace DAL
             return numbers;
         }
 
+        public static DataTable getFilePath(string sql)
+        {
+            return DBHelp.GetDataSet(sql);
+        }
+
         /// <summary>
         /// 获取指定id供应商的已上传文件id
         /// </summary>
@@ -59,8 +64,8 @@ namespace DAL
         public static string selectFileid(string tempVendorID,string filetypeid)    //返回文件id
         {
             As_File File = null;
-            //string sql = "select File_ID from As_File where File_Type_ID=@File_Type_ID and Temp_Vendor_ID=@Temp_Vendor_ID";
-            string sql = "select File_ID from As_NewFiles_ID where File_Type_ID=@File_Type_ID and Temp_Vendor_ID=@Temp_Vendor_ID";
+            string sql = "select File_ID from As_File where File_Type_ID=@File_Type_ID and Temp_Vendor_ID=@Temp_Vendor_ID and Status='new'";
+            //string sql = "select File_ID from As_NewFiles_ID where File_Type_ID=@File_Type_ID and Temp_Vendor_ID=@Temp_Vendor_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@File_Type_ID",filetypeid),
@@ -115,8 +120,8 @@ namespace DAL
 
         public static int selectFileID(string tempVendorID,string filetypeid)//根据供应商名称与文件类型查询文件的id是否存在
         {
-            //string sql = "select File_ID from As_File where File_Type_ID=@File_Type_ID and Temp_Vendor_ID=@Temp_Vendor_ID";
-            string sql = "select File_ID from As_NewFiles_ID where File_Type_ID=@File_Type_ID and Temp_Vendor_ID=@Temp_Vendor_ID";//在As_File中没法仅仅只通过File_Type_ID，Temp_Vendor_ID找到最新的File_ID
+            string sql = "select File_ID from As_File where File_Type_ID=@File_Type_ID and Temp_Vendor_ID=@Temp_Vendor_ID and Status='new'";
+            //string sql = "select File_ID from As_NewFiles_ID where File_Type_ID=@File_Type_ID and Temp_Vendor_ID=@Temp_Vendor_ID";//在As_File中没法仅仅只通过File_Type_ID，Temp_Vendor_ID找到最新的File_ID
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@File_Type_ID",filetypeid),

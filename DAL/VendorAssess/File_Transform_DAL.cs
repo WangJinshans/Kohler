@@ -90,5 +90,53 @@ namespace DAL.VendorAssess
                 return false;
             }
         }
+
+        public static List<string> getFiles(string tempVendorID, string factory)
+        {
+            List<string> fileIDlist = new List<string>();
+            string sql = "select [File_ID] from As_Vendor_FileTyle where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "'";
+            DataTable table = new DataTable();
+            table = DBHelp.GetDataSet(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    fileIDlist.Add(dr["File_ID"].ToString().Trim());
+                }
+            }
+            return fileIDlist;
+        }
+
+        public static DataTable getFilePath(string fileID)
+        {
+            string sql = "select File_Path from As_File where [File_ID]='" + fileID + "'";
+            DataTable table = new DataTable();
+            table = DBHelp.GetDataSet(sql);
+            return table;
+        }
+
+        public static List<string> getForms(string tempVendorID, string factory)
+        {
+            List<string> formIDlist = new List<string>();
+            string sql = "select Form_ID from As_Vendor_FormTyle where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "'";
+            DataTable table = new DataTable();
+            table = DBHelp.GetDataSet(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    formIDlist.Add(dr["Form_ID"].ToString().Trim());
+                }
+            }
+            return formIDlist;
+        }
+
+        public static DataTable getFormPath(string formID)
+        {
+            string sql = "select Form_Path from As_Form where Form_ID='" + formID + "'";
+            DataTable table = new DataTable();
+            table = DBHelp.GetDataSet(sql);
+            return table;
+        }
     }
 }

@@ -44,6 +44,11 @@
             })
         }
     </script>
+    <script>
+        function viewFile(filePath) {
+            window.open("../files/a.pdf");
+        }
+    </script>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -231,6 +236,8 @@
                                 SortExpression="Temp_Vendor_Name" />
                             <asp:BoundField DataField="File_Name" HeaderText="文件名称"
                                 SortExpression="File_Name" />
+                            <asp:BoundField DataField="File_Type_Name" HeaderText="文件类型编号"
+                                SortExpression="File_Type_Name" />
                             <asp:BoundField DataField="DepotSummary" HeaderText="DepotSummary"
                                 SortExpression="DepotSummary" Visible="False" />
                             <asp:TemplateField>
@@ -238,9 +245,16 @@
                                     <asp:LinkButton ID="lbtShowDetails" runat="server" CommandName="showDetails"
                                         CommandArgument='<%# Eval("File_ID") %>'>查看
                                     </asp:LinkButton>
+                                </ItemTemplate>     
+                            </asp:TemplateField>
+                            <asp:TemplateField>
+                               <ItemTemplate>
+                                    <asp:LinkButton ID="lbtReUpLoad" runat="server" CommandName="reUpLoad"
+                                        CommandArgument='<%# Eval("File_ID") %>'>重新上传
+                                    </asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>
-
+                             
 
                         </Columns>
                         <FooterStyle BackColor="#CCCC99" ForeColor="Black" />

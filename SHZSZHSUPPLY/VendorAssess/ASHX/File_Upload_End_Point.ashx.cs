@@ -47,6 +47,7 @@ private void doFileUpload(HttpContext context)
         {
             HttpPostedFile postFile = context.Request.Files["qqfile"];
             string path = HttpContext.Current.Server.MapPath("../../files/") + postFile.FileName;
+            //string relativePath = "../../files/" + postFile.FileName;//保存相对位置 
             string tempVendorID = context.Request.Params["tempVendorID"];
             string tempVendorName = context.Request.Params["tempVendorName"];
             string fileTypeID = context.Request.Params["fileTypeID"];

@@ -246,6 +246,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 checkBoxInit(contractApproval);
 
             }
+            showfilelist(formID);
         }
 
         //private void hideImage(string signature, Image image)
@@ -426,7 +427,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         private void showfilelist(string FormID)
         {
             As_Form_File Form_File = new As_Form_File();
-            string sql = "select * from As_Form_File where Form_ID='" + FormID + "'";
+            string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
             PagedDataSource objpds = new PagedDataSource();
             objpds.DataSource = FormFile_BLL.listFile(sql);
             GridView1.DataSource = objpds;
@@ -788,6 +789,20 @@ namespace SHZSZHSUPPLY.VendorAssess
                 Session["tempvendorname"] = tempVendorName;
                 Session["Employee_ID"] = Session["Employee_ID"];
                 Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx'</script>");
+            }
+        }
+
+        protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
+            string fileID = GridView1.Rows[drv.RowIndex].Cells[1].Text.ToString().Trim();//获取fileID
+            if (e.CommandName == "view")
+            {
+                string filePath = VendorCreation_BLL.getFilePath(fileID);
+                if (filePath != "")
+                {
+                    ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>viewFile('" + filePath + "');</script>");
+                }
             }
         }
     }

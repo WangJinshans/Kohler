@@ -95,6 +95,7 @@ namespace VendorAssess
         /// </summary>
         public void bindingFormWithFile()
         {
+            getSessionInfo();
             if (CheckFile_BLL.bindFormFile(FORM_TYPE_ID, tempVendorID, formID) == 0)
             {
                 Response.Write("<script>window.alert('表格初始化错误（文件绑定失败）！')</script>");//若没有记录 返回文件不全
@@ -172,7 +173,7 @@ namespace VendorAssess
         public void showfilelist(string FormID)
         {
             As_Form_File Form_File = new As_Form_File();
-            string sql = "select * from As_Form_File where Form_ID='" + FormID + "'";
+            string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
             PagedDataSource objpds = new PagedDataSource();
             objpds.DataSource = FormFile_BLL.listFile(sql);
             GridView2.DataSource = objpds;
@@ -336,10 +337,14 @@ namespace VendorAssess
 
         protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            if (e.CommandName == "file")
+            GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
+            string fileID = GridView2.Rows[drv.RowIndex].Cells[1].ToString().Trim();//获取fileID
+            string filePath = As_Vendor_Designated_Apply_BLL.getFilePath(fileID);
+            if (filePath != "")
             {
-                Response.Write("<script>alert('文件!');window.open('../files/7.pdf');</script>");
+                ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>viewFile('" + filePath + "');</script>");
             }
         }
+
     }
 }

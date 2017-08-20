@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL;
 using Model;
+using System.Data;
 
 namespace BLL
 {
@@ -45,6 +46,22 @@ namespace BLL
                 }
             }
             return max;
+        }
+
+        public static string getFilePath(string name,string factory)
+        {
+            string sql = "select File_Path from As_File where [File_Name]='" + name + "' and Factory_Name='" + factory + "'";
+            DataTable table = new DataTable();
+            string path = "";
+            table = File_DAL.getFilePath(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    path = dr["File_Path"].ToString().Trim();
+                }
+            }
+            return path;
         }
     }
 }

@@ -28,5 +28,11 @@ namespace BLL
         {
             return AddForm_DAL.GetForm_Type_ID(formID);
         }
+
+        public static int upDateFormPath(string formID, string newPath)
+        {
+            string sql = "update As_Form set Form_Path='" + newPath + "' where Form_ID='" + formID + "'";
+            return AddForm_DAL.upDateFormPath(sql);
+        }
     }
 }

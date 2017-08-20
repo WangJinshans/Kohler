@@ -453,6 +453,9 @@
     <Compile Include="VendorAssess\ASHX\File_Upload_End_Point.ashx.cs">
       <DependentUpon>File_Upload_End_Point.ashx</DependentUpon>
     </Compile>
+    <Compile Include="VendorAssess\ASHX\PDF.ashx.cs">
+      <DependentUpon>PDF.ashx</DependentUpon>
+    </Compile>
     <Compile Include="VendorAssess\BiddingApprovalForm.aspx.cs">
       <DependentUpon>BiddingApprovalForm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -707,6 +710,10 @@
       <Project>{D66466EE-FA42-4679-860D-4C4849DF488B}</Project>
       <Name>BO</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{99FD4BC6-3D9A-4356-B21A-39DED69F378F}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MODEL\MODEL.csproj">
       <Project>{2ebd498a-0c8d-4270-bf02-80814c6a101a}</Project>
       <Name>MODEL</Name>
@@ -721,6 +728,46 @@
     <Content Include="App_Browsers\Default.browser" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="files\1 - 副本.pdf" />
+    <Content Include="files\1.pdf" />
+    <Content Include="files\2.pdf" />
+    <Content Include="files\3.pdf" />
+    <Content Include="files\a.pdf" />
+    <Content Include="files\b.pdf" />
+    <Content Include="files\c.pdf" />
+    <Content Include="files\d.pdf" />
+    <Content Include="files\e.pdf" />
+    <Content Include="files\EM3 V2.2开发板原理图 - 副本 %282%29.pdf" />
+    <Content Include="files\EM3 V2.2开发板原理图 - 副本 %283%29.pdf" />
+    <Content Include="files\EM3 V2.2开发板原理图 - 副本 %284%29.pdf" />
+    <Content Include="files\EM3 V2.2开发板原理图 - 副本 %285%29.pdf" />
+    <Content Include="files\EM3 V2.2开发板原理图 - 副本 %286%29.pdf" />
+    <Content Include="files\EM3 V2.2开发板原理图 - 副本 %287%29.pdf" />
+    <Content Include="files\EM3 V2.2开发板原理图 - 副本 %288%29.pdf" />
+    <Content Include="files\EM3 V2.2开发板原理图 - 副本.pdf" />
+    <Content Include="files\EM3 V2.2开发板原理图.pdf" />
+    <Content Include="files\f.pdf" />
+    <Content Include="files\g.pdf" />
+    <Content Include="files\h.pdf" />
+    <Content Include="files\i.pdf" />
+    <Content Include="files\j.pdf" />
+    <Content Include="files\k.pdf" />
+    <Content Include="files\l.pdf" />
+    <Content Include="files\m.pdf" />
+    <Content Include="files\n.pdf" />
+    <Content Include="files\o.pdf" />
+    <Content Include="files\p.pdf" />
+    <Content Include="files\q.pdf" />
+    <Content Include="files\rthm1_9_compatible_apps.pdf" />
+    <Content Include="files\完整版-概率论与数理统计%28理工类·第四版%29吴赣昌主编答案 - 副本 %2811%29.pdf" />
+    <Content Include="files\完整版-概率论与数理统计%28理工类·第四版%29吴赣昌主编答案 - 副本 %282%29.pdf" />
+    <Content Include="files\完整版-概率论与数理统计%28理工类·第四版%29吴赣昌主编答案 - 副本 %283%29.pdf" />
+    <Content Include="files\完整版-概率论与数理统计%28理工类·第四版%29吴赣昌主编答案 - 副本 %284%29.pdf" />
+    <Content Include="files\完整版-概率论与数理统计%28理工类·第四版%29吴赣昌主编答案 - 副本 %285%29.pdf" />
+    <Content Include="files\完整版-概率论与数理统计%28理工类·第四版%29吴赣昌主编答案 - 副本 %286%29.pdf" />
+    <Content Include="files\完整版-概率论与数理统计%28理工类·第四版%29吴赣昌主编答案 - 副本 %287%29.pdf" />
+    <Content Include="files\完整版-概率论与数理统计%28理工类·第四版%29吴赣昌主编答案 - 副本 %288%29.pdf" />
+    <Content Include="files\完整版-概率论与数理统计%28理工类·第四版%29吴赣昌主编答案 - 副本 %289%29.pdf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -742,6 +789,7 @@
     <Content Include="VendorAssess\Script\fine-uploader\LICENSE" />
     <Content Include="VendorAssess\ASHX\File_Upload_End_Point.ashx" />
     <Content Include="VendorAssess\ASHX\Database_Handler.ashx" />
+    <Content Include="VendorAssess\ASHX\PDF.ashx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

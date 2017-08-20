@@ -24,6 +24,11 @@
         });
     </script>
     <script>
+        function viewFile(filePath) {
+            window.open("../files/a.pdf");
+        }
+    </script>
+    <script>
         function JSONLength(obj) {  
             var size = 0, key;  
             for (key in obj) {  
@@ -833,7 +838,7 @@
 
 					<asp:TemplateField>
 						<ItemTemplate>
-							<asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="fail"
+							<asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="view"
 								CommandArgument='<%# Eval("File_ID") %>'>查看文件</asp:LinkButton>
 						</ItemTemplate>
 					</asp:TemplateField>

@@ -47,6 +47,12 @@
            } 
        }
     </script>
+    <script>
+        function viewFile(filePath)
+        {
+            window.open(filePath);
+        }
+    </script>
     <%--<script>
         function __myDoPostBack(eventTarget, eventArgument) {
             var theForm = document.forms['form1'];
@@ -548,7 +554,7 @@
             <asp:Button ID="Button2" runat="server" Text="保存" style="height: 21px" OnClick="Button2_Click" />&nbsp;&nbsp;&nbsp;&nbsp;
             <asp:Button ID="Button3" runat="server" Text="返回" OnClick="Button3_Click" />
         </div>
-        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" CellPadding="4" GridLines="None" ForeColor="#333333">
+        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" CellPadding="4" OnRowCommand="GridView1_RowCommand" GridLines="None" ForeColor="#333333">
 						<AlternatingRowStyle BackColor="White" ForeColor="#284775" />
 				<Columns>
 					<asp:BoundField DataField="Form_ID" HeaderText="表格编号"

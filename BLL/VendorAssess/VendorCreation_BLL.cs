@@ -2,6 +2,8 @@
 using DAL;
 using MODEL;
 using BLL.VendorAssess;
+using System.Data;
+using DAL.VendorAssess;
 
 namespace BLL
 {
@@ -37,6 +39,21 @@ namespace BLL
         public static int SubmitOk(string formID)
         {
             return VendorCreation_DAL.SubmitOk(formID);
+        }
+
+        public static string getFilePath(string fileID)
+        {
+            DataTable table = new DataTable();
+            string filePath = "";
+            table = File_Transform_DAL.getFilePath(fileID);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    filePath = dr["File_Path"].ToString().Trim();
+                }
+            }
+            return filePath;
         }
     }
 }

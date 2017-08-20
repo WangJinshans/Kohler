@@ -12,6 +12,12 @@
 	<script src="Script/layer/layer.js"></script>  
     <script src="Script/Own/fileUploader.js"></script>
 
+    <script>
+        function viewFile(filePath)
+        {
+            window.open(filePath);
+        }
+    </script>
     <style type="text/css">
         h1 {
             text-align: center;
@@ -337,7 +343,7 @@
         <div style="float: left">
             <table>
                 <tr>
-                    <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" CellPadding="4" GridLines="None" ForeColor="#333333">
+                    <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView2_RowCommand" CellPadding="4" GridLines="None" ForeColor="#333333">
                         <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
                         <Columns>
                             <asp:BoundField DataField="Form_ID" HeaderText="表格编号"
@@ -347,7 +353,7 @@
 
                             <asp:TemplateField>
                                 <ItemTemplate>
-                                    <asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="fail"
+                                    <asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="view"
                                         CommandArgument='<%# Eval("File_ID") %>'>查看文件</asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>

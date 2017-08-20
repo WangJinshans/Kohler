@@ -87,7 +87,7 @@ namespace AendorAssess
 
                 //根据供应商类型编号查询所有已上传文件 
                 As_File file = new As_File();
-                string sql4 = String.Format("SELECT * FROM As_File WHERE Temp_Vendor_ID='{0}' and Factory_Name in ('{1}','ALL') and Status='new'", e.CommandArgument.ToString(), factoryName);
+                string sql4 = String.Format("SELECT As_File.Temp_Vendor_Name,As_File.File_Name,As_File_Type.File_Type_Name FROM As_File,As_File_Type WHERE As_File.File_Type_ID=As_File_Type.File_Type_ID and Temp_Vendor_ID='{0}' and Factory_Name in ('{1}','ALL') and Status='new'", e.CommandArgument.ToString(), factoryName);
                 PagedDataSource objpds4 = new PagedDataSource();
                 objpds4.DataSource = File_BLL.selectFile(sql4);
                 //获取数据源
@@ -293,6 +293,24 @@ namespace AendorAssess
 
         protected void GridView5_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            if (e.CommandName == "reUpLoad")
+            {
+                GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
+                string tempVendorID = Session["tempVendorID"].ToString();
+                string tempVendorName = Session["tempvendorname"].ToString();
+                string fileTypeID = File_Type_BLL.selectFileTypeID(GridView5.Rows[drv.RowIndex].Cells[2].Text.ToString().Trim());
+                string requestType = "fileUpload";
+                LocalScriptManager.CreateScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}','{4}')", requestType, tempVendorID, tempVendorName, fileTypeID, factory_Name), "upload");
+            }
+            if (e.CommandName == "showDetails")
+            {
+                GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
+                string filePath = File_BLL.getFilePath(GridView5.Rows[drv.RowIndex].Cells[2].Text.ToString().Trim(), Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString()));
+                if (filePath != "")
+                {
+                    ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>viewFile('" + filePath + "');</script>");
+                }
+            }
         }
 
         private void pageRedirect(string aimPageName,string formTypeID)

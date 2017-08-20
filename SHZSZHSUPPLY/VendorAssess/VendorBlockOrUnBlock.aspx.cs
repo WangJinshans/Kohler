@@ -89,6 +89,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         private void bindingFormWithFile()
         {
+            getSessionInfo();
             if (CheckFile_BLL.bindFormFile(FORM_TYPE_ID, tempVendorID, formID) == 0)
             {
                 Response.Write("<script>window.alert('表格初始化错误（文件绑定失败）！')</script>");//若没有记录 返回文件不全
@@ -168,7 +169,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         public void showfilelist(string FormID)
         {
             As_Form_File Form_File = new As_Form_File();
-            string sql = "select * from As_Form_File where Form_ID='" + FormID + "'";
+            string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
             PagedDataSource objpds = new PagedDataSource();
             objpds.DataSource = FormFile_BLL.listFile(sql);
             GridView1.DataSource = objpds;
@@ -181,6 +182,20 @@ namespace SHZSZHSUPPLY.VendorAssess
             factory = Session["Factory_Name"].ToString().Trim();
             formID = VendorBlockOrUnBlock_BLL.getFormID(tempVendorID,FORM_NAME, factory);
             submit = Request.QueryString["submit"];
+        }
+
+        protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
+            string fileID = GridView1.Rows[drv.RowIndex].Cells[1].Text.ToString().Trim();//获取fileID
+            if (e.CommandName == "view")
+            {
+                string filePath = VendorCreation_BLL.getFilePath(fileID);
+                if (filePath != "")
+                {
+                    ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>viewFile('" + filePath + "');</script>");
+                }
+            }
         }
     }
 }

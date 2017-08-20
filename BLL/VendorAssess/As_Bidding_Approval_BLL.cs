@@ -2,6 +2,7 @@
 using MODEL.VendorAssess;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 
@@ -49,6 +50,21 @@ namespace BLL.VendorAssess
         public static int SubmitOk(string formID)
         {
             return As_Bidding_Approval_DAL.SubmitOk(formID);
+        }
+
+        public static string getFilePath(string fileID)
+        {
+            DataTable table = new DataTable();
+            string filePath = "";
+            table = File_Transform_DAL.getFilePath(fileID);
+            if(table.Rows.Count>0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    filePath = dr["File_Path"].ToString().Trim();
+                }
+            }
+            return filePath;
         }
     }
 }

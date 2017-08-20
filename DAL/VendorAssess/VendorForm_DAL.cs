@@ -58,9 +58,9 @@ namespace DAL
             return list;
         }
 
-        public static string isOverDue(string temp_Vendor_ID,string form_Type_ID)
+        public static string isOverDue(string temp_Vendor_ID,string form_Type_ID,string factory)
         {
-            string sql = "select flag from As_Vendor_FormType where Temp_Vendor_ID='" + temp_Vendor_ID + "' and Form_Type_ID='" + form_Type_ID + "'";
+            string sql = "select flag from As_Vendor_FormType where Temp_Vendor_ID='" + temp_Vendor_ID + "' and Form_Type_ID='" + form_Type_ID + "' and Factory_Name='" + factory + "'";
             DataTable table = new DataTable();
             int flag = 0;
             table = DBHelp.GetDataSet(sql);

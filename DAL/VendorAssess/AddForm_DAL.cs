@@ -27,6 +27,11 @@ namespace DAL
             return DBHelp.GetScalar(sql, sp);
         }
 
+        public static int upDateFormPath(string sql)
+        {
+            return DBHelp.ExecuteCommand(sql);
+        }
+
         public static bool deleteForm(string formID)
         {
             string sql = "delete from As_Form where Form_ID=@Form_ID";

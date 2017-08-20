@@ -1,6 +1,8 @@
 ﻿using DAL.VendorAssess;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -19,7 +21,14 @@ namespace BLL.VendorAssess
              * 3.文件转移 表 文件    normal
              * 
              */
-            
+
+            if (checkFileSubmit(tempVendorID, factory) && checkFormSubmit(tempVendorID, factory) && FormAccessSuccessFul(tempVendorID, factory))
+            {
+                string normalCode = "";
+                insertNormalCode(normalCode);
+            }
+            copyFile(getFilesWithPath(tempVendorID, factory));
+            copyFile(getFormsWithPath(tempVendorID, factory));
             return false;
         }
         private static bool checkFileSubmit(string tempVendorID, string factory)
@@ -78,7 +87,7 @@ namespace BLL.VendorAssess
             return File_Transform_DAL.AccessSuccessFul(tempVendorID, factory);
         }
 
-        private static bool generateNormalCode(string tempVendorID)
+        private static bool insertNormalCode(string tempVendorID)
         {
             /*
              * 1.形成真正的供应商Code
@@ -87,5 +96,81 @@ namespace BLL.VendorAssess
             string normalCode = "";
             return File_Transform_DAL.insertNormalCode(normalCode, tempVendorID);
         }
+
+        /// <summary>
+        /// 获取该供应商该厂的所有文件  不包括表
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <param name="factory"></param>
+        /// <returns></returns>
+        private static Dictionary<string,string> getFilesWithPath(string tempVendorID, string factory)
+        {
+            Dictionary<string, string> fileWithPath = new Dictionary<string, string>();
+            DataTable table = new DataTable();
+            List<string> fileIDlist = File_Transform_DAL.getFiles(tempVendorID, factory);
+            if (fileIDlist.Count > 0)
+            {
+                foreach (string fileID in fileIDlist)
+                {
+                    table = File_Transform_DAL.getFilePath(fileID);
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow dr in table.Rows)
+                        {
+                            string filePath = dr["File_Path"].ToString().Trim();
+                            fileWithPath.Add(fileID, filePath);
+                        }
+                    }
+                }
+            }
+            return fileWithPath;
+        }
+        /// <summary>
+        /// 获取该供应商该厂的所有的表
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <param name="factory"></param>
+
+        private static Dictionary<string, string> getFormsWithPath(string tempVendorID, string factory)
+        {
+            Dictionary<string, string> formWithPath = new Dictionary<string, string>();
+            DataTable table = new DataTable();
+            List<string> formIDlist = File_Transform_DAL.getForms(tempVendorID, factory);
+            if (formIDlist.Count > 0)
+            {
+                foreach (string formID in formIDlist)
+                {
+                    table = File_Transform_DAL.getFormPath(formID);
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow dr in table.Rows)
+                        {
+                            string filePath = dr["Form_Path"].ToString().Trim();
+                            formWithPath.Add(formID, filePath);
+                        }
+                    }
+                }
+            }
+            return formWithPath;
+        }
+
+        public static void copyFile(Dictionary<string, string> fileWithPath)
+        {
+            if (fileWithPath.Count > 0)
+            {
+                foreach (string key in fileWithPath.Keys)
+                {
+                    string fileID = key;
+                    string filePath = fileWithPath[key];
+                    FileInfo fi = new FileInfo(filePath);//文件复制
+                    string newNameAndPath = "";
+                    string newPath = "";
+                    fi.CopyTo(newPath, true);
+                    fi = new FileInfo(newPath);
+                    fi.MoveTo(newNameAndPath);
+                }
+            }
+        }
+
     }
 }
