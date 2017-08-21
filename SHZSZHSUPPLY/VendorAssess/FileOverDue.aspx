@@ -24,8 +24,8 @@
         &nbsp;&nbsp;&nbsp;&nbsp
         <asp:Label Text="厂区：" runat="server" CssClass="test"/>
         <asp:DropDownList ID="DropDownList1" runat="server" Height="20px" Width="99px">
-            <asp:ListItem>上海科勒</asp:ListItem>
-            <asp:ListItem Selected="True">中山科勒</asp:ListItem>
+            <asp:ListItem Selected="True">上海科勒</asp:ListItem>
+            <asp:ListItem>中山科勒</asp:ListItem>
             <asp:ListItem>珠海科勒</asp:ListItem>
         </asp:DropDownList>
         &nbsp;&nbsp;&nbsp;&nbsp

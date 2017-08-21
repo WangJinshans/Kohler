@@ -178,8 +178,14 @@ table.gridtable td {
               margin-left: 0px;
           }
 	</style>
+    <script>
+        function viewFile(filePath)
+        {
+            window.open(filePath);
+        }
+    </script>
      <script>
-        function takeScreenshot() {
+         function takeScreenshot(file, formID) {
             html2canvas(document.getElementById("table1"), {
                 // 渲染完成时调用，获得 canvas
                 onrendered: function (canvas) {
@@ -214,17 +220,29 @@ table.gridtable td {
                             }
                         }
                     }
-                    pdf.save('content.pdf');
+                    pdf.autoPrint();
+                    pdf.save(file);
+                    requestToPdfAshx(file, formID);
                 },
                 background: "#f7f7f7"    //设置PDF背景色（默认透明，实际显示为黑色）
             });
         }
     </script>
-
+    <script>
+        function requestToPdfAshx(fileName,formID) {
+            $.get(
+                "ASHX/PDF.ashx",
+                { "fileName": fileName,"formID":formID},
+                function (res) {
+                    alert(res);
+                }
+            );
+        }
+    </script>
 </head>
 <body>
     <form id="form1" runat="server">
-        <input type="button" value="Pdf" onclick="takeScreenshot()" />
+        <asp:Button Text="PDF" ID="Button1" runat="server" OnClick="Button1_Click" />
     <div style="text-align:right" class="auto-style12">PR-05-07-04</div><br>
         <table id="table1" style="margin: auto; border-collapse:initial" cellpadding="0" cellspacing="0">
             <caption style="font-size:xx-large; " class="auto-style2">VENDOR BLOCK or UNBLOCK</caption>
@@ -324,7 +342,7 @@ table.gridtable td {
 			</asp:GridView>
         </div>
         <div>
-            <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" CellPadding="4" GridLines="None" ForeColor="#333333">
+            <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView2_RowCommand" CellPadding="4" GridLines="None" ForeColor="#333333">
 						<AlternatingRowStyle BackColor="White" ForeColor="#284775" />
 				<Columns>
 					<asp:BoundField DataField="Form_ID" HeaderText="表格编号"
@@ -334,7 +352,7 @@ table.gridtable td {
 
 					<asp:TemplateField>
 						<ItemTemplate>
-							<asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="fail"
+							<asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="view"
 								CommandArgument='<%# Eval("File_ID") %>'>查看文件</asp:LinkButton>
 						</ItemTemplate>
 					</asp:TemplateField>

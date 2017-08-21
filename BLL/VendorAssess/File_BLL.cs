@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DAL;
 using Model;
 using System.Web;
+using System.Data;
 
 namespace BLL
 {
@@ -74,6 +75,22 @@ namespace BLL
         public static string getFileName(string fileTypeID, string temp_Vendor_ID, string factory_Name)
         {
             return VendorFile_DAL.getFileName(fileTypeID, temp_Vendor_ID, factory_Name);
+        }
+        
+        public static string getFilePath(string name,string factory)
+        {
+            string sql = "select File_Path from As_File where [File_Name]='" + name + "' and Factory_Name='" + factory + "'";
+            DataTable table = new DataTable();
+            string path = "";
+            table = File_DAL.getFilePath(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    path = dr["File_Path"].ToString().Trim();
+                }
+            }
+            return path;
         }
     }
 }

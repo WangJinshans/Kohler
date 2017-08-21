@@ -101,7 +101,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         public void showfilelist(string FormID)
         {
             As_Form_File Form_File = new As_Form_File();
-            string sql = "select * from As_Form_File where Form_ID='" + FormID + "'";
+            string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
             PagedDataSource objpds = new PagedDataSource();
             objpds.DataSource = FormFile_BLL.listFile(sql);
             GridView2.DataSource = objpds;
@@ -175,6 +175,29 @@ namespace SHZSZHSUPPLY.VendorAssess
                     break;
                 default:
                     break;
+            }
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            getSessionInfo();
+            //形成文件的ID 计划将简称保存到数据库的对应表中
+            string time = DateTime.Now.ToString();
+            string file = "assss.pdf";
+            ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>takeScreenshot('" + file + "','" + formID + "');</script>");
+        }
+
+        protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
+            string fileID = GridView2.Rows[drv.RowIndex].Cells[1].Text.ToString().Trim();//获取fileID
+            if (e.CommandName == "view")
+            {
+                string filePath = VendorCreation_BLL.getFilePath(fileID);
+                if (filePath != "")
+                {
+                    ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>viewFile('" + filePath + "');</script>");
+                }
             }
         }
     }

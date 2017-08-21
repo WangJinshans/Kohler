@@ -10,6 +10,11 @@
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
     <script src="Script/Own/fileUploader.js"></script>
+    <script>
+        function viewFile(filePath) {
+            window.open("../files/a.pdf");
+        }
+    </script>
     <style type="text/css">
 	 
 		.td-label-style {
@@ -253,7 +258,7 @@ table.gridtable td {
          <asp:Button ID="Button3" runat="server" Text="返回" OnClick="Button3_Click" />
         </div>
         <div>
-            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" CellPadding="4" GridLines="None" ForeColor="#333333">
+            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" CellPadding="4" GridLines="None" ForeColor="#333333">
 						<AlternatingRowStyle BackColor="White" ForeColor="#284775" />
 				<Columns>
 					<asp:BoundField DataField="Form_ID" HeaderText="表格编号"
@@ -263,7 +268,7 @@ table.gridtable td {
 
 					<asp:TemplateField>
 						<ItemTemplate>
-							<asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="fail"
+							<asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="view"
 								CommandArgument='<%# Eval("File_ID") %>'>查看文件</asp:LinkButton>
 						</ItemTemplate>
 					</asp:TemplateField>

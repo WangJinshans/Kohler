@@ -11,6 +11,11 @@
     <script src="Script/layui/layui.js"></script>
     <script src="Script/Own/fileUploader.js"></script>
 	<script type="text/javascript" src="Script/My97DatePicker/WdatePicker.js" ></script>
+    <script>
+        function viewFile(filePath) {
+            window.open("../files/a.pdf");
+        }
+    </script>
 	<style type="text/css">
 	 
 		.td-label-style {
@@ -573,7 +578,7 @@ table.gridtable td {
 				</asp:GridView>
 			</tr>--%>
 			<tr>
-				<asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" CellPadding="4" GridLines="None" ForeColor="#333333">
+				<asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" CellPadding="4" OnRowCommand="GridView2_RowCommand" GridLines="None" ForeColor="#333333">
 						<AlternatingRowStyle BackColor="White" ForeColor="#284775" />
 				<Columns>
 					<asp:BoundField DataField="Form_ID" HeaderText="表格编号"

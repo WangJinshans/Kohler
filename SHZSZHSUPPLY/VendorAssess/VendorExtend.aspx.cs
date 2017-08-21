@@ -90,7 +90,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         private void showfilelist(string FormID)
         {
             As_Form_File Form_File = new As_Form_File();
-            string sql = "select * from As_Form_File where Form_ID='" + FormID + "'";
+            string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
             PagedDataSource objpds = new PagedDataSource();
             objpds.DataSource = FormFile_BLL.listFile(sql);
             GridView1.DataSource = objpds;
@@ -161,7 +161,8 @@ namespace SHZSZHSUPPLY.VendorAssess
                 TextBox8.Text = v.Money_Type;
                 Image1.ImageUrl = v.Line_Manager;
                 TextBox10.Text = v.Comments;
-            }    
+            }
+            showfilelist(formID);
         }
 
         private void bindingFormWithFile()
@@ -192,6 +193,17 @@ namespace SHZSZHSUPPLY.VendorAssess
             factory = Session["Factory_Name"].ToString().Trim();
             formID = VendorExtend_BLL.getFormID(tempVendorID, FORM_TYPE_ID, factory);
             submit = Request.QueryString["submit"];
+        }
+
+        protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
+            string fileID = GridView1.Rows[drv.RowIndex].Cells[1].ToString().Trim();//获取fileID
+            string filePath = As_Vendor_Designated_Apply_BLL.getFilePath(fileID);
+            if (filePath != "")
+            {
+                ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>viewFile('" + filePath + "');</script>");
+            }
         }
     }
 }

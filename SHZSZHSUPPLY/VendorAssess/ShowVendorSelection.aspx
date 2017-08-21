@@ -70,8 +70,8 @@
         }
     </style>
 
-    <script>
-        function takeScreenshot() {
+       <script>
+           function takeScreenshot(file, formID) {
             html2canvas(document.getElementById("div1"), {
                 // 渲染完成时调用，获得 canvas
                 onrendered: function (canvas) {
@@ -106,7 +106,9 @@
                             }
                         }
                     }
-                    pdf.save('content.pdf');
+                    pdf.autoPrint();
+                    pdf.save(file);
+                    requestToPdfAshx(file, formID);
                 },
                 background: "#f7f7f7"    //设置PDF背景色（默认透明，实际显示为黑色）
             });
@@ -177,11 +179,25 @@
                 document.getElementById("total" + (i + 1)).textContent = total;
             }
         }
+        function requestToPdfAshx(fileName, formID) {
+            $.get(
+                "ASHX/PDF.ashx",
+                { "fileName": fileName, "formID": formID },
+                function (res) {
+                    alert(res);
+                }
+            );
+        }
+    </script>
+     <script>
+        function viewFile(filePath) {
+            window.open("../files/a.pdf");
+        }
     </script>
 </head>
 <body>
     <form id="form1" runat="server">
-        <input type="button" value="Pdf" onclick="takeScreenshot()" />
+        <asp:Button Text="PDF" runat="server" ID ="Button1" OnClick="Button1_Click" />
         <%--<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
 		<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />--%>
         <div id="div1">
@@ -1011,6 +1027,7 @@
                                 <SortedDescendingHeaderStyle BackColor="#4870BE" />
                             </asp:GridView>
 
+<<<<<<< HEAD
                         </div>
                     </td>
                     <td>
@@ -1047,5 +1064,43 @@
             </table>
         </div>
     </form>
+=======
+						</div>
+					</td>
+					<td>
+						<div>
+							<asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" CellPadding="4" OnRowCommand="GridView2_RowCommand" GridLines="None" ForeColor="#333333">
+								<AlternatingRowStyle BackColor="White" />
+								<Columns>
+									<asp:BoundField DataField="Form_ID" HeaderText="表格编号"
+										SortExpression="Form_ID" />
+									<asp:BoundField DataField="File_ID" HeaderText="文件编号"
+										SortExpression="File_ID" />
+
+									<asp:TemplateField>
+										<ItemTemplate>
+											<asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="view"
+												CommandArgument='<%# Eval("File_ID") %>'>查看文件</asp:LinkButton>
+										</ItemTemplate>
+									</asp:TemplateField>
+								</Columns>
+								<EditRowStyle BackColor="#2461BF" />
+								<FooterStyle BackColor="#507CD1" ForeColor="White" Font-Bold="True" />
+								<HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+								<PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
+								<RowStyle BackColor="#EFF3FB" />
+								<SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
+								<SortedAscendingCellStyle BackColor="#F5F7FB" />
+								<SortedAscendingHeaderStyle BackColor="#6D95E1" />
+								<SortedDescendingCellStyle BackColor="#E9EBEF" />
+								<SortedDescendingHeaderStyle BackColor="#4870BE" />
+							</asp:GridView>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</form>
+>>>>>>> WJS_8_13_File_Transfer
 </body>
 </html>

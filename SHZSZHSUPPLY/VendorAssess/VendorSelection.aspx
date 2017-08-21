@@ -24,9 +24,14 @@
         });
     </script>
     <script>
-        function JSONLength(obj) {
-            var size = 0, key;
-            for (key in obj) {
+        function viewFile(filePath) {
+            window.open("../files/a.pdf");
+        }
+    </script>
+    <script>
+        function JSONLength(obj) {  
+            var size = 0, key;  
+            for (key in obj) {  
                 if (obj.hasOwnProperty(key))
                     size++;
             }
@@ -1097,27 +1102,27 @@
                             <asp:BoundField DataField="File_ID" HeaderText="文件编号"
                                 SortExpression="File_ID" />
 
-                            <asp:TemplateField>
-                                <ItemTemplate>
-                                    <asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="fail"
-                                        CommandArgument='<%# Eval("File_ID") %>'>查看文件</asp:LinkButton>
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                        </Columns>
-                        <EditRowStyle BackColor="#999999" />
-                        <FooterStyle BackColor="#5D7B9D" ForeColor="White" Font-Bold="True" />
-                        <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-                        <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
-                        <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
-                        <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
-                        <SortedAscendingCellStyle BackColor="#E9E7E2" />
-                        <SortedAscendingHeaderStyle BackColor="#506C8C" />
-                        <SortedDescendingCellStyle BackColor="#FFFDF8" />
-                        <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
-                    </asp:GridView>
-                </tr>
-            </table>
-        </div>
+					<asp:TemplateField>
+						<ItemTemplate>
+							<asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="view"
+								CommandArgument='<%# Eval("File_ID") %>'>查看文件</asp:LinkButton>
+						</ItemTemplate>
+					</asp:TemplateField>
+				</Columns>
+						<EditRowStyle BackColor="#999999" />
+				<FooterStyle BackColor="#5D7B9D" ForeColor="White" Font-Bold="True" />
+				<HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+				<PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
+				<RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
+				<SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
+				<SortedAscendingCellStyle BackColor="#E9E7E2" />
+				<SortedAscendingHeaderStyle BackColor="#506C8C" />
+				<SortedDescendingCellStyle BackColor="#FFFDF8" />
+				<SortedDescendingHeaderStyle BackColor="#6F8DAE" />
+			</asp:GridView>
+			</tr>
+		</table>
+	</div>
 
     </form>
 </body>

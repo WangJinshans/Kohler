@@ -50,6 +50,11 @@ namespace DAL
             return numbers;
         }
 
+        public static DataTable getFilePath(string sql)
+        {
+            return DBHelp.GetDataSet(sql);
+        }
+
         /// <summary>
         /// 获取指定id供应商的已上传文件id
         /// </summary>

@@ -1,19 +1,18 @@
 ﻿using BLL;
 using BLL.VendorAssess;
 using Model;
-using MODEL;
 using MODEL.VendorAssess;
-using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
+using System.Collections.Generic;
 using System.Web.UI.WebControls;
 
 namespace SHZSZHSUPPLY.VendorAssess
 {
-    public partial class FileOverDue : System.Web.UI.Page
+    public partial class FormOverDue : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+           
         }
 
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -22,10 +21,10 @@ namespace SHZSZHSUPPLY.VendorAssess
             string formid = GridView1.Rows[drv.RowIndex].Cells[0].Text;
             string temp_Vendor_ID = GridView1.Rows[drv.RowIndex].Cells[1].Text;
             string optional = GridView1.Rows[drv.RowIndex].Cells[2].Text;//可选与必选
-            string status = GridView1.Rows[drv.RowIndex].Cells[3].Text;//状态标志  如果为审批中 无法再次重填
+            string status= GridView1.Rows[drv.RowIndex].Cells[3].Text;//状态标志  如果为审批中 无法再次重填
             string submit = "";//提交的顺序控制
             string aimPageName = "";
-
+            
             /*
              *
              *
@@ -57,7 +56,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
             if (optional == "必选")
             {
-                if (isMinimum(selectedFormPriorityNumber, temp_Vendor_ID))
+                if (isMinimum(selectedFormPriorityNumber,temp_Vendor_ID))
                 {
                     submit = "yes";
                 }
@@ -170,13 +169,13 @@ namespace SHZSZHSUPPLY.VendorAssess
                     //vendors.Form_ID = form_ID;
                     //vendors.Flag = 0;
                     //FormOverDue_BLL.addVendorFormType(vendors);
-                    aimPageName = "VendorDesignatedApply.aspx";
+                    aimPageName = "VendorDesignatedApply.aspx";        
                 }
                 /*
                  * 
                  * 原来传递的时候有type 不清楚是干什么的 貌似也没有用到  这里暂时不传递type
                  */
-                Response.Redirect(aimPageName + "?submit=" + submit);
+                Response.Redirect(aimPageName + "?submit="+submit);
             }
         }
 
@@ -186,10 +185,10 @@ namespace SHZSZHSUPPLY.VendorAssess
             if (Temp_Vendor_ID != null)//通过VendorID来加载数据库中该供应商的过期文件
             {
                 PagedDataSource dataSource = new PagedDataSource();
-                dataSource.DataSource = FormOverDue_BLL.getOverDueForm(Temp_Vendor_ID, DropDownList1.SelectedValue);
+                dataSource.DataSource = FormOverDue_BLL.getOverDueForm(Temp_Vendor_ID,DropDownList1.SelectedValue);
                 GridView1.DataSource = dataSource;
                 GridView1.DataBind();
-                Session["tempVendorID"] = this.TextBox1.Text.ToString().Trim();
+                Session["tempVendorID"]= this.TextBox1.Text.ToString().Trim();
             }
         }
 
