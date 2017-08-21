@@ -50,7 +50,7 @@ namespace BLL.VendorAssess
                         for (int i = 0; i < smlDr.Length; i++)
                         {
                             nm[t] = smlDr[i]["Temp_Vendor_Name"].ToString();
-                            nm[t + 1] = smlDr[i]["Temp_Vendor_Id"].ToString();
+                            nm[t + 1] = smlDr[i]["Temp_Vendor_ID"].ToString();
                             t += 2;
                         }
                         info[item["Factory_Name"].ToString()].Add(item["Vendor_Type"].ToString(), nm);
@@ -72,7 +72,7 @@ namespace BLL.VendorAssess
         public static string readFormExceptionInfo(string formID)
         {
             string result = "";
-            DataTable dt = Write_DAL.getHistory(As_Write.APPROVE_FAIL, formID, true);
+            DataTable dt = Write_DAL.getHistory(new string[] { As_Write.APPROVE_FAIL }, formID, true);
             if (dt.Rows.Count > 0)
             {
                 foreach (DataRow item in dt.Rows)
@@ -87,7 +87,7 @@ namespace BLL.VendorAssess
         public static string readFormNormalInfo(string formID)
         {
             string result = "";
-            DataTable dt = Write_DAL.getHistory(As_Write.APPROVE_SUCCESS, formID, true);
+            DataTable dt = Write_DAL.getHistory(new string[] { As_Write.APPROVE_SUCCESS,As_Write.FORM_EDIT,As_Write.FORM_MULTI_EDIT }, formID, true);
             if (dt.Rows.Count>0)
             {
                 foreach (DataRow item in dt.Rows)

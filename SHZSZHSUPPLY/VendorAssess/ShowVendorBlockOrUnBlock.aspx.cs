@@ -11,7 +11,8 @@ namespace SHZSZHSUPPLY.VendorAssess
     {
         private string formID = null;
         private string positionName = null;
-        
+        private string FORM_TYPE_ID = "";
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -77,6 +78,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             formID = Session["formID"].ToString();
             positionName = Session["Position_Name"].ToString();
+            FORM_TYPE_ID = Request.QueryString["type"];
         }
 
 
@@ -93,7 +95,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     if (positionName.Equals(Session["Position_Name"].ToString()))
                     {
                         //int i = AssessFlow_BLL.updateApprove(formid, positionName);
-                        if (LocalApproveManager.doSuccessApprove(formID, Session["tempVendorID"].ToString(), "019", positionName))
+                        if (LocalApproveManager.doSuccessApprove(formID, Session["tempVendorID"].ToString(), FORM_TYPE_ID, positionName))
                         {
                             Response.Write("<script>window.alert('成功通过审批！');window.location.href='ShowVendorDesignatedApply.aspx'</script>");
                         }

@@ -68,8 +68,8 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             switch (commandArgument)
             {
-                case "016":
-                    Response.Redirect("VendorSelection.aspx");
+                case "018":
+                    Response.Redirect("VendorSelection.aspx?type=018");
                     break;
                 default:
                     break;

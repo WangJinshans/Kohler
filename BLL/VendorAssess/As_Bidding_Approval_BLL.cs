@@ -32,9 +32,9 @@ namespace BLL.VendorAssess
             return As_Bidding_Approval_DAL.updateVendorBiddingApprovalForm(vendorApproval);
         }
 
-        public static string getFormID(string tempVendorID,string form_name,string factory)
+        public static string getFormID(string tempVendorID,string Form_Type_ID, string factory)
         {
-            return As_Bidding_Approval_DAL.getFormID(tempVendorID, form_name, factory);
+            return As_Bidding_Approval_DAL.getFormID(tempVendorID, Form_Type_ID, factory);
         }
 
         public static As_Bidding_Approval getBiddingForm(string formID)

@@ -35,9 +35,9 @@ namespace BLL
             return VendorExtend_DAL.getVendorExtendFlag(FormId);
         }
 
-        public static string getFormID(string tempVendorID,string form_Name,string factory)
+        public static string getFormID(string tempVendorID,string formTypeID,string factory)
         {
-            return VendorExtend_DAL.getFormID(tempVendorID, form_Name, factory);
+            return VendorExtend_DAL.getFormID(tempVendorID,formTypeID, factory);
         }
 
         public static int SubmitOk(string formID)

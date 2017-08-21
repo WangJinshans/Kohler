@@ -12,8 +12,7 @@ namespace AendorAssess
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            //TODO::sql中添加factory
-            string sql = "select * from View_Approve_Top where Position_Name='" + Session["Position_Name"].ToString() + "'";
+            string sql = String.Format("select * from View_Approve_Top where Position_Name='{0}' and Factory_Name='{1}'", Session["Position_Name"].ToString(),Session["Factory_Name"]);
             PagedDataSource objpds = new PagedDataSource();
             objpds.DataSource = SelectApproveForm_BLL.selectApproveForm(sql);
             GridView1.DataSource = objpds;

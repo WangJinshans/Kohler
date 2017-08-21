@@ -218,7 +218,7 @@
 
         <div style="width:200px;margin:50px auto 0 auto">
             <asp:Button ID="btnYes" runat="server" CssClass="layui-btn" Text="确定" OnClick="btnYes_Click" UseSubmitBehavior="False"/>
-            <asp:Button ID="btnNo" runat="server" CssClass="layui-btn layui-btn-primary" Text="返回" />
+            <asp:Button ID="btnNo" runat="server" CssClass="layui-btn layui-btn-primary" Text="返回" OnClick="btnNo_Click" />
         </div>
 
     </form>

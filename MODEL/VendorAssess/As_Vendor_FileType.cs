@@ -14,6 +14,7 @@ namespace Model
         private int flag;
         private string file_ID;
         private string factory_Name;
+        private string file_Type_Range;
 
 
 
@@ -93,6 +94,19 @@ namespace Model
             set
             {
                 factory_Name = value;
+            }
+        }
+
+        public string File_Type_Range
+        {
+            get
+            {
+                return file_Type_Range;
+            }
+
+            set
+            {
+                file_Type_Range = value;
             }
         }
     }

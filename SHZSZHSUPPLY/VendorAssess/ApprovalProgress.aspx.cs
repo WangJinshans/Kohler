@@ -22,8 +22,6 @@ namespace SHZSZHSUPPLY.VendorAssess
             if (!IsPostBack)
             {
                 readVendorInfo();
-
-                bindGridData("TempVendor1037");
             }
             else
             {

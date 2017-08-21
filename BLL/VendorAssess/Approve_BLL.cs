@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Model;
 
 namespace BLL.VendorAssess
 {
@@ -31,6 +32,11 @@ namespace BLL.VendorAssess
                 EditFlow_DAL.deleteFormEditFlow(formID);
             }
             return true;
+        }
+
+        public static As_Approve getApproveTop(string formID)
+        {
+            return Approve_DAL.getApproveTop(formID);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="KCI.aspx.cs" Inherits="SHZSZHSUPPLY.VendorAssess.KCI" %>
+﻿<%@ Page Language="C#" Async="true" AutoEventWireup="true" CodeBehind="KCI.aspx.cs" Inherits="SHZSZHSUPPLY.VendorAssess.KCI" %>
 
 <!DOCTYPE html>
 

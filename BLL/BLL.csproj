@@ -72,6 +72,8 @@
     <Compile Include="VendorAssess\FileOverDue_BLL.cs" />
     <Compile Include="VendorAssess\FormOverDue_BLL.cs" />
     <Compile Include="VendorAssess\KCIApproval_BLL.cs" />
+    <Compile Include="VendorAssess\Mail.cs" />
+    <Compile Include="VendorAssess\MultiEdit_BLL.cs" />
     <Compile Include="VendorAssess\NewForms_BLL.cs" />
     <Compile Include="VendorAssess\Signature_BLL.cs" />
     <Compile Include="VendorAssess\VendorSelectionSupplier_BLL.cs" />

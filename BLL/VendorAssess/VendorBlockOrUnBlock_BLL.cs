@@ -39,9 +39,9 @@ namespace BLL
             return VendorBlockOrUnBlock_DAL.getVendorBlockFlag(FormId);
         }
 
-        public static string getFormID(string tempVendorID, string fORM_NAME, string factory)
+        public static string getFormID(string tempVendorID, string Form_Type_ID, string factory)
         {
-            return VendorBlockOrUnBlock_DAL.getFormID(tempVendorID, fORM_NAME, factory);
+            return VendorBlockOrUnBlock_DAL.getFormID(tempVendorID, Form_Type_ID, factory);
         }
 
         public static int SubmitOk(string formID)

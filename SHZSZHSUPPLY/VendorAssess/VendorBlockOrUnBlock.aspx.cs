@@ -11,8 +11,8 @@ namespace SHZSZHSUPPLY.VendorAssess
     {
         private As_Vendor_Block_Or_UnBlock Vendor;
         private static string factory;
-        public const string FORM_NAME = "供应商信息表(恢复/删除/block)";
-        public const string FORM_TYPE_ID = "021";//未改
+        public string FORM_NAME = "供应商信息表(恢复/删除/block)";
+        public string FORM_TYPE_ID = "021";//未改
         private string tempVendorID = "";
         private string tempVendorName = "";
         private string formID = "";
@@ -26,6 +26,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             if (!IsPostBack)
             {
                 getSessionInfo();
+
                 int check = VendorBlockOrUnBlock_BLL.checkVendorBlock(formID);//检查是否存在这张表
                 if (check == 0)//数据库中不存在这张表，则自动初始化
                 {
@@ -69,9 +70,9 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void Button2_Click(object sender, EventArgs e)
         {
-            int submits = 1;
-            submits = VendorBlockOrUnBlock_BLL.SubmitOk(formID);
-            if (submit == "yes" && submits == 0)
+            getSessionInfo();
+
+            if (submit == "yes" )
             {
                 saveForm(1, "提交");
                 approveAssess(formID);
@@ -176,10 +177,14 @@ namespace SHZSZHSUPPLY.VendorAssess
         }
         private void getSessionInfo()
         {
+            //初始化常量（伪）
+            FORM_TYPE_ID = Request.QueryString["type"];
+            FORM_NAME = FormType_BLL.getFormNameByTypeID(FORM_TYPE_ID);
+
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
             factory = Session["Factory_Name"].ToString().Trim();
-            formID = VendorBlockOrUnBlock_BLL.getFormID(tempVendorID,FORM_NAME, factory);
+            formID = VendorBlockOrUnBlock_BLL.getFormID(tempVendorID, FORM_TYPE_ID, factory);
             submit = Request.QueryString["submit"];
         }
     }

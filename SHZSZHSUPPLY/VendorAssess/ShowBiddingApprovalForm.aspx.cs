@@ -16,6 +16,8 @@ namespace SHZSZHSUPPLY.VendorAssess
     {
         private string formID = null;
         private string positionName = null;
+        private string FORM_TYPE_ID = "";
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -158,17 +160,17 @@ namespace SHZSZHSUPPLY.VendorAssess
             //重新读取session信息
             getSessionInfo();
 
-            //TODO::简单的审批权限控制，通过之后无法再拒绝，拒绝之后无法再通过，拒绝需要填写原因，三厂区分
+            //参数
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
             string formid = GridView1.Rows[drv.RowIndex].Cells[0].Text;
             string selectPositionName = GridView1.Rows[drv.RowIndex].Cells[1].Text;
 
+            //如果是通过
             if (e.CommandName == "approvesuccess")
             {
                 if (selectPositionName.Equals(positionName))
                 {
-                    int i = AssessFlow_BLL.updateApprove(formid, positionName);
-                    if (LocalApproveManager.doSuccessApprove(formID, Session["tempVendorID"].ToString(), "002", positionName))
+                    if (LocalApproveManager.doSuccessApprove(formID, Session["tempVendorID"].ToString(), FORM_TYPE_ID, positionName))
                     {
                         Response.Write("<script>window.alert('成功通过审批！');window.location.href='ShowBiddingApprovalForm.aspx'</script>");
                     }
@@ -182,11 +184,11 @@ namespace SHZSZHSUPPLY.VendorAssess
                     Response.Write("<script>window.alert('当前登录账号无对应权限！')</script>");
                 }
 
-            }
+            }//如果拒绝
             else if (e.CommandName == "fail")
             {
                 if (selectPositionName.Equals(positionName))
-                {
+                {//填写原因
                     LocalScriptManager.CreateScript(Page, String.Format("openReasonDialog('{0}','{1}','{2}',{3})", formID, positionName, Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString()), "null"), "reasonDialog");
                 }
                 else
@@ -194,7 +196,6 @@ namespace SHZSZHSUPPLY.VendorAssess
                     Response.Write("<script>window.alert('当前登录账号无对应权限！')</script>");
                 }
             }
-            //TODO::如果是最后一个审批人，设置完成状态或者hold等待kci
         }
 
         /// <summary>
@@ -204,6 +205,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             formID = Session["formID"].ToString();
             positionName = Session["Position_Name"].ToString();
+            FORM_TYPE_ID = Request.QueryString["type"];
         }
     }
 }

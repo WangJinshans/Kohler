@@ -9,8 +9,8 @@ namespace VendorAssess
 {
     public partial class VendorDesignatedApply : System.Web.UI.Page
     {
-        public const string FORM_NAME = "指定供应商申请表";
-        public const string FORM_TYPE_ID = "004";
+        public  string FORM_NAME = "指定供应商申请表";
+        public  string FORM_TYPE_ID = "004";
         private static string factory;
         private string tempVendorID = "";
         private string tempVendorName = "";
@@ -106,10 +106,14 @@ namespace VendorAssess
         /// </summary>
         private void getSessionInfo()
         {
+            //初始化常量（伪）
+            FORM_TYPE_ID = Request.QueryString["type"];
+            FORM_NAME = FormType_BLL.getFormNameByTypeID(FORM_TYPE_ID);
+
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
             factory= Session["Factory_Name"].ToString().Trim();
-            formID = As_Vendor_Designated_Apply_BLL.getFormID(tempVendorID,FORM_NAME,factory);
+            formID = As_Vendor_Designated_Apply_BLL.getFormID(tempVendorID, FORM_TYPE_ID, factory);
             submit = Request.QueryString["submit"];
         }
 
@@ -213,30 +217,30 @@ namespace VendorAssess
         /// </summary>
         /// <param name="formTypeID"></param>
         /// <param name="formID"></param>
-        public void newApproveAccess(string formTypeID, string formID)
-        {
-            //形成参数
-            As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(formTypeID);
+        //public void newApproveAccess(string formTypeID, string formID)
+        //{
+        //    //形成参数
+        //    As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(formTypeID);
 
-            //写入session之后供SelectDepartment页面使用
-            Session["AssessflowInfo"] = assess_flow;
-            Session["tempVendorID"] = tempVendorID;
-            Session["factory"] = "上海科勒";//TODO:自动三厂选择
-            Session["form_name"] = FORM_NAME;
-            Session["tempVendorName"] = tempVendorName;
+        //    //写入session之后供SelectDepartment页面使用
+        //    Session["AssessflowInfo"] = assess_flow;
+        //    Session["tempVendorID"] = tempVendorID;
+        //    Session["factory"] = "上海科勒";//TODO:自动三厂选择
+        //    Session["form_name"] = FORM_NAME;
+        //    Session["tempVendorName"] = tempVendorName;
 
-            //如果是用户部门
-            if (assess_flow.User_Department_Assess == "1")
-            {
-                LocalScriptManager.CreateScript(Page, "popUp('" + formID + "');", "SHOW");
-            }
-            else
-            {
-                Session["tempvendorname"] = tempVendorName;
-                Session["Employee_ID"] = Session["Employee_ID"];
-                Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx'</script>");
-            }
-        }
+        //    //如果是用户部门
+        //    if (assess_flow.User_Department_Assess == "1")
+        //    {
+        //        LocalScriptManager.CreateScript(Page, "popUp('" + formID + "');", "SHOW");
+        //    }
+        //    else
+        //    {
+        //        Session["tempvendorname"] = tempVendorName;
+        //        Session["Employee_ID"] = Session["Employee_ID"];
+        //        Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx'</script>");
+        //    }
+        //}
 
 
         /// <summary>
@@ -307,9 +311,8 @@ namespace VendorAssess
         public void Button1_Click(object sender, EventArgs e)//提交按钮
         {
             getSessionInfo();
-            int submits = 1;
-            submits = As_Vendor_Designated_Apply_BLL.SubmitOk(formID);
-            if (submit == "yes" && submits == 0)
+            
+            if (submit == "yes")
             {
                 //形成参数
                 As_Vendor_Designated_Apply Vendor_Designated = saveForm(2, "提交表格");

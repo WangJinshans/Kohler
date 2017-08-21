@@ -18,5 +18,10 @@ namespace BLL
         {
             return File_Type_DAL.selectFileTypeID(FileTypeName);
         }
+
+        public static string getSpec(string fileTypeID)
+        {
+            return File_Type_DAL.getSpec(fileTypeID);
+        }
     }
 }

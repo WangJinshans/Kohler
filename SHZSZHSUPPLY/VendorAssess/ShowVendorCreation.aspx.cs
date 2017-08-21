@@ -15,6 +15,8 @@ namespace SHZSZHSUPPLY.VendorAssess
     {
         private string formID = null;
         private string positionName = null;
+        private string FORM_TYPE_ID = "";
+
         /// <summary>
         /// formID怎么得到  通过表审批的formID确定每一张表
         /// 
@@ -111,7 +113,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             //重新读取session信息
             getSessionInfo();
 
-            //TODO::简单的审批权限控制，通过之后无法再拒绝，拒绝之后无法再通过，拒绝需要填写原因，三厂区分
+            //参数
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
             string formid = GridView1.Rows[drv.RowIndex].Cells[0].Text;
             string selectPositionName = GridView1.Rows[drv.RowIndex].Cells[1].Text;
@@ -121,7 +123,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 if (selectPositionName.Equals(Session["Position_Name"].ToString()))
                 {
                     //int i = AssessFlow_BLL.updateApprove(formid, positionName);
-                    if (LocalApproveManager.doSuccessApprove(formID, Session["tempVendorID"].ToString(), "017", positionName))
+                    if (LocalApproveManager.doSuccessApprove(formID, Session["tempVendorID"].ToString(), FORM_TYPE_ID, positionName))
                     {
                         Response.Write("<script>window.alert('成功通过审批！');window.location.href='ShowVendorCreation.aspx'</script>");
                     }
@@ -156,6 +158,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             formID = Session["formID"].ToString();
             positionName = Session["Position_Name"].ToString();
+            FORM_TYPE_ID = Request.QueryString["type"];
         }
 
 

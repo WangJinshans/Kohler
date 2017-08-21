@@ -31,5 +31,32 @@ namespace SHZSZHSUPPLY.Properties {
                 return ((string)(this["Vendor_Discovery_Type_ID"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Mail_Enabled {
+            get {
+                return ((bool)(this["Mail_Enabled"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("../files/")]
+        public string File_UpLoad_Path {
+            get {
+                return ((string)(this["File_UpLoad_Path"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Log_Enabled {
+            get {
+                return ((bool)(this["Log_Enabled"]));
+            }
+        }
     }
 }

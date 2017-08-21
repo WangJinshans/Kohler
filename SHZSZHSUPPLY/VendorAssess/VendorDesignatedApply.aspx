@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="VendorDesignatedApply.aspx.cs" Inherits="VendorAssess.VendorDesignatedApply" %>
+﻿<%@ Page Language="C#" Async="true" AutoEventWireup="true" CodeBehind="VendorDesignatedApply.aspx.cs" Inherits="VendorAssess.VendorDesignatedApply" %>
 
 <!DOCTYPE html>
 

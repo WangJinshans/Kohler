@@ -9,9 +9,9 @@ namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class VendorExtend : System.Web.UI.Page
     {
-        public const string FORM_NAME = "供应商信息表(扩展)";
+        public string FORM_NAME = "供应商信息表(扩展)";
+        public string FORM_TYPE_ID = "022";
         private static string factory = "";
-        public const string FORM_TYPE_ID = "022";
         private string tempVendorID = "";
         private string tempVendorName = "";
         private string formID = "";
@@ -23,6 +23,9 @@ namespace SHZSZHSUPPLY.VendorAssess
             Image1.Visible = false;
             if (!IsPostBack)
             {
+                //获取formID信息
+                getSessionInfo();
+
                 int check = VendorExtend_BLL.checkVendorExtend(formID);//检查是否存在这张表
                 if (check == 0)//数据库中不存在这张表，则自动初始化
                 {
@@ -65,8 +68,8 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void Button2_Click(object sender, EventArgs e)//提交
         {
-            int submits = 1;
-            submits = VendorExtend_BLL.SubmitOk(formID);
+            getSessionInfo();
+
             if (submit == "yes")
             {
                 saveForm(2, "提交");
@@ -180,10 +183,14 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         private void getSessionInfo()
         {
+            //初始化常量（伪）
+            FORM_TYPE_ID = Request.QueryString["type"];
+            FORM_NAME = FormType_BLL.getFormNameByTypeID(FORM_TYPE_ID);
+
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
             factory = Session["Factory_Name"].ToString().Trim();
-            formID = VendorExtend_BLL.getFormID(tempVendorID,FORM_NAME,factory);
+            formID = VendorExtend_BLL.getFormID(tempVendorID, FORM_TYPE_ID, factory);
             submit = Request.QueryString["submit"];
         }
     }

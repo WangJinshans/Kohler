@@ -8,8 +8,8 @@ namespace AendorAssess
 {
     public partial class VendorDiscovery : System.Web.UI.Page
     {
-        public const string FORM_NAME = "供应商调查表";
-        public const string FORM_TYPE_ID = "001";
+        public string FORM_NAME = "供应商调查表";
+        public string FORM_TYPE_ID = "001";
         private string tempVendorID = "";
         private string tempVendorName = "";
         private string factory = "";
@@ -229,76 +229,53 @@ namespace AendorAssess
         /// </summary>
         /// <param name="formTypeID"></param>
         /// <param name="formID"></param>
-        public void newApproveAccess(string formTypeID,string formID)
-        {
-            //形成参数
-            As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(formTypeID);
+        //public void newApproveAccess(string formTypeID,string formID)
+        //{
+        //    //形成参数
+        //    As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(formTypeID);
 
-            //写入session之后供SelectDepartment页面使用
-            Session["AssessflowInfo"] = assess_flow;
-            Session["tempVendorID"] = tempVendorID;
-            Session["factory"] = "上海科勒";//TODO:自动三厂选择
-            Session["form_name"] = FORM_NAME;
-            Session["tempVendorName"] = tempVendorName;
+        //    //写入session之后供SelectDepartment页面使用
+        //    Session["AssessflowInfo"] = assess_flow;
+        //    Session["tempVendorID"] = tempVendorID;
+        //    Session["factory"] = "上海科勒";
+        //    Session["form_name"] = FORM_NAME;
+        //    Session["tempVendorName"] = tempVendorName;
 
-            //如果是用户部门
-            if (assess_flow.User_Department_Assess == "1")
-            {
-                LocalScriptManager.CreateScript(Page, "popUp('" + formID + "');", "SHOW");
-            }
-            else
-            {
-                //TODO::这里不能这样写，具体参考Creation的写法，这里暂时不改
-                Session["tempvendorname"] = tempVendorName;
-                Session["Employee_ID"] = Session["Employee_ID"];
-                Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx'</script>");
-            }
-        }
+        //    //如果是用户部门
+        //    if (assess_flow.User_Department_Assess == "1")
+        //    {
+        //        LocalScriptManager.CreateScript(Page, "popUp('" + formID + "');", "SHOW");
+        //    }
+        //    else
+        //    {
+        //        //TODO::这里不能这样写，具体参考Creation的写法，这里暂时不改
+        //        Session["tempvendorname"] = tempVendorName;
+        //        Session["Employee_ID"] = Session["Employee_ID"];
+        //        Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx'</script>");
+        //    }
+        //}
 
         /// <summary>
         /// 确定审批流程
         /// </summary>
         /// <param name="formTypeID"></param>
         /// <param name="formId"></param>
-        public void approveaccess(string formId)
-        {
-            As_Assess_Flow assess_flow = new As_Assess_Flow();
-            assess_flow = AssessFlow_BLL.getFirstAssessFlow(FORM_TYPE_ID);
-            Session["AssessflowInfo"] = assess_flow;
-            Session["tempVendorID"] = tempVendorID;
-            Session["factory"] = "上海科勒";//TODO:自动三厂选择
-            string i = assess_flow.User_Department_Assess;
-            if (i == "1")
-            {
-                string s_url;
-                s_url = "SelectDepartment.aspx?formId=" + formId;
-                Response.Redirect(s_url);
-            }
-        }
+        //public void approveaccess(string formId)
+        //{
+        //    As_Assess_Flow assess_flow = new As_Assess_Flow();
+        //    assess_flow = AssessFlow_BLL.getFirstAssessFlow(FORM_TYPE_ID);
+        //    Session["AssessflowInfo"] = assess_flow;
+        //    Session["tempVendorID"] = tempVendorID;
+        //    Session["factory"] = "上海科勒";
+        //    string i = assess_flow.User_Department_Assess;
+        //    if (i == "1")
+        //    {
+        //        string s_url;
+        //        s_url = "SelectDepartment.aspx?formId=" + formId;
+        //        Response.Redirect(s_url);
+        //    }
+        //}
 
-        protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
-        {
-            GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
-            //string formid = GridView1.Rows[drv.RowIndex].Cells[0].Text;
-            string positionname = Session["Position_Name"].ToString();
-            if (e.CommandName == "approvesuccess")
-            {        
-                int i = AssessFlow_BLL.updateApprove(formID, positionname);
-                if (i == 1)
-                {
-                    //Response.Redirect("Vendor_Discovery.aspx");
-                }
-            }
-            else if (e.CommandName == "fail")
-            {
-                int j = AssessFlow_BLL.updateApproveFail(formID, positionname);
-            }
-        }
 
         /// <summary>
         /// 保存表格
@@ -408,10 +385,14 @@ namespace AendorAssess
         /// </summary>
         private void getSessionInfo()
         {
+            //初始化常量（伪）
+            FORM_TYPE_ID = Request.QueryString["type"];
+            FORM_NAME = FormType_BLL.getFormNameByTypeID(FORM_TYPE_ID);
+
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
             factory= Session["Factory_Name"].ToString().Trim();
-            formID = VendorDiscovery_BLL.getFormID(tempVendorID,FORM_NAME,factory);
+            formID = VendorDiscovery_BLL.getFormID(tempVendorID,FORM_TYPE_ID,factory);
             submit = Request.QueryString["submit"];
         }
 
@@ -419,20 +400,12 @@ namespace AendorAssess
         {
             //重新获取session信息和get信息
             getSessionInfo();
-            int submits = 1;
-            submits = VendorDiscovery_BLL.SubmitOk(formID);//为1表示已经提交过了  不能再次提交了
-            if (submit == "yes" && submits == 0)
+            
+            if (submit == "yes")
             {
                 //形成参数
                 As_Vendor_Discovery Vendor_Discovery = saveForm(2, "提交表格");
-                //更改表格是否可再次提交的标志
-                int result = UpdateFlag_BLL.setFormUnSubmit(formID);
-                if (result == -1)
-                {
-                    return;//失败
-                }
-                //对于用户部门，使用弹出对话框选择
-                //newApproveAccess(FORM_TYPE_ID, formID);
+
                 LocalApproveManager.doApproveWithSelection(Page,formID, FORM_NAME, FORM_TYPE_ID, tempVendorID, tempVendorName, Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString()));
             }
             else

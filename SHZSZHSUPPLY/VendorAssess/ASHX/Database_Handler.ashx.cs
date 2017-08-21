@@ -56,17 +56,19 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             aw.Employee_ID = ae.Employee_ID;
             aw.Form_ID = formID;
             aw.Form_Fill_Time = DateTime.Now.ToString();
-            aw.Manul = ae.Positon_Name + ae.Employee_Name + ":审批拒绝    时间:" + aw.Form_Fill_Time+ "<br/>&nbsp&nbsp&nbsp&nbsp原因:" + reason;
+            aw.Manul = ae.Positon_Name + ae.Employee_Name + ":审批拒绝，表格已返回为可编辑状态    时间:" + aw.Form_Fill_Time+ "<br/>&nbsp&nbsp&nbsp&nbsp原因:" + reason;
             aw.Manul_Type = As_Write.APPROVE_FAIL;
             aw.Temp_Vendor_ID = tempVendorID;
             Write_BLL.addWrite(aw);
 
+            //Mail
+            LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "审批失败", DateTime.Now.ToString(), "表格审批被拒绝，原因如下："+reason+";请登录系统修改后重新提交审批");
+
             //更新状态为fail(可写可不写，归零后自动清空)
             int i = AssessFlow_BLL.updateApproveFail(formID, position);
 
-            //TODO::状态归零
+            //状态归零
             LocalApproveManager.resetFormStatus(formID, formTypeID, tempVendorID);
-
 
             //返回结果
             if (Approve_BLL.updateReason(formID, position, factory, reason) && i>0)

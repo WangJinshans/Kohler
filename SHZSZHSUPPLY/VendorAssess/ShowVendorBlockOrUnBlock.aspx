@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ShowVendorBlockOrUnBlock.aspx.cs" Inherits="SHZSZHSUPPLY.VendorAssess.ShowVendorBlockOrUnBlock" %>
+﻿<%@ Page Language="C#" Async="true" AutoEventWireup="true" CodeBehind="ShowVendorBlockOrUnBlock.aspx.cs" Inherits="SHZSZHSUPPLY.VendorAssess.ShowVendorBlockOrUnBlock" %>
 
 <!DOCTYPE html>
 

@@ -1,6 +1,7 @@
 ﻿using DAL;
 using MODEL;
 using System.Collections.Generic;
+using System.Web;
 
 namespace BLL.VendorAssess
 {
@@ -23,7 +24,7 @@ namespace BLL.VendorAssess
 
         public static int setApprovalFinished(string Form_ID, int approval,string Temp_Vendor_ID)//需要KCI审批的在KCI审批完成之后标志该表的审批完成
         {
-            return KCIApproval_DAL.setApprovalFinished(Form_ID, approval, Temp_Vendor_ID);
+            return KCIApproval_DAL.setApprovalFinished(Form_ID, approval, Temp_Vendor_ID,Employee_DAL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString()));
         }
 
         public static As_KCI_Approval getKCIApproval(string position)

@@ -11,8 +11,8 @@ namespace AendorAssess
 {
     public partial class SelectDepartment : System.Web.UI.Page
     {
-        private static As_Form_AssessFlow Form_AssessFlow;
-        private static As_Approve approve;
+        public static As_Form_AssessFlow Form_AssessFlow;
+        public static As_Approve approve;
         public static Dictionary<string, string> paramInfo;
         public static Page originPage;
 
@@ -52,7 +52,7 @@ namespace AendorAssess
             }
 
             Form_AssessFlow.Temp_Vendor_ID = Session["tempVendorID"].ToString();
-            Form_AssessFlow.Factory_Name = Session["factory"].ToString();
+            Form_AssessFlow.Factory_Name = Session["Factory_Name"].ToString();
 
             
             approve = new As_Approve();
@@ -61,7 +61,7 @@ namespace AendorAssess
             approve.Assess_Reason = "";
             approve.Assess_Time = DateTime.Now.ToString();
             approve.Temp_Vendor_ID = Session["tempVendorID"].ToString();
-            approve.Factory_Name = Session["factory"].ToString();
+            approve.Factory_Name = Session["Factory_Name"].ToString();
             approve.Form_Type_Name = Session["form_name"].ToString();
             approve.Temp_Vendor_Name = Session["tempVendorName"].ToString();
         }
@@ -71,9 +71,7 @@ namespace AendorAssess
             //添加此表的审批流程到动态写入表
             AssessFlow_BLL.addFormAssessFlow(Form_AssessFlow);
 
-            //TODO 2017-7-6::判断审批顺序，截留越界的批准,预防重复插入，最好先检查是否已经存在
             //添加员工所要审批的表格
-
             if (Form_AssessFlow.First != "")
             {
                 approve.Position_Name = Form_AssessFlow.First;
@@ -99,17 +97,10 @@ namespace AendorAssess
                 approve.Position_Name = Form_AssessFlow.Five;
                 AssessFlow_BLL.addApprove(approve);
             }
-            if (Form_AssessFlow.Kci == "1")//最终确认需要KCI审批
+            if (Form_AssessFlow.Kci == "1")
             {
-                As_KCI_Approval kci = new As_KCI_Approval();
-                kci.Form_ID = Form_AssessFlow.Form_ID;//获取Form_ID
-                kci.Temp_Vendor_ID = Form_AssessFlow.Temp_Vendor_ID;//获取Temp_Vendor_ID
-                kci.Position_Name = "采购部经理";
-                KCIApproval_BLL.addKCIApproval(kci);
+                //最终确认需要KCI审批,已移动到LocalApproveManager中插入KCI
             }
-            //Response.Write("<script>window.alert('选择成功！');'</script>");
-            //Response.Write("<script>window.alert('选择成功！');window.location.href='EmployeeVendor.aspx'</script>");
-
         }
 
         public static void doSelect(string kci)
@@ -121,9 +112,7 @@ namespace AendorAssess
             //添加此表的审批流程到动态写入表
             AssessFlow_BLL.addFormAssessFlow(Form_AssessFlow);
 
-            //TODO 2017-7-6::判断审批顺序，截留越界的批准,预防重复插入，最好先检查是否已经存在
             //添加员工所要审批的表格
-
             if (Form_AssessFlow.First != "")
             {
                 approve.Position_Name = Form_AssessFlow.First;
@@ -149,9 +138,6 @@ namespace AendorAssess
                 approve.Position_Name = Form_AssessFlow.Five;
                 AssessFlow_BLL.addApprove(approve);
             }
-            //Response.Write("<script>window.alert('选择成功！');'</script>");
-            //Response.Write("<script>window.alert('选择成功！');window.location.href='EmployeeVendor.aspx'</script>");
-
         }
     }
 }

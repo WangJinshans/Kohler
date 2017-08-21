@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ShowContractApprovalForm.aspx.cs" Inherits="SHZSZHSUPPLY.VendorAssess.ShowContractApprovalForm" %>
+﻿<%@ Page Language="C#" Async="true" AutoEventWireup="true" CodeBehind="ShowContractApprovalForm.aspx.cs" Inherits="SHZSZHSUPPLY.VendorAssess.ShowContractApprovalForm" %>
 
 <!DOCTYPE html>
 

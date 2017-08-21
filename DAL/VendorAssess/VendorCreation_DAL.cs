@@ -54,14 +54,14 @@ namespace DAL
             return submit;
         }
 
-        public static string getFormID(string tempVendorID,string form_Name,string factory)
+        public static string getFormID(string tempVendorID,string formTypeID, string factory)
         {
             string formID = "";
-            string sql = "select Form_ID from As_NewForms_ID where Temp_Vendor_ID=@Temp_Vendor_ID and Form_Name=@Form_Name and Factory_Name=@Factory_Name";
+            string sql = "select Form_ID from As_Vendor_FormType where Temp_Vendor_ID=@Temp_Vendor_ID and Form_Type_ID=@Form_Type_ID and Factory_Name=@Factory_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_ID",tempVendorID),
-                new SqlParameter("@Form_Name",form_Name),
+                new SqlParameter("@Form_Type_ID",formTypeID),
                 new SqlParameter("@Factory_Name",factory)
 
             };
@@ -160,7 +160,7 @@ namespace DAL
                     vendorCreation.Initiator_Tel = item["Initiator_Tel"].ToString().Trim();
                     vendorCreation.Company_Code = item["Company_Code"].ToString().Trim();
                     vendorCreation.Account_Group = item["Account_Group"].ToString().Trim();
-                    vendorCreation.Vendor_Code = item["Vendor_Code"].ToString().Trim(); //TODO::???英文名？？？
+                    vendorCreation.Vendor_Code = item["Vendor_Code"].ToString().Trim(); 
                     vendorCreation.Vendor_Name = item["Vendor_Name"].ToString().Trim();
                     vendorCreation.Street = item["Street"].ToString().Trim();
                     vendorCreation.Postal_Code = item["Postal_Code"].ToString().Trim();

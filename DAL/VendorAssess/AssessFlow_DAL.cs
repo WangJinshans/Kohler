@@ -137,7 +137,7 @@ namespace DAL
             return list;
         }
 
-        //TODO::同意的时候，检查审批人和申请人是否为同一厂，检查审批人和审批流程是否为同一厂
+        //TODO::已在数据库中分厂，此处可做可不做 2017年8月20日19:10:20
         public static int updateApprove(string formid,string positionname)
         {
             string sql = "UPDATE As_Approve SET Assess_flag='已通过',Assess_Time=@Assess_Time WHERE Form_ID=@Form_ID and Position_Name=@Position_Name";

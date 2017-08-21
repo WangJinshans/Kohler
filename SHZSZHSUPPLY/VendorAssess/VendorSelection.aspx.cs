@@ -23,9 +23,9 @@ namespace SHZSZHSUPPLY.VendorAssess
         private As_Form_EditFlow formEditFlow;
         private List<As_Employee_Form> employeeFormList;
 
-        public const string FORM_NAME = "供应商选择表";
+        public string FORM_NAME = "供应商选择表";
         private static string factory = "";
-        public const string FORM_TYPE_ID = "018";
+        public string FORM_TYPE_ID = "018";
         private string tempVendorID = "";
         private string tempVendorName = "";
         private string formID = "";
@@ -133,10 +133,14 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// </summary>
         private void getSessionInfo()
         {
+            //初始化常量（伪）
+            FORM_TYPE_ID = Request.QueryString["type"];
+            FORM_NAME = FormType_BLL.getFormNameByTypeID(FORM_TYPE_ID);
+
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
             factory = Session["Factory_Name"].ToString().Trim();
-            formID = VendorSelection_BLL.getFormID(tempVendorID, FORM_NAME, factory);
+            formID = VendorSelection_BLL.getFormID(tempVendorID, FORM_TYPE_ID, factory);
             submit = Request.QueryString["submit"];
         }
 
@@ -191,6 +195,9 @@ namespace SHZSZHSUPPLY.VendorAssess
                 }
             }
 
+            //重新计算Total
+            LocalScriptManager.CreateScript(Page, "setTotal()", "reCalTotal");
+
             //展示附件
             showfilelist(formID);
         }
@@ -244,31 +251,31 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// </summary>
         /// <param name="formTypeID"></param>
         /// <param name="formID"></param>
-        public void newApproveAccess(string formTypeID, string formID)
-        {
-            //形成参数
-            As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(formTypeID);
+        //public void newApproveAccess(string formTypeID, string formID)
+        //{
+        //    //形成参数
+        //    As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(formTypeID);
 
-            //写入session之后供SelectDepartment页面使用
-            Session["AssessflowInfo"] = assess_flow;
-            Session["tempVendorID"] = tempVendorID;
-            Session["factory"] = "上海科勒";//TODO:自动三厂选择
-            Session["form_name"] = FORM_NAME;
-            Session["tempVendorName"] = tempVendorName;
+        //    //写入session之后供SelectDepartment页面使用
+        //    Session["AssessflowInfo"] = assess_flow;
+        //    Session["tempVendorID"] = tempVendorID;
+        //    Session["factory"] = "上海科勒";
+        //    Session["form_name"] = FORM_NAME;
+        //    Session["tempVendorName"] = tempVendorName;
 
-            //如果是用户部门
-            if (assess_flow.User_Department_Assess == "1")
-            {
-                LocalScriptManager.CreateScript(Page, "popUp('" + formID + "');", "SHOW");
-            }
-            else
-            {
-                //TODO::这里不能这样写，具体参考Creation的写法，这里暂时不改
-                Session["tempvendorname"] = tempVendorName;
-                Session["Employee_ID"] = Session["Employee_ID"];
-                Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx'</script>");
-            }
-        }
+        //    //如果是用户部门
+        //    if (assess_flow.User_Department_Assess == "1")
+        //    {
+        //        LocalScriptManager.CreateScript(Page, "popUp('" + formID + "');", "SHOW");
+        //    }
+        //    else
+        //    {
+        //        //TODO::这里不能这样写，具体参考Creation的写法，这里暂时不改
+        //        Session["tempvendorname"] = tempVendorName;
+        //        Session["Employee_ID"] = Session["Employee_ID"];
+        //        Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx'</script>");
+        //    }
+        //}
 
 
 
@@ -354,15 +361,13 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             //重新获取session信息和get信息
             getSessionInfo();
-            int submits = 1;
-            submits = VendorSelection_BLL.SubmitOk(formID);
-            if (submit == "yes" && submits==0)
+
+            if (submit == "yes")
             {
                 //形成参数
                 As_Vendor_Selection Vendor_Selection = saveForm(2, "提交表格");
 
                 //对于用户部门，使用弹出对话框选择
-                //newApproveAccess(FORM_TYPE_ID, formID);
                 LocalApproveManager.doApproveWithSelection(Page, formID, FORM_NAME, FORM_TYPE_ID, tempVendorID, tempVendorName,Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString()));
             }
             else
@@ -399,7 +404,6 @@ namespace SHZSZHSUPPLY.VendorAssess
             //check
             if (EditFlow_BLL.checkFormEditFlow(formID) <= 0)
             {
-                //TODO::从数据库摘取静态flow，弹窗选择对应employee id，插入editflow表，插入employee form
                 departments.RemoveAll(delegate (string item)
                 {
                     if (item == "" || item == currentDepartment)
@@ -434,7 +438,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 //如果是采购
                 if (VendorSelection_BLL.checkDepartment(Session["Employee_ID"].ToString(), edtFlow))
                 {
-                    //saveForm(1, "保存表格");
+                    //saveForm(1, "保存表格");//注意032为fileTypeID
                     bool has_R_D_File = VendorSelection_BLL.checkRDFile(formID, "032");
                     LocalScriptManager.CreateScript(Page, "R_D_Confirm("+has_R_D_File.ToString().ToLower()+",'"+tempVendorID+"','"+tempVendorName+"')", "rdcfm");
                 }
@@ -457,9 +461,25 @@ namespace SHZSZHSUPPLY.VendorAssess
                     {
                         UpdateFlag_BLL.updateEditFlowFlag(formID, tempVendorID);
                         UpdateFlag_BLL.updateFlagAsFinish(FORM_TYPE_ID, tempVendorID);
+
+                        //写出日志
+                        As_Employee ae = Employee_BLL.getEmolyeeById(HttpContext.Current.Session["Employee_ID"].ToString());
+                        LocalLog.writeLog(formID, String.Format("{0}已填写，多人填写完毕",currentDepartment), As_Write.FORM_MULTI_EDIT, tempVendorID);
+
+                        //Mail
+                        LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FORM_NAME, "等待填写", DateTime.Now.ToString(), "此表格已填写完毕，请登陆系统后提交审批");
                     }
+                    else
+                    {
+                        //写出日志
+                        LocalLog.writeLog(formID, String.Format("{0}已填写，等待其他部门填写",currentDepartment), As_Write.FORM_MULTI_EDIT, tempVendorID);
+
+                        //Mail
+                        As_Approve ap = MultiEdit_BLL.getMultiEditTop(formID);
+                        LocalMail.backToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, ap.Temp_Vendor_Name, FORM_NAME, "等待填写", DateTime.Now.ToString(), "此表格已由其他部门填写完毕，正在等待当前部门填写，请登陆系统填写表格并确认");
+                    }
+
                     LocalScriptManager.CreateScript(Page, "layerMsgFunc('已确认',function(){window.location.href='FormWaitToFill.aspx';})", "otherCFM");
-                    //Response.Redirect("FormWaitToFill.aspx");
                 }
             }
             //如果是，保存表格，禁止此人再次编辑，fill——flag此人均置为1
@@ -472,7 +492,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             string employee_ID = Session["Employee_ID"].ToString();
             string currentDepartment = Employee_BLL.getEmployeeDepartment(employee_ID);
 
-            //TODO::根据选择的list，初始化formeditflow，employeeformlist
+            //根据选择的list，初始化formeditflow，employeeformlist
             JavaScriptSerializer jss = new JavaScriptSerializer();
             As_Edit_Flow editFlow = EditFlow_BLL.getEditFlow(FORM_TYPE_ID);
 
@@ -515,7 +535,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             formEditFlow.Form_ID = formID;
             formEditFlow.Multi_Edit = editFlow.Multi_Edit;
             formEditFlow.Temp_Vendor_ID = tempVendorID;
-            formEditFlow.Factory_Name = "上海科勒"; //TODO::三厂
+            formEditFlow.Factory_Name = Session["Factory_Name"].ToString(); 
 
             employeeFormList = new List<As_Employee_Form>();
             if (currentDepartment.Equals(editFlow.Edit_One_Department))
@@ -557,6 +577,8 @@ namespace SHZSZHSUPPLY.VendorAssess
                 UpdateFlag_BLL.updateFlagAsHold(FORM_TYPE_ID, tempVendorID);
                 Response.Redirect("EmployeeVendor.aspx");
             }
+
+            LocalLog.writeLog(formID, String.Format("{0}已填写，等待其他部门填写", Employee_BLL.getEmployeeDepartment(Session["Employee_ID"].ToString())), As_Write.FORM_MULTI_EDIT, tempVendorID);
         }
 
         #region GridView
@@ -576,7 +598,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         private void r_d_Yes()
         {
             getSessionInfo();
-            //TODO:检查此表的R——D文件是否已经上传，如果没有，打开上传页面，上传文件，执行保存，执行禁止此人编辑
+            //检查此表的R——D文件是否已经上传，如果没有，打开上传页面，上传文件，执行保存，执行禁止此人编辑
 
             //如果已经有rd文件
             if (VendorSelection_BLL.checkRDFile(formID, "032"))
@@ -595,7 +617,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         private void r_d_No()
         {
-            //TODO:保存表格，禁止此人编辑，直到所有部门均填写完毕后，开放提交
+            //保存表格，禁止此人编辑，直到所有部门均填写完毕后，开放提交
 
             LocalScriptManager.CreateScript(Page, "layerMsg(" + "'已确认，正在等待其他部门填写该表'" + ")", "rdno1");
             EmployeeForm_BLL.changeFillFlag(Session["Employee_ID"].ToString(), formID, 1);

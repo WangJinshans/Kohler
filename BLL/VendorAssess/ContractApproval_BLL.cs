@@ -20,10 +20,10 @@ namespace BLL
             return ContractApproval_DAL.getContractApprovalFlag(formID);
         }
 
-        public static string getFormID(string tempVendorID,string form_Name,string factory)
+        public static string getFormID(string tempVendorID,string Form_Type_ID, string factory)
         {
 
-            return ContractApproval_DAL.getFormID(tempVendorID,form_Name,factory);
+            return ContractApproval_DAL.getFormID(tempVendorID, Form_Type_ID, factory);
         }
 
         public static int addContractApproval(As_Contract_Approval vendorContract)//添加表

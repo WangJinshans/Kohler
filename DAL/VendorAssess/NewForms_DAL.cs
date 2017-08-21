@@ -25,12 +25,12 @@ namespace DAL.VendorAssess
 
         public static DataTable getNewFormID(As_New_Forms form)
         {
-            string sql = "select Form_ID from As_NewForms_ID where Temp_Vendor_ID=@Temp_Vendor_ID and Factory_Name=@Factory_Name and Form_Name=@Form_Name";
+            string sql = "select Form_ID from As_Vendor_FormType where Temp_Vendor_ID=@Temp_Vendor_ID and Factory_Name=@Factory_Name and Form_Type_Name=@Form_Type_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_ID",form.Temp_Vendor_ID),
                 new SqlParameter("@Factory_Name",form.Factory_Name),
-                new SqlParameter("@Form_Name",form.Form_Name)
+                new SqlParameter("@Form_Type_Name",form.Form_Name)
             };
             return DBHelp.GetDataSet(sql, sp);
         }

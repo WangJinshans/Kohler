@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +30,16 @@ namespace DAL
 
             }
                 return list;
+        }
+
+        public static DataTable readVendorInfo(string employeeID)
+        {
+            string sql = "SELECT * FROM View_Employee_Vendor WHERE Employee_ID=@Employee_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Employee_ID",employeeID)
+            };
+            return DBHelp.GetDataSet(sql, sp);
         }
     }
 }

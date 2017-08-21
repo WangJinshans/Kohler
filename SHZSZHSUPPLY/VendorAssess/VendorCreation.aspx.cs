@@ -10,8 +10,8 @@ namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class VendorCreation : System.Web.UI.Page
     {
-        public const string FORM_NAME = "供应商信息表(建立)";
-        public const string FORM_TYPE_ID = "019";
+        public string FORM_NAME = "供应商信息表(建立)";
+        public string FORM_TYPE_ID = "019";
         private static string factory;
         private string tempVendorID = "";
         private string tempVendorName = "";
@@ -30,7 +30,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 //获取session信息
                 getSessionInfo();
 
-                int check = VendorCreation_BLL.checkVendorCreation(formID);//todo:: formid
+                int check = VendorCreation_BLL.checkVendorCreation(formID);
                 if (check == 0)
                 {
                     As_Vendor_Creation vendorCreation = new As_Vendor_Creation();
@@ -82,10 +82,14 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// </summary>
         private void getSessionInfo()
         {
+            //初始化常量（伪）
+            FORM_TYPE_ID = Request.QueryString["type"];
+            FORM_NAME = FormType_BLL.getFormNameByTypeID(FORM_TYPE_ID);
+
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
             factory = Session["Factory_Name"].ToString().Trim();
-            formID = VendorCreation_BLL.getFormID(tempVendorID,FORM_NAME,factory);
+            formID = VendorCreation_BLL.getFormID(tempVendorID,FORM_TYPE_ID,factory);
             submit = Request.QueryString["submit"];
         }
 
@@ -230,9 +234,8 @@ namespace SHZSZHSUPPLY.VendorAssess
         protected void Button1_Click(object sender, EventArgs e)
         {
             getSessionInfo();
-            int submits = 1;
-            submits = VendorCreation_BLL.SubmitOk(formID);
-            if (submit == "yes" && submits == 0)
+
+            if (submit == "yes")
             {
                 saveForm(2, "提交表格");
                 approveAssess(formID);

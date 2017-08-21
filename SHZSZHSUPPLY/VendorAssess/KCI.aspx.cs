@@ -1,6 +1,8 @@
 ﻿using BLL;
 using BLL.VendorAssess;
+using Model;
 using MODEL;
+using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
 using System.Web.UI.WebControls;
 
@@ -16,7 +18,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 position_Name = Session["Position_Name"].ToString().Trim();
                 if (position_Name == "采购部经理")//限制只有采购才有权限进入此页面
                 {
-                    string sql = "select * from As_KCI_Approval where Position_Name='"+ position_Name+"' and Flag='0'";
+                    string sql = "select * from As_KCI_Approval where Position_Name='" + position_Name + "' and Flag='0'";
                     PagedDataSource objpds = new PagedDataSource();
                     objpds.DataSource = KCIApproval_BLL.selectKCIApproval(sql);
                     GridView1.DataSource = objpds;
@@ -38,6 +40,11 @@ namespace SHZSZHSUPPLY.VendorAssess
                 {
                     KCIApproval_BLL.updateKCIApproval(formID, 1);//KCI审批完成
                     KCIApproval_BLL.setApprovalFinished(Form_Type_ID, 4, temp_vendor_ID);//整张表的审批完成
+                    if (isFormOverDue(formID))//过期重申表
+                    {
+                        string oldFormID = FormOverDue_BLL.getOldFormID(formID);//对于已经在重新审批中的表 oldFormID 在As_Vendor_FormType_History一定存在 在过期表中也一定存在
+                        UpdateFlag_BLL.updateReAccessFormStatus(oldFormID, temp_vendor_ID);//成功返回2 失败返回-1
+                    }
                 }
                 else if (formID.Contains("ContractApproval"))//合同审批表的KCI处理
                 {
@@ -76,12 +83,15 @@ namespace SHZSZHSUPPLY.VendorAssess
                 {
                     ApprovalFinished(formID, Form_Type_ID, temp_vendor_ID);
                 }
-
-                int times = FormOverDue_BLL.getLastedForm(formID);
-                int rs3 = 1;//之所以为1 是为了在times=0的时候不会造成任何影响
-                if (times > 0) //表示过期重新审批到了最后一个  需要把重新审批的表的标签 改成已通过
+                else if (formID.Contains("Selection"))
                 {
-                    UpdateFlag_BLL.updateReAccessFormStatus(formID, temp_vendor_ID);//成功返回2 失败返回-1
+                    ApprovalFinished(formID, Form_Type_ID, temp_vendor_ID);
+                }
+
+                if (isFormOverDue(formID))//过期重申表
+                {
+                    string oldFormID = FormOverDue_BLL.getOldFormID(formID);//对于已经在重新审批中的表 oldFormID 在As_Vendor_FormType_History一定存在 在过期表中也一定存在
+                    UpdateFlag_BLL.updateReAccessFormStatus(oldFormID, temp_vendor_ID);//成功返回2 失败返回-1
                 }
 
                 /*
@@ -95,6 +105,8 @@ namespace SHZSZHSUPPLY.VendorAssess
                  * 
                  */
 
+                //写出日志
+                LocalLog.writeLog(formID, String.Format("KCI审批成功    时间{0}",DateTime.Now.ToString()), As_Write.APPROVE_SUCCESS, temp_vendor_ID);
             }
             else if (e.CommandName == "fail")//KCI审批不过
             {
@@ -104,6 +116,8 @@ namespace SHZSZHSUPPLY.VendorAssess
                 KCIApproval_BLL.updateKCIApproval(formID, 2);//KCI审批完成  2表示需要再次进行KCI审批
                 KCIApproval_BLL.setApprovalFinished(Form_Type_ID, 0, temp_vendor_ID);//整张表的审批完成  该表需要在修改之后重新进行审批
 
+                //写出日志
+                LocalLog.writeLog(formID, String.Format("KCI审批失败，表格审批状态重置    时间{0}", DateTime.Now.ToString()), As_Write.APPROVE_SUCCESS, temp_vendor_ID);
 
                 /*
                  * 重新审批的时候  需要将该表的整个流程重新走过 需要删除As_Form_AccessFlow  
@@ -116,10 +130,16 @@ namespace SHZSZHSUPPLY.VendorAssess
         }
 
 
-        private void ApprovalFinished(string formID,string Form_Type_ID,string temp_vendor_ID)
+        private void ApprovalFinished(string formID, string Form_Type_ID, string temp_vendor_ID)
         {
             KCIApproval_BLL.updateKCIApproval(formID, 1);//KCI审批完成
             KCIApproval_BLL.setApprovalFinished(Form_Type_ID, 4, temp_vendor_ID);//整张表的审批完成
+        }
+        private bool isFormOverDue(string formID)
+        {
+            bool isOverDue = false;
+            isOverDue = FormOverDue_BLL.isOverDue(formID);
+            return isOverDue;
         }
     }
 }

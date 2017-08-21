@@ -12,8 +12,8 @@ namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class VendorRiskAnalysis : System.Web.UI.Page
     {
-        public const string FORM_NAME = "供应商风险分析表";
-        public const string FORM_TYPE_ID = "003";
+        public string FORM_NAME = "供应商风险分析表";
+        public string FORM_TYPE_ID = "003";
         private static string factory = "";
         private string tempVendorID = "";
         private string tempVendorName = "";
@@ -37,7 +37,6 @@ namespace SHZSZHSUPPLY.VendorAssess
                 int check = VendorRiskAnalysis_BLL.checkVendorRiskAnalysis(formID);
                 if (check == 0)
                 {
-                    //TODO::初始化新的风险分析表，并插入到数据库As_Vendor_RiskAnalysis表中
                     As_Vendor_Risk vendorRisk = new As_Vendor_Risk();
                     vendorRisk.Temp_Vendor_ID = tempVendorID;
                     vendorRisk.Form_Type_ID = FORM_TYPE_ID;
@@ -71,10 +70,14 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// </summary>
         private void getSessionInfo()
         {
+            //初始化常量（伪）
+            FORM_TYPE_ID = Request.QueryString["type"];
+            FORM_NAME = FormType_BLL.getFormNameByTypeID(FORM_TYPE_ID);
+
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
             factory = Session["Factory_Name"].ToString().Trim();
-            formID = VendorRiskAnalysis_BLL .getFormID(tempVendorID,FORM_NAME,factory);
+            formID = VendorRiskAnalysis_BLL .getFormID(tempVendorID,FORM_TYPE_ID,factory);
             submit = Request.QueryString["submit"];
         }
 
@@ -141,7 +144,6 @@ namespace SHZSZHSUPPLY.VendorAssess
                 setSelected(vendorRisk.Rejections_Or_Complaints, new[] { RadioButton88, RadioButton89, RadioButton90 });
                 setSelected(vendorRisk.Specifications, new[] { RadioButton91, RadioButton92, RadioButton93 });
 
-                //todo::set notes
                 foreach (Control item in this.Controls[3].Controls)
                 {
                     if (item is TextBox && item.ID.Contains("TextBox") && Convert.ToInt32(item.ID.Replace("TextBox", "")) >= 10)
@@ -290,8 +292,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             //session
             getSessionInfo();
-            int submits = 1;
-            submits = VendorRiskAnalysis_BLL.SubmitOk(formID);
+
             if (submit == "yes")
             {
                 saveForm(2, "提交表格");
@@ -312,34 +313,6 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             Response.Redirect("EmployeeVendor.aspx");
         }
-
-
-
-        protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
-        {
-            GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
-            string formid = GridView1.Rows[drv.RowIndex].Cells[0].Text;
-            string positionname = Session["Position_Name"].ToString();
-            if (e.CommandName == "approvesuccess")
-            {
-                int i = AssessFlow_BLL.updateApprove(formid, positionname);
-                if (i == 1)
-                {
-                    //Response.Redirect("Vendor_Discovery.aspx");
-                }
-            }
-            else if (e.CommandName == "fail")
-            {
-                int j = AssessFlow_BLL.updateApproveFail(formid, positionname);
-            }
-        }
-
-        
 
         
 

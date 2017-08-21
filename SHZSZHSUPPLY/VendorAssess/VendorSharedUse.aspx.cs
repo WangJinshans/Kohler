@@ -83,5 +83,10 @@ namespace SHZSZHSUPPLY.VendorAssess
 
             }
         }
+
+        protected void btnNo_Click(object sender, EventArgs e)
+        {
+            Response.Write("<script>window.location.href='./index.aspx'</script>");
+        }
     }
 }

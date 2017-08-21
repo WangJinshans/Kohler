@@ -5,6 +5,7 @@ using System.Text;
 using Model;
 using DAL;
 using BLL.VendorAssess;
+using System.Web;
 
 namespace BLL
 {
@@ -22,7 +23,7 @@ namespace BLL
             for (int i=0;i<FileType_FormType_DAL.selectFileTypeID(formtypeid).Count;i++)
             {
                 string filetypeid = FileType_FormType_DAL.selectFileTypeID(formtypeid)[i].File_Type_ID;
-                int result=File_DAL.selectFileID(tempVendorID,filetypeid);//查询是否有记录
+                int result=File_DAL.selectFileID(tempVendorID,filetypeid, Employee_DAL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString()));//查询是否有记录
                 if(result==0)
                 {
                     check = 0;
@@ -48,7 +49,7 @@ namespace BLL
             for (int i = 0; i < list.Count; i++)
             {
                 string filetypeid = list[i].File_Type_ID;
-                int result = File_DAL.selectFileID(tempVendorID, filetypeid);//查询是否有记录
+                int result = File_DAL.selectFileID(tempVendorID, filetypeid, Employee_DAL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString()));//查询是否有记录
                 if (result == 0)
                 {
                     check += nameList[i];

@@ -17,9 +17,9 @@ namespace BLL.VendorAssess
             return VendorSelection_DAL.getVendorSelection(formID);
         }
 
-        public static string getFormID(string tempVendorID,string form_Name,string factory)
+        public static string getFormID(string tempVendorID,string formTypeID,string factory)
         {
-            return VendorSelection_DAL.getFormID(tempVendorID, form_Name,factory);
+            return VendorSelection_DAL.getFormID(tempVendorID, formTypeID,factory);
         }
 
         public static int checkVendorSelection(string formID)

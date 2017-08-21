@@ -14,8 +14,8 @@ namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class ContractApprovalForm : System.Web.UI.Page
     {
-        public const string FORM_NAME = "合同审批表";
-        public const string FORM_TYPE_ID = "005";
+        public string FORM_NAME = "合同审批表";
+        public string FORM_TYPE_ID = "008";
         private static string factory = "";
         private string tempVendorID = "";
         private string tempVendorName = "";
@@ -42,7 +42,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 //获取session信息
                 getSessionInfo();
-                int check = ContractApproval_BLL.checkContractApproval(formID);//todo:: formid
+                int check = ContractApproval_BLL.checkContractApproval(formID);
                 if (check == 0)
                 {
                     As_Contract_Approval vendorContract = new As_Contract_Approval();
@@ -111,6 +111,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             form.Temp_Vendor_Name = tempVendorName;
             form.Form_Path = "";
             form.Temp_Vendor_ID = tempVendorID;
+            form.Factory_Name = factory;
             int add = AddForm_BLL.addForm(form);
 
             Response.Redirect("EmployeeVendor.aspx");
@@ -389,11 +390,15 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         private void getSessionInfo()
         {
+            //初始化常量（伪）
+            FORM_TYPE_ID = Request.QueryString["type"];
+            FORM_NAME = FormType_BLL.getFormNameByTypeID(FORM_TYPE_ID);
+
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
             factory = Session["Factory_Name"].ToString().Trim();
             submit = Request.QueryString["submit"];
-            formID = ContractApproval_BLL.getFormID(tempVendorID,FORM_NAME,factory);//获取FormID
+            formID = ContractApproval_BLL.getFormID(tempVendorID, FORM_TYPE_ID, factory);//获取FormID
         }
 
         protected void Button2_Click(object sender, EventArgs e)
@@ -404,8 +409,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         protected void Button1_Click(object sender, EventArgs e)
         {
             getSessionInfo();
-            int submits = 1;
-            submits = ContractApproval_BLL.SubmitOk(formID);
+
             if (submit == "yes")
             {
                 saveForm(2, "提交表格");
@@ -761,8 +765,9 @@ namespace SHZSZHSUPPLY.VendorAssess
             //写入session之后供SelectDepartment页面使用
             Session["AssessflowInfo"] = assess_flow;
             Session["tempVendorID"] = tempVendorID;
-            Session["factory"] = "上海科勒";//TODO:自动三厂选择
+            //Session["Factory_Name"] = Session["Factory_Name"];
             Session["form_name"] = FORM_NAME;
+
             //通过tempvendorID判断是否是非承诺性供应商 如果是则后面点击否的时候需要KCI进行审批 否则不需要
             string promise = VendorType_BLL.selectVendorPromise(tempVendorID);//获取promise
             if (promise == "0")//非承诺性且是用户部门 走kci
@@ -778,7 +783,6 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
             else if (assess_flow.User_Department_Assess == "1")
             {
-                //ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>popUp(formID);</script>");
                 LocalScriptManager.CreateScript(Page, "popUp('" + formID + "','yes');", "SHOW");
             }
             else

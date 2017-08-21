@@ -55,14 +55,14 @@ namespace DAL
             return submit;
         }
 
-        public static string getFormID(string tempVendorID,string form_Name,string factory)
+        public static string getFormID(string tempVendorID,string Form_Type_ID, string factory)
         {
             string formID = "";
-            string sql = "select Form_ID from As_NewForms_ID where Temp_Vendor_ID=@Temp_Vendor_ID and Form_Name=@Form_Name and Factory_Name=@Factory_Name";
+            string sql = "select Form_ID from As_Vendor_FormType where Temp_Vendor_ID=@Temp_Vendor_ID and Form_Type_ID=@Form_Type_ID and Factory_Name=@Factory_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_ID",tempVendorID),
-                new SqlParameter("@Form_Name",form_Name),
+                new SqlParameter("@Form_Type_ID",Form_Type_ID),
                 new SqlParameter("@Factory_Name",factory)
 
             };
@@ -329,7 +329,7 @@ namespace DAL
                     vendorContract.User_Dept = item["User_Dept"].ToString().Trim();
                     vendorContract.Contract_Subject = item["Contract_Subject"].ToString().Trim();
                     vendorContract.Contract_Annual_Amount = item["Contract_Annual_Amount"].ToString().Trim();
-                    vendorContract.Contract_StartTime = item["Contract_StartTime"].ToString().Trim(); //TODO::???英文名？？？
+                    vendorContract.Contract_StartTime = item["Contract_StartTime"].ToString().Trim(); 
                     vendorContract.Contract_EndTime = item["Contract_EndTime"].ToString().Trim();
                     vendorContract.Vendor_Name = item["Vendor_Name"].ToString().Trim();
                     vendorContract.Existing_Vendor = item["Existing_Vendor"].ToString().Trim();
@@ -363,7 +363,7 @@ namespace DAL
                     vendorContract.Work_Scope_Commitment = item["Work_Scope_Commitment"].ToString().Trim();
                     vendorContract.Work_Scope_Details = item["Work_Scope_Details"].ToString().Trim();
                     vendorContract.Acceptence_Criteria_Page = item["Acceptence_Criteria_Page"].ToString().Trim();
-                    vendorContract.Acceptence_Criteria_Clause = item["Acceptence_Criteria_Clause"].ToString().Trim(); //TODO::???英文名？？？
+                    vendorContract.Acceptence_Criteria_Clause = item["Acceptence_Criteria_Clause"].ToString().Trim(); 
                     vendorContract.Acceptence_Criteria_Commitment = item["Acceptence_Criteria_Commitment"].ToString().Trim();
                     vendorContract.Acceptence_Criteria_Details = item["Acceptence_Criteria_Details"].ToString().Trim();
                     vendorContract.Warranty_Page = item["Warranty_Page"].ToString().Trim();
@@ -397,7 +397,7 @@ namespace DAL
                     vendorContract.Announcement_Clause = item["Announcement_Clause"].ToString().Trim();
                     vendorContract.Announcement_Commitment = item["Announcement_Commitment"].ToString().Trim();
                     vendorContract.Announcement_Details = item["Announcement_Details"].ToString().Trim();
-                    vendorContract.Waivers_Page = item["Waivers_Page"].ToString().Trim(); //TODO::???英文名？？？
+                    vendorContract.Waivers_Page = item["Waivers_Page"].ToString().Trim(); 
                     vendorContract.Waivers_Clause = item["Waivers_Clause"].ToString().Trim();
                     vendorContract.Waivers_Commitment = item["Waivers_Commitment"].ToString().Trim();
                     vendorContract.Waivers_Details = item["Waivers_Details"].ToString().Trim();
@@ -431,7 +431,7 @@ namespace DAL
                     vendorContract.SourcingSpecialist_Signature = item["SourcingSpecialist_Signature"].ToString().Trim();
                     vendorContract.SourcingSpecialist_Date = item["SourcingSpecialist_Date"].ToString().Trim();
                     vendorContract.User_Dept_Head_Signature = item["User_Department_Manager"].ToString().Trim();
-                    vendorContract.User_Dept_Head_Date = item["User_Department_Manager_Date"].ToString().Trim(); //TODO::???英文名？？？
+                    vendorContract.User_Dept_Head_Date = item["User_Department_Manager_Date"].ToString().Trim(); 
                     vendorContract.SC_Leader_Signature = item["Purchasing_Manager"].ToString().Trim();
                     vendorContract.SC_Leader_Date = item["Purchasing_Manager_Date"].ToString().Trim();
                     vendorContract.Finance_Leader_Signature = item["Finance_Leader"].ToString().Trim();

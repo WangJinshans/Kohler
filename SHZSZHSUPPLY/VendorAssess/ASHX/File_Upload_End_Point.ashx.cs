@@ -43,30 +43,32 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             }
         }
 
-private void doFileUpload(HttpContext context)
+        private void doFileUpload(HttpContext context)
         {
             HttpPostedFile postFile = context.Request.Files["qqfile"];
-            string path = HttpContext.Current.Server.MapPath("../../files/") + postFile.FileName;
             string tempVendorID = context.Request.Params["tempVendorID"];
             string tempVendorName = context.Request.Params["tempVendorName"];
             string fileTypeID = context.Request.Params["fileTypeID"];
-
+            string factoryName = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
+            string fileID = tempVendorID + File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factoryName);
+            string path = HttpContext.Current.Server.MapPath("../../files/") + fileID+".pdf";
             postFile.SaveAs(path);
 
             As_File file = new As_File();
 
-            file.File_Name = postFile.FileName;
             file.File_Path = path;
             file.Temp_Vendor_ID = tempVendorID;
             file.Temp_Vendor_Name = tempVendorName;
-            file.File_ID = tempVendorName + file.File_Name; ;
+            file.File_ID = fileID;
+            file.File_Name = fileID+".pdf";
             file.File_Enable_Time = "100";
             file.File_Due_Time = "200";
             file.File_Type_ID = fileTypeID;
-            file.Factory_Name = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
+            file.Factory_Name = factoryName;
 
             int join = File_BLL.addFile(file);
             int flag = UpdateFlag_BLL.updateFileFlag(fileTypeID, tempVendorID);
+            int resu =  File_BLL.updateFileID(tempVendorID, fileTypeID, factoryName, file.File_ID);
             if (join > 0 && flag > 0)
             {
                 context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, message = "数据库写入完毕，文件上传完成" }));
@@ -84,25 +86,29 @@ private void doFileUpload(HttpContext context)
         private void reDoFileUpload(HttpContext context)
         {
             HttpPostedFile postFile = context.Request.Files["qqfile"];
-            string path = HttpContext.Current.Server.MapPath("../../files/") + postFile.FileName;
             string tempVendorID = context.Request.Params["tempVendorID"];
             string tempVendorName = context.Request.Params["tempVendorName"];
             string fileTypeID = context.Request.Params["fileTypeID"];
+            string factoryName = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
+            string fileID = tempVendorID + File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factoryName);
+            string path = HttpContext.Current.Server.MapPath("../../files/") + fileID + ".pdf";
+
             postFile.SaveAs(path);
 
             As_File file = new As_File();
-            file.File_Name = postFile.FileName;
             file.File_Path = path;
             file.Temp_Vendor_ID = tempVendorID;
             file.Temp_Vendor_Name = tempVendorName;
-            file.File_ID = tempVendorName + file.File_Name; ;
+            file.File_ID = fileID;
+            file.File_Name = fileID + ".pdf";
             file.File_Enable_Time = "100";
             file.File_Due_Time = "200";
             file.File_Type_ID = fileTypeID;
-            file.Factory_Name = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
-            
+            file.Factory_Name = factoryName;
+
             int join = File_BLL.addFile(file);
             int flag = UpdateFlag_BLL.updateFileFlag(fileTypeID, tempVendorID);
+            int resu = File_BLL.updateFileID(tempVendorID, fileTypeID, factoryName, file.File_ID);
             if (join > 0 && flag > 0)
             {
                 context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, message = "数据库写入完毕，文件上传完成" }));
@@ -116,25 +122,26 @@ private void doFileUpload(HttpContext context)
         private void multiFillUpload(HttpContext context)
         {
             HttpPostedFile postFile = context.Request.Files["qqfile"];
-            string path = HttpContext.Current.Server.MapPath("./files/") + postFile.FileName;
             string tempVendorID = context.Request.Params["tempVendorID"];
             string tempVendorName = context.Request.Params["tempVendorName"];
             string fileTypeID = context.Request.Params["fileTypeID"];
+            string factoryName = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
+            string fileID = tempVendorID + File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factoryName);
+            string path = HttpContext.Current.Server.MapPath("../../files/") + fileID + ".pdf";
 
             postFile.SaveAs(path);
 
             As_File file = new As_File();
 
-            file.File_Name = postFile.FileName;
             file.File_Path = path;
             file.Temp_Vendor_ID = tempVendorID;
             file.Temp_Vendor_Name = tempVendorName;
-            file.File_ID = tempVendorName + file.File_Name; ;
+            file.File_ID = fileID;
+            file.File_Name = fileID + ".pdf";
             file.File_Enable_Time = "100";
             file.File_Due_Time = "200";
             file.File_Type_ID = fileTypeID;
-            file.Factory_Name = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
-
+            file.Factory_Name = factoryName;
 
             int join = File_BLL.addFile(file);
             if (join > 0)

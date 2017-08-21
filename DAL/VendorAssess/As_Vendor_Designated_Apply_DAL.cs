@@ -128,15 +128,15 @@ namespace DAL
             return flag;
         }
 
-        public static string getFormID(string tempVendorID,string form_Name,string factory)
+        public static string getFormID(string tempVendorID,string formTypeID,string factory)
         {
             string formID = "";
-            string sql = "select Form_ID from As_NewForms_ID where Temp_Vendor_ID=@Temp_Vendor_ID and Fomr_Name=@Form_Name and Factory_Name=@Factory_Name";
+            string sql = "select Form_ID from As_Vendor_FormType where Temp_Vendor_ID=@Temp_Vendor_ID and Form_Type_ID=@Form_Type_ID and Factory_Name=@Factory_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("Temp_Vendor_ID",tempVendorID),
-                new SqlParameter("@Form_Name",form_Name),
-                new SqlParameter("@Factory_Name",factory)
+                new SqlParameter("Form_Type_ID",formTypeID),
+                new SqlParameter("Factory_Name",factory),
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)
@@ -160,7 +160,7 @@ namespace DAL
                     new SqlParameter("@Flag",vendorDesignatedApply.Flag),
                     new SqlParameter("@Factory_Name",vendorDesignatedApply.Factory_Name)
                 };
-            return DBHelp.GetScalar(sql, sp);//ExecuteScalar()方法执行查询返回插入成功的行数
+            return DBHelp.ExecuteCommand(sql, sp);//ExecuteScalar()方法执行查询返回插入成功的行数
         }
 
         public static int checkVendorDesignatedApply(string formID)//查询是否有表记录,1为存在 0为不存在

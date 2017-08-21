@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ShowVendorRiskAnalysis.aspx.cs" Inherits="SHZSZHSUPPLY.VendorAssess.ShowVendorRiskAnalysis" %>
+﻿<%@ Page Language="C#" Async="true" AutoEventWireup="true" CodeBehind="ShowVendorRiskAnalysis.aspx.cs" Inherits="SHZSZHSUPPLY.VendorAssess.ShowVendorRiskAnalysis" %>
 
 <!DOCTYPE html>
 

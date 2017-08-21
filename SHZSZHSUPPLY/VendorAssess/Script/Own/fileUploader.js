@@ -46,7 +46,7 @@ function message(msg) {
 function messageFunc(msg, func) {
     layui.use(['layer'], function () {
         var layer = layui.layer;
-        layer.msg(msg,func);
+        layer.msg(msg, { time: 1500 },func);
     })
 }
 

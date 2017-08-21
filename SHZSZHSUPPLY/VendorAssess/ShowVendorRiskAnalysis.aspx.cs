@@ -14,6 +14,7 @@ namespace SHZSZHSUPPLY.VendorAssess
     {
         private string formID = null;
         private string positionName = null;
+        private string FORM_TYPE_ID = "";
 
         /// <summary>
         /// 
@@ -89,7 +90,6 @@ namespace SHZSZHSUPPLY.VendorAssess
                 setSelected(vendorRisk.Rejections_Or_Complaints, new[] { RadioButton88, RadioButton89, RadioButton90 });
                 setSelected(vendorRisk.Specifications, new[] { RadioButton91, RadioButton92, RadioButton93 });
 
-                //todo::set notes
                 foreach (Control item in this.Controls[3].Controls)
                 {
                     if (item is TextBox && item.ID.Contains("TextBox") && Convert.ToInt32(item.ID.Replace("TextBox", "")) >= 10)
@@ -133,7 +133,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             //重新读取session信息
             getSessionInfo();
 
-            //TODO::简单的审批权限控制，通过之后无法再拒绝，拒绝之后无法再通过，拒绝需要填写原因，三厂区分
+            //参数
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
             string formid = GridView1.Rows[drv.RowIndex].Cells[0].Text;
             string selectPositionName = GridView1.Rows[drv.RowIndex].Cells[1].Text;
@@ -143,7 +143,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 if (selectPositionName.Equals(positionName))
                 {
                     //int i = AssessFlow_BLL.updateApprove(formid, positionName);
-                    if (LocalApproveManager.doSuccessApprove(formID, Session["tempVendorID"].ToString(), "003", positionName))
+                    if (LocalApproveManager.doSuccessApprove(formID, Session["tempVendorID"].ToString(), FORM_TYPE_ID, positionName))
                     {
                         Response.Write("<script>window.alert('成功通过审批！');window.location.href='ShowVendorRiskAnalysis.aspx'</script>");
                     }
@@ -182,6 +182,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             formID = Session["formID"].ToString();
             positionName = Session["Position_Name"].ToString();
+            FORM_TYPE_ID = Request.QueryString["type"];
         }
 
         private void setSelected(byte? selected, RadioButton[] rb)

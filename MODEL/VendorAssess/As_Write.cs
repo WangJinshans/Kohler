@@ -12,6 +12,7 @@ namespace Model
         public const string APPROVE_FAIL = "审批失败";
         public const string FORM_EDIT = "表格动作";
         public const string NORMAL_ACTION = "常规";
+        public const string FORM_MULTI_EDIT = "多人填写";
 
         private int id;
         private string employee_ID;

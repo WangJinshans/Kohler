@@ -57,14 +57,15 @@ namespace DAL
         }
 
 
-        public static int setApprovalFinished(string Form_Type_ID, int approval,string Temp_Vendor_ID)//需要KCI审批的在KCI审批完成之后标志该表的审批完成
+        public static int setApprovalFinished(string Form_Type_ID, int approval,string Temp_Vendor_ID,string factoryName)//需要KCI审批的在KCI审批完成之后标志该表的审批完成
         {
-            string sql = "update As_Vendor_FormType SET flag=@flag where Form_Type_ID=@Form_Type_ID and Temp_Vendor_ID=@Temp_Vendor_ID";
+            string sql = "update As_Vendor_FormType SET flag=@flag where Form_Type_ID=@Form_Type_ID and Temp_Vendor_ID=@Temp_Vendor_ID and Factory_Name=@Factory_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@flag",approval),
                 new SqlParameter("@Form_Type_ID",Form_Type_ID),//As_Vendor_FormType中通过Form_Type_ID 和TempVendorID来唯一确认
-                new SqlParameter("@Temp_Vendor_ID",Temp_Vendor_ID)
+                new SqlParameter("@Temp_Vendor_ID",Temp_Vendor_ID),
+                new SqlParameter("@Factory_Name",factoryName)
             };
             return DBHelp.ExecuteCommand(sql, sp);
         }

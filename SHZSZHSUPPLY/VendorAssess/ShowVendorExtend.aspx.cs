@@ -15,8 +15,12 @@ namespace SHZSZHSUPPLY.VendorAssess
     {
         private string formID = null;
         private string positionName = null;
+        private string FORM_TYPE_ID = "";
+
         protected void Page_Load(object sender, EventArgs e)
         {
+            getSessionInfo();
+
             int check = VendorExtend_BLL.checkVendorExtend(formID);
             if (check > 0)
             {
@@ -87,6 +91,8 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            getSessionInfo();
+
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
             string formid = GridView1.Rows[drv.RowIndex].Cells[0].Text;
             string positionName = Session["Position_Name"].ToString();
@@ -94,8 +100,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 if (positionName.Equals(Session["Position_Name"].ToString()))
                 {
-                    int i = AssessFlow_BLL.updateApprove(formid, positionName);
-                    if (LocalApproveManager.doSuccessApprove(formID, Session["tempVendorID"].ToString(), "020", positionName))
+                    if (LocalApproveManager.doSuccessApprove(formID, Session["tempVendorID"].ToString(), FORM_TYPE_ID, positionName))
                     {
                         Response.Write("<script>window.alert('成功通过审批！');window.location.href='ShowVendorDiscovery.aspx'</script>");
                     }
@@ -120,6 +125,13 @@ namespace SHZSZHSUPPLY.VendorAssess
                     Response.Write("<script>window.alert('当前登录账号无对应权限！')</script>");
                 }
             }
+        }
+
+        private void getSessionInfo()
+        {
+            formID = Session["formID"].ToString();
+            positionName = Session["Position_Name"].ToString();
+            FORM_TYPE_ID = Request.QueryString["type"];
         }
     }
 }

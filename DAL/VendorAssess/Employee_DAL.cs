@@ -130,6 +130,7 @@ namespace DAL
                     Employee.Department_Name = Convert.ToString(dr["Department_Name"]);
                     Employee.Positon_Name = Convert.ToString(dr["Positon_Name"]);
                     Employee.Employee_Password = Convert.ToString(dr["Employee_Password"]);
+                    Employee.Factory_Name = Convert.ToString(dr["Factory_Name"]);
                 }
             }
 

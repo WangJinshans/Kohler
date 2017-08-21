@@ -15,6 +15,7 @@ namespace Model
         private string department_Name;
         private string positon_Name;
         private string employee_Password;
+        private string factory_Name;
 
         public string Employee_ID
         {
@@ -104,6 +105,19 @@ namespace Model
             set
             {
                 department_Name = value;
+            }
+        }
+
+        public string Factory_Name
+        {
+            get
+            {
+                return factory_Name;
+            }
+
+            set
+            {
+                factory_Name = value;
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="VendorExtend.aspx.cs" Inherits="SHZSZHSUPPLY.VendorAssess.VendorExtend" %>
+﻿<%@ Page Async="true" Language="C#" AutoEventWireup="true" CodeBehind="VendorExtend.aspx.cs" Inherits="SHZSZHSUPPLY.VendorAssess.VendorExtend" %>
 
 <!DOCTYPE html>
 

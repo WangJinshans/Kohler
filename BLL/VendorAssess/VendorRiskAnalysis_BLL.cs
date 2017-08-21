@@ -55,9 +55,9 @@ namespace BLL
             return VendorRiskAnalysis_DAL.updateVendorRisk(vendorRisk,list);
         }
 
-        public static string getFormID(string tempVendorID,string form_name,string factory)
+        public static string getFormID(string tempVendorID,string formTypeID,string factory)
         {
-            return VendorRiskAnalysis_DAL.getFormID(tempVendorID, form_name, factory);
+            return VendorRiskAnalysis_DAL.getFormID(tempVendorID, formTypeID, factory);
         }
 
         public static Dictionary<string, string> checkNotes(string formID)

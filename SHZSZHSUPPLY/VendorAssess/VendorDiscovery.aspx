@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="VendorDiscovery.aspx.cs" Inherits="AendorAssess.VendorDiscovery" %>
+﻿<%@ Page Language="C#" Async="true" AutoEventWireup="true" CodeBehind="VendorDiscovery.aspx.cs" Inherits="AendorAssess.VendorDiscovery" %>
 
 <!DOCTYPE html>
 
@@ -172,6 +172,9 @@
 		.auto-style3 {
 			height: 37px;
 		}
+	    .auto-style4 {
+            height: 38px;
+        }
 	</style>
 </head>
 <body style="margin: auto">
@@ -191,12 +194,12 @@
 					</td>
 				</tr>
 				<tr>
-					<td>企业名称*</td>
-					<td colspan="5">
+					<td class="auto-style4">企业名称*</td>
+					<td colspan="5" class="auto-style4">
 						<asp:TextBox ID="TextBox2" runat="server" CssClass="t"></asp:TextBox>
 					</td>
-					<td>法人*</td>
-					<td colspan="2">
+					<td class="auto-style4">法人*</td>
+					<td colspan="2" class="auto-style4">
 						<asp:TextBox ID="TextBox3" runat="server" CssClass="auto-style1" Width="109px"></asp:TextBox>
 					</td>
 				</tr>
@@ -488,7 +491,7 @@
 		</div>
 		<div style="float: left">
 			<table>
-				<tr>
+				<%--<tr>
 					<asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" CellPadding="4" ForeColor="#333333" GridLines="None">
 						<AlternatingRowStyle BackColor="White" />
 						<Columns>
@@ -524,7 +527,7 @@
 						<SortedDescendingCellStyle BackColor="#E9EBEF" />
 						<SortedDescendingHeaderStyle BackColor="#4870BE" />
 					</asp:GridView>
-				</tr>
+				</tr>--%>
 				<tr>
 					<asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" CellPadding="4" GridLines="None" ForeColor="#333333">
 						<AlternatingRowStyle BackColor="White" ForeColor="#284775" />

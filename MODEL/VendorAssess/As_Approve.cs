@@ -18,6 +18,9 @@ namespace Model
         private string form_Type_Name;
         private string temp_Vendor_Name;
         private string form_Type_ID;
+        private string employee_ID;
+        private string employee_Name;
+        private string email;
 
         public string Form_ID
         {
@@ -147,6 +150,45 @@ namespace Model
             set
             {
                 form_Type_ID = value;
+            }
+        }
+
+        public string Employee_ID
+        {
+            get
+            {
+                return employee_ID;
+            }
+
+            set
+            {
+                employee_ID = value;
+            }
+        }
+
+        public string Email
+        {
+            get
+            {
+                return email;
+            }
+
+            set
+            {
+                email = value;
+            }
+        }
+
+        public string Employee_Name
+        {
+            get
+            {
+                return employee_Name;
+            }
+
+            set
+            {
+                employee_Name = value;
             }
         }
     }

@@ -56,9 +56,9 @@ namespace BLL
             }
         }
 
-        public static string getFormID(string tempVendorID,string form_Name,string factory)
+        public static string getFormID(string tempVendorID, string formTypeID, string factory)
         {
-            return VendorDiscovery_DAL.getFormID(tempVendorID,form_Name, factory);
+            return VendorDiscovery_DAL.getFormID(tempVendorID,formTypeID, factory);
         }
 
     }

@@ -14,7 +14,7 @@ namespace AendorAssess
 {
     public partial class BiddingApprovalForm : System.Web.UI.Page
     {
-        public const string FORM_NAME = "bidding form比价资料/会议纪要";
+        public  string FORM_NAME = "bidding form比价资料/会议纪要";
         public  string FORM_TYPE_ID = "002";
         private string tempVendorID = "";
         private static string factory_Name;
@@ -27,13 +27,15 @@ namespace AendorAssess
         /// </summary>
         private void getSessionInfo()
         {
+            //初始化常量（伪）
+            FORM_TYPE_ID = Request.QueryString["type"];
+            FORM_NAME = FormType_BLL.getFormNameByTypeID(FORM_TYPE_ID);
+
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
             factory_Name = Session["Factory_Name"].ToString().Trim();
-            formID = As_Bidding_Approval_BLL.getFormID(tempVendorID, factory_Name,FORM_NAME);
-           
+            formID = As_Bidding_Approval_BLL.getFormID(tempVendorID, FORM_TYPE_ID, FORM_NAME);
             submit = Request.QueryString["submit"];
-            FORM_TYPE_ID = Request.QueryString["type"];
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -130,7 +132,6 @@ namespace AendorAssess
                 TextBox16.Text = biddingForm.Remark3;
                 TextBox17.Text = biddingForm.Reason_One;
                 TextBox18.Text = biddingForm.Reason_Two;
-                //TODO::image
 
                 
                 int[] arr = { 0, 0, 0, 0, 0 };
@@ -251,24 +252,24 @@ namespace AendorAssess
         /// </summary>
         /// <param name="formTypeID"></param>
         /// <param name="formID"></param>
-        public void newApproveAccess(string formTypeID, string formID)
-        {
-            //形成参数
-            As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(formTypeID);
+        //public void newApproveAccess(string formTypeID, string formID)
+        //{
+        //    //形成参数
+        //    As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(formTypeID);
 
-            //写入session之后供SelectDepartment页面使用
-            Session["AssessflowInfo"] = assess_flow;
-            Session["tempVendorID"] = tempVendorID;
-            Session["factory"] = "上海科勒";//TODO:自动三厂选择
-            Session["form_name"] = FORM_NAME;
-            Session["tempVendorName"] = tempVendorName;
+        //    //写入session之后供SelectDepartment页面使用
+        //    Session["AssessflowInfo"] = assess_flow;
+        //    Session["tempVendorID"] = tempVendorID;
+        //    Session["factory"] = "上海科勒";
+        //    Session["form_name"] = FORM_NAME;
+        //    Session["tempVendorName"] = tempVendorName;
 
-            //如果是用户部门
-            if (assess_flow.User_Department_Assess == "1")
-            {
-                LocalScriptManager.CreateScript(Page, "popUp('" + formID + "');", "SHOW");
-            }
-        }
+        //    //如果是用户部门
+        //    if (assess_flow.User_Department_Assess == "1")
+        //    {
+        //        LocalScriptManager.CreateScript(Page, "popUp('" + formID + "');", "SHOW");
+        //    }
+        //}
 
         /// <summary>
         /// 保存表格
@@ -348,9 +349,8 @@ namespace AendorAssess
         {
             //重新获取session信息和get信息
             getSessionInfo();
-            int submits = 1;
-            submits = As_Bidding_Approval_BLL.SubmitOk(formID);
-            if (submit == "yes" && submits == 0)
+
+            if (submit == "yes")
             {
                 //形成参数
                 saveForm(2, "提交表格");

@@ -20,9 +20,9 @@ namespace BLL
             return As_Vendor_Designated_Apply_DAL.addForm(vendorDesignatedApply);
         }
 
-        public static string getFormID(string tempVendorID,string form_Name,string factory)
+        public static string getFormID(string tempVendorID,string form_Type_ID,string factory)
         {
-            return As_Vendor_Designated_Apply_DAL.getFormID(tempVendorID, form_Name,factory);
+            return As_Vendor_Designated_Apply_DAL.getFormID(tempVendorID, form_Type_ID,factory);
         }
 
         public static As_Vendor_Designated_Apply checkFlag(string formID)

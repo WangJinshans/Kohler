@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using Model;
+using System.Data;
 
 namespace DAL.VendorAssess
 {
@@ -33,6 +35,27 @@ namespace DAL.VendorAssess
                 return true;
             }
             return false;
+        }
+
+        public static As_Approve getApproveTop(string formID)
+        {
+            string sql = "SELECT * FROM View_Approve_Top WHERE Form_ID='" + formID + "'";
+            DataTable dt = DBHelp.GetDataSet(sql);
+
+            As_Approve ap = null;
+            if (dt.Rows.Count > 0)
+            {
+                ap = new As_Approve();
+                ap.Position_Name = dt.Rows[0]["Position_Name"].ToString();
+                ap.Form_ID = dt.Rows[0]["Form_ID"].ToString();
+                ap.Form_Type_Name = dt.Rows[0]["Form_Type_Name"].ToString();
+                ap.Factory_Name = dt.Rows[0]["Factory_Name"].ToString();
+                ap.Employee_ID = dt.Rows[0]["Employee_ID"].ToString();
+                ap.Email = dt.Rows[0]["Employee_Email"].ToString();
+                ap.Employee_Name = dt.Rows[0]["Employee_Name"].ToString();
+                //TODO::添加其他参数
+            }
+            return ap;
         }
     }
 }

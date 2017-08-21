@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="VendorRiskAnalysis.aspx.cs" Inherits="SHZSZHSUPPLY.VendorAssess.VendorRiskAnalysis" %>
+﻿<%@ Page Language="C#" Async="true" AutoEventWireup="true" CodeBehind="VendorRiskAnalysis.aspx.cs" Inherits="SHZSZHSUPPLY.VendorAssess.VendorRiskAnalysis" %>
 
 <!DOCTYPE html>
 
@@ -537,7 +537,7 @@ table.gridtable td {
 	<div style="float:left">
 
 		<table>
-			<tr>
+			<%--<tr>
 				<asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" CellPadding="4" ForeColor="#333333" GridLines="None">
 					<AlternatingRowStyle BackColor="White" />
 					<Columns>
@@ -571,7 +571,7 @@ table.gridtable td {
 					<SortedDescendingCellStyle BackColor="#E9EBEF" />
 					<SortedDescendingHeaderStyle BackColor="#4870BE" />
 				</asp:GridView>
-			</tr>
+			</tr>--%>
 			<tr>
 				<asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" CellPadding="4" GridLines="None" ForeColor="#333333">
 						<AlternatingRowStyle BackColor="White" ForeColor="#284775" />

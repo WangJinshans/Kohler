@@ -19,7 +19,17 @@ namespace BLL
         public static bool writeLog(string employeeID,string formID,string manul,string manulType,string tempVendorID)
         {
             //参数完全自定义
-
+            As_Write aw = new As_Write();
+            aw.Employee_ID = employeeID;
+            aw.Form_ID = formID;
+            aw.Form_Fill_Time = DateTime.Now.ToString();
+            aw.Manul = manul;
+            aw.Manul_Type = manulType;
+            aw.Temp_Vendor_ID = tempVendorID;
+            if (Write_DAL.addWrite(aw) > 0)
+            {
+                return true;
+            }
             return false;
         }
 
@@ -43,7 +53,17 @@ namespace BLL
         public static bool writeLog(string formID, string manul, string tempVendorID)
         {
             //自动获取employee，使用常规类型
-
+            As_Write aw = new As_Write();
+            aw.Employee_ID = HttpContext.Current.Session["Employee_ID"].ToString();
+            aw.Form_ID = formID;
+            aw.Form_Fill_Time = DateTime.Now.ToString();
+            aw.Manul = manul;
+            aw.Manul_Type = As_Write.NORMAL_ACTION ;
+            aw.Temp_Vendor_ID = tempVendorID;
+            if (Write_DAL.addWrite(aw) > 0)
+            {
+                return true;
+            }
             return false;
         }
     }
