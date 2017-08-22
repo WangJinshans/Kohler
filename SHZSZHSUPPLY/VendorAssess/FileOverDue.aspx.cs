@@ -1,37 +1,54 @@
-﻿using BLL;
+using BLL;
 using BLL.VendorAssess;
 using Model;
+using MODEL;
 using MODEL.VendorAssess;
+using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
-using System.Collections.Generic;
 using System.Web.UI.WebControls;
 
 namespace SHZSZHSUPPLY.VendorAssess
 {
-    public partial class FormOverDue : System.Web.UI.Page
+    public partial class FileOverDue : System.Web.UI.Page
     {
+        private static string factory;
         protected void Page_Load(object sender, EventArgs e)
         {
-           
+
+            /*
+             * 
+             * 需要上传文件  并将上传的文件进行处理 类似于审批的时候的文件上传
+             * 要是因为文件不过  需要提供一个文件覆盖的功能
+             * 
+             */
+        }
+        protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "upload")
+            {
+                //只负责上传文件  保存的时候由于原来的文件已经存在  但是不能删除 需要进行控制
+                GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
+                string tempVendorID = GridView1.Rows[drv.RowIndex].Cells[1].Text;
+                string tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
+                string fileTypeID = File_Type_BLL.selectFileTypeID(GridView1.Rows[drv.RowIndex].Cells[0].Text.ToString().Trim());//获取file_Type_ID
+                string requestType = "fileUpload";
+                string factory = DropDownList1.SelectedValue;//厂
+                LocalScriptManager.CreateScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}','{4}')", requestType, tempVendorID, tempVendorName, fileTypeID, factory), "upload");
+            }
         }
 
-        protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+        protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
             string formid = GridView1.Rows[drv.RowIndex].Cells[0].Text;
             string temp_Vendor_ID = GridView1.Rows[drv.RowIndex].Cells[1].Text;
             string optional = GridView1.Rows[drv.RowIndex].Cells[2].Text;//可选与必选
-            string status= GridView1.Rows[drv.RowIndex].Cells[3].Text;//状态标志  如果为审批中 无法再次重填
+            string status = GridView1.Rows[drv.RowIndex].Cells[3].Text;//状态标志  如果为审批中 无法再次重填
             string submit = "";//提交的顺序控制
             string aimPageName = "";
-            
+
             /*
-             *
-             *
              *获取gridview中的所有表的优先级  
-             * 通过formID获取优先级  
-             * 
-             * 
              */
             if (status == "审批中")
             {
@@ -56,7 +73,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
             if (optional == "必选")
             {
-                if (isMinimum(selectedFormPriorityNumber,temp_Vendor_ID))
+                if (isMinimum(selectedFormPriorityNumber, temp_Vendor_ID))
                 {
                     submit = "yes";
                 }
@@ -65,23 +82,24 @@ namespace SHZSZHSUPPLY.VendorAssess
                     submit = "no";
                 }
             }
+
             if (e.CommandName == "refill")
             {
+                /*
+                 * 需要进行文件检查 查看文件是否已经上传
+                 * 
+                 */
                 if (formid.Contains("BiddingForm"))//比价表
                 {
+                    //获取最新表的所有值
                     As_Bidding_Approval bidding = new As_Bidding_Approval();
                     As_Bidding_Approval newbidding = new As_Bidding_Approval();
                     bidding = As_Bidding_Approval_BLL.getBiddingForm(formid);
-                    newbidding.Form_ID = bidding.Form_ID;//上一张表的值复制与不复制问题不大  Form_ID需要  但触发器会将其改掉  所以值无所谓
+                    newbidding.Form_ID = bidding.Form_ID;
                     newbidding.Form_Type_ID = bidding.Form_Type_ID;
                     newbidding.Flag = 0;
                     As_Bidding_Approval_BLL.addBiddingForm(newbidding);//添加纪录 当查找的时候会找到最新的这张表
-                    /*
-                     * 新表绑定原来的文件：
-                     * 1.通过原来的formID 在As_Form_File中查出需要绑定的文件 因为是表过期，文件是不用动的
-                     * 2.获取新的form_ID
-                     * 3.添加新的form_ID与对应文件进行绑定
-                     */
+
                     As_New_Forms news = new As_New_Forms();
                     news.Factory_Name = DropDownList1.SelectedValue.ToString().Trim();
                     news.Form_Name = FormType_BLL.getFormNameByTypeID(newbidding.Form_Type_ID);
@@ -89,7 +107,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
                     FormFile_BLL.dataReBind(form_ID, bidding.Temp_Vendor_ID, bidding.Form_ID);//这一步 在进入表的时候会自动绑定一次
 
-                    //添加到As_Vendor_Form_Type;
+                    ////添加到As_Vendor_Form_Type;
                     //As_Vendor_Form_Type vendor = new As_Vendor_Form_Type();
                     //vendor.Temp_Vendor_ID = bidding.Temp_Vendor_ID;
                     //vendor.Temp_Vendor_Name = TempVendor_BLL.getTempVendorName(bidding.Temp_Vendor_ID);
@@ -99,59 +117,20 @@ namespace SHZSZHSUPPLY.VendorAssess
                     //vendor.Form_ID = form_ID;
                     //vendor.Flag = 0;
                     //FormOverDue_BLL.addVendorFormType(vendor);//触发器会将原来的插入到history中
-                    //update As_Vendor_Formtype中的form_ID
-                    aimPageName = "BiddingApprovalForm.aspx";
-                }
-                if (formid.Contains("VendorDiscovery"))//比价表
-                {
-                    As_Vendor_Discovery bidding = new As_Vendor_Discovery();
-                    As_Vendor_Discovery newbidding = new As_Vendor_Discovery();
-                    bidding = VendorDiscovery_BLL.checkFlag(formid);
-                    newbidding.Form_ID = bidding.Form_ID;//上一张表的值复制与不复制问题不大  Form_ID需要  但触发器会将其改掉  所以值无所谓
-                    newbidding.Form_Type_ID = bidding.Form_Type_ID;
-                    newbidding.Temp_Vendor_Name = bidding.Temp_Vendor_Name;
-                    newbidding.Temp_Vendor_ID = bidding.Temp_Vendor_ID;
-                    newbidding.Factory_Name = bidding.Factory_Name;
-                    newbidding.Flag = 0;
-                    VendorDiscovery_BLL.addVendorDiscovery(newbidding);//添加纪录 当查找的时候会找到最新的这张表
-                    /*
-                     * 新表绑定原来的文件：
-                     * 1.通过原来的formID 在As_Form_File中查出需要绑定的文件 因为是表过期，文件是不用动的
-                     * 2.获取新的form_ID
-                     * 3.添加新的form_ID与对应文件进行绑定
-                     */
-                    As_New_Forms news = new As_New_Forms();
-                    news.Factory_Name = DropDownList1.SelectedValue.ToString().Trim();
-                    news.Form_Name = FormType_BLL.getFormNameByTypeID(newbidding.Form_Type_ID);
-                    news.Temp_Vendor_ID = bidding.Temp_Vendor_ID;
-                    string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
-                    FormFile_BLL.dataReBind(form_ID, bidding.Temp_Vendor_ID, bidding.Form_ID);//这一步 在进入表的时候会自动绑定一次
 
-                    //添加到As_Vendor_Form_Type;
-                    //As_Vendor_Form_Type vendor = new As_Vendor_Form_Type();
-                    //vendor.Temp_Vendor_ID = bidding.Temp_Vendor_ID;
-                    //vendor.Temp_Vendor_Name = TempVendor_BLL.getTempVendorName(bidding.Temp_Vendor_ID);
-                    //vendor.Factory_Name = DropDownList1.SelectedValue;
-                    //vendor.Form_Type_ID = newbidding.Form_Type_ID;
-                    //vendor.Form_Type_Name = news.Form_Name;
-                    //vendor.Form_ID = form_ID;
-                    //vendor.Flag = 0;
-                    //FormOverDue_BLL.addVendorFormType(vendor);//触发器会将原来的插入到history中
-                    //update As_Vendor_Formtype中的form_ID
-                    aimPageName = "VendorDiscovery.aspx";
+                    Response.Redirect("BiddingApprovalForm.aspx");//跳进去session的问题暂时没有处理
                 }
                 if (formid.Contains("VendorDesignated"))//指定供应商申请表
                 {
+                    //获取最新表的所有值
                     As_Vendor_Designated_Apply vendor = new As_Vendor_Designated_Apply();
                     As_Vendor_Designated_Apply newvendor = new As_Vendor_Designated_Apply();
                     vendor = As_Vendor_Designated_Apply_BLL.checkFlag(formid);
                     newvendor.Form_id = vendor.Form_id;
-                    newvendor.VendorName = TempVendor_BLL.getTempVendorName(temp_Vendor_ID);
                     newvendor.Form_Type_ID = vendor.Form_Type_ID;
-                    newvendor.Temp_Vendor_ID = TextBox1.Text.ToString().Trim();
                     newvendor.Flag = 0;
+                    As_Vendor_Designated_Apply_BLL.addForm(newvendor);
 
-                    As_Vendor_Designated_Apply_BLL.addForm(newvendor);//添加纪录 当查找的时候会找到最新的这张表
                     As_New_Forms news = new As_New_Forms();
                     news.Factory_Name = DropDownList1.SelectedValue.ToString().Trim();
                     news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
@@ -159,36 +138,169 @@ namespace SHZSZHSUPPLY.VendorAssess
                     string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
                     FormFile_BLL.dataReBind(form_ID, vendor.Temp_Vendor_ID, vendor.Form_id);//这一步 在进入表的时候会自动绑定一次
 
-                    //添加到As_Vendor_Form_Type;
-                    //As_Vendor_Form_Type vendors = new As_Vendor_Form_Type();
-                    //vendors.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
-                    //vendors.Temp_Vendor_Name = TempVendor_BLL.getTempVendorName(vendor.Temp_Vendor_ID);
-                    //vendors.Factory_Name = DropDownList1.SelectedValue;
-                    //vendors.Form_Type_ID = newvendor.Form_Type_ID;
-                    //vendors.Form_Type_Name = news.Form_Name;
-                    //vendors.Form_ID = form_ID;
-                    //vendors.Flag = 0;
-                    //FormOverDue_BLL.addVendorFormType(vendors);
-                    aimPageName = "VendorDesignatedApply.aspx";        
+                    aimPageName = "VendorDesignatedApply.aspx";
                 }
-                /*
-                 * 
-                 * 原来传递的时候有type 不清楚是干什么的 貌似也没有用到  这里暂时不传递type
-                 */
-                Response.Redirect(aimPageName + "?submit="+submit);
+                if (formid.Contains("VendorCreation"))//指定供应商申请表
+                {
+                    //获取最新表的所有值
+                    As_Vendor_Creation vendor = new As_Vendor_Creation();
+                    As_Vendor_Creation newvendor = new As_Vendor_Creation();
+                    vendor = VendorCreation_BLL.getVendorCreation(formid);
+                    newvendor.Form_ID = vendor.Form_ID;
+                    newvendor.Form_Type_ID = vendor.Form_Type_ID;
+                    newvendor.Flag = 0;
+                    VendorCreation_BLL.addVendorCreation(newvendor);//添加纪录 当查找的时候会找到最新的这张表
+
+                    As_New_Forms news = new As_New_Forms();
+                    news.Factory_Name = DropDownList1.SelectedValue.ToString().Trim();
+                    news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
+                    news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
+                    string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
+                    FormFile_BLL.dataReBind(form_ID, vendor.Temp_Vendor_ID, vendor.Form_ID);//这一步 在进入表的时候会自动绑定一次
+
+                    aimPageName = "VendorCreation.aspx";
+                }
+                if (formid.Contains("VendorExtend"))//指定供应商申请表
+                {
+                    //获取最新表的所有值
+                    As_Vendor_Extend vendor = new As_Vendor_Extend();
+                    As_Vendor_Extend newvendor = new As_Vendor_Extend();
+                    vendor = VendorExtend_BLL.getVendorExtend(formid);
+                    newvendor.Form_ID = vendor.Form_ID;
+                    newvendor.Form_Type_ID = vendor.Form_Type_ID;
+                    newvendor.Flag = 0;
+                    VendorExtend_BLL.addVendorExtend(newvendor);//添加纪录 当查找的时候会找到最新的这张表
+
+                    As_New_Forms news = new As_New_Forms();
+                    news.Factory_Name = DropDownList1.SelectedValue.ToString().Trim();
+                    news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
+                    news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
+                    string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
+                    FormFile_BLL.dataReBind(form_ID, vendor.Temp_Vendor_ID, vendor.Form_ID);//这一步 在进入表的时候会自动绑定一次
+
+                    aimPageName = "VendorExtend.aspx";
+                }
+                if (formid.Contains("VendorBlock"))//指定供应商申请表
+                {
+                    //获取最新表的所有值
+                    As_Vendor_Block_Or_UnBlock vendor = new As_Vendor_Block_Or_UnBlock();
+                    As_Vendor_Block_Or_UnBlock newvendor = new As_Vendor_Block_Or_UnBlock();
+                    vendor = VendorBlockOrUnBlock_BLL.getVendorBlock(formid);
+                    newvendor.Form_ID = vendor.Form_ID;
+                    newvendor.Form_Type_ID = vendor.Form_Type_ID;
+                    newvendor.Flag = 0;
+                    VendorBlockOrUnBlock_BLL.addVendorBlock(newvendor);//添加纪录 当查找的时候会找到最新的这张表
+
+                    As_New_Forms news = new As_New_Forms();
+                    news.Factory_Name = DropDownList1.SelectedValue.ToString().Trim();
+                    news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
+                    news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
+                    string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
+                    FormFile_BLL.dataReBind(form_ID, vendor.Temp_Vendor_ID, vendor.Form_ID);//这一步 在进入表的时候会自动绑定一次
+
+                    aimPageName = "VendorBlockOrUnBlock.aspx";
+                }
+                if (formid.Contains("VendorDiscovery"))//指定供应商申请表
+                {
+                    //获取最新表的所有值
+                    As_Vendor_Discovery vendor = new As_Vendor_Discovery();
+                    As_Vendor_Discovery newvendor = new As_Vendor_Discovery();
+                    vendor = VendorDiscovery_BLL.checkFlag(formid);
+                    newvendor.Form_ID = vendor.Form_ID;
+                    newvendor.Form_Type_ID = vendor.Form_Type_ID;
+                    newvendor.Flag = 0;
+                    VendorDiscovery_BLL.addVendorDiscovery(newvendor);//添加纪录 当查找的时候会找到最新的这张表
+
+                    As_New_Forms news = new As_New_Forms();
+                    news.Factory_Name = DropDownList1.SelectedValue.ToString().Trim();
+                    news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
+                    news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
+                    string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
+                    FormFile_BLL.dataReBind(form_ID, vendor.Temp_Vendor_ID, vendor.Form_ID);//这一步 在进入表的时候会自动绑定一次
+
+                    aimPageName = "VendorDiscovery.aspx";
+                }
+                if (formid.Contains("VendorRisk"))//指定供应商申请表
+                {
+                    //获取最新表的所有值
+                    As_Vendor_Risk vendor = new As_Vendor_Risk();
+                    As_Vendor_Risk newvendor = new As_Vendor_Risk();
+                    vendor = VendorRiskAnalysis_BLL.checkFlag(formid);
+                    newvendor.Form_ID = vendor.Form_ID;
+                    newvendor.Form_Type_ID = vendor.Form_Type_ID;
+                    newvendor.Flag = 0;
+                    VendorRiskAnalysis_BLL.addVendorRisk(newvendor);//添加纪录 当查找的时候会找到最新的这张表
+
+                    As_New_Forms news = new As_New_Forms();
+                    news.Factory_Name = DropDownList1.SelectedValue.ToString().Trim();
+                    news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
+                    news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
+                    string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
+                    FormFile_BLL.dataReBind(form_ID, vendor.Temp_Vendor_ID, vendor.Form_ID);//这一步 在进入表的时候会自动绑定一次
+
+                    aimPageName = "VendorRiskAnalysis.aspx";
+                }
+                if (formid.Contains("ContractApproval"))//指定供应商申请表
+                {
+                    //获取最新表的所有值
+                    As_Contract_Approval vendor = new As_Contract_Approval();
+                    As_Contract_Approval newvendor = new As_Contract_Approval();
+                    vendor = ContractApproval_BLL.getContractApproval(formid);
+                    newvendor.Form_ID = vendor.Form_ID;
+                    newvendor.Form_Type_ID = vendor.Form_Type_ID;
+                    newvendor.Flag = 0;
+                    ContractApproval_BLL.addContractApproval(newvendor);//添加纪录 当查找的时候会找到最新的这张表
+
+                    As_New_Forms news = new As_New_Forms();
+                    news.Factory_Name = DropDownList1.SelectedValue.ToString().Trim();
+                    news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
+                    news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
+                    string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
+                    FormFile_BLL.dataReBind(form_ID, vendor.Temp_Vendor_ID, vendor.Form_ID);//这一步 在进入表的时候会自动绑定一次
+
+                    aimPageName = "ContractApprovalForm.aspx";
+                }
+                if (formid.Contains("VendorSelection"))//指定供应商申请表
+                {
+                    //获取最新表的所有值
+                    As_Vendor_Selection vendor = new As_Vendor_Selection();
+                    As_Vendor_Selection newvendor = new As_Vendor_Selection();
+                    vendor = VendorSelection_BLL.checkFlag(formid);
+                    newvendor.Form_ID = vendor.Form_ID;
+                    newvendor.Form_Type_ID = vendor.Form_Type_ID;
+                    newvendor.Flag = 0;
+                    VendorSelection_BLL.addVendorSelection(newvendor);//添加纪录 当查找的时候会找到最新的这张表
+
+                    As_New_Forms news = new As_New_Forms();
+                    news.Factory_Name = DropDownList1.SelectedValue.ToString().Trim();
+                    news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
+                    news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
+                    string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
+                    FormFile_BLL.dataReBind(form_ID, vendor.Temp_Vendor_ID, vendor.Form_ID);//这一步 在进入表的时候会自动绑定一次
+
+                    aimPageName = "VendorSelection.aspx";
+                }
+                Response.Redirect(aimPageName + "?submit=" + submit);
             }
         }
 
+
         protected void search_Click(object sender, EventArgs e)
         {
+            //获取该供应商所有应文件过期而需要重新审批的表
             string Temp_Vendor_ID = this.TextBox1.Text.ToString().Trim();
+            factory = DropDownList1.SelectedValue;
             if (Temp_Vendor_ID != null)//通过VendorID来加载数据库中该供应商的过期文件
-            {
+            {                //先获取该供应商所有过期的文件
                 PagedDataSource dataSource = new PagedDataSource();
-                dataSource.DataSource = FormOverDue_BLL.getOverDueForm(Temp_Vendor_ID,DropDownList1.SelectedValue);
+                dataSource.DataSource = FileOverDue_BLL.getOverDueFile(Temp_Vendor_ID,factory);
+                //只显示未上传的文件
                 GridView1.DataSource = dataSource;
-                GridView1.DataBind();
-                Session["tempVendorID"]= this.TextBox1.Text.ToString().Trim();
+                GridView1.DataBind();//只负责新文件的上传
+                dataSource.DataSource = FileOverDue_BLL.getOverDueForm(Temp_Vendor_ID,factory);
+                GridView2.DataSource = dataSource;
+                GridView2.DataBind();
+                Session["tempVendorID"] = this.TextBox1.Text.ToString().Trim();
             }
         }
 
@@ -221,5 +333,6 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
 
         }
+
     }
 }
