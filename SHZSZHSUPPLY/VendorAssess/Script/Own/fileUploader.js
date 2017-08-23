@@ -139,3 +139,12 @@ function __myDoPostBack(eventTarget, eventArgument) {
         theForm.submit();
     }
 }
+
+function goBack() {
+    window.history.go(-1); //回退，无刷新
+}
+
+function goBackRefresh() {
+    window.history.back();
+    location.reload(); //回退，强制刷新
+}
