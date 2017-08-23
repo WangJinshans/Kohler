@@ -185,9 +185,9 @@
 
 <body style="margin: auto">
 	<form id="form1" runat="server">
-        <%--<input type="button" value="Pdf" onclick="takeScreenshot()" />--%>
-        <asp:Button Text="PDF" runat="server" ID ="Button1" OnClick="Button1_Click" />
-        <a href="index.aspx">返回</a>
+        <a onclick="goBack()" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
+        <asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="Button1" runat="server" OnClick="Button1_Click" style="float: right; " />
+        
 		<div style="text-align: center">
 			<table id="table1" style="margin: auto; border-collapse: collapse" cellpadding="0" cellspacing="0">
 				<caption style="font-size: xx-large">供应商调查表</caption>

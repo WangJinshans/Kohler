@@ -237,7 +237,9 @@ table.gridtable td {
 </head>
 <body>
     <form id="form1" runat="server">
-        <asp:Button Text="PDF" runat="server" ID ="Button1" OnClick="Button1_Click" />
+    <a onclick="goBack()" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
+    <asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="Button1" runat="server" OnClick="Button1_Click" style="float: right; " />
+        
     <div id="div1" style="text-align:right">PR-05-07-04</div><br>
         <table style="margin: auto; border-collapse:initial" cellpadding="0" cellspacing="0">
             <caption style="font-size:xx-large; " class="auto-style2">VENDOR EXTEND</caption>

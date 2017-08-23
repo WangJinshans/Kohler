@@ -121,7 +121,8 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <asp:Button Text="pdf" ID="Button1" runat="server" OnClick="Button1_Click" />
+        <a onclick="goBack()" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
+        <asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="Button1" runat="server" OnClick="Button1_Click" style="float: right; " />
         <table id="table1" style="margin: auto; border-collapse:collapse" cellpadding="0" cellspacing="0">
                 <tr>
                     <td colspan="14" style="text-align:center;border-right:0;font-size:small;">Contract Approval Form - Purchasing<br>合同批准格式——采购</td>
