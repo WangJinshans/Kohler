@@ -313,13 +313,14 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             kciApproval.Temp_Vendor_ID = tempVendorID;
             kciApproval.Flag = 0;
             kciApproval.Position_Name = "采购部经理";
+            kciApproval.Temp_Vendor_Name = TempVendor_BLL.getTempVendorName(tempVendorID);
+            kciApproval.Form_Type_Name = FormType_BLL.getFormNameByTypeID(formTypeID);
             int rs3 = KCIApproval_BLL.addKCIApproval(kciApproval);
 
             if (rs1 > 0 && rs2 > 0 && rs3 > 0)
             {
                 LocalLog.writeLog(formID, String.Format("系统内部审批完成,KCI审批已添加，正在等待KCI审批结果    时间：{0}", DateTime.Now), As_Write.APPROVE_SUCCESS, tempVendorID);
 
-                //TODO::Async
                 As_Employee ae = Employee_BLL.getEmolyeeById(HttpContext.Current.Session["Employee_ID"].ToString());
                 LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "等待审批", DateTime.Now.ToString(), "系统内部审批已完成，正在等待KCI审批结果，请获取KCI审批结果后登录系统更新KCI审批信息");
                 return true;
@@ -353,7 +354,6 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             {
                 LocalLog.writeLog(formID, String.Format("系统内部审批完成,表格审批完成    时间：{0}", DateTime.Now), As_Write.APPROVE_SUCCESS, tempVendorID);
 
-                //TODO::Async
                 As_Employee ae = Employee_BLL.getEmolyeeById(HttpContext.Current.Session["Employee_ID"].ToString());
                 LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "审批完成", DateTime.Now.ToString(), "系统内部审批完成,表格审批完成");
 
