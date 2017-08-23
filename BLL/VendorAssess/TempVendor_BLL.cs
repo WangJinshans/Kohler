@@ -48,6 +48,10 @@ namespace BLL
                             {
                                 info.Add(item["Factory_Name"].ToString(), new Dictionary<string, string[]>());
                             }
+                            else
+                            {
+                                continue;
+                            }
                         }
                         else
                         {
