@@ -743,15 +743,6 @@
     <Content Include="files\c.pdf" />
     <Content Include="files\d.pdf" />
     <Content Include="files\e.pdf" />
-    <Content Include="files\EM3 V2.2开发板原理图 - 副本 %282%29.pdf" />
-    <Content Include="files\EM3 V2.2开发板原理图 - 副本 %283%29.pdf" />
-    <Content Include="files\EM3 V2.2开发板原理图 - 副本 %284%29.pdf" />
-    <Content Include="files\EM3 V2.2开发板原理图 - 副本 %285%29.pdf" />
-    <Content Include="files\EM3 V2.2开发板原理图 - 副本 %286%29.pdf" />
-    <Content Include="files\EM3 V2.2开发板原理图 - 副本 %287%29.pdf" />
-    <Content Include="files\EM3 V2.2开发板原理图 - 副本 %288%29.pdf" />
-    <Content Include="files\EM3 V2.2开发板原理图 - 副本.pdf" />
-    <Content Include="files\EM3 V2.2开发板原理图.pdf" />
     <Content Include="files\f.pdf" />
     <Content Include="files\g.pdf" />
     <Content Include="files\h.pdf" />
@@ -765,15 +756,7 @@
     <Content Include="files\p.pdf" />
     <Content Include="files\q.pdf" />
     <Content Include="files\rthm1_9_compatible_apps.pdf" />
-    <Content Include="files\完整版-概率论与数理统计%28理工类·第四版%29吴赣昌主编答案 - 副本 %2811%29.pdf" />
-    <Content Include="files\完整版-概率论与数理统计%28理工类·第四版%29吴赣昌主编答案 - 副本 %282%29.pdf" />
-    <Content Include="files\完整版-概率论与数理统计%28理工类·第四版%29吴赣昌主编答案 - 副本 %283%29.pdf" />
-    <Content Include="files\完整版-概率论与数理统计%28理工类·第四版%29吴赣昌主编答案 - 副本 %284%29.pdf" />
-    <Content Include="files\完整版-概率论与数理统计%28理工类·第四版%29吴赣昌主编答案 - 副本 %285%29.pdf" />
-    <Content Include="files\完整版-概率论与数理统计%28理工类·第四版%29吴赣昌主编答案 - 副本 %286%29.pdf" />
-    <Content Include="files\完整版-概率论与数理统计%28理工类·第四版%29吴赣昌主编答案 - 副本 %287%29.pdf" />
-    <Content Include="files\完整版-概率论与数理统计%28理工类·第四版%29吴赣昌主编答案 - 副本 %288%29.pdf" />
-    <Content Include="files\完整版-概率论与数理统计%28理工类·第四版%29吴赣昌主编答案 - 副本 %289%29.pdf" />
+    <None Include="Properties\PublishProfiles\test.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

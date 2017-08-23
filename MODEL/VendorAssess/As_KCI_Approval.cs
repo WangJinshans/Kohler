@@ -13,6 +13,8 @@ namespace MODEL
         private int flag;
         private string reason;
         private string time;
+        private string temp_Vendor_Name;
+        private string form_Type_Name;
 
         public string Form_ID
         {
@@ -89,6 +91,32 @@ namespace MODEL
             set
             {
                 time = value;
+            }
+        }
+
+        public string Temp_Vendor_Name
+        {
+            get
+            {
+                return temp_Vendor_Name;
+            }
+
+            set
+            {
+                temp_Vendor_Name = value;
+            }
+        }
+
+        public string Form_Type_Name
+        {
+            get
+            {
+                return form_Type_Name;
+            }
+
+            set
+            {
+                form_Type_Name = value;
             }
         }
     }

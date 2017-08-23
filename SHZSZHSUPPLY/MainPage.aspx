@@ -10,7 +10,7 @@
      {
          width:1010px;
          height:450px;
-         margin :0;
+         margin :3% auto 0 auto;
          border :0
      }
  </style>
