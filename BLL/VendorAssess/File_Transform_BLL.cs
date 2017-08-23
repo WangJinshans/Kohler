@@ -21,14 +21,16 @@ namespace BLL.VendorAssess
              * 3.文件转移 表 文件    normal
              * 
              */
-
+            //tempVendorID = "TempVendor1045";
+            copyFile(getFilesWithPath(tempVendorID, factory));
+            //copyFile(getFormsWithPath(tempVendorID, factory));
             if (checkFileSubmit(tempVendorID, factory) && checkFormSubmit(tempVendorID, factory) && FormAccessSuccessFul(tempVendorID, factory))
             {
                 string normalCode = "";
                 insertNormalCode(normalCode);
+                copyFile(getFilesWithPath(tempVendorID, factory));
+                copyFile(getFormsWithPath(tempVendorID, factory));
             }
-            copyFile(getFilesWithPath(tempVendorID, factory));
-            copyFile(getFormsWithPath(tempVendorID, factory));
             return false;
         }
         private static bool checkFileSubmit(string tempVendorID, string factory)
@@ -63,7 +65,7 @@ namespace BLL.VendorAssess
              * 1.从As_Vendor_FormType中获取需要提交的文件list
              * 2.单个文件在As_Form中进行检查
              */
-
+            
             List<string> forms = new List<string>();
             forms = File_Transform_DAL.getFormIDs(tempVendorID, factory);
             if (forms != null && forms.Count > 0)
@@ -119,6 +121,7 @@ namespace BLL.VendorAssess
                         {
                             string filePath = dr["File_Path"].ToString().Trim();
                             fileWithPath.Add(fileID, filePath);
+                            return fileWithPath;
                         }
                     }
                 }
@@ -161,13 +164,31 @@ namespace BLL.VendorAssess
                 foreach (string key in fileWithPath.Keys)
                 {
                     string fileID = key;
-                    string filePath = fileWithPath[key];
+                    string filePath = "E:\\科勒\\github\\SHZSZHSUPPLY\\SHZSZHSUPPLY\\files" + "\\" + fileID;
+                    //string filePath = fileWithPath[key] + "\\" + fileID;
                     FileInfo fi = new FileInfo(filePath);//文件复制
-                    string newNameAndPath = "";
-                    string newPath = "";
+                    int number = 0;
+                    int i = 0;
+                    for (i = 0; i < fileID.Length; i++)
+                    {
+                        if (fileID[i] > 65 && fileID[i] < 97)
+                        {
+                            number++;
+                            if (number==3)
+                            {
+                                break;
+                            }
+                            
+                        }
+                    }
+                    string substring = fileID.Substring(0, i);
+                    string normalCode = "";
+                    string newfileID = fileID.Replace(substring, normalCode);
+                    string newNameAndPath = "E:\\科勒\\github\\SHZSZHSUPPLY\\SHZSZHSUPPLY\\Upload\\" + fileID;
+                    string newPath = "D:\\test\\" + fileID;//临时存储文件
                     fi.CopyTo(newPath, true);
                     fi = new FileInfo(newPath);
-                    fi.MoveTo(newNameAndPath);
+                    fi.MoveTo(newNameAndPath);//最终存储文件
                 }
             }
         }

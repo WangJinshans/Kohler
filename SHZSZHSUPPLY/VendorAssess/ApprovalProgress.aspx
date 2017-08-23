@@ -346,6 +346,7 @@
         <div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="formProgress" style="width: 80%; margin: 0 auto 20px auto">
             <div class="layui-progress-bar" lay-percent="70%"></div>
         </div>
+        <asp:Button ID="Button1" runat="server" Text="Button" OnClick="Button1_Click" />
     </form>
 </body>
 </html>

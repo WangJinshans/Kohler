@@ -93,5 +93,10 @@ namespace SHZSZHSUPPLY.VendorAssess
                 LocalScriptManager.CreateScript(Page, String.Format("setFormProgress('{0}')", rd.Next(10, 101)), "setformprogress");
             }
         }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            File_Transform_BLL.vendorTransForm(Request.Form["__EVENTARGUMENT"], "上海科勒");
+        }
     }
 }
