@@ -35,7 +35,11 @@ namespace AendorAssess
 
             try
             {
-                Convert.ToInt32(Purchase_Money.Text.Trim());
+                if (Convert.ToInt32(Purchase_Money.Text.Trim())<=0)
+                {
+                    LocalScriptManager.CreateScript(Page, "messageBox('" + "金额错误" + "');", "Purchase_Money");
+                    return false;
+                }
             }
             catch (Exception)
             {
