@@ -34,6 +34,9 @@ namespace SHZSZHSUPPLY.VendorAssess
                     case "refreshNewVendor":
                         refreshNewVendor(Request.Form["__EVENTARGUMENT"]);
                         break;
+                    case "vendorTransfer":
+                        btnTransfer_Click(Request.Form["__EVENTARGUMENT"]);
+                        break;
                     default:
                         break;
                 }
@@ -74,6 +77,22 @@ namespace SHZSZHSUPPLY.VendorAssess
             //LocalScriptManager.CreateScript(Page, String.Format("setVendorName('{0}')", TempVendor_BLL.getTempVendorName(tempVendorID)), "setvendorname");
 
             LocalScriptManager.CreateScript(Page, String.Format("setFormProgress('{0}')", 0), "setformprogress");
+
+            //检查是否可转移
+            string factory = Session["Factory_Name"].ToString();
+            string employee_ID = Session["Employee_ID"].ToString();
+            if (File_Transform_BLL.checkFormSubmit(tempVendorID,factory) && AddEmployeeVendor_BLL.hasEmployeeID(tempVendorID,employee_ID) && File_Transform_BLL.FormAccessSuccessFul(tempVendorID,factory))
+            {
+                btnTransfer.Enabled = true;
+                btnTransfer.CssClass = "layui-btn";
+                btnTransfer.ToolTip = "可以开始转移";
+            }
+            else
+            {
+                btnTransfer.Enabled = false;
+                btnTransfer.CssClass = "layui-btn layui-btn-disabled";
+                btnTransfer.ToolTip = "无法转移，请等待审批完毕或此账户无权限";
+            }
         }
 
         protected void GridView3_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -91,6 +110,33 @@ namespace SHZSZHSUPPLY.VendorAssess
 
                 Random rd = new Random();
                 LocalScriptManager.CreateScript(Page, String.Format("setFormProgress('{0}')", rd.Next(10, 101)), "setformprogress");
+            }
+        }
+
+        protected void btnTransfer_Click(string code)
+        {
+            string factory = Session["Factory_Name"].ToString();
+            string tempVendorID = Request.Form["quiz3"];
+
+            if (!File_Transform_BLL.checkFileSubmit(tempVendorID,factory))
+            {
+                LocalScriptManager.CreateScript(Page, "message('请补充上传所有“必须”类型的文件')", "filemsg");
+            }
+            else
+            {
+                string transferResult = File_Transform_BLL.vendorTransForm(tempVendorID, factory, code, Properties.Settings.Default.Transfer_Dest_Path);
+                if (transferResult == "")
+                {
+                    LocalScriptManager.CreateScript(Page, "message('已将最新的文件更新到供应商管理系统')", "filemsg1");
+                }
+                else if (transferResult.Equals(File_Transform_BLL.CODE_EXIST))
+                {
+                    LocalScriptManager.CreateScript(Page, "message('已将最新的文件更新到供应商管理系统，"+transferResult+"')", "filemsg1");
+                }
+                else
+                {
+                    LocalScriptManager.CreateScript(Page, "message('"+transferResult+"')", "filemsg1");
+                }
             }
         }
     }

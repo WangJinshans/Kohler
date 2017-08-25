@@ -5,12 +5,18 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Web;
 
 namespace BLL.VendorAssess
 {
     public class File_Transform_BLL
     {
-        public static bool vendorTransForm(string tempVendorID, string factory)
+        public const string CHECK_FAIL = "检查失败";
+        public const string PATH_IS_NULL = "未找到表格对应的文件，请生成文件后重试";
+        public const string CODE_EXIST = "供应商正式编号已存在，不予替换";
+        public const string CODE_UPDATE_FAIL = "供应商编号更新失败";
+
+        public static string vendorTransForm(string tempVendorID, string factory,string normalCode, string destPath)
         {
             /*
              * 供应商已经审批完成的表的转移
@@ -24,14 +30,14 @@ namespace BLL.VendorAssess
 
             if (checkFileSubmit(tempVendorID, factory) && checkFormSubmit(tempVendorID, factory) && FormAccessSuccessFul(tempVendorID, factory))
             {
-                string normalCode = "";
-                insertNormalCode(normalCode);
+                string rs0 = insertNormalCode(normalCode,tempVendorID);
+                string rs1 = copyFile(getFilesWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode);
+                string rs2 = copyFile(getFormsWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode);
+                return rs0 + rs1 + rs2;
             }
-            copyFile(getFilesWithPath(tempVendorID, factory));
-            copyFile(getFormsWithPath(tempVendorID, factory));
-            return false;
+            return CHECK_FAIL;
         }
-        private static bool checkFileSubmit(string tempVendorID, string factory)
+        public static bool checkFileSubmit(string tempVendorID, string factory)
         {
             /*
              * 1.从As_Vendor_FileType中获取需要提交的文件list
@@ -57,7 +63,7 @@ namespace BLL.VendorAssess
             return true;
         }
 
-        private static bool checkFormSubmit(string tempVendorID, string factory)
+        public static bool checkFormSubmit(string tempVendorID, string factory)
         {
             /*
              * 1.从As_Vendor_FormType中获取需要提交的文件list
@@ -82,19 +88,32 @@ namespace BLL.VendorAssess
             }
             return true;
         }
-        private static bool FormAccessSuccessFul(string tempVendorID, string factory)
+        public static bool FormAccessSuccessFul(string tempVendorID, string factory)
         {
             return File_Transform_DAL.AccessSuccessFul(tempVendorID, factory);
         }
 
-        private static bool insertNormalCode(string tempVendorID)
+        public static string insertNormalCode(string normalCode,string tempVendorID)
         {
             /*
              * 1.形成真正的供应商Code
              * 2.将其插入到As_Temp_Vendor中
              */
-            string normalCode = "";
-            return File_Transform_DAL.insertNormalCode(normalCode, tempVendorID);
+            if (TempVendor_BLL.hasNormalCode(tempVendorID))
+            {
+                return CODE_EXIST;
+            }
+            else
+            {
+                if (File_Transform_DAL.insertNormalCode(normalCode, tempVendorID))
+                {
+                    return "";
+                }
+                else
+                {
+                    return CODE_UPDATE_FAIL;
+                }
+            }
         }
 
         /// <summary>
@@ -140,7 +159,7 @@ namespace BLL.VendorAssess
             {
                 foreach (string formID in formIDlist)
                 {
-                    table = File_Transform_DAL.getFormPath(formID);
+                    table = File_Transform_DAL.getFormPath(formID); //TODO::没有生成form文件 2017年8月25日16:27:22
                     if (table.Rows.Count > 0)
                     {
                         foreach (DataRow dr in table.Rows)
@@ -154,22 +173,36 @@ namespace BLL.VendorAssess
             return formWithPath;
         }
 
-        public static void copyFile(Dictionary<string, string> fileWithPath)
+        public static string copyFile(Dictionary<string, string> fileWithPath,string tempVendorID,string destPath,string code)
         {
             if (fileWithPath.Count > 0)
             {
                 foreach (string key in fileWithPath.Keys)
                 {
-                    string fileID = key;
-                    string filePath = fileWithPath[key];
-                    FileInfo fi = new FileInfo(filePath);//文件复制
-                    string newNameAndPath = "";
-                    string newPath = "";
-                    fi.CopyTo(newPath, true);
-                    fi = new FileInfo(newPath);
-                    fi.MoveTo(newNameAndPath);
+                    try
+                    {
+                        string fileID = key;
+                        string filePath = fileWithPath[key];
+
+                        if (filePath == "")
+                        {
+                            return PATH_IS_NULL;
+                        }
+
+                        FileInfo fileSource = new FileInfo(filePath);//文件复制
+
+                        string newName = fileSource.Name.Replace(tempVendorID, code);
+                        string newPath = HttpContext.Current.Server.MapPath(destPath) + newName;
+
+                        fileSource.CopyTo(newPath, true);
+                    }
+                    catch (Exception e)
+                    {
+                        return e.Message;
+                    }
                 }
             }
+            return "";
         }
 
     }

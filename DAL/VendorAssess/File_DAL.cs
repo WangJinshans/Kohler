@@ -97,6 +97,7 @@ namespace DAL
                     Vendor_FileType.FileType_ID = Convert.ToString(dr["FileType_ID"]);
                     Vendor_FileType.File_Type_Range = Convert.ToString(dr["File_Type_Range"]);
                     Vendor_FileType.FileType_Name = Convert.ToString(dr["FileType_Name"]);
+                    Vendor_FileType.File_Is_Necessary = Convert.ToString(dr["File_Is_Necessary"]);
                     Vendor_FileType.Flag = Convert.ToInt32(dr["flag"]);
                     list.Add(Vendor_FileType);
                 }
