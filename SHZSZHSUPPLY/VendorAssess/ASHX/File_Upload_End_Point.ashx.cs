@@ -50,9 +50,9 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             string tempVendorName = context.Request.Params["tempVendorName"];
             string fileTypeID = context.Request.Params["fileTypeID"];
             string factoryName = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
-            string fileID = tempVendorID + File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factoryName);
+            string fileInfo = File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factoryName);
+            string fileID = tempVendorID + fileInfo;
             string path = HttpContext.Current.Server.MapPath("../../files/") + fileID+".pdf";
-            postFile.SaveAs(path);
 
             As_File file = new As_File();
 
@@ -69,6 +69,9 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             int join = File_BLL.addFile(file);
             int flag = UpdateFlag_BLL.updateFileFlag(fileTypeID, tempVendorID);
             int resu =  File_BLL.updateFileID(tempVendorID, fileTypeID, factoryName, file.File_ID);
+
+            postFile.SaveAs(path);
+
             if (join > 0 && flag > 0)
             {
                 context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, message = "数据库写入完毕，文件上传完成" }));
@@ -90,7 +93,8 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             string tempVendorName = context.Request.Params["tempVendorName"];
             string fileTypeID = context.Request.Params["fileTypeID"];
             string factoryName = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
-            string fileID = tempVendorID + File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factoryName);
+            string fileInfo = File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factoryName);
+            string fileID = tempVendorID + fileInfo;
             string path = HttpContext.Current.Server.MapPath("../../files/") + fileID + ".pdf";
 
             postFile.SaveAs(path);
@@ -126,7 +130,8 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             string tempVendorName = context.Request.Params["tempVendorName"];
             string fileTypeID = context.Request.Params["fileTypeID"];
             string factoryName = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
-            string fileID = tempVendorID + File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factoryName);
+            string fileInfo = File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factoryName);
+            string fileID = tempVendorID + fileInfo;
             string path = HttpContext.Current.Server.MapPath("../../files/") + fileID + ".pdf";
 
             postFile.SaveAs(path);
