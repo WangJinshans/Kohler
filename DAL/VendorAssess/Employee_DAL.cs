@@ -50,6 +50,31 @@ namespace DAL
             return null;
         }
 
+        public static List<string> getAuthority(string employee_ID)
+        {
+            string sql = "select * From As_Authority Where Authority_ID in (Select Authority_ID From As_Employee Where Employee_ID=@Employee_ID)";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Employee_ID",employee_ID)
+            };
+
+            List<string> list = null;
+
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count>0)
+            {
+                list = new List<string>();
+                DataRow item = dt.Rows[0];
+                list.Add(item["Au_New_Vendor"].ToString());
+                list.Add(item["Au_Status"].ToString());
+                list.Add(item["Au_Fill"].ToString());
+                list.Add(item["Au_OverDue"].ToString());
+                list.Add(item["Au_Assess"].ToString());
+            }
+
+            return list;
+        }
+
         public static string getEmployeeFactory(string currentEmployeeID)
         {
             string sql = "select Factory_Name from View_Employee_Department where Employee_ID=@Employee_ID";

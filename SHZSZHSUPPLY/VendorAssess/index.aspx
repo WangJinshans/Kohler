@@ -15,10 +15,27 @@
             var layer = layui.layer;
             //监听导航点击
             element.on('nav(demo)', function (elem) {
-                //console.log(elem)
-                layer.msg(elem.text());
             });
         });
+    </script>
+    <script>
+        function filterNavigation(a, b, c, d, e) {
+            if (a == 'TRUE') {
+                document.getElementById('nav1').style = 'display:normal';
+            }
+            if (b == 'TRUE') {
+                document.getElementById('nav2').style = 'display:normal';
+            }
+            if (c == 'TRUE') {
+                document.getElementById('nav3').style = 'display:normal';
+            }
+            if (d == 'TRUE') {
+                document.getElementById('nav4').style = 'display:normal';
+            }
+            if (e == 'TRUE') {
+                document.getElementById('nav5').style = 'display:normal';
+            }
+        }
     </script>
     <style>
         div {
@@ -59,34 +76,34 @@
             <legend>审批导航</legend>
         </fieldset>
         <ul class="layui-nav layui-nav-tree" lay-filter="demo">
-            <li class="layui-nav-item layui-nav-itemed">
+            <li class="layui-nav-item layui-nav-itemed" id="nav1" style="display:none">
                 <a href="javascript:;">新建</a>
                 <dl class="layui-nav-child">
                     <dd><a href="VendorInfo.aspx">新建审批</a></dd>
                     <dd><a href="VendorSharedUse.aspx">供应商复用</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item layui-nav-itemed">
+            <li class="layui-nav-item layui-nav-itemed" id="nav2" style="display:none">
                 <a href="javascript:;">状态</a>
                 <dl class="layui-nav-child">
                     <dd><a href="ApprovalProgress.aspx">审批状态查看</a></dd>
                     <dd><a href="EmployeeVendor.aspx">供应商文件管理</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item layui-nav-itemed">
+            <li class="layui-nav-item layui-nav-itemed" id="nav3" style="display:none">
                 <a href="javascript:;">填写</a>
                 <dl class="layui-nav-child">
                     <dd><a href="FormWaitToFill.aspx">待填写表格</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item layui-nav-itemed">
+            <li class="layui-nav-item layui-nav-itemed" id="nav4" style="display:none">
                 <a href="javascript:;">过期重审</a>
                 <dl class="layui-nav-child">
                     <dd><a href="FormOverDue.aspx">申请表过期</a></dd>
                     <dd><a href="FileOverDue.aspx">文件过期</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item layui-nav-itemed">
+            <li class="layui-nav-item layui-nav-itemed" id="nav5" style="display:none">
                 <a href="javascript:;">审批</a>
                 <dl class="layui-nav-child">
                     <dd><a href="KCI.aspx">KCI审批</a></dd>
