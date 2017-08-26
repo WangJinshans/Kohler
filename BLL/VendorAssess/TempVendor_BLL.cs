@@ -8,6 +8,7 @@ using Model;
 using System.Data;
 using DAL.VendorAssess;
 using System.Web;
+using System.Data.SqlClient;
 
 namespace BLL
 {
@@ -106,6 +107,21 @@ namespace BLL
                 }
             }
             return info;
+        }
+
+        internal static bool hasNormalCode(string tempVendorID)
+        {
+            string sql = "Select Normal_Vendor_ID From As_Temp_Vendor Where Temp_Vendor_ID=@Temp_Vendor_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Temp_Vendor_ID",tempVendorID)
+            };
+            using (SqlDataReader reader = DBHelp.GetReader(sql, sp))
+                if (reader.Read())
+                {
+                    return true;
+                }
+            return false;
         }
     }
 }

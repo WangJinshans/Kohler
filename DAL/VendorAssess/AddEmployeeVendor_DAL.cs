@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace DAL
 {
@@ -23,6 +24,16 @@ namespace DAL
                 new SqlParameter("@Type",employee_Vendor.Type)
             };
             return DBHelp.GetScalar(sql, sp);
+        }
+
+        public static DataTable getEmployeeID(string tempVendorID)
+        {
+            string sql = "Select Employee_ID from As_Employee_Vendor Where Temp_Vendor_ID=@Temp_Vendor_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Temp_Vendor_ID",tempVendorID)
+            };
+            return DBHelp.GetDataSet(sql, sp);
         }
     }
 }

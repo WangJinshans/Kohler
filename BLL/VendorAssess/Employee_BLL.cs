@@ -39,5 +39,10 @@ namespace BLL
         {
             return Employee_DAL.getEmployeeFactory(currentEmployeeID);
         }
+
+        public static List<string> getAuthority(string employee_ID)
+        {
+            return Employee_DAL.getAuthority(employee_ID);
+        }
     }
 }

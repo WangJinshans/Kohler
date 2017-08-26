@@ -231,9 +231,14 @@
                         <asp:BoundField DataField="id" HeaderText="id"
                             SortExpression="id" Visible="False" />
                         <asp:BoundField DataField="Temp_Vendor_ID" HeaderText="供应商编号"
-                            SortExpression="Temp_Vendor_ID" />
+                            SortExpression="Temp_Vendor_ID"/>
                         <asp:BoundField DataField="FileType_ID" HeaderText="文件类型编号"
                             SortExpression="FileType_ID" />
+                        <asp:TemplateField HeaderText="类型">
+                            <ItemTemplate>
+                               <asp:Label runat="server" Text='<%# Eval("File_Is_Necessary").ToString() == "TRUE" ?"必须":""%>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
                         <asp:BoundField DataField="File_Type_Range" HeaderText="范围"
                             SortExpression="File_Type_Range" />
                         <asp:TemplateField HeaderText="文件类型名称">

@@ -11,7 +11,7 @@ namespace DAL.VendorAssess
     {
         public static List<string> getFileIDs(string tempVendorID, string factory)
         {
-            string sql = "select File_ID form As_Vendor_FileType where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "'";
+            string sql = "select File_ID from As_Vendor_FileType where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "' and File_Is_Necessary='TRUE'";
             List<string> filelist = new List<string>();
             string fileid = "";
             DataTable table = new DataTable();
@@ -29,7 +29,7 @@ namespace DAL.VendorAssess
 
         public static bool checkFileSubmit(string tempVendorID, string factory,string fileID)
         {
-            string sql = "select [File_ID] form As_File where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "' and [File_ID]='" + fileID + "' and Status='new'";
+            string sql = "select [File_ID] from As_File where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name in ('" + factory + "','ALL') and [File_ID]='" + fileID + "' and Status='new'";
             using (SqlDataReader reader = DBHelp.GetReader(sql))
                 if (reader.Read())
                 {
@@ -40,7 +40,7 @@ namespace DAL.VendorAssess
 
         public static List<string> getFormIDs(string tempVendorID, string factory)
         {
-            string sql = "select Form_ID form As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "'";
+            string sql = "select Form_ID FROM As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "'";
             List<string> formlist = new List<string>();
             string formid = "";
             DataTable table = new DataTable();
@@ -58,7 +58,7 @@ namespace DAL.VendorAssess
 
         public static bool checkFormSubmit(string tempVendorID, string factory, string formid)
         {
-            string sql = "select Form_ID form As_Form where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "' and Form_ID='" + formid + "' and Status='new'";
+            string sql = "select Form_ID from As_Form where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "' and Form_ID='" + formid + "' and Status='new'";
             using (SqlDataReader reader = DBHelp.GetReader(sql))
                 if (reader.Read())
                 {
@@ -69,7 +69,7 @@ namespace DAL.VendorAssess
 
         public static bool AccessSuccessFul(string tempVendorID, string factory)
         {
-            string sql = "select * form As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "flag<>'4'";//4代表已经审批完成
+            string sql = "select * from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "' and flag<>4";//4代表已经审批完成
             using (SqlDataReader reader = DBHelp.GetReader(sql))
                 if (reader.Read())
                 {
@@ -80,7 +80,7 @@ namespace DAL.VendorAssess
 
         public static bool insertNormalCode(string normalCode,string tempVendorID)
         {
-            string sql = "update As_Temp_Vendor set Normal_Vendor_ID='" + normalCode + " where Temp_Vendor_ID='" + tempVendorID + "'";
+            string sql = "update As_Temp_Vendor set Normal_Vendor_ID='" + normalCode + "' where Temp_Vendor_ID='" + tempVendorID + "'";
             if (DBHelp.ExecuteCommand(sql) > 0)//无影响返回-1 成功返回影响的行数
             {
                 return true;
@@ -94,7 +94,7 @@ namespace DAL.VendorAssess
         public static List<string> getFiles(string tempVendorID, string factory)
         {
             List<string> fileIDlist = new List<string>();
-            string sql = "select [File_ID] from As_Vendor_FileTyle where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "'";
+            string sql = "select [File_ID] from As_Vendor_FileType where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "'";
             DataTable table = new DataTable();
             table = DBHelp.GetDataSet(sql);
             if (table.Rows.Count > 0)
@@ -118,7 +118,7 @@ namespace DAL.VendorAssess
         public static List<string> getForms(string tempVendorID, string factory)
         {
             List<string> formIDlist = new List<string>();
-            string sql = "select Form_ID from As_Vendor_FormTyle where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "'";
+            string sql = "select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "'";
             DataTable table = new DataTable();
             table = DBHelp.GetDataSet(sql);
             if (table.Rows.Count > 0)

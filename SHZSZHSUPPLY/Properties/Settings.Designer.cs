@@ -58,5 +58,23 @@ namespace SHZSZHSUPPLY.Properties {
                 return ((bool)(this["Log_Enabled"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("./TEST/TransferTemp/")]
+        public string Transfer_Temp_Path {
+            get {
+                return ((string)(this["Transfer_Temp_Path"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("../Upload/")]
+        public string Transfer_Dest_Path {
+            get {
+                return ((string)(this["Transfer_Dest_Path"]));
+            }
+        }
     }
 }

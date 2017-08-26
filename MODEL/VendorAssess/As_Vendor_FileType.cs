@@ -15,6 +15,7 @@ namespace Model
         private string file_ID;
         private string factory_Name;
         private string file_Type_Range;
+        private string file_Is_Necessary;
 
 
 
@@ -107,6 +108,19 @@ namespace Model
             set
             {
                 file_Type_Range = value;
+            }
+        }
+
+        public string File_Is_Necessary
+        {
+            get
+            {
+                return file_Is_Necessary;
+            }
+
+            set
+            {
+                file_Is_Necessary = value;
             }
         }
     }

@@ -218,6 +218,29 @@
             });
         }
     </script>
+
+    <script>
+        function openNormalCodeDialog() {
+            layui.use(['layer'], function () {
+                var layer = layui.layer;
+                layer.prompt({
+                    title: '请输供应商代码（6位编码）'
+                }, function (value, index, elem) {
+                    if (value.length != 6) {
+                        layer.msg("请输入正确的编码");
+                    } else if (isNaN(value)) {
+                        layer.msg("请输入数字");
+                    } else {
+                        layer.msg(value);
+                        layer.close(index);
+                        __myDoPostBack('vendorTransfer', value);
+                    }
+                });
+            });
+            return false;
+        }
+    </script>
+
 </head>
 <body>
     <form id="form1" class="layui-form" runat="server">
@@ -317,6 +340,10 @@
         </fieldset>
         <div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="formProgress" style="width: 80%; margin: 0 auto 20px auto">
             <div class="layui-progress-bar" lay-percent="70%"></div>
+        </div>
+
+        <div style="width:500px;margin:50px auto 30px auto;text-align:center">
+            <asp:Button ID="btnTransfer" runat="server" CssClass="layui-btn layui-btn-disabled" Enabled="false" Text="转移" ToolTip="请等待所有表格审批完毕" OnClientClick="return openNormalCodeDialog();" />
         </div>
     </form>
 </body>

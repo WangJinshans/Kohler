@@ -205,7 +205,15 @@ namespace SHZSZHSUPPLY.VendorAssess
             vendorRisk.Urgency = TextBox5.Text.Trim();
             vendorRisk.Complete_By = TextBox6.Text.Trim();
             vendorRisk.Compiled_By = TextBox7.Text.Trim();
-            vendorRisk.Date = Convert.ToDateTime(TextBox8.Text.Trim());
+
+            try
+            {
+                vendorRisk.Date = Convert.ToDateTime(TextBox8.Text.Trim());
+            }
+            catch (Exception)
+            {
+                vendorRisk.Date = DateTime.Now;
+            }
 
             vendorRisk.Corporate_Strategy = Convert.ToByte(getSelected(new[] { RadioButton4, RadioButton5, RadioButton6 }));
             vendorRisk.Stability = Convert.ToByte(getSelected(new[] { RadioButton7, RadioButton8, RadioButton9 }));
