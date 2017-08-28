@@ -13,94 +13,102 @@
     <script src="Script/PDF/js/jspdf.debug.js"></script>
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
      <style type="text/css">
-        .t {
-            border: 0px;
-            overflow: hidden;
-            width: 50%;
-            text-align: center;
-        }
-        td {
-            border: solid #000000;
-            border-width: 1px 1px 1px 1px;
-            padding: 10px 0px;
-        }
-        table {
-            border: solid #000000;
-            border-width: 1px 1px 1px 1px;
-            margin-left: auto;
-        }
-        .auto-style2 {
-            width: 1032px;
-        }
+         .t {
+             border: 0px;
+             overflow: hidden;
+             width: 50%;
+             text-align: center;
+         }
+
+         td {
+             border: solid #000000;
+             border-width: 1px 1px 1px 1px;
+             padding: 10px 0px;
+         }
+
+         table {
+             border: solid #000000;
+             border-width: 1px 1px 1px 1px;
+             margin-left: auto;
+         }
+
+         .auto-style2 {
+             width: 1032px;
+         }
+
          .auto-style5 {
              width: 537px;
          }
+
          .auto-style6 {
              width: 507px;
          }
+
          .auto-style7 {
              width: 507px;
              margin-left: 40px;
          }
+
          .auto-style8 {
              width: 537px;
              height: 61px;
          }
+
          .auto-style9 {
              width: 507px;
              height: 61px;
          }
-         </style>
+     </style>
 
      <script>
          function takeScreenshot(file, formID) {
-            html2canvas(document.getElementById("div1"), {
-                // 渲染完成时调用，获得 canvas
-                onrendered: function (canvas) {
-                    var contentWidth = canvas.width;
-                    var contentHeight = canvas.height;
-                    //一页pdf显示html页面生成的canvas高度;
-                    var pageHeight = contentWidth / 592.28 * 841.89;
-                    //未生成pdf的html页面高度
-                    var leftHeight = contentHeight;
-                    //页面偏移
-                    var position = 0;
-                    //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
-                    var imgWidth = 595.28;
-                    var imgHeight = 592.28 / contentWidth * contentHeight;
+             html2canvas(document.getElementById("div1"), {
+                 // 渲染完成时调用，获得 canvas
+                 onrendered: function (canvas) {
+                     var contentWidth = canvas.width;
+                     var contentHeight = canvas.height;
+                     //一页pdf显示html页面生成的canvas高度;
+                     var pageHeight = contentWidth / 592.28 * 841.89;
+                     //未生成pdf的html页面高度
+                     var leftHeight = contentHeight;
+                     //页面偏移
+                     var position = 0;
+                     //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
+                     var imgWidth = 595.28;
+                     var imgHeight = 592.28 / contentWidth * contentHeight;
 
-                    var pageData = canvas.toDataURL('image/jpeg', 1.0);
+                     var pageData = canvas.toDataURL('image/jpeg', 1.0);
 
-                    var pdf = new jsPDF('', 'pt', 'a4');
+                     var pdf = new jsPDF('', 'pt', 'a4');
 
-                    //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
-                    //当内容未超过pdf一页显示的范围，无需分页
-                    if (leftHeight < pageHeight) {
-                        pdf.addImage(pageData, 'JPEG', 20, 20, imgWidth-50, imgHeight);
-                    } else {
-                        while (leftHeight > 0) {
-                            pdf.addImage(pageData, 'JPEG', 20, position+20, imgWidth-50, imgHeight-100)
-                            leftHeight -= pageHeight;
-                            position -= 841.89;
-                            //避免添加空白页
-                            if (leftHeight > 0) {
-                                pdf.addPage();
-                            }
-                        }
-                    }
-                    pdf.autoPrint();
-                    pdf.save(file);
-                    requestToPdfAshx(file, formID);
-                },
-                background: "#f7f7f7"    //设置PDF背景色（默认透明，实际显示为黑色）
-            });
-        }
+                     //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
+                     //当内容未超过pdf一页显示的范围，无需分页
+                     if (leftHeight < pageHeight) {
+                         pdf.addImage(pageData, 'JPEG', 20, 20, imgWidth - 50, imgHeight);
+                     } else {
+                         while (leftHeight > 0) {
+                             pdf.addImage(pageData, 'JPEG', 20, position + 20, imgWidth - 50, imgHeight - 100)
+                             leftHeight -= pageHeight;
+                             position -= 841.89;
+                             //避免添加空白页
+                             if (leftHeight > 0) {
+                                 pdf.addPage();
+                             }
+                         }
+                     }
+                     pdf.autoPrint();
+                     pdf.save(file);
+                     requestToPdfAshx(file, formID);
+                 },
+                 background: "#f7f7f7"    //设置PDF背景色（默认透明，实际显示为黑色）
+             });
+         }
     </script>
     <script>
-        function requestToPdfAshx(fileName,formID) {
+        function requestToPdfAshx(fileName, formID) {
             $.get(
                 "ASHX/PDF.ashx",
-                { "fileName": fileName,"formID":formID},
+                { "fileName": fileName, "formID": formID },
                 function (res) {
                     alert(res);
                 }
@@ -108,15 +116,16 @@
         }
     </script>
     <script>
-        function viewFile(filePath)
-        {
+        function viewFile(filePath) {
             window.open(filePath);
         }
     </script>
 </head>
 <body>
     <form id="form1" runat="server">
-        <asp:Button Text="PDF" ID="Button1" runat="server" OnClick="Button1_Click" />
+    <a onclick="goBack()" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
+    <asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="Button1" runat="server" OnClick="Button1_Click" style="float: right; " />
+        
     <div id="div1">
         <div style="text-align:right">PR-05-07-04</div>
         <table style="margin: auto; border-collapse:initial" cellpadding="0" cellspacing="0">

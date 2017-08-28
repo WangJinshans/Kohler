@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js" charset="utf-8"></script>
+    <script src="Script/Own/fileUploader.js"></script>
     <script>
         layui.use(['form', 'layedit', 'laydate', 'element'], function () {
             var form = layui.form()
@@ -21,24 +22,13 @@
             , laydate = layui.laydate
             , element = layui.element();
 
-            //创建一个编辑器
-            var editIndex = layedit.build('LAY_demo_editor');
-
-            //自定义验证规则
-            form.verify({
-                title: function (value) {
-                    if (value.length < 5) {
-                        return '标题至少得5个字符啊';
-                    }
-                }
-              , pass: [/(.+){6,12}$/, '密码必须6到12位']
-              , content: function (value) {
-                  layedit.sync(editIndex);
-              }
-            });
-
             //监听
             form.on('select', function (data) {
+                currentFactory = document.getElementById('factory').selectedIndex;
+                currentType = document.getElementById('type').selectedIndex;
+                currentName = document.getElementById('name').selectedIndex;
+                storageParams();
+
                 switch (data.elem.id) {
                     case 'factory':
                         onFactorySelectChanged();
@@ -153,14 +143,25 @@
     </script>
     <script>
         var vendorInfoJson = {};
+        var currentFactory, currentType, currentName;
 
         function getParams() {
             this.vendorInfoJson = JSON.parse(localStorage.getItem('infoJson'));
+            document.getElementById('factory').selectedIndex = localStorage.getItem('factory');
+            document.getElementById('type').selectedIndex = localStorage.getItem('type');
+            onVendorTypeSelectChanged();
+            document.getElementById('name').selectedIndex = localStorage.getItem('name');
         }
 
         function setParams(infoJson) {
             this.vendorInfoJson = JSON.parse(infoJson);
             localStorage.setItem('infoJson', infoJson);
+        }
+
+        function storageParams() {
+            localStorage.setItem('factory', currentFactory);
+            localStorage.setItem('type', currentType);
+            localStorage.setItem('name', currentName);
         }
 
         function onFactorySelectChanged() {
@@ -215,35 +216,6 @@
                 var element = layui.element();
                 element.progress('formProgress', percent + '%');
             });
-        }
-    </script>
-    <script type="text/javascript">
-        function __myDoPostBack(eventTarget, eventArgument) {
-            var theForm = document.forms['form1'];
-            if (document.getElementById('__EVENTTARGET') == null) {
-                var input1 = document.createElement('input');
-                input1.type = "hidden";
-                input1.name = "__EVENTTARGET";
-                input1.id = "__EVENTTARGET";
-                input1.value = "";
-                theForm.appendChild(input1);
-            }
-            if (document.getElementById('__EVENTARGUMENT') == null) {
-                var input2 = document.createElement('input');
-                input2.type = "hidden";
-                input2.name = "__EVENTARGUMENT";
-                input2.id = "__EVENTARGUMENT";
-                input2.value = "";
-                theForm.appendChild(input2);
-            }
-            if (!theForm) {
-                theForm = document.form1;
-            }
-            if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
-                theForm.__EVENTTARGET.value = eventTarget;
-                theForm.__EVENTARGUMENT.value = eventArgument;
-                theForm.submit();
-            }
         }
     </script>
 </head>

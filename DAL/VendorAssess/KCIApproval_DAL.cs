@@ -11,12 +11,14 @@ namespace DAL
     {
         public static int addKCIApproval(As_KCI_Approval kciApproval)//是KCI审批 则需要在插入到该表
         {
-            string sql = "insert into As_KCI_Approval(Temp_Vendor_ID,Form_ID,Position_Name) values(@Temp_Vendor_ID,@Form_ID,@Position_Name)";
+            string sql = "insert into As_KCI_Approval(Temp_Vendor_ID,Form_ID,Position_Name,Temp_Vendor_Name,Form_Type_Name) values(@Temp_Vendor_ID,@Form_ID,@Position_Name,@Temp_Vendor_Name,@Form_Type_Name)";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_ID",kciApproval.Temp_Vendor_ID),
                 new SqlParameter("@Form_ID",kciApproval.Form_ID),
-                new SqlParameter("@Position_Name",kciApproval.Position_Name)
+                new SqlParameter("@Position_Name",kciApproval.Position_Name),
+                new SqlParameter("@Temp_Vendor_Name",kciApproval.Temp_Vendor_Name),
+                new SqlParameter("@Form_Type_Name",kciApproval.Form_Type_Name)
             };
             return DBHelp.GetScalar(sql, sp);
         }
@@ -110,6 +112,8 @@ namespace DAL
                     kciApproval.Flag = Convert.ToInt32(dr["Flag"].ToString().Trim());
                     kciApproval.Temp_Vendor_ID = dr["Temp_Vendor_ID"].ToString().Trim();
                     kciApproval.Position_Name = dr["Position_Name"].ToString().Trim();
+                    kciApproval.Temp_Vendor_Name = dr["Temp_Vendor_Name"].ToString();
+                    kciApproval.Form_Type_Name = dr["Form_Type_Name"].ToString();
                     list.Add(kciApproval);
                 }
 
