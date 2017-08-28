@@ -113,7 +113,6 @@ namespace SHZSZHSUPPLY.VendorAssess
                 //KCIApproval_BLL.rejectKCIApproval(formID);//KCI审批完成 但是失败 直接删掉该记录
                 //需要删除As_Form 避免主键重复
                 AddForm_BLL.deleteForm(formID);
-                AssessFlow_BLL.deleteFormAccess(formID);//让表可以重新实例一个审批流程
                 KCIApproval_BLL.updateKCIApproval(formID, 2);//KCI审批完成  2表示需要再次进行KCI审批
                 KCIApproval_BLL.setApprovalFinished(Form_Type_ID, 0, temp_vendor_ID);//整张表的审批完成  该表需要在修改之后重新进行审批
 
@@ -128,11 +127,6 @@ namespace SHZSZHSUPPLY.VendorAssess
                  * 
                  */
             }
-            string requestType = "kciUpload";
-            string fileTypeID = formID;//暂时为form_ID
-            string tempVendorName = TempVendor_BLL.getTempVendorName(temp_vendor_ID);
-            LocalScriptManager.CreateScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}')", requestType, temp_vendor_ID, tempVendorName, fileTypeID), "upload");
-            //上传KCI审批结果文件
         }
 
 

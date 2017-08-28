@@ -1,6 +1,5 @@
 ﻿using BLL;
 using Model;
-using MODEL.VendorAssess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +24,7 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
                     doFileUpload(context);
                     break;
                 case "kciUpload":
-                    doKCIFileUpload(context);
+
                     break;
                 case "multiFillUpload":
                     multiFillUpload(context);
@@ -34,48 +33,6 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
                     context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = false, error = "default fail" }));
                     break;
             }
-        }
-
-        private void doKCIFileUpload(HttpContext context)
-        {
-            HttpPostedFile postFile = context.Request.Files["qqfile"];
-            string tempVendorID = context.Request.Params["tempVendorID"];
-            string tempVendorName = context.Request.Params["tempVendorName"];
-            string formID= context.Request.Params["fileTypeID"];
-            string fileTypeID = context.Request.Params["fileTypeID"];
-            string factoryName = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
-            string fileID = tempVendorID + File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factoryName);
-            string path = HttpContext.Current.Server.MapPath("../../files/") + fileID + ".pdf";
-            postFile.SaveAs(path);
-
-
-            /*由于KCI需要与form_ID进行绑定 并且 不能触发As_File中的各种触发器
-             *故新建As_KCI_File表存储KCI文件 与表进行对应 
-             * KCI文件需要有一个typeID
-             */
-            As_Kci_File file = new As_Kci_File();//KCI文件
-
-            file.File_Path = path;
-            file.Temp_Vendor_ID = tempVendorID;
-            file.Temp_Vendor_Name = tempVendorName;
-            file.File_ID = fileID;
-            file.File_Name = fileID + ".pdf";
-            file.File_Enable_Time = "100";
-            file.File_Due_Time = "200";
-            file.File_Type_ID = fileTypeID;
-            file.Form_ID = formID;//formID
-            int join = File_BLL.addFile(file);//
-            //int flag = UpdateFlag_BLL.updateFileFlag(fileTypeID, tempVendorID);
-            //int resu = File_BLL.updateFileID(tempVendorID, fileTypeID, factoryName, file.File_ID);
-            if (join > 0)
-            {
-                context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, message = "数据库写入完毕，文件上传完成" }));
-            }
-            else
-            {
-                context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = false, error = "数据库写入失败" }));
-            }
-
         }
 
         public bool IsReusable

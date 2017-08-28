@@ -48,9 +48,9 @@ namespace BLL.VendorAssess
                         {
                             form.Temp_Vendor_ID = temp_Vendor_ID;
                             form.Form_ID = formid;
-                            //string status = VendorForm_DAL.isOverDue(temp_Vendor_ID, AddForm_BLL.GetForm_Type_ID(formid),factory);
-                            //form.Status = status;
-                            form.Status = "过期";
+                            //form.Status = "过期";//添加form标志 5 表示过期
+                            string status = VendorForm_DAL.isOverDue(temp_Vendor_ID, AddForm_BLL.GetForm_Type_ID(formid),factory);
+                            form.Status = status;
                             form.Form_Type_Is_Optional = FormType_BLL.getOptional(formid);
                             formlists.Add(form);
                         }

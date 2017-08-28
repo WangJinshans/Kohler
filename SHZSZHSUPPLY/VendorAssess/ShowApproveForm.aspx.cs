@@ -40,64 +40,64 @@ namespace AendorAssess
             switch (formTypeID)
             {
                 case "001":
-                    Response.Redirect("ShowVendorDiscovery.aspx?type="+ "001");
+                    Response.Redirect("ShowVendorDiscovery.aspx");
                     break;
                 case "002":
-                    Response.Redirect("ShowBiddingApprovalform.aspx?type=" + "002");
+                    Response.Redirect("ShowBiddingApprovalform.aspx");
                     break;
                 case "013":
-                    Response.Redirect("ShowBiddingApprovalform.aspx?type=" + "013");
+                    Response.Redirect("ShowBiddingApprovalform.aspx");
                     break;
                 case "014":
-                    Response.Redirect("ShowBiddingApprovalform.aspx?type=" + "014");
+                    Response.Redirect("ShowBiddingApprovalform.aspx");
                     break;
                 case "015":
-                    Response.Redirect("ShowBiddingApprovalform.aspx?type=" + "015");
+                    Response.Redirect("ShowBiddingApprovalform.aspx");
                     break;
                 case "016":
-                    Response.Redirect("ShowBiddingApprovalform.aspx?type=" + "016");
+                    Response.Redirect("ShowBiddingApprovalform.aspx");
                     break;
                 case "017":
-                    Response.Redirect("ShowBiddingApprovalform.aspx?type=" + "017");
+                    Response.Redirect("ShowBiddingApprovalform.aspx");
                     break;
                 case "003":
-                    Response.Redirect("ShowVendorRiskAnalysis.aspx?type=" + "003");
+                    Response.Redirect("ShowVendorRiskAnalysis.aspx");
                     break;
                 case "004":
-                    Response.Redirect("ShowVendorDesignatedApply.aspx?type=" + "004");
+                    Response.Redirect("ShowVendorDesignatedApply.aspx");
                     break;
                 case "025":
-                    Response.Redirect("ShowVendorDesignatedApply.aspx?type=" + "025");
+                    Response.Redirect("ShowVendorDesignatedApply.aspx");
                     break;
                 case "005":
-                    Response.Redirect("ShowContractApprovalForm.aspx?type=" + "005");
+                    Response.Redirect("ShowContractApprovalForm.aspx");
                     break;
                 case "006":
-                    Response.Redirect("ShowContractApprovalForm.aspx?type=" + "006");
+                    Response.Redirect("ShowContractApprovalForm.aspx");
                     break;
                 case "007":
-                    Response.Redirect("ShowContractApprovalForm.aspx?type=" + "007");
+                    Response.Redirect("ShowContractApprovalForm.aspx");
                     break;
                 case "008":
-                    Response.Redirect("ShowContractApprovalForm.aspx?type=" + "001");
+                    Response.Redirect("ShowContractApprovalForm.aspx");
                     break;
                 case "009":
-                    Response.Redirect("ShowContractApprovalForm.aspx?type=" + "008");
+                    Response.Redirect("ShowContractApprovalForm.aspx");
                     break;
                 case "010":
-                    Response.Redirect("ShowContractApprovalForm.aspx?type=" + "010");
+                    Response.Redirect("ShowContractApprovalForm.aspx");
                     break;
                 case "011":
-                    Response.Redirect("ShowContractApprovalForm.aspx?type=" + "011");
+                    Response.Redirect("ShowContractApprovalForm.aspx");
                     break;
                 case "012":
-                    Response.Redirect("ShowContractApprovalForm.aspx?type=" + "012");
+                    Response.Redirect("ShowContractApprovalForm.aspx");
                     break;
                 case "018":
-                    Response.Redirect("ShowVendorSelection.aspx?type=" + "018");
+                    Response.Redirect("ShowVendorSelection.aspx");
                     break;
                 case "019":
-                    Response.Redirect("ShowVendorCreation.aspx?type=" + "019");
+                    Response.Redirect("ShowVendorCreation.aspx");
                     break;
                 default:
                     break;

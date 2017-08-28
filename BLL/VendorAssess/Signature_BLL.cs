@@ -7,9 +7,8 @@ namespace BLL.VendorAssess
     {
         public static void setSignature(string formID, string position, string dataField)
         {
-            string factory = getFactory(formID);
             string tableName = "";//哪张表
-            string signatureurl = getPositionNameUrl(position, factory);//获取签名的文件地址
+            string signatureurl = getPositionNameUrl(position);//获取签名的文件地址
             tableName = switchFormID(formID);
             //通过formID确定是具体的那一张表
             if (signatureurl != null)
@@ -17,11 +16,6 @@ namespace BLL.VendorAssess
                 string sql = "update " + tableName + " set " + dataField + "='" + signatureurl + "' where Form_ID='" + formID + "'";
                 Signature_DAL.Signature(sql);
             }
-        }
-
-        private static string getFactory(string formID)
-        {
-            return Signature_DAL.getFactory(formID);
         }
 
 
@@ -38,9 +32,8 @@ namespace BLL.VendorAssess
 
         public static bool setSignature(string formID, string position)
         {
-            string factory = getFactory(formID);
             string tableName = "";//哪张表
-            string signatureurl = getPositionNameUrl(position, factory);//获取签名的文件地址
+            string signatureurl = getPositionNameUrl(position);//获取签名的文件地址
             tableName = switchFormID(formID);
             if (tableName == "")
             {
@@ -79,9 +72,9 @@ namespace BLL.VendorAssess
             return -1;//ERROR
         }
 
-        private static string getPositionNameUrl(string position,string factory)//获取当前职位的签名地址绝对路径
+        private static string getPositionNameUrl(string position)//获取当前职位的签名地址绝对路径
         {
-            return Signature_DAL.getPositionNameUrl(position, factory);
+            return Signature_DAL.getPositionNameUrl(position);
         }
 
         private static string switchFormID(string formID)//未完待续。。。

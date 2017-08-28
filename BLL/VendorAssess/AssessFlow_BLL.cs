@@ -44,10 +44,5 @@ namespace BLL
         {
             return AssessFlow_DAL.getFormAssessFlow(formID);
         }
-
-        public static int deleteFormAccess(string formID)
-        {
-            return AssessFlow_DAL.deleteFormAccess(formID);
-        }
     }
 }

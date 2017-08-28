@@ -67,7 +67,6 @@
     <Compile Include="VendorAssess\As_Form_OverDue.cs" />
     <Compile Include="VendorAssess\As_Form_Type.cs" />
     <Compile Include="VendorAssess\As_KCI_Approval.cs" />
-    <Compile Include="VendorAssess\As_Kci_File.cs" />
     <Compile Include="VendorAssess\As_New_Forms.cs" />
     <Compile Include="VendorAssess\As_Position.cs" />
     <Compile Include="VendorAssess\As_Temp_Vendor.cs" />

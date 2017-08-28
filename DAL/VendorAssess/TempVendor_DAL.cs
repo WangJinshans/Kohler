@@ -13,12 +13,11 @@ namespace DAL
     {
         public static int addTempVendor(As_Temp_Vendor Temp_Vendor)
         {
-            string sql = "INSERT INTO As_Temp_Vendor(Temp_Vendor_Name,Vendor_Type_ID,Temp_Vendor_ID,Purchase_Amount,SH,ZS,ZH)VALUES(@Temp_Vendor_Name,@Vendor_Type_ID,@Temp_Vendor_ID,@Purchase_Amount,@SH,@ZS,@ZH)";
+            string sql = "INSERT INTO As_Temp_Vendor(Temp_Vendor_Name,Vendor_Type_ID,Purchase_Amount,SH,ZS,ZH)VALUES(@Temp_Vendor_Name,@Vendor_Type_ID,@Purchase_Amount,@SH,@ZS,@ZH)";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_Name",Temp_Vendor.Temp_Vendor_Name),
                 new SqlParameter("@Vendor_Type_ID",Temp_Vendor.Vendor_Type_ID),
-                new SqlParameter("@Temp_Vendor_ID",""),
                 new SqlParameter("@Purchase_Amount",Temp_Vendor.Purchase_Amount),
                 new SqlParameter("@SH",Temp_Vendor.SH),
                 new SqlParameter("@ZS",Temp_Vendor.ZS),

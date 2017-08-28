@@ -7,17 +7,12 @@ using DAL;
 using Model;
 using System.Web;
 using System.Data;
-using MODEL.VendorAssess;
 
 namespace BLL
 {
     public class File_BLL
     {
         public static int addFile(As_File file)
-        {
-            return File_DAL.addFile(file);
-        }
-        public static int addFile(As_Kci_File file)
         {
             return File_DAL.addFile(file);
         }
@@ -88,22 +83,6 @@ namespace BLL
             DataTable table = new DataTable();
             string path = "";
             table = File_DAL.getFilePath(sql);
-            if (table.Rows.Count > 0)
-            {
-                foreach (DataRow dr in table.Rows)
-                {
-                    path = dr["File_Path"].ToString().Trim();
-                }
-            }
-            return path;
-        }
-
-        internal static string getFilePathByID(string fileID)
-        {
-            string path = "";
-            string sql = "select File_Path from As_File where [File_ID]='" + fileID + "'";
-            DataTable table = new DataTable();
-            table = DBHelp.GetDataSet(sql);
             if (table.Rows.Count > 0)
             {
                 foreach (DataRow dr in table.Rows)
