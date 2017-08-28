@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Model;
 using System.Data.SqlClient;
 using System.Data;
+using MODEL.VendorAssess;
 
 namespace DAL
 {
@@ -25,6 +26,24 @@ namespace DAL
                 new SqlParameter("@File_Type_ID",File.File_Type_ID),
                 new SqlParameter("@Temp_Vendor_ID",File.Temp_Vendor_ID),
                 new SqlParameter("@Factory_Name",File.Factory_Name)
+            };
+            return DBHelp.GetScalar(sql, sp);
+        }
+
+        public static int addFile(As_Kci_File file)
+        {
+            string sql = "insert into As_KCI_File(File_ID,File_Name,File_Path,File_Enable_Time,File_Due_Time,Temp_Vendor_Name,File_Type_ID,Temp_Vendor_ID,Form_ID) values(@File_ID,@File_Name,@File_Path,@File_Enable_Time,@File_Due_Time,@Temp_Vendor_Name,@File_Type_ID,@Temp_Vendor_ID,@Form_ID)";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@File_ID",file.File_ID),
+                new SqlParameter("@File_Name",file.File_Name),
+                new SqlParameter("@File_Path",file.File_Path),
+                new SqlParameter("@File_Enable_Time",file.File_Enable_Time),
+                new SqlParameter("@File_Due_Time",file.File_Due_Time),
+                new SqlParameter("@Temp_Vendor_Name",file.Temp_Vendor_Name),
+                new SqlParameter("@File_Type_ID",file.File_Type_ID),
+                new SqlParameter("@Temp_Vendor_ID",file.Temp_Vendor_ID),
+                new SqlParameter("@Form_ID",file.Form_ID)
             };
             return DBHelp.GetScalar(sql, sp);
         }

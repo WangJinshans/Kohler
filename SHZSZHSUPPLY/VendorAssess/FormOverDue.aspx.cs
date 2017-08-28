@@ -175,7 +175,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                  * 
                  * 原来传递的时候有type 不清楚是干什么的 貌似也没有用到  这里暂时不传递type
                  */
-                Response.Redirect(aimPageName + "?submit="+submit);
+                Response.Redirect(aimPageName + "?submit=" + submit + "&type=" + form_Type_ID);
             }
         }
 
