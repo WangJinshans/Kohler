@@ -8,9 +8,9 @@ namespace DAL.VendorAssess
 {
     public class Signature_DAL
     {
-        public static string getPositionNameUrl(string position)
+        public static string getPositionNameUrl(string position,string factory)
         {
-            string sql = "select URL from As_Employee_Signature where Position_Name='" + position + "'";
+            string sql = "select URL from As_Employee_Signature where Position_Name='" + position + "' and Factory_Name='" + factory + "'";
             string url = null;
             DataTable dt = DBHelp.GetDataSet(sql);
             if (dt.Rows.Count > 0)
@@ -27,6 +27,22 @@ namespace DAL.VendorAssess
         {
             return DBHelp.ExecuteCommand(sql);
         }
+
+        public static string getFactory(string formID)
+        {
+            string factory = "";
+            string sql = "select Factory_Name from As_Form where Form_ID='" + formID + "'";
+            DataTable table = DBHelp.GetDataSet(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    factory = dr["Factory_Name"].ToString().Trim();
+                }
+            }
+            return factory;
+        }
+
         public static int SignatureDate(string sql)
         {
             int result;

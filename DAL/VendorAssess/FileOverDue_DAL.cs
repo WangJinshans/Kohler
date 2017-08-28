@@ -28,7 +28,7 @@ namespace DAL.VendorAssess
             string file_Type_ID = File_Type_DAL.selectFileTypeID(file_Type_Name);
             List<string> list = new List<string>();
             //As_Form_File 是表与文件绑定的地方
-            string sql = "select File_ID from As_File where Temp_Vendor_ID ='" + temp_Vendor_ID + "' and File_Type_ID='" + file_Type_ID + "' and Factory_Name='" + factory + "'";//获取对应的Form_ID
+            string sql = "select File_ID from As_File where Temp_Vendor_ID ='" + temp_Vendor_ID + "' and File_Type_ID='" + file_Type_ID + "' and (Factory_Name='" + factory + "' or Factory_Name='ALL')";//获取对应的Form_ID
             DataTable table = new DataTable();
             DataTable tables = new DataTable();
             table = FormOverDue_DAL.getOverDueForm(sql);//查到的是File_ID
