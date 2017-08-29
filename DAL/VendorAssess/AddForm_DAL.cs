@@ -27,6 +27,15 @@ namespace DAL
             return DBHelp.GetScalar(sql, sp);
         }
 
+        public static string GetTempVendorID(string formID)
+        {
+            string sql = "select Temp_Vendor_ID from As_Form where Form_ID='" + formID + "'";
+            DataTable dt = new DataTable();
+            dt = DBHelp.GetDataSet(sql);
+            string vendorID = dt.Rows[0]["Temp_Vendor_ID"].ToString().Trim();
+            return vendorID;
+        }
+
         public static int upDateFormPath(string sql)
         {
             return DBHelp.ExecuteCommand(sql);

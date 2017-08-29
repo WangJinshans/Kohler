@@ -149,6 +149,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     As_Vendor_Creation newvendor = new As_Vendor_Creation();
                     vendor = VendorCreation_BLL.getVendorCreation(formid);
                     newvendor.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
+                    newvendor.Factory_Name = vendor.Factory_Name;
                     newvendor.Vendor_Name = TempVendor_BLL.getTempVendorName(newvendor.Temp_Vendor_ID);
                     newvendor.Form_ID = vendor.Form_ID;
                     newvendor.Form_Type_ID = vendor.Form_Type_ID;

@@ -190,6 +190,7 @@ namespace DAL
                     vendorCreation.Flag = Convert.ToInt32(item["Flag"]);
                     vendorCreation.Temp_Vendor_ID= item["Temp_Vendor_ID"].ToString().Trim();
                     vendorCreation.Factory_Name= item["Factory_Name"].ToString().Trim();
+                    vendorCreation.Form_Type_ID= item["Form_Type_ID"].ToString().Trim();
                 }
                 return vendorCreation;
             }

@@ -110,9 +110,9 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             file.Factory_Name = factoryName;
 
             int join = File_BLL.addFile(file);
-            int flag = UpdateFlag_BLL.updateFileFlag(fileTypeID, tempVendorID);
-            int resu =  File_BLL.updateFileID(tempVendorID, fileTypeID, factoryName, file.File_ID);
-            if (join > 0 && flag > 0)
+            //int flag = UpdateFlag_BLL.updateFileFlag(fileTypeID, tempVendorID);
+            //int resu =  File_BLL.updateFileID(tempVendorID, fileTypeID, factoryName, file.File_ID);
+            if (join > 0 )
             {
                 context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, message = "数据库写入完毕，文件上传完成" }));
             }

@@ -41,7 +41,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     vendorCreation.Factory_Name = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString());
 
                     //名字只读
-
+                    
                     int n = VendorCreation_BLL.addVendorCreation(vendorCreation);
                     if (n == 0)
                     {
@@ -55,6 +55,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
                         //向FormFile表中添加相应的文件、表格绑定信息
                         bindingFormWithFile();
+                        showfilelist(formID);
                     }
 
                 }
@@ -145,8 +146,10 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// <param name="FormID"></param>
         private void showfilelist(string FormID)
         {
+            getSessionInfo();
             As_Form_File Form_File = new As_Form_File();
-            string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
+            //string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
+            string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and [File_ID] in (select [File_ID] from As_Vendor_FileType where Temp_Vendor_ID='"+tempVendorID+ "') and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
             PagedDataSource objpds = new PagedDataSource();
             objpds.DataSource = FormFile_BLL.listFile(sql);
             GridView2.DataSource = objpds;

@@ -79,10 +79,10 @@ namespace AendorAssess
                     Response.Redirect("ShowContractApprovalForm.aspx?type=" + "007");
                     break;
                 case "008":
-                    Response.Redirect("ShowContractApprovalForm.aspx?type=" + "001");
+                    Response.Redirect("ShowContractApprovalForm.aspx?type=" + "008");
                     break;
                 case "009":
-                    Response.Redirect("ShowContractApprovalForm.aspx?type=" + "008");
+                    Response.Redirect("ShowContractApprovalForm.aspx?type=" + "009");
                     break;
                 case "010":
                     Response.Redirect("ShowContractApprovalForm.aspx?type=" + "010");

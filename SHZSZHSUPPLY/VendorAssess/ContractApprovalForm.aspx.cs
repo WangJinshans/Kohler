@@ -66,7 +66,8 @@ namespace SHZSZHSUPPLY.VendorAssess
                         //获取formID信息
                         getSessionInfo();
                         //向FormFile表中添加相应的文件、表格绑定信息
-                        //bindingFormWithFile();
+                        bindingFormWithFile();
+                        showfilelist(formID);
                     }
 
                 }
@@ -91,6 +92,14 @@ namespace SHZSZHSUPPLY.VendorAssess
                 }
             }
 
+        }
+
+        private void bindingFormWithFile()
+        {
+            if (CheckFile_BLL.bindFormFile(FORM_TYPE_ID, tempVendorID, formID) == 0)
+            {
+                Response.Write("<script>window.alert('表格初始化错误（文件绑定失败）！')</script>");//若没有记录 返回文件不全
+            }
         }
 
         protected string StandardContractSubmitForm()
@@ -430,7 +439,8 @@ namespace SHZSZHSUPPLY.VendorAssess
         private void showfilelist(string FormID)
         {
             As_Form_File Form_File = new As_Form_File();
-            string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
+            //string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
+            string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and [File_ID] in (select [File_ID] from As_Vendor_FileType where Temp_Vendor_ID='" + tempVendorID + "') and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
             PagedDataSource objpds = new PagedDataSource();
             objpds.DataSource = FormFile_BLL.listFile(sql);
             GridView1.DataSource = objpds;

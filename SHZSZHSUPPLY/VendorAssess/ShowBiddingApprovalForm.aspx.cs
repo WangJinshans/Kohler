@@ -150,7 +150,9 @@ namespace SHZSZHSUPPLY.VendorAssess
         public void showfilelist(string FormID)
         {
             As_Form_File Form_File = new As_Form_File();
-            string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
+            //string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
+            string tempVendorID = AddForm_BLL.GetTempVendorID(formID);
+            string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and [File_ID] in (select [File_ID] from As_Vendor_FileType where Temp_Vendor_ID='" + tempVendorID + "') and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
             PagedDataSource objpds = new PagedDataSource();
             objpds.DataSource = FormFile_BLL.listFile(sql);
             GridView2.DataSource = objpds;
@@ -221,7 +223,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
             string fileID = GridView2.Rows[drv.RowIndex].Cells[1].ToString().Trim();//获取fileID
-            string filePath = As_Bidding_Approval_BLL.getFilePath(fileID);
+            string filePath = "../files/" + fileID + ".pdf";
             if (filePath != "")
             {
                 ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>viewFile('" + filePath + "');</script>");
