@@ -36,6 +36,11 @@ namespace DAL
             return vendorID;
         }
 
+        public static DataTable getFactoryByFormID(string sql)
+        {
+            return DBHelp.GetDataSet(sql);
+        }
+
         public static int upDateFormPath(string sql)
         {
             return DBHelp.ExecuteCommand(sql);

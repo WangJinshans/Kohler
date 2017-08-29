@@ -316,7 +316,7 @@ namespace AendorAssess
                 string tempVendorName = Session["tempvendorname"].ToString();
                 string fileTypeID = GridView4.Rows[drv.RowIndex].Cells[2].Text;
                 string requestType = "fileUpload";
-                LocalScriptManager.CreateScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}','{4}')", requestType, tempVendorID, tempVendorName, fileTypeID), "upload");
+                LocalScriptManager.CreateScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}')", requestType, tempVendorID, tempVendorName, fileTypeID), "upload");
             }//查看
             else if (e.CommandName == "FileDetail")
             {

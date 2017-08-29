@@ -12,7 +12,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         private string formID = null;
         private string positionName = null;
         private string FORM_TYPE_ID = "";
-
+        private string tempVendorID = "";
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -81,6 +81,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             formID = Session["formID"].ToString();
             positionName = Session["Position_Name"].ToString();
             FORM_TYPE_ID = Request.QueryString["type"];
+            tempVendorID = AddForm_BLL.GetTempVendorID(formID);//获取tempvendorID
         }
 
 
@@ -141,8 +142,9 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             getSessionInfo();
             //形成文件的ID 计划将简称保存到数据库的对应表中
-            string time = DateTime.Now.ToString();
-            string file = "assss.pdf";
+            string fileTypeName = FormType_BLL.getFormNameByTypeID(FORM_TYPE_ID);
+            string factory = AddForm_BLL.getFactoryByFormID(formID);
+            string file = tempVendorID + File_Type_BLL.getFormSpec(fileTypeName) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factory) + ".pdf";
             ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>takeScreenshot('" + file + "','" + formID + "');</script>");
         }
 

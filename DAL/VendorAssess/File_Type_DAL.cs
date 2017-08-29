@@ -46,6 +46,21 @@ namespace DAL
             return "";
         }
 
+        public static string getFormSpec(string formTypeName)
+        {
+            string sql = "select File_Label_Spec From As_File_Type where File_Type_Name=@File_Type_Name";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@File_Type_Name",formTypeName)
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                return dt.Rows[0]["File_Label_Spec"].ToString();
+            }
+            return "";
+        }
+
         public static string selectFileTypeID(string FileTypeName)
         {
             string file_Type_ID = "";

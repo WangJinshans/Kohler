@@ -23,5 +23,9 @@ namespace BLL
         {
             return File_Type_DAL.getSpec(fileTypeID);
         }
+        public static string getFormSpec(string fileTypeID)
+        {
+            return File_Type_DAL.getFormSpec(fileTypeID);
+        }
     }
 }
