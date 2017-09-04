@@ -236,7 +236,7 @@
                             SortExpression="FileType_ID" />
                         <asp:TemplateField HeaderText="类型">
                             <ItemTemplate>
-                               <asp:Label runat="server" Text='<%# Eval("File_Is_Necessary").ToString() == "TRUE" ?"必须":""%>'></asp:Label>
+                               <asp:Label runat="server" Text='<%# Eval("File_Is_Necessary").ToString() == "TRUE" ?"必选":""%>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:BoundField DataField="File_Type_Range" HeaderText="范围"

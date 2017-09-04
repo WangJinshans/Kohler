@@ -81,13 +81,13 @@
                 <dl class="layui-nav-child">
                     <dd><a href="VendorInfo.aspx">新建审批</a></dd>
                     <dd><a href="VendorSharedUse.aspx">供应商复用</a></dd>
+                    <dd><a href="EmployeeVendor.aspx">供应商文件管理</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item layui-nav-itemed" id="nav2" style="display:none">
                 <a href="javascript:;">状态</a>
                 <dl class="layui-nav-child">
                     <dd><a href="ApprovalProgress.aspx">审批状态查看</a></dd>
-                    <dd><a href="EmployeeVendor.aspx">供应商文件管理</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item layui-nav-itemed" id="nav3" style="display:none">
