@@ -6,13 +6,148 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
+    <link rel="stylesheet" href="Script/layui/css/layui.css" />
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
     <script src="Script/Own/fileUploader.js"></script>
+
+    <script>
+        layui.use(['form', 'layedit', 'laydate', 'element'], function () {
+            var form = layui.form()
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate
+            , element = layui.element();
+
+            //监听
+            form.on('select', function (data) {
+                currentFactory = document.getElementById('factory').selectedIndex;
+                currentType = document.getElementById('type').selectedIndex;
+                currentName = document.getElementById('name').selectedIndex;
+                storageParams();
+
+                switch (data.elem.id) {
+                    case 'factory':
+                        onFactorySelectChanged();
+                        break;
+                    case 'type':
+                        onVendorTypeSelectChanged();
+                        break;
+                    case 'name':
+                        __myDoPostBack('refreshVendor', document.getElementById('name').value);
+                        break;
+                    default:
+                        break;
+                }
+            });
+
+        });
+
+        function message(msg) {
+            layui.use(['layer'], function () {
+                var layer = layui.layer;
+                layer.msg(msg, { time: 1500 });
+            })
+        }
+
+        function refreshForm() {
+            layui.use(['form'], function () {
+                var form = layui.form();
+                form.render('select');
+            })
+        }
+    </script>
+    <script>
+        var vendorInfoJson = {};
+        var currentFactory, currentType, currentName;
+
+        function getParams() {
+            this.vendorInfoJson = JSON.parse(localStorage.getItem('infoJson'));
+            document.getElementById('factory').selectedIndex = localStorage.getItem('factory');
+            document.getElementById('type').selectedIndex = localStorage.getItem('type');
+            onVendorTypeSelectChanged();
+            document.getElementById('name').selectedIndex = localStorage.getItem('name');
+        }
+
+        function setParams(infoJson) {
+            this.vendorInfoJson = JSON.parse(infoJson);
+            localStorage.setItem('infoJson', infoJson);
+        }
+
+        function storageParams() {
+            localStorage.setItem('factory', currentFactory);
+            localStorage.setItem('type', currentType);
+            localStorage.setItem('name', currentName);
+        }
+
+        function onFactorySelectChanged() {
+            var factorySelect = document.getElementById('factory');
+            var typeSelect = document.getElementById('type');
+            var nameSelect = document.getElementById('name');
+
+            typeSelect.selectedIndex = 0;
+
+            nameSelect.options.length = 0;
+            nameSelect.options.add(new Option('请选择供应商名称', ''));
+
+            refreshForm();
+        }
+
+        function onVendorTypeSelectChanged() {
+            var factorySelect = document.getElementById('factory');
+            var typeSelect = document.getElementById('type');
+            var nameSelect = document.getElementById('name');
+
+            nameSelect.options.length = 0;
+            nameSelect.options.add(new Option("请选择供应商名称", ""))
+
+            if (typeSelect.selectedIndex == 0) {
+                return;
+            } else {
+                var names = vendorInfoJson[factorySelect.value][typeSelect.value];
+                if (names != null) {
+                    for (var i = 0; i < names.length; i += 2) {
+                        nameSelect.options.add(new Option(names[i], names[i + 1]));
+                    }
+                }
+            }
+            refreshForm();
+        }
+    </script>
 </head>
 <body>
-    <form id="form1" runat="server">
-         <div style="text-align:center;">
+    <form id="form1" class="layui-form" runat="server">
+        <div class="layui-form-item" style="width: 1000px; margin: 0 auto">
+            <a href="./index.aspx" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
+            <asp:Label runat="server" ID="LBtempVendorID" Visible="true"></asp:Label>
+            <label class="layui-form-label">供应商选择</label>
+            <div class="layui-input-inline">
+                <select id="factory" name="quiz1" onchange="onFactorySelectChanged()">
+                    <option value="">请选择工厂</option>
+                    <option value="上海科勒" selected="">上海科勒</option>
+                    <option value="中山科勒">中山科勒</option>
+                    <option value="珠海科勒">珠海科勒</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select id="type" name="quiz2" onchange="onVendorTypeSelectChanged()">
+                    <option value="">请选择供应商类型</option>
+                    <option value="直接物料常规">直接物料常规</option>
+                    <option value="直接物料危化品">直接物料危化品</option>
+                    <option value="非生产性质量部有标准的物料">非生产性质量部有标准的物料</option>
+                    <option value="非生产性危化品">非生产性危化品</option>
+                    <option value="非生产性特种劳防品">非生产性特种劳防品</option>
+                    <option value="非生产性常规">非生产性常规</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select id="name" name="quiz3">
+                    <option value="">请选择供应商名称</option>
+                    <option value="name">name</option>
+                </select>
+            </div>
+        </div>
+        <%-- <div style="text-align:center;">
         <br />
         <br />
         <br />
@@ -38,8 +173,13 @@
     </div>
         <br />
         <br />
-        <br />
-          <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
+        <br />--%>
+
+        <fieldset class="layui-elem-field layui-field-title" style="width: 80%; margin: 50px auto 20px auto;">
+            <legend runat="server">文件</legend>
+        </fieldset>
+
+          <asp:GridView Style="width: 80%; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
 						<AlternatingRowStyle BackColor="White" />
 						<Columns>
 							<asp:BoundField DataField="FileType_Name" HeaderText="文件编号"
@@ -64,8 +204,10 @@
 						<SortedDescendingCellStyle BackColor="#E9EBEF" />
 						<SortedDescendingHeaderStyle BackColor="#4870BE" />
 					</asp:GridView>
-
-        <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView2_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
+        <fieldset class="layui-elem-field layui-field-title" style="width: 80%; margin: 50px auto 20px auto;">
+            <legend runat="server">表格</legend>
+        </fieldset>
+        <asp:GridView Style="width: 80%; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView2" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView2_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
 						<AlternatingRowStyle BackColor="White" />
 						<Columns>
 							<asp:BoundField DataField="Form_ID" HeaderText="表格编号"

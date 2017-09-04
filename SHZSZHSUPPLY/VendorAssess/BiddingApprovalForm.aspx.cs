@@ -34,7 +34,7 @@ namespace AendorAssess
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
             factory_Name = Session["Factory_Name"].ToString().Trim();
-            formID = As_Bidding_Approval_BLL.getFormID(tempVendorID, FORM_TYPE_ID, FORM_NAME);
+            formID = As_Bidding_Approval_BLL.getFormID(tempVendorID, FORM_TYPE_ID, factory_Name);
             submit = Request.QueryString["submit"];
         }
 

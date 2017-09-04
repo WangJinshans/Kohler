@@ -46,6 +46,10 @@ namespace BLL.VendorAssess
                     {
                         foreach (string formid in formlist)
                         {
+                            if (formid == "")
+                            {
+                                continue;
+                            }
                             form.Temp_Vendor_ID = temp_Vendor_ID;
                             form.Form_ID = formid;
                             //form.Status = "过期";//添加form标志 5 表示过期
