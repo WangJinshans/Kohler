@@ -83,22 +83,22 @@ namespace SHZSZHSUPPLY.VendorAssess
         protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
-            string formid = GridView1.Rows[drv.RowIndex].Cells[0].Text;
-            string temp_Vendor_ID = GridView1.Rows[drv.RowIndex].Cells[1].Text;
-            string optional = GridView1.Rows[drv.RowIndex].Cells[2].Text;//可选与必选
-            string status = GridView1.Rows[drv.RowIndex].Cells[3].Text;//状态标志  如果为审批中 无法再次重填
+            string formid = GridView2.Rows[drv.RowIndex].Cells[0].Text;
+            string temp_Vendor_ID = GridView2.Rows[drv.RowIndex].Cells[1].Text;
+            string optional = GridView2.Rows[drv.RowIndex].Cells[2].Text;//可选与必选
+            string status = GridView2.Rows[drv.RowIndex].Cells[3].Text;//状态标志  如果为审批中 无法再次重填
             string submit = "";//提交的顺序控制
             string aimPageName = "";
 
             /*
              *获取gridview中的所有表的优先级  
              */
-            if (status == "审批中")
-            {
-                //弹窗提示
-                //LocalScriptManager.CreateScript(Page, "messageBox('已经在审批中，不能重新填写！');", "test");
-                return;
-            }
+            //if (status == "审批中")
+            //{
+            //    //弹窗提示
+            //    //LocalScriptManager.CreateScript(Page, "messageBox('已经在审批中，不能重新填写！');", "test");
+            //    return;
+            //}
             string form_Type_ID = AddForm_BLL.GetForm_Type_ID(formid);
             int selectedFormPriorityNumber = getSelectedFormPriorityNumber(form_Type_ID);
             //string form_Type_ID = "004";
@@ -140,6 +140,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     bidding = As_Bidding_Approval_BLL.getBiddingForm(formid);
                     newbidding.Form_ID = bidding.Form_ID;
                     newbidding.Form_Type_ID = bidding.Form_Type_ID;
+                    newbidding.Temp_Vendor_ID = bidding.Temp_Vendor_ID;
                     newbidding.Flag = 0;
                     As_Bidding_Approval_BLL.addBiddingForm(newbidding);//添加纪录 当查找的时候会找到最新的这张表
 
@@ -170,6 +171,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     As_Vendor_Designated_Apply newvendor = new As_Vendor_Designated_Apply();
                     vendor = As_Vendor_Designated_Apply_BLL.checkFlag(formid);
                     newvendor.Form_id = vendor.Form_id;
+                    newvendor.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
                     newvendor.Form_Type_ID = vendor.Form_Type_ID;
                     newvendor.Flag = 0;
                     As_Vendor_Designated_Apply_BLL.addForm(newvendor);
@@ -189,6 +191,9 @@ namespace SHZSZHSUPPLY.VendorAssess
                     As_Vendor_Creation vendor = new As_Vendor_Creation();
                     As_Vendor_Creation newvendor = new As_Vendor_Creation();
                     vendor = VendorCreation_BLL.getVendorCreation(formid);
+                    newvendor.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
+                    newvendor.Factory_Name = vendor.Factory_Name;
+                    newvendor.Vendor_Name = TempVendor_BLL.getTempVendorName(newvendor.Temp_Vendor_ID);
                     newvendor.Form_ID = vendor.Form_ID;
                     newvendor.Form_Type_ID = vendor.Form_Type_ID;
                     newvendor.Flag = 0;
@@ -209,6 +214,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     As_Vendor_Extend vendor = new As_Vendor_Extend();
                     As_Vendor_Extend newvendor = new As_Vendor_Extend();
                     vendor = VendorExtend_BLL.getVendorExtend(formid);
+                    newvendor.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
                     newvendor.Form_ID = vendor.Form_ID;
                     newvendor.Form_Type_ID = vendor.Form_Type_ID;
                     newvendor.Flag = 0;
@@ -230,6 +236,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     As_Vendor_Block_Or_UnBlock newvendor = new As_Vendor_Block_Or_UnBlock();
                     vendor = VendorBlockOrUnBlock_BLL.getVendorBlock(formid);
                     newvendor.Form_ID = vendor.Form_ID;
+                    newvendor.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
                     newvendor.Form_Type_ID = vendor.Form_Type_ID;
                     newvendor.Flag = 0;
                     VendorBlockOrUnBlock_BLL.addVendorBlock(newvendor);//添加纪录 当查找的时候会找到最新的这张表
@@ -249,6 +256,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     As_Vendor_Discovery vendor = new As_Vendor_Discovery();
                     As_Vendor_Discovery newvendor = new As_Vendor_Discovery();
                     vendor = VendorDiscovery_BLL.checkFlag(formid);
+                    newvendor.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
                     newvendor.Form_ID = vendor.Form_ID;
                     newvendor.Form_Type_ID = vendor.Form_Type_ID;
                     newvendor.Flag = 0;
@@ -270,6 +278,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     As_Vendor_Risk newvendor = new As_Vendor_Risk();
                     vendor = VendorRiskAnalysis_BLL.checkFlag(formid);
                     newvendor.Form_ID = vendor.Form_ID;
+                    newvendor.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
                     newvendor.Form_Type_ID = vendor.Form_Type_ID;
                     newvendor.Flag = 0;
                     VendorRiskAnalysis_BLL.addVendorRisk(newvendor);//添加纪录 当查找的时候会找到最新的这张表
@@ -290,6 +299,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     As_Contract_Approval newvendor = new As_Contract_Approval();
                     vendor = ContractApproval_BLL.getContractApproval(formid);
                     newvendor.Form_ID = vendor.Form_ID;
+                    newvendor.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
                     newvendor.Form_Type_ID = vendor.Form_Type_ID;
                     newvendor.Flag = 0;
                     ContractApproval_BLL.addContractApproval(newvendor);//添加纪录 当查找的时候会找到最新的这张表
@@ -310,6 +320,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     As_Vendor_Selection newvendor = new As_Vendor_Selection();
                     vendor = VendorSelection_BLL.checkFlag(formid);
                     newvendor.Form_ID = vendor.Form_ID;
+                    newvendor.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
                     newvendor.Form_Type_ID = vendor.Form_Type_ID;
                     newvendor.Flag = 0;
                     VendorSelection_BLL.addVendorSelection(newvendor);//添加纪录 当查找的时候会找到最新的这张表
@@ -323,7 +334,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
                     aimPageName = "VendorSelection.aspx";
                 }
-                Response.Redirect(aimPageName + "?submit=" + submit);
+                Response.Redirect(aimPageName + "?submit=" + submit + "&type=" + form_Type_ID);
             }
         }
 

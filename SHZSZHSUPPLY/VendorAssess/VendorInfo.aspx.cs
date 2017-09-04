@@ -90,7 +90,8 @@ namespace AendorAssess
             int bindResult = FillVendorInfo_BLL.addNewVendorFormAndFile(tempVendorID, Promise.Checked, Vendor_Assign.Checked, Advance_Charge.Checked, Purchase_Money.Text.Trim(),Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString()));
             if (bindResult == 1)
             {
-                Response.Write("<script>window.alert('新建成功');window.location.href='index.aspx'</script>");
+                Response.Redirect("EmployeeVendor.aspx");
+                //Response.Write("<script>window.alert('新建成功');window.location.href='index.aspx'</script>");
             }
             else
             {

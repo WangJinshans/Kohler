@@ -15,6 +15,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         private string formID = null;
         private string positionName = null;
         private string FORM_TYPE_ID = "";
+        private string tempVendorID = "";
 
         /// <summary>
         /// 
@@ -121,7 +122,9 @@ namespace SHZSZHSUPPLY.VendorAssess
         public void showfilelist(string FormID)
         {
             As_Form_File Form_File = new As_Form_File();
-            string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
+            //string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
+            string tempVendorID = AddForm_BLL.GetTempVendorID(formID);
+            string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and [File_ID] in (select [File_ID] from As_Vendor_FileType where Temp_Vendor_ID='" + tempVendorID + "') and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
             PagedDataSource objpds = new PagedDataSource();
             objpds.DataSource = FormFile_BLL.listFile(sql);
             GridView2.DataSource = objpds;
@@ -143,7 +146,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 if (selectPositionName.Equals(positionName))
                 {
                     //int i = AssessFlow_BLL.updateApprove(formid, positionName);
-                    if (LocalApproveManager.doSuccessApprove(formID, Session["tempVendorID"].ToString(), FORM_TYPE_ID, positionName))
+                    if (LocalApproveManager.doSuccessApprove(formID, Session["tempVendorID"].ToString(), FORM_TYPE_ID, positionName, Page))
                     {
                         Response.Write("<script>window.alert('成功通过审批！');window.location.href='ShowVendorRiskAnalysis.aspx'</script>");
                     }
@@ -183,6 +186,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             formID = Session["formID"].ToString();
             positionName = Session["Position_Name"].ToString();
             FORM_TYPE_ID = Request.QueryString["type"];
+            tempVendorID = AddForm_BLL.GetTempVendorID(formID);//获取tempvendorID
         }
 
         private void setSelected(byte? selected, RadioButton[] rb)
@@ -207,8 +211,9 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             getSessionInfo();
             //形成文件的ID 计划将简称保存到数据库的对应表中
-            string time = DateTime.Now.ToString();
-            string file = "assss.pdf";
+            string fileTypeName = FormType_BLL.getFormNameByTypeID(FORM_TYPE_ID);
+            string factory = AddForm_BLL.getFactoryByFormID(formID);
+            string file = tempVendorID + File_Type_BLL.getFormSpec(fileTypeName) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factory) + ".pdf";
             ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>takeScreenshot('" + file + "','" + formID + "');</script>");
         }
 
@@ -218,7 +223,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             string fileID = GridView2.Rows[drv.RowIndex].Cells[1].Text.ToString().Trim();//获取fileID
             if (e.CommandName == "view")
             {
-                string filePath = VendorCreation_BLL.getFilePath(fileID);
+                string filePath = "../files/" + fileID + ".pdf";
                 if (filePath != "")
                 {
                     ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>viewFile('" + filePath + "');</script>");

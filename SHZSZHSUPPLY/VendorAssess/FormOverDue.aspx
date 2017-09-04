@@ -50,8 +50,8 @@
         &nbsp;&nbsp;&nbsp;&nbsp
         <asp:Label Text="厂区：" runat="server" CssClass="test"/>
         <asp:DropDownList ID="DropDownList1" runat="server" Height="20px" Width="99px">
-            <asp:ListItem>上海科勒</asp:ListItem>
-            <asp:ListItem Selected="True">中山科勒</asp:ListItem>
+            <asp:ListItem Selected="True">上海科勒</asp:ListItem>
+            <asp:ListItem>中山科勒</asp:ListItem>
             <asp:ListItem>珠海科勒</asp:ListItem>
         </asp:DropDownList>
         &nbsp;&nbsp;&nbsp;&nbsp
@@ -62,16 +62,6 @@
         <br />
         <br />
         <br />
-<%--            <input type="button" value="增加行" onclick="tableAddRow(tableId);" />
-            <input type="button" value="增加1行" onclick="insertOne();" />
-            <table class="layui-table" lay-skin="line" id="tableId">
-                <tr>
-                    <td>Form_ID</td>
-                    <td>Temp_Vendor_ID</td>
-                    <td>Employee_ID</td>
-                    <td>OverDue_Time</td>
-                </tr>
-            </table>--%>
           <div style="text-align:center;">
                 <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
 						<AlternatingRowStyle BackColor="White" />

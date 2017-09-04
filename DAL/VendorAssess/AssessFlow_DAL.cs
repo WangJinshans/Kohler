@@ -52,6 +52,12 @@ namespace DAL
             return false;
         }
 
+        public static int deleteFormAccess(string formID)
+        {
+            string sql = "delete from As_Form_AssessFlow where Form_ID='" + formID + "'";
+            return DBHelp.ExecuteCommand(sql);
+        }
+
         public static As_Form_AssessFlow getFormAssessFlow(string formID)
         {
             string sql = "select * from As_Form_AssessFlow where Form_ID=@Form_ID";

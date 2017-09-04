@@ -2,6 +2,7 @@
 using Model;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,10 @@ namespace BLL
         {
             return AddForm_DAL.GetVendorName(formID);
         }
+        public static string GetTempVendorID(string formID)
+        {
+            return AddForm_DAL.GetTempVendorID(formID);
+        }
 
         public static bool deleteForm(string formID)
         {
@@ -33,6 +38,21 @@ namespace BLL
         {
             string sql = "update As_Form set Form_Path='" + newPath + "' where Form_ID='" + formID + "'";
             return AddForm_DAL.upDateFormPath(sql);
+        }
+
+        public static string getFactoryByFormID(string formID)
+        {
+            string factory_Nmae = "";
+            string sql = "select Factory_Name from As_Form where Form_ID='" + formID + "'";
+            DataTable table = AddForm_DAL.getFactoryByFormID(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    factory_Nmae = dr["Factory_Name"].ToString().Trim();
+                }
+            }
+            return factory_Nmae;
         }
     }
 }

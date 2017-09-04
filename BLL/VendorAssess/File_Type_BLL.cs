@@ -14,14 +14,18 @@ namespace BLL
         {
             return File_Type_DAL.selectFileTypeName(FileTypeID);
         }
-        public static string selectFileTypeID(string FileTypeName)
+        public static string selectFileTypeID(string FileTypeName,string tempVendorID)
         {
-            return File_Type_DAL.selectFileTypeID(FileTypeName);
+            return File_Type_DAL.selectFileTypeID(FileTypeName, tempVendorID);
         }
 
         public static string getSpec(string fileTypeID)
         {
             return File_Type_DAL.getSpec(fileTypeID);
+        }
+        public static string getFormSpec(string fileTypeID)
+        {
+            return File_Type_DAL.getFormSpec(fileTypeID);
         }
     }
 }

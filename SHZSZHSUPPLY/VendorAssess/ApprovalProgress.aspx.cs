@@ -16,6 +16,7 @@ namespace SHZSZHSUPPLY.VendorAssess
     {
         public Dictionary<string, Dictionary<string, string[]>> info;
         private string serializedJson;
+        private static string tempVendorID = "";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -32,6 +33,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 switch (Request["__EVENTTARGET"])
                 {
                     case "refreshNewVendor":
+                        tempVendorID = Request.Form["__EVENTARGUMENT"];
                         refreshNewVendor(Request.Form["__EVENTARGUMENT"]);
                         break;
                     case "vendorTransfer":

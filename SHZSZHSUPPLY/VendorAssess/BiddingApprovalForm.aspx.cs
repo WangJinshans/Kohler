@@ -73,6 +73,7 @@ namespace AendorAssess
 
                         //向FormFile表中添加相应的文件、表格绑定信息
                         bindingFormWithFile();
+                        showfilelist(formID);
                     }
                 }
                 else
@@ -132,8 +133,9 @@ namespace AendorAssess
                 TextBox16.Text = biddingForm.Remark3;
                 TextBox17.Text = biddingForm.Reason_One;
                 TextBox18.Text = biddingForm.Reason_Two;
-
-                
+                hideImage(biddingForm.Supplier_Chain_Leader, Image2);
+                hideImage(biddingForm.Finance_Leader, Image3);
+                hideImage(biddingForm.Business_Leader, Image4);
                 int[] arr = { 0, 0, 0, 0, 0 };
                 for (int i = 0; i < biddingForm.ProjectList.Count; i++)
                 {
@@ -210,7 +212,8 @@ namespace AendorAssess
         public void showfilelist(string FormID)//当Form_ID改变之后 不需要动  只需要获取更新后的Form_ID即可
         {
             As_Form_File Form_File = new As_Form_File();
-            string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
+            //string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
+            string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and [File_ID] in (select [File_ID] from As_Vendor_FileType where Temp_Vendor_ID='" + tempVendorID + "') and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
             PagedDataSource objpds = new PagedDataSource();
             objpds.DataSource = FormFile_BLL.listFile(sql);
             GridView2.DataSource = objpds;
