@@ -218,6 +218,7 @@
             });
         }
     </script>
+
     <script>
         function openNormalCodeDialog() {
             layui.use(['layer'], function () {
@@ -239,6 +240,7 @@
             return false;
         }
     </script>
+
 </head>
 <body>
     <form id="form1" class="layui-form" runat="server">
