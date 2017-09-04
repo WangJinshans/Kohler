@@ -5,13 +5,23 @@ using MODEL;
 using MODEL.VendorAssess;
 using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
+using System.Collections.Generic;
+using System.Web.Script.Serialization;
 using System.Web.UI.WebControls;
 
 namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class FileOverDue : System.Web.UI.Page
     {
+        public Dictionary<string, Dictionary<string, string[]>> info;
+        private string serializedJson;
         private static string factory;
+
+        /// <summary>
+        /// Page Load
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -21,7 +31,40 @@ namespace SHZSZHSUPPLY.VendorAssess
              * 要是因为文件不过  需要提供一个文件覆盖的功能
              * 
              */
+            if (!IsPostBack)
+            {
+                readVendorInfo();
+            }
+            else
+            {
+                //重新读取供应商列表
+                LocalScriptManager.CreateScript(Page, "getParams()", "getparams");
+
+                //处理postback回调
+                switch (Request["__EVENTTARGET"])
+                {
+                    case "refreshVendor":
+                        refreshVendor(Request.Form["__EVENTARGUMENT"]);
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
+
+        /// <summary>
+        /// 获取此用户所管理的供应商列表
+        /// </summary>
+        private void readVendorInfo()
+        {
+            info = TempVendor_BLL.readVendorInfo(Session["Employee_ID"].ToString(),true);
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            serializedJson = jss.Serialize(info);
+            LocalScriptManager.CreateScript(Page, String.Format("setParams('{0}')", serializedJson), "params");
+        }
+
+
+
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName == "upload")
@@ -32,7 +75,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 string tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
                 string fileTypeID = File_Type_BLL.selectFileTypeID(GridView1.Rows[drv.RowIndex].Cells[0].Text.ToString().Trim());//获取file_Type_ID
                 string requestType = "fileUpload";
-                string factory = DropDownList1.SelectedValue;//厂
+                string factory = Request.Form["quiz1"];//厂
                 LocalScriptManager.CreateScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}','{4}')", requestType, tempVendorID, tempVendorName, fileTypeID, factory), "upload");
             }
         }
@@ -101,7 +144,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     As_Bidding_Approval_BLL.addBiddingForm(newbidding);//添加纪录 当查找的时候会找到最新的这张表
 
                     As_New_Forms news = new As_New_Forms();
-                    news.Factory_Name = DropDownList1.SelectedValue.ToString().Trim();
+                    news.Factory_Name = Request.Form["quiz1"];
                     news.Form_Name = FormType_BLL.getFormNameByTypeID(newbidding.Form_Type_ID);
                     news.Temp_Vendor_ID = bidding.Temp_Vendor_ID;
                     string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
@@ -132,7 +175,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     As_Vendor_Designated_Apply_BLL.addForm(newvendor);
 
                     As_New_Forms news = new As_New_Forms();
-                    news.Factory_Name = DropDownList1.SelectedValue.ToString().Trim();
+                    news.Factory_Name = Request.Form["quiz1"];
                     news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
                     news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
                     string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
@@ -152,7 +195,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     VendorCreation_BLL.addVendorCreation(newvendor);//添加纪录 当查找的时候会找到最新的这张表
 
                     As_New_Forms news = new As_New_Forms();
-                    news.Factory_Name = DropDownList1.SelectedValue.ToString().Trim();
+                    news.Factory_Name = Request.Form["quiz1"];
                     news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
                     news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
                     string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
@@ -172,7 +215,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     VendorExtend_BLL.addVendorExtend(newvendor);//添加纪录 当查找的时候会找到最新的这张表
 
                     As_New_Forms news = new As_New_Forms();
-                    news.Factory_Name = DropDownList1.SelectedValue.ToString().Trim();
+                    news.Factory_Name = Request.Form["quiz1"];
                     news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
                     news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
                     string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
@@ -192,7 +235,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     VendorBlockOrUnBlock_BLL.addVendorBlock(newvendor);//添加纪录 当查找的时候会找到最新的这张表
 
                     As_New_Forms news = new As_New_Forms();
-                    news.Factory_Name = DropDownList1.SelectedValue.ToString().Trim();
+                    news.Factory_Name = Request.Form["quiz1"];
                     news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
                     news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
                     string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
@@ -212,7 +255,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     VendorDiscovery_BLL.addVendorDiscovery(newvendor);//添加纪录 当查找的时候会找到最新的这张表
 
                     As_New_Forms news = new As_New_Forms();
-                    news.Factory_Name = DropDownList1.SelectedValue.ToString().Trim();
+                    news.Factory_Name = Request.Form["quiz1"];
                     news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
                     news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
                     string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
@@ -232,7 +275,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     VendorRiskAnalysis_BLL.addVendorRisk(newvendor);//添加纪录 当查找的时候会找到最新的这张表
 
                     As_New_Forms news = new As_New_Forms();
-                    news.Factory_Name = DropDownList1.SelectedValue.ToString().Trim();
+                    news.Factory_Name = Request.Form["quiz1"];
                     news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
                     news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
                     string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
@@ -252,7 +295,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     ContractApproval_BLL.addContractApproval(newvendor);//添加纪录 当查找的时候会找到最新的这张表
 
                     As_New_Forms news = new As_New_Forms();
-                    news.Factory_Name = DropDownList1.SelectedValue.ToString().Trim();
+                    news.Factory_Name = Request.Form["quiz1"];
                     news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
                     news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
                     string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
@@ -272,7 +315,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     VendorSelection_BLL.addVendorSelection(newvendor);//添加纪录 当查找的时候会找到最新的这张表
 
                     As_New_Forms news = new As_New_Forms();
-                    news.Factory_Name = DropDownList1.SelectedValue.ToString().Trim();
+                    news.Factory_Name = Request.Form["quiz1"];
                     news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
                     news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
                     string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
@@ -284,23 +327,21 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
         }
 
-
-        protected void search_Click(object sender, EventArgs e)
+        private void refreshVendor(string Temp_Vendor_ID)
         {
             //获取该供应商所有应文件过期而需要重新审批的表
-            string Temp_Vendor_ID = this.TextBox1.Text.ToString().Trim();
-            factory = DropDownList1.SelectedValue;
+            factory = Request.Form["quiz1"];
             if (Temp_Vendor_ID != null)//通过VendorID来加载数据库中该供应商的过期文件
             {                //先获取该供应商所有过期的文件
                 PagedDataSource dataSource = new PagedDataSource();
-                dataSource.DataSource = FileOverDue_BLL.getOverDueFile(Temp_Vendor_ID,factory);
+                dataSource.DataSource = FileOverDue_BLL.getOverDueFile(Temp_Vendor_ID, factory);
                 //只显示未上传的文件
                 GridView1.DataSource = dataSource;
                 GridView1.DataBind();//只负责新文件的上传
-                dataSource.DataSource = FileOverDue_BLL.getOverDueForm(Temp_Vendor_ID,factory);
+                dataSource.DataSource = FileOverDue_BLL.getOverDueForm(Temp_Vendor_ID, factory);
                 GridView2.DataSource = dataSource;
                 GridView2.DataBind();
-                Session["tempVendorID"] = this.TextBox1.Text.ToString().Trim();
+                Session["tempVendorID"] = Temp_Vendor_ID;
             }
         }
 
