@@ -115,6 +115,12 @@ namespace DAL
             return null;
         }
 
+        public static DataTable getFormNameByFormID(string FormID)
+        {
+            string sql = "select Form_Type_Name from As_Form where Form_ID='" + FormID + "'";
+            return DBHelp.GetDataSet(sql);
+        }
+
         public static DataTable getFormNameByTypeID(string form_Type_ID)
         {
             string sql = "select Form_Type_Name from As_Form_Type where Form_Type_ID='" + form_Type_ID + "'";

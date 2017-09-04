@@ -30,7 +30,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
                 string tempVendorID = GridView1.Rows[drv.RowIndex].Cells[1].Text;
                 string tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
-                string fileTypeID = File_Type_BLL.selectFileTypeID(GridView1.Rows[drv.RowIndex].Cells[0].Text.ToString().Trim());//获取file_Type_ID
+                string fileTypeID = File_Type_BLL.selectFileTypeID(GridView1.Rows[drv.RowIndex].Cells[0].Text.ToString().Trim(), tempVendorID);//获取file_Type_ID
                 string requestType = "fileUpload";
                 string factory = DropDownList1.SelectedValue;//厂
                 LocalScriptManager.CreateScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}','{4}')", requestType, tempVendorID, tempVendorName, fileTypeID, factory), "upload");

@@ -41,8 +41,6 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
             string form_Type_ID = AddForm_BLL.GetForm_Type_ID(formid);
             int selectedFormPriorityNumber = getSelectedFormPriorityNumber(form_Type_ID);
-            //string form_Type_ID = "004";
-            //int selectedFormPriorityNumber = 4;
             if (optional == "可选")
             {
                 if (withOutAccess(selectedFormPriorityNumber, temp_Vendor_ID) && isOptionalMinimum(selectedFormPriorityNumber, temp_Vendor_ID) && isRequiredMinimum(selectedFormPriorityNumber, temp_Vendor_ID))
@@ -86,8 +84,8 @@ namespace SHZSZHSUPPLY.VendorAssess
                     news.Factory_Name = DropDownList1.SelectedValue.ToString().Trim();
                     news.Form_Name = FormType_BLL.getFormNameByTypeID(newbidding.Form_Type_ID);
                     news.Temp_Vendor_ID = bidding.Temp_Vendor_ID;
-                    string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
-                    FormFile_BLL.dataReBind(form_ID, bidding.Temp_Vendor_ID, bidding.Form_ID);//这一步 在进入表的时候会自动绑定一次
+                    string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID 
+                    FormFile_BLL.dataReBind(form_ID, bidding.Temp_Vendor_ID, bidding.Form_ID);//已经存在Form_ID进入表的时候不会再绑定文件了
 
                     //添加到As_Vendor_Form_Type;
                     //As_Vendor_Form_Type vendor = new As_Vendor_Form_Type();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 
@@ -25,7 +26,16 @@ namespace DAL.VendorAssess
 
         public static int Signature(string sql)
         {
-            return DBHelp.ExecuteCommand(sql);
+            int result = 0;
+            try
+            {
+                result = DBHelp.ExecuteCommand(sql);
+            }
+            catch (SqlException e)
+            {
+                result = 1;
+            }
+            return result;
         }
 
         public static string getFactory(string formID)

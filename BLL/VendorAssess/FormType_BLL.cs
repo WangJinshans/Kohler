@@ -125,5 +125,20 @@ namespace BLL
             }
             return formName;
         }
+
+        public static string getFormNameByFormID(string form_Type_ID)
+        {
+            DataTable table = new DataTable();
+            string formName = "";
+            table = FormType_DAL.getFormNameByFormID(form_Type_ID);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    formName = dr["Form_Type_Name"].ToString().Trim();
+                }
+            }
+            return formName;
+        }
     }
 }

@@ -86,11 +86,12 @@ namespace DAL.VendorAssess
 
         public static int addVendorBiddingApprovalForm(As_Bidding_Approval vendorApproval)
         {
-            string sql = "insert into As_Bidding_Approval_Form(Temp_Vendor_ID,Flag,Factory_Name)values(@Temp_Vendor_ID,@Flag,@Factory_Name)";
+            string sql = "insert into As_Bidding_Approval_Form(Temp_Vendor_ID,Flag,Form_Type_ID,Factory_Name)values(@Temp_Vendor_ID,@Flag,@Form_Type_ID,@Factory_Name)";
             SqlParameter[] sp = new SqlParameter[]
             {
                new SqlParameter("@Temp_Vendor_ID",vendorApproval.Temp_Vendor_ID),
                new SqlParameter("@Flag",vendorApproval.Flag),
+               new SqlParameter("@Form_Type_ID",vendorApproval.Form_Type_ID),
                new SqlParameter("@Factory_Name",vendorApproval.Factory_Name)
             };
             return DBHelp.GetScalar(sql, sp);
@@ -195,9 +196,9 @@ namespace DAL.VendorAssess
                     Vendor_Approval.Reason_One = Convert.ToString(dr["Reason_One"]);
                     Vendor_Approval.Reason_Two = Convert.ToString(dr["Reason_Two"]);
                     //Vendor_Approval.Initiator = Convert.ToString(dr["Initiator"]);
-                    //Vendor_Approval.Supplier_Chain_Leader = Convert.ToString(dr["Supplier_Chain_Leader"]);
-                    //Vendor_Approval.Finance_Leader = Convert.ToString(dr["Finance_Leader"]);
-                    //Vendor_Approval.Business_Leader = Convert.ToString(dr["Business_Leader"]);
+                    Vendor_Approval.Supplier_Chain_Leader = Convert.ToString(dr["Supplier_Chain_Leader"]);
+                    Vendor_Approval.Finance_Leader = Convert.ToString(dr["Finance_Leader"]);
+                    Vendor_Approval.Business_Leader = Convert.ToString(dr["Business_Leader"]);
                     Vendor_Approval.Form_ID = Convert.ToString(dr["Form_ID"]);
                     Vendor_Approval.Form_Type_ID = Convert.ToString(dr["Form_Type_ID"]);
                     Vendor_Approval.Temp_Vendor_ID = Convert.ToString(dr["Temp_Vendor_ID"]);

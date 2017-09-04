@@ -31,12 +31,11 @@ namespace BLL.VendorAssess
             if (checkFileSubmit(tempVendorID, factory) && checkFormSubmit(tempVendorID, factory))//检查文件和表提交
             {
                 string result = checkKciFileSubmit(tempVendorID, factory);
-                string normalCode = "";
                 if (result == "true") //KCI文件提交 只有满足是KCI没有提交文件才会返回false
                 {
                     if (FormAccessSuccessFul(tempVendorID, factory))
                     {
-                        insertNormalCode(normalCode);
+                        //insertNormalCode(tempVendorID);
                         copyFile(getFilesWithPath(tempVendorID, factory));
                         copyFile(getFormsWithPath(tempVendorID, factory));
                         copyFile(getKciFilesWithPath(tempVendorID, factory));
@@ -46,7 +45,7 @@ namespace BLL.VendorAssess
                 {
                     if (FormAccessSuccessFul(tempVendorID, factory))
                     {
-                        insertNormalCode(normalCode);
+                        insertNormalCode(tempVendorID);
                         copyFile(getFilesWithPath(tempVendorID, factory));
                         copyFile(getFormsWithPath(tempVendorID, factory));
                     }

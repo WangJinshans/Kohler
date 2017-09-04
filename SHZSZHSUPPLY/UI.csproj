@@ -612,6 +612,7 @@
     <Compile Include="VendorAssess\Util\LocalConvert.cs" />
     <Compile Include="VendorAssess\Util\LocalLog.cs" />
     <Compile Include="VendorAssess\Util\LocalMail.cs" />
+    <Compile Include="VendorAssess\Util\LocalPageSelect.cs" />
     <Compile Include="VendorAssess\Util\LocalScriptManager.cs" />
     <Compile Include="VendorAssess\Util\LSetting.cs" />
     <Compile Include="VendorAssess\VendorAssess.aspx.cs">

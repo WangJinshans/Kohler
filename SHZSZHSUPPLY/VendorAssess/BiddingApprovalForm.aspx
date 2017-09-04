@@ -11,7 +11,33 @@
     <script src="Script/jquery-3.2.1.min.js"></script>  
 	<script src="Script/layer/layer.js"></script>  
     <script src="Script/Own/fileUploader.js"></script>
-
+    <script>
+        //弹出框  
+        function popUp(formid) {
+        	layer.open({
+        		title: '请选择审批部门',
+        		content: 'SelectDepartment.aspx?formid=' + formid,
+        		type: 2,
+        		area: ['750px', '400px'],
+        		shade: 0.3,
+        		shadeClose: false, //点击遮罩关闭
+        		btn: ['确定'],
+        		yes: function (index, layero) {
+        			__myDoPostBack('submitForm', '');
+        			layer.close(index);
+        		},
+        		cancel: function (index, layero) {
+        			if (confirm('确定要关闭么')) { //只有当点击confirm框的确定时，该层才会关闭
+        				layer.close(index)
+        			}
+        			return false;
+        		},
+        		success: function (layero, index) {
+        			console.log(layero, index);
+        		}
+        	});
+        }
+    </script>
     <script>
         function viewFile(filePath)
         {

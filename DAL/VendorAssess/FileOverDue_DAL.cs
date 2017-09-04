@@ -22,13 +22,21 @@ namespace DAL.VendorAssess
             return table;
         }
 
+        /// <summary>
+        /// 通过File_Type_ID，Temp_Vendor_ID,Factory_Nmae Status='new'在As_File中查出最新的File_ID
+        /// 通过File_ID在As_Form_File中查出文件的绑定记录(因为该文件关联到了某张表)
+        /// </summary>
+        /// <param name="temp_Vendor_ID"></param>
+        /// <param name="file_Type_Name"></param>
+        /// <param name="factory"></param>
+        /// <returns></returns>
         public static List<string> getOverDueForm(string temp_Vendor_ID, string file_Type_Name,string factory)//文件过期找form的方法
         {
             As_Form_OverDue form = new As_Form_OverDue();
-            string file_Type_ID = File_Type_DAL.selectFileTypeID(file_Type_Name);
+            string file_Type_ID = File_Type_DAL.selectFileTypeID(file_Type_Name, temp_Vendor_ID);
             List<string> list = new List<string>();
             //As_Form_File 是表与文件绑定的地方
-            string sql = "select File_ID from As_File where Temp_Vendor_ID ='" + temp_Vendor_ID + "' and File_Type_ID='" + file_Type_ID + "' and (Factory_Name='" + factory + "' or Factory_Name='ALL')";//获取对应的Form_ID
+            string sql = "select File_ID from As_File where Temp_Vendor_ID ='" + temp_Vendor_ID + "' and File_Type_ID='" + file_Type_ID + "' and (Factory_Name='" + factory + "' or Factory_Name='ALL') and Status='new'";//获取对应的Form_ID
             DataTable table = new DataTable();
             DataTable tables = new DataTable();
             table = FormOverDue_DAL.getOverDueForm(sql);//查到的是File_ID
@@ -37,7 +45,7 @@ namespace DAL.VendorAssess
                 foreach (DataRow dr in table.Rows)
                 {
                     sql = "select Form_ID from As_Form_File where File_ID='" + Convert.ToString(dr["File_ID"]) + "'";
-                    tables = FormOverDue_DAL.getOverDueForm(sql);//
+                    tables = FormOverDue_DAL.getOverDueForm(sql);//获取每个File_ID对应的所有的Form_ID  Form_ID可能会有重复
                     if (tables.Rows.Count > 0)
                     {
                         foreach (DataRow drs in tables.Rows)
@@ -46,7 +54,7 @@ namespace DAL.VendorAssess
                         }
                     }
                 }
-                return list;
+                return list.Distinct().ToList();//去重
             }
             else
             {

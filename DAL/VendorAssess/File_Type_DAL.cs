@@ -61,20 +61,20 @@ namespace DAL
             return "";
         }
 
-        public static string selectFileTypeID(string FileTypeName)
+        public static string selectFileTypeID(string FileTypeName,string tempVendorID)
         {
             string file_Type_ID = "";
-            string sql = "select File_Type_ID from As_File_Type where File_Type_Name=@File_Type_Name";
+            string sql = "select FileType_ID from As_Vendor_FileType where Temp_Vendor_ID='" + tempVendorID + "' and FileType_Name='" + FileTypeName + "'";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("@File_Type_Name",FileTypeName)
+                new SqlParameter("@FileType_Name",FileTypeName)
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)
             {
                 foreach (DataRow dr in dt.Rows)
                 {
-                    file_Type_ID = Convert.ToString(dr["File_Type_ID"]);
+                    file_Type_ID = Convert.ToString(dr["FileType_ID"]);
                 }
             }
             return file_Type_ID;

@@ -34,7 +34,7 @@ namespace AendorAssess
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
             factory_Name = Session["Factory_Name"].ToString().Trim();
-            formID = As_Bidding_Approval_BLL.getFormID(tempVendorID, FORM_TYPE_ID, FORM_NAME);
+            formID = As_Bidding_Approval_BLL.getFormID(tempVendorID, FORM_TYPE_ID, factory_Name);
             submit = Request.QueryString["submit"];
         }
 
@@ -133,8 +133,9 @@ namespace AendorAssess
                 TextBox16.Text = biddingForm.Remark3;
                 TextBox17.Text = biddingForm.Reason_One;
                 TextBox18.Text = biddingForm.Reason_Two;
-
-                
+                hideImage(biddingForm.Supplier_Chain_Leader, Image2);
+                hideImage(biddingForm.Finance_Leader, Image3);
+                hideImage(biddingForm.Business_Leader, Image4);
                 int[] arr = { 0, 0, 0, 0, 0 };
                 for (int i = 0; i < biddingForm.ProjectList.Count; i++)
                 {

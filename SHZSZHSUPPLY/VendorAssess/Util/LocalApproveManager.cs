@@ -212,7 +212,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
         /// <param name="formTypeID"></param>
         /// <param name="positionName"></param>
         /// <returns></returns>
-        public static bool doSuccessApprove(string formID, string tempVendorID, string formTypeID, string positionName)
+        public static bool doSuccessApprove(string formID, string tempVendorID, string formTypeID, string positionName, System.Web.UI.Page page)
         {
             int result = isFinalApprove(formID, positionName);
 
@@ -224,13 +224,13 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             {
                 Signature_BLL.setSignature(formID, positionName);//签名
                 Signature_BLL.setSignatureDate(formID, positionName);
-                return doKCIApprove(formID, tempVendorID, formTypeID, positionName);
+                return doKCIApprove(formID, tempVendorID, formTypeID, positionName, page);
             }//正常最终
             else if (result == NORMAL_FINAL)//签名
             {
                 Signature_BLL.setSignature(formID, positionName);//签名
                 Signature_BLL.setSignatureDate(formID, positionName);
-                return doFinalApprove(formID, tempVendorID, formTypeID, positionName);
+                return doFinalApprove(formID, tempVendorID, formTypeID, positionName, page);
             }
             else//非最终  签名
             {
@@ -303,7 +303,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
         /// <param name="tempVendorID"></param>
         /// <param name="formTypeID"></param>
         /// <param name="positionName"></param>
-        public static bool doKCIApprove(string formID, string tempVendorID, string formTypeID, string positionName)
+        public static bool doKCIApprove(string formID, string tempVendorID, string formTypeID, string positionName, System.Web.UI.Page page)
         {
             int rs1 = AssessFlow_BLL.updateApprove(formID, positionName);
             int rs2 = UpdateFlag_BLL.updateFlagWaitKCI(formTypeID, tempVendorID);
@@ -323,6 +323,10 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
 
                 As_Employee ae = Employee_BLL.getEmolyeeById(HttpContext.Current.Session["Employee_ID"].ToString());
                 LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "等待审批", DateTime.Now.ToString(), "系统内部审批已完成，正在等待KCI审批结果，请获取KCI审批结果后登录系统更新KCI审批信息");
+                string fileTypeName = FormType_BLL.getFormNameByFormID(formID);
+                string factory = AddForm_BLL.getFactoryByFormID(formID);
+                string file = tempVendorID + File_Type_BLL.getFormSpec(fileTypeName) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factory) + ".pdf";
+                LocalScriptManager.CreateScript(page, String.Format("takeScreenshot('{0}','{1}')", formID, file), "myscript");
                 return true;
             }
             return false;
@@ -333,7 +337,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
         /// </summary>
         /// <param name="formID"></param>
         /// <param name="positionName"></param>
-        public static bool doFinalApprove(string formID, string tempVendorID, string formTypeID, string positionName)
+        public static bool doFinalApprove(string formID, string tempVendorID, string formTypeID, string positionName,System.Web.UI.Page page)
         {
             int rs1 = AssessFlow_BLL.updateApprove(formID, positionName);
             int rs2 = UpdateFlag_BLL.updateFlagAsApproved(formTypeID, tempVendorID);
@@ -356,7 +360,11 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
 
                 As_Employee ae = Employee_BLL.getEmolyeeById(HttpContext.Current.Session["Employee_ID"].ToString());
                 LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "审批完成", DateTime.Now.ToString(), "系统内部审批完成,表格审批完成");
-
+                string fileTypeName = FormType_BLL.getFormNameByFormID(formID);
+                string factory = AddForm_BLL.getFactoryByFormID(formID);
+                string file = tempVendorID + File_Type_BLL.getFormSpec(fileTypeName) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factory) + ".pdf";
+                LocalScriptManager.CreateScript(page, String.Format("takeScreenshot('{0}','{1}')", formID, file), "myscript");
+                //page.ClientScript.RegisterStartupScript(page.ClientScript.GetType(), "myscript", "<script>takeScreenshot('" + file + "','" + formID + "');</script>");
                 return true;
             }
             return false;
