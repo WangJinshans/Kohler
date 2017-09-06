@@ -6,7 +6,6 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Web;
 
 namespace BLL.VendorAssess
 {
@@ -28,12 +27,7 @@ namespace BLL.VendorAssess
              * 3.文件转移 表 文件    normal
              * 
              */
-            //tempVendorID = "TempVendor1047";
-            //copyFile(getFilesWithPath(tempVendorID, factory));
-            //copyFile(getFormsWithPath(tempVendorID, factory));
-            //bool s = checkFileSubmit(tempVendorID, factory);
-            //bool ss = checkFormSubmit(tempVendorID, factory);
-            //string results = checkKciFileSubmit(tempVendorID, factory);
+            string resultStr = "";
             if (checkFileSubmit(tempVendorID, factory) && checkFormSubmit(tempVendorID, factory))//检查文件和表提交
             {
                 string result = checkKciFileSubmit(tempVendorID, factory);
@@ -41,29 +35,32 @@ namespace BLL.VendorAssess
                 {
                     if (FormAccessSuccessFul(tempVendorID, factory))
                     {
-                        //insertNormalCode(tempVendorID);
-                        copyFile(getFilesWithPath(tempVendorID, factory));
-                        copyFile(getFormsWithPath(tempVendorID, factory));
-                        copyFile(getKciFilesWithPath(tempVendorID, factory));
+                        string rs0 = insertNormalCode(normalCode,tempVendorID);
+                        string rs1 = copyFile(getFilesWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode);
+                        string rs2 = copyFile(getFormsWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode);
+                        copyFile(getKciFilesWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode);
+                        return resultStr = rs0 + rs1 + rs2;
                     }
                 }
                 else if (result == "none")//不需要进行KCI文件的转移
                 {
                     if (FormAccessSuccessFul(tempVendorID, factory))
                     {
-                        insertNormalCode(tempVendorID);
-                        copyFile(getFilesWithPath(tempVendorID, factory));
-                        copyFile(getFormsWithPath(tempVendorID, factory));
+                        string rs0 = insertNormalCode(normalCode,tempVendorID);
+                        string rs1 = copyFile(getFilesWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode);
+                        string rs2 = copyFile(getFormsWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode);
+                        return resultStr = rs0 + rs1 + rs2;
                     }
                 }
                 else if(result == "false")
                 {
                     //没有提交KCI的审批结果
-                    return false;
+                    return CHECK_FAIL;
                 }
             }
-            return false;
+            return CHECK_FAIL;
         }
+        
         /// <summary>
         /// 过期表重新审批后的文件转移
         /// </summary>
@@ -71,7 +68,7 @@ namespace BLL.VendorAssess
         /// <param name="factory"></param>
         /// <returns></returns>
 
-        public static bool vendorOverDueFormTransForm(string tempVendorID, string factory)
+        public static bool vendorOverDueFormTransForm(string tempVendorID, string factory,string normalCode, string destPath)
         {
             /*获取所有的新的formID对应的path
              * 判断是否有需要KCI审批的 有 需要转移新的KCI审批文件
@@ -83,7 +80,7 @@ namespace BLL.VendorAssess
             }
             if (checkFormOverDueKciFileSubmit(tempVendorID, factory) == "none")//不需要KCI
             {
-                if (copyFile(getOverDueFormWithPath(tempVendorID, factory)))//转移文件成功
+                if (copyFile(getOverDueFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode))//转移文件成功
                 {
                     return true;
                 }
@@ -94,7 +91,7 @@ namespace BLL.VendorAssess
             }
             if (checkFormOverDueKciFileSubmit(tempVendorID, factory) == "true")//需要转移KCI的审批文件
             {
-                if (copyFile(getOverDueFormWithPath(tempVendorID, factory))&& copyFile(getOverDueKciFormWithPath(tempVendorID, factory)))//转移文件成功
+                if (copyFile(getOverDueFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode)&& copyFile(getOverDueKciFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode))//转移文件成功
                 {
                     return true;
                 }
@@ -105,16 +102,6 @@ namespace BLL.VendorAssess
             }
             if (checkFormOverDueKciFileSubmit(tempVendorID, factory) == "false")//没有提交KCI的审批文件
             {
-<<<<<<< HEAD
-                string rs0 = insertNormalCode(normalCode,tempVendorID);
-                string rs1 = copyFile(getFilesWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode);
-                string rs2 = copyFile(getFormsWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode);
-                return rs0 + rs1 + rs2;
-            }
-            return CHECK_FAIL;
-        }
-        public static bool checkFileSubmit(string tempVendorID, string factory)
-=======
                 return false;
             }
             else
@@ -129,7 +116,7 @@ namespace BLL.VendorAssess
         /// <param name="tempVendorID"></param>
         /// <param name="factory"></param>
         /// <returns></returns>
-        public static bool vendorOverDueFileTransForm(string tempVendorID, string factory)
+        public static bool vendorOverDueFileTransForm(string tempVendorID, string factory,string normalCode, string destPath)
         {
             //获取所有的过期的文件 查出最新的File_ID
             IList<As_Form_OverDue> OverDueFileForms = new List<As_Form_OverDue>();
@@ -144,23 +131,23 @@ namespace BLL.VendorAssess
                 {
                     if (FormAccessSuccessFul(tempVendorID, factory))
                     {
-                        insertNormalCode(normalCode);
+                        insertNormalCode(normalCode,tempVendorID);
                         //新的File_ID的文件
-                        copyFile(getOverDueFileWithPath(tempVendorID, factory));
+                        copyFile(getOverDueFileWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode);
                         //新的Form_ID的文件
-                        copyFile(getOverDueFileFormWithPath(tempVendorID, factory));
+                        copyFile(getOverDueFileFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode);
                         //重审后KCI文件转移
-                        copyFile(getOverDueKciFileWithPath(tempVendorID, factory));
+                        copyFile(getOverDueKciFileWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode);
                     }
                 }
                 else if (result == "none")//不需要进行KCI文件的转移  过期重审的文件和表
                 {
                     if (FormAccessSuccessFul(tempVendorID, factory))
                     {
-                        insertNormalCode(normalCode);
-                        copyFile(getOverDueFileWithPath(tempVendorID, factory));
+                        insertNormalCode(normalCode,tempVendorID);
+                        copyFile(getOverDueFileWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode);
                         //新的Form_ID的文件
-                        copyFile(getOverDueFileFormWithPath(tempVendorID, factory));
+                        copyFile(getOverDueFileFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode);
                     }
                 }
                 else if (result == "false")
@@ -171,6 +158,7 @@ namespace BLL.VendorAssess
             }
             return false;
         }
+
 
         private static Dictionary<string, string> getOverDueKciFileWithPath(string tempVendorID, string factory)
         {
@@ -285,306 +273,6 @@ namespace BLL.VendorAssess
             return OverDueFormWithPath;
         }
 
-
-
-      
-
-
-        /// <summary>
-        /// 获取KCI文件的路径
-        /// </summary>
-        /// <param name="tempVendorID"></param>
-        /// <param name="factory"></param>
-        /// <returns></returns>
-
-        private static Dictionary<string, string> getKciFilesWithPath(string tempVendorID, string factory)
-        {
-            Dictionary<string, string> kciFileWithPath = new Dictionary<string, string>();
-            DataTable table = new DataTable();
-            List<string> kciForms = File_Transform_DAL.getKciForms(tempVendorID, factory);//返回需要KCI的Form_ID
-            if (kciFileWithPath.Count > 0)
-            {
-                foreach (string formID in kciForms)
-                {
-                    table = File_Transform_DAL.getKciFilePath(formID);
-                    if (table.Rows.Count > 0)
-                    {
-                        foreach (DataRow dr in table.Rows)
-                        {
-                            string filePath = dr["File_Path"].ToString().Trim();
-                            kciFileWithPath.Add(formID, filePath);
-                            //return kciFileWithPath;
-                        }
-                    }
-                }
-            }
-            return kciFileWithPath;
-        }
-
-
-
-        /// <summary>
-        /// 从As_Vendor_FileType中查出所有需要提交的文件的File_ID 
-        /// 然后根据File_ID在As_File中查出是否有提交记录
-        /// </summary>
-        /// <param name="tempVendorID"></param>
-        /// <param name="factory"></param>
-        /// <returns></returns>
-
-        private static bool checkFileSubmit(string tempVendorID, string factory)
->>>>>>> WJS_8_21_Wait_Test
-        {
-            /*
-             * 1.从As_Vendor_FileType中获取需要提交的文件list
-             * 2.单个文件在As_File中进行检查
-             */
-            
-            List<string> files = new List<string>();
-            files = File_Transform_DAL.getFileIDs(tempVendorID, factory);
-            if (files != null && files.Count > 0)
-            {
-                foreach (string fileid in files)//单个文件的ID在As_File中查找
-                {
-                    if (File_Transform_DAL.checkFileSubmit(tempVendorID, factory, fileid) == false)
-                    {
-                        return false;//没有查到对应的ID的提交记录
-                    }
-                }
-            }
-            else
-            {
-                return false;//没有查到文件ID  不可能
-            }
-            return true;
-        }
-
-<<<<<<< HEAD
-        public static bool checkFormSubmit(string tempVendorID, string factory)
-=======
-
-        /// <summary>
-        /// 获取所有的Form_ID 根据Form_ID在As_FormAccessFlow中查找是否需要KCI审批
-        /// 需要KCI审批的检查KCI的审批结果文件是否上传
-        /// </summary>
-        /// <param name="tempVendorID"></param>
-        /// <param name="factory"></param>
-        /// <returns></returns>
-        private static string checkKciFileSubmit(string tempVendorID, string factory)
-        {
-            List<string> forms = new List<string>();
-            forms = File_Transform_DAL.getFormIDs(tempVendorID, factory);
-            if (forms != null && forms.Count > 0)
-            {
-                bool kciNeed = false;//该供应商是否存在文件需要KCI
-                foreach (string formid in forms)//在As_Form_AccessFlow中查找Form_ID的kci值 
-                {
-                    bool isKci = false;
-                    isKci = File_Transform_DAL.isFormKCI(formid);
-                    if (isKci)//需要KCI审批
-                    {
-                        /*
-                         * 检查KCI文件是否上传
-                         * 
-                         */
-                        kciNeed = true;
-                        if (File_Transform_DAL.isKciFileSubmit(formid)==false)
-                        {
-                            return "false";//没有上传KCI的处理结果
-                        }
-                    }
-                }
-                if (!kciNeed)//不存在任何KCI
-                {
-                    return "none";
-                }
-                return "true";
-            }
-            else
-            {
-                return "false";//没有查到文件ID  不可能
-            }
-        }
-
-        private static bool checkFormSubmit(string tempVendorID, string factory)
->>>>>>> WJS_8_21_Wait_Test
-        {
-            /*
-             * 1.从As_Vendor_FormType中获取需要提交的文件list
-             * 2.单个文件在As_Form中进行检查
-             */
-            
-            List<string> forms = new List<string>();
-            forms = File_Transform_DAL.getFormIDs(tempVendorID, factory);
-            if (forms != null && forms.Count > 0)
-            {
-                foreach (string formid in forms)//单个文件的ID在As_Form中查找
-                {
-                    if (File_Transform_DAL.checkFormSubmit(tempVendorID, factory, formid) == false)
-                    {
-                        return false;//没有查到对应的ID的提交记录
-                    }
-                }
-            }
-            else
-            {
-                return false;//没有查到文件ID  不可能
-            }
-            return true;
-        }
-        public static bool FormAccessSuccessFul(string tempVendorID, string factory)
-        {
-            return File_Transform_DAL.AccessSuccessFul(tempVendorID, factory);
-        }
-
-        public static string insertNormalCode(string normalCode,string tempVendorID)
-        {
-            /*
-             * 1.形成真正的供应商Code
-             * 2.将其插入到As_Temp_Vendor中
-             */
-            if (TempVendor_BLL.hasNormalCode(tempVendorID))
-            {
-                return CODE_EXIST;
-            }
-            else
-            {
-                if (File_Transform_DAL.insertNormalCode(normalCode, tempVendorID))
-                {
-                    return "";
-                }
-                else
-                {
-                    return CODE_UPDATE_FAIL;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 正常审批完成：获取该供应商该厂的所有文件  不包括表
-        /// </summary>
-        /// <param name="tempVendorID"></param>
-        /// <param name="factory"></param>
-        /// <returns></returns>
-        private static Dictionary<string,string> getFilesWithPath(string tempVendorID, string factory)
-        {
-            Dictionary<string, string> fileWithPath = new Dictionary<string, string>();
-            DataTable table = new DataTable();
-            List<string> fileIDlist = File_Transform_DAL.getFiles(tempVendorID, factory);
-            if (fileIDlist.Count > 0)
-            {
-                foreach (string fileID in fileIDlist)
-                {
-                    table = File_Transform_DAL.getFilePath(fileID);
-                    if (table.Rows.Count > 0)
-                    {
-                        foreach (DataRow dr in table.Rows)
-                        {
-                            string filePath = dr["File_Path"].ToString().Trim();
-                            fileWithPath.Add(fileID, filePath);
-                            //return fileWithPath;
-                        }
-                    }
-                }
-            }
-            return fileWithPath;
-        }
-        /// <summary>
-        /// 正常审批完成：获取该供应商该厂的所有的表
-        /// </summary>
-        /// <param name="tempVendorID"></param>
-        /// <param name="factory"></param>
-
-        private static Dictionary<string, string> getFormsWithPath(string tempVendorID, string factory)
-        {
-            Dictionary<string, string> formWithPath = new Dictionary<string, string>();
-            DataTable table = new DataTable();
-            List<string> formIDlist = File_Transform_DAL.getForms(tempVendorID, factory);
-            if (formIDlist.Count > 0)
-            {
-                foreach (string formID in formIDlist)
-                {
-                    table = File_Transform_DAL.getFormPath(formID); //TODO::没有生成form文件 2017年8月25日16:27:22
-                    if (table.Rows.Count > 0)
-                    {
-                        foreach (DataRow dr in table.Rows)
-                        {
-                            string filePath = dr["Form_Path"].ToString().Trim();
-                            formWithPath.Add(formID, filePath);
-                        }
-                    }
-                }
-            }
-            return formWithPath;
-        }
-
-<<<<<<< HEAD
-        public static string copyFile(Dictionary<string, string> fileWithPath,string tempVendorID,string destPath,string code)
-=======
-        public static bool copyFile(Dictionary<string, string> fileWithPath)
->>>>>>> WJS_8_21_Wait_Test
-        {
-            if (fileWithPath.Count > 0)
-            {
-                foreach (string key in fileWithPath.Keys)
-                {
-<<<<<<< HEAD
-                    try
-                    {
-                        string fileID = key;
-                        string filePath = fileWithPath[key];
-
-                        if (filePath == "")
-                        {
-                            return PATH_IS_NULL;
-                        }
-
-                        FileInfo fileSource = new FileInfo(filePath);//文件复制
-
-                        string newName = fileSource.Name.Replace(tempVendorID, code);
-                        string newPath = HttpContext.Current.Server.MapPath(destPath) + newName;
-
-                        fileSource.CopyTo(newPath, true);
-                    }
-                    catch (Exception e)
-                    {
-                        return e.Message;
-                    }
-=======
-                    string fileID = key;
-                    string filePath = "E:\\科勒\\github\\SHZSZHSUPPLY\\SHZSZHSUPPLY\\files" + "\\" + fileID + ".pdf";
-                    //string filePath = fileWithPath[key] + "\\" + fileID;
-                    FileInfo fi = new FileInfo(filePath);//文件复制
-                    int number = 0;
-                    int i = 0;
-                    for (i = 0; i < fileID.Length; i++)
-                    {
-                        if (fileID[i] > 65 && fileID[i] < 97)
-                        {
-                            number++;
-                            if (number == 3)
-                            {
-                                break;
-                            }
-                        }
-                    }
-                    string substring = fileID.Substring(0, i);
-                    string normalCode = "";
-                    string newfileID = fileID.Replace(substring, normalCode);
-                    string newNameAndPath = "E:\\科勒\\github\\SHZSZHSUPPLY\\SHZSZHSUPPLY\\Upload\\" + fileID + ".pdf";
-                    string newPath = "D:\\test\\" + newfileID + ".pdf";//临时存储文件
-                    fi.CopyTo(newPath, true);
-                    fi = new FileInfo(newPath);
-                    fi.MoveTo(newNameAndPath);//最终存储文件
->>>>>>> WJS_8_21_Wait_Test
-                }
-                return true;
-            }
-            else //不需要进行文件转移 不可能
-            {
-                return false;
-            }
-            return "";
-        }
         private static Dictionary<string, string> getOverDueFormWithPath(string tempVendorID, string factory)
         {
             string formTypeID = "";
@@ -612,7 +300,7 @@ namespace BLL.VendorAssess
             return OverDueFormWithPath;
         }
 
-        /// <summary>
+/// <summary>
         /// 先获取原来过期的Form_ID 通过它查出form_Type_ID 根据form_Type_ID,Temp_Vendor_ID，Factory查出现在的formID
         /// 再查出现在的form_ID是否需要KCI
         /// </summary>
@@ -664,7 +352,7 @@ namespace BLL.VendorAssess
             }
         }
 
-
+        
 
         /// <summary>
         /// 返回过期文件审批后的新的文件的path 不含form
@@ -702,7 +390,7 @@ namespace BLL.VendorAssess
         /// <param name="tempVendorID"></param>
         /// <param name="factory"></param>
         /// <returns></returns>
-        private static Dictionary<string, string> getOverDueFileFormWithPath(string tempVendorID, string factory) 
+        private static Dictionary<string, string> getOverDueFileFormWithPath(string tempVendorID, string factory)
         {
             Dictionary<string, string> OverDueFileWithPath = new Dictionary<string, string>();
             List<string> fileTypeIDs = new List<string>();
@@ -788,6 +476,257 @@ namespace BLL.VendorAssess
             {
                 return "false";//没有查到文件ID  不可能
             }
+        }
+
+        /// <summary>
+        /// 获取KCI文件的路径
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <param name="factory"></param>
+        /// <returns></returns>
+        private static Dictionary<string, string> getKciFilesWithPath(string tempVendorID, string factory)
+        {
+            Dictionary<string, string> kciFileWithPath = new Dictionary<string, string>();
+            DataTable table = new DataTable();
+            List<string> kciForms = File_Transform_DAL.getKciForms(tempVendorID, factory);//返回需要KCI的Form_ID
+            if (kciFileWithPath.Count > 0)
+            {
+                foreach (string formID in kciForms)
+                {
+                    table = File_Transform_DAL.getKciFilePath(formID);
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow dr in table.Rows)
+                        {
+                            string filePath = dr["File_Path"].ToString().Trim();
+                            kciFileWithPath.Add(formID, filePath);
+                            //return kciFileWithPath;
+                        }
+                    }
+                }
+            }
+            return kciFileWithPath;
+        }
+
+        /// <summary>
+        /// 正常审批完成：获取该供应商该厂的所有文件  不包括表
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <param name="factory"></param>
+        /// <returns></returns>
+        private static Dictionary<string,string> getFilesWithPath(string tempVendorID, string factory)
+        {
+            Dictionary<string, string> fileWithPath = new Dictionary<string, string>();
+            DataTable table = new DataTable();
+            List<string> fileIDlist = File_Transform_DAL.getFiles(tempVendorID, factory);
+            if (fileIDlist.Count > 0)
+            {
+                foreach (string fileID in fileIDlist)
+                {
+                    table = File_Transform_DAL.getFilePath(fileID);
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow dr in table.Rows)
+                        {
+                            string filePath = dr["File_Path"].ToString().Trim();
+                            fileWithPath.Add(fileID, filePath);
+                            //return fileWithPath;
+                        }
+                    }
+                }
+            }
+            return fileWithPath;
+        }
+
+        /// <summary>
+        /// 正常审批完成：获取该供应商该厂的所有的表
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <param name="factory"></param>
+        private static Dictionary<string, string> getFormsWithPath(string tempVendorID, string factory)
+        {
+            Dictionary<string, string> formWithPath = new Dictionary<string, string>();
+            DataTable table = new DataTable();
+            List<string> formIDlist = File_Transform_DAL.getForms(tempVendorID, factory);
+            if (formIDlist.Count > 0)
+            {
+                foreach (string formID in formIDlist)
+                {
+                    table = File_Transform_DAL.getFormPath(formID);
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow dr in table.Rows)
+                        {
+                            string filePath = dr["Form_Path"].ToString().Trim();
+                            formWithPath.Add(formID, filePath);
+                        }
+                    }
+                }
+            }
+            return formWithPath;
+        }
+
+        /// <summary>
+        /// 从As_Vendor_FileType中查出所有需要提交的文件的File_ID 
+        /// 然后根据File_ID在As_File中查出是否有提交记录
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <param name="factory"></param>
+        /// <returns></returns>
+        private static bool checkFileSubmit(string tempVendorID, string factory)
+        {
+            /*
+             * 1.从As_Vendor_FileType中获取需要提交的文件list
+             * 2.单个文件在As_File中进行检查
+             */
+            
+            List<string> files = new List<string>();
+            files = File_Transform_DAL.getFileIDs(tempVendorID, factory);
+            if (files != null && files.Count > 0)
+            {
+                foreach (string fileid in files)//单个文件的ID在As_File中查找
+                {
+                    if (File_Transform_DAL.checkFileSubmit(tempVendorID, factory, fileid) == false)
+                    {
+                        return false;//没有查到对应的ID的提交记录
+                    }
+                }
+            }
+            else
+            {
+                return false;//没有查到文件ID  不可能
+            }
+            return true;
+        }
+
+
+        /// <summary>
+        /// 获取所有的Form_ID 根据Form_ID在As_FormAccessFlow中查找是否需要KCI审批
+        /// 需要KCI审批的检查KCI的审批结果文件是否上传
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <param name="factory"></param>
+        /// <returns></returns>
+        private static string checkKciFileSubmit(string tempVendorID, string factory)
+        {
+            List<string> forms = new List<string>();
+            forms = File_Transform_DAL.getFormIDs(tempVendorID, factory);
+            if (forms != null && forms.Count > 0)
+            {
+                bool kciNeed = false;//该供应商是否存在文件需要KCI
+                foreach (string formid in forms)//在As_Form_AccessFlow中查找Form_ID的kci值 
+                {
+                    bool isKci = false;
+                    isKci = File_Transform_DAL.isFormKCI(formid);
+                    if (isKci)//需要KCI审批
+                    {
+                        /*
+                         * 检查KCI文件是否上传
+                         * 
+                         */
+                        kciNeed = true;
+                        if (File_Transform_DAL.isKciFileSubmit(formid)==false)
+                        {
+                            return "false";//没有上传KCI的处理结果
+                        }
+                    }
+                }
+                if (!kciNeed)//不存在任何KCI
+                {
+                    return "none";
+                }
+                return "true";
+            }
+            else
+            {
+                return "false";//没有查到文件ID  不可能
+            }
+        }
+
+        private static bool checkFormSubmit(string tempVendorID, string factory)
+        {
+            /*
+             * 1.从As_Vendor_FormType中获取需要提交的文件list
+             * 2.单个文件在As_Form中进行检查
+             */
+            
+            List<string> forms = new List<string>();
+            forms = File_Transform_DAL.getFormIDs(tempVendorID, factory);
+            if (forms != null && forms.Count > 0)
+            {
+                foreach (string formid in forms)//单个文件的ID在As_Form中查找
+                {
+                    if (File_Transform_DAL.checkFormSubmit(tempVendorID, factory, formid) == false)
+                    {
+                        return false;//没有查到对应的ID的提交记录
+                    }
+                }
+            }
+            else
+            {
+                return false;//没有查到文件ID  不可能
+            }
+            return true;
+        }
+
+        private static bool FormAccessSuccessFul(string tempVendorID, string factory)
+        {
+            return File_Transform_DAL.AccessSuccessFul(tempVendorID, factory);
+        }
+
+        public static string insertNormalCode(string normalCode,string tempVendorID)
+        {
+            /*
+             * 1.形成真正的供应商Code
+             * 2.将其插入到As_Temp_Vendor中
+             */
+            if (TempVendor_BLL.hasNormalCode(tempVendorID))
+            {
+                return CODE_EXIST;
+            }
+            else
+            {
+                if (File_Transform_DAL.insertNormalCode(normalCode, tempVendorID))
+                {
+                    return "";
+                }
+                else
+                {
+                    return CODE_UPDATE_FAIL;
+                }
+            }
+        }
+
+        public static string copyFile(Dictionary<string, string> fileWithPath,string tempVendorID,string destPath,string code)
+        {
+            if (fileWithPath.Count > 0)
+            {
+                foreach (string key in fileWithPath.Keys)
+                {
+                    try
+                    {
+                        string fileID = key;
+                        string filePath = fileWithPath[key];
+
+                        if (filePath == "")
+                        {
+                            return PATH_IS_NULL;
+                        }
+
+                        FileInfo fileSource = new FileInfo(filePath);//文件复制
+
+                        string newName = fileSource.Name.Replace(tempVendorID, code);
+                        string newPath = HttpContext.Current.Server.MapPath(destPath) + newName;
+
+                        fileSource.CopyTo(newPath, true);
+                    }
+                    catch (Exception e)
+                    {
+                        return e.Message;
+                    }
+                }
+            }
+            return "";
         }
     }
 }
