@@ -53,7 +53,7 @@ namespace BLL.SendMail
 
             SmtpClient Smtp = new SmtpClient();
             Smtp.Host = "apaccasarray.kohlerco.com";
-            Smtp.Send(MailMessage);
+            //Smtp.Send(MailMessage);
         }
 
         public void Sendmail_BLL_Item(string vendercode, string itemcategory, string plantname, string vendertype,string itemstate, string itemlabel, string startdate, string enddate, string uploaduser, string uploaddate, string reason, string usernum)
@@ -104,7 +104,7 @@ namespace BLL.SendMail
 
             SmtpClient Smtp = new SmtpClient();
             Smtp.Host = "apaccasarray.kohlerco.com";
-            Smtp.Send(MailMessage);
+            //Smtp.Send(MailMessage);
         }
     }
 }
