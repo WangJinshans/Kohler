@@ -115,7 +115,7 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
 
             postFile.SaveAs(path);
 
-            if (join > 0 && flag > 0)
+            if (join > 0)
             {
                 context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, message = "数据库写入完毕，文件上传完成" }));
             }

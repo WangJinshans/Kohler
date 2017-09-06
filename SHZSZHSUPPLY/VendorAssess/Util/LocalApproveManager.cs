@@ -322,7 +322,9 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                 LocalLog.writeLog(formID, String.Format("系统内部审批完成,KCI审批已添加，正在等待KCI审批结果    时间：{0}", DateTime.Now), As_Write.APPROVE_SUCCESS, tempVendorID);
 
                 As_Employee ae = Employee_BLL.getEmolyeeById(HttpContext.Current.Session["Employee_ID"].ToString());
+
                 LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "等待审批", DateTime.Now.ToString(), "系统内部审批已完成，正在等待KCI审批结果，请获取KCI审批结果后登录系统更新KCI审批信息");
+
                 string fileTypeName = FormType_BLL.getFormNameByFormID(formID);
                 string factory = AddForm_BLL.getFactoryByFormID(formID);
                 string file = tempVendorID + File_Type_BLL.getFormSpec(fileTypeName) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factory) + ".pdf";

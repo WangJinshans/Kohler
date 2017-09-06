@@ -6,6 +6,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Web;
 
 namespace BLL.VendorAssess
 {
@@ -80,7 +81,7 @@ namespace BLL.VendorAssess
             }
             if (checkFormOverDueKciFileSubmit(tempVendorID, factory) == "none")//不需要KCI
             {
-                if (copyFile(getOverDueFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode))//转移文件成功
+                if (copyFile(getOverDueFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode) == "")//转移文件成功
                 {
                     return true;
                 }
@@ -91,7 +92,7 @@ namespace BLL.VendorAssess
             }
             if (checkFormOverDueKciFileSubmit(tempVendorID, factory) == "true")//需要转移KCI的审批文件
             {
-                if (copyFile(getOverDueFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode)&& copyFile(getOverDueKciFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode))//转移文件成功
+                if (copyFile(getOverDueFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode) == "" && copyFile(getOverDueKciFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode) == "")//转移文件成功
                 {
                     return true;
                 }
@@ -126,7 +127,6 @@ namespace BLL.VendorAssess
             {
                 string result = checkFileOverDueKciFileSubmit(tempVendorID, factory);//过期文件的审批过程中是否包含KCI审批
 
-                string normalCode = "";
                 if (result == "true") //过期重审的文件和表 和KCI文件
                 {
                     if (FormAccessSuccessFul(tempVendorID, factory))
@@ -573,7 +573,7 @@ namespace BLL.VendorAssess
         /// <param name="tempVendorID"></param>
         /// <param name="factory"></param>
         /// <returns></returns>
-        private static bool checkFileSubmit(string tempVendorID, string factory)
+        public static bool checkFileSubmit(string tempVendorID, string factory)
         {
             /*
              * 1.从As_Vendor_FileType中获取需要提交的文件list
@@ -643,7 +643,7 @@ namespace BLL.VendorAssess
             }
         }
 
-        private static bool checkFormSubmit(string tempVendorID, string factory)
+        public static bool checkFormSubmit(string tempVendorID, string factory)
         {
             /*
              * 1.从As_Vendor_FormType中获取需要提交的文件list
@@ -669,7 +669,7 @@ namespace BLL.VendorAssess
             return true;
         }
 
-        private static bool FormAccessSuccessFul(string tempVendorID, string factory)
+        public static bool FormAccessSuccessFul(string tempVendorID, string factory)
         {
             return File_Transform_DAL.AccessSuccessFul(tempVendorID, factory);
         }
