@@ -59,6 +59,10 @@ namespace BLL
         {
             return UpdateFlag_DAL.setFormUnSubmit(formID);
         }
-        
+
+        public static int updateReAccessFileStatus(string fileID)
+        {
+            return UpdateFlag_DAL.updateReAccessFileStatus(fileID);
+        }
     }
 }

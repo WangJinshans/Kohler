@@ -2,6 +2,7 @@
 using MODEL;
 using System.Collections.Generic;
 using System.Web;
+using System;
 
 namespace BLL.VendorAssess
 {
@@ -34,6 +35,11 @@ namespace BLL.VendorAssess
         public static IList<As_KCI_Approval> selectKCIApproval(string sql)//获取所有需要KCI审批的列表
         {
             return KCIApproval_DAL.selectKCIApproval(sql);
+        }
+
+        public static bool deleteKCIApproval(string formID)
+        {
+            return KCIApproval_DAL.deleteKCIApproval(formID);
         }
     }
 }

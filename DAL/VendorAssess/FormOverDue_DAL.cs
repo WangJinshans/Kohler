@@ -89,6 +89,18 @@ namespace DAL.VendorAssess
             return table;
         }
 
+
+        /// <summary>
+        /// 获取该表对应的所有的绑定文件 从文件立列表中查出是否存在历史
+        /// </summary>
+        /// <param name="formID"></param>
+        /// <returns></returns>
+        public static DataTable getBindFiles(string formID)
+        {
+            string sql = "select [File_ID] from As_Form_File where Form_ID='" + formID + "'";
+            return DBHelp.GetDataSet(sql);
+        }
+      
         public static bool checkVendor(string tempVendorID)
         {
             string sql = "Select count(*) from As_VendorForm_OverDue Where Temp_Vendor_ID=@Temp_Vendor_ID and Status='hold'";

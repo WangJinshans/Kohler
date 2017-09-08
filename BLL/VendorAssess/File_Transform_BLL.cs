@@ -21,10 +21,11 @@ namespace BLL.VendorAssess
         public const string CODE_UPDATE_FAIL = "供应商编号更新失败";
         public const string NO_KCI_EXIST = "未提交KCI的审批结果";
         public const string WAIT_FORM_SUBMIT = "请提交所有表单";
-
+      
         public const int FILE_TYPE = 20;
         public const int FORM_TYPE = 21;
         public const int ALL_TYPE = 22;
+
 
         public static string vendorTransForm(string tempVendorID, string factory,string normalCode, string destPath,string employeeID)
         {
@@ -88,7 +89,6 @@ namespace BLL.VendorAssess
         /// <param name="tempVendorID"></param>
         /// <param name="factory"></param>
         /// <returns></returns>
-
         public static string vendorOverDueFormTransForm(string tempVendorID, string factory,string normalCode, string destPath,string employeeID)
         {
             /*获取所有的新的formID对应的path

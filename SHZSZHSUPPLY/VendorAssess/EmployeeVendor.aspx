@@ -60,9 +60,9 @@
             document.getElementById('name').selectedIndex = localStorage.getItem('name');
         }
 
-        function viewFile(filePath) {
-            window.open("../files/a.pdf");
-        }
+        //function viewFile(filePath) {
+        //    window.open("../files/a.pdf");
+        //}
 
         function setParams(infoJson) {
             this.vendorInfoJson = JSON.parse(infoJson);

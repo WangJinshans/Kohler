@@ -88,5 +88,63 @@ namespace BLL.VendorAssess
         {
             return FileOverDue_DAL.reAccessForm(formID, temp_Vendor_ID);
         }
+
+        /// <summary>
+        /// 判断form_ID对应的文件是否存在过期  只有存在文件过期的时候才会返回true
+        /// </summary>
+        /// <param name="formID"></param>
+        /// <returns></returns>
+        public static bool isFileOverDue(string formID)
+        {
+            bool isFileOverDue = false;
+            DataTable table = new DataTable();
+            DataTable tables = new DataTable();
+            string tempvendorID, fileTypeID, factory;
+            //获取绑定的所有的File_ID
+            table = FormOverDue_DAL.getBindFiles(formID);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    string fileID = dr["File_ID"].ToString().Trim();
+                    tables = FileOverDue_DAL.isFileOverDueInfo(fileID);
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow d in tables.Rows)
+                        {
+                            tempvendorID = d["Temp_Vendor_ID"].ToString().Trim();
+                            fileTypeID= d["File_Type_ID"].ToString().Trim();
+                            factory = d["Factory_Name"].ToString();
+                            isFileOverDue = FileOverDue_DAL.isFileOverDue(tempvendorID, fileTypeID, factory);
+                            if (isFileOverDue)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            return isFileOverDue;
+        }
+        /// <summary>
+        /// 以list的形式返回该文件绑定的所有的File_ID
+        /// </summary>
+        /// <param name="formID"></param>
+        /// <returns></returns>
+        public static List<string> getFileIDsByFormID(string formID)
+        {
+            List<string> FileIDs = new List<string>();
+            string fileID = "";
+            DataTable table = FormOverDue_DAL.getBindFiles(formID);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    fileID = dr["File_ID"].ToString().Trim();
+                    FileIDs.Add(fileID);
+                }
+            }
+            return FileIDs;
+        }
     }
 }

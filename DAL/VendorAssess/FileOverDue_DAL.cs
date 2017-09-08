@@ -94,6 +94,26 @@ namespace DAL.VendorAssess
             return DBHelp.GetDataSet(sql, sp);
         }
 
+        public static DataTable isFileOverDueInfo(string fileID)
+        {
+            string sql = "select Temp_Vendor_ID,File_Type_ID,Factory_Name from As_File where [File_ID]='" + fileID + "'";
+            return DBHelp.GetDataSet(sql);
+        }
+      
+        public static bool isFileOverDue(string tempvendorID,string fileTypeID,string factory)
+        {
+            string sql = "select * from As_Vendor_FileType_History where Temp_Vendor_ID='" + tempvendorID + "' and Form_Type_ID='" + fileTypeID + "' and (Factory_Name='" + factory + "' or Factory_Name='ALL')";
+            using (SqlDataReader reader = DBHelp.GetReader(sql))
+                if (reader.Read())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+        }
+      
         public static bool checkVendor(string tempVendorID)
         {
             string sql = "Select count(*) from As_VendorFile_OverDue Where Temp_Vendor_ID=@Temp_Vendor_ID and Status='hold'";

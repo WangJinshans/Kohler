@@ -50,7 +50,7 @@ namespace DAL
 
         public static int updateReAccessFormStatus(string formID, string tempVendorID)
         {
-            string sql = "UPDATE As_VendorForm_OverDue SET Status='已通过' WHERE Form_ID='" + formID + "'AND Temp_Vendor_ID='" + tempVendorID + "'";
+            string sql = "UPDATE As_VendorForm_OverDue SET Status='hold' WHERE Form_ID='" + formID + "'AND Temp_Vendor_ID='" + tempVendorID + "'";
             try
             {
                 DBHelp.ExecuteCommand(sql);
@@ -73,6 +73,21 @@ namespace DAL
             }
             return -1;//出错
         }
+
+        public static int updateReAccessFileStatus(string fileID)
+        {
+            string sql = "UPDATE As_VendorFile_OverDue SET Status='hold' WHERE [File_ID]='" + fileID + "'";
+            try
+            {
+                DBHelp.ExecuteCommand(sql);
+                return 2;
+            }
+            catch (Exception e)
+            {
+                return -1;
+            }
+        }
+
         private static string switchFormID(string formID)//未完待续。。。
         {
             string table = "";
