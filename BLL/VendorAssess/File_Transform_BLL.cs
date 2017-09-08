@@ -3,6 +3,7 @@ using MODEL.VendorAssess;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace BLL.VendorAssess
         public const string CODE_EXIST = "供应商正式编号已存在，不予替换";
         public const string CODE_UPDATE_FAIL = "供应商编号更新失败";
 
-        public static string vendorTransForm(string tempVendorID, string factory,string normalCode, string destPath)
+        public static string vendorTransForm(string tempVendorID, string factory,string normalCode, string destPath,string employeeID)
         {
             /*
              * 供应商已经审批完成的表的转移
@@ -29,6 +30,8 @@ namespace BLL.VendorAssess
              * 
              */
             string resultStr = "";
+            //管理那边需要供应商名称
+            string vendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
             if (checkFileSubmit(tempVendorID, factory) && checkFormSubmit(tempVendorID, factory))//检查文件和表提交
             {
                 string result = checkKciFileSubmit(tempVendorID, factory);
@@ -37,9 +40,18 @@ namespace BLL.VendorAssess
                     if (FormAccessSuccessFul(tempVendorID, factory))
                     {
                         string rs0 = insertNormalCode(normalCode,tempVendorID);
-                        string rs1 = copyFile(getFilesWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode);
-                        string rs2 = copyFile(getFormsWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode);
-                        copyFile(getKciFilesWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode);
+                        string rs2 = copyFile(getFormsWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode, factory, employeeID);
+                        string rs1 = copyFile(getFilesWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode, factory, employeeID);
+                        copyFile(getKciFilesWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode, factory, employeeID);
+                        string type = TempVendor_BLL.getTempVendorType(tempVendorID);
+                        //插入新的vendorCode
+                        addNormalCode(normalCode, vendorName);
+                        //添加到VendorPlantInfo中
+                        if (type == "")
+                        {
+                            return null;
+                        }
+                        addVendorPlantInfo(normalCode, factory, type, "Enable");
                         return resultStr = rs0 + rs1 + rs2;
                     }
                 }
@@ -48,8 +60,8 @@ namespace BLL.VendorAssess
                     if (FormAccessSuccessFul(tempVendorID, factory))
                     {
                         string rs0 = insertNormalCode(normalCode,tempVendorID);
-                        string rs1 = copyFile(getFilesWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode);
-                        string rs2 = copyFile(getFormsWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode);
+                        string rs1 = copyFile(getFilesWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode,factory, employeeID);
+                        string rs2 = copyFile(getFormsWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode,factory, employeeID);
                         return resultStr = rs0 + rs1 + rs2;
                     }
                 }
@@ -69,7 +81,7 @@ namespace BLL.VendorAssess
         /// <param name="factory"></param>
         /// <returns></returns>
 
-        public static bool vendorOverDueFormTransForm(string tempVendorID, string factory,string normalCode, string destPath)
+        public static bool vendorOverDueFormTransForm(string tempVendorID, string factory,string normalCode, string destPath,string employeeID)
         {
             /*获取所有的新的formID对应的path
              * 判断是否有需要KCI审批的 有 需要转移新的KCI审批文件
@@ -81,7 +93,7 @@ namespace BLL.VendorAssess
             }
             if (checkFormOverDueKciFileSubmit(tempVendorID, factory) == "none")//不需要KCI
             {
-                if (copyFile(getOverDueFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode) == "")//转移文件成功
+                if (copyFile(getOverDueFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode,factory, employeeID) == "")//转移文件成功
                 {
                     return true;
                 }
@@ -92,7 +104,7 @@ namespace BLL.VendorAssess
             }
             if (checkFormOverDueKciFileSubmit(tempVendorID, factory) == "true")//需要转移KCI的审批文件
             {
-                if (copyFile(getOverDueFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode) == "" && copyFile(getOverDueKciFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode) == "")//转移文件成功
+                if (copyFile(getOverDueFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode,factory, employeeID) == "" && copyFile(getOverDueKciFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode, factory, employeeID) == "")//转移文件成功
                 {
                     return true;
                 }
@@ -117,7 +129,7 @@ namespace BLL.VendorAssess
         /// <param name="tempVendorID"></param>
         /// <param name="factory"></param>
         /// <returns></returns>
-        public static bool vendorOverDueFileTransForm(string tempVendorID, string factory,string normalCode, string destPath)
+        public static bool vendorOverDueFileTransForm(string tempVendorID, string factory,string normalCode, string destPath,string employeeID)
         {
             //获取所有的过期的文件 查出最新的File_ID
             IList<As_Form_OverDue> OverDueFileForms = new List<As_Form_OverDue>();
@@ -133,11 +145,11 @@ namespace BLL.VendorAssess
                     {
                         insertNormalCode(normalCode,tempVendorID);
                         //新的File_ID的文件
-                        copyFile(getOverDueFileWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode);
+                        copyFile(getOverDueFileWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode,factory, employeeID);
                         //新的Form_ID的文件
-                        copyFile(getOverDueFileFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode);
+                        copyFile(getOverDueFileFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode, factory, employeeID);
                         //重审后KCI文件转移
-                        copyFile(getOverDueKciFileWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode);
+                        copyFile(getOverDueKciFileWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode, factory, employeeID);
                     }
                 }
                 else if (result == "none")//不需要进行KCI文件的转移  过期重审的文件和表
@@ -145,9 +157,9 @@ namespace BLL.VendorAssess
                     if (FormAccessSuccessFul(tempVendorID, factory))
                     {
                         insertNormalCode(normalCode,tempVendorID);
-                        copyFile(getOverDueFileWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode);
+                        copyFile(getOverDueFileWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode,factory,employeeID);
                         //新的Form_ID的文件
-                        copyFile(getOverDueFileFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode);
+                        copyFile(getOverDueFileFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode, factory, employeeID);
                     }
                 }
                 else if (result == "false")
@@ -696,8 +708,9 @@ namespace BLL.VendorAssess
             }
         }
 
-        public static string copyFile(Dictionary<string, string> fileWithPath,string tempVendorID,string destPath,string code)
+        public static string copyFile(Dictionary<string, string> fileWithPath,string tempVendorID,string destPath,string code,string factory,string employeeID)
         {
+            string type = TempVendor_BLL.getTempVendorType(tempVendorID);
             if (fileWithPath.Count > 0)
             {
                 foreach (string key in fileWithPath.Keys)
@@ -718,6 +731,12 @@ namespace BLL.VendorAssess
                         string newPath = HttpContext.Current.Server.MapPath(destPath) + newName;
 
                         fileSource.CopyTo(newPath, true);
+                        //插入到文件上传的地方
+                        if (type == "")
+                        {
+                            return null;
+                        }
+                        addVendorFile(code, destPath, newPath, factory, type, "Enable", fileID, DateTime.Now, employeeID);
                     }
                     catch (Exception e)
                     {
@@ -726,6 +745,67 @@ namespace BLL.VendorAssess
                 }
             }
             return "";
+        }
+
+        /// <summary>
+        /// 像vendorList插入真正的供应商记录
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="vendorName"></param>
+        /// <returns></returns>
+        public static int addNormalCode(string code,string vendorName)
+        {
+            string sql = "insert into venderList(Vendor_Code,Vendor_Name) values('" + code + "', '" + vendorName + "')";
+            return File_Transform_DAL.addNormalCode(sql);
+        }
+
+
+        /// <summary>
+        ///  向itemList中插入文件转移后的记录
+        /// </summary>
+        /// <param name="Vender_Code"></param> 供应商真正编号
+        /// <param name="Item_Category"></param>供应商的具体文件
+        /// <param name="Itemp_Path"></param>文件的路径
+        /// <param name="Item_Plant"></param>工厂 或 ALL
+        /// <param name="Item_VendorType"></param>供应商类型
+        /// <param name="Item_State"></param>状态标志
+        /// <param name="Item_Label"></param>文件名称
+        /// <param name="Upload_Date"></param>
+        /// <param name="Upload_Person"></param>
+        /// <returns></returns>
+        public static int addVendorFile(string Vender_Code, string Item_Category, string Itemp_Path, string Item_Plant,string Item_VendorType, string Item_State,string Item_Label,DateTime Upload_Date,string Upload_Person)
+        {
+            string sql = "insert into itemList(Vender_Code,Item_Category,Itemp_Path,Item_Plant,Item_VendorType,Item_State,Item_Label,Upload_Date,Upload_Person) values(@Vender_Code ,@Item_Category,@Itemp_Path,@Item_Plant,@Item_VendorType,@Item_State,@Item_Label,@Upload_Date,@Upload_Person)";
+            SqlParameter[] sq = new SqlParameter[]
+            {
+                new SqlParameter("@Vender_Code",Vender_Code),
+                new SqlParameter("@Item_Category",Item_Category),
+                new SqlParameter("@Itemp_Path",Itemp_Path),
+                new SqlParameter("@Item_Plant",Item_Plant),
+                new SqlParameter("@Item_VendorType",Item_VendorType),
+                new SqlParameter("@Item_State",Item_State),
+                new SqlParameter("@Item_Label",Item_Label),
+                new SqlParameter("@Upload_Date",DateTime.Now),
+                new SqlParameter("@Upload_Person",Upload_Person)
+            };
+            return File_Transform_DAL.addVendorFile(sql, sq);
+        }
+
+        public static int addVendorPlantInfo(string Vender_Code, string Plant_Name, string Vendor_Type, string Vendor_State)
+        {
+            string sql = "insert into venderPlantInfo(Vender_Code,Plant_Name,Vendor_Type,Vendor_State) values(@Vender_Code ,@Plant_Name,@Vendor_Type,@Vendor_State)";
+            SqlParameter[] sq = new SqlParameter[]
+            {
+                new SqlParameter("@Vender_Code",Vender_Code),
+                new SqlParameter("@Plant_Name",Plant_Name),
+                new SqlParameter("@Vendor_Type",Vendor_Type),
+                new SqlParameter("@Vendor_State",Vendor_State)
+            };
+            return File_Transform_DAL.addVendorPlantInfo(sql, sq);
+        }
+        public static List<string> getForms(string tempVendorID, string factory)
+        {
+            return File_Transform_DAL.getForms(tempVendorID, factory);
         }
     }
 }

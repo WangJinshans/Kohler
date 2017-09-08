@@ -56,6 +56,15 @@
             })
         }
     </script>
+    <%--生成所有的PDF--%>
+    <%--<script>
+        function generateAllPdf() {
+            document.getElementById("pdfIframe").src = "ShowVendorDiscovery.aspx";
+            $("#pdfIframe").attr("src", url).on("load", function (event) {
+                var s = ($(this).context.contentWindow.document.getElementById("Button1"));
+            });
+        }
+    </script>--%>
     <script>
         (function ($, h, c) {
             var a = $([]),
@@ -246,6 +255,7 @@
     <form id="form1" class="layui-form" runat="server">
         <%--<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
         <input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />--%>
+<%--        <iframe id="pdfIframe" name="iframe1" style="display:block" src="http://www.baidu.com"></iframe>--%>
         <div class="layui-form-item" style="width: 1000px; margin: 0 auto">
             <a href="./index.aspx" class="layui-btn layui-btn layui-btn-small" style="float:left;margin-right:100px">返回</a>
             <label class="layui-form-label">供应商选择</label>
@@ -344,6 +354,9 @@
 
         <div style="width:500px;margin:50px auto 30px auto;text-align:center">
             <asp:Button ID="btnTransfer" runat="server" CssClass="layui-btn layui-btn-disabled" Enabled="false" Text="转移" ToolTip="请等待所有表格审批完毕" OnClientClick="return openNormalCodeDialog();" />
+        </div>
+         <div style="width:500px;margin:50px auto 30px auto;text-align:center">
+            <asp:Button ID="Button1" runat="server" CssClass="layui-btn layui-btn-disabled" Text="生成pdf" OnClick="Button1_Click"/>
         </div>
     </form>
 </body>

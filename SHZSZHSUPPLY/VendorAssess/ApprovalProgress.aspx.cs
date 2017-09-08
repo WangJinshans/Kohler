@@ -17,6 +17,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         public Dictionary<string, Dictionary<string, string[]>> info;
         private string serializedJson;
         private static string tempVendorID = "";
+        private static string factory = "";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -34,6 +35,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 {
                     case "refreshNewVendor":
                         tempVendorID = Request.Form["__EVENTARGUMENT"];
+                        factory = TempVendor_BLL.getTempVendorFactory(tempVendorID);
                         refreshNewVendor(Request.Form["__EVENTARGUMENT"]);
                         break;
                     case "vendorTransfer":
@@ -126,7 +128,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
             else
             {
-                string transferResult = File_Transform_BLL.vendorTransForm(tempVendorID, factory, code, Properties.Settings.Default.Transfer_Dest_Path);
+                string transferResult = File_Transform_BLL.vendorTransForm(tempVendorID, factory, code, Properties.Settings.Default.Transfer_Dest_Path, Session["Employee_ID"].ToString().Trim());
                 if (transferResult == "")
                 {
                     LocalScriptManager.CreateScript(Page, "message('已将最新的文件更新到供应商管理系统')", "filemsg1");
@@ -140,6 +142,22 @@ namespace SHZSZHSUPPLY.VendorAssess
                     LocalScriptManager.CreateScript(Page, "message('"+transferResult+"')", "filemsg1");
                 }
             }
+        }
+
+        //private void generateAllPdf(string tempVendorID, string factory)
+        //{
+        //    //List<string> forms = File_Transform_BLL.getForms(tempVendorID, factory);
+        //    //if (forms.Count > 0)
+        //    //{
+        //    //    ClientScript.RegisterStartupScript(ClientScript.GetType(), "AllPdf", "<script>generateAllPdf(forms,factory);</script>");
+        //    //}
+        //    ClientScript.RegisterStartupScript(ClientScript.GetType(), "AllPdf", "<script>generateAllPdf();</script>");
+
+        //}
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            //generateAllPdf(tempVendorID, factory);
         }
     }
 }

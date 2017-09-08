@@ -198,8 +198,8 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// </summary>
         private void getSessionInfo()
         {
-            formID = Session["formID"].ToString();
-            positionName = Session["Position_Name"].ToString();
+            formID = Convert.ToString(Session["formID"]);
+            positionName = Convert.ToString(Session["Position_Name"]);
             tempVendorID = AddForm_BLL.GetTempVendorID(formID);//获取tempvendorID
             FORM_TYPE_ID = Request.QueryString["type"];
         }

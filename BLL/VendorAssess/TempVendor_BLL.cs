@@ -154,6 +154,33 @@ namespace BLL
         }
 
 
+        public static string getTempVendorFactory(string tempVendorID)
+        {
+            string sql = "select Factory_Name from As_Vendor_FileType where Temp_Vendor_ID='" + tempVendorID + "'";
+            return TempVendor_DAL.getTempVendorFactory(sql);
+        }
+
+        /// <summary>
+        /// 根据tempVendorID查出该供应商是哪一类 直接物料常规等等
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <returns></returns>
+        public static string getTempVendorType(string tempVendorID)
+        {
+            string VendorType = "";
+            string sql = "select As_Vendor_Type.Vendor_Type from As_Vendor_Type,As_Temp_Vendor where As_Vendor_Type.Vendor_Type_ID=As_Temp_Vendor.Vendor_Type_ID and As_Temp_Vendor.Temp_Vendor_ID='" + tempVendorID + "'";
+            DataTable table = new DataTable();
+            table = DBHelp.GetDataSet(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    VendorType = dr["Vendor_Type"].ToString().Trim();
+                }
+            }
+            return VendorType;
+        }
+
         /// <summary>
         /// 选择ko对应的供应商
         /// </summary>

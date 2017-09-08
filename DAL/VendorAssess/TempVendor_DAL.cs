@@ -134,6 +134,20 @@ namespace DAL
             return Convert.ToInt32(paramReturn.Value);
         }
 
+
+        public static string getTempVendorFactory(string sql)
+        {
+            DataTable table = DBHelp.GetDataSet(sql);
+            string factory = "";
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    factory = dr["Factory_Name"].ToString().Trim();
+                }
+            }
+            return factory;
+
         /// <summary>
         /// 读取供应商列表信息
         /// </summary>
@@ -216,6 +230,7 @@ namespace DAL
                 return true;
             }
             return false;
+
         }
     }
 }

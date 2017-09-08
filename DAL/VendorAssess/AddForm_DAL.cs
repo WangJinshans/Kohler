@@ -31,8 +31,13 @@ namespace DAL
         {
             string sql = "select Temp_Vendor_ID from As_Form where Form_ID='" + formID + "'";
             DataTable dt = new DataTable();
+            string vendorID = "";
             dt = DBHelp.GetDataSet(sql);
-            string vendorID = dt.Rows[0]["Temp_Vendor_ID"].ToString().Trim();
+            if (dt.Rows.Count > 0)
+            {
+                vendorID = dt.Rows[0]["Temp_Vendor_ID"].ToString().Trim();
+                return vendorID;
+            }
             return vendorID;
         }
 

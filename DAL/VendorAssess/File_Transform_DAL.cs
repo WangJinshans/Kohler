@@ -293,5 +293,20 @@ namespace DAL.VendorAssess
             }
             return formPath;
         }
+
+        public static int addNormalCode(string sql)
+        {
+            return DBHelp.ExecuteCommand(sql);
+        }
+
+        public static int addVendorFile(string sql, SqlParameter[] sq)
+        {
+            return DBHelp.ExecuteCommand(sql, sq);
+        }
+
+        public static int addVendorPlantInfo(string sql, SqlParameter[] sq)
+        {
+            return DBHelp.ExecuteCommand(sql, sq);
+        }
     }
 }
