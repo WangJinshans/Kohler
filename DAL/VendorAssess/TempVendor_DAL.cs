@@ -86,6 +86,30 @@ namespace DAL
             return tempVendorID;
         }
 
+        public static int addMultiTypeVendor(string tempVendorID, bool promise, bool assign, bool charge, string money, string factory)
+        {
+            SqlCommand cmd = new SqlCommand("addMultiTypeVendor", DBHelp.Connection);
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@temp_vendor_id",tempVendorID),
+                new SqlParameter("@promise",promise.ToString()),
+                new SqlParameter("@assign",assign.ToString()),
+                new SqlParameter("@charge",charge.ToString()),
+                new SqlParameter("@money",Convert.ToInt32(money)),
+                new SqlParameter("@factory",factory.ToString())
+            };
+            SqlParameter paramReturn = new SqlParameter("@return", SqlDbType.Int);
+            paramReturn.Direction = ParameterDirection.ReturnValue;
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Clear();
+            cmd.Parameters.AddRange(sp);
+            cmd.Parameters.Add(paramReturn);
+            cmd.ExecuteNonQuery();
+            DBHelp.Connection.Close();
+            return Convert.ToInt32(paramReturn.Value);
+        }
+
         public static int addBindVendorFormAndFile(string tempVendorID, bool promise, bool assign, bool charge, string money,string factory)
         {
             SqlCommand cmd = new SqlCommand("newVendorProcedure", DBHelp.Connection);
@@ -108,6 +132,90 @@ namespace DAL
             cmd.ExecuteNonQuery();
             DBHelp.Connection.Close();
             return Convert.ToInt32(paramReturn.Value);
+        }
+
+        /// <summary>
+        /// 读取供应商列表信息
+        /// </summary>
+        /// <param name="factory">null读取全部</param>
+        /// <returns></returns>
+        public static DataTable readVendor(string[] factory)
+        {
+            string sql = "";
+            if (factory == null)
+            {
+                sql = "select distinct * from View_Temp_Vendor";
+            }
+            else
+            {
+                sql = "select distinct * from View_Temp_Vendor where Factory_Name in ({0})";
+                string temp = "";
+                foreach (string item in factory)
+                {
+                    temp += ("'"+item+"',");
+                }
+                temp = temp.Substring(0, temp.Length - 1);
+                sql = String.Format(sql, temp);
+            }
+
+            DataTable dt = DBHelp.GetDataSet(sql);
+            if (dt.Rows.Count > 0)
+            {
+                return dt;
+            }
+            return null;
+        }
+
+        public static int vendorSharedUse(string tempVendorID, string sourceFactory, string factory, string employee_ID)
+        {
+            SqlCommand cmd = new SqlCommand("oldVendorReUse", DBHelp.Connection);
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@temp_vendor_id",tempVendorID),
+                new SqlParameter("@source_factory",sourceFactory),
+                new SqlParameter("@factory",factory),
+                new SqlParameter("@employee_id",employee_ID)
+            };
+            SqlParameter paramReturn = new SqlParameter("@return", SqlDbType.Int);
+            paramReturn.Direction = ParameterDirection.ReturnValue;
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Clear();
+            cmd.Parameters.AddRange(sp);
+            cmd.Parameters.Add(paramReturn);
+            cmd.ExecuteNonQuery();
+            DBHelp.Connection.Close();
+
+            return Convert.ToInt32(paramReturn.Value);
+        }
+
+        public static bool vendorTypeExist(string name, string vendorTypeName)
+        {
+            string sql = "Select count(*) From View_Temp_Vendor Where Temp_Vendor_Name=@Name And Vendor_Type=@Type";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Name",name),
+                new SqlParameter("@Type",vendorTypeName)
+            };
+            if (DBHelp.GetScalarFix(sql, sp) > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static bool vendorNameExist(string name)
+        {
+            string sql = "Select count(*) From As_Temp_Vendor Where Temp_Vendor_Name=@Name";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Name",name)
+            };
+            if (DBHelp.GetScalarFix(sql,sp)>0)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

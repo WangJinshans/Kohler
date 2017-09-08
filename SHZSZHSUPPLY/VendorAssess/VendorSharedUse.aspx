@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
+    <script src="Script/Own/fileUploader.js"></script>
     <script>
         layui.use(['form', 'layedit', 'laydate', 'element'], function () {
             var form = layui.form()
@@ -49,7 +50,7 @@
         function message(msg) {
             layui.use(['layer'], function () {
                 var layer = layui.layer;
-                layer.msg(msg, { time: 1500 });
+                layer.msg(msg, { time: 3000 });
             })
         }
 
@@ -117,7 +118,7 @@
             refreshForm();
         }
     </script>
-    <script type="text/javascript">
+    <%--<script type="text/javascript">
         function __myDoPostBack(eventTarget, eventArgument) {
             var theForm = document.forms['form1'];
             if (document.getElementById('__EVENTTARGET') == null) {
@@ -145,7 +146,7 @@
                 theForm.submit();
             }
         }
-    </script>
+    </script>--%>
 </head>
 <body>
     <form id="form1" class="layui-form" runat="server">

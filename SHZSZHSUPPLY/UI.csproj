@@ -136,6 +136,9 @@
     <Content Include="VendorAssess\login.aspx" />
     <Content Include="VendorAssess\Script\jquery-1.4.1.min.js" />
     <Content Include="VendorAssess\Script\jquery-3.2.1.min.js" />
+    <Content Include="VendorAssess\Script\laydate\laydate.js" />
+    <Content Include="VendorAssess\Script\laydate\theme\default\font\iconfont.svg" />
+    <Content Include="VendorAssess\Script\laydate\theme\default\laydate.css" />
     <Content Include="VendorAssess\Script\layer\layer.js" />
     <Content Include="VendorAssess\Script\layer\skin\default\icon-ext.png" />
     <Content Include="VendorAssess\Script\layer\skin\default\icon.png" />
@@ -781,6 +784,9 @@
     <Content Include="VendorAssess\ASHX\File_Upload_End_Point.ashx" />
     <Content Include="VendorAssess\ASHX\Database_Handler.ashx" />
     <Content Include="VendorAssess\ASHX\PDF.ashx" />
+    <Content Include="VendorAssess\Script\laydate\theme\default\font\iconfont.eot" />
+    <Content Include="VendorAssess\Script\laydate\theme\default\font\iconfont.ttf" />
+    <Content Include="VendorAssess\Script\laydate\theme\default\font\iconfont.woff" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

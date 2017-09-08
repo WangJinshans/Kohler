@@ -16,6 +16,7 @@ namespace Model
         private string form_Type_Name;
         private string form_Type_Is_Optional;
         private string form_ID;
+        private int prority;
 
         public int Id
         {
@@ -118,6 +119,19 @@ namespace Model
             set
             {
                 form_ID = value;
+            }
+        }
+
+        public int Prority
+        {
+            get
+            {
+                return prority;
+            }
+
+            set
+            {
+                prority = value;
             }
         }
     }

@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
+    <script src="Script/Own/fileUploader.js"></script>
     <%--<script src="Script/layer/layer.js"></script>--%>
     <script>
         layui.use(['form', 'layedit', 'laydate'], function () {
@@ -34,6 +35,16 @@
             layui.use('layer', function () {
                 var layer = layui.layer;
                 layer.msg(msg);
+            })
+        }
+
+        function openConfirmDialog() {
+            layui.use(['layer'], function () {
+                layer.confirm('此供应商已经存在，是否为此供应商添加当前选择的供应商类型?', { icon: 3, title: '提示' }, function (index) {
+                    //do something
+                    __myDoPostBack('addVendorMultiType', '');
+                    layer.close(index);
+                });
             })
         }
     </script>

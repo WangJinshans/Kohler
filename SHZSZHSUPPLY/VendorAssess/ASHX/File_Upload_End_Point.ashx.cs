@@ -31,7 +31,7 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
                     multiFillUpload(context);
                     break;
                 default:
-                    context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = false, error = "default fail" }));
+                    context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, error = "default fail" }));
                     break;
             }
         }
@@ -39,6 +39,9 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
         private void doKCIFileUpload(HttpContext context)
         {
             HttpPostedFile postFile = context.Request.Files["qqfile"];
+            string startTime = context.Request.Params["startTime"];
+            string endTime = context.Request.Params["endTime"];
+
             string tempVendorID = context.Request.Params["tempVendorID"];
             string tempVendorName = context.Request.Params["tempVendorName"];
             string formID= context.Request.Params["fileTypeID"];
@@ -60,8 +63,8 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             file.Temp_Vendor_Name = tempVendorName;
             file.File_ID = fileID;
             file.File_Name = fileID + ".pdf";
-            file.File_Enable_Time = "100";
-            file.File_Due_Time = "200";
+            file.File_Enable_Time = startTime;
+            file.File_Due_Time = endTime;
             file.File_Type_ID = fileTypeID;
             file.Form_ID = formID;//formID
             int join = File_BLL.addFile(file);//
@@ -89,6 +92,9 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
         private void doFileUpload(HttpContext context)
         {
             HttpPostedFile postFile = context.Request.Files["qqfile"];
+            string startTime = context.Request.Params["startTime"];
+            string endTime = context.Request.Params["endTime"];
+
             string tempVendorID = context.Request.Params["tempVendorID"];
             string tempVendorName = context.Request.Params["tempVendorName"];
             string fileTypeID = context.Request.Params["fileTypeID"];
@@ -104,8 +110,8 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             file.Temp_Vendor_Name = tempVendorName;
             file.File_ID = fileID;
             file.File_Name = fileID+".pdf";
-            file.File_Enable_Time = "100";
-            file.File_Due_Time = "200";
+            file.File_Enable_Time = startTime;
+            file.File_Due_Time = endTime;
             file.File_Type_ID = fileTypeID;
             file.Factory_Name = factoryName;
 
@@ -132,6 +138,9 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
         private void reDoFileUpload(HttpContext context)
         {
             HttpPostedFile postFile = context.Request.Files["qqfile"];
+            string startTime = context.Request.Params["startTime"];
+            string endTime = context.Request.Params["endTime"];
+
             string tempVendorID = context.Request.Params["tempVendorID"];
             string tempVendorName = context.Request.Params["tempVendorName"];
             string fileTypeID = context.Request.Params["fileTypeID"];
@@ -148,15 +157,15 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             file.Temp_Vendor_Name = tempVendorName;
             file.File_ID = fileID;
             file.File_Name = fileID + ".pdf";
-            file.File_Enable_Time = "100";
-            file.File_Due_Time = "200";
+            file.File_Enable_Time = startTime;
+            file.File_Due_Time = endTime;
             file.File_Type_ID = fileTypeID;
             file.Factory_Name = factoryName;
 
             int join = File_BLL.addFile(file);
-            int flag = UpdateFlag_BLL.updateFileFlag(fileTypeID, tempVendorID);
-            int resu = File_BLL.updateFileID(tempVendorID, fileTypeID, factoryName, file.File_ID);
-            if (join > 0 && flag > 0)
+            //int flag = UpdateFlag_BLL.updateFileFlag(fileTypeID, tempVendorID);
+            //int resu = File_BLL.updateFileID(tempVendorID, fileTypeID, factoryName, file.File_ID);
+            if (join > 0)
             {
                 context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, message = "数据库写入完毕，文件上传完成" }));
             }
@@ -169,6 +178,9 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
         private void multiFillUpload(HttpContext context)
         {
             HttpPostedFile postFile = context.Request.Files["qqfile"];
+            string startTime = context.Request.Params["startTime"];
+            string endTime = context.Request.Params["endTime"];
+
             string tempVendorID = context.Request.Params["tempVendorID"];
             string tempVendorName = context.Request.Params["tempVendorName"];
             string fileTypeID = context.Request.Params["fileTypeID"];
@@ -186,8 +198,8 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             file.Temp_Vendor_Name = tempVendorName;
             file.File_ID = fileID;
             file.File_Name = fileID + ".pdf";
-            file.File_Enable_Time = "100";
-            file.File_Due_Time = "200";
+            file.File_Enable_Time = startTime;
+            file.File_Due_Time = endTime;
             file.File_Type_ID = fileTypeID;
             file.Factory_Name = factoryName;
 

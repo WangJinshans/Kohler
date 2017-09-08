@@ -73,5 +73,20 @@ namespace BLL
         {
             return TempVendor_DAL.addBindVendorFormAndFile(tempVendorID, promise, assign, charge, money,factory);
         }
+
+        /// <summary>
+        /// 添加其他类型
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <param name="promise"></param>
+        /// <param name="assign"></param>
+        /// <param name="charge"></param>
+        /// <param name="money"></param>
+        /// <param name="factory"></param>
+        /// <returns></returns>
+        public static int addMultiTypeVendor(string tempVendorID, bool promise, bool assign, bool charge, string money, string factory)
+        {
+            return TempVendor_DAL.addMultiTypeVendor(tempVendorID, promise, assign, charge, money, factory);
+        }
     }
 }

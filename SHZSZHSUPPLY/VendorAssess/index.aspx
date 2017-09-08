@@ -79,35 +79,38 @@
             <li class="layui-nav-item layui-nav-itemed" id="nav1" style="display:none">
                 <a href="javascript:;">新建</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="VendorInfo.aspx">新建审批</a></dd>
-                    <dd><a href="VendorSharedUse.aspx">供应商复用</a></dd>
-                    <dd><a href="EmployeeVendor.aspx">供应商文件管理</a></dd>
-                </dl>
-            </li>
-            <li class="layui-nav-item layui-nav-itemed" id="nav2" style="display:none">
-                <a href="javascript:;">状态</a>
-                <dl class="layui-nav-child">
-                    <dd><a href="ApprovalProgress.aspx">审批状态查看</a></dd>
-                </dl>
-            </li>
-            <li class="layui-nav-item layui-nav-itemed" id="nav3" style="display:none">
-                <a href="javascript:;">填写</a>
-                <dl class="layui-nav-child">
-                    <dd><a href="FormWaitToFill.aspx">待填写表格</a></dd>
-                </dl>
-            </li>
-            <li class="layui-nav-item layui-nav-itemed" id="nav4" style="display:none">
-                <a href="javascript:;">过期重审</a>
-                <dl class="layui-nav-child">
-                    <dd><a href="FormOverDue.aspx">申请表过期</a></dd>
-                    <dd><a href="FileOverDue.aspx">文件过期</a></dd>
+                    <dd><a href="VendorInfo.aspx">供应商信息创建</a></dd>
+                    <dd><a href="VendorSharedUse.aspx">供应商信息复用</a></dd>
+                    <dd><a href="EmployeeVendor.aspx">供应商审批文件管理</a></dd>
+                    <dd><a href="FormWaitToFill.aspx">多部门供应商表单填写</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item layui-nav-itemed" id="nav5" style="display:none">
                 <a href="javascript:;">审批</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="KCI.aspx">KCI审批</a></dd>
                     <dd><a href="ShowApproveForm.aspx">常规审批</a></dd>
+                    <dd><a href="KCI.aspx">KCI审批</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item layui-nav-itemed" id="nav2" style="display:none">
+                <a href="javascript:;">编辑</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="FormOverDue.aspx">供应商过期表单编辑</a></dd>
+                    <dd><a href="FileOverDue.aspx">供应商过期文件编辑</a></dd>
+                    <dd><a href="../VenderInfo/VenderMaintenance.aspx" target="iFrame1">供应商信息编辑</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item layui-nav-itemed" id="nav3" style="display:none">
+                <a href="javascript:;">查看</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="ApprovalProgress.aspx">供应商审批状态查看</a></dd>
+                    <dd><a href="../VenderInfo/VenderInfoDisplay.aspx" target="iFrame1">供应商信息查看</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item layui-nav-itemed" id="nav4" style="display:none">
+                <a href="javascript:;">删除</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="../VenderInfo/SharedItemMA.aspx" target="iFrame1">供应商变更及文档删除</a></dd>
                 </dl>
             </li>
         </ul>

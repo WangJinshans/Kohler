@@ -18,6 +18,20 @@ namespace AendorAssess
             {
                 Response.Redirect("~/login.aspx");
             }
+
+            if (!IsPostBack)
+            {
+
+            }
+            else
+            {
+                //处理postback回调
+                switch (Request["__EVENTTARGET"])
+                {
+                    case "addVendorMultiType":addVendorMultiType();break;
+                    default:break;
+                }
+            }
         }
 
         /// <summary>
@@ -54,6 +68,18 @@ namespace AendorAssess
             return true;
         }
 
+        private void addVendorMultiType()
+        {
+            //给供应商基本信息赋值
+            string vendorType = DropDownList1.SelectedValue.Trim();
+
+            //查询供应商类型编号
+            string vendorTypeID = FillVendorInfo_BLL.selectVendorTypeId(Promise.Checked, Advance_Charge.Checked, Vendor_Assign.Checked, vendorType);
+
+            //创建
+            createVendorInfo(vendorTypeID,true);
+        }
+
         //提交表单数据
         protected void button1_click(object sender, EventArgs e)
         {
@@ -63,10 +89,40 @@ namespace AendorAssess
             }
             //给供应商基本信息赋值
             string vendorType = DropDownList1.SelectedValue.Trim();
-            string purchaseMoney= Purchase_Money.Text.Trim();
             
             //查询供应商类型编号
             string vendorTypeID = FillVendorInfo_BLL.selectVendorTypeId(Promise.Checked,Advance_Charge.Checked,Vendor_Assign.Checked,vendorType);
+
+            //查询此组合的供应商是否存在
+            int result = TempVendor_BLL.vendorExisted(Temp_Vendor_Name.Text.Trim(), vendorType);
+            if (result == TempVendor_BLL.EXISTED)   //已经存在，提示无法重复创建
+            {
+                LocalScriptManager.CreateScript(Page, "message('供应商已存在，请勿重复创建')", "vendorExisted");
+            }
+            else if (result == TempVendor_BLL.NO_TYPE) //无此类型，跳转询问，确认后跳转addVendorMultiType（）函数
+            {
+                LocalScriptManager.CreateScript(Page, "openConfirmDialog()", "vendorNoType");
+            }
+            else //无此供应商信息，创建
+            {
+                createVendorInfo(vendorTypeID,false);
+            }
+        }
+
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("index.aspx");
+        }
+
+        /// <summary>
+        /// 创建供应商信息
+        /// </summary>
+        /// <param name="vendorTypeID"></param>
+        /// <param name="addType"></param>
+        private void createVendorInfo(string vendorTypeID,bool addType)
+        {
+            //表单信息
+            string purchaseMoney = Purchase_Money.Text.Trim();
 
             //添加临时供应商信息
             As_Temp_Vendor Temp_Vendor = new As_Temp_Vendor();
@@ -82,26 +138,30 @@ namespace AendorAssess
             As_Employee_Vendor Employee_Vendor = new As_Employee_Vendor();
             Employee_Vendor.Employee_ID = Session["Employee_ID"].ToString();
             Employee_Vendor.Temp_Vendor_ID = tempVendorID;// Temp_Vendor_ID.Text.Trim();
-            Employee_Vendor.Temp_Vendor_Name= Temp_Vendor_Name.Text.Trim();
+            Employee_Vendor.Temp_Vendor_Name = Temp_Vendor_Name.Text.Trim();
             Employee_Vendor.Vendor_Type_ID = vendorTypeID;
             Employee_Vendor.Type = As_Employee_Vendor.NEW_VENDOR;
             int addEmployeeVendor = AddEmployeeVendor_BLL.addEmployeeVendor(Employee_Vendor);
 
-            int bindResult = FillVendorInfo_BLL.addNewVendorFormAndFile(tempVendorID, Promise.Checked, Vendor_Assign.Checked, Advance_Charge.Checked, Purchase_Money.Text.Trim(),Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString()));
+            int bindResult = 0;
+            if (addType)
+            {
+                bindResult = FillVendorInfo_BLL.addMultiTypeVendor(tempVendorID, Promise.Checked, Vendor_Assign.Checked, Advance_Charge.Checked, Purchase_Money.Text.Trim(), Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString()));
+            }
+            else
+            {
+                bindResult = FillVendorInfo_BLL.addNewVendorFormAndFile(tempVendorID, Promise.Checked, Vendor_Assign.Checked, Advance_Charge.Checked, Purchase_Money.Text.Trim(), Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString()));
+            }
+
+            //alert
             if (bindResult == 1)
             {
                 Response.Redirect("EmployeeVendor.aspx");
-                //Response.Write("<script>window.alert('新建成功');window.location.href='index.aspx'</script>");
             }
             else
             {
                 Response.Write("<script>window.alert('供应商创建失败');window.location.href='index.aspx'</script>");
             }
-        }
-
-        protected void Button2_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("index.aspx");
         }
     }
 }

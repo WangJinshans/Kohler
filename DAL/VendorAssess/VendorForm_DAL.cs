@@ -39,6 +39,7 @@ namespace DAL
                     Vendor_FormType.Form_Type_ID = Convert.ToString(dr["Form_Type_ID"]);
                     Vendor_FormType.Temp_Vendor_Name = Convert.ToString(dr["Temp_Vendor_Name"]);
                     Vendor_FormType.Form_Type_Name = Convert.ToString(dr["Form_Type_Name"]);
+                    Vendor_FormType.Prority = Convert.ToInt32(dr["Form_Type_Priority_Number"]);
                     try
                     {
                         Vendor_FormType.Form_Type_Is_Optional = Convert.ToString(dr["Form_Type_Is_Optional"]);

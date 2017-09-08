@@ -59,6 +59,14 @@ namespace DAL
             return result;
         }
 
+        public static int GetScalarFix(string sql,params SqlParameter[] values)
+        {
+            SqlCommand cmd = new SqlCommand(sql, Connection);
+            cmd.Parameters.AddRange(values);
+            int result = Convert.ToInt32(cmd.ExecuteScalar());
+            return result;
+        }
+
         public static int GetScalar(string sql, params SqlParameter[] values)
         {
             SqlCommand cmd = new SqlCommand(sql, Connection);

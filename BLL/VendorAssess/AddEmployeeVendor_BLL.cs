@@ -18,6 +18,12 @@ namespace BLL
             return AddEmployeeVendor_DAL.addEmployeeVendor(employee_Vendor);
         }
 
+        /// <summary>
+        /// 检查此id是否有权限操作该供应商
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <param name="employee_ID"></param>
+        /// <returns></returns>
         public static bool hasEmployeeID(string tempVendorID ,string employee_ID)
         {
             DataTable dt = AddEmployeeVendor_DAL.getEmployeeID(tempVendorID);

@@ -1,16 +1,16 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
-	<meta charset="utf-8" />
-
+    <meta charset="utf-8" />
     <link rel="stylesheet" href="../Script/fine-uploader/fine-uploader-new.css" />
     <link rel="stylesheet" href="../Script/layui/css/layui.css" />
+    <!--<link rel="stylesheet" href="../Script/laydate/theme/default/laydate.css" />-->
     <script src="../Script/jquery-3.2.1.min.js"></script>
     <script src="../Script/layui/layui.js"></script>
     <script src="../Script/fine-uploader/jquery.fine-uploader.js"></script>
-    
+
     <script type="text/template" id="qq-template-manual-trigger">
         <div class="qq-uploader-selector qq-uploader" qq-drop-area-text="拖动文件到此处">
             <div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
@@ -48,14 +48,12 @@
                     <span role="status" class="qq-upload-status-text-selector qq-upload-status-text"></span>
                 </li>
             </ul>
-
             <dialog class="qq-alert-dialog-selector">
                 <div class="qq-dialog-message-selector"></div>
                 <div class="qq-dialog-buttons">
                     <button type="button" class="qq-cancel-button-selector">关闭</button>
                 </div>
             </dialog>
-
             <dialog class="qq-confirm-dialog-selector">
                 <div class="qq-dialog-message-selector"></div>
                 <div class="qq-dialog-buttons">
@@ -63,7 +61,6 @@
                     <button type="button" class="qq-ok-button-selector">是</button>
                 </div>
             </dialog>
-
             <dialog class="qq-prompt-dialog-selector">
                 <div class="qq-dialog-message-selector"></div>
                 <input type="text">
@@ -107,7 +104,6 @@
                         <span class="qq-btn qq-retry-icon" aria-label="Retry"></span>
                         Retry
                     </button>
-
                     <div class="qq-file-info">
                         <div class="qq-file-name">
                             <span class="qq-upload-file-selector qq-upload-file"></span>
@@ -128,14 +124,12 @@
                     </div>
                 </li>
             </ul>
-
             <dialog class="qq-alert-dialog-selector">
                 <div class="qq-dialog-message-selector"></div>
                 <div class="qq-dialog-buttons">
                     <button type="button" class="qq-cancel-button-selector">Close</button>
                 </div>
             </dialog>
-
             <dialog class="qq-confirm-dialog-selector">
                 <div class="qq-dialog-message-selector"></div>
                 <div class="qq-dialog-buttons">
@@ -143,7 +137,6 @@
                     <button type="button" class="qq-ok-button-selector">Yes</button>
                 </div>
             </dialog>
-
             <dialog class="qq-prompt-dialog-selector">
                 <div class="qq-dialog-message-selector"></div>
                 <input type="text">
@@ -154,7 +147,6 @@
             </dialog>
         </div>
     </script>
-
 
     <style>
         #trigger-upload {
@@ -177,16 +169,62 @@
             width: 60%;
         }
     </style>
+
 </head>
 <body>
-    <div id="fine-uploader-validation" style="min-height: 260px"></div>
+    <div class="layui-form-pane" style="width:550px;margin:0 auto">
+        <div class="layui-form-item">
+            <label class="layui-form-label">范围选择</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" placeholder="开始日" id="LAY_demorange_s">
+            </div>
+            <div class="layui-input-inline">
+                <input class="layui-input" placeholder="截止日" id="LAY_demorange_e">
+            </div>
+        </div>
+    </div>
+    <script>
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
 
+            var start = {
+                min: laydate.now()
+              , max: '2099-06-16 23:59:59'
+              , istoday: false
+              , choose: function (datas) {
+                  end.min = datas; //开始日选好后，重置结束日的最小日期
+                  end.start = datas //将结束日的初始值设定为开始日
+              }
+            };
+
+            var end = {
+                min: laydate.now()
+              , max: '2099-06-16 23:59:59'
+              , istoday: false
+              , choose: function (datas) {
+                  start.max = datas; //结束日选好后，重置开始日的最大日期
+              }
+            };
+
+            document.getElementById('LAY_demorange_s').onclick = function () {
+                start.elem = this;
+                laydate(start);
+            }
+            document.getElementById('LAY_demorange_e').onclick = function () {
+                end.elem = this
+                laydate(end);
+            }
+
+        });
+    </script>
+
+    <div id="fine-uploader-validation" style="min-height: 150px"></div>
     <script>
         var requestType, tempVendorID, tempVendorName, fileTypeID, factory_Name;
         var resultJSON;
 
-        
-        function setOwnParams(type,vendorID,vendorName,typeID,factory) {
+
+        function setOwnParams(type, vendorID, vendorName, typeID, factory) {
             tempVendorID = vendorID;
             tempVendorName = vendorName;
             fileTypeID = typeID;
@@ -209,7 +247,7 @@
             text: {
                 uploadButton: '上传'
             },
-            multiple:false,
+            multiple: false,
             params: {
 
             },
@@ -227,12 +265,12 @@
             },
             validation: {
                 allowedExtensions: ['pdf'],
-                itemLimit: 50,
+                itemLimit: 50,//TODO::参数放入Setting
                 sizeLimit: 314572800 // 50 kB = 50 * 1024 bytes
             },
             debug: true,
             showMessage: function (message) {
-                
+
             },
             callbacks: {
                 onSubmit: function (id, fileName) {
@@ -245,8 +283,10 @@
 
                 },
                 onComplete: function (id, fileName, responseJSON) {
-                    showMsg(responseJSON['message']);
                     resultJSON = responseJSON;
+                    showMsg(responseJSON['message']);
+                    closePage();
+                    //setTimeout("closePage",1500);
                 },
                 onCancel: function (id, fileName) {
 
@@ -257,6 +297,22 @@
             }
         });
 
+        function closePage() {
+            if (true) {
+                parent.layui.layer.closeAll('iframe');
+            }
+        }
+
+        function sleep(numberMillis) {
+            var now = new Date();
+            var exitTime = now.getTime() + numberMillis;
+            while (true) {
+                now = new Date();
+                if (now.getTime() > exitTime)
+                    return;
+            }
+        }
+
         function showMsg(message) {
             layui.use(['layer'], function () {
                 var layer = layui.layer;
@@ -265,15 +321,24 @@
         }
 
         function onUploadBtnClicked() {
-            restrictedUploader.setParams({
-                path: "./files/",
-                requestType: requestType,
-                tempVendorID: tempVendorID,
-                tempVendorName: tempVendorName,
-                fileTypeID: fileTypeID,
-                factory_Name: "上海科勒"
-            });
-            restrictedUploader.uploadStoredFiles();
+            var start = document.getElementById('LAY_demorange_s').value;
+            var end = document.getElementById('LAY_demorange_e').value;
+            if (start == "" || end == "") {
+                showMsg('请选择文件有效期');
+                return;
+            } else {
+                restrictedUploader.setParams({
+                    path: "./files/",
+                    requestType: requestType, //requestType
+                    tempVendorID: tempVendorID,
+                    tempVendorName: tempVendorName,
+                    fileTypeID: fileTypeID,
+                    factory_Name: "上海科勒",
+                    startTime: start,
+                    endTime:end
+                });
+                restrictedUploader.uploadStoredFiles();
+            }
         }
     </script>
 </body>

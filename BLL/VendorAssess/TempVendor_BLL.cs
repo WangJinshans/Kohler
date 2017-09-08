@@ -14,6 +14,15 @@ namespace BLL
 {
     public class TempVendor_BLL
     {
+        public const int NOT_EXISTED = 10;
+        public const int EXISTED = 11;
+        public const int NO_TYPE = 12;
+
+        public const int REUSE_FATAL_ERROR = -1;
+        public const int REUSE_NOT_EXECUTE = 0;
+        public const int REUSE_SUCCESS = 1;
+        public const int REUSE_OTHER_ERROR = 2;
+
         public static string getTempVendorID(string TempVendorName)
         {
             return TempVendor_DAL.getTempVendorID(TempVendorName);
@@ -30,6 +39,59 @@ namespace BLL
         }
 
         /// <summary>
+        /// 读取全部厂的信息
+        /// </summary>
+        /// <returns></returns>
+        public static Dictionary<string, Dictionary<string, string[]>> readVendorInfo()
+        {
+            Dictionary<string, Dictionary<string, string[]>> info = new Dictionary<string, Dictionary<string, string[]>>();
+            //Dictionary<string, string[]> names = new Dictionary<string, string[]>();
+            //string[] strTest = new string[] { "name1", "id1", "name2", "id2" };
+            //string[] strTest1 = new string[] { "name2", "name2", "name3" };
+            //string[] strTest2 = new string[] { "name3", "name2", "name3" };
+            //string[] strTest3 = new string[] { "name4", "name2", "name3" };
+            //string[] strTest4 = new string[] { "name5", "name2", "name3" };
+            //string[] strTest5 = new string[] { "name6", "name2", "name3" };
+            //names.Add("直接物料常规", strTest);
+            //names.Add("直接物料危化品", strTest1);
+            //names.Add("非生产性质量部有标准的物料", strTest2);
+            //names.Add("非生产性危化品", strTest3);
+            //names.Add("非生产性特种劳防品", strTest4);
+            //names.Add("非生产性常规", strTest5);
+
+            //info = new Dictionary<string, Dictionary<string, string[]>>();
+            //info.Add("上海科勒", names);
+            //info.Add("中山科勒", names);
+            //info.Add("珠海科勒", names);
+
+            DataTable dt = TempVendor_DAL.readVendor(null);
+            if (dt != null)
+            {
+                foreach (DataRow item in dt.Rows)
+                {
+                    if (!info.ContainsKey(item["Factory_Name"].ToString()))
+                    {
+                        info.Add(item["Factory_Name"].ToString(), new Dictionary<string, string[]>());
+                    }
+                    if (!info[item["Factory_Name"].ToString()].ContainsKey(item["Vendor_Type"].ToString()))
+                    {
+                        DataRow[] smlDr = dt.Select(String.Format("Factory_Name='{0}' and Vendor_Type='{1}'", item["Factory_Name"].ToString(), item["Vendor_Type"].ToString()));
+                        string[] nm = new string[smlDr.Length * 2];
+                        int t = 0;
+                        for (int i = 0; i < smlDr.Length; i++)
+                        {
+                            nm[t] = smlDr[i]["Temp_Vendor_Name"].ToString();
+                            nm[t + 1] = smlDr[i]["Temp_Vendor_ID"].ToString();
+                            t += 2;
+                        }
+                        info[item["Factory_Name"].ToString()].Add(item["Vendor_Type"].ToString(), nm);
+                    }
+                }
+            }
+            return info;
+        }
+
+        /// <summary>
         /// 选择所有/单厂，通过filter控制
         /// </summary>
         /// <param name="filter"></param>
@@ -37,10 +99,19 @@ namespace BLL
         public static Dictionary<string, Dictionary<string, string[]>> readVendorInfo(bool filter)
         {
             Dictionary<string, Dictionary<string, string[]>> info = new Dictionary<string, Dictionary<string, string[]>>();
-
-            DataTable dt = ApprovalProgress_DAL.readVendor();
+            DataTable dt = null;
 
             string factoryName = Employee_DAL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
+
+            if (filter)
+            {
+                dt = TempVendor_DAL.readVendor(new string[] {factoryName });
+            }
+            else
+            {
+                dt = TempVendor_DAL.readVendor(null);
+            }
+
 
             if (dt != null)
             {
@@ -81,6 +152,7 @@ namespace BLL
             }
             return info;
         }
+
 
         /// <summary>
         /// 选择ko对应的供应商
@@ -180,6 +252,48 @@ namespace BLL
                     return true;
                 }
             return false;
+        }
+
+
+        /// <summary>
+        /// 调用复用存储过程，目前仅返回bool类型（可根据UI需要返回更多详细错误信息）
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <param name="sourceFactory"></param>
+        /// <param name="factory"></param>
+        /// <param name="employee_ID"></param>
+        /// <returns></returns>
+        public static bool vendorSharedUse(string tempVendorID, string sourceFactory, string factory, string employee_ID)
+        {
+            int result = TempVendor_DAL.vendorSharedUse(tempVendorID, sourceFactory, factory, employee_ID);
+
+            if (result == REUSE_SUCCESS)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 供应商是否存在
+        /// </summary>
+        /// <param name="v"></param>
+        /// <param name="vendorTypeID"></param>
+        /// <returns></returns>
+        public static int vendorExisted(string name, string vendorTypeName)
+        {
+            if (!TempVendor_DAL.vendorNameExist(name))
+            {
+                return NOT_EXISTED;
+            }
+            else if (TempVendor_DAL.vendorTypeExist(name, vendorTypeName))
+            {
+                return EXISTED;
+            }
+            else
+            {
+                return NO_TYPE;
+            }
         }
     }
 }

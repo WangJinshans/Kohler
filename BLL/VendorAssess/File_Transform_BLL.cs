@@ -580,8 +580,7 @@ namespace BLL.VendorAssess
              * 2.单个文件在As_File中进行检查
              */
             
-            List<string> files = new List<string>();
-            files = File_Transform_DAL.getFileIDs(tempVendorID, factory);
+            List<string> files = File_Transform_DAL.getFileIDs(tempVendorID, factory);
             if (files != null && files.Count > 0)
             {
                 foreach (string fileid in files)//单个文件的ID在As_File中查找

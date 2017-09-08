@@ -47,7 +47,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         private void readVendorInfo()
         {
-            info = ApprovalProgress_BLL.readVendorInfo();
+            info = TempVendor_BLL.readVendorInfo();
             JavaScriptSerializer jss = new JavaScriptSerializer();
             serializedJson = jss.Serialize(info);
             LocalScriptManager.CreateScript(Page, String.Format("setParams('{0}')", serializedJson), "params");

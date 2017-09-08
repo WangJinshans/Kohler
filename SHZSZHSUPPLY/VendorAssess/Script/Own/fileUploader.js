@@ -27,6 +27,13 @@ function uploadFile(requestType, tempVendorID, tempVendorName, fileTypeID,callba
                     callback(uploadFileResult);
                 }
                 return true;
+            },
+            end: function () {
+                layer.msg('上传成功');
+                if (fireRefresh != null) {
+                    fireRefresh();
+                }
+                return true;
             }
         });
     });
