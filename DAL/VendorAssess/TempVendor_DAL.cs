@@ -147,6 +147,7 @@ namespace DAL
                 }
             }
             return factory;
+        }
 
         /// <summary>
         /// 读取供应商列表信息

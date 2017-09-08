@@ -93,5 +93,19 @@ namespace DAL.VendorAssess
             };
             return DBHelp.GetDataSet(sql, sp);
         }
+
+        public static bool checkVendor(string tempVendorID)
+        {
+            string sql = "Select count(*) from As_VendorFile_OverDue Where Temp_Vendor_ID=@Temp_Vendor_ID and Status='hold'";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Temp_Vendor_ID",tempVendorID)
+            };
+            if (DBHelp.GetScalarFix(sql, sp) > 0)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

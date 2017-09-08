@@ -14,9 +14,17 @@ namespace BLL.VendorAssess
     public class File_Transform_BLL
     {
         public const string CHECK_FAIL = "检查失败";
+        public const string TRANSFER_FAIL = "文件复制失败";
+        public const string TRANSFER_FAIL_KCI = "KCI文件复制失败";
         public const string PATH_IS_NULL = "未找到表格对应的文件，请生成文件后重试";
         public const string CODE_EXIST = "供应商正式编号已存在，不予替换";
         public const string CODE_UPDATE_FAIL = "供应商编号更新失败";
+        public const string NO_KCI_EXIST = "未提交KCI的审批结果";
+        public const string WAIT_FORM_SUBMIT = "请提交所有表单";
+
+        public const int FILE_TYPE = 20;
+        public const int FORM_TYPE = 21;
+        public const int ALL_TYPE = 22;
 
         public static string vendorTransForm(string tempVendorID, string factory,string normalCode, string destPath,string employeeID)
         {
@@ -81,7 +89,7 @@ namespace BLL.VendorAssess
         /// <param name="factory"></param>
         /// <returns></returns>
 
-        public static bool vendorOverDueFormTransForm(string tempVendorID, string factory,string normalCode, string destPath,string employeeID)
+        public static string vendorOverDueFormTransForm(string tempVendorID, string factory,string normalCode, string destPath,string employeeID)
         {
             /*获取所有的新的formID对应的path
              * 判断是否有需要KCI审批的 有 需要转移新的KCI审批文件
@@ -89,37 +97,52 @@ namespace BLL.VendorAssess
              */
             if (checkFormSubmit(tempVendorID, factory) == false)//是否所有表格都已经提交
             {
-                return false;
+                return WAIT_FORM_SUBMIT;
             }
             if (checkFormOverDueKciFileSubmit(tempVendorID, factory) == "none")//不需要KCI
             {
-                if (copyFile(getOverDueFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode,factory, employeeID) == "")//转移文件成功
+                if (copyFile(getOverDueFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode,factory, employeeID) != "")//转移文件不成功
                 {
-                    return true;
-                }
-                else
-                {
-                    return false;
+                    return TRANSFER_FAIL;
                 }
             }
             if (checkFormOverDueKciFileSubmit(tempVendorID, factory) == "true")//需要转移KCI的审批文件
             {
                 if (copyFile(getOverDueFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode,factory, employeeID) == "" && copyFile(getOverDueKciFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode, factory, employeeID) == "")//转移文件成功
                 {
-                    return true;
                 }
                 else
                 {
-                    return false;
+                    return TRANSFER_FAIL_KCI;
                 }
             }
             if (checkFormOverDueKciFileSubmit(tempVendorID, factory) == "false")//没有提交KCI的审批文件
             {
-                return false;
+                return NO_KCI_EXIST;
+            }
+            return "";
+        }
+
+        /// <summary>
+        /// 判断转移类型
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <returns></returns>
+        public static int getTransferType(string tempVendorID)
+        {
+            bool fileType = FileOverDue_DAL.checkVendor(tempVendorID);
+            bool formType = FormOverDue_DAL.checkVendor(tempVendorID);
+            if (fileType)
+            {
+                return FILE_TYPE;
+            }
+            else if (formType)
+            {
+                return FORM_TYPE;
             }
             else
             {
-                return false;
+                return ALL_TYPE;
             }
         }
 
@@ -129,8 +152,15 @@ namespace BLL.VendorAssess
         /// <param name="tempVendorID"></param>
         /// <param name="factory"></param>
         /// <returns></returns>
-        public static bool vendorOverDueFileTransForm(string tempVendorID, string factory,string normalCode, string destPath,string employeeID)
+        public static string vendorOverDueFileTransForm(string tempVendorID, string factory,string normalCode, string destPath,string employeeID)
         {
+            //UI信息
+            string rs0 = "";
+            string rs1 = "";
+            string rs2 = "";
+            string rs3 = "";
+
+
             //获取所有的过期的文件 查出最新的File_ID
             IList<As_Form_OverDue> OverDueFileForms = new List<As_Form_OverDue>();
             OverDueFileForms = FileOverDue_BLL.getOverDueForm(tempVendorID, factory);//获取所有与File过期的Form_ID
@@ -143,32 +173,36 @@ namespace BLL.VendorAssess
                 {
                     if (FormAccessSuccessFul(tempVendorID, factory))
                     {
-                        insertNormalCode(normalCode,tempVendorID);
+                        rs0 = insertNormalCode(normalCode,tempVendorID);
                         //新的File_ID的文件
-                        copyFile(getOverDueFileWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode,factory, employeeID);
+                        rs1 = copyFile(getOverDueFileWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode,factory, employeeID);
                         //新的Form_ID的文件
-                        copyFile(getOverDueFileFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode, factory, employeeID);
+                        rs2 = copyFile(getOverDueFileFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode, factory, employeeID);
                         //重审后KCI文件转移
-                        copyFile(getOverDueKciFileWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode, factory, employeeID);
+                        rs3 = copyFile(getOverDueKciFileWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode, factory, employeeID);
+
+                        return rs0 + rs1 + rs2 + rs3;
                     }
                 }
                 else if (result == "none")//不需要进行KCI文件的转移  过期重审的文件和表
                 {
                     if (FormAccessSuccessFul(tempVendorID, factory))
                     {
-                        insertNormalCode(normalCode,tempVendorID);
-                        copyFile(getOverDueFileWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode,factory,employeeID);
+                        rs0 = insertNormalCode(normalCode,tempVendorID);
+                        rs1 = copyFile(getOverDueFileWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode,factory,employeeID);
                         //新的Form_ID的文件
-                        copyFile(getOverDueFileFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode, factory, employeeID);
+                        rs2 = copyFile(getOverDueFileFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode, factory, employeeID);
+
+                        return rs0 + rs1 + rs2;
                     }
                 }
                 else if (result == "false")
                 {
                     //没有提交KCI的审批结果
-                    return false;
+                    return NO_KCI_EXIST;
                 }
             }
-            return false;
+            return CHECK_FAIL;
         }
 
 

@@ -119,6 +119,13 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void btnTransfer_Click(string code)
         {
+            /*
+             * 如果fileoverdue中有此id对应的hold状态，进行file类型转移
+             *否则检查formoverdue中是否有hold状态，进行form转移
+             * 否则执行全转移
+             */
+
+
             string factory = Session["Factory_Name"].ToString();
             string tempVendorID = Request.Form["quiz3"];
 
@@ -128,7 +135,24 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
             else
             {
-                string transferResult = File_Transform_BLL.vendorTransForm(tempVendorID, factory, code, Properties.Settings.Default.Transfer_Dest_Path, Session["Employee_ID"].ToString().Trim());
+                string transferResult = "";
+
+                int transferType = File_Transform_BLL.getTransferType(tempVendorID);
+                switch (transferType)
+                {
+                    case File_Transform_BLL.FILE_TYPE:
+                        transferResult = File_Transform_BLL.vendorOverDueFileTransForm(tempVendorID, factory, code, Properties.Settings.Default.Transfer_Dest_Path, Session["Employee_ID"].ToString().Trim());
+                        break;
+                    case File_Transform_BLL.FORM_TYPE:
+                        transferResult = File_Transform_BLL.vendorOverDueFormTransForm(tempVendorID, factory, code, Properties.Settings.Default.Transfer_Dest_Path, Session["Employee_ID"].ToString().Trim());
+                        break;
+                    case File_Transform_BLL.ALL_TYPE:
+                        transferResult = File_Transform_BLL.vendorTransForm(tempVendorID, factory, code, Properties.Settings.Default.Transfer_Dest_Path, Session["Employee_ID"].ToString().Trim());
+                        break;
+                    default:
+                        break;
+                }
+
                 if (transferResult == "")
                 {
                     LocalScriptManager.CreateScript(Page, "message('已将最新的文件更新到供应商管理系统')", "filemsg1");
