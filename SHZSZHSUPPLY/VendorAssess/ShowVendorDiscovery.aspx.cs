@@ -208,9 +208,9 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             getSessionInfo();
             //形成文件的ID 计划将简称保存到数据库的对应表中
-            string fileTypeName = FormType_BLL.getFormNameByTypeID(FORM_TYPE_ID);
+            string fileTypeName = FormType_BLL.getFormNameByFormID(formID);
             string factory = AddForm_BLL.getFactoryByFormID(formID);
-            string file = tempVendorID + File_Type_BLL.getFormSpec(fileTypeName) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factory) + ".pdf";
+            string file = File_BLL.generateFileID(tempVendorID, fileTypeName, factory) + ".pdf";
             ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>takeScreenshot('"+file+"','"+formID+"');</script>");
         }
 

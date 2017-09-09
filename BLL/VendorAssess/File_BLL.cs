@@ -127,5 +127,11 @@ namespace BLL
             }
             return path;
         }
+
+        public static string generateFileID(string tempVendorID, string fileTypeName, string factory)
+        {
+            string fileTypeID = File_Type_DAL.getFileTypeID(fileTypeName);
+            return tempVendorID + File_Type_BLL.getFormSpec(fileTypeName) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(fileTypeID, factory);
+        }
     }
 }
