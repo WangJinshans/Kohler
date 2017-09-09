@@ -133,10 +133,9 @@ namespace SHZSZHSUPPLY.VendorAssess
                  */
             }
             string requestType = "kciUpload";
-            string fileTypeID = formID;//暂时为form_ID
+            string fileTypeID = formID;//TODO::暂时为form_ID
             string tempVendorName = TempVendor_BLL.getTempVendorName(temp_vendor_ID);
             LocalScriptManager.CreateScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}')", requestType, temp_vendor_ID, tempVendorName, fileTypeID), "upload");
-            //上传KCI审批结果文件
         }
 
 

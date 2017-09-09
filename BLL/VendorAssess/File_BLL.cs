@@ -54,20 +54,34 @@ namespace BLL
             return max;
         }
 
-        public static string getSimpleFactory(string factoryName)
+        /// <summary>
+        /// 获取文件分类格式
+        /// </summary>
+        /// <param name="fileTypeID"></param>
+        /// <param name="factoryName"></param>
+        /// <returns></returns>
+        public static string getSimpleFactory(string fileTypeID,string factoryName)
         {
-            switch (factoryName)
+            bool shared = File_Type_BLL.getShared(fileTypeID);
+            if (shared)
             {
-                case "上海科勒":
-                    return "SH";
-                case "中山科勒":
-                    return "ZS";
-                case "珠海科勒":
-                    return "ZH";
-                case "ALL":
-                    return "ALL";
-                default:
-                    break;
+                return "ALL";
+            }
+            else
+            {
+                switch (factoryName)
+                {
+                    case "上海科勒":
+                        return "SH";
+                    case "中山科勒":
+                        return "ZS";
+                    case "珠海科勒":
+                        return "ZH";
+                    case "ALL":
+                        return "ALL";
+                    default:
+                        break;
+                }
             }
             return "";
         }

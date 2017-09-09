@@ -31,6 +31,21 @@ namespace DAL
             return File_Type.File_Type_Name;
         }
 
+        public static bool getShared(string fileTypeID)
+        {
+            string sql = "select Is_Shared From As_File_Type where File_Type_ID=@File_Type_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@File_Type_ID",fileTypeID)
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                return Convert.ToBoolean(dt.Rows[0]["File_Label_Spec"]);
+            }
+            return false;
+        }
+
         public static string getSpec(string fileTypeID)
         {
             string sql = "select File_Label_Spec From As_File_Type where File_Type_ID=@File_Type_ID";

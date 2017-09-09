@@ -3,6 +3,7 @@ using Model;
 using MODEL.VendorAssess;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
@@ -15,6 +16,10 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
     /// </summary>
     public class File_Upload_End_Point : IHttpHandler, IRequiresSessionState
     {
+        public const int NORMAL_UPLOAD = 1;
+        public const int KCI_UPLOAD = 2;
+        public const int MULTI_UPLOAD = 3;
+
 
         public void ProcessRequest(HttpContext context)
         {
@@ -31,7 +36,7 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
                     multiFillUpload(context);
                     break;
                 default:
-                    context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, error = "default fail" }));
+                    context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = false, error = "default fail" }));
                     break;
             }
         }
@@ -44,10 +49,10 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
 
             string tempVendorID = context.Request.Params["tempVendorID"];
             string tempVendorName = context.Request.Params["tempVendorName"];
-            string formID= context.Request.Params["fileTypeID"];
-            string fileTypeID = context.Request.Params["fileTypeID"];
+            string formID= context.Request.Params["fileTypeID"];        //实际传入formID
+            string fileTypeID = Properties.Settings.Default.File_Type_ID_KCI;
             string factoryName = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
-            string fileID = tempVendorID + File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factoryName);
+            string fileID = tempVendorID + File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(fileTypeID,factoryName);
             string path = HttpContext.Current.Server.MapPath("../../files/") + fileID + ".pdf";
             postFile.SaveAs(path);
 
@@ -56,6 +61,7 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
              *故新建As_KCI_File表存储KCI文件 与表进行对应 
              * KCI文件需要有一个typeID
              */
+             //TODO::文件转移KCI 2017年9月9日15:25:42
             As_Kci_File file = new As_Kci_File();//KCI文件
 
             file.File_Path = path;
@@ -67,10 +73,8 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             file.File_Due_Time = endTime;
             file.File_Type_ID = fileTypeID;
             file.Form_ID = formID;//formID
-            int join = File_BLL.addFile(file);//
-            //int flag = UpdateFlag_BLL.updateFileFlag(fileTypeID, tempVendorID);
-            //int resu = File_BLL.updateFileID(tempVendorID, fileTypeID, factoryName, file.File_ID);
-            if (join > 0)
+
+            if (File_BLL.addFile(file) > 0)
             {
                 context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, message = "数据库写入完毕，文件上传完成" }));
             }
@@ -91,94 +95,32 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
 
         private void doFileUpload(HttpContext context)
         {
-            HttpPostedFile postFile = context.Request.Files["qqfile"];
-            string startTime = context.Request.Params["startTime"];
-            string endTime = context.Request.Params["endTime"];
+            As_File file = upload(context,NORMAL_UPLOAD);
 
-            string tempVendorID = context.Request.Params["tempVendorID"];
-            string tempVendorName = context.Request.Params["tempVendorName"];
-            string fileTypeID = context.Request.Params["fileTypeID"];
-            string factoryName = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
-            string fileInfo = File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factoryName);
-            string fileID = tempVendorID + fileInfo;
-            string path = HttpContext.Current.Server.MapPath("../../files/") + fileID+".pdf";
-
-            As_File file = new As_File();
-
-            file.File_Path = path;
-            file.Temp_Vendor_ID = tempVendorID;
-            file.Temp_Vendor_Name = tempVendorName;
-            file.File_ID = fileID;
-            file.File_Name = fileID+".pdf";
-            file.File_Enable_Time = startTime;
-            file.File_Due_Time = endTime;
-            file.File_Type_ID = fileTypeID;
-            file.Factory_Name = factoryName;
-
-            int join = File_BLL.addFile(file);
-            //int flag = UpdateFlag_BLL.updateFileFlag(fileTypeID, tempVendorID);
-            //int resu =  File_BLL.updateFileID(tempVendorID, fileTypeID, factoryName, file.File_ID);
-
-            postFile.SaveAs(path);
-
-            if (join > 0)
-            {
-                context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, message = "数据库写入完毕，文件上传完成" }));
-            }
-            else
-            {
-                context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = false, error = "数据库写入失败" }));
-            }
-
+            writeResult(context,file);
         }
-
-
-
 
         private void reDoFileUpload(HttpContext context)
         {
-            HttpPostedFile postFile = context.Request.Files["qqfile"];
-            string startTime = context.Request.Params["startTime"];
-            string endTime = context.Request.Params["endTime"];
+            As_File file = upload(context, NORMAL_UPLOAD);
 
-            string tempVendorID = context.Request.Params["tempVendorID"];
-            string tempVendorName = context.Request.Params["tempVendorName"];
-            string fileTypeID = context.Request.Params["fileTypeID"];
-            string factoryName = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
-            string fileInfo = File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factoryName);
-            string fileID = tempVendorID + fileInfo;
-            string path = HttpContext.Current.Server.MapPath("../../files/") + fileID + ".pdf";
-
-            postFile.SaveAs(path);
-
-            As_File file = new As_File();
-            file.File_Path = path;
-            file.Temp_Vendor_ID = tempVendorID;
-            file.Temp_Vendor_Name = tempVendorName;
-            file.File_ID = fileID;
-            file.File_Name = fileID + ".pdf";
-            file.File_Enable_Time = startTime;
-            file.File_Due_Time = endTime;
-            file.File_Type_ID = fileTypeID;
-            file.Factory_Name = factoryName;
-
-            int join = File_BLL.addFile(file);
-            //int flag = UpdateFlag_BLL.updateFileFlag(fileTypeID, tempVendorID);
-            //int resu = File_BLL.updateFileID(tempVendorID, fileTypeID, factoryName, file.File_ID);
-
-            if (join > 0)
-
-            {
-                context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, message = "数据库写入完毕，文件上传完成" }));
-            }
-            else
-            {
-                context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = false, error = "数据库写入失败" }));
-            }
+            writeResult(context,file);
         }
 
         private void multiFillUpload(HttpContext context)
         {
+            As_File file = upload(context, NORMAL_UPLOAD);
+
+            writeResult(context, file);
+        }
+
+        /// <summary>
+        /// 执行文件保存，返回文件信息
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        private As_File upload(HttpContext context,int type)
+        {
             HttpPostedFile postFile = context.Request.Files["qqfile"];
             string startTime = context.Request.Params["startTime"];
             string endTime = context.Request.Params["endTime"];
@@ -187,14 +129,11 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             string tempVendorName = context.Request.Params["tempVendorName"];
             string fileTypeID = context.Request.Params["fileTypeID"];
             string factoryName = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
-            string fileInfo = File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factoryName);
+            string fileInfo = File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(fileTypeID,factoryName);
             string fileID = tempVendorID + fileInfo;
             string path = HttpContext.Current.Server.MapPath("../../files/") + fileID + ".pdf";
 
-            postFile.SaveAs(path);
-
             As_File file = new As_File();
-
             file.File_Path = path;
             file.Temp_Vendor_ID = tempVendorID;
             file.Temp_Vendor_Name = tempVendorName;
@@ -205,14 +144,36 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             file.File_Type_ID = fileTypeID;
             file.Factory_Name = factoryName;
 
-            int join = File_BLL.addFile(file);
-            if (join > 0)
+            postFile.SaveAs(path);
+            FileInfo fi = new FileInfo(path);
+            if (fi.Exists)
             {
-                context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, message = "数据库写入完毕，文件上传完成" }));
+                return file;
+            }
+            return null;
+        }
+        
+        /// <summary>
+        /// 回写结果
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="file"></param>
+        private void writeResult(HttpContext context,As_File file)
+        {
+            if (file != null)
+            {
+                if (File_BLL.addFile(file) > 0)
+                {
+                    context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, message = "数据库写入完毕，文件上传完成" }));
+                }
+                else
+                {
+                    context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = false, error = "数据库写入失败" }));
+                }
             }
             else
             {
-                context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = false, error = "数据库写入失败" }));
+                context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = false, error = "文件保存失败" }));
             }
         }
     }
