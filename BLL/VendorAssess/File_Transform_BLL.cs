@@ -70,6 +70,7 @@ namespace BLL.VendorAssess
                             return rs3;
                         }
                         string type = TempVendor_BLL.getTempVendorType(tempVendorID);
+
                         //插入新的vendorCode
                         addNormalCode(normalCode, vendorName);
                         //添加到VendorPlantInfo中
@@ -820,13 +821,22 @@ namespace BLL.VendorAssess
                         string newName = fileSource.Name.Replace(tempVendorID, code);
                         string newPath = HttpContext.Current.Server.MapPath(destPath) + newName;
 
-                        fileSource.CopyTo(newPath, true);
+                        FileInfo destFile = new FileInfo(newPath);
+                        //过滤性转移，预防重复复制文件
+                        if (!destFile.Exists)
+                        {
+                            fileSource.CopyTo(newPath, true);
+                        }
                         //插入到文件上传的地方
                         if (type == "")
                         {
                             return null;
                         }
-                        addVendorFile(code, destPath, newPath, factory, type, "Enable", fileID, DateTime.Now, employeeID);
+                        //预防重复插入记录
+                        if (!recordExist(fileID))
+                        {
+                            addVendorFile(code, destPath, newPath, factory, type, "Enable", fileID, DateTime.Now, employeeID);
+                        }
                     }
                     catch (Exception e)
                     {
@@ -835,6 +845,11 @@ namespace BLL.VendorAssess
                 }
             }
             return "";
+        }
+
+        private static bool recordExist(string fileID)
+        {
+            return File_Transform_DAL.recordExist(fileID);
         }
 
         /// <summary>

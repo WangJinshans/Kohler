@@ -308,5 +308,19 @@ namespace DAL.VendorAssess
         {
             return DBHelp.ExecuteCommand(sql, sq);
         }
+
+        public static bool recordExist(string fileID)
+        {
+            string sql = "select count(*) from itemList where Item_Label=@File_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@File_ID",fileID)
+            };
+            if (DBHelp.GetScalarFix(sql,sp)>0)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
