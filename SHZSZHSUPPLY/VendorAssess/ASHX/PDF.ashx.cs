@@ -17,13 +17,15 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
         public void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "text/plain";
-            string fileName = context.Request["fileName"] ?? "";
+            string fileName = context.Request["fileName"] ?? ""; //编码格式
             string formID = context.Request["formID"] ?? "";
-            FileInfo fi = new FileInfo("C:\\Users\\Manchester United\\Downloads\\" + fileName);
-            string newPath = "D:\\test\\" + fileName;
+            FileInfo fi = new FileInfo("C:\\Users\\廷江\\Downloads\\" + fileName);
+            string path = HttpContext.Current.Server.MapPath("../../files/");
+            string newPath = path + fileName;
+
             while (!fi.Exists)
             {
-                fi = new FileInfo("C:\\Users\\Manchester United\\Downloads\\" + fileName);
+                fi = new FileInfo("C:\\Users\\廷江\\Downloads\\" + fileName);
             }
             fi.MoveTo(newPath);
         
@@ -34,11 +36,11 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             int result=AddForm_BLL.upDateFormPath(formID, newPath);
             if (result == 1)
             {
-                context.Response.Write("pdf生成成功！");
+                //context.Response.Write("pdf生成成功！");
             }
             else
             {
-                context.Response.Write("pdf生成失败！");
+                //context.Response.Write("pdf生成失败！");
             }
         }
 
