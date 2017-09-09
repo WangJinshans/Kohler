@@ -124,7 +124,9 @@ namespace SHZSZHSUPPLY.VendorAssess
              *否则检查formoverdue中是否有hold状态，进行form转移
              * 否则执行全转移
              */
-
+            btnTransfer.Enabled = false;
+            btnTransfer.CssClass = "layui-btn layui-btn-disabled";
+            btnTransfer.ToolTip = "无法转移，请等待";
 
             string factory = Session["Factory_Name"].ToString();
             string tempVendorID = Request.Form["quiz3"];
