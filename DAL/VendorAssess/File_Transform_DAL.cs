@@ -78,7 +78,7 @@ namespace DAL.VendorAssess
         public static List<string> getKciForms(string tempVendorID, string factory)//保证是最新的formID而不是获取到旧的formID
         {
             List<string> formIDs = new List<string>();
-            string sql = "select Form_ID from As_Form_AssessFlow,As_Vendor_FormType where As_Form_AssessFlow.Form_ID=As_Vendor_FormType.Form_ID and Temp_Vendor_ID='" + tempVendorID + "' and （Factory_Name='" + factory + "' or Factory_Name='ALL')";
+            string sql = "select As_Vendor_FormType.Form_ID from As_Form_AssessFlow,As_Vendor_FormType where As_Form_AssessFlow.Form_ID=As_Vendor_FormType.Form_ID and As_Vendor_FormType.Temp_Vendor_ID='" + tempVendorID + "' and As_Vendor_FormType.Factory_Name in ('" + factory + "' ,'ALL') and As_Form_AssessFlow.KCI=1";
             DataTable table = new DataTable();
             table = DBHelp.GetDataSet(sql);
             if (table.Rows.Count > 0)

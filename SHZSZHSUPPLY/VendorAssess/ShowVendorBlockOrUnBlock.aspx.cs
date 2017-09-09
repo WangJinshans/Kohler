@@ -100,7 +100,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                         //int i = AssessFlow_BLL.updateApprove(formid, positionName);
                         if (LocalApproveManager.doSuccessApprove(formID, Session["tempVendorID"].ToString(), FORM_TYPE_ID, positionName, Page))
                         {
-                            Response.Write("<script>window.alert('成功通过审批！');window.location.href='ShowVendorDesignatedApply.aspx'</script>");
+                            //Response.Write("<script>window.alert('成功通过审批！');window.location.href='ShowVendorDesignatedApply.aspx'</script>");
                         }
                         else if (e.CommandName == "fail")
                         {

@@ -110,6 +110,7 @@
                 "ASHX/PDF.ashx",
                 { "fileName": fileName, "formID": formID },
                 function (res) {
+                    window.location.href = document.URL;
                     alert(res);
                 }
             );

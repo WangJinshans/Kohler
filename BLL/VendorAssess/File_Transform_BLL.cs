@@ -49,9 +49,26 @@ namespace BLL.VendorAssess
                     if (FormAccessSuccessFul(tempVendorID, factory))
                     {
                         string rs0 = insertNormalCode(normalCode,tempVendorID);
+                        if (rs0 == CODE_EXIST)
+                        {
+                            normalCode = TempVendor_BLL.getNormalCode(tempVendorID);
+                        }
+
                         string rs2 = copyFile(getFormsWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode, factory, employeeID);
+                        if (rs2 != "")
+                        {
+                            return rs2;
+                        }
                         string rs1 = copyFile(getFilesWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode, factory, employeeID);
-                        copyFile(getKciFilesWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode, factory, employeeID);
+                        if (rs1 != "")
+                        {
+                            return rs1;
+                        }
+                        string rs3 = copyFile(getKciFilesWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode, factory, employeeID);
+                        if (rs3 != "")
+                        {
+                            return rs3;
+                        }
                         string type = TempVendor_BLL.getTempVendorType(tempVendorID);
                         //插入新的vendorCode
                         addNormalCode(normalCode, vendorName);
@@ -69,8 +86,20 @@ namespace BLL.VendorAssess
                     if (FormAccessSuccessFul(tempVendorID, factory))
                     {
                         string rs0 = insertNormalCode(normalCode,tempVendorID);
+                        if (rs0 == CODE_EXIST)
+                        {
+                            normalCode = TempVendor_BLL.getNormalCode(tempVendorID);
+                        }
                         string rs1 = copyFile(getFilesWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode,factory, employeeID);
+                        if (rs1 != "")
+                        {
+                            return rs1;
+                        }
                         string rs2 = copyFile(getFormsWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode,factory, employeeID);
+                        if (rs2 != "")
+                        {
+                            return rs2;
+                        }
                         return resultStr = rs0 + rs1 + rs2;
                     }
                 }
@@ -174,12 +203,27 @@ namespace BLL.VendorAssess
                     if (FormAccessSuccessFul(tempVendorID, factory))
                     {
                         rs0 = insertNormalCode(normalCode,tempVendorID);
-                        //新的File_ID的文件
+                        if (rs0 == CODE_EXIST)
+                        {
+                            normalCode = TempVendor_BLL.getNormalCode(tempVendorID);
+                        }//新的File_ID的文件
                         rs1 = copyFile(getOverDueFileWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode,factory, employeeID);
+                        if (rs1 != "")
+                        {
+                            return rs1;
+                        }
                         //新的Form_ID的文件
                         rs2 = copyFile(getOverDueFileFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode, factory, employeeID);
+                        if (rs2 != "")
+                        {
+                            return rs2;
+                        }
                         //重审后KCI文件转移
                         rs3 = copyFile(getOverDueKciFileWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode, factory, employeeID);
+                        if (rs3 != "")
+                        {
+                            return rs3;
+                        }
 
                         return rs0 + rs1 + rs2 + rs3;
                     }
@@ -189,9 +233,21 @@ namespace BLL.VendorAssess
                     if (FormAccessSuccessFul(tempVendorID, factory))
                     {
                         rs0 = insertNormalCode(normalCode,tempVendorID);
+                        if (rs0 == CODE_EXIST)
+                        {
+                            normalCode = TempVendor_BLL.getNormalCode(tempVendorID);
+                        }
                         rs1 = copyFile(getOverDueFileWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode,factory,employeeID);
+                        if (rs1 != "")
+                        {
+                            return rs1;
+                        }
                         //新的Form_ID的文件
                         rs2 = copyFile(getOverDueFileFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode, factory, employeeID);
+                        if (rs2 != "")
+                        {
+                            return rs2;
+                        }
 
                         return rs0 + rs1 + rs2;
                     }
@@ -789,7 +845,7 @@ namespace BLL.VendorAssess
         /// <returns></returns>
         public static int addNormalCode(string code,string vendorName)
         {
-            string sql = "insert into venderList(Vendor_Code,Vendor_Name) values('" + code + "', '" + vendorName + "')";
+            string sql = "insert into venderList(Vender_Code,Vender_Name) values('" + code + "', '" + vendorName + "')";
             return File_Transform_DAL.addNormalCode(sql);
         }
 
@@ -799,7 +855,7 @@ namespace BLL.VendorAssess
         /// </summary>
         /// <param name="Vender_Code"></param> 供应商真正编号
         /// <param name="Item_Category"></param>供应商的具体文件
-        /// <param name="Itemp_Path"></param>文件的路径
+        /// <param name="Item_Path"></param>文件的路径
         /// <param name="Item_Plant"></param>工厂 或 ALL
         /// <param name="Item_VendorType"></param>供应商类型
         /// <param name="Item_State"></param>状态标志
@@ -807,16 +863,16 @@ namespace BLL.VendorAssess
         /// <param name="Upload_Date"></param>
         /// <param name="Upload_Person"></param>
         /// <returns></returns>
-        public static int addVendorFile(string Vender_Code, string Item_Category, string Itemp_Path, string Item_Plant,string Item_VendorType, string Item_State,string Item_Label,DateTime Upload_Date,string Upload_Person)
+        public static int addVendorFile(string Vender_Code, string Item_Category, string Item_Path, string Item_Plant,string Item_VendorType, string Item_State,string Item_Label,DateTime Upload_Date,string Upload_Person)
         {
-            string sql = "insert into itemList(Vender_Code,Item_Category,Itemp_Path,Item_Plant,Item_VendorType,Item_State,Item_Label,Upload_Date,Upload_Person) values(@Vender_Code ,@Item_Category,@Itemp_Path,@Item_Plant,@Item_VendorType,@Item_State,@Item_Label,@Upload_Date,@Upload_Person)";
+            string sql = "insert into itemList(Vender_Code,Item_Category,Item_Path,Item_Plant,Item_VenderType,Item_State,Item_Label,Upload_Date,Upload_Person) values(@Vender_Code ,@Item_Category,@Item_Path,@Item_Plant,@Item_VenderType,@Item_State,@Item_Label,@Upload_Date,@Upload_Person)";
             SqlParameter[] sq = new SqlParameter[]
             {
                 new SqlParameter("@Vender_Code",Vender_Code),
                 new SqlParameter("@Item_Category",Item_Category),
-                new SqlParameter("@Itemp_Path",Itemp_Path),
+                new SqlParameter("@Item_Path",Item_Path),
                 new SqlParameter("@Item_Plant",Item_Plant),
-                new SqlParameter("@Item_VendorType",Item_VendorType),
+                new SqlParameter("@Item_VenderType",Item_VendorType),
                 new SqlParameter("@Item_State",Item_State),
                 new SqlParameter("@Item_Label",Item_Label),
                 new SqlParameter("@Upload_Date",DateTime.Now),
@@ -827,13 +883,13 @@ namespace BLL.VendorAssess
 
         public static int addVendorPlantInfo(string Vender_Code, string Plant_Name, string Vendor_Type, string Vendor_State)
         {
-            string sql = "insert into venderPlantInfo(Vender_Code,Plant_Name,Vendor_Type,Vendor_State) values(@Vender_Code ,@Plant_Name,@Vendor_Type,@Vendor_State)";
+            string sql = "insert into venderPlantInfo(Vender_Code,Plant_Name,Vender_Type,Vender_State) values(@Vender_Code ,@Plant_Name,@Vender_Type,@Vender_State)";
             SqlParameter[] sq = new SqlParameter[]
             {
                 new SqlParameter("@Vender_Code",Vender_Code),
                 new SqlParameter("@Plant_Name",Plant_Name),
-                new SqlParameter("@Vendor_Type",Vendor_Type),
-                new SqlParameter("@Vendor_State",Vendor_State)
+                new SqlParameter("@Vender_Type",Vendor_Type),
+                new SqlParameter("@Vender_State",Vendor_State)
             };
             return File_Transform_DAL.addVendorPlantInfo(sql, sq);
         }

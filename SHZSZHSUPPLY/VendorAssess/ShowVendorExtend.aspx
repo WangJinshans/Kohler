@@ -224,6 +224,7 @@ table.gridtable td {
                 "ASHX/PDF.ashx",
                 { "fileName": fileName,"formID":formID},
                 function (res) {
+                    window.location.href = document.URL;
                     alert(res);
                 }
             );
@@ -231,7 +232,7 @@ table.gridtable td {
     </script>
     <script>
         function viewFile(filePath) {
-            window.open("../files/a.pdf");
+            window.open(filePath);
         }
     </script>
 </head>

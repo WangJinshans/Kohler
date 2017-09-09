@@ -146,8 +146,8 @@
 
             <asp:GridView Style="width: 80%; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView2" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView2_RowCommand" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4">
                 <Columns>
-                    <asp:BoundField DataField="id" HeaderText="id"
-                        SortExpression="id" Visible="False" />
+                    <asp:BoundField DataField="Prority" HeaderText="Prority"
+                        SortExpression="Prority" Visible="False" />
                     <asp:BoundField DataField="Temp_Vendor_ID" HeaderText="供应商编号"
                         SortExpression="Temp_Vendor_ID" Visible="False" />
                     <asp:BoundField DataField="Temp_Vendor_Name" HeaderText="供应商名称"

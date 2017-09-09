@@ -170,15 +170,23 @@
                 "ASHX/PDF.ashx",
                 { "fileName": fileName,"formID":formID},
                 function (res) {
+                    window.location.href = document.URL;
                     alert(res);
                 }
             );
         }
+        //function messageFunc(msg, func) {
+        //    layui.use(['layer'], function () {
+        //        var layer = layui.layer;
+        //        layer.msg(msg, { time: 1500 }, func);
+        //    })
+        //}
+
     </script>
     <script>
         function viewFile(filePath)
         {
-            window.open("../files/a.pdf");
+            window.open(filePath);
         }
 </script>
 </head>

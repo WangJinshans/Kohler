@@ -10,6 +10,11 @@
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
     <script src="Script/Own/fileUploader.js"></script>
+    <script>
+        function fireRefresh() {
+            window.location.href = document.URL;
+        }
+    </script>
 </head>
 <body>
     <form id="form1" class="layui-form" runat="server">

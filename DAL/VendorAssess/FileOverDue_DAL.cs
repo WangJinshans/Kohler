@@ -102,7 +102,7 @@ namespace DAL.VendorAssess
       
         public static bool isFileOverDue(string tempvendorID,string fileTypeID,string factory)
         {
-            string sql = "select * from As_Vendor_FileType_History where Temp_Vendor_ID='" + tempvendorID + "' and Form_Type_ID='" + fileTypeID + "' and (Factory_Name='" + factory + "' or Factory_Name='ALL')";
+            string sql = "select * from As_Vendor_FileType_History where Temp_Vendor_ID='" + tempvendorID + "' and FileType_ID='" + fileTypeID + "' and (Factory_Name='" + factory + "' or Factory_Name='ALL')";
             using (SqlDataReader reader = DBHelp.GetReader(sql))
                 if (reader.Read())
                 {
