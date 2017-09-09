@@ -25,7 +25,7 @@
     </script>
     <script>
         function viewFile(filePath) {
-            window.open("../files/a.pdf");
+            window.open(filePath);
         }
     </script>
     <script>

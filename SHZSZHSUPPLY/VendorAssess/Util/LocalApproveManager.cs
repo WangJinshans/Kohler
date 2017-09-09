@@ -107,6 +107,8 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             As_Approve ap = Approve_BLL.getApproveTop(formID);
             LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批");
 
+            //
+ 
             //result
             if (updateFlag > 0 && add > 0)
             {
@@ -197,8 +199,10 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             As_Approve ap = Approve_BLL.getApproveTop(form.Form_ID);
             LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, form.Temp_Vendor_ID, TempVendor_BLL.getTempVendorName(form.Temp_Vendor_ID), form.Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批");
 
-            LocalScriptManager.CreateScript(SelectDepartment.originPage, String.Format("messageFunc({0}, {1})","表格已成功提交", "function () {window.location.href='EmployeeVendor.aspx';}"), "redirectpage");
-            //HttpContext.Current.Response.Redirect("EmployeeVendor.aspx");
+            LocalScriptManager.CreateScript(SelectDepartment.originPage, "message('提示测试')", "redirectpage1");
+
+            //LocalScriptManager.CreateScript(SelectDepartment.originPage, String.Format("messageFunc('{0}', {1})","表格已成功提交", "function () {window.location.href='EmployeeVendor.aspx';}"), "redirectpage");
+            HttpContext.Current.Response.Redirect("EmployeeVendor.aspx");
             return true;
         }
         #endregion
@@ -244,11 +248,15 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                         
                         //TODO::Async
                         LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), ap.Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批");
+
+                        //提示并拉起返回刷新
+                        LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){document.location.href = document.URL;}"), "toast");
+
+                        //true结果返回后暂时无作用——2017年9月9日13:37:57
                         return true;
                     }
                 }
             }
-            //TODO::Mail
 
             return false;
         }
@@ -328,7 +336,9 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                 string fileTypeName = FormType_BLL.getFormNameByFormID(formID);
                 string factory = AddForm_BLL.getFactoryByFormID(formID);
                 string file = tempVendorID + File_Type_BLL.getFormSpec(fileTypeName) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factory) + ".pdf";
-                LocalScriptManager.CreateScript(page, String.Format("takeScreenshot('{0}','{1}')", formID, file), "myscript");
+
+                //提示，并生成文件，写入系统，返回刷新
+                LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){" + String.Format("takeScreenshot('{0}','{1}');", file, formID) + "}"), "testid");
                 return true;
             }
             return false;
@@ -380,7 +390,9 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                 string fileTypeName = FormType_BLL.getFormNameByFormID(formID);
                 string factory = AddForm_BLL.getFactoryByFormID(formID);
                 string file = tempVendorID + File_Type_BLL.getFormSpec(fileTypeName) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factory) + ".pdf";
-                LocalScriptManager.CreateScript(page, String.Format("takeScreenshot('{0}','{1}')", formID, file), "myscript");
+
+                LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){"+ String.Format("takeScreenshot('{0}','{1}');", file, formID) + "}"), "testid");
+                //LocalScriptManager.CreateScript(page, String.Format("takeScreenshot('{0}','{1}')", formID, file), "myscript");
                 //page.ClientScript.RegisterStartupScript(page.ClientScript.GetType(), "myscript", "<script>takeScreenshot('" + file + "','" + formID + "');</script>");
                 return true;
             }

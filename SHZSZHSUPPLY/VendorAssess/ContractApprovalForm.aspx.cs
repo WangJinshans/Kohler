@@ -1,5 +1,6 @@
 ﻿using AendorAssess;
 using BLL;
+using BLL.VendorAssess;
 using Model;
 using MODEL;
 using SHZSZHSUPPLY.VendorAssess.Util;
@@ -124,6 +125,13 @@ namespace SHZSZHSUPPLY.VendorAssess
             form.Factory_Name = factory;
             int add = AddForm_BLL.addForm(form);
 
+            //写入日志
+            LocalLog.writeLog(form.Form_ID, String.Format("表格提交成功，等待{0}审批    时间：{1}", SelectDepartment.Form_AssessFlow.First, DateTime.Now), As_Write.FORM_EDIT, form.Temp_Vendor_ID);
+
+            //TODO::Async
+            As_Approve ap = Approve_BLL.getApproveTop(form.Form_ID);
+            LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, form.Temp_Vendor_ID, TempVendor_BLL.getTempVendorName(form.Temp_Vendor_ID), form.Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批");
+
             Response.Redirect("EmployeeVendor.aspx");
             return "";
         }
@@ -149,6 +157,13 @@ namespace SHZSZHSUPPLY.VendorAssess
             int add = AddForm_BLL.addForm(form);
             //一旦提交就把表As_Vendor_FormType字段FLag置1.
             int updateFlag = UpdateFlag_BLL.updateFlag(FORM_TYPE_ID, tempVendorID);
+            
+            //写入日志
+            LocalLog.writeLog(form.Form_ID, String.Format("表格提交成功，等待{0}审批    时间：{1}", SelectDepartment.Form_AssessFlow.First, DateTime.Now), As_Write.FORM_EDIT, form.Temp_Vendor_ID);
+
+            //TODO::Async
+            As_Approve ap = Approve_BLL.getApproveTop(form.Form_ID);
+            LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, form.Temp_Vendor_ID, TempVendor_BLL.getTempVendorName(form.Temp_Vendor_ID), form.Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批");
 
             Response.Redirect("EmployeeVendor.aspx");
             return "";

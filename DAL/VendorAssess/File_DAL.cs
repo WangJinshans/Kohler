@@ -27,7 +27,14 @@ namespace DAL
                 new SqlParameter("@Temp_Vendor_ID",File.Temp_Vendor_ID),
                 new SqlParameter("@Factory_Name",File.Factory_Name)
             };
-            return DBHelp.GetScalar(sql, sp);
+            DBHelp.ExecuteCommand(sql, sp);
+            string sql1 = "update As_File set File_Path=@File_Path Where File_ID=@File_ID";
+            SqlParameter[] sp1 = new SqlParameter[]
+            {
+                new SqlParameter("@File_ID",File.File_ID),
+                new SqlParameter("@File_Path",File.File_Path)
+            };
+            return DBHelp.GetScalarFix(sql1, sp1);
         }
 
         public static int addFile(As_Kci_File file)
