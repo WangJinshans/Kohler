@@ -16,6 +16,11 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
 
         public void ProcessRequest(HttpContext context)
         {
+            if (true)
+            {
+                return;
+            }
+
             context.Response.ContentType = "text/plain";
             string fileName = context.Request["fileName"] ?? ""; //编码格式
             string formID = context.Request["formID"] ?? "";
