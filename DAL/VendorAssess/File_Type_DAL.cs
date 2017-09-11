@@ -41,7 +41,7 @@ namespace DAL
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)
             {
-                return Convert.ToBoolean(dt.Rows[0]["File_Label_Spec"]);
+                return Convert.ToBoolean(dt.Rows[0]["Is_Shared"]);
             }
             return false;
         }
