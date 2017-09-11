@@ -594,6 +594,7 @@ namespace BLL.VendorAssess
             List<string> kciForms = File_Transform_DAL.getKciForms(tempVendorID, factory);//返回需要KCI的Form_ID
             if (kciFileWithPath.Count > 0)
             {
+                string[] tempArray = new string[7];
                 foreach (string formID in kciForms)
                 {
                     table = File_Transform_DAL.getKciFilePath(formID);
@@ -601,8 +602,14 @@ namespace BLL.VendorAssess
                     {
                         foreach (DataRow dr in table.Rows)
                         {
-                            string filePath = dr["File_Path"].ToString().Trim();
-                            kciFileWithPath.Add(formID, filePath);
+                            tempArray[0] = dr["File_Path"].ToString().Trim();
+                            tempArray[1] = "FALSE";
+                            tempArray[2] = dr["File_Type_ID"].ToString();
+                            tempArray[3] = "其他";
+                            tempArray[4] = dr["File_Enable_Time"].ToString();
+                            tempArray[5] = dr["File_Due_Time"].ToString();
+                            tempArray[6] = "KCI审批结果";
+                            kciFileWithPath.Add(formID, String.Join("&", tempArray));
                             //return kciFileWithPath;
                         }
                     }
@@ -624,6 +631,7 @@ namespace BLL.VendorAssess
             List<string> fileIDlist = File_Transform_DAL.getFiles(tempVendorID, factory);
             if (fileIDlist.Count > 0)
             {
+                string[] tempArray = new string[7];
                 foreach (string fileID in fileIDlist)
                 {
                     table = File_Transform_DAL.getFilePath(fileID);
@@ -631,8 +639,15 @@ namespace BLL.VendorAssess
                     {
                         foreach (DataRow dr in table.Rows)
                         {
-                            string filePath = dr["File_Path"].ToString().Trim();
-                            fileWithPath.Add(fileID, filePath);
+                            //string filePath = dr["File_Path"].ToString().Trim();
+                            tempArray[0] = dr["File_Path"].ToString().Trim();
+                            tempArray[1] = dr["Is_Shared"].ToString();
+                            tempArray[2] = dr["File_Type_ID"].ToString();
+                            tempArray[3] = dr["File_Type_Range"].ToString();
+                            tempArray[4] = dr["File_Enable_Time"].ToString();
+                            tempArray[5] = dr["File_Due_Time"].ToString();
+                            tempArray[6] = dr["File_Type_Name"].ToString();
+                            fileWithPath.Add(fileID, String.Join("&",tempArray));
                             //return fileWithPath;
                         }
                     }
@@ -653,6 +668,7 @@ namespace BLL.VendorAssess
             List<string> formIDlist = File_Transform_DAL.getForms(tempVendorID, factory);
             if (formIDlist.Count > 0)
             {
+                string[] tempArray = new string[7];
                 foreach (string formID in formIDlist)
                 {
                     table = File_Transform_DAL.getFormPath(formID);
@@ -660,8 +676,14 @@ namespace BLL.VendorAssess
                     {
                         foreach (DataRow dr in table.Rows)
                         {
-                            string filePath = dr["Form_Path"].ToString().Trim();
-                            formWithPath.Add(formID, filePath);
+                            tempArray[0] = dr["Form_Path"].ToString().Trim();
+                            tempArray[1] = "FALSE";
+                            tempArray[2] = dr["File_Type_ID"].ToString();
+                            tempArray[3] = dr["File_Type_Range"].ToString();
+                            tempArray[4] = "";//TODO::更新starttime，end time 2017年9月10日21:02:50
+                            tempArray[5] = "";
+                            tempArray[6] = dr["File_Type_Name"].ToString();
+                            formWithPath.Add(formID, String.Join("&", tempArray));
                         }
                     }
                 }
@@ -809,8 +831,11 @@ namespace BLL.VendorAssess
                     try
                     {
                         string fileID = key;
-                        string filePath = fileWithPath[key];
 
+                        //0path,1shared,2typeID,3range,4start,5end,6typeName
+                        string[] fileInfo = fileWithPath[key].Split('&');
+
+                        string filePath = fileInfo[0];
                         if (filePath == "")
                         {
                             return PATH_IS_NULL;
@@ -833,9 +858,9 @@ namespace BLL.VendorAssess
                             return null;
                         }
                         //预防重复插入记录
-                        if (!recordExist(fileID))
+                        if (!recordExist(newName.Replace(".pdf","")))
                         {
-                            addVendorFile(code, destPath, newPath, factory, type, "Enable", fileID, DateTime.Now, employeeID);
+                            addVendorFile(code, destPath, newPath, factory, type, "Enable", newName.Replace(".pdf", ""), DateTime.Now, employeeID);
                         }
                     }
                     catch (Exception e)
@@ -861,7 +886,15 @@ namespace BLL.VendorAssess
         public static int addNormalCode(string code,string vendorName)
         {
             string sql = "insert into venderList(Vender_Code,Vender_Name) values('" + code + "', '" + vendorName + "')";
-            return File_Transform_DAL.addNormalCode(sql);
+            try
+            {
+                File_Transform_DAL.addNormalCode(sql);      //TODO::暂时使用try预防主键冲突，重复插入 2017年9月10日19:48:30
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
+            return 1;
         }
 
 
