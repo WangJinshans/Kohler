@@ -6,6 +6,7 @@ using MODEL;
 using SHZSZHSUPPLY.VendorAssess.Html_Template;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
@@ -228,12 +229,20 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             {
                 Signature_BLL.setSignature(formID, positionName);//签名
                 Signature_BLL.setSignatureDate(formID, positionName);
+
+                //PDF
+                outPutPDF(formID,tempVendorID);
+
                 return doKCIApprove(formID, tempVendorID, formTypeID, positionName, page);
             }//正常最终
             else if (result == NORMAL_FINAL)//签名
             {
                 Signature_BLL.setSignature(formID, positionName);//签名
                 Signature_BLL.setSignatureDate(formID, positionName);
+
+                //PDF
+                outPutPDF(formID,tempVendorID);
+
                 return doFinalApprove(formID, tempVendorID, formTypeID, positionName, page);
             }
             else//非最终  签名
@@ -260,6 +269,37 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
 
             return false;
         }
+
+        public static void outPutPDF(string formID,string tempVendorID)
+        {
+            try
+            {
+                string url = HttpContext.Current.Request.Url.ToString()+"&outPutID="+formID;
+                string pdf = @"E:\wkhtmltopdf\bin\wkhtmltopdf.exe";
+
+                string fileTypeName = FormType_BLL.getFormNameByFormID(formID);
+                string factory = AddForm_BLL.getFactoryByFormID(formID);
+                string file = HttpContext.Current.Server.MapPath("../files/")+File_BLL.generateFileID(tempVendorID, fileTypeName, factory) + ".pdf";
+
+                Process p = Process.Start(pdf, url + " \"" + file + "\"");
+                p.WaitForExit();
+
+                As_Form form = new As_Form();
+                form.Form_ID = formID;
+                form.Form_Path = file;
+                int result = AddForm_BLL.upDateFormPath(formID, file);
+                if (result <= 0)
+                {
+                    throw new Exception("数据库更新失败");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
 
         /// <summary>
         /// 判断是否为最后审批人
@@ -338,7 +378,9 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                 string file = File_BLL.generateFileID(tempVendorID, fileTypeName, factory) + ".pdf";
 
                 //提示，并生成文件，写入系统，返回刷新
-                LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){" + String.Format("takeScreenshot('{0}','{1}');", file, formID) + "}"), "testid");
+                LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){document.location.href = document.URL;}"), "testid");
+
+                //LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){" + String.Format("takeScreenshot('{0}','{1}');", file, formID) + "}"), "testid");
                 return true;
             }
             return false;
@@ -386,7 +428,8 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                 string fileTypeName = FormType_BLL.getFormNameByFormID(formID);
                 string factory = AddForm_BLL.getFactoryByFormID(formID);
                 string file = File_BLL.generateFileID(tempVendorID, fileTypeName, factory) + ".pdf";
-                LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){"+ String.Format("takeScreenshot('{0}','{1}');", file, formID) + "}"), "testid");
+                LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){document.location.href = document.URL;}"), "testid");
+                //LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){"+ String.Format("takeScreenshot('{0}','{1}');", file, formID) + "}"), "testid");
                 return true;
             }
             return false;

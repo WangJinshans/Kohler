@@ -8,8 +8,8 @@ namespace VendorAssess
 {
     public partial class ShowVendorDesignatedApply : System.Web.UI.Page
     {
-        private string formID = null;
-        private string positionName = null;
+        private string formID = "";
+        private string positionName = "";
         private string FORM_TYPE_ID = "";
         private string tempVendorID = "";
         /// <summary>
@@ -159,10 +159,18 @@ namespace VendorAssess
         /// </summary>
         private void getSessionInfo()
         {
-            formID = Session["formID"].ToString();
-            positionName = Session["Position_Name"].ToString();
-            FORM_TYPE_ID = Request.QueryString["type"];
-            tempVendorID = AddForm_BLL.GetTempVendorID(formID);//获取tempvendorID
+            if (Request.QueryString["outPutID"] != null && Request.QueryString["outPutID"] != "")
+            {
+                formID = Request.QueryString["outPutID"];
+                FORM_TYPE_ID = Request.QueryString["type"];
+            }
+            else
+            {
+                formID = Session["formID"].ToString();
+                positionName = Session["Position_Name"].ToString();
+                FORM_TYPE_ID = Request.QueryString["type"];
+                tempVendorID = AddForm_BLL.GetTempVendorID(formID);//获取tempvendorID
+            }
         }
 
         private void hideImage(string signature, Image image)
