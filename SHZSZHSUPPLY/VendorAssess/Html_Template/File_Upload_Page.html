@@ -284,7 +284,7 @@
                 },
                 onComplete: function (id, fileName, responseJSON) {
                     resultJSON = responseJSON;
-                    localStorage.setItem('uploadResult', resultJSON);
+                    localStorage.setItem('uploadResult', JSON.stringify(resultJSON));
                     showMsg(responseJSON['message']);
                     closePage();
                     //setTimeout("closePage",1500);
