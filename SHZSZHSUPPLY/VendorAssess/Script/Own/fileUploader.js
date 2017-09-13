@@ -31,6 +31,7 @@ function uploadFile(requestType, tempVendorID, tempVendorName, fileTypeID,callba
             end: function () {
                 uploadFileResult = localStorage.getItem('uploadResult');
                 if (uploadFileResult != null) {
+                    uploadFileResult = JSON.parse(uploadFileResult);
                     if (uploadFileResult['success']) {
                         layer.msg('上传成功');//这里可以改为提醒1秒后刷新页面 2017年9月10日16:06:08
                     } else {
