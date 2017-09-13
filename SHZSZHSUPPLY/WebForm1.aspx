@@ -103,7 +103,44 @@
                             #jsddm li ul li a:hover {
                                 background: #8EA344;
                             }
+                                    .navenable{
+            display:normal;
+        }
+        .nav{
+            display:none;
+        }
+        .n1,.n2,.n3,.n4,.n5{
+            display:none;
+        }
     </style>
+
+     <script type="text/javascript">
+         function filterNavigation(a, b, c, d, e) {
+             if (a == 'TRUE') {
+                 show(1);
+             }
+             if (b == 'TRUE') {
+                 show(2);
+             }
+             if (c == 'TRUE') {
+                 show(3);
+             }
+             if (d == 'TRUE') {
+                 show(4);
+             }
+             if (e == 'TRUE') {
+                 show(5);
+             }
+         }
+        function show(index) {
+            var nodes = document.getElementsByClassName('nav n'+String(index));
+            for (var i = 0; i < nodes.length; i++) {
+                nodes.item(i).style = 'display:normal';
+            }
+            document.getElementsByClassName('nav nt' + String(index))[0].style = 'background-color:#324143;color:white;display:normal';
+        }
+
+    </script>
 </head>
 <body style="margin: 0">
     <form id="form1" runat="server" class="style1">
@@ -128,7 +165,7 @@
                 <td bgcolor="#324143">
 
                     <ul id="jsddm">
-                        <li><a href="#" style="text-align: center">供应商管理</a>
+                        <li><a href="#" style="text-align: center;display:none">供应商管理</a>
                             <ul>
                                 <li><a href="VenderInfo/VenderCreate.aspx" target="iFrame1">供应商信息创建 </a></li>
                                 <li><a href="VenderInfo/VenderMaintenance.aspx" target="iFrame1">供应商信息编辑</a></li>
@@ -142,6 +179,29 @@
                             </ul>
                         </li>
                         <li><a href="VendorAssess/login.aspx" target="iFrame1">供应商审批</a>
+                            <ul>
+                                <li><a class="nav nt1" style="background-color:#324143;color:white;display:none">新建</a></li>
+                                <li><a class="nav n1" style="display:none" href="VendorAssess/VendorInfo.aspx" target="iFrame1">供应商信息创建</a></li>
+                                <li><a class="nav n1" style="display:none" href="VendorAssess/VendorSharedUse.aspx" target="iFrame1">供应商信息复用</a></li>
+                                <li><a class="nav n1" style="display:none" href="VendorAssess/EmployeeVendor.aspx" target="iFrame1">供应商审批文件管理</a></li>
+                                <li><a class="nav n1" style="display:none" href="VendorAssess/FormWaitToFill.aspx" target="iFrame1">多部门供应商表单填写</a></li>
+
+                                <li><a class="nav nt2" style="background-color:#324143;color:white;display:none">审批</a></li>
+                                <li><a class="nav n2" style="display:none" href="VendorAssess/ShowApproveForm.aspx" target="iFrame1">常规审批</a></li>
+                                <li><a class="nav n2" style="display:none" href="VendorAssess/KCI.aspx" target="iFrame1">KCI审批</a></li>
+
+                                <li><a class="nav nt3" style="background-color:#324143;color:white;display:none">编辑</a></li>
+                                <li><a class="nav n3" style="display:none" href="VendorAssess/FormOverDue.aspx" target="iFrame1">供应商过期表单编辑</a></li>
+                                <li><a class="nav n3" style="display:none" href="VendorAssess/FileOverDue.aspx" target="iFrame1">供应商过期文件编辑</a></li>
+                                <li><a class="nav n3" style="display:none" href="VenderInfo/VenderMaintenance.aspx" target="iFrame1">供应商信息编辑</a></li>
+
+                                <li><a class="nav nt4" style="background-color:#324143;color:white;display:none">查看</a></li>
+                                <li><a class="nav n4" style="display:none" href="VendorAssess/ApprovalProgress.aspx" target="iFrame1">供应商审批状态查看</a></li>
+                                <li><a class="nav n4" style="display:none" href="VenderInfo/VenderInfoDisplay.aspx" target="iFrame1">供应商信息查看</a></li>
+
+                                <li><a class="nav nt5" style="background-color:#324143;color:white;display:none">删除</a></li>
+                                <li><a class="nav n5" style="display:none" href="VenderInfo/SharedItemMA.aspx" target="iFrame1">供应商变更及文档删除</a></li>
+                            </ul>
                         </li>
                         <li><a href="#" style="text-align: center">价格走势</a>
                             <ul>
