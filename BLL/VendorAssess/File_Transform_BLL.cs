@@ -592,7 +592,7 @@ namespace BLL.VendorAssess
             Dictionary<string, string> kciFileWithPath = new Dictionary<string, string>();
             DataTable table = new DataTable();
             List<string> kciForms = File_Transform_DAL.getKciForms(tempVendorID, factory);//返回需要KCI的Form_ID
-            if (kciFileWithPath.Count > 0)
+            if (kciForms.Count > 0)
             {
                 string[] tempArray = new string[7];
                 foreach (string formID in kciForms)
@@ -860,7 +860,7 @@ namespace BLL.VendorAssess
                         //预防重复插入记录
                         if (!recordExist(newName.Replace(".pdf","")))
                         {
-                            addVendorFile(code, destPath, newPath, factory, type, "Enable", newName.Replace(".pdf", ""), DateTime.Now, employeeID);
+                            addVendorFile(code, fileInfo[6], @"..\upload\"+newName, Convert.ToBoolean(fileInfo[1])?"ALL": factory, fileInfo[3]=="全部"?"ALL":type, "Enable", newName.Replace(".pdf", ""),fileInfo[4],fileInfo[5], DateTime.Now, employeeID);
                         }
                     }
                     catch (Exception e)
@@ -911,9 +911,9 @@ namespace BLL.VendorAssess
         /// <param name="Upload_Date"></param>
         /// <param name="Upload_Person"></param>
         /// <returns></returns>
-        public static int addVendorFile(string Vender_Code, string Item_Category, string Item_Path, string Item_Plant,string Item_VendorType, string Item_State,string Item_Label,DateTime Upload_Date,string Upload_Person)
+        public static int addVendorFile(string Vender_Code, string Item_Category, string Item_Path, string Item_Plant,string Item_VendorType, string Item_State,string Item_Label,string start,string end,DateTime Upload_Date,string Upload_Person)
         {
-            string sql = "insert into itemList(Vender_Code,Item_Category,Item_Path,Item_Plant,Item_VenderType,Item_State,Item_Label,Upload_Date,Upload_Person) values(@Vender_Code ,@Item_Category,@Item_Path,@Item_Plant,@Item_VenderType,@Item_State,@Item_Label,@Upload_Date,@Upload_Person)";
+            string sql = "insert into itemList(Vender_Code,Item_Category,Item_Path,Item_Plant,Item_VenderType,Item_State,Item_Label,Item_Startdate,Item_Enddate,Upload_Date,Upload_Person) values(@Vender_Code ,@Item_Category,@Item_Path,@Item_Plant,@Item_VenderType,@Item_State,@Item_Label,@Item_Startdate,@Item_Enddate,@Upload_Date,@Upload_Person)";
             SqlParameter[] sq = new SqlParameter[]
             {
                 new SqlParameter("@Vender_Code",Vender_Code),
@@ -923,6 +923,8 @@ namespace BLL.VendorAssess
                 new SqlParameter("@Item_VenderType",Item_VendorType),
                 new SqlParameter("@Item_State",Item_State),
                 new SqlParameter("@Item_Label",Item_Label),
+                new SqlParameter("@Item_Startdate",start),
+                new SqlParameter("@Item_Enddate",end),
                 new SqlParameter("@Upload_Date",DateTime.Now),
                 new SqlParameter("@Upload_Person",Upload_Person)
             };
@@ -939,7 +941,15 @@ namespace BLL.VendorAssess
                 new SqlParameter("@Vender_Type",Vendor_Type),
                 new SqlParameter("@Vender_State",Vendor_State)
             };
-            return File_Transform_DAL.addVendorPlantInfo(sql, sq);
+            try
+            {
+                File_Transform_DAL.addVendorPlantInfo(sql, sq);
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
+            return 1;
         }
         public static List<string> getForms(string tempVendorID, string factory)
         {
