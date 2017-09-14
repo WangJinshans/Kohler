@@ -275,7 +275,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             try
             {
                 string url = HttpContext.Current.Request.Url.ToString()+"&outPutID="+formID;
-                string pdf = @"E:\wkhtmltopdf\bin\wkhtmltopdf.exe";
+                string pdf = Properties.Settings.Default.PDF_Tool_Path;
 
                 string fileTypeName = FormType_BLL.getFormNameByFormID(formID);
                 string factory = AddForm_BLL.getFactoryByFormID(formID);
