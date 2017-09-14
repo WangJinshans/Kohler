@@ -95,7 +95,7 @@
                     }
                     pdf.autoPrint();
                     pdf.save(file);
-                    requestToPdfAshx(file, formID);
+                    //requestToPdfAshx(file, formID);
                 },
                 background: "#f7f7f7"    //设置PDF背景色（默认透明，实际显示为黑色）
             });
@@ -560,6 +560,7 @@
                 <SortedDescendingCellStyle BackColor="#E9EBEF" />
                 <SortedDescendingHeaderStyle BackColor="#4870BE" />
             </asp:GridView>  
+        <asp:Label Text="" ID="Lable1" runat="server" />
     </form>
     <script type="text/javascript">
         function choose(i)

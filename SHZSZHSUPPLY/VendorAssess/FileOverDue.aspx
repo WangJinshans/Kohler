@@ -147,67 +147,17 @@
                 </select>
             </div>
         </div>
-        <%-- <div style="text-align:center;">
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <asp:Label Text="请输入供应商的编号" runat="server" />
-        <asp:TextBox runat="server" ID="TextBox1"/>
-        &nbsp;&nbsp;&nbsp;&nbsp
-        <asp:Label Text="厂区：" runat="server" CssClass="test"/>
-        <asp:DropDownList ID="DropDownList1" runat="server" Height="20px" Width="99px">
-            <asp:ListItem Selected="True">上海科勒</asp:ListItem>
-            <asp:ListItem>中山科勒</asp:ListItem>
-            <asp:ListItem>珠海科勒</asp:ListItem>
-        </asp:DropDownList>
-        &nbsp;&nbsp;&nbsp;&nbsp
-        <asp:Button Text="搜索" runat="server" ID="search" OnClick="search_Click" />
-        <br />
-        <br />
-             <!--
-                 需要上传文件 需要保存新的文件到某个路径
-                 -->
-    </div>
-        <br />
-        <br />
-        <br />--%>
 
-        <fieldset class="layui-elem-field layui-field-title" style="width: 80%; margin: 50px auto 20px auto;">
-            <legend runat="server">文件</legend>
-        </fieldset>
+        <%--GridView1负责文件表的显示  如果类型是表的提供重新填写 
+            如果是文件 先上传文件  然后表有过期的就需要重审 
+            没有过期的的直接复制原来表的值 更新文件重新审批
 
-          <asp:GridView Style="width: 80%; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
-						<AlternatingRowStyle BackColor="White" />
-						<Columns>
-							<asp:BoundField DataField="FileType_Name" HeaderText="文件编号"
-								SortExpression="FileType_Name" />
-							<asp:BoundField DataField="Temp_Vendor_ID" HeaderText="供应商"
-								SortExpression="Temp_Vendor_ID" />
-							<asp:TemplateField>
-								<ItemTemplate>
-									<asp:LinkButton ID="lbtapprovesuccess" runat="server" CommandName="upload"
-										CommandArgument='<%# Eval("FileType_Name") %>'>上传</asp:LinkButton>
-								</ItemTemplate>
-							</asp:TemplateField>
-						</Columns>
-						<EditRowStyle BackColor="#2461BF" />
-						<FooterStyle BackColor="#507CD1" ForeColor="White" Font-Bold="True" />
-						<HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-						<PagerStyle ForeColor="White" HorizontalAlign="Center" BackColor="#2461BF" />
-						<RowStyle BackColor="#EFF3FB" />
-						<SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
-						<SortedAscendingCellStyle BackColor="#F5F7FB" />
-						<SortedAscendingHeaderStyle BackColor="#6D95E1" />
-						<SortedDescendingCellStyle BackColor="#E9EBEF" />
-						<SortedDescendingHeaderStyle BackColor="#4870BE" />
-					</asp:GridView>
-        <fieldset class="layui-elem-field layui-field-title" style="width: 80%; margin: 50px auto 20px auto;">
-            <legend runat="server">表格</legend>
-        </fieldset>
-        <asp:GridView Style="width: 80%; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView2" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView2_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
+            GridView2负责有文件过期显示所有相关的表 GridView1中类型是文件的只提供上传
+            上传之后GridView2可见  并显示所有相关的表
+        --%>
+
+
+         <asp:GridView Style="width: 80%; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView3" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView3_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
 						<AlternatingRowStyle BackColor="White" />
 						<Columns>
 							<asp:BoundField DataField="Form_ID" HeaderText="表格编号"
@@ -216,6 +166,8 @@
 								SortExpression="Temp_Vendor_ID" />
                             <asp:BoundField DataField="Form_Type_Is_Optional" HeaderText="标志"
 								SortExpression="Form_Type_Is_Optional" />
+                            <asp:BoundField DataField="Factory_Name" HeaderText="厂方"
+								SortExpression="Factory_Name" />
                             <asp:BoundField DataField="Status" HeaderText="状态"
 								SortExpression="Status" />
 							<asp:TemplateField>
@@ -226,16 +178,80 @@
 							</asp:TemplateField>
 						</Columns>
 						<EditRowStyle BackColor="#2461BF" />
-						<FooterStyle BackColor="#507CD1" ForeColor="White" Font-Bold="True" />
-						<HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-						<PagerStyle ForeColor="White" HorizontalAlign="Center" BackColor="#2461BF" />
-						<RowStyle BackColor="#EFF3FB" />
-						<SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
-						<SortedAscendingCellStyle BackColor="#F5F7FB" />
-						<SortedAscendingHeaderStyle BackColor="#6D95E1" />
-						<SortedDescendingCellStyle BackColor="#E9EBEF" />
-						<SortedDescendingHeaderStyle BackColor="#4870BE" />
+                        <FooterStyle BackColor="#507CD1" ForeColor="White" Font-Bold="True" />
+                        <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+                        <PagerStyle ForeColor="White" HorizontalAlign="Center" BackColor="#2461BF" />
+                        <RowStyle BackColor="#EFF3FB" />
+                        <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
+                        <SortedAscendingCellStyle BackColor="#F5F7FB" />
+                        <SortedAscendingHeaderStyle BackColor="#6D95E1" />
+                        <SortedDescendingCellStyle BackColor="#E9EBEF" />
+                        <SortedDescendingHeaderStyle BackColor="#4870BE" />
 					</asp:GridView>
+
+        <fieldset class="layui-elem-field layui-field-title" style="width: 80%; margin: 50px auto 20px auto;">
+            <legend runat="server">供应商过期条目</legend>
+        </fieldset>
+        <!--类型为文件 显示上传 类型为表 重新填写-->
+        <asp:GridView Style="width: 80%; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
+            <AlternatingRowStyle BackColor="White" />
+            <Columns>
+                <asp:BoundField DataField="Item_Category" HeaderText="文件名称"
+                    SortExpression="Item_Category" />
+                <asp:BoundField DataField="Temp_Vendor_ID" HeaderText="供应商"
+                    SortExpression="Temp_Vendor_ID" />
+                <asp:BoundField DataField="Category" HeaderText="类型"
+                    SortExpression="Category" />
+                <asp:TemplateField>
+                    <ItemTemplate>
+                        <asp:LinkButton ID="lbtapprovesuccess" runat="server" CommandName="upload"
+                            CommandArgument='<%# Eval("Item_Category") %>'>重新上传</asp:LinkButton>
+                    </ItemTemplate>
+                </asp:TemplateField>
+            </Columns>
+            <EditRowStyle BackColor="#2461BF" />
+            <FooterStyle BackColor="#507CD1" ForeColor="White" Font-Bold="True" />
+            <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+            <PagerStyle ForeColor="White" HorizontalAlign="Center" BackColor="#2461BF" />
+            <RowStyle BackColor="#EFF3FB" />
+            <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
+            <SortedAscendingCellStyle BackColor="#F5F7FB" />
+            <SortedAscendingHeaderStyle BackColor="#6D95E1" />
+            <SortedDescendingCellStyle BackColor="#E9EBEF" />
+            <SortedDescendingHeaderStyle BackColor="#4870BE" />
+        </asp:GridView>
+        <fieldset class="layui-elem-field layui-field-title" style="width: 80%; margin: 50px auto 20px auto;">
+            <legend runat="server">表格</legend>
+        </fieldset>
+        <asp:GridView Style="width: 80%; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView2" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView2_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
+            <AlternatingRowStyle BackColor="White" />
+            <Columns>
+                <asp:BoundField DataField="Form_ID" HeaderText="表格编号"
+                    SortExpression="Form_ID" />
+                <asp:BoundField DataField="Temp_Vendor_ID" HeaderText="供应商"
+                    SortExpression="Temp_Vendor_ID" />
+                <asp:BoundField DataField="Form_Type_Is_Optional" HeaderText="标志"
+                    SortExpression="Form_Type_Is_Optional" />
+                <asp:BoundField DataField="Status" HeaderText="状态"
+                    SortExpression="Status" />
+                <asp:TemplateField>
+                    <ItemTemplate>
+                        <asp:LinkButton ID="lbtapprovesuccess" runat="server" CommandName="refill"
+                            CommandArgument='<%# Eval("Form_ID") %>'>重新填写</asp:LinkButton>
+                    </ItemTemplate>
+                </asp:TemplateField>
+            </Columns>
+            <EditRowStyle BackColor="#2461BF" />
+            <FooterStyle BackColor="#507CD1" ForeColor="White" Font-Bold="True" />
+            <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+            <PagerStyle ForeColor="White" HorizontalAlign="Center" BackColor="#2461BF" />
+            <RowStyle BackColor="#EFF3FB" />
+            <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
+            <SortedAscendingCellStyle BackColor="#F5F7FB" />
+            <SortedAscendingHeaderStyle BackColor="#6D95E1" />
+            <SortedDescendingCellStyle BackColor="#E9EBEF" />
+            <SortedDescendingHeaderStyle BackColor="#4870BE" />
+        </asp:GridView>
     </form>
 </body>
 

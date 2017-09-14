@@ -389,5 +389,13 @@ namespace SHZSZHSUPPLY.VendorAssess
                 }
             }
         }
+        protected void tips()
+        {
+            bool ok = ContractApproval_BLL.isKCIOK(formID);
+            if (ok)
+            {
+                this.Lable1.Text = "KCI审批已通过！";
+            }
+        }
     }
 }

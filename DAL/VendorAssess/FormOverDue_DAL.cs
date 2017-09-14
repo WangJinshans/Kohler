@@ -114,5 +114,20 @@ namespace DAL.VendorAssess
             }
             return false;
         }
+
+        public static string getFormTypeIDByItemCategory(string sql)
+        {
+            DataTable table = new DataTable();
+            table = DBHelp.GetDataSet(sql);
+            string result = "";
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    result = dr["Form_Type_ID"].ToString().Trim();
+                }
+            }
+            return result;
+        }
     }
 }

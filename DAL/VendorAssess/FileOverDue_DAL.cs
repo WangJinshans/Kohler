@@ -63,6 +63,46 @@ namespace DAL.VendorAssess
             }
         }
 
+        /// <summary>
+        /// 新的方法获取File_ID 和Form_ID
+        /// </summary>
+        /// <param name="temp_Vendor_ID"></param>
+        /// <param name="file_Type_Name"></param>
+        /// <param name="factory"></param>
+        /// <returns></returns>
+        public static Dictionary<string,string> newGetOverDueForm(string temp_Vendor_ID, string file_Type_Name, string factory)//文件过期找form的方法
+        {
+            As_Form_OverDue form = new As_Form_OverDue();
+            string file_Type_ID = File_Type_DAL.selectFileTypeID(file_Type_Name, temp_Vendor_ID);
+            Dictionary<string, string> dc = new Dictionary<string, string>();
+            //As_Form_File 是表与文件绑定的地方
+            string sql = "select File_ID from As_File where Temp_Vendor_ID ='" + temp_Vendor_ID + "' and File_Type_ID='" + file_Type_ID + "' and (Factory_Name='" + factory + "' or Factory_Name='ALL') and Status='new'";//获取对应的Form_ID
+            DataTable tables = new DataTable();
+            string fileID = "";
+            DataTable table = FormOverDue_DAL.getOverDueForm(sql);//查到的是File_ID
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    fileID = Convert.ToString(dr["File_ID"]);
+                    sql = "select Form_ID from As_Form_File where File_ID='" + Convert.ToString(dr["File_ID"]) + "'";
+                    tables = FormOverDue_DAL.getOverDueForm(sql);//获取每个File_ID对应的所有的Form_ID  Form_ID可能会有重复
+                    if (tables.Rows.Count > 0)
+                    {
+                        foreach (DataRow drs in tables.Rows)
+                        {
+                            dc.Add(fileID,drs["Form_ID"].ToString().Trim());
+                        }
+                    }
+                }
+                return dc;
+            }
+            else
+            {
+                return null;//查不到formID就返回空
+            }
+        }
+
         public static int reAccessForm(string formID, string temp_Vendor_ID)
         {
             try

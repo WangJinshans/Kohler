@@ -18,7 +18,8 @@ namespace BLL.VendorAssess
         public static IList<As_File_OverDue> getOverDueFile(string temp_Vendor_ID,string factory)
         {
             List<As_File_OverDue> list = new List<As_File_OverDue>();
-            string sql = "select * from As_VendorFile_OverDue where Temp_Vendor_ID ='" + temp_Vendor_ID + "' and (Factory_Name='" + factory + "' or Factory_Name='ALL')";
+            //string sql = "select * from As_VendorFile_OverDue where Temp_Vendor_ID ='" + temp_Vendor_ID + "' and (Factory_Name='" + factory + "' or Factory_Name='ALL')";
+            string sql = "select Temp_Vendor_ID,FileType_Name,Factory_Name,Status,Category from As_VendorFile_OverDue where Temp_Vendor_ID='" + temp_Vendor_ID + "' and Factory_Name in('" + factory + "','ALL')";
             DataTable table = new DataTable();
             table = FileOverDue_DAL.getOverDueFile(sql);
             if (table.Rows.Count > 0)
@@ -27,7 +28,8 @@ namespace BLL.VendorAssess
                 {
                     As_File_OverDue form = new As_File_OverDue();
                     form.Temp_Vendor_ID = Convert.ToString(dr["Temp_Vendor_ID"]);
-                    form.FileType_Name = Convert.ToString(dr["FileType_Name"]);
+                    form.Item_Category = Convert.ToString(dr["FileType_Name"]);
+                    form.Category= Convert.ToString(dr["Category"]);
                     //form.Position = Convert.ToString(dr["Position"]);
                     list.Add(form);
                 }
@@ -58,7 +60,7 @@ namespace BLL.VendorAssess
                 foreach (As_File_OverDue file in filelist)
                 {
                     //返回Form_ID的一个list
-                    formlist = FileOverDue_DAL.getOverDueForm(temp_Vendor_ID, file.FileType_Name,factory);
+                    formlist = FileOverDue_DAL.getOverDueForm(temp_Vendor_ID, file.Item_Category,factory);
                     if (formlist == null)
                     {
                         return null;
@@ -145,6 +147,27 @@ namespace BLL.VendorAssess
                 }
             }
             return FileIDs;
+        }
+
+        public static string getFormTypeIDByItemCategory(string itemCategory,string tempVendorID,string factory)
+        {
+            string sql = "select As_Vendor_FormType.Form_Type_ID from As_Mapping,As_Vendor_FormType where As_Mapping.Form_Type_ID=As_Vendor_FormType.Form_Type_ID and As_Mapping.Item_Category='" + itemCategory + "' and As_Vendor_FormType.Temp_Vendor_ID='" + tempVendorID + "' and As_Vendor_FormType.Factory_Name='" + factory + "'";
+            return FormOverDue_DAL.getFormTypeIDByItemCategory(sql);
+        }
+
+        /// <summary>
+        /// Dictionary<File_ID,Form_ID>
+        /// </summary>
+        /// <param name="temp_Vendor_ID"></param>
+        /// <param name="factory"></param>
+        /// <param name="fileTypeName"></param>
+        /// <returns></returns>
+        public static Dictionary<string,string> getOverDueFormByFile(string temp_Vendor_ID, string factory, string fileTypeName)
+        {
+            //存放文件 和表的对应  确保不会再GridView2中点击不同的文件出现相同的表
+            //如果某个formID被取出 直接在Dictionary中连带fileID一起移除
+            Dictionary<string, string> formWithFile = new Dictionary<string, string>();
+            return FileOverDue_DAL.newGetOverDueForm(temp_Vendor_ID, fileTypeName, factory);
         }
     }
 }

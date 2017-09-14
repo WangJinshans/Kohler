@@ -7,9 +7,10 @@ namespace MODEL.VendorAssess
 {
     public class As_File_OverDue
     {
-        private string fileType_Name;
+        private string item_Category;
         private string temp_Vendor_ID;
         private string position;
+        private string category;
         private string factory_Name;//三厂审批分离
 
         public string Temp_Vendor_ID
@@ -38,18 +39,6 @@ namespace MODEL.VendorAssess
             }
         }
 
-        public string FileType_Name
-        {
-            get
-            {
-                return fileType_Name;
-            }
-
-            set
-            {
-                fileType_Name = value;
-            }
-        }
 
         public string Factory_Name
         {
@@ -61,6 +50,32 @@ namespace MODEL.VendorAssess
             set
             {
                 factory_Name = value;
+            }
+        }
+
+        public string Item_Category
+        {
+            get
+            {
+                return item_Category;
+            }
+
+            set
+            {
+                item_Category = value;
+            }
+        }
+
+        public string Category
+        {
+            get
+            {
+                return category;
+            }
+
+            set
+            {
+                category = value;
             }
         }
     }
