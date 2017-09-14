@@ -113,9 +113,15 @@
                             }
                         }
                     }
-                    pdf.autoPrint();
-                    pdf.save(file);
-                    requestToPdfAshx(file, formID);
+                    var res = pdf.output();
+                    var data = [];
+                    data.append("data", res);
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('post', 'PDF.ashx', true);
+                    xhr.send(data);
+                    //pdf.autoPrint();
+                    //pdf.save(file);
+                    //requestToPdfAshx(file, formID);
                 },
                 background: "#f7f7f7"    //设置PDF背景色（默认透明，实际显示为黑色）
             });

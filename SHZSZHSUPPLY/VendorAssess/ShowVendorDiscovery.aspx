@@ -156,24 +156,35 @@
                             }
                         }
                     }
-                    pdf.autoPrint();
-                    pdf.save(file);
-                    requestToPdfAshx(file, formID);
+                    var res = pdf.output();
+                    //var data = JSON.parse(res);
+                    //data.append("data", res);
+                    requestToPdfAshx(res);
+                    //pdf.autoPrint();
+                    //pdf.save(file);
+                    //requestToPdfAshx(file, formID);
                 },
                 background: "#f7f7f7"    //设置PDF背景色（默认透明，实际显示为黑色）
             });
         }
     </script>
     <script>
-        function requestToPdfAshx(fileName,formID) {
-            $.get(
-                "ASHX/PDF.ashx",
-                { "fileName": fileName,"formID":formID},
-                function (res) {
-                    window.location.href = document.URL;
-                    alert(res);
-                }
-            );
+        function requestToPdfAshx(data) {
+            //$.get(
+            //    "ASHX/PDF.ashx",
+            //    { "fileName": fileName,"formID":formID},
+            //    function (res) {
+            //        window.location.href = document.URL;
+            //        alert(res);
+            //    }
+            //);
+            $.post("ASHX/PDF.ashx",
+                {
+                    datas: data
+                },
+                function (data, status) {
+                    alert(data);
+            })
         }
         //function messageFunc(msg, func) {
         //    layui.use(['layer'], function () {

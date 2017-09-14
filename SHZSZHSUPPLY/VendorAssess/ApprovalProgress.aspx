@@ -56,15 +56,6 @@
             })
         }
     </script>
-    <%--生成所有的PDF--%>
-    <%--<script>
-        function generateAllPdf() {
-            document.getElementById("pdfIframe").src = "ShowVendorDiscovery.aspx";
-            $("#pdfIframe").attr("src", url).on("load", function (event) {
-                var s = ($(this).context.contentWindow.document.getElementById("Button1"));
-            });
-        }
-    </script>--%>
     <script>
         (function ($, h, c) {
             var a = $([]),
@@ -253,9 +244,6 @@
 </head>
 <body>
     <form id="form1" class="layui-form" runat="server">
-        <%--<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
-        <input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />--%>
-<%--        <iframe id="pdfIframe" name="iframe1" style="display:block" src="http://www.baidu.com"></iframe>--%>
         <div class="layui-form-item" style="width: 1000px; margin: 0 auto">
             <a href="./index.aspx" class="layui-btn layui-btn layui-btn-small" style="float:left;margin-right:100px">返回</a>
             <label class="layui-form-label">供应商选择</label>
@@ -305,18 +293,7 @@
                             CommandArgument='<%# Eval("Form_ID") %>'>详情</asp:LinkButton>
                     </ItemTemplate>
                 </asp:TemplateField>
-
-
             </Columns>
-            <%--<FooterStyle BackColor="#FFFFCC" ForeColor="#330099" />
-            <HeaderStyle BackColor="#990000" Font-Bold="True" ForeColor="#FFFFCC" />
-            <PagerStyle BackColor="#FFFFCC" ForeColor="#330099" HorizontalAlign="Center" />
-            <RowStyle BackColor="White" ForeColor="#330099" />
-            <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="#663399" />
-            <SortedAscendingCellStyle BackColor="#FEFCEB" />
-            <SortedAscendingHeaderStyle BackColor="#AF0101" />
-            <SortedDescendingCellStyle BackColor="#F6F0C0" />
-            <SortedDescendingHeaderStyle BackColor="#7E0000" />--%>
         </asp:GridView>
 
 

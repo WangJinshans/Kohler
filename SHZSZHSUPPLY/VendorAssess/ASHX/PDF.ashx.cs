@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace SHZSZHSUPPLY.VendorAssess.ASHX
@@ -17,8 +18,17 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
         public void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "text/plain";
+            string data = context.Request.Form["datas"];
             string fileName = context.Request["fileName"] ?? ""; //编码格式
             string formID = context.Request["formID"] ?? "";
+
+            string filename = "D:\\test\\NewFile.pdf";
+            FileStream fs = File.Create(filename);
+            Byte[] info = new UTF8Encoding(true).GetBytes(data);
+            fs.Write(info, 0, info.Length);
+            fs.Flush();//清除该流的所有缓冲区，使得所有缓冲的数据都被写入到基础设备
+            fs.Close();
+
             FileInfo fi = new FileInfo("C:\\Users\\廷江\\Downloads\\" + fileName);
             string path = HttpContext.Current.Server.MapPath("../../files/");
             string newPath = path + fileName;

@@ -53,7 +53,10 @@ namespace BLL
         {
             return VendorForm_DAL.addVendorFormType(Vendor_FormType);
         }
-
+        public static string getVendorFormID(string tempVendorID,string factory,string formTypeID)
+        {
+            return VendorForm_DAL.getVendorFormID(tempVendorID, factory,formTypeID);
+        }
         //添加供应商文件
         public static  int  addVendorFileType(As_Vendor_FileType Vendor_FileType)
         {

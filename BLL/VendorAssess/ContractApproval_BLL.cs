@@ -46,5 +46,10 @@ namespace BLL
         {
             return ContractApproval_DAL.SubmitOk(formID);
         }
+
+        public static bool isKCIOK(string formID)
+        {
+            return ContractApproval_DAL.isKCIOK(formID);
+        }
     }
 }

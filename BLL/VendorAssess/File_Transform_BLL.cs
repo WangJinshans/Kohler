@@ -809,7 +809,6 @@ namespace BLL.VendorAssess
                     {
                         string fileID = key;
                         string filePath = fileWithPath[key];
-
                         if (filePath == "")
                         {
                             return PATH_IS_NULL;
@@ -826,7 +825,7 @@ namespace BLL.VendorAssess
                         {
                             return null;
                         }
-                        addVendorFile(code, destPath, newPath, factory, type, "Enable", fileID, DateTime.Now, employeeID);
+                        addVendorFile(code, fileID, newPath, factory, type, "Enable", fileID, DateTime.Now, employeeID);
                     }
                     catch (Exception e)
                     {

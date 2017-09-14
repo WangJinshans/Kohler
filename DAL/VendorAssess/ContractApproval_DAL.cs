@@ -55,6 +55,20 @@ namespace DAL
             return submit;
         }
 
+        public static bool isKCIOK(string formID)
+        {
+            string sql = "select * from As_Vendor_FormType where Form_ID='" + formID + "' and flag=4";
+            using (SqlDataReader reader = DBHelp.GetReader(sql))
+                if (reader.Read())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+        }
+
         public static string getFormID(string tempVendorID,string Form_Type_ID, string factory)
         {
             string formID = "";
