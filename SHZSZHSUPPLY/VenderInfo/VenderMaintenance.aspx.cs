@@ -9,6 +9,7 @@ using BLL.VenderInfo;
 using BLL.ErrorMessage;
 using BLL.SendMail;
 using BLL.SystemAdmin;
+using Model;
 
 namespace SHZSZHSUPPLY.VenderInfo
   
@@ -452,6 +453,20 @@ namespace SHZSZHSUPPLY.VenderInfo
                 else
                 {
                     ItemList_BLL.ItemList_BLL_Insert(Label14.Text, DropDownList4.SelectedValue, pathxiangdui, Label12.Text, Label28.Text ,"Enable", Label5.Text, DateTime.Parse(TextBox1.Text), DateTime.Parse(TextBox2.Text), dt, Label15.Text, TextBox3.Text);
+                    string tempVendorID = BLL.TempVendor_BLL.getTempVendorIDByVendorCode(Label14.Text);
+                    string tempVendorName = BLL.TempVendor_BLL.getTempVendorName(tempVendorID);
+                    string fileTypeID = BLL.File_Type_BLL.getFileTypeIDByItemCategory(DropDownList4.SelectedValue);
+                    As_File file = new As_File();
+                    file.Temp_Vendor_ID = tempVendorID;
+                    file.Temp_Vendor_Name = tempVendorName;
+                    file.File_ID = Label5.Text;
+                    file.File_Name = Label5.Text + ".pdf";
+                    file.File_Path = pathxiangdui;
+                    file.File_Enable_Time = TextBox1.Text;
+                    file.File_Due_Time = TextBox2.Text;
+                    file.Factory_Name = Label12.Text;
+                    file.File_Type_ID = fileTypeID;
+                    BLL.File_BLL.addFile(file);
                     OperationLog_BLL.ItemOperationLog_BLL_Insert(Label5.Text, "Upload", Label15.Text);
                 }
 

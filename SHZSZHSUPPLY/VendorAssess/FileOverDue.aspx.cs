@@ -52,9 +52,6 @@ namespace SHZSZHSUPPLY.VendorAssess
                     case "refreshVendor":
                         refreshVendor(Request.Form["__EVENTARGUMENT"]);
                         break;
-                    case "showForms":
-                        //showForm(Request.Form["__EVENTARGUMENT"]);
-                        break;
                     default:
                         break;
                 }

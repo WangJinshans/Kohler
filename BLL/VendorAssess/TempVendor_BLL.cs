@@ -337,5 +337,20 @@ namespace BLL
                 return NO_TYPE;
             }
         }
+
+        public static string getTempVendorIDByVendorCode(string tempVendorID)
+        {
+            string vendorCode = "";
+            string sql = "select Normal_Code from As_Temp_Vendor where Temp_Vendor_ID='" + tempVendorID + "'";
+            DataTable table = DBHelp.GetDataSet(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    vendorCode = dr["Normal_Code"].ToString().Trim();
+                }
+            }
+            return vendorCode;
+        }
     }
 }
