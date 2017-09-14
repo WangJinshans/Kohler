@@ -13,8 +13,8 @@ namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class ShowVendorDiscovery : System.Web.UI.Page
     {
-        private string formID = null;
-        private string positionName = null;
+        private string formID = "";
+        private string positionName = "";
         private string FORM_TYPE_ID = "";
         private string tempVendorID = "";
 
@@ -198,19 +198,27 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// </summary>
         private void getSessionInfo()
         {
-            formID = Convert.ToString(Session["formID"]);
-            positionName = Convert.ToString(Session["Position_Name"]);
-            tempVendorID = AddForm_BLL.GetTempVendorID(formID);//获取tempvendorID
-            FORM_TYPE_ID = Request.QueryString["type"];
+            if (Request.QueryString["outPutID"] != null && Request.QueryString["outPutID"]!="")
+            {
+                formID = Request.QueryString["outPutID"];
+                FORM_TYPE_ID = Request.QueryString["type"];
+            }
+            else
+            {
+                formID = Convert.ToString(Session["formID"]);
+                positionName = Convert.ToString(Session["Position_Name"]);
+                tempVendorID = AddForm_BLL.GetTempVendorID(formID);//获取tempvendorID
+                FORM_TYPE_ID = Request.QueryString["type"];
+            }
         }
 
         protected void Button1_Click(object sender, EventArgs e)
         {
             getSessionInfo();
             //形成文件的ID 计划将简称保存到数据库的对应表中
-            string fileTypeName = FormType_BLL.getFormNameByTypeID(FORM_TYPE_ID);
+            string fileTypeName = FormType_BLL.getFormNameByFormID(formID);
             string factory = AddForm_BLL.getFactoryByFormID(formID);
-            string file = tempVendorID + File_Type_BLL.getFormSpec(fileTypeName) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factory) + ".pdf";
+            string file = File_BLL.generateFileID(tempVendorID, fileTypeName, factory) + ".pdf";
             ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>takeScreenshot('"+file+"','"+formID+"');</script>");
         }
 

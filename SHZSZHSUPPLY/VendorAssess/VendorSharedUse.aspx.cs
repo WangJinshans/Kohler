@@ -91,7 +91,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             string tempVendorID = Request.Form["quiz3"];
 
             //检查是否已经完成审批
-            if (File_Transform_BLL.checkFormSubmit(tempVendorID, factory) && File_Transform_BLL.FormAccessSuccessFul(tempVendorID, factory) && File_Transform_BLL.checkFileSubmit(tempVendorID,factory))
+            if (File_Transform_BLL.checkFormSubmit(tempVendorID, Request.Form["quiz1"]) && File_Transform_BLL.FormAccessSuccessFul(tempVendorID, Request.Form["quiz1"]) && File_Transform_BLL.checkFileSubmit(tempVendorID, Request.Form["quiz1"]))
             {
                 //如果本工厂已经在使用此供应商
                 if (TempVendor_BLL.checkUsed(tempVendorID, Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString())))

@@ -6,6 +6,7 @@ using MODEL;
 using SHZSZHSUPPLY.VendorAssess.Html_Template;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
@@ -228,12 +229,20 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             {
                 Signature_BLL.setSignature(formID, positionName);//签名
                 Signature_BLL.setSignatureDate(formID, positionName);
+
+                //PDF
+                outPutPDF(formID,tempVendorID);
+
                 return doKCIApprove(formID, tempVendorID, formTypeID, positionName, page);
             }//正常最终
             else if (result == NORMAL_FINAL)//签名
             {
                 Signature_BLL.setSignature(formID, positionName);//签名
                 Signature_BLL.setSignatureDate(formID, positionName);
+
+                //PDF
+                outPutPDF(formID,tempVendorID);
+
                 return doFinalApprove(formID, tempVendorID, formTypeID, positionName, page);
             }
             else//非最终  签名
@@ -260,6 +269,37 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
 
             return false;
         }
+
+        public static void outPutPDF(string formID,string tempVendorID)
+        {
+            try
+            {
+                string url = HttpContext.Current.Request.Url.ToString()+"&outPutID="+formID;
+                string pdf = Properties.Settings.Default.PDF_Tool_Path;
+
+                string fileTypeName = FormType_BLL.getFormNameByFormID(formID);
+                string factory = AddForm_BLL.getFactoryByFormID(formID);
+                string file = HttpContext.Current.Server.MapPath("../files/")+File_BLL.generateFileID(tempVendorID, fileTypeName, factory) + ".pdf";
+
+                Process p = Process.Start(pdf, url + " \"" + file + "\"");
+                p.WaitForExit();
+
+                As_Form form = new As_Form();
+                form.Form_ID = formID;
+                form.Form_Path = file;
+                int result = AddForm_BLL.upDateFormPath(formID, file);
+                if (result <= 0)
+                {
+                    throw new Exception("数据库更新失败");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
 
         /// <summary>
         /// 判断是否为最后审批人
@@ -335,10 +375,12 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
 
                 string fileTypeName = FormType_BLL.getFormNameByFormID(formID);
                 string factory = AddForm_BLL.getFactoryByFormID(formID);
-                string file = tempVendorID + File_Type_BLL.getFormSpec(fileTypeName) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factory) + ".pdf";
+                string file = File_BLL.generateFileID(tempVendorID, fileTypeName, factory) + ".pdf";
 
                 //提示，并生成文件，写入系统，返回刷新
-                LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){" + String.Format("takeScreenshot('{0}','{1}');", file, formID) + "}"), "testid");
+                LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){document.location.href = document.URL;}"), "testid");
+
+                //LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){" + String.Format("takeScreenshot('{0}','{1}');", file, formID) + "}"), "testid");
                 return true;
             }
             return false;
@@ -376,24 +418,18 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                 string oldFormID = FormOverDue_BLL.getOldFormID(formID);//对于已经在重新审批中的表 oldFormID 在As_Vendor_FormType_History一定存在 在过期表中也一定存在
                 rs3 = UpdateFlag_BLL.updateReAccessFormStatus(oldFormID, tempVendorID);//成功返回2 失败返回-1
             }
-            //int times = FormOverDue_BLL.getLastedForm(formID);
-            //if (times > 0) //表示过期重新审批到了最后一个  需要把重新审批的表的标签 改成已通过
-            //{
-
-            //}
             if (rs1 > 0 && rs2 > 0 && rs3 > 0)
             {
                 LocalLog.writeLog(formID, String.Format("系统内部审批完成,表格审批完成    时间：{0}", DateTime.Now), As_Write.APPROVE_SUCCESS, tempVendorID);
 
                 As_Employee ae = Employee_BLL.getEmolyeeById(HttpContext.Current.Session["Employee_ID"].ToString());
                 LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "审批完成", DateTime.Now.ToString(), "系统内部审批完成,表格审批完成");
+
                 string fileTypeName = FormType_BLL.getFormNameByFormID(formID);
                 string factory = AddForm_BLL.getFactoryByFormID(formID);
-                string file = tempVendorID + File_Type_BLL.getFormSpec(fileTypeName) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(factory) + ".pdf";
-
-                LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){"+ String.Format("takeScreenshot('{0}','{1}');", file, formID) + "}"), "testid");
-                //LocalScriptManager.CreateScript(page, String.Format("takeScreenshot('{0}','{1}')", formID, file), "myscript");
-                //page.ClientScript.RegisterStartupScript(page.ClientScript.GetType(), "myscript", "<script>takeScreenshot('" + file + "','" + formID + "');</script>");
+                string file = File_BLL.generateFileID(tempVendorID, fileTypeName, factory) + ".pdf";
+                LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){document.location.href = document.URL;}"), "testid");
+                //LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){"+ String.Format("takeScreenshot('{0}','{1}');", file, formID) + "}"), "testid");
                 return true;
             }
             return false;

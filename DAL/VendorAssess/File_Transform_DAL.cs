@@ -70,7 +70,7 @@ namespace DAL.VendorAssess
 
         public static DataTable getKciFilePath(string formID)
         {
-            string sql = "select File_Path from As_KCI_File where Form_ID='" + formID + "'";
+            string sql = "select * from As_KCI_File where Form_ID='" + formID + "'";
             DataTable table = DBHelp.GetDataSet(sql);
             return table;
         }
@@ -155,7 +155,7 @@ namespace DAL.VendorAssess
 
         public static DataTable getFilePath(string fileID)
         {
-            string sql = "select File_Path from As_File where [File_ID]='" + fileID + "'";
+            string sql = "select * from View_File where [File_ID]='" + fileID + "'";
             DataTable table = new DataTable();
             table = DBHelp.GetDataSet(sql);
             return table;
@@ -179,7 +179,7 @@ namespace DAL.VendorAssess
 
         public static DataTable getFormPath(string formID)
         {
-            string sql = "select Form_Path from As_Form where Form_ID='" + formID + "'";
+            string sql = "select * from View_Form where Form_ID='" + formID + "'";
             DataTable table = new DataTable();
             table = DBHelp.GetDataSet(sql);
             return table;
@@ -307,6 +307,20 @@ namespace DAL.VendorAssess
         public static int addVendorPlantInfo(string sql, SqlParameter[] sq)
         {
             return DBHelp.ExecuteCommand(sql, sq);
+        }
+
+        public static bool recordExist(string fileID)
+        {
+            string sql = "select count(*) from itemList where Item_Label=@File_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@File_ID",fileID)
+            };
+            if (DBHelp.GetScalarFix(sql,sp)>0)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

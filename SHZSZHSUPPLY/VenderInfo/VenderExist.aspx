@@ -11,7 +11,7 @@
     {
         width:1000px;
         height:100%;
-        margin :0
+        margin :0 auto;
     }
 .div
 {

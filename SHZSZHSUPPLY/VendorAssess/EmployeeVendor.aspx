@@ -24,27 +24,30 @@
 
             //监听
             form.on('select', function (data) {
-                currentFactory = document.getElementById('factory').selectedIndex;
-                currentType = document.getElementById('type').selectedIndex;
-                currentName = document.getElementById('name').selectedIndex;
-                storageParams();
-
-                switch (data.elem.id) {
-                    case 'factory':
-                        onFactorySelectChanged();
-                        break;
-                    case 'type':
-                        onVendorTypeSelectChanged();
-                        break;
-                    case 'name':
-                        __myDoPostBack('refreshVendor', document.getElementById('name').value);
-                        break;
-                    default:
-                        break;
-                }
+                onSelect(data);
             });
-
         });
+        function onSelect(data){
+            currentFactory = document.getElementById('factory').selectedIndex;
+            currentType = document.getElementById('type').selectedIndex;
+            currentName = document.getElementById('name').selectedIndex;
+            storageParams();
+
+            switch (data.elem.id) {
+                case 'factory':
+                    onFactorySelectChanged();
+                    break;
+                case 'type':
+                    onVendorTypeSelectChanged();
+                    break;
+                case 'name':
+                    __myDoPostBack('refreshVendor', document.getElementById('name').value);
+                    break;
+                default:
+                    break;
+            }
+        }
+
         function fireRefresh() {
             __myDoPostBack('refreshVendor', document.getElementById('name').value);
         }
@@ -59,10 +62,6 @@
             onVendorTypeSelectChanged();
             document.getElementById('name').selectedIndex = localStorage.getItem('name');
         }
-
-        //function viewFile(filePath) {
-        //    window.open("../files/a.pdf");
-        //}
 
         function setParams(infoJson) {
             this.vendorInfoJson = JSON.parse(infoJson);
@@ -114,6 +113,28 @@
                 var form = layui.form();
                 form.render('select');
             })
+        }
+
+        function recoverSelectData() {
+            document.getElementById('factory').selectedIndex = localStorage.getItem('factory');
+            document.getElementById('type').selectedIndex = localStorage.getItem('type');
+            onVendorTypeSelectChanged();
+            var nameSelect = document.getElementById('name');
+
+            var newName = localStorage.getItem('newName');
+            //如果是从新建跳转过来
+            if (newName != null && newName != '') {
+                //nameSelect.value = newName;
+                document.getElementById('factory').value = localStorage.getItem('newFactory');
+                document.getElementById('type').value = localStorage.getItem('newType');
+                nameSelect.value = localStorage.getItem('newName');
+                localStorage.setItem('newName', '');
+            } else {//否则为恢复现场
+                nameSelect.selectedIndex = localStorage.getItem('name');
+            }
+
+            var data = { elem: nameSelect, value: nameSelect.value };
+            onSelect(data);
         }
     </script>
 </head>

@@ -31,6 +31,8 @@ namespace AendorAssess
             if (!IsPostBack)
             {
                 readVendorInfo();
+
+                LocalScriptManager.CreateScript(Page, "recoverSelectData()", "recoverInfo");
             }
             else
             {

@@ -29,7 +29,19 @@ function uploadFile(requestType, tempVendorID, tempVendorName, fileTypeID,callba
                 return true;
             },
             end: function () {
-                layer.msg('上传成功');
+                uploadFileResult = localStorage.getItem('uploadResult');
+                if (uploadFileResult != null) {
+                    uploadFileResult = JSON.parse(uploadFileResult);
+                    if (uploadFileResult['success']) {
+                        layer.msg('上传成功');//这里可以改为提醒1秒后刷新页面 2017年9月10日16:06:08
+                    } else {
+                        layer.msg('上传失败' + uploadFileResult['error']);
+                    }
+                }
+
+                if (callback != null) {
+                    callback(uploadFileResult);
+                }
                 if (fireRefresh != null) {
                     fireRefresh();
                 }
@@ -154,4 +166,13 @@ function goBack() {
 function goBackRefresh() {
     window.history.back();
     location.reload(); //回退，强制刷新
+}
+
+//供应商创建专属调用
+function changeCurrentVendor(factory, type, vendorID) {
+    localStorage.setItem('newFactory', factory);
+    localStorage.setItem('newType', type);
+    localStorage.setItem('newName', vendorID);
+
+    document.location.href = 'EmployeeVendor.aspx';
 }

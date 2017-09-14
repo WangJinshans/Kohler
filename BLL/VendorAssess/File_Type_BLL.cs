@@ -23,9 +23,14 @@ namespace BLL
         {
             return File_Type_DAL.getSpec(fileTypeID);
         }
-        public static string getFormSpec(string fileTypeID)
+        public static string getFormSpec(string fileTypeName)
         {
-            return File_Type_DAL.getFormSpec(fileTypeID);
+            return File_Type_DAL.getFormSpec(fileTypeName);
+        }
+
+        internal static bool getShared(string fileTypeID)
+        {
+            return File_Type_DAL.getShared(fileTypeID);
         }
     }
 }

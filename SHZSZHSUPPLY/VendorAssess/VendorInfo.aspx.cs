@@ -60,11 +60,11 @@ namespace AendorAssess
                 LocalScriptManager.CreateScript(Page, "messageBox('" + "请输入正确的金额" + "');", "Purchase_Money");
                 return false;
             }
-            if (!Promise.Checked && !Advance_Charge.Checked && !Vendor_Assign.Checked)
-            {
-                LocalScriptManager.CreateScript(Page, "messageBox('" + "请选择承诺、预付款、指定选项" + "');", "Purchase_Money");
-                return false;
-            }
+            //if (!Promise.Checked && !Advance_Charge.Checked && !Vendor_Assign.Checked)
+            //{
+            //    LocalScriptManager.CreateScript(Page, "messageBox('" + "请选择承诺、预付款、指定选项" + "');", "Purchase_Money");
+            //    return false;
+            //}
             return true;
         }
 
@@ -156,7 +156,8 @@ namespace AendorAssess
             //alert
             if (bindResult == 1)
             {
-                Response.Redirect("EmployeeVendor.aspx");
+                LocalScriptManager.CreateScript(Page, String.Format("changeCurrentVendor('{0}','{1}','{2}')",Session["Factory_Name"], DropDownList1.SelectedValue.Trim(), tempVendorID), "changeCurrentVendor");
+                //Response.Redirect("EmployeeVendor.aspx");
             }
             else
             {

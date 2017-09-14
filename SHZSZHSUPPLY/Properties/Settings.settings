@@ -20,5 +20,11 @@
     <Setting Name="Transfer_Dest_Path" Type="System.String" Scope="Application">
       <Value Profile="(Default)">../Upload/</Value>
     </Setting>
+    <Setting Name="File_Type_ID_KCI" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">033</Value>
+    </Setting>
+    <Setting Name="PDF_Tool_Path" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">E:\wkhtmltopdf\bin\wkhtmltopdf.exe</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

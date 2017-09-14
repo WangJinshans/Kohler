@@ -12,7 +12,7 @@
     {
         width:1000px;
         height:auto;
-        margin :0;
+        margin :0 auto;
     }
     
     .style1

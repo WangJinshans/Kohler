@@ -76,5 +76,23 @@ namespace SHZSZHSUPPLY.Properties {
                 return ((string)(this["Transfer_Dest_Path"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("033")]
+        public string File_Type_ID_KCI {
+            get {
+                return ((string)(this["File_Type_ID_KCI"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("E:\\wkhtmltopdf\\bin\\wkhtmltopdf.exe")]
+        public string PDF_Tool_Path {
+            get {
+                return ((string)(this["PDF_Tool_Path"]));
+            }
+        }
     }
 }
