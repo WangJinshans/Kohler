@@ -5,8 +5,7 @@ using System.Text;
 using DAL.VenderInfo;
 using System.Data.SqlClient;
 using BO.VenderInfo;
-
-
+using System.Data;
 
 namespace DAL.VenderInfo
 {
@@ -22,7 +21,32 @@ namespace DAL.VenderInfo
             return SqlUtil.Query<ItemCategory_BO >(strsql,parm);
         }
 
-        
+        /// <summary>
+        /// 获取该类型是否是需要再次审批 必选的文件需要再次审批  可选的不需要再次审批
+        /// </summary>
+        /// <param name="itemCategory"></param>
+        /// <returns></returns>
+        public bool ItemCategory_BLL_isOptional(string itemCategory)
+        {
+            string sql = "select Item_Option from itemCategory where Item_Categorty='" + itemCategory + "'";
+            DataTable table = DBHelp.GetDataSet(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    if (dr["Item_Option"].ToString().Trim() == "TRUE")
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            return false;
+        }
+
         public List<ItemCategory_BO> ItemCategory_DAL_ListAll(string vendertype)
         {
 

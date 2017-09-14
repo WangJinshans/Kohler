@@ -23,5 +23,10 @@ namespace BLL.VenderInfo
             ItemCategoryVendertype_DAL ItemCategory_DAL = new ItemCategoryVendertype_DAL();
             return ItemCategory_DAL.ItemCategory_DAL_ListAll(vendertype);
         }
+        public bool ItemCategory_BLL_isOptional(string itemCategory)
+        {
+            ItemCategoryVendertype_DAL ItemCategory_DAL = new ItemCategoryVendertype_DAL();
+            return ItemCategory_DAL.ItemCategory_BLL_isOptional(itemCategory);
+        }
     }
 }
