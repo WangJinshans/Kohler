@@ -156,6 +156,22 @@ namespace SHZSZHSUPPLY.VenderInfo
             List<ItemCategory_BO> ItemCategory_ALL_List = new List<ItemCategory_BO>();
             ItemCategoryVendertype_BLL ItemCategory_BLL = new ItemCategoryVendertype_BLL();
             ItemCategory_ALL_List = ItemCategory_BLL.ItemCategory_BLL_ListAll(DropDownList2 .Text );
+            if (ItemCategory_ALL_List.Count > 0)
+            {
+                for (int i = 0; i < ItemCategory_ALL_List.Count; i++)
+                {
+                    //简单的删除bidding和指定供应商表这两项
+                    if (ItemCategory_ALL_List[i].Item_Category == "比价资料，会议记录" || ItemCategory_ALL_List[i].Item_Category == "指定供应商表")
+                    {
+                        ItemCategory_ALL_List.RemoveAt(i);
+                    }
+                    //简单的删除需要审批的文件
+                    //if (ItemCategory_BLL.ItemCategory_BLL_isOptional(ItemCategory_ALL_List[i].Item_Category))
+                    //{
+                    //    ItemCategory_ALL_List.RemoveAt(i);
+                    //}
+                }
+            }
             DropDownList4.DataSource = ItemCategory_ALL_List;
             DropDownList4.DataTextField = "Item_Category";
             DropDownList4.DataValueField = "Item_Category";
