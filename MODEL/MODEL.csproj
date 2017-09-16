@@ -81,6 +81,7 @@
     <Compile Include="VendorAssess\As_Vendor_FileType.cs" />
     <Compile Include="VendorAssess\As_Vendor_FormType.cs" />
     <Compile Include="VendorAssess\As_Vendor_Form_Type.cs" />
+    <Compile Include="VendorAssess\As_Vendor_OverDue.cs" />
     <Compile Include="VendorAssess\As_Vendor_Risk.cs" />
     <Compile Include="VendorAssess\As_Vendor_Risk_Notes.cs" />
     <Compile Include="VendorAssess\As_Vendor_Selection.cs" />

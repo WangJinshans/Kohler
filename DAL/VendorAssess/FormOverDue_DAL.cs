@@ -89,6 +89,21 @@ namespace DAL.VendorAssess
             return table;
         }
 
+        public static int addOverDueForm(As_Form_OverDue vendor)
+        {
+            string sql = "insert into As_VendorForm_OverDue(Temp_Vendor_ID,Form_ID,Position,Status,Form_Type_Is_Optional,Factory_Name,Form_Type_ID)values(@Temp_Vendor_ID,@Form_ID,@Position,@Status,@Form_Type_Is_Optional,@Factory_Name,@Form_Type_ID)";
+            SqlParameter[] sp = new SqlParameter[] {
+                new SqlParameter("@Temp_Vendor_ID",vendor.Temp_Vendor_ID),
+                new SqlParameter("@Form_ID",vendor.Form_ID),
+                new SqlParameter("@Position",vendor.Position),
+                new SqlParameter("@Status","Disable"),
+                new SqlParameter("@Form_Type_Is_Optional",vendor.Form_Type_Is_Optional),
+                new SqlParameter("@Factory_Name",vendor.Factory_Name),
+                new SqlParameter("@Form_Type_ID",vendor.Form_Type_ID)
+            };
+            return DBHelp.GetScalar(sql, sp);
+        }
+
 
         /// <summary>
         /// 获取该表对应的所有的绑定文件 从文件立列表中查出是否存在历史
@@ -103,7 +118,7 @@ namespace DAL.VendorAssess
       
         public static bool checkVendor(string tempVendorID)
         {
-            string sql = "Select count(*) from As_VendorForm_OverDue Where Temp_Vendor_ID=@Temp_Vendor_ID and Status='hold'";
+            string sql = "Select count(*) from As_VendorForm_OverDue Where Temp_Vendor_ID=@Temp_Vendor_ID and Status='Hold'";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_ID",tempVendorID)

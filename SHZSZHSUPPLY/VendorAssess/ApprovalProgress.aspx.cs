@@ -170,20 +170,9 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
         }
 
-        //private void generateAllPdf(string tempVendorID, string factory)
-        //{
-        //    //List<string> forms = File_Transform_BLL.getForms(tempVendorID, factory);
-        //    //if (forms.Count > 0)
-        //    //{
-        //    //    ClientScript.RegisterStartupScript(ClientScript.GetType(), "AllPdf", "<script>generateAllPdf(forms,factory);</script>");
-        //    //}
-        //    ClientScript.RegisterStartupScript(ClientScript.GetType(), "AllPdf", "<script>generateAllPdf();</script>");
-
-        //}
-
         protected void Button1_Click(object sender, EventArgs e)
         {
-            //generateAllPdf(tempVendorID, factory);
+            
         }
     }
 }

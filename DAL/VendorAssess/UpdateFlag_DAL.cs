@@ -50,7 +50,7 @@ namespace DAL
 
         public static int updateReAccessFormStatus(string formID, string tempVendorID)
         {
-            string sql = "UPDATE As_VendorForm_OverDue SET Status='hold' WHERE Form_ID='" + formID + "'AND Temp_Vendor_ID='" + tempVendorID + "'";
+            string sql = "UPDATE As_VendorForm_OverDue SET Status='Hold' WHERE Form_ID='" + formID + "'AND Temp_Vendor_ID='" + tempVendorID + "'";
             try
             {
                 DBHelp.ExecuteCommand(sql);
@@ -76,7 +76,8 @@ namespace DAL
 
         public static int updateReAccessFileStatus(string fileID)
         {
-            string sql = "UPDATE As_VendorFile_OverDue SET Status='hold' WHERE [File_ID]='" + fileID + "'";
+            string fileTypeName = File_DAL.getFileTypeNameByFileID(fileID);
+            string sql = "UPDATE As_VendorFile_OverDue SET Status='Hold' WHERE [FileType_Name]='" + fileTypeName + "'";
             try
             {
                 DBHelp.ExecuteCommand(sql);

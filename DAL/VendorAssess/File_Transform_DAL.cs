@@ -189,7 +189,7 @@ namespace DAL.VendorAssess
         public static List<string> getOverDueOldFormID(string tempVendorID, string factory)
         {
             List<string> formIDs = new List<string>();
-            string sql = "select Form_ID from As_VendorForm_OverDue where Temp_Vendor_ID='" + tempVendorID + "' and (Factory='" + factory + "' or Factory='ALL')";
+            string sql = "select Form_ID from As_VendorForm_OverDue where Temp_Vendor_ID='" + tempVendorID + "' and (Factory_Name='" + factory + "')";
             DataTable table = DBHelp.GetDataSet(sql);
             if (table.Rows.Count > 0)
             {
@@ -220,7 +220,7 @@ namespace DAL.VendorAssess
         public static string getOverDueNewFormID(string tempVendorID, string formTypeID, string factory)
         {
             string formID = "";
-            string sql = "select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "' and Form_Type_ID='" + formTypeID + "' and (Factory_Name='" + factory + "' or Factory='ALL')";
+            string sql = "select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "' and Form_Type_ID='" + formTypeID + "' and Factory_Name='" + factory + "'";
             DataTable table = DBHelp.GetDataSet(sql);
             if (table.Rows.Count > 0)
             {

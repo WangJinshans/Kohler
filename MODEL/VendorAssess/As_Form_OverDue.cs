@@ -12,6 +12,7 @@ namespace MODEL.VendorAssess
         private string temp_Vendor_ID;
         private string status;
         private string form_Type_Is_Optional;
+        private string form_Type_ID;
         private string factory_Name;//三厂审批分离
         public string Form_ID
         {
@@ -89,6 +90,19 @@ namespace MODEL.VendorAssess
             set
             {
                 factory_Name = value;
+            }
+        }
+
+        public string Form_Type_ID
+        {
+            get
+            {
+                return form_Type_ID;
+            }
+
+            set
+            {
+                form_Type_ID = value;
             }
         }
     }
