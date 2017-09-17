@@ -263,6 +263,12 @@ namespace BLL.VendorAssess
         }
 
 
+        /// <summary>
+        /// 修改版
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <param name="factory"></param>
+        /// <returns></returns>
         private static Dictionary<string, string> getOverDueKciFileWithPath(string tempVendorID, string factory)
         {
             Dictionary<string, string> OverDueFileWithPath = new Dictionary<string, string>();
@@ -283,11 +289,19 @@ namespace BLL.VendorAssess
                         DataTable table = File_Transform_DAL.getKciFilePath(formID);//从As_KCI_File中获取KCI文件的审批结果
                         if (table.Rows.Count > 0)
                         {
+                            string[] tempArray = new string[7];
                             foreach (DataRow dr in table.Rows)
                             {
-                                filePath = dr["File_Path"].ToString().Trim();
+                                tempArray[0] = dr["File_Path"].ToString().Trim();
+                                tempArray[1] = "FALSE";
+                                tempArray[2] = dr["File_Type_ID"].ToString();
+                                tempArray[3] = "其他";
+                                tempArray[4] = dr["File_Enable_Time"].ToString();
+                                tempArray[5] = dr["File_Due_Time"].ToString();
+                                tempArray[6] = "KCI审批结果";
+                                //filePath = dr["File_Path"].ToString().Trim();
                             }
-                            OverDueFileWithPath.Add(fileID, filePath);
+                            OverDueFileWithPath.Add(fileID, String.Join("&", tempArray));
                         }
                     }
                 }
@@ -355,6 +369,7 @@ namespace BLL.VendorAssess
                 }
             }
             string path = "";
+            string [] tempArray = new string[7];
             if (forms != null && forms.Count > 0)
             {
                 foreach (string newformID in forms)
@@ -364,12 +379,15 @@ namespace BLL.VendorAssess
                     {
                         foreach (DataRow dr in table.Rows)
                         {
-                            path = dr["Form_Path"].ToString().Trim();
+                            tempArray[0] = dr["Form_Path"].ToString().Trim();
+                            tempArray[1] = "FALSE";
+                            tempArray[2] = dr["File_Type_ID"].ToString();
+                            tempArray[3] = dr["File_Type_Range"].ToString();
+                            tempArray[4] = "";//TODO::更新starttime，end time 2017年9月10日21:02:50
+                            tempArray[5] = "";
+                            tempArray[6] = dr["File_Type_Name"].ToString();
+                            OverDueFormWithPath.Add(newformID, String.Join("&", tempArray));
                         }
-                    }
-                    if (path != "")
-                    {
-                        OverDueFormWithPath.Add(newformID, path);
                     }
                 }
             }
@@ -383,7 +401,7 @@ namespace BLL.VendorAssess
             Dictionary<string, string> OverDueFormWithPath = new Dictionary<string, string>();
             DataTable table = new DataTable();
             List<string> oldForms = File_Transform_DAL.getOverDueOldFormID(tempVendorID, factory);//返回原来需要KCI的Form_ID
-            if (OverDueFormWithPath.Count > 0)
+            if (oldForms.Count > 0)
             {
                 foreach (string formID in oldForms)
                 {
@@ -392,10 +410,19 @@ namespace BLL.VendorAssess
                     table = File_Transform_DAL.getFormPath(formID);
                     if (table.Rows.Count > 0)
                     {
+                        string [] tempArray = new string[7];
                         foreach (DataRow dr in table.Rows)
                         {
-                            string fomrPath = dr["Form_Path"].ToString().Trim();
-                            OverDueFormWithPath.Add(formID, fomrPath);
+                            tempArray[0] = dr["Form_Path"].ToString().Trim();
+                            tempArray[1] = "FALSE";
+                            tempArray[2] = dr["File_Type_ID"].ToString();
+                            tempArray[3] = dr["File_Type_Range"].ToString();
+                            tempArray[4] = "";//TODO::更新starttime，end time 2017年9月10日21:02:50
+                            tempArray[5] = "";
+                            tempArray[6] = dr["File_Type_Name"].ToString();
+                            //formWithPath.Add(formID, String.Join("&", tempArray));
+                            //string fomrPath = dr["Form_Path"].ToString().Trim();
+                            OverDueFormWithPath.Add(formID, String.Join("&", tempArray));
                         }
                     }
                 }
@@ -860,6 +887,13 @@ namespace BLL.VendorAssess
                         //预防重复插入记录
                         if (!recordExist(newName.Replace(".pdf","")))
                         {
+                            string s = fileInfo[6];
+                            string s1 = @"..\upload\" + newName;
+                            string s2 = Convert.ToBoolean(fileInfo[1]) ? "ALL" : factory;
+                            string s3 = fileInfo[3] == "全部" ? "ALL" : type;
+                            string s4 = newName.Replace(".pdf", "");
+                            string s5 = fileInfo[4];
+                            string s6 = fileInfo[5];
                             addVendorFile(code, fileInfo[6], @"..\upload\"+newName, Convert.ToBoolean(fileInfo[1])?"ALL": factory, fileInfo[3]=="全部"?"ALL":type, "Enable", newName.Replace(".pdf", ""),fileInfo[4],fileInfo[5], DateTime.Now, employeeID);
                         }
                     }

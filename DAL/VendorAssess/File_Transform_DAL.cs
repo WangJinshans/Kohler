@@ -316,7 +316,7 @@ namespace DAL.VendorAssess
             {
                 new SqlParameter("@File_ID",fileID)
             };
-            if (DBHelp.GetScalarFix(sql,sp)>0)
+            if (DBHelp.GetScalarFix(sql, sp) > 0)
             {
                 return true;
             }
