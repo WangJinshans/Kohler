@@ -21,6 +21,7 @@ namespace BLL.VendorAssess
 
         public static bool resetFormStatus(string formID,string formTypeID, string tempVendorID)
         {
+            Signature_BLL.deleteSignature(formID);
             FormType_DAL.setFormFlag(formTypeID,tempVendorID, 0);
             Approve_DAL.deleteApproveRecord(formID);
             AddForm_DAL.deleteForm(formID);
@@ -31,6 +32,7 @@ namespace BLL.VendorAssess
                 EmployeeForm_DAL.deleteEmployeeForm(formID);
                 EditFlow_DAL.deleteFormEditFlow(formID);
             }
+            //删除签名
             return true;
         }
 

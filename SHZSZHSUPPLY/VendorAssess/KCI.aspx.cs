@@ -4,6 +4,7 @@ using Model;
 using MODEL;
 using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
+using System.Collections.Generic;
 using System.Web.UI.WebControls;
 
 namespace SHZSZHSUPPLY.VendorAssess
@@ -88,22 +89,27 @@ namespace SHZSZHSUPPLY.VendorAssess
                     ApprovalFinished(formID, Form_Type_ID, temp_vendor_ID);
                 }
 
+                ////是否是文件过期引起的 如果是则
+                //bool isFileOverDue = FileOverDue_BLL.isFileOverDue(formID);
+                //if (isFileOverDue)
+                //{
+                //    List<string> fileIDs = new List<string>();
+                //    fileIDs = FileOverDue_BLL.getFileIDsByFormID(formID);
+                //    if (fileIDs.Count > 0)
+                //    {
+                //        //更新过期重新审批后的标志
+                //        foreach (string fileID in fileIDs)
+                //        {
+                //            UpdateFlag_BLL.updateReAccessFileStatus(fileID);
+                //        }
+                //    }
+                //}
+
                 if (isFormOverDue(formID))//过期重申表
                 {
                     string oldFormID = FormOverDue_BLL.getOldFormID(formID);//对于已经在重新审批中的表 oldFormID 在As_Vendor_FormType_History一定存在 在过期表中也一定存在
                     UpdateFlag_BLL.updateReAccessFormStatus(oldFormID, temp_vendor_ID);//成功返回2 失败返回-1
                 }
-
-                /*
-                 * 因为合同审批表是整个审批流程中的最后一个环节 一旦合同审批表通过
-                 * 之后 就表示是该供应商在进行文件转移之后将成为正式供应商
-                 * 
-                 * 开始进行文件转移（独立出来一个文件转移的模块）
-                 * 
-                 * 
-                 * 
-                 * 
-                 */
 
                 //写出日志
                 LocalLog.writeLog(formID, String.Format("KCI审批成功    时间{0}",DateTime.Now.ToString()), As_Write.APPROVE_SUCCESS, temp_vendor_ID);
