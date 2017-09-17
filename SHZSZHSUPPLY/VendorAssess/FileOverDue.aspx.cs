@@ -373,27 +373,6 @@ namespace SHZSZHSUPPLY.VendorAssess
 
 
         /// <summary>
-        /// GridView2的数据绑定
-        /// 
-        /// 当文件上传成功后 回掉此函数 用于显示GridView2的所有文件
-        /// </summary>
-        /// <param name="Temp_Vendor_ID"></param>
-        //private void showForm(string temp_Vendor_ID, string fileTypeName)
-        //{
-        //    List<string> formID
-        //    Dictionary<string, string> dc = FileOverDue_BLL.getOverDueFormByFile(temp_Vendor_ID, factory, fileTypeName);
-        //    if (dc.Count > 0)
-        //    {
-        //        foreach (KeyValuePair<string, string> key in dc)
-        //        {
-        //            fileWithForm.Add(key.Key, key.Value);
-        //        }
-        //    }
-        //    GridView2.DataSource = dc;
-        //}
-
-
-        /// <summary>
         /// 获取此用户所管理的供应商列表
         /// </summary>
         private void readVendorInfo()

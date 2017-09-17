@@ -68,6 +68,7 @@ namespace DAL.VendorAssess
             string sql = "select distinct Temp_Vendor_ID,Factory_Name from As_VendorForm_OverDue where Status='Disable'";
             As_Vendor_OverDue vendorOverDue;
             List<As_Vendor_OverDue> list = new List<As_Vendor_OverDue>();
+            List<As_Vendor_OverDue> anotherlist = new List<As_Vendor_OverDue>();
             DataTable table = DBHelp.GetDataSet(sql);
             if (table.Rows.Count > 0)
             {
@@ -91,7 +92,48 @@ namespace DAL.VendorAssess
                     list.Add(vendorOverDue);
                 }
             }
-            return list.Distinct().ToList();
+            foreach (As_Vendor_OverDue vendor in list)
+            {
+                if (anotherlist.Count == 0)
+                {
+                    anotherlist.Add(vendor);
+                }
+                else
+                {
+                    if (hasExist(vendor, anotherlist))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        anotherlist.Add(vendor);
+                    }
+                }
+            }
+            //list.Distinct().ToList();
+            return anotherlist;
+        }
+
+
+        /// <summary>
+        /// 判断是否已经存在该过期供应商
+        /// </summary>
+        /// <param name="vendor"></param>
+        /// <param name="anotherlist"></param>
+        /// <returns></returns>
+        private static bool hasExist(As_Vendor_OverDue vendor, List<As_Vendor_OverDue> anotherlist)
+        {
+            if (anotherlist.Count > 0)
+            {
+                foreach (As_Vendor_OverDue vendors in anotherlist)
+                {
+                    if (vendor.Factory_Name == vendors.Factory_Name && vendor.Temp_Vendor_ID == vendors.Temp_Vendor_ID)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         /// <summary>
