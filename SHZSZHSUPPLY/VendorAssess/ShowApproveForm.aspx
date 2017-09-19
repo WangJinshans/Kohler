@@ -11,7 +11,7 @@
 <body>
     <form id="form1" class="layui-form" runat="server">
         <div class="layui-form-item" style="width: 1000px; margin: 0 auto">
-            <a href="./index.aspx" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
+            <a href="./index.aspx" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px;visibility:hidden">返回</a>
         </div>
         <fieldset class="layui-elem-field layui-field-title" style="width: 80%; margin: 50px auto 20px auto;">
             <legend id="vendorName" runat="server">待审批项目</legend>

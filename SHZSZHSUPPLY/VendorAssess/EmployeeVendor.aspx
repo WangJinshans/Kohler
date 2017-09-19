@@ -10,6 +10,16 @@
 
     <title></title>
 
+    <style>
+        .url-enable{
+            color:dodgerblue;
+            text-decoration:underline;
+        }
+        .url-disable{
+
+        }
+    </style>
+
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
@@ -27,7 +37,7 @@
                 onSelect(data);
             });
         });
-        function onSelect(data){
+        function onSelect(data) {
             currentFactory = document.getElementById('factory').selectedIndex;
             currentType = document.getElementById('type').selectedIndex;
             currentName = document.getElementById('name').selectedIndex;
@@ -139,9 +149,10 @@
     </script>
 </head>
 <body>
+    <style></style>
     <form id="form1" class="layui-form" runat="server">
         <div class="layui-form-item" style="width: 1000px; margin: 0 auto">
-            <a href="./index.aspx" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
+            <a href="./index.aspx" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px;visibility:hidden">返回</a>
             <label class="layui-form-label">供应商选择</label>
             <div class="layui-input-inline">
                 <select id="factory" name="quiz1" onchange="onFactorySelectChanged()">
@@ -201,9 +212,9 @@
 
                     </Columns>
                     <FooterStyle BackColor="#FFF" ForeColor="#330099" />
-                    <HeaderStyle BackColor="#006F83" Font-Bold="True" ForeColor="#FEFEFE" />
+                    <%--<HeaderStyle BackColor="#006F83" Font-Bold="True" ForeColor="#FEFEFE" />--%>
+                    <HeaderStyle BackColor="#507CD1" Font-Bold="true" ForeColor="White" />
                     <PagerStyle BackColor="#FFFFCC" ForeColor="#330099" HorizontalAlign="Center" />
-                    <RowStyle BackColor="White" ForeColor="#330099" />
                     <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="#663399" />
                     <SortedAscendingCellStyle BackColor="#FEFCEB" />
                     <SortedAscendingHeaderStyle BackColor="#AF0101" />
@@ -215,7 +226,7 @@
                 <fieldset class="layui-elem-field layui-field-title" style="width: 80%; margin: 50px auto 20px auto;">
                     <legend id="Legend1" runat="server">已提交表格</legend>
                 </fieldset>
-                <asp:GridView Style="width: 80%; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView3" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView3_RowCommand" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4">
+                <asp:GridView Style="width: 80%; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView3" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView3_RowCommand" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4" >
                     <Columns>
                         <asp:BoundField DataField="Temp_Vendor_Name" HeaderText="供应商名称"
                             SortExpression="Temp_Vendor_Name" />
@@ -236,9 +247,9 @@
 
                     </Columns>
                     <FooterStyle BackColor="#FFF" ForeColor="#330099" />
-                    <HeaderStyle BackColor="#04A5C2" Font-Bold="True" ForeColor="#FEFEFE" />
+                    <%--<HeaderStyle BackColor="#04A5C2" Font-Bold="True" ForeColor="#FEFEFE" />--%>
+                    <HeaderStyle BackColor="#507CD1" Font-Bold="true" ForeColor="White" />
                     <PagerStyle BackColor="#FFFFCC" ForeColor="#330099" HorizontalAlign="Center" />
-                    <RowStyle BackColor="White" ForeColor="#330099" />
                     <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="#663399" />
                     <SortedAscendingCellStyle BackColor="#FEFCEB" />
                     <SortedAscendingHeaderStyle BackColor="#AF0101" />
@@ -250,24 +261,25 @@
                 <fieldset class="layui-elem-field layui-field-title" style="width: 80%; margin: 50px auto 20px auto;">
                     <legend id="vendorName" runat="server">文件上传</legend>
                 </fieldset>
-                <asp:GridView Style="width: 80%; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView4" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView4_RowCommand" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="4" ForeColor="Black" GridLines="Horizontal">
+                <asp:GridView Style="width: 80%; margin: 0 auto;" class="layui-table" lay-even="" lay-skin="nob" ID="GridView4" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView4_RowCommand" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="4">
                     <Columns>
                         <asp:BoundField DataField="id" HeaderText="id"
                             SortExpression="id" Visible="False" />
                         <asp:BoundField DataField="Temp_Vendor_ID" HeaderText="供应商编号"
-                            SortExpression="Temp_Vendor_ID"/>
+                            SortExpression="Temp_Vendor_ID" />
                         <asp:BoundField DataField="FileType_ID" HeaderText="文件类型编号"
                             SortExpression="FileType_ID" />
                         <asp:TemplateField HeaderText="类型">
                             <ItemTemplate>
-                               <asp:Label runat="server" Text='<%# Eval("File_Is_Necessary").ToString() == "TRUE" ?"必选":""%>'></asp:Label>
+                                <asp:Label runat="server" Text='<%# Eval("File_Is_Necessary").ToString() == "TRUE" ?"必选":""%>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:BoundField DataField="File_Type_Range" HeaderText="范围"
                             SortExpression="File_Type_Range" />
+
                         <asp:TemplateField HeaderText="文件类型名称">
                             <ItemTemplate>
-                                <asp:LinkButton Enabled='<%# Eval("Flag").ToString() == "1"?true:false %>' Text='<%# Bind("FileType_Name") %>' ID="lbFileNameDetail" runat="server" CommandName="FileDetail" CommandArgument='<%# Eval("FileType_ID") %>' />
+                                <asp:LinkButton Enabled='<%# Eval("Flag").ToString() == "1"?true:false %>' CssClass='<%# Eval("Flag").ToString() == "1"?"url-enable":"url-disable" %>' Text='<%# Bind("FileType_Name") %>' ID="lbFileNameDetail" runat="server" CommandName="FileDetail" CommandArgument='<%# Eval("FileType_ID") %>' />
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:BoundField DataField="DepotSummary" HeaderText="DepotSummary"
@@ -287,7 +299,7 @@
                     </Columns>
                     <FooterStyle BackColor="#CCCC99" ForeColor="Black" />
                     <HeaderStyle BackColor="#333333" Font-Bold="True" ForeColor="White" />
-                    <PagerStyle BackColor="White" ForeColor="Black" HorizontalAlign="Right" />
+                    <PagerStyle BackColor="White" ForeColor="Black" HorizontalAlign="Center" />
                     <SelectedRowStyle BackColor="#CC3333" Font-Bold="True" ForeColor="White" />
                     <SortedAscendingCellStyle BackColor="#F7F7F7" />
                     <SortedAscendingHeaderStyle BackColor="#4B4B4B" />

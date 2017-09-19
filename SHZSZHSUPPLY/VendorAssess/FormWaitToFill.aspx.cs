@@ -28,6 +28,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             if (!IsPostBack)
             {
                 readVendorInfo();
+                showAllForm();
             }
             else
             {
@@ -46,6 +47,23 @@ namespace SHZSZHSUPPLY.VendorAssess
                 }
             }
         }
+
+        private void showAllForm()
+        {
+            //As_Vendor_FormType Vendor_Form = new As_Vendor_FormType();
+            //根据供应商类型编号查询所有未填写表格类型
+
+            string sql = String.Format("SELECT * FROM View_Wait_MultiFill WHERE Employee_ID='{0}'", Session["Employee_ID"].ToString());
+
+            PagedDataSource objpds = new PagedDataSource();
+
+            objpds.DataSource = SelectEmployeeVendor_BLL.listVendorFormType(sql);
+            //获取数据源
+            GridView2.DataSource = objpds;
+            //绑定数据源
+            GridView2.DataBind();
+        }
+
 
         private void readVendorInfo()
         {

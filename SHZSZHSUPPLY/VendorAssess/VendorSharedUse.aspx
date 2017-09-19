@@ -118,40 +118,11 @@
             refreshForm();
         }
     </script>
-    <%--<script type="text/javascript">
-        function __myDoPostBack(eventTarget, eventArgument) {
-            var theForm = document.forms['form1'];
-            if (document.getElementById('__EVENTTARGET') == null) {
-                var input1 = document.createElement('input');
-                input1.type = "hidden";
-                input1.name = "__EVENTTARGET";
-                input1.id = "__EVENTTARGET";
-                input1.value = "";
-                theForm.appendChild(input1);
-            }
-            if (document.getElementById('__EVENTARGUMENT') == null) {
-                var input2 = document.createElement('input');
-                input2.type = "hidden";
-                input2.name = "__EVENTARGUMENT";
-                input2.id = "__EVENTARGUMENT";
-                input2.value = "";
-                theForm.appendChild(input2);
-            }
-            if (!theForm) {
-                theForm = document.form1;
-            }
-            if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
-                theForm.__EVENTTARGET.value = eventTarget;
-                theForm.__EVENTARGUMENT.value = eventArgument;
-                theForm.submit();
-            }
-        }
-    </script>--%>
 </head>
 <body>
     <form id="form1" class="layui-form" runat="server">
         <div class="layui-form-item" style="width: 1000px; margin: 0 auto">
-            <a href="./index.aspx" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
+            <a href="./index.aspx" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px;visibility:hidden">返回</a>
             <asp:Label runat="server" ID="LBtempVendorID" Visible="true"></asp:Label>
             <label class="layui-form-label">供应商选择</label>
             <div class="layui-input-inline">
@@ -219,7 +190,7 @@
 
         <div style="width:200px;margin:50px auto 0 auto">
             <asp:Button ID="btnYes" runat="server" CssClass="layui-btn" Text="确定" OnClick="btnYes_Click" UseSubmitBehavior="False"/>
-            <asp:Button ID="btnNo" runat="server" CssClass="layui-btn layui-btn-primary" Text="返回" OnClick="btnNo_Click" />
+            <%--<asp:Button ID="btnNo" runat="server" CssClass="layui-btn layui-btn-primary" Text="返回" OnClick="btnNo_Click" />--%>
         </div>
 
     </form>

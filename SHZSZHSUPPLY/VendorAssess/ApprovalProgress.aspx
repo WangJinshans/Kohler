@@ -245,7 +245,7 @@
 <body>
     <form id="form1" class="layui-form" runat="server">
         <div class="layui-form-item" style="width: 1000px; margin: 0 auto">
-            <a href="./index.aspx" class="layui-btn layui-btn layui-btn-small" style="float:left;margin-right:100px">返回</a>
+            <a href="./index.aspx" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px;visibility:hidden">返回</a>
             <label class="layui-form-label">供应商选择</label>
             <div class="layui-input-inline">
                 <select id="factory" name="quiz1" onchange="onFactorySelectChanged()">
@@ -294,6 +294,10 @@
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>
+            <FooterStyle BackColor="#CCCC99" ForeColor="Black" />
+            <HeaderStyle BackColor="#507CD1" Font-Bold="true" ForeColor="White" />
+            <PagerStyle BackColor="White" ForeColor="Black" HorizontalAlign="Center" />
+            <SelectedRowStyle BackColor="#CC3333" Font-Bold="True" ForeColor="White" />
         </asp:GridView>
 
 
@@ -308,6 +312,7 @@
                         人事部经理：审批已通过  时间：2017-08-06 10:43:13.650<br />
                         采购部经理：审批已通过  时间：2017-08-06 11:55:13.650<br />
                         正在等待质量部经理审批...
+                   
                     </p>
                 </div>
             </div>
@@ -317,6 +322,7 @@
                     <p id="exceptionInfoDetail" runat="server">
                         质量部经理：审批拒绝  时间：2017-08-06 10:43:13.650<br />
                         原因：表格附带文件错误，填写错误，缺少支持文件
+                   
                     </p>
                 </div>
             </div>
@@ -329,12 +335,12 @@
             <div class="layui-progress-bar" lay-percent="70%"></div>
         </div>
 
-        <div style="width:500px;margin:50px auto 30px auto;text-align:center">
+        <div style="width: 500px; margin: 50px auto 30px auto; text-align: center">
             <asp:Button ID="btnTransfer" runat="server" CssClass="layui-btn layui-btn-disabled" Enabled="false" Text="转移" ToolTip="请等待所有表格审批完毕" OnClientClick="return openNormalCodeDialog();" />
         </div>
-         <div style="width:500px;margin:50px auto 30px auto;text-align:center">
-            <asp:Button ID="Button1" runat="server" CssClass="layui-btn layui-btn-disabled" Text="生成pdf" OnClick="Button1_Click"/>
-        </div>
+        <%--<div style="width: 500px; margin: 50px auto 30px auto; text-align: center">
+            <asp:Button ID="Button1" runat="server" CssClass="layui-btn layui-btn-disabled" Text="生成pdf" OnClick="Button1_Click" />
+        </div>--%>
     </form>
 </body>
 </html>

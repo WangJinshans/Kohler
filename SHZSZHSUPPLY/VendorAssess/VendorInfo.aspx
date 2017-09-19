@@ -114,7 +114,7 @@
                         <asp:Button CssClass="layui-btn" ID="Button1" runat="server" Text="提交" OnClick="button1_click" />
                     </td>
                     <td>
-                        <asp:Button CssClass="layui-btn layui-btn-primary" ID="Button2" runat="server" Text="返回" OnClick="Button2_Click" />
+                        <%--<asp:Button CssClass="layui-btn layui-btn-primary" ID="Button2" runat="server" Text="返回" OnClick="Button2_Click" />--%>
                     </td>
                 </tr>
             </table>

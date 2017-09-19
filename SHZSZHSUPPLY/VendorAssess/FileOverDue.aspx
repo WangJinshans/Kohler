@@ -118,7 +118,7 @@
 <body>
     <form id="form1" class="layui-form" runat="server">
         <div class="layui-form-item" style="width: 1000px; margin: 0 auto">
-            <a href="./index.aspx" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
+            <a href="./index.aspx" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px;visibility:hidden">返回</a>
             <asp:Label runat="server" ID="LBtempVendorID" Visible="true"></asp:Label>
             <label class="layui-form-label">供应商选择</label>
             <div class="layui-input-inline">

@@ -19,7 +19,7 @@
 <body>
     <form id="form1" class="layui-form" runat="server">
         <div>
-            <a href="./index.aspx" class="layui-btn layui-btn layui-btn-small" style="margin-left:10%">返回</a>
+            <a href="./index.aspx" class="layui-btn layui-btn layui-btn-small" style="margin-left:10%;visibility:hidden">返回</a>
         </div>
 
         <div>

@@ -15,7 +15,7 @@ namespace DAL
         {
             get
             {
-                string connectionString = "server=.;database=SKZSZHSUPPLY;uid=sa;pwd=wangjinshan123..";
+                string connectionString = "server=.;database=SKZSZHSUPPLY;uid=sa;pwd=mxdlzg159";
                 if (connection == null)
                 {
                     connection = new SqlConnection(connectionString);
