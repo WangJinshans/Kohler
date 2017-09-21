@@ -81,6 +81,36 @@ namespace DAL
             return result;
         }
 
+        public static string getFactoryByFormID(string formid)
+        {
+            string sql = "select Factory_Name from As_Vendor_FormType where Form_ID='" + formid + "'";
+            string factory = "";
+            DataTable table = DBHelp.GetDataSet(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    factory = dr["Factory_Name"].ToString().Trim();
+                }
+            }
+            return factory;
+        }
+
+        public static string getFormTypeIDByFormID(string formid)
+        {
+            string sql = "select Form_Type_ID from As_Vendor_FormType where Form_ID='" + formid + "'";
+            string formTypeID = "";
+            DataTable table = DBHelp.GetDataSet(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    formTypeID = dr["Form_Type_ID"].ToString().Trim();
+                }
+            }
+            return formTypeID;
+        }
+
         public static string isOverDue(string temp_Vendor_ID,string form_Type_ID,string factory)
         {
             string sql = "select flag from As_Vendor_FormType where Temp_Vendor_ID='" + temp_Vendor_ID + "' and Form_Type_ID='" + form_Type_ID + "' and Factory_Name='" + factory + "'";

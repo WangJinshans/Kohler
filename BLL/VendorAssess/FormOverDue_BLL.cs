@@ -40,44 +40,10 @@ namespace BLL.VendorAssess
             return FormOverDue_DAL.addVendorFormType(vendor);
         }
 
-        public static int reAccessForm(string formID, string temp_Vendor_ID)
+        public static int addOverDueForm(As_Form_OverDue vendor)
         {
-            return FileOverDue_DAL.reAccessForm(formID, temp_Vendor_ID);
+            return FormOverDue_DAL.addOverDueForm(vendor);
         }
-
-
-
-        public static int getLastedForm(string formID)
-        {
-            string sql = "";
-            int max = -1;
-            DataTable table = new DataTable();
-            List<int> numbers = new List<int>();
-            string form = switchForm(formID);
-            if (form != "")
-            {
-                sql = "select Number from " + form + " where Form_ID='" + formID + "'";
-                table = FormOverDue_DAL.getFormnumber(sql);
-                if (table.Rows.Count > 0)
-                {
-                    foreach (DataRow dr in table.Rows)
-                    {
-                        int number = Convert.ToInt32(dr["Number"]);
-                        numbers.Add(number);
-                    }
-                    foreach (int number in numbers)
-                    {
-                        if (max < number)
-                        {
-                            max = number;//max代表当前正在使用的表 默认从0开始 更新一次+1;
-                        }
-                    }
-                    return max;
-                }
-            }
-            return -1;//出错
-        }
-
         private static string switchForm(string formID)
         {
             string form = "";

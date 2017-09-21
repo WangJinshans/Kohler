@@ -91,5 +91,15 @@ namespace BLL
         {
             return TempVendor_DAL.addMultiTypeVendor(tempVendorID, promise, assign, charge, money, factory);
         }
+
+        internal static string getFactoryByFormID(string formid)
+        {
+            return VendorForm_DAL.getFactoryByFormID(formid);
+        }
+
+        internal static string getFormTypeIDByFormID(string formid)
+        {
+            return VendorForm_DAL.getFormTypeIDByFormID(formid);
+        }
     }
 }

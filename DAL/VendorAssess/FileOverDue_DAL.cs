@@ -45,7 +45,7 @@ namespace DAL.VendorAssess
             {
                 foreach (DataRow dr in table.Rows)
                 {
-                    sql = "select Form_ID from As_Form_File where File_ID='" + Convert.ToString(dr["File_ID"]) + "'";
+                    sql = "select Form_ID from As_Form_File where File_ID='" + Convert.ToString(dr["File_ID"]) + "' and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + temp_Vendor_ID + "')";
                     tables = FormOverDue_DAL.getOverDueForm(sql);//获取每个File_ID对应的所有的Form_ID  Form_ID可能会有重复
                     if (tables.Rows.Count > 0)
                     {
@@ -61,6 +61,79 @@ namespace DAL.VendorAssess
             {
                 return null;//查不到formID就返回空
             }
+        }
+
+        public static List<As_Vendor_OverDue> getVendorFormOverDue()
+        {
+            string sql = "select distinct Temp_Vendor_ID,Factory_Name from As_VendorForm_OverDue where Status='Disable'";
+            As_Vendor_OverDue vendorOverDue;
+            List<As_Vendor_OverDue> list = new List<As_Vendor_OverDue>();
+            List<As_Vendor_OverDue> anotherlist = new List<As_Vendor_OverDue>();
+            DataTable table = DBHelp.GetDataSet(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    vendorOverDue = new As_Vendor_OverDue();
+                    vendorOverDue.Factory_Name = dr["Factory_Name"].ToString().Trim();
+                    vendorOverDue.Temp_Vendor_ID = dr["Temp_Vendor_ID"].ToString().Trim();
+                    list.Add(vendorOverDue);
+                }
+            }
+            string sqls = "select distinct Temp_Vendor_ID,Factory_Name from As_VendorFile_OverDue where Status='Disable'";
+            DataTable tables = DBHelp.GetDataSet(sqls);
+            if (tables.Rows.Count > 0)
+            {
+                foreach (DataRow drs in tables.Rows)
+                {
+                    vendorOverDue = new As_Vendor_OverDue();
+                    vendorOverDue.Factory_Name = drs["Factory_Name"].ToString().Trim();
+                    vendorOverDue.Temp_Vendor_ID = drs["Temp_Vendor_ID"].ToString().Trim();
+                    list.Add(vendorOverDue);
+                }
+            }
+            foreach (As_Vendor_OverDue vendor in list)
+            {
+                if (anotherlist.Count == 0)
+                {
+                    anotherlist.Add(vendor);
+                }
+                else
+                {
+                    if (hasExist(vendor, anotherlist))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        anotherlist.Add(vendor);
+                    }
+                }
+            }
+            //list.Distinct().ToList();
+            return anotherlist;
+        }
+
+
+        /// <summary>
+        /// 判断是否已经存在该过期供应商
+        /// </summary>
+        /// <param name="vendor"></param>
+        /// <param name="anotherlist"></param>
+        /// <returns></returns>
+        private static bool hasExist(As_Vendor_OverDue vendor, List<As_Vendor_OverDue> anotherlist)
+        {
+            if (anotherlist.Count > 0)
+            {
+                foreach (As_Vendor_OverDue vendors in anotherlist)
+                {
+                    if (vendor.Factory_Name == vendors.Factory_Name && vendor.Temp_Vendor_ID == vendors.Temp_Vendor_ID)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         /// <summary>
@@ -124,6 +197,30 @@ namespace DAL.VendorAssess
             }
         }
 
+        public static List<As_Form_OverDue> getVendorFormOverDue(string factory, string temp_Vendor_ID)
+        {
+            string sql = "select * from As_VendorForm_OverDue where Temp_Vendor_ID='" + temp_Vendor_ID + "' and Factory_Name='" + factory + "' and Status='Disable'";
+            List<As_Form_OverDue> forms = new List<As_Form_OverDue>();
+            As_Form_OverDue form;
+            DataTable table = DBHelp.GetDataSet(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    form = new As_Form_OverDue();
+                    form.Temp_Vendor_ID = temp_Vendor_ID;
+                    form.Form_ID = dr["Form_ID"].ToString();
+                    form.Status = dr["Status"].ToString();
+                    form.Position = dr["Position"].ToString();
+                    form.Form_Type_ID = dr["Form_Type_ID"].ToString();
+                    form.Factory_Name = dr["Factory_Name"].ToString();
+                    form.Form_Type_Is_Optional = dr["Form_Type_Is_Optional"].ToString();
+                    forms.Add(form);
+                }
+            }
+            return forms;
+        }
+
         public static DataTable getTempVendorID_All(string employeeID)
         {
             string sql = "Select distinct Temp_Vendor_ID From View_File_OverDue Where Employee_ID=@Employee_ID";
@@ -156,7 +253,7 @@ namespace DAL.VendorAssess
       
         public static bool checkVendor(string tempVendorID)
         {
-            string sql = "Select count(*) from As_VendorFile_OverDue Where Temp_Vendor_ID=@Temp_Vendor_ID and Status='hold'";
+            string sql = "Select count(*) from As_VendorFile_OverDue Where Temp_Vendor_ID=@Temp_Vendor_ID and Status='Hold'";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_ID",tempVendorID)

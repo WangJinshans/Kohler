@@ -1,5 +1,7 @@
 ﻿using DAL.VendorAssess;
 using System;
+using System.Collections.Generic;
+using System.Data;
 
 namespace BLL.VendorAssess
 {
@@ -156,5 +158,75 @@ namespace BLL.VendorAssess
             return PositionName;
         }
 
+
+        /// <summary>
+        /// 删除该表的所有签名
+        /// </summary>
+        /// <param name="formID"></param>
+        /// <returns></returns>
+        public static bool deleteSignature(string formID)
+        {
+            string dataFiled = "";
+            string tableName = switchFormID(formID);
+            //在As_Form_AccessFlow中查出所有会审批的人的职位
+            List<string> positions = getAccessPositions(formID);
+            if (positions.Count > 0)//需要进行审批
+            {
+                foreach (string position in positions)
+                {
+                    dataFiled = switchPositionName(position);
+                    string sql = "update " + tableName + " set " + dataFiled + "=''";
+                    Signature_DAL.deleteSignature(sql);
+                }
+                return true;
+            }
+            return false;
+        }
+
+
+        /// <summary>
+        /// 从As_Form_AssessFlow中查出该表所有需要审批的人的职位  并放入数组中返回
+        /// </summary>
+        /// <param name="formID"></param>
+        /// <returns></returns>
+        private static List<string> getAccessPositions(string formID)
+        {
+            List<string> positions = new List<string>();
+            string first, second, third, four, five;
+            string sql = "select First,Second,Third,Four,Five from As_Form_AssessFlow where Form_ID='" + formID + "'";
+            DataTable table = Signature_DAL.getAccessPositions(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    first = dr["First"].ToString().Trim();
+                    second = dr["Second"].ToString().Trim();
+                    third = dr["Third"].ToString().Trim();
+                    four = dr["Four"].ToString().Trim();
+                    five = dr["Five"].ToString().Trim();
+                    if (first != "")
+                    {
+                        positions.Add(first);
+                    }
+                    if (second != "")
+                    {
+                        positions.Add(second);
+                    }
+                    if (third != "")
+                    {
+                        positions.Add(third);
+                    }
+                    if (four != "")
+                    {
+                        positions.Add(four);
+                    }
+                    if (five != "")
+                    {
+                        positions.Add(five);
+                    }
+                }
+            }
+            return positions;
+        }
     }
 }

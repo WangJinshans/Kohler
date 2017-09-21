@@ -4,6 +4,7 @@ using MODEL.VendorAssess;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Collections;
 
 namespace BLL.VendorAssess
 {
@@ -18,8 +19,28 @@ namespace BLL.VendorAssess
         public static IList<As_File_OverDue> getOverDueFile(string temp_Vendor_ID,string factory)
         {
             List<As_File_OverDue> list = new List<As_File_OverDue>();
+            string sql = "select * from As_VendorFile_OverDue where Temp_Vendor_ID ='" + temp_Vendor_ID + "' and (Factory_Name='" + factory + "' or Factory_Name='ALL')";
+            DataTable table = new DataTable();
+            table = FileOverDue_DAL.getOverDueFile(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    As_File_OverDue form = new As_File_OverDue();
+                    form.Temp_Vendor_ID = Convert.ToString(dr["Temp_Vendor_ID"]);
+                    form.Item_Category = Convert.ToString(dr["FileType_Name"]);;
+                    //form.Position = Convert.ToString(dr["Position"]);
+                    list.Add(form);
+                }
+            }
+            return list;
+        }
+
+        public static IList<As_File_OverDue> getOverDueFile()
+        {
+            List<As_File_OverDue> list = new List<As_File_OverDue>();
             //string sql = "select * from As_VendorFile_OverDue where Temp_Vendor_ID ='" + temp_Vendor_ID + "' and (Factory_Name='" + factory + "' or Factory_Name='ALL')";
-            string sql = "select Temp_Vendor_ID,FileType_Name,Factory_Name,Status,Category from As_VendorFile_OverDue where Temp_Vendor_ID='" + temp_Vendor_ID + "' and Factory_Name in('" + factory + "','ALL')";
+            string sql = "select Temp_Vendor_ID,FileType_Name,Factory_Name,Status,Factory_Name,Item_Plant from As_VendorFile_OverDue where Status='Disable'";
             DataTable table = new DataTable();
             table = FileOverDue_DAL.getOverDueFile(sql);
             if (table.Rows.Count > 0)
@@ -29,22 +50,37 @@ namespace BLL.VendorAssess
                     As_File_OverDue form = new As_File_OverDue();
                     form.Temp_Vendor_ID = Convert.ToString(dr["Temp_Vendor_ID"]);
                     form.Item_Category = Convert.ToString(dr["FileType_Name"]);
-                    form.Category= Convert.ToString(dr["Category"]);
+                    form.Factory_Name = Convert.ToString(dr["Factory_Name"]);
+                    form.Item_Plant = Convert.ToString(dr["Item_Plant"]);
                     //form.Position = Convert.ToString(dr["Position"]);
                     list.Add(form);
                 }
             }
             return list;
         }
+
+
+
+        /// <summary>
+        /// 存在文件或表过期的列表供应商
+        /// </summary>
+        /// <returns></returns>
+        public static List<As_Vendor_OverDue> getVendorOverDue()
+        {
+            return FileOverDue_DAL.getVendorFormOverDue();
+        }
+
         /// <summary>
         /// //获取所有过期的表
+        /// 在处理之后修改status字段为Hold  读取的时候读取非Hold字段的表
+        /// 防止bidding 指定供应商在表过期和文件过期中同时存在
         /// </summary>
         /// <param name="temp_Vendor_ID"></param>
         /// <param name="factory"></param>
         /// <returns></returns>
         public static IList<As_Form_OverDue> getOverDueForm(string temp_Vendor_ID,string factory)
         {
-            As_Form_OverDue form = new As_Form_OverDue();
+            As_Form_OverDue form;
             string fileID = "";
             IList<string> formlist = new List<string>();//表
             IList<As_Form_OverDue> formlists = new List<As_Form_OverDue>();//表
@@ -69,15 +105,17 @@ namespace BLL.VendorAssess
                     {
                         foreach (string formid in formlist)
                         {
+                            form = new As_Form_OverDue();
                             if (formid == "")
                             {
                                 continue;
                             }
                             form.Temp_Vendor_ID = temp_Vendor_ID;
                             form.Form_ID = formid;
-                            //string status = VendorForm_DAL.isOverDue(temp_Vendor_ID, AddForm_BLL.GetForm_Type_ID(formid),factory);
-                            //form.Status = status;
-                            form.Status = "过期";
+                            form.Status = "Hold";
+                            form.Position = "采购部";
+                            form.Form_Type_ID = FillVendorInfo_BLL.getFormTypeIDByFormID(formid);
+                            form.Factory_Name = FillVendorInfo_BLL.getFactoryByFormID(formid);
                             form.Form_Type_Is_Optional = FormType_BLL.getOptional(formid);
                             formlists.Add(form);
                         }
@@ -86,9 +124,10 @@ namespace BLL.VendorAssess
             }
             return formlists;
         }
-        public static int reAccessForm(string formID,string temp_Vendor_ID)
+
+        public static List<As_Form_OverDue> getVendorFormOverDue(string facory,string temp_Vendor_ID)
         {
-            return FileOverDue_DAL.reAccessForm(formID, temp_Vendor_ID);
+            return FileOverDue_DAL.getVendorFormOverDue(facory, temp_Vendor_ID);
         }
 
         /// <summary>

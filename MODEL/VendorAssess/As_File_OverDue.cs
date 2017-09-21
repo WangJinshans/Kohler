@@ -10,7 +10,7 @@ namespace MODEL.VendorAssess
         private string item_Category;
         private string temp_Vendor_ID;
         private string position;
-        private string category;
+        private string item_Plant;
         private string factory_Name;//三厂审批分离
 
         public string Temp_Vendor_ID
@@ -66,16 +66,17 @@ namespace MODEL.VendorAssess
             }
         }
 
-        public string Category
+
+        public string Item_Plant
         {
             get
             {
-                return category;
+                return item_Plant;
             }
 
             set
             {
-                category = value;
+                item_Plant = value;
             }
         }
     }

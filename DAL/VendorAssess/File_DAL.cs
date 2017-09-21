@@ -76,6 +76,21 @@ namespace DAL
             return numbers;
         }
 
+        internal static string getFileTypeNameByFileID(string fileID)
+        {
+            string sql = "select File_Type_Name from As_File where [File_ID]='" + fileID + "'";
+            DataTable table = DBHelp.GetDataSet(fileID);
+            string fileTypeName = "";
+            if (table.Rows.Count > 0)
+            {
+                foreach(DataRow dr in table.Rows)
+                {
+                    fileTypeName = dr["File_Type_Name"].ToString().Trim();
+                }
+            }
+            return fileTypeName;
+        }
+
         public static DataTable getFilePath(string sql)
         {
             return DBHelp.GetDataSet(sql);

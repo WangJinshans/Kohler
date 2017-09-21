@@ -4,6 +4,7 @@ using Model;
 using MODEL;
 using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
+using System.Collections.Generic;
 using System.Web.UI.WebControls;
 
 namespace SHZSZHSUPPLY.VendorAssess
@@ -88,22 +89,27 @@ namespace SHZSZHSUPPLY.VendorAssess
                     ApprovalFinished(formID, Form_Type_ID, temp_vendor_ID);
                 }
 
+                ////是否是文件过期引起的 如果是则
+                //bool isFileOverDue = FileOverDue_BLL.isFileOverDue(formID);
+                //if (isFileOverDue)
+                //{
+                //    List<string> fileIDs = new List<string>();
+                //    fileIDs = FileOverDue_BLL.getFileIDsByFormID(formID);
+                //    if (fileIDs.Count > 0)
+                //    {
+                //        //更新过期重新审批后的标志
+                //        foreach (string fileID in fileIDs)
+                //        {
+                //            UpdateFlag_BLL.updateReAccessFileStatus(fileID);
+                //        }
+                //    }
+                //}
+
                 if (isFormOverDue(formID))//过期重申表
                 {
                     string oldFormID = FormOverDue_BLL.getOldFormID(formID);//对于已经在重新审批中的表 oldFormID 在As_Vendor_FormType_History一定存在 在过期表中也一定存在
                     UpdateFlag_BLL.updateReAccessFormStatus(oldFormID, temp_vendor_ID);//成功返回2 失败返回-1
                 }
-
-                /*
-                 * 因为合同审批表是整个审批流程中的最后一个环节 一旦合同审批表通过
-                 * 之后 就表示是该供应商在进行文件转移之后将成为正式供应商
-                 * 
-                 * 开始进行文件转移（独立出来一个文件转移的模块）
-                 * 
-                 * 
-                 * 
-                 * 
-                 */
 
                 //写出日志
                 LocalLog.writeLog(formID, String.Format("KCI审批成功    时间{0}",DateTime.Now.ToString()), As_Write.APPROVE_SUCCESS, temp_vendor_ID);
@@ -111,26 +117,10 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
             else if (e.CommandName == "fail")//KCI审批不过
             {
-                //KCIApproval_BLL.rejectKCIApproval(formID);//KCI审批完成 但是失败 直接删掉该记录
-                //需要删除As_Form 避免主键重复
-                //AddForm_BLL.deleteForm(formID);
-                //AssessFlow_BLL.deleteFormAccess(formID);//让表可以重新实例一个审批流程
-                ////KCIApproval_BLL.updateKCIApproval(formID, 2);//KCI审批完成  2表示需要再次进行KCI审批
-                //KCIApproval_BLL.deleteKCIApproval(formID);
-                //KCIApproval_BLL.setApprovalFinished(Form_Type_ID, 0, temp_vendor_ID);//整张表的审批完成  该表需要在修改之后重新进行审批
+                //流程回滚
                 Approve_BLL.resetFormStatus(formID, Form_Type_ID, temp_vendor_ID);
-
-
                 //写出日志
                 LocalLog.writeLog(formID, String.Format("KCI审批失败，表格审批状态重置,请重新填写后再次提交审批    时间{0}", DateTime.Now.ToString()), As_Write.APPROVE_SUCCESS, temp_vendor_ID);
-
-                /*
-                 * 重新审批的时候  需要将该表的整个流程重新走过 需要删除As_Form_AccessFlow  
-                 * 修改提交的flag为0 否则无法再次提交
-                 * 
-                 * 将该功能独立出来   方便后面修改后再次提交 进行多次审批
-                 * 
-                 */
             }
             string requestType = "kciUpload";
             string fileTypeID = formID;//TODO::暂时为form_ID

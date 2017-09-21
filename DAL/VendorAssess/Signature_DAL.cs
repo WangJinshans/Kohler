@@ -67,5 +67,30 @@ namespace DAL.VendorAssess
             }
             return result;
         }
+
+        public static DataTable getAccessPositions(string sql)
+        {
+            return DBHelp.GetDataSet(sql);
+        }
+
+
+
+        /// <summary>
+        /// 1表示执行成功，2表示执行失败
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public static int deleteSignature(string sql)
+        {
+            try
+            {
+                DBHelp.ExecuteCommand(sql);
+                return 1;
+            }
+            catch (Exception e)
+            {
+                return 2;
+            }
+        }
     }
 }

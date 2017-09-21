@@ -25,18 +25,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// <param name="e"></param>
         protected void Page_Load(object sender, EventArgs e)
         {
-
-            /*
-             * 
-             * 需要上传文件  并将上传的文件进行处理 类似于审批的时候的文件上传
-             * 要是因为文件不过  需要提供一个文件覆盖的功能
-             * 
-             */
-            string tempVendor = "TempVendor1051";
-            factory = "上海科勒";
-            showVendorFiles(tempVendor, factory);
-            showForms(tempVendor, factory);
-            readVendorInfo();
+            showVendorOverDue();
             if (!IsPostBack)
             {
                 //readVendorInfo();
@@ -45,7 +34,6 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 //重新读取供应商列表
                 LocalScriptManager.CreateScript(Page, "getParams()", "getparams");
-
                 //处理postback回调
                 switch (Request["__EVENTTARGET"])
                 {
@@ -59,88 +47,41 @@ namespace SHZSZHSUPPLY.VendorAssess
         }
 
         /// <summary>
-        /// 显示该供应商的所有过期文献 
-        /// 类型为表 提供重新填写
-        /// 类型为文件 提供重新上传
+        /// 显示该职位需要处理的所有过期文献 
         /// </summary>
         /// <param name="tempVendor"></param>
         /// <param name="factory"></param>
-        private void showVendorFiles(string tempVendor, string factory)
+        private void showVendorFiles()
         {
             PagedDataSource source = new PagedDataSource();
-            source.DataSource = FileOverDue_BLL.getOverDueFile(tempVendor, factory);
+            source.DataSource = FileOverDue_BLL.getOverDueFile();
             GridView1.DataSource = source;
             GridView1.DataBind();
         }
 
+
+        /// <summary>
+        /// 过期的供应商列表
+        /// </summary>
+        private void showVendorOverDue()
+        {
+            PagedDataSource source = new PagedDataSource();
+            source.DataSource = FileOverDue_BLL.getVendorOverDue();
+            GridView3.DataSource = source;
+            GridView3.DataBind();
+        }
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            //只负责文件的上传
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
             string tempVendorID = GridView1.Rows[drv.RowIndex].Cells[1].Text;
             string tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
             string itemCategory = GridView1.Rows[drv.RowIndex].Cells[0].Text;
             string fileTypeID = File_Type_BLL.selectFileTypeID(GridView1.Rows[drv.RowIndex].Cells[0].Text.ToString().Trim(), tempVendorID);//获取file_Type_ID
             string requestType = "fileUpload";
-
             if (e.CommandName == "upload")
             {
-                //新文件的上传
                 LocalScriptManager.CreateScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}')", requestType, tempVendorID, tempVendorName, fileTypeID), "upload");
-            }
-            if (e.CommandName == "refill")//直接重新填写表 表过期的
-            {
-                string aimPageName = "";
-                //获取formTypeID，进入页面时候需要的参数
-                string formTypeID = getFormTypeIDByItemCategory(itemCategory, tempVendorID, factory);
-                string formID = FillVendorInfo_BLL.getVendorFormID(tempVendorID, factory, formTypeID);
-                if (formID.Contains("BiddingForm"))//比价表
-                {
-                    As_Bidding_Approval bidding = new As_Bidding_Approval();
-                    As_Bidding_Approval newbidding = new As_Bidding_Approval();
-                    bidding = As_Bidding_Approval_BLL.getBiddingForm(formID);
-                    newbidding.Form_ID = bidding.Form_ID;//上一张表的值复制与不复制问题不大  Form_ID需要  但触发器会将其改掉  所以值无所谓
-                    newbidding.Form_Type_ID = bidding.Form_Type_ID;
-                    newbidding.Temp_Vendor_ID = bidding.Temp_Vendor_ID;
-                    newbidding.Factory_Name = bidding.Factory_Name;
-                    newbidding.Temp_Vendor_Name = bidding.Temp_Vendor_Name;
-                    newbidding.Flag = 0;
-                    As_Bidding_Approval_BLL.addBiddingForm(newbidding);//添加纪录 当查找的时候会找到最新的这张表
-                    /*
-                     * 新表绑定原来的文件：
-                     * 1.通过原来的formID 在As_Form_File中查出需要绑定的文件 因为是表过期，文件是不用动的
-                     * 2.获取新的form_ID
-                     * 3.添加新的form_ID与对应文件进行绑定
-                     */
-                    As_New_Forms news = new As_New_Forms();
-                    news.Factory_Name = factory;
-                    news.Form_Name = FormType_BLL.getFormNameByTypeID(newbidding.Form_Type_ID);
-                    news.Temp_Vendor_ID = bidding.Temp_Vendor_ID;
-                    string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID 
-                    FormFile_BLL.dataReBind(form_ID, bidding.Temp_Vendor_ID, bidding.Form_ID);//已经存在Form_ID进入表的时候不会再绑定文件了
-                    aimPageName = "BiddingApprovalForm.aspx";
-                }
-                if (formID.Contains("VendorDesignated"))//指定供应商申请表
-                {
-                    As_Vendor_Designated_Apply vendor = new As_Vendor_Designated_Apply();
-                    As_Vendor_Designated_Apply newvendor = new As_Vendor_Designated_Apply();
-                    vendor = As_Vendor_Designated_Apply_BLL.checkFlag(formID);
-                    newvendor.Form_id = vendor.Form_id;
-                    newvendor.VendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
-                    newvendor.Form_Type_ID = vendor.Form_Type_ID;
-                    newvendor.Temp_Vendor_ID = tempVendorID;
-                    newvendor.Factory_Name = vendor.Factory_Name;
-                    newvendor.Flag = 0;
-                    As_Vendor_Designated_Apply_BLL.addForm(newvendor);//添加纪录 当查找的时候会找到最新的这张表
-                    As_New_Forms news = new As_New_Forms();
-                    news.Factory_Name = factory;
-                    news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
-                    news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
-                    string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
-                    FormFile_BLL.dataReBind(form_ID, vendor.Temp_Vendor_ID, vendor.Form_id);
-                    aimPageName = "VendorDesignatedApply.aspx";
-                }
-                //单张表重新填写submit暂时直接传了yes   还是需要控制submit
-                Response.Redirect(aimPageName + "?submit=yes&type=" + formTypeID);
             }
         }
 
@@ -158,12 +99,11 @@ namespace SHZSZHSUPPLY.VendorAssess
             string optional = GridView2.Rows[drv.RowIndex].Cells[2].Text;//可选与必选
             string status = GridView2.Rows[drv.RowIndex].Cells[3].Text;//状态标志 
 
-            string submit = "";//提交的顺序控制
+            string submit = "yes";//提交的顺序控制
             string aimPageName = "";
 
             string form_Type_ID = AddForm_BLL.GetForm_Type_ID(formid);
             int selectedFormPriorityNumber = getSelectedFormPriorityNumber(form_Type_ID);
-
             if (e.CommandName == "refill")
             {
                 if (formid.Contains("BiddingForm"))//比价表
@@ -317,6 +257,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     newvendor.Form_Type_ID = vendor.Form_Type_ID;
                     newvendor.Flag = 0;
                     newvendor.Factory_Name = vendor.Factory_Name;
+                    newvendor = vendor;
                     VendorRiskAnalysis_BLL.addVendorRisk(newvendor);//添加纪录 当查找的时候会找到最新的这张表
 
                     As_New_Forms news = new As_New_Forms();
@@ -381,101 +322,23 @@ namespace SHZSZHSUPPLY.VendorAssess
         protected void GridView3_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
-            string formid = GridView3.Rows[drv.RowIndex].Cells[0].Text;
-            string temp_Vendor_ID = GridView3.Rows[drv.RowIndex].Cells[1].Text;
-            string optional = GridView3.Rows[drv.RowIndex].Cells[2].Text;//可选与必选
-            string status = GridView3.Rows[drv.RowIndex].Cells[3].Text;//状态标志  如果为审批中 无法再次重填
-            string submit = "";//提交的顺序控制
-            string aimPageName = "";
-
-            string form_Type_ID = AddForm_BLL.GetForm_Type_ID(formid);
-            int selectedFormPriorityNumber = getSelectedFormPriorityNumber(form_Type_ID);
-            if (optional == "可选")
+            string temp_Vendor_ID = GridView3.Rows[drv.RowIndex].Cells[0].Text;
+            if (e.CommandName == "showDetails")
             {
-                if (withOutAccess(selectedFormPriorityNumber, temp_Vendor_ID) && isOptionalMinimum(selectedFormPriorityNumber, temp_Vendor_ID) && isRequiredMinimum(selectedFormPriorityNumber, temp_Vendor_ID))
-                {
-                    submit = "yes";
-                }
-                else
-                {
-                    submit = "no";
-                }
-            }
-            if (optional == "必选")
-            {
-                if (isMinimum(selectedFormPriorityNumber, temp_Vendor_ID))
-                {
-                    submit = "yes";
-                }
-                else
-                {
-                    submit = "no";
-                }
-            }
-            if (e.CommandName == "refill")
-            {
-                if (formid.Contains("BiddingForm"))//比价表
-                {
-                    As_Bidding_Approval bidding = new As_Bidding_Approval();
-                    As_Bidding_Approval newbidding = new As_Bidding_Approval();
-                    bidding = As_Bidding_Approval_BLL.getBiddingForm(formid);
-                    newbidding.Form_ID = bidding.Form_ID;//上一张表的值复制与不复制问题不大  Form_ID需要  但触发器会将其改掉  所以值无所谓
-                    newbidding.Form_Type_ID = bidding.Form_Type_ID;
-                    newbidding.Temp_Vendor_ID = bidding.Temp_Vendor_ID;
-                    newbidding.Temp_Vendor_Name = bidding.Temp_Vendor_Name;
-                    newbidding.Factory_Name = bidding.Factory_Name;
-                    newbidding.Flag = 0;
-                    As_Bidding_Approval_BLL.addBiddingForm(newbidding);//添加纪录 当查找的时候会找到最新的这张表
-                    /*
-                     * 新表绑定原来的文件：
-                     * 1.通过原来的formID 在As_Form_File中查出需要绑定的文件 因为是表过期，文件是不用动的
-                     * 2.获取新的form_ID
-                     * 3.添加新的form_ID与对应文件进行绑定
-                     */
-                    As_New_Forms news = new As_New_Forms();
-                    news.Factory_Name = factory;
-                    news.Form_Name = FormType_BLL.getFormNameByTypeID(newbidding.Form_Type_ID);
-                    news.Temp_Vendor_ID = bidding.Temp_Vendor_ID;
-                    string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID 
-                    FormFile_BLL.dataReBind(form_ID, bidding.Temp_Vendor_ID, bidding.Form_ID);//已经存在Form_ID进入表的时候不会再绑定文件了
-                    aimPageName = "BiddingApprovalForm.aspx";
-                }
-                if (formid.Contains("VendorDesignated"))//指定供应商申请表
-                {
-                    As_Vendor_Designated_Apply vendor = new As_Vendor_Designated_Apply();
-                    As_Vendor_Designated_Apply newvendor = new As_Vendor_Designated_Apply();
-                    vendor = As_Vendor_Designated_Apply_BLL.checkFlag(formid);
-                    newvendor.Form_id = vendor.Form_id;
-                    newvendor.VendorName = TempVendor_BLL.getTempVendorName(temp_Vendor_ID);
-                    newvendor.Form_Type_ID = vendor.Form_Type_ID;
-                    newvendor.Temp_Vendor_ID = temp_Vendor_ID;
-                    newvendor.Factory_Name = vendor.Factory_Name;
-                    newvendor.Flag = 0;
-
-                    As_Vendor_Designated_Apply_BLL.addForm(newvendor);//添加纪录 当查找的时候会找到最新的这张表
-                    As_New_Forms news = new As_New_Forms();
-                    news.Factory_Name = factory;
-                    news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
-                    news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
-                    string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
-                    FormFile_BLL.dataReBind(form_ID, vendor.Temp_Vendor_ID, vendor.Form_id);
-                    aimPageName = "VendorDesignatedApply.aspx";
-                }
-                Response.Redirect(aimPageName + "?submit=" + submit + "&type=" + form_Type_ID);
+                showVendorFiles();
+                showVendorRelatedForms(temp_Vendor_ID);
             }
         }
 
         private void refreshVendor(string Temp_Vendor_ID)
         {
+            string tempVendor = "TempVendor29";
+            factory = "上海科勒";
             //获取该供应商所有应文件过期而需要重新审批的表
-            factory = Request.Form["quiz1"];
+            //factory = Request.Form["quiz1"];
             if (Temp_Vendor_ID != null)//通过VendorID来加载数据库中该供应商的过期文件
             {                //先获取该供应商所有过期的文件
                 PagedDataSource dataSource = new PagedDataSource();
-                dataSource.DataSource = FileOverDue_BLL.getOverDueFile(Temp_Vendor_ID, factory);
-                //只显示未上传的文件
-                GridView1.DataSource = dataSource;
-                GridView1.DataBind();//只负责新文件的上传
                 dataSource.DataSource = FileOverDue_BLL.getOverDueForm(Temp_Vendor_ID, factory);
                 GridView2.DataSource = dataSource;
                 GridView2.DataBind();
@@ -484,25 +347,29 @@ namespace SHZSZHSUPPLY.VendorAssess
         }
 
 
-        /// <summary>
-        /// GridView2的数据绑定
-        /// 
-        /// 当文件上传成功后 回掉此函数 用于显示GridView2的所有文件
-        /// </summary>
-        /// <param name="Temp_Vendor_ID"></param>
-        //private void showForm(string temp_Vendor_ID, string fileTypeName)
-        //{
-        //    List<string> formID
-        //    Dictionary<string, string> dc = FileOverDue_BLL.getOverDueFormByFile(temp_Vendor_ID, factory, fileTypeName);
-        //    if (dc.Count > 0)
-        //    {
-        //        foreach (KeyValuePair<string, string> key in dc)
-        //        {
-        //            fileWithForm.Add(key.Key, key.Value);
-        //        }
-        //    }
-        //    GridView2.DataSource = dc;
-        //}
+        private void showVendorRelatedForms(string Temp_Vendor_ID)
+        {
+            factory = "上海科勒";
+            //获取该供应商所有应文件过期而需要重新审批的表
+            //factory = Request.Form["quiz1"];
+            if (Temp_Vendor_ID != null)//通过VendorID来加载数据库中该供应商的过期文件
+            {                //先获取该供应商所有过期的文件
+                PagedDataSource dataSource = new PagedDataSource();
+                //插入到表过期中
+                IList<As_Form_OverDue> lists = FileOverDue_BLL.getOverDueForm(Temp_Vendor_ID, factory);
+                if (lists.Count > 0)
+                {
+                    foreach (As_Form_OverDue overDue in lists)
+                    {
+                        FormOverDue_BLL.addOverDueForm(overDue);
+                    }
+                }
+                dataSource.DataSource = FileOverDue_BLL.getVendorFormOverDue(factory, Temp_Vendor_ID);
+                GridView2.DataSource = dataSource;
+                GridView2.DataBind();
+                Session["tempVendorID"] = Temp_Vendor_ID;
+            }
+        }
 
 
         /// <summary>
