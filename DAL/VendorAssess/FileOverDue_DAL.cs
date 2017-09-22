@@ -127,7 +127,7 @@ namespace DAL.VendorAssess
             {
                 foreach (As_Vendor_OverDue vendors in anotherlist)
                 {
-                    if (vendor.Factory_Name == vendors.Factory_Name && vendor.Temp_Vendor_ID == vendors.Temp_Vendor_ID)
+                    if (/*vendor.Factory_Name == vendors.Factory_Name &&*/ vendor.Temp_Vendor_ID == vendors.Temp_Vendor_ID)
                     {
                         return true;
                     }

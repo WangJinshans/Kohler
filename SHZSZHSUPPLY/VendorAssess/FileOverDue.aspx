@@ -56,6 +56,11 @@
                 form.render('select');
             })
         }
+
+        function fireRefresh() {
+            __myDoPostBack('refreshVendor', '');
+        }
+
     </script>
     <script>
         var vendorInfoJson = {};
@@ -117,7 +122,7 @@
 </head>
 <body>
     <form id="form1" class="layui-form" runat="server">
-        <div class="layui-form-item" style="width: 1000px; margin: 0 auto">
+        <div class="layui-form-item" style="width: 1000px; margin: 0 auto;visibility:hidden">
             <a href="./index.aspx" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px;visibility:hidden">返回</a>
             <asp:Label runat="server" ID="LBtempVendorID" Visible="true"></asp:Label>
             <label class="layui-form-label">供应商选择</label>
@@ -194,7 +199,7 @@
         <asp:GridView Style="width: 1000px; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
             <AlternatingRowStyle BackColor="White" />
             <Columns>
-                <asp:BoundField DataField="Item_Category" HeaderText="文件名称"
+                <asp:BoundField DataField="Item_Category" HtmlEncode="false" HeaderText="文件名称"
                     SortExpression="Item_Category" />
                 <asp:BoundField DataField="Temp_Vendor_ID" HeaderText="供应商临时编码"
                     SortExpression="Temp_Vendor_ID" />

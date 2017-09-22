@@ -18,6 +18,8 @@ namespace SHZSZHSUPPLY.VendorAssess
         private static string factory;
         private static Dictionary<string, string> fileWithForm = new Dictionary<string, string>();
 
+        private string temp_Vendor_ID;
+
         /// <summary>
         /// Page Load
         /// </summary>
@@ -38,7 +40,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 switch (Request["__EVENTTARGET"])
                 {
                     case "refreshVendor":
-                        refreshVendor(Request.Form["__EVENTARGUMENT"]);
+                        refreshVendor(/*Request.Form["__EVENTARGUMENT"]*/);
                         break;
                     default:
                         break;
@@ -324,6 +326,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
             string temp_Vendor_ID = GridView3.Rows[drv.RowIndex].Cells[0].Text;
+            Session["overdue_tempVendorID"] = temp_Vendor_ID;
             if (e.CommandName == "showDetails")
             {
                 showVendorFiles();
@@ -331,20 +334,22 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
         }
 
-        private void refreshVendor(string Temp_Vendor_ID)
+        private void refreshVendor()
         {
-            string tempVendor = "TempVendor29";
-            factory = "上海科勒";
-            //获取该供应商所有应文件过期而需要重新审批的表
-            //factory = Request.Form["quiz1"];
-            if (Temp_Vendor_ID != null)//通过VendorID来加载数据库中该供应商的过期文件
-            {                //先获取该供应商所有过期的文件
-                PagedDataSource dataSource = new PagedDataSource();
-                dataSource.DataSource = FileOverDue_BLL.getOverDueForm(Temp_Vendor_ID, factory);
-                GridView2.DataSource = dataSource;
-                GridView2.DataBind();
-                Session["tempVendorID"] = Temp_Vendor_ID;
-            }
+            //string tempVendor = "TempVendor29";
+            //factory = "上海科勒";
+            ////获取该供应商所有应文件过期而需要重新审批的表
+            ////factory = Request.Form["quiz1"];
+            //if (Temp_Vendor_ID != null)//通过VendorID来加载数据库中该供应商的过期文件
+            //{                //先获取该供应商所有过期的文件
+            //    PagedDataSource dataSource = new PagedDataSource();
+            //    dataSource.DataSource = FileOverDue_BLL.getOverDueForm(Temp_Vendor_ID, factory);
+            //    GridView2.DataSource = dataSource;
+            //    GridView2.DataBind();
+            //    Session["tempVendorID"] = Temp_Vendor_ID;
+            //}
+            showVendorFiles();
+            showVendorRelatedForms(Session["overdue_tempVendorID"].ToString());
         }
 
 
