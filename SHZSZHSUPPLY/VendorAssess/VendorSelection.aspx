@@ -261,7 +261,7 @@
         <%--<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
 		<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />--%>
         <div>
-            <table style="width: 170%; margin: auto; border-collapse: collapse" border="1">
+            <table style="width: 1500px; margin: auto; border-collapse: collapse" border="1">
                 <caption style="font-size: xx-large">Supplier Selection Form     供应商选择表</caption>
                 <tr>
                     <td colspan="7" style="text-align: left" class="td-border-none-right">CN_PRC001F</td>
@@ -1044,18 +1044,18 @@
         </div>
 
         <div style="text-align: center">
-            <asp:Button ID="Button1" runat="server" Text="提交" CssClass="button" OnClick="Button1_Click" />
+            <asp:Button ID="Button1" runat="server" Text="提交" CssClass="layui-btn" OnClick="Button1_Click" />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
    
-            <asp:Button ID="Button4" runat="server" Text="确认" CssClass="button" OnClick="Button4_Click" />
+            <asp:Button ID="Button4" runat="server" Text="确认" CssClass="layui-btn" OnClick="Button4_Click" />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       
 	
-            <asp:Button ID="Button2" runat="server" Text="保存" CssClass="button" OnClick="Button2_Click" />
+            <asp:Button ID="Button2" runat="server" Text="保存" CssClass="layui-btn layui-btn-normal" OnClick="Button2_Click" />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	
-            <asp:Button ID="Button3" runat="server" Text="返回" CssClass="button" OnClick="Button3_Click" />
+            <asp:Button ID="Button3" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Button3_Click" />
         </div>
-        <div style="float: left">
+        <div style="float: left;display:none">
 
             <table>
                 <tr>

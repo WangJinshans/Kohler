@@ -182,10 +182,10 @@
         </div>
         <div>
             <div>
-                <fieldset class="layui-elem-field layui-field-title" style="width: 80%; margin: 50px auto 20px auto;">
+                <fieldset class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
                     <legend id="Legend2" runat="server">待填写表格</legend>
                 </fieldset>
-                <asp:GridView Style="width: 80%; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView2" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView2_RowCommand" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4">
+                <asp:GridView Style="width:1000px; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView2" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView2_RowCommand" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4">
                     <Columns>
                         <asp:BoundField DataField="Prority" HeaderText="填写顺序"
                             SortExpression="Prority" Visible="TRUE" />
@@ -223,10 +223,10 @@
                 </asp:GridView>
             </div>
             <div>
-                <fieldset class="layui-elem-field layui-field-title" style="width: 80%; margin: 50px auto 20px auto;">
+                <fieldset class="layui-elem-field layui-field-title" style="width:1000px; margin: 50px auto 20px auto;">
                     <legend id="Legend1" runat="server">已提交表格</legend>
                 </fieldset>
-                <asp:GridView Style="width: 80%; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView3" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView3_RowCommand" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4" >
+                <asp:GridView Style="width:1000px; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView3" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView3_RowCommand" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4" >
                     <Columns>
                         <asp:BoundField DataField="Temp_Vendor_Name" HeaderText="供应商名称"
                             SortExpression="Temp_Vendor_Name" />
@@ -258,10 +258,10 @@
                 </asp:GridView>
             </div>
             <div>
-                <fieldset class="layui-elem-field layui-field-title" style="width: 80%; margin: 50px auto 20px auto;">
+                <fieldset class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
                     <legend id="vendorName" runat="server">文件上传</legend>
                 </fieldset>
-                <asp:GridView Style="width: 80%; margin: 0 auto;" class="layui-table" lay-even="" lay-skin="nob" ID="GridView4" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView4_RowCommand" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="4">
+                <asp:GridView Style="width: 1000px; margin: 0 auto;" class="layui-table" lay-even="" lay-skin="nob" ID="GridView4" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView4_RowCommand" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="4">
                     <Columns>
                         <asp:BoundField DataField="id" HeaderText="id"
                             SortExpression="id" Visible="False" />
@@ -298,7 +298,8 @@
 
                     </Columns>
                     <FooterStyle BackColor="#CCCC99" ForeColor="Black" />
-                    <HeaderStyle BackColor="#333333" Font-Bold="True" ForeColor="White" />
+                    <%--<HeaderStyle BackColor="#333333" Font-Bold="True" ForeColor="White" />--%>
+                    <HeaderStyle BackColor="#507CD1" Font-Bold="true" ForeColor="White" />
                     <PagerStyle BackColor="White" ForeColor="Black" HorizontalAlign="Center" />
                     <SelectedRowStyle BackColor="#CC3333" Font-Bold="True" ForeColor="White" />
                     <SortedAscendingCellStyle BackColor="#F7F7F7" />

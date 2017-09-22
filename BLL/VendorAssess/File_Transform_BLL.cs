@@ -153,6 +153,24 @@ namespace BLL.VendorAssess
             return "";
         }
 
+        public static int changeStatus(string tempVendorID,bool isFile)
+        {
+            string sql = "";
+            if (isFile)
+            {
+                sql = "update As_VendorFile_OverDue set Status = 'Enable' Where Temp_Vendor_ID=@Temp_Vendor_ID";
+            }
+            else
+            {
+                sql = "update As_VendorForm_OverDue set Status = 'Enable' Where Temp_Vendor_ID=@Temp_Vendor_ID";
+            }
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Temp_Vendor_ID",tempVendorID)
+            };
+            return File_Transform_DAL.changeStatus(sql,sp);
+        }
+
         /// <summary>
         /// 判断转移类型
         /// </summary>

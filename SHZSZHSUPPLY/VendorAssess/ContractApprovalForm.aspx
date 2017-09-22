@@ -156,7 +156,6 @@
 		table {
 			border: solid #000000;
 			border-width: 1px 1px 1px 1px;
-			margin-left: auto;
 		}
 		
       
@@ -166,6 +165,7 @@
              border-width: 0px;
              overflow: hidden;
              text-align: center;
+             width:100%;
          }
 		 .auto-style2 {
              height: 12px;
@@ -180,15 +180,15 @@
         <%--<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
 		<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />--%>
         <div style="text-align:right;font-size:small;">PR-05-17-3</div>
-            <table style="margin: auto; border-collapse:collapse" cellpadding="0" cellspacing="0">
+            <table style="margin:0 auto;width:100%; border-collapse:collapse" cellpadding="0" cellspacing="0">
                 <tr>
                     <td colspan="14" style="text-align:center;border-right:0;font-size:small;">Contract Approval Form - Purchasing<br>合同批准格式——采购</td>
                     <td colspan="2" style="border-right:0;border-left:0;">Ref No.:<br>合同编号：</td>
-                    <td colspan="4" style="border-left:0;"><asp:TextBox runat="server" ID="Textbox1" BorderStyle="None"/></td>
+                    <td colspan="4" style="border-left:0;"><asp:TextBox runat="server" ID="Textbox1" CssClass="auto-style1" BorderStyle="None"/></td>
                 </tr>
                 <tr>
                     <td colspan="2" rowspan="1" style="border:none;font-size:small;" class="auto-style3">
-                        <asp:Label Text="Type of Purchase:" runat="server" BorderStyle="None" Width="200px" /></td>
+                        <asp:Label Text="Type of Purchase:" runat="server" BorderStyle="None" /></td>
                     <td colspan="1" rowspan="2" style="border:none;text-align:center;">
                         <asp:CheckBox Text="" runat="server" disabled="disabled" ID="CheckBox1" onclick="choose(1)"/></td>
                     <td colspan="1" rowspan="1" style="border:none;font-size:small;" class="auto-style3">Direct</td>
@@ -198,11 +198,11 @@
                         <asp:CheckBox Text="" runat="server" ID="CheckBox3" onclick="choose(3)"/></td>
                     <td colspan="1" rowspan="1" style="border:none;font-size:small;" class="auto-style3">Capital</td>
                     <td colspan="3" rowspan="1" style="border-collapse:collapse;border-bottom:0;border-right:0;font-size:small;" class="auto-style3">
-                        <asp:Label Text="Contract Subject:" runat="server" BorderStyle="None" Width="250px" /></td>
+                        <asp:Label Text="Contract Subject:" runat="server" BorderStyle="None"  /></td>
                     <td colspan="3" rowspan="2" style="border-collapse:collapse;border-top:0;border-left:0;"><asp:TextBox runat="server" ID="Textbox5" BorderStyle="None"/></td>
                     <td colspan="2" rowspan="1" style="border-bottom:0;border-right:0;" class="auto-style3">
-                        <asp:Label Text="Vendor Name:" runat="server" Width="150px" /></td>
-                    <td colspan="4" rowspan="2" style="border-left:0;border-bottom:0;"><asp:TextBox runat="server" ID="Textbox8" BorderStyle="None"/></td>
+                        <asp:Label Text="Vendor Name:" runat="server"  /></td>
+                    <td colspan="4" rowspan="2" style="border-left:0;border-bottom:0;"><asp:TextBox runat="server" ID="Textbox8" CssClass="auto-style1" BorderStyle="None"/></td>
                 </tr>
                  <tr>
                     <td colspan="2" rowspan="1" style="border:none">采购类别：*</td>
@@ -223,7 +223,7 @@
                     </td>
                     <td colspan="3" style="border-collapse:collapse;border-top:0;border-bottom:0;border-right:0;">Contract Annual Amount:</td>
                     <td colspan="3" rowspan="2" style="border-collapse:collapse;border-top:0;border-left:0;">
-                        <asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox6" onchange="initMoney()" Height="48px" Width="350px"/>
+                        <asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox6" onchange="initMoney()" Height="48px" />
                     </td>
                     <td colspan="2" rowspan="3" style="border-bottom:0;border-right:0;border-top:0;">Existing vendor: <br>现有供应商 * </td>
                     <td colspan="1" rowspan="2" style="border-style:none;text-align:center">
@@ -269,7 +269,7 @@
                     <td colspan="4" style="text-align:center">Approve by 批准人</td>
                 </tr>
                 <tr>
-                    <td colspan="16"><asp:TextBox runat="server" ID="Textbox4" BorderStyle="None" Width="890px"/></td>
+                    <td colspan="16"><asp:TextBox runat="server" ID="Textbox4" BorderStyle="None" style="width:100%"/></td>
                     <td colspan="2">
                         <asp:Image ImageUrl="imageurl" ID="Image8" runat="server" /></td>
                     <td colspan="2" style="text-align:center">User Dept Head<br>使用部门领导</td>
@@ -287,7 +287,7 @@
                     <td class="auto-style2"><asp:TextBox runat="server" ID="Textbox11" BorderStyle="None"/></td>
                     <td class="auto-style2"><asp:TextBox runat="server" ID="Textbox9" BorderStyle="None"/></td>
                     <td style="text-align:center" class="auto-style2"><asp:CheckBox Text="" runat="server" ID="CheckBox6"/></td>
-                    <td colspan="8" class="auto-style2"><asp:TextBox runat="server" ID="Textbox13" BorderStyle="None"></asp:TextBox></td>
+                    <td colspan="8" class="auto-style2"><asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox13" BorderStyle="None"></asp:TextBox></td>
                     <td colspan="2" class="auto-style2">
                         <asp:Image ImageUrl="imageurl" ID="Image7" runat="server" /></td>
                     <td colspan="2" style="text-align:center" class="auto-style2">FIN Leader<br>财务领导</td>
@@ -297,7 +297,7 @@
                     <td><asp:TextBox runat="server" ID="Textbox16" BorderStyle="None"/></td>
                     <td><asp:TextBox runat="server" ID="Textbox17" BorderStyle="None"/></td>
                     <td style="text-align:center"><asp:CheckBox Text="" runat="server" ID="CheckBox7"/></td>
-                    <td colspan="8"><asp:TextBox runat="server" ID="Textbox19" BorderStyle="None"/></td>
+                    <td colspan="8"><asp:TextBox runat="server" ID="Textbox19" CssClass="auto-style1" BorderStyle="None"/></td>
                     <td colspan="2" rowspan="11">
                         <asp:Image ImageUrl="imageurl" ID="Image6" runat="server" /></td>
                     <td colspan="2" rowspan="11">User Dept Head使用部门领导</td>
@@ -307,42 +307,42 @@
                     <td><asp:TextBox runat="server" ID="Textbox20" BorderStyle="None"/></td>
                     <td><asp:TextBox runat="server" ID="Textbox21" BorderStyle="None"/></td>
                     <td style="text-align:center"><asp:CheckBox Text="" runat="server" ID="CheckBox8"/></td>
-                    <td colspan="8"><asp:TextBox runat="server" ID="Textbox23" BorderStyle="None"/></td>
+                    <td colspan="8"><asp:TextBox runat="server" ID="Textbox23" CssClass="auto-style1" BorderStyle="None"/></td>
                 </tr>
                 <tr>
                     <td colspan="5">Period &amp; renewal<br>周期&amp;续约*</td>
                     <td><asp:TextBox runat="server" ID="Textbox24" BorderStyle="None"/></td>
                     <td><asp:TextBox runat="server" ID="Textbox25" BorderStyle="None"/></td>
                    <td style="text-align:center"><asp:CheckBox Text="" runat="server" ID="CheckBox9"/></td>
-                    <td colspan="8"><asp:TextBox runat="server" ID="Textbox27" BorderStyle="None"/></td>
+                    <td colspan="8"><asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox27" BorderStyle="None"/></td>
                 </tr>
                 <tr>
                     <td colspan="5">Rebate &amp; commission<br>折扣&amp;佣金*</td>
                     <td><asp:TextBox runat="server" ID="Textbox28" BorderStyle="None"/></td>
                     <td><asp:TextBox runat="server" ID="Textbox29" BorderStyle="None"/></td>
                     <td style="text-align:center"><asp:CheckBox Text="" runat="server" ID="CheckBox10"/></td>
-                    <td colspan="8"><asp:TextBox runat="server" ID="Textbox31" BorderStyle="None"/></td>
+                    <td colspan="8"><asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox31" BorderStyle="None"/></td>
                 </tr>
                 <tr>
                     <td colspan="5">Scope of Work / Service Level Agreement<br>工作范围/服务水平协议</td>
                     <td><asp:TextBox runat="server" ID="Textbox32" BorderStyle="None"/></td>
                     <td><asp:TextBox runat="server" ID="Textbox33" BorderStyle="None"/></td>
                     <td style="text-align:center"><asp:CheckBox Text="" runat="server" ID="CheckBox11"/></td>
-                    <td colspan="8"><asp:TextBox runat="server" ID="Textbox35" BorderStyle="None"/></td>
+                    <td colspan="8"><asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox35" BorderStyle="None"/></td>
                 </tr>
                 <tr>
                     <td colspan="5">Acceptence Criteria<br>接受条件*</td>
                     <td><asp:TextBox runat="server" ID="Textbox36" BorderStyle="None"/></td>
                     <td><asp:TextBox runat="server" ID="Textbox37" BorderStyle="None"/></td>
                    <td style="text-align:center"><asp:CheckBox Text="" runat="server" ID="CheckBox12"/></td>
-                    <td colspan="8"><asp:TextBox runat="server" ID="Textbox39" BorderStyle="None"/></td>
+                    <td colspan="8"><asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox39" BorderStyle="None"/></td>
                 </tr>
                 <tr>
                     <td colspan="5">Warranty<br>担保</td>
                     <td><asp:TextBox runat="server" ID="Textbox40" BorderStyle="None"/></td>
                     <td><asp:TextBox runat="server" ID="Textbox41" BorderStyle="None"/></td>
                     <td style="text-align:center"><asp:CheckBox Text="" runat="server" ID="CheckBox13"/></td>
-                    <td colspan="8"><asp:TextBox runat="server" ID="Textbox43" BorderStyle="None"/></td>
+                    <td colspan="8"><asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox43" BorderStyle="None"/></td>
                 </tr>
 
                 <tr>
@@ -350,27 +350,27 @@
                     <td><asp:TextBox runat="server" ID="Textbox44" BorderStyle="None"/></td>
                     <td><asp:TextBox runat="server" ID="Textbox45" BorderStyle="None"/></td>
                     <td style="text-align:center"><asp:CheckBox Text="" runat="server" ID="CheckBox14"/></td>
-                    <td colspan="8"><asp:TextBox runat="server" ID="Textbox47" BorderStyle="None"/></td>
+                    <td colspan="8"><asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox47" BorderStyle="None"/></td>
                 </tr>
                 <tr>
                     <td colspan="5">Exclusivity<br>独占权</td>
                     <td><asp:TextBox runat="server" ID="Textbox48" BorderStyle="None"/></td>
                     <td><asp:TextBox runat="server" ID="Textbox49" BorderStyle="None"/></td>
                     <td style="text-align:center"><asp:CheckBox Text="" runat="server" ID="CheckBox15"/></td>
-                    <td colspan="8"><asp:TextBox runat="server" ID="Textbox51" BorderStyle="None"/></td>
+                    <td colspan="8"><asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox51" BorderStyle="None"/></td>
                 </tr>
                 <tr>
                     <td colspan="5">Other key terms, please specify<br>其他关键条款，请说明</td>
                     <td><asp:TextBox runat="server" ID="Textbox52" BorderStyle="None"/></td>
                     <td><asp:TextBox runat="server" ID="Textbox53" BorderStyle="None"/></td>
                     <td style="text-align:center"><asp:CheckBox Text="" runat="server" ID="CheckBox16"/></td>
-                    <td colspan="8"><asp:TextBox runat="server" ID="Textbox55" BorderStyle="None"/></td>
+                    <td colspan="8"><asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox55" BorderStyle="None"/></td>
                 </tr>
                 <tr>
                     <td colspan="5">Penalty detail in breach of contract<br>违反合同的罚款细节</td>
                     <td><asp:TextBox runat="server" ID="Textbox56" BorderStyle="None"/></td>
                     <td><asp:TextBox runat="server" ID="Textbox57" BorderStyle="None"/></td>
-                    <td colspan="9"><asp:TextBox runat="server" ID="Textbox59" BorderStyle="None"/></td>
+                    <td colspan="9"><asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox59" BorderStyle="None"/></td>
                 </tr>
                 <tr>
                     <td colspan="8" style="text-align:center;border-bottom:0;border-right:0;">Does this contract use a pre-approved contract template with no changes?</td>
@@ -399,7 +399,7 @@
                     <td><asp:TextBox runat="server" ID="Textbox12" BorderStyle="None"/></td>
                     <td><asp:TextBox runat="server" ID="Textbox18" BorderStyle="None"/></td>
                     <td style="text-align:center"><asp:CheckBox Text="" runat="server" ID="CheckBox20"/></td>
-                    <td colspan="8"><asp:TextBox runat="server" ID="Textbox22" BorderStyle="None"/></td>
+                    <td colspan="8"><asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox22" BorderStyle="None"/></td>
                     <td colspan="2" rowspan="9">
                         <asp:Image ImageUrl="imageurl" ID="Image5" runat="server" /></td>
                     <td colspan="2" rowspan="9" style="text-align:center">Legal Head Head<br>法律领导</td>
@@ -409,56 +409,56 @@
                     <td><asp:TextBox runat="server" ID="Textbox30" BorderStyle="None"/></td>
                     <td><asp:TextBox runat="server" ID="Textbox34" BorderStyle="None"/></td>
                     <td style="text-align:center"><asp:CheckBox Text="" runat="server" ID="CheckBox21"/></td>
-                    <td colspan="8"><asp:TextBox runat="server" ID="Textbox38" BorderStyle="None"/></td>
+                    <td colspan="8"><asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox38" BorderStyle="None"/></td>
                 </tr>
                 <tr>
                     <td colspan="5">Announcement<br>声明</td>
                     <td><asp:TextBox runat="server" ID="Textbox46" BorderStyle="None"/></td>
                     <td><asp:TextBox runat="server" ID="Textbox50" BorderStyle="None"/></td>
                     <td style="text-align:center"><asp:CheckBox Text="" runat="server" ID="CheckBox22"/></td>
-                    <td colspan="8"><asp:TextBox runat="server" ID="Textbox54" BorderStyle="None"/></td>
+                    <td colspan="8"><asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox54" BorderStyle="None"/></td>
                 </tr>
                 <tr>
                     <td colspan="5">Waivers<br>弃权</td>
                     <td><asp:TextBox runat="server" ID="Textbox60" BorderStyle="None"/></td>
                     <td><asp:TextBox runat="server" ID="Textbox61" BorderStyle="None"/></td>
                     <td style="text-align:center"><asp:CheckBox Text="" runat="server" ID="CheckBox23"/></td>
-                    <td colspan="8"><asp:TextBox runat="server" ID="Textbox62" BorderStyle="None"/></td>
+                    <td colspan="8"><asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox62" BorderStyle="None"/></td>
                 </tr>
                 <tr>
                     <td colspan="5">Severalbility<br>服务性</td>
                     <td><asp:TextBox runat="server" ID="Textbox64" BorderStyle="None"/></td>
                     <td><asp:TextBox runat="server" ID="Textbox65" BorderStyle="None"/></td>
                     <td style="text-align:center"><asp:CheckBox Text="" runat="server" ID="CheckBox24"/></td>
-                    <td colspan="8"><asp:TextBox runat="server" ID="Textbox66" BorderStyle="None"/></td>
+                    <td colspan="8"><asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox66" BorderStyle="None"/></td>
                 </tr>
                 <tr>
                     <td colspan="5">Force Majeure<br>不可抗力</td>
                     <td><asp:TextBox runat="server" ID="Textbox68" BorderStyle="None"/></td>
                     <td><asp:TextBox runat="server" ID="Textbox69" BorderStyle="None"/></td>
                     <td style="text-align:center"><asp:CheckBox Text="" runat="server" ID="CheckBox25"/></td>
-                    <td colspan="8"><asp:TextBox runat="server" ID="Textbox70" BorderStyle="None"/></td>
+                    <td colspan="8"><asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox70" BorderStyle="None"/></td>
                 </tr>
                 <tr>
                     <td colspan="5">Assignment & Delegation<br>分配&授权</td>
                     <td><asp:TextBox runat="server" ID="Textbox72" BorderStyle="None"/></td>
                     <td><asp:TextBox runat="server" ID="Textbox73" BorderStyle="None"/></td>
                     <td style="text-align:center"><asp:CheckBox Text="" runat="server" ID="CheckBox26"/></td>
-                    <td colspan="8"><asp:TextBox runat="server" ID="Textbox74" BorderStyle="None"/></td>
+                    <td colspan="8"><asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox74" BorderStyle="None"/></td>
                 </tr>
                 <tr>
                     <td colspan="5">Dispute Resolution<br>纠纷解决</td>
                     <td><asp:TextBox runat="server" ID="Textbox76" BorderStyle="None"/></td>
                     <td><asp:TextBox runat="server" ID="Textbox77" BorderStyle="None"/></td>
                     <td style="text-align:center"><asp:CheckBox Text="" runat="server" ID="CheckBox27"/></td>
-                    <td colspan="8"><asp:TextBox runat="server" ID="Textbox78" BorderStyle="None"/></td>
+                    <td colspan="8"><asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox78" BorderStyle="None"/></td>
                 </tr>
                 <tr>
                     <td colspan="5">Other legal provisions, please specify<br>其他法律条款，请说明</td>
                     <td><asp:TextBox runat="server" ID="Textbox80" BorderStyle="None"/></td>
                     <td><asp:TextBox runat="server" ID="Textbox81" BorderStyle="None"/></td>
                     <td style="text-align:center"><asp:CheckBox Text="" runat="server" ID="CheckBox28"/></td>
-                    <td colspan="8"><asp:TextBox runat="server" ID="Textbox82" BorderStyle="None"/></td>
+                    <td colspan="8"><asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox82" BorderStyle="None"/></td>
                 </tr>
                 <tr>
                     <td colspan="3" style="text-align:center;background-color:#808080;">以下用于工程项目合同，需要时提供</td>
@@ -550,11 +550,11 @@
                 </tr>
             </table>
          <div style="text-align:center">
-            <asp:Button ID="Button1" runat="server" Text="提交" OnClick="Button1_Click"/>&nbsp;&nbsp;&nbsp;&nbsp;
-            <asp:Button ID="Button2" runat="server" Text="保存" style="height: 21px" OnClick="Button2_Click" />&nbsp;&nbsp;&nbsp;&nbsp;
-            <asp:Button ID="Button3" runat="server" Text="返回" OnClick="Button3_Click" />
+            <asp:Button ID="Button1" runat="server" Text="提交" CssClass="layui-btn" OnClick="Button1_Click"/>&nbsp;&nbsp;&nbsp;&nbsp;
+            <asp:Button ID="Button2" runat="server" Text="保存" CssClass="layui-btn layui-btn-normal" OnClick="Button2_Click" />&nbsp;&nbsp;&nbsp;&nbsp;
+            <asp:Button ID="Button3" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Button3_Click" />
         </div>
-        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" CellPadding="4" OnRowCommand="GridView1_RowCommand" GridLines="None" ForeColor="#333333">
+        <asp:GridView style="display:none" ID="GridView1" runat="server" AutoGenerateColumns="False" CellPadding="4" OnRowCommand="GridView1_RowCommand" GridLines="None" ForeColor="#333333">
 						<AlternatingRowStyle BackColor="White" ForeColor="#284775" />
 				<Columns>
 					<asp:BoundField DataField="Form_ID" HeaderText="表格编号"

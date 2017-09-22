@@ -108,7 +108,7 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <table style="margin: auto; border-collapse: collapse; width: 100%">
+            <table style="margin: auto; border-collapse: collapse; width: 1000px">
                 <caption style="font-size: xx-large">Bidding Approval Form</caption>
                 <tr>
                     <td colspan="1">CN_PRC003F</td>
@@ -359,14 +359,14 @@
             </table>
         </div>
         <div style="text-align: center">
-            <asp:Button ID="Button1" runat="server" Text="提交" CssClass="button" OnClick="Button1_Click" />
+            <asp:Button ID="Button1" runat="server" Text="提交" CssClass="layui-btn" OnClick="Button1_Click" />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       
-			<asp:Button ID="Button2" runat="server" Text="保存" CssClass="button" OnClick="Button2_Click" />
+			<asp:Button ID="Button2" runat="server" Text="保存" CssClass="layui-btn layui-btn-normal" OnClick="Button2_Click" />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<asp:Button ID="Button3" runat="server" Text="返回" CssClass="button" OnClick="Button3_Click" />
+			<asp:Button ID="Button3" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Button3_Click" />
         </div>
 
-        <div style="float: left">
+        <div style="float: left;display:none">
             <table>
                 <tr>
                     <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView2_RowCommand" CellPadding="4" GridLines="None" ForeColor="#333333">

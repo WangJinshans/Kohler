@@ -32,6 +32,31 @@
              margin-left: auto;
          }
 
+            table.gridtable {
+                font-family: verdana,arial,sans-serif;
+                font-size: 11px;
+                color: #333333;
+                border-width: 1px;
+                border-color: #666666;
+                border-collapse: collapse;
+            }
+
+                table.gridtable th {
+                    border-width: 1px;
+                    padding: 8px;
+                    border-style: solid;
+                    border-color: #666666;
+                    background-color: #507CD1;
+                }
+
+                table.gridtable td {
+                    border-width: 1px;
+                    padding: 8px;
+                    border-style: solid;
+                    border-color: #666666;
+                    background-color: #ffffff;
+                }
+
          .auto-style2 {
              width: 1032px;
          }
@@ -124,12 +149,14 @@
 </head>
 <body>
     <form id="form1" runat="server">
-    <a onclick="goBack()" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
-    <asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="Button1" runat="server" OnClick="Button1_Click" style="float: right; " />
+    <div class="layui-form-item" style="width:1000px;margin:0 auto">
+            <a onclick="goBack()" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
+            <asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="Button1" runat="server" OnClick="Button1_Click" style="float: right; " />
+        </div>
         
     <div id="div1">
         <div style="text-align:right">PR-05-07-04</div>
-        <table style="margin: auto; border-collapse:initial" cellpadding="0" cellspacing="0">
+        <table style="margin: auto; border-collapse:initial;width:1000px" cellpadding="0" cellspacing="0">
             <caption style="font-size:xx-large; " class="auto-style2">VENDOR CREATION</caption>
             <tr>
                 <td colspan="1" style="text-align:center" class="t">Please select Language / 请选择语言 :</td>
@@ -316,82 +343,77 @@
                 </td>
             </tr>
         </table>
-        <table class="gridtable" style="margin: auto; border-collapse: collapse;float:left">
-                <tr>
-                    <td>
-                        <div width: 1000px; text-align :center ;height: 100%>
-            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
-                <AlternatingRowStyle BackColor="White" />
-            <Columns>
-                                        <asp:BoundField DataField="Form_ID" HeaderText="表格编号" 
-                                            SortExpression="Form_ID" />
-                                        <asp:BoundField DataField="Position_Name" HeaderText="职位名称" 
-                                            SortExpression="Position_Name" />
-                                        <asp:BoundField DataField="Assess_Flag" HeaderText="审批状态" 
-                                            SortExpression="Assess_Flag" />
-                                        <asp:BoundField DataField="DepotSummary" HeaderText="DepotSummary" 
-                                            SortExpression="DepotSummary" Visible="False" />
-                                        <asp:TemplateField>
-                                            <ItemTemplate>
-                                                <asp:LinkButton ID="lbtapprovesuccess" runat="server" CommandName="approvesuccess"
-                                                    CommandArgument='<%# Eval("Form_ID") %>'>通过审批</asp:LinkButton>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField>
-                                            <ItemTemplate>
-                                                <asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="fail"
-                                                    CommandArgument='<%# Eval("Form_ID") %>'>拒绝审批</asp:LinkButton>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+        <table class="gridtable" style="margin: auto; width: 1000px; border-collapse: collapse;">
+            <tr>
+                <td>
+                    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
+                        <AlternatingRowStyle BackColor="White" />
+                        <Columns>
+                            <asp:BoundField DataField="Form_ID" HeaderText="表格编号"
+                                SortExpression="Form_ID" />
+                            <asp:BoundField DataField="Position_Name" HeaderText="职位名称"
+                                SortExpression="Position_Name" />
+                            <asp:BoundField DataField="Assess_Flag" HeaderText="审批状态"
+                                SortExpression="Assess_Flag" />
+                            <asp:BoundField DataField="DepotSummary" HeaderText="DepotSummary"
+                                SortExpression="DepotSummary" Visible="False" />
+                            <asp:TemplateField>
+                                <ItemTemplate>
+                                    <asp:LinkButton ID="lbtapprovesuccess" runat="server" CommandName="approvesuccess"
+                                        CommandArgument='<%# Eval("Form_ID") %>'>通过审批</asp:LinkButton>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField>
+                                <ItemTemplate>
+                                    <asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="fail"
+                                        CommandArgument='<%# Eval("Form_ID") %>'>拒绝审批</asp:LinkButton>
+                                </ItemTemplate>
+                            </asp:TemplateField>
 
 
-            </Columns>
-                <EditRowStyle BackColor="#2461BF" />
-                <FooterStyle BackColor="#507CD1" ForeColor="White" Font-Bold="True" />
-                <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-                <PagerStyle ForeColor="White" HorizontalAlign="Center" BackColor="#2461BF" />
-                <RowStyle BackColor="#EFF3FB" />
-                <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
-                <SortedAscendingCellStyle BackColor="#F5F7FB" />
-                <SortedAscendingHeaderStyle BackColor="#6D95E1" />
-                <SortedDescendingCellStyle BackColor="#E9EBEF" />
-                <SortedDescendingHeaderStyle BackColor="#4870BE" />
-        </asp:GridView>
-            
-        </div>
-                    </td>
-                    <td>
-                        <div>
-            <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" CellPadding="4" OnRowCommand="GridView2_RowCommand" GridLines="None" ForeColor="#333333" >
-                <AlternatingRowStyle BackColor="White" />
-                <Columns>
-                    <asp:BoundField DataField="Form_ID" HeaderText="表格编号"
-                        SortExpression="Form_ID" />
-                    <asp:BoundField DataField="File_ID" HeaderText="文件编号"
-                        SortExpression="File_ID" />
+                        </Columns>
+                        <EditRowStyle BackColor="#2461BF" />
+                        <FooterStyle BackColor="#507CD1" ForeColor="White" Font-Bold="True" />
+                        <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+                        <PagerStyle ForeColor="White" HorizontalAlign="Center" BackColor="#2461BF" />
+                        <RowStyle BackColor="#EFF3FB" />
+                        <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
+                        <SortedAscendingCellStyle BackColor="#F5F7FB" />
+                        <SortedAscendingHeaderStyle BackColor="#6D95E1" />
+                        <SortedDescendingCellStyle BackColor="#E9EBEF" />
+                        <SortedDescendingHeaderStyle BackColor="#4870BE" />
+                    </asp:GridView>
+                </td>
+                <td>
+                    <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView2_RowCommand" CellPadding="4" GridLines="None" ForeColor="#333333">
+                        <AlternatingRowStyle BackColor="White" />
+                        <Columns>
+                            <asp:BoundField DataField="File_Type_Name" HeaderText="文件名称"
+                                SortExpression="File_Type_Name" />
+                            <asp:BoundField DataField="File_ID" HeaderText="文件编号"
+                                SortExpression="File_ID" />
 
-                    <asp:TemplateField>
-                        <ItemTemplate>
-                            <asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="view"
-                                CommandArgument='<%# Eval("File_ID") %>'>查看文件</asp:LinkButton>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                </Columns>
-                <EditRowStyle BackColor="#2461BF" />
-                <FooterStyle BackColor="#507CD1" ForeColor="White" Font-Bold="True" />
-                <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-                <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
-                <RowStyle BackColor="#EFF3FB" />
-                <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
-                <SortedAscendingCellStyle BackColor="#F5F7FB" />
-                <SortedAscendingHeaderStyle BackColor="#6D95E1" />
-                <SortedDescendingCellStyle BackColor="#E9EBEF" />
-                <SortedDescendingHeaderStyle BackColor="#4870BE" />
-            </asp:GridView>               
-        </div>
-                    </td>
-                </tr>
-            </table>
+                            <asp:TemplateField>
+                                <ItemTemplate>
+                                    <asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="view"
+                                        CommandArgument='<%# Eval("File_ID") %>'>查看文件</asp:LinkButton>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                        </Columns>
+                        <EditRowStyle BackColor="#2461BF" />
+                        <FooterStyle BackColor="#507CD1" ForeColor="White" Font-Bold="True" />
+                        <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+                        <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
+                        <RowStyle BackColor="#EFF3FB" />
+                        <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
+                        <SortedAscendingCellStyle BackColor="#F5F7FB" />
+                        <SortedAscendingHeaderStyle BackColor="#6D95E1" />
+                        <SortedDescendingCellStyle BackColor="#E9EBEF" />
+                        <SortedDescendingHeaderStyle BackColor="#4870BE" />
+                    </asp:GridView>
+                </td>
+            </tr>
+        </table>
     </div>
     </form>
 </body>

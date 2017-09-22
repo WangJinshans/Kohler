@@ -152,11 +152,11 @@
             </div>
         </div>
 
-        <fieldset class="layui-elem-field layui-field-title" style="width: 80%; margin: 50px auto 20px auto;">
+        <fieldset class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
             <legend id="vendorName" runat="server">供应商名称</legend>
         </fieldset>
 
-        <asp:GridView Style="width: 80%; margin: 0 auto" ID="File_GridView" class="layui-table" lay-even="" lay-skin="nob" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="0px" CellPadding="4" OnRowCommand="File_GridView_RowCommand">
+        <asp:GridView Style="width: 1000px; margin: 0 auto" ID="File_GridView" class="layui-table" lay-even="" lay-skin="nob" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="0px" CellPadding="4" OnRowCommand="File_GridView_RowCommand">
             <Columns>
                 <asp:BoundField DataField="Temp_Vendor_Name" HeaderText="供应商名称"
                     SortExpression="Temp_Vendor_Name" />

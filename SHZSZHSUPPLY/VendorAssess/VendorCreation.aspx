@@ -60,7 +60,7 @@
 	<form id="form1" runat="server">
 	<div style="text-align:right">PR-05-07-04</div>
 	<div>
-		<table style="margin: auto; border-collapse:initial" cellpadding="0" cellspacing="0">
+		<table style="margin: auto; border-collapse:initial;width:1000px" cellpadding="0" cellspacing="0">
 			<caption style="font-size:xx-large; " class="auto-style2">VENDOR CREATION</caption>
 			<tr>
 				<td colspan="1" style="text-align:center" class="auto-style5">Please select Language / 请选择语言 :</td>
@@ -242,11 +242,10 @@
 			</tr>
 		</table>
 		<div style="text-align:center">
-			<asp:Button Text="提交" runat="server" Height="21px" ID="Button1" OnClick="Button1_Click" />&nbsp&nbsp&nbsp&nbsp&nbsp
-			<asp:Button Text="保存" runat="server" style="height: 21px" ID="Button2" OnClick="Button2_Click" />&nbsp&nbsp&nbsp&nbsp&nbsp
-			<asp:Button Text="返回" runat="server" style="height: 21px" ID="Button3" OnClick="Button3_Click"  />
-		</div>
-		<table>
+			<asp:Button ID="Button1" runat="server" Text="保存" CssClass="layui-btn" OnClick="Button1_Click" />&nbsp;&nbsp;&nbsp;&nbsp;
+            <asp:Button ID="Button2" runat="server" Text="提交" CssClass="layui-btn layui-btn-normal" OnClick="Button2_Click" />&nbsp;&nbsp;&nbsp;&nbsp;
+            <asp:Button ID="Button3" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Button3_Click" /></div>
+		<table style="display:none">
 			<asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" CellPadding="4" OnRowCommand="GridView2_RowCommand" GridLines="None" ForeColor="#333333">
 						<AlternatingRowStyle BackColor="White" ForeColor="#284775" />
 				<Columns>

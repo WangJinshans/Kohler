@@ -29,7 +29,7 @@
                 padding: 8px;
                 border-style: solid;
                 border-color: #666666;
-                background-color: #dedede;
+                background-color:#507CD1;
             }
 
             table.gridtable td {
@@ -198,11 +198,12 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <a onclick="goBack()" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
-        <asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="Button1" runat="server" OnClick="Button1_Click" style="float: right; " />
-        
+        <div class="layui-form-item" style="width:1000px;margin:0 auto">
+            <a onclick="goBack()" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
+            <asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="Button1" runat="server" OnClick="Button1_Click" style="float: right; " />
+        </div>
         <div id="div1">
-            <table style="width: 170%; margin: auto; border-collapse: collapse" border="1">
+            <table style="width: 1500px; margin: auto; border-collapse: collapse" border="1">
                 <caption style="font-size: xx-large">Supplier Selection Form     供应商选择表</caption>
                 <tr>
                     <td colspan="7" style="text-align: left" class="td-border-none-right">CN_PRC001F</td>
@@ -984,7 +985,7 @@
             </table>
         </div>
         <div>
-            <table class="gridtable" style="margin: auto; border-collapse: collapse; float: left">
+            <table class="gridtable" style="margin: auto;width:1000px; border-collapse: collapse; ">
                 <tr>
                     <td>
                         <div>
@@ -1034,8 +1035,8 @@
                             <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" CellPadding="4" GridLines="None" ForeColor="#333333">
                                 <AlternatingRowStyle BackColor="White" />
                                 <Columns>
-                                    <asp:BoundField DataField="Form_ID" HeaderText="表格编号"
-                                        SortExpression="Form_ID" />
+                                    <asp:BoundField DataField="File_Type_Name" HeaderText="文件名称"
+                                        SortExpression="File_Type_Name" />
                                     <asp:BoundField DataField="File_ID" HeaderText="文件编号"
                                         SortExpression="File_ID" />
 

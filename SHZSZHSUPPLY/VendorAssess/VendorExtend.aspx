@@ -179,7 +179,7 @@ table.gridtable td {
 <body>
     <form id="form1" runat="server">
          <div style="text-align:right">PR-05-07-04</div><br>
-        <table style="margin: auto; border-collapse:initial" cellpadding="0" cellspacing="0">
+        <table style="margin: auto; border-collapse:initial;width:1000px" cellpadding="0" cellspacing="0">
             <caption style="font-size:xx-large; " class="auto-style2">VENDOR EXTEND</caption>
              <tr>
                 <td colspan="1" style="text-align:center" class="t">Please select Language / 请选择语言 :</td>
@@ -253,11 +253,11 @@ table.gridtable td {
             
         </table>
         <div style="text-align:center">
-         <asp:Button ID="Button1" runat="server" Text="保存" OnClick="Button1_Click" />&nbsp;&nbsp;&nbsp;&nbsp;
-         <asp:Button ID="Button2" runat="server" Text="提交" OnClick="Button2_Click" style="height: 21px" />&nbsp;&nbsp;&nbsp;&nbsp;
-         <asp:Button ID="Button3" runat="server" Text="返回" OnClick="Button3_Click" />
+         <asp:Button ID="Button1" runat="server" Text="保存" CssClass="layui-btn" OnClick="Button1_Click" />&nbsp;&nbsp;&nbsp;&nbsp;
+         <asp:Button ID="Button2" runat="server" Text="提交" CssClass="layui-btn layui-btn-normal" OnClick="Button2_Click" />&nbsp;&nbsp;&nbsp;&nbsp;
+         <asp:Button ID="Button3" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Button3_Click" />
         </div>
-        <div>
+        <div style="display:none">
             <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" CellPadding="4" GridLines="None" ForeColor="#333333">
 						<AlternatingRowStyle BackColor="White" ForeColor="#284775" />
 				<Columns>

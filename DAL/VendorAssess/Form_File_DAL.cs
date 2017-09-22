@@ -44,6 +44,7 @@ namespace DAL
                     As_Form_File Form_File = new As_Form_File();
                     Form_File.Form_ID = Convert.ToString(dr["Form_ID"]);
                     Form_File.File_ID = Convert.ToString(dr["File_ID"]);
+                    Form_File.File_Type_Name = dr["File_Type_Name"].ToString();
                     Form_File.Temp_Vendor_ID = Convert.ToString(dr["Temp_Vendor_ID"]);
                     list.Add(Form_File);
                 }

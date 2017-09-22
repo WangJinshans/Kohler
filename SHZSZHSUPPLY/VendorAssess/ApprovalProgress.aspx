@@ -274,11 +274,11 @@
             </div>
         </div>
 
-        <fieldset class="layui-elem-field layui-field-title" style="width: 80%; margin: 50px auto 20px auto;">
+        <fieldset class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
             <legend id="vendorName" runat="server">供应商名称</legend>
         </fieldset>
 
-        <asp:GridView Style="width: 80%; margin: 0 auto" ID="GridView3" class="layui-table" lay-even="" lay-skin="nob" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="0px" CellPadding="4" OnRowCommand="GridView3_RowCommand">
+        <asp:GridView Style="width: 1000px; margin: 0 auto" ID="GridView3" class="layui-table" lay-even="" lay-skin="nob" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="0px" CellPadding="4" OnRowCommand="GridView3_RowCommand">
             <Columns>
                 <asp:BoundField DataField="Temp_Vendor_Name" HeaderText="供应商名称"
                     SortExpression="Temp_Vendor_Name" />
@@ -301,10 +301,10 @@
         </asp:GridView>
 
 
-        <fieldset class="layui-elem-field layui-field-title" style="width: 80%; margin: 50px auto 20px auto;">
+        <fieldset class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
             <legend id="formName" runat="server">表格名称</legend>
         </fieldset>
-        <div id="detailInfo" class="layui-collapse" lay-filter="formDetailCollapse" style="width: 80%; margin: 0 auto">
+        <div id="detailInfo" class="layui-collapse" lay-filter="formDetailCollapse" style="width: 1000px; margin: 0 auto">
             <div class="layui-colla-item">
                 <h2 class="layui-colla-title">常规进度信息</h2>
                 <div class="layui-colla-content layui-show">
@@ -328,10 +328,10 @@
             </div>
         </div>
 
-        <fieldset class="layui-elem-field layui-field-title" style="width: 80%; margin: 50px auto 20px auto;">
+        <fieldset class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
             <legend>直观进度</legend>
         </fieldset>
-        <div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="formProgress" style="width: 80%; margin: 0 auto 20px auto">
+        <div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="formProgress" style="width: 1000px; margin: 0 auto 20px auto">
             <div class="layui-progress-bar" lay-percent="70%"></div>
         </div>
 

@@ -21,10 +21,10 @@
                 <asp:ButtonField ButtonType="Button" CommandName="Select" HeaderText="选择" ShowHeader="True" Text="选择" />
             </Columns>
             <FooterStyle BackColor="White" ForeColor="#333333" />
-            <HeaderStyle BackColor="#336666" Font-Bold="True" ForeColor="White" />
+            <HeaderStyle BackColor="#0061C2" Font-Bold="True" ForeColor="White" />
             <PagerStyle BackColor="#336666" ForeColor="White" HorizontalAlign="Center" />
             <RowStyle BackColor="White" ForeColor="#333333" />
-            <SelectedRowStyle BackColor="#339966" Font-Bold="True" ForeColor="White" />
+            <SelectedRowStyle BackColor="#2097DE" Font-Bold="True" ForeColor="White" />
             <SortedAscendingCellStyle BackColor="#F7F7F7" />
             <SortedAscendingHeaderStyle BackColor="#487575" />
             <SortedDescendingCellStyle BackColor="#E5E5E5" />

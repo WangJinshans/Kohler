@@ -110,7 +110,7 @@ function popUp(formid) {
             title: '请选择审批部门',
             content: 'SelectDepartment.aspx?formid=' + formid,
             type: 2,
-            area: ['750px', '400px'],
+            area: ['750px', '450px'],
             shade: 0.3,
             shadeClose: false, //点击遮罩关闭
             btn: ['确定'],

@@ -12,6 +12,7 @@ namespace Model
         private string form_ID;
         private string file_ID;
         private string temp_Vendor_ID;
+        private string file_Type_Name;
 
         public int Id
         {
@@ -62,6 +63,19 @@ namespace Model
             set
             {
                 temp_Vendor_ID = value;
+            }
+        }
+
+        public string File_Type_Name
+        {
+            get
+            {
+                return file_Type_Name;
+            }
+
+            set
+            {
+                file_Type_Name = value;
             }
         }
     }

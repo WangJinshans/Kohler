@@ -144,9 +144,18 @@ namespace SHZSZHSUPPLY.VendorAssess
                 {
                     case File_Transform_BLL.FILE_TYPE:
                         transferResult = File_Transform_BLL.vendorOverDueFileTransForm(tempVendorID, factory, code, Properties.Settings.Default.Transfer_Dest_Path, Session["Employee_ID"].ToString().Trim());
+                        if (transferResult == "")
+                        {
+                            File_Transform_BLL.changeStatus(tempVendorID, true);
+                            File_Transform_BLL.changeStatus(tempVendorID, false);
+                        }
                         break;
                     case File_Transform_BLL.FORM_TYPE:
                         transferResult = File_Transform_BLL.vendorOverDueFormTransForm(tempVendorID, factory, code, Properties.Settings.Default.Transfer_Dest_Path, Session["Employee_ID"].ToString().Trim());
+                        if (transferResult == "")
+                        {
+                            File_Transform_BLL.changeStatus(tempVendorID, false);
+                        }
                         break;
                     case File_Transform_BLL.ALL_TYPE:
                         transferResult = File_Transform_BLL.vendorTransForm(tempVendorID, factory, code, Properties.Settings.Default.Transfer_Dest_Path, Session["Employee_ID"].ToString().Trim());

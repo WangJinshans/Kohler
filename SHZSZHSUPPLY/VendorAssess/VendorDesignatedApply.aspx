@@ -121,7 +121,7 @@
         <%--<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
 		<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />--%>
     <div style="text-align: center">
-        <table style="margin: auto; border-collapse:initial" cellpadding="0" cellspacing="0">
+        <table style="margin: auto; border-collapse:initial;width:1000px" cellpadding="0" cellspacing="0">
             <caption style="font-size:small;text-align:right;border-style:none;">PR-05-10-2</caption>
             <caption style="font-size:xx-large; " class="auto-style2">上海科勒有限公司</caption>
             <tr>
@@ -229,13 +229,13 @@
         </table>
     </div>
     <div style="text-align: center">
-        <asp:Button ID="Button1" runat="server" Text="提交" CssClass="button" OnClick="Button1_Click" />
+        <asp:Button ID="Button1" runat="server" Text="提交" CssClass="layui-btn" OnClick="Button1_Click" />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       
-        <asp:Button ID="Button2" runat="server" Text="保存" CssClass="button" OnClick="Button2_Click" />
+        <asp:Button ID="Button2" runat="server" Text="保存" CssClass="layui-btn layui-btn-normal" OnClick="Button2_Click" />
 	        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:Button ID="Button3" runat="server" Text="返回" CssClass="button" OnClick="Button3_Click" />
+        <asp:Button ID="Button3" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Button3_Click" />
     </div>
-    <div>
+    <div style="display:none">
         <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView2_RowCommand" CellPadding="4" GridLines="None" ForeColor="#333333">
 						<AlternatingRowStyle BackColor="White" ForeColor="#284775" />
 				<Columns>

@@ -187,7 +187,7 @@
 		<%--<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
 		<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />--%>
 		<div style="text-align: center">
-			<table style="margin: auto; border-collapse: collapse">
+			<table style="margin: auto;width:1000px; border-collapse: collapse">
 				<caption style="font-size: xx-large">供应商调查表</caption>
 				<tr>
 					<td colspan="9" style="text-align: right">编号:PR-05-01-5</td>
@@ -488,51 +488,14 @@
 		</div>
 
 		<div style="text-align: center">
-			<asp:Button ID="Button1" runat="server" Text="提交" CssClass="button" OnClick="Button1_Click" />
+			<asp:Button ID="Button1" runat="server" Text="提交" CssClass="layui-btn" OnClick="Button1_Click" />
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       
-			<asp:Button ID="Button2" runat="server" Text="保存" CssClass="button" OnClick="Button2_Click" />
+			<asp:Button ID="Button2" runat="server" Text="保存" CssClass="layui-btn layui-btn-normal" OnClick="Button2_Click" />
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<asp:Button ID="Button3" runat="server" Text="返回" CssClass="button" OnClick="Button3_Click" />
+			<asp:Button ID="Button3" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Button3_Click" />
 		</div>
-		<div style="float: left">
+		<div style="float: left;display:none">
 			<table>
-				<%--<tr>
-					<asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" CellPadding="4" ForeColor="#333333" GridLines="None">
-						<AlternatingRowStyle BackColor="White" />
-						<Columns>
-							<asp:BoundField DataField="Form_ID" HeaderText="表格编号"
-								SortExpression="Form_ID" />
-							<asp:BoundField DataField="Position_Name" HeaderText="职位名称"
-								SortExpression="Position_Name" />
-							<asp:BoundField DataField="Assess_Flag" HeaderText="审批状态"
-								SortExpression="Assess_Flag" />
-							<asp:TemplateField>
-								<ItemTemplate>
-									<asp:LinkButton ID="lbtapprovesuccess" runat="server" CommandName="approvesuccess"
-										CommandArgument='<%# Eval("Form_ID") %>'>通过审批</asp:LinkButton>
-								</ItemTemplate>
-							</asp:TemplateField>
-							<asp:TemplateField>
-								<ItemTemplate>
-									<asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="fail"
-										CommandArgument='<%# Eval("Form_ID") %>'>拒绝审批</asp:LinkButton>
-								</ItemTemplate>
-							</asp:TemplateField>
-
-
-						</Columns>
-						<EditRowStyle BackColor="#2461BF" />
-						<FooterStyle BackColor="#507CD1" ForeColor="White" Font-Bold="True" />
-						<HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-						<PagerStyle ForeColor="White" HorizontalAlign="Center" BackColor="#2461BF" />
-						<RowStyle BackColor="#EFF3FB" />
-						<SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
-						<SortedAscendingCellStyle BackColor="#F5F7FB" />
-						<SortedAscendingHeaderStyle BackColor="#6D95E1" />
-						<SortedDescendingCellStyle BackColor="#E9EBEF" />
-						<SortedDescendingHeaderStyle BackColor="#4870BE" />
-					</asp:GridView>
-				</tr>--%>
 				<tr>
 					<asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView2_RowCommand" CellPadding="4" GridLines="None" ForeColor="#333333">
 						<AlternatingRowStyle BackColor="White" ForeColor="#284775" />

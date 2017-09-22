@@ -27,7 +27,7 @@
 				padding: 8px;
 				border-style: solid;
 				border-color: #666666;
-				background-color: #dedede;
+				background-color: #507CD1;
 			}
 
 			table.gridtable td {
@@ -38,11 +38,11 @@
 				background-color: #ffffff;
 			}
 
-		.div {
+		/*.div {
 			width: 600px;
 			height: 200px;
 			border: 2px;
-		}
+		}*/
 
 		h1 {
 			text-align: center;
@@ -102,6 +102,7 @@
 			border: solid #000000;
 			border-width: 1px 1px 1px 1px;
 			margin-left: auto;
+            margin-right:auto
 		}
 
 		.auto-style1 {
@@ -204,11 +205,14 @@
 
 <body style="margin: auto">
 	<form id="form1" runat="server">
-        <a onclick="goBack()" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
-        <asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="Button1" runat="server" OnClick="Button1_Click" style="float: right; " />
-        
-		<div style="text-align: center">
-			<table id="table1" style="margin: auto; border-collapse: collapse" cellpadding="0" cellspacing="0">
+        <%--<a onclick="goBack()" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>--%>
+        <%--<asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="Button1" runat="server" OnClick="Button1_Click" style="float: right; " />--%>
+        <div class="layui-form-item" style="width:1000px;margin:0 auto">
+            <a onclick="goBack()" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
+            <asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="Button2" runat="server" OnClick="Button1_Click" style="float: right; " />
+        </div>
+		<div>
+			<table id="table1" style="margin:0 auto;width:1000px; border-collapse: collapse" cellpadding="0" cellspacing="0">
 				<caption style="font-size: xx-large">供应商调查表</caption>
 				<tr>
 					<td colspan="9" style="text-align: right">编号:PR-05-01-5</td>
@@ -513,7 +517,7 @@
 			</div>
 		</div>
 		<div>
-			<table class="gridtable" style="margin: auto; border-collapse: collapse; float: left">
+			<table class="gridtable" style="margin: auto;width:1000px; border-collapse: collapse;">
 				<tr>
 					<td>
 						<div>
@@ -564,8 +568,8 @@
 							<asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" CellPadding="4" OnRowCommand="GridView2_RowCommand" GridLines="None" ForeColor="#333333">
 								<AlternatingRowStyle BackColor="White" />
 								<Columns>
-									<asp:BoundField DataField="Form_ID" HeaderText="表格编号"
-										SortExpression="Form_ID" />
+									<asp:BoundField DataField="File_Type_Name" HeaderText="文件名称"
+										SortExpression="File_Type_Name" />
 									<asp:BoundField DataField="File_ID" HeaderText="文件编号"
 										SortExpression="File_ID" />
 

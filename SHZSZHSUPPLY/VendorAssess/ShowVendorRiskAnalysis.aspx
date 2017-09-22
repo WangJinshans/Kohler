@@ -15,138 +15,142 @@
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
 
 	<style type="text/css">
-	 
-		.td-label-style {
-			color: black;
-			font-size: 10.0pt;
-			font-weight: 700;
-			font-style: normal;
-			text-decoration: none;
-			font-family: Arial, sans-serif;
-			text-align: center;
-			vertical-align: middle;
-			white-space: nowrap;
-			border-left-style: none;
-			border-left-color: inherit;
-			border-left-width: medium;
-			border-right-style: none;
-			border-right-color: inherit;
-			border-right-width: medium;
-			border-top: .5pt solid windowtext;
-			border-left: .5pt solid windowtext;
-			border-right: .5pt solid windowtext;
-			border-bottom: .5pt solid windowtext;
-			padding: 0px;
-		}
-		.td-label-text-center-bold{
-			color: black;
-			font-size: 10.0pt;
-			font-weight: 700;
-			font-style: normal;
-			text-decoration: none;
-			font-family: Arial, sans-serif;
-			text-align: center;
-			vertical-align: middle;
-			white-space: nowrap;
-			border-left: .5pt solid windowtext;
-			border-right-style: none;
-			border-right-color: inherit;
-			border-right-width: medium;
-			border-top: .5pt solid windowtext;
-			border-bottom: .5pt solid windowtext;
-		}
-		.risk-label-left{
-			width:30%;
-		}
-		.div {
-			width: 600px;
-			height: 200px;
-			border: 2px;
-		}
+	    .td-label-style {
+	        color: black;
+	        font-size: 10.0pt;
+	        font-weight: 700;
+	        font-style: normal;
+	        text-decoration: none;
+	        font-family: Arial, sans-serif;
+	        text-align: center;
+	        vertical-align: middle;
+	        white-space: nowrap;
+	        border-left-style: none;
+	        border-left-color: inherit;
+	        border-left-width: medium;
+	        border-right-style: none;
+	        border-right-color: inherit;
+	        border-right-width: medium;
+	        border-top: .5pt solid windowtext;
+	        border-left: .5pt solid windowtext;
+	        border-right: .5pt solid windowtext;
+	        border-bottom: .5pt solid windowtext;
+	        padding: 0px;
+	    }
 
-		h1 {
-			text-align: center;
-		}
+	    .td-label-text-center-bold {
+	        color: black;
+	        font-size: 10.0pt;
+	        font-weight: 700;
+	        font-style: normal;
+	        text-decoration: none;
+	        font-family: Arial, sans-serif;
+	        text-align: center;
+	        vertical-align: middle;
+	        white-space: nowrap;
+	        border-left: .5pt solid windowtext;
+	        border-right-style: none;
+	        border-right-color: inherit;
+	        border-right-width: medium;
+	        border-top: .5pt solid windowtext;
+	        border-bottom: .5pt solid windowtext;
+	    }
 
-		h3 {
-			text-align: right;
-		}
+	    .risk-label-left {
+	        width: 30%;
+	    }
 
-		p {
-			text-align: right;
-		}
+	    .div {
+	        width: 600px;
+	        height: 200px;
+	        border: 2px;
+	    }
 
-		.button {
-			font-family: Arial;
-			color: #000000;
-			font-size: 27px;
-			padding: 9px;
-			text-decoration: none;
-			-webkit-border-radius: 10px;
-			-moz-border-radius: 10px;
-			border-radius: 10px;
-			-webkit-box-shadow: 0px 1px 0px #666666;
-			-moz-box-shadow: 0px 1px 0px #666666;
-			box-shadow: 0px 1px 0px #666666;
-			text-shadow: 1px 1px 3px #666666;
-			border: solid #e0e0e0 0px;
-			background: -webkit-gradient(linear, 0 0, 0 100%, from(#dbd8da), to(#c9c9c9));
-			background: -moz-linear-gradient(top, #dbd8da, #c9c9c9);
-		}
+	    h1 {
+	        text-align: center;
+	    }
 
-		.button:hover {
-			background: #dedbde;
-		}
+	    h3 {
+	        text-align: right;
+	    }
 
-		.t {
-			border: 0px;
-			overflow: hidden;
-			width: 95%;
-			text-align: center;
-		}
+	    p {
+	        text-align: right;
+	    }
+
+	    .button {
+	        font-family: Arial;
+	        color: #000000;
+	        font-size: 27px;
+	        padding: 9px;
+	        text-decoration: none;
+	        -webkit-border-radius: 10px;
+	        -moz-border-radius: 10px;
+	        border-radius: 10px;
+	        -webkit-box-shadow: 0px 1px 0px #666666;
+	        -moz-box-shadow: 0px 1px 0px #666666;
+	        box-shadow: 0px 1px 0px #666666;
+	        text-shadow: 1px 1px 3px #666666;
+	        border: solid #e0e0e0 0px;
+	        background: -webkit-gradient(linear, 0 0, 0 100%, from(#dbd8da), to(#c9c9c9));
+	        background: -moz-linear-gradient(top, #dbd8da, #c9c9c9);
+	    }
+
+	        .button:hover {
+	            background: #dedbde;
+	        }
+
+	    .t {
+	        border: 0px;
+	        overflow: hidden;
+	        width: 95%;
+	        text-align: center;
+	    }
 
 
-		td {
-			border: solid #000000;
-			border-width: 1px 1px 1px 1px;
-			padding: 10px 0px;
-			height:30px;
-		}
+	    td {
+	        border: solid #000000;
+	        border-width: 1px 1px 1px 1px;
+	        padding: 10px 0px;
+	        height: 30px;
+	    }
 
-		.head {
-			border: solid #000000;
-			border-width: 1px 1px 1px 1px;
-			padding: 10px 0px;
-		}
+	    .head {
+	        border: solid #000000;
+	        border-width: 1px 1px 1px 1px;
+	        padding: 10px 0px;
+	    }
 
-		table {
-			border: solid #000000;
-			border-width: 1px 1px 1px 1px;
-			margin-left: auto;
-		}
-		table.gridtable {
-	font-family: verdana,arial,sans-serif;
-	font-size:11px;
-	color:#333333;
-	border-width: 1px;
-	border-color: #666666;
-	border-collapse: collapse;
-}
-table.gridtable th {
-	border-width: 1px;
-	padding: 8px;
-	border-style: solid;
-	border-color: #666666;
-	background-color: #dedede;
-}
-table.gridtable td {
-	border-width: 1px;
-	padding: 8px;
-	border-style: solid;
-	border-color: #666666;
-	background-color: #ffffff;
-}
-		
+	    table {
+	        border: solid #000000;
+	        border-width: 1px 1px 1px 1px;
+	        margin-left: auto;
+	    }
+
+	        table.gridtable {
+	            font-family: verdana,arial,sans-serif;
+	            font-size: 11px;
+	            color: #333333;
+	            border-width: 1px;
+	            border-color: #666666;
+	            border-collapse: collapse;
+	        }
+
+	            table.gridtable th {
+	                border-width: 1px;
+	                padding: 8px;
+	                border-style: solid;
+	                border-color: #666666;
+	                background-color: #507CD1;
+	            }
+
+	            table.gridtable td {
+	                border-width: 1px;
+	                padding: 8px;
+	                border-style: solid;
+	                border-color: #666666;
+	                background-color: #ffffff;
+	            }
 	</style>
     <script>
         function takeScreenshot(file, formID) {
@@ -190,10 +194,10 @@ table.gridtable td {
                     //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
                     //当内容未超过pdf一页显示的范围，无需分页
                     if (leftHeight < pageHeight) {
-                        pdf.addImage(pageData, 'JPEG', 20, 20, imgWidth-50, imgHeight-50);
+                        pdf.addImage(pageData, 'JPEG', 20, 20, imgWidth - 50, imgHeight - 50);
                     } else {
                         while (leftHeight > 0) {
-                            pdf.addImage(pageData, 'JPEG', 20, position+20, imgWidth-50, imgHeight-300)
+                            pdf.addImage(pageData, 'JPEG', 20, position + 20, imgWidth - 50, imgHeight - 300)
                             leftHeight -= pageHeight;
                             position -= 841.89;
                             //避免添加空白页
@@ -227,10 +231,10 @@ table.gridtable td {
         }
     </script>
     <script>
-        function requestToPdfAshx(fileName,formID) {
+        function requestToPdfAshx(fileName, formID) {
             $.get(
                 "ASHX/PDF.ashx",
-                { "fileName": fileName,"formID":formID},
+                { "fileName": fileName, "formID": formID },
                 function (res) {
                     window.location.href = document.URL;
                     alert(res);
@@ -246,12 +250,13 @@ table.gridtable td {
 </head>
 <body>
 	<form id="form1" runat="server">
-    <a onclick="goBack()" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
-    <asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="Button1" runat="server" OnClick="Button1_Click" style="float: right; " />
-        
+    <div class="layui-form-item" style="width:1000px;margin:0 auto">
+            <a onclick="goBack()" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
+            <asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="Button1" runat="server" OnClick="Button1_Click" style="float: right; " />
+        </div>    
     <div style="text-align: center" id="div1">
         
-        <table aria-readonly="true" id="table1" style="width:100%; margin:auto; border-collapse:collapse" cellpadding:"0" cellspacing="0" border="1">
+        <table aria-readonly="true" id="table1" style="width:1000px; margin:auto; border-collapse:collapse" cellpadding:"0" cellspacing="0" border="1">
 		<caption style="font-size:xx-large">供应商风险分析表</caption>
 		<tr>
 			<td colspan="9" style="text-align:right">编号：PR-05-13-0</td>
@@ -311,7 +316,7 @@ table.gridtable td {
 			<td ><asp:TextBox ReadOnly="true" runat="server" id="TextBox8" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" height="100%" width="90%" /></td>
 		</tr>
 	</table>
-		<table style="width:100%;margin:auto; border-collapse:collapse" cellpadding:"0" cellspacing="0" border="1">
+		<table style="width:1000px;margin:auto; border-collapse:collapse" cellpadding:"0" cellspacing="0" border="1">
 			<caption style="font-size:x-large ">SUPPLY RISK ANALYSIS</caption>
 		<tr>
 			<td class="risk-label-left">Political</td>
@@ -354,7 +359,7 @@ table.gridtable td {
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox13" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
 	</table>
-	<table style="width:100%;margin:auto; border-collapse:collapse" cellpadding:"0" cellspacing="0" border="1">
+	<table style="width:1000px;margin:auto; border-collapse:collapse" cellpadding:"0" cellspacing="0" border="1">
 			<caption style="font-size:x-large ">&nbsp</caption>
 		<tr>
 			<td class="risk-label-left">Environmental</td>
@@ -418,7 +423,7 @@ table.gridtable td {
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox20" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
 	</table>
-	<table style="width:100%;margin:auto; border-collapse:collapse" cellpadding:"0" cellspacing="0" border="1">
+	<table style="width:1000px;margin:auto; border-collapse:collapse" cellpadding:"0" cellspacing="0" border="1">
 			<caption style="font-size:x-large ">&nbsp</caption>
 		<tr>
 			<td class="risk-label-left">Internal systems</td>
@@ -509,7 +514,7 @@ table.gridtable td {
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox29" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
 	</table>
-		<table style="width:100%;margin:auto; border-collapse:collapse" cellpadding:"0" cellspacing="0" border="1">
+		<table style="width:1000px;margin:auto; border-collapse:collapse" cellpadding:"0" cellspacing="0" border="1">
 			<caption style="font-size:x-large;">&nbsp</caption>
 		<tr>
 			<td class="risk-label-left">Technological</td>
@@ -596,10 +601,9 @@ table.gridtable td {
 	</table>
 	</div>
 		<div>
-			<table class="gridtable" style="margin: auto; border-collapse: collapse;float:left">
+			<table class="gridtable" style="margin: auto;width:1000px; border-collapse: collapse;">
 				<tr>
 					<td>
-						<div width: 1000px; text-align :center ;height: 100%>
 			<asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
 				<AlternatingRowStyle BackColor="White" />
 			<Columns>
@@ -640,15 +644,13 @@ table.gridtable td {
 				<SortedDescendingHeaderStyle BackColor="#4870BE" />
 		</asp:GridView>
 			
-		</div>
 					</td>
 					<td>
-						<div>
 			<asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView2_RowCommand" CellPadding="4" GridLines="None" ForeColor="#333333" >
 				<AlternatingRowStyle BackColor="White" />
 				<Columns>
-					<asp:BoundField DataField="Form_ID" HeaderText="表格编号"
-						SortExpression="Form_ID" />
+					<asp:BoundField DataField="File_Type_Name" HeaderText="文件名称"
+						SortExpression="File_Type_Name" />
 					<asp:BoundField DataField="File_ID" HeaderText="文件编号"
 						SortExpression="File_ID" />
 
@@ -670,7 +672,6 @@ table.gridtable td {
 				<SortedDescendingCellStyle BackColor="#E9EBEF" />
 				<SortedDescendingHeaderStyle BackColor="#4870BE" />
 			</asp:GridView>               
-		</div>
 					</td>
 				</tr>
 			</table>
