@@ -36,6 +36,12 @@ namespace DAL
             return DBHelp.ExecuteCommand(sql); 
         }
 
+        public static int updateFileOverDueFlagAsHold(string fileTypeName, string tempVendorID, string factory)
+        {
+            string sql = "update As_VendorFile_OverDue set Status='Hold' where FileType_Name='" + fileTypeName + "' and Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name in ('" + factory + "','ALL')";
+            return DBHelp.ExecuteCommand(sql);
+        }
+
         public static int updateEditFlowFlag(string formID, string tempVendorID, string factoryName)
         {
             string sql = "UPDATE As_Form_EditFlow SET Multi_Edit=1 WHERE Form_ID='" + formID + "' and Factory_Name='" + factoryName + "'";

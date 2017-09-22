@@ -97,11 +97,7 @@ namespace BLL.VendorAssess
                 {
                     //返回Form_ID的一个list
                     formlist = FileOverDue_DAL.getOverDueForm(temp_Vendor_ID, file.Item_Category,factory);
-                    if (formlist == null)
-                    {
-                        return null;
-                    }
-                    if (formlist.Count > 0)
+                    if (formlist != null&&formlist.Count > 0)
                     {
                         foreach (string formid in formlist)
                         {
@@ -112,7 +108,7 @@ namespace BLL.VendorAssess
                             }
                             form.Temp_Vendor_ID = temp_Vendor_ID;
                             form.Form_ID = formid;
-                            form.Status = "Hold";
+                            form.Status = "Disable";
                             form.Position = "采购部";
                             form.Form_Type_ID = FillVendorInfo_BLL.getFormTypeIDByFormID(formid);
                             form.Factory_Name = FillVendorInfo_BLL.getFactoryByFormID(formid);
@@ -207,6 +203,10 @@ namespace BLL.VendorAssess
             //如果某个formID被取出 直接在Dictionary中连带fileID一起移除
             Dictionary<string, string> formWithFile = new Dictionary<string, string>();
             return FileOverDue_DAL.newGetOverDueForm(temp_Vendor_ID, fileTypeName, factory);
+        }
+        public static List<string> getRelativeFormByFile(string fileID)
+        {
+            return FileOverDue_DAL.getRelativeFormByFile(fileID);
         }
     }
 }

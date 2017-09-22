@@ -173,11 +173,6 @@
                                 <li><a href="VenderInfo/SharedItemMA.aspx" target="iFrame1">供应商变更及文档删除</a></li>
                             </ul>
                         </li>
-                        <li><a href="#" style="text-align: center">供应商评估</a>
-                            <ul>
-                                <li><a href="#" target="iFrame1">供应商评估</a></li>
-                            </ul>
-                        </li>
                         <li><a href="VendorAssess/login.aspx" target="iFrame1">供应商审批</a>
                             <ul>
                                 <li><a class="nav nt1" style="background-color:#324143;color:white;display:none">新建</a></li>
@@ -200,6 +195,11 @@
 
                                 <li><a class="nav nt5" style="background-color:#324143;color:white;display:none">删除</a></li>
                                 <li><a class="nav n5" style="display:none" href="VenderInfo/SharedItemMA.aspx" target="iFrame1">供应商变更及文档删除</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#" style="text-align: center">供应商评估</a>
+                            <ul>
+                                <li><a href="#" target="iFrame1">供应商评估</a></li>
                             </ul>
                         </li>
                         <li><a href="#" style="text-align: center">价格走势</a>

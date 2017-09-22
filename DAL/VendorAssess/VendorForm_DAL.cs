@@ -96,6 +96,19 @@ namespace DAL
             return factory;
         }
 
+        public static bool isAccessSuccessful(string form)
+        {
+            string sql = "select Form_ID from As_Vendor_FormType where Form_ID='" + form + "' and flag=4";
+            using (SqlDataReader reader = DBHelp.GetReader(sql))
+                if (reader.Read())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+        }
         public static string getFormTypeIDByFormID(string formid)
         {
             string sql = "select Form_Type_ID from As_Vendor_FormType where Form_ID='" + formid + "'";

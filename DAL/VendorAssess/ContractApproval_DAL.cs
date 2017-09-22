@@ -343,7 +343,7 @@ namespace DAL
                     vendorContract.User_Dept = item["User_Dept"].ToString().Trim();
                     vendorContract.Contract_Subject = item["Contract_Subject"].ToString().Trim();
                     vendorContract.Contract_Annual_Amount = item["Contract_Annual_Amount"].ToString().Trim();
-                    vendorContract.Contract_StartTime = item["Contract_StartTime"].ToString().Trim(); 
+                    vendorContract.Contract_StartTime = item["Contract_StartTime"].ToString().Trim();
                     vendorContract.Contract_EndTime = item["Contract_EndTime"].ToString().Trim();
                     vendorContract.Vendor_Name = item["Vendor_Name"].ToString().Trim();
                     vendorContract.Existing_Vendor = item["Existing_Vendor"].ToString().Trim();
@@ -370,14 +370,14 @@ namespace DAL
                     vendorContract.Period_Details = item["Period_Details"].ToString().Trim();
                     vendorContract.Rebate_Page = item["Rebate_Page"].ToString().Trim();
                     vendorContract.Rebate_Clause = item["Rebate_Clause"].ToString().Trim();
-                    vendorContract.Rebate_Commitment = item["Rebate_Commitment"].ToString().Trim(); 
+                    vendorContract.Rebate_Commitment = item["Rebate_Commitment"].ToString().Trim();
                     vendorContract.Rebate_Details = item["Rebate_Details"].ToString().Trim();
                     vendorContract.Work_Scope_Page = item["Work_Scope_Page"].ToString().Trim();
                     vendorContract.Work_Scope_Clause = item["Work_Scope_Clause"].ToString().Trim();
                     vendorContract.Work_Scope_Commitment = item["Work_Scope_Commitment"].ToString().Trim();
                     vendorContract.Work_Scope_Details = item["Work_Scope_Details"].ToString().Trim();
                     vendorContract.Acceptence_Criteria_Page = item["Acceptence_Criteria_Page"].ToString().Trim();
-                    vendorContract.Acceptence_Criteria_Clause = item["Acceptence_Criteria_Clause"].ToString().Trim(); 
+                    vendorContract.Acceptence_Criteria_Clause = item["Acceptence_Criteria_Clause"].ToString().Trim();
                     vendorContract.Acceptence_Criteria_Commitment = item["Acceptence_Criteria_Commitment"].ToString().Trim();
                     vendorContract.Acceptence_Criteria_Details = item["Acceptence_Criteria_Details"].ToString().Trim();
                     vendorContract.Warranty_Page = item["Warranty_Page"].ToString().Trim();
@@ -404,14 +404,14 @@ namespace DAL
                     vendorContract.Notice_Clause = item["Notice_Clause"].ToString().Trim();
                     vendorContract.Notice_Commitment = item["Notice_Commitment"].ToString().Trim();
                     vendorContract.Confidentiality_Page = item["Confidentiality_Page"].ToString().Trim();
-                    vendorContract.Confidentiality_Clause = item["Confidentiality_Clause"].ToString().Trim(); 
+                    vendorContract.Confidentiality_Clause = item["Confidentiality_Clause"].ToString().Trim();
                     vendorContract.Confidentiality_Commitment = item["Confidentiality_Commitment"].ToString().Trim();
                     vendorContract.Confidentiality_Details = item["Confidentiality_Details"].ToString().Trim();
                     vendorContract.Announcement_Page = item["Announcement_Page"].ToString().Trim();
                     vendorContract.Announcement_Clause = item["Announcement_Clause"].ToString().Trim();
                     vendorContract.Announcement_Commitment = item["Announcement_Commitment"].ToString().Trim();
                     vendorContract.Announcement_Details = item["Announcement_Details"].ToString().Trim();
-                    vendorContract.Waivers_Page = item["Waivers_Page"].ToString().Trim(); 
+                    vendorContract.Waivers_Page = item["Waivers_Page"].ToString().Trim();
                     vendorContract.Waivers_Clause = item["Waivers_Clause"].ToString().Trim();
                     vendorContract.Waivers_Commitment = item["Waivers_Commitment"].ToString().Trim();
                     vendorContract.Waivers_Details = item["Waivers_Details"].ToString().Trim();
@@ -445,7 +445,7 @@ namespace DAL
                     vendorContract.SourcingSpecialist_Signature = item["SourcingSpecialist_Signature"].ToString().Trim();
                     vendorContract.SourcingSpecialist_Date = item["SourcingSpecialist_Date"].ToString().Trim();
                     vendorContract.User_Dept_Head_Signature = item["User_Department_Manager"].ToString().Trim();
-                    vendorContract.User_Dept_Head_Date = item["User_Department_Manager_Date"].ToString().Trim(); 
+                    vendorContract.User_Dept_Head_Date = item["User_Department_Manager_Date"].ToString().Trim();
                     vendorContract.SC_Leader_Signature = item["Purchasing_Manager"].ToString().Trim();
                     vendorContract.SC_Leader_Date = item["Purchasing_Manager_Date"].ToString().Trim();
                     vendorContract.Finance_Leader_Signature = item["Finance_Leader"].ToString().Trim();
@@ -454,9 +454,10 @@ namespace DAL
                     vendorContract.General_Manager_Date = item["General_Manager_Date"].ToString().Trim();
                     vendorContract.Legal_Head = item["Legal_Affair_Department"].ToString().Trim();
                     vendorContract.Form_ID = item["Form_ID"].ToString().Trim();
+                    vendorContract.Form_Type_ID = item["Form_Type_ID"].ToString().Trim();
                     vendorContract.Standard_Contract = item["Standard_Contract"].ToString().Trim();
-                    vendorContract.Temp_Vendor_ID= item["Temp_Vendor_ID"].ToString().Trim();
-                    vendorContract.Factory_Name= item["Factory_Name"].ToString().Trim();
+                    vendorContract.Temp_Vendor_ID = item["Temp_Vendor_ID"].ToString().Trim();
+                    vendorContract.Factory_Name = item["Factory_Name"].ToString().Trim();
                 }
                 return vendorContract;
             }

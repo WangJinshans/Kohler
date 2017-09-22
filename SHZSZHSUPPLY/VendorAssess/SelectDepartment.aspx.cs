@@ -63,7 +63,7 @@ namespace AendorAssess
             approve.Temp_Vendor_ID = Session["tempVendorID"].ToString();
             approve.Factory_Name = Session["Factory_Name"].ToString();
             approve.Form_Type_Name = Session["form_name"].ToString();
-            approve.Temp_Vendor_Name = Session["tempVendorName"].ToString();
+            approve.Temp_Vendor_Name = TempVendor_BLL.getTempVendorName(approve.Temp_Vendor_ID);
         }
 
         public static void doSelect()

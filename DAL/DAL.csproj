@@ -69,6 +69,7 @@
     <Compile Include="VendorAssess\FileOverDue_DAL.cs" />
     <Compile Include="VendorAssess\File_Transform_DAL.cs" />
     <Compile Include="VendorAssess\FormOverDue_DAL.cs" />
+    <Compile Include="VendorAssess\FormReject_DAL.cs" />
     <Compile Include="VendorAssess\KCIApproval_DAL.cs" />
     <Compile Include="VendorAssess\MultiEdit_DAL.cs" />
     <Compile Include="VendorAssess\NewForms_DAL.cs" />

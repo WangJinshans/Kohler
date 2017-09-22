@@ -78,7 +78,7 @@ namespace DAL
 
         internal static string getFileTypeNameByFileID(string fileID)
         {
-            string sql = "select File_Type_Name from As_File where [File_ID]='" + fileID + "'";
+            string sql = "select As_File_Type.File_Type_Name from As_File,As_File_Type where As_File_Type.File_Type_ID=As_File.File_Type_ID and As_File.[File_ID]='" + fileID + "'";
             DataTable table = DBHelp.GetDataSet(fileID);
             string fileTypeName = "";
             if (table.Rows.Count > 0)

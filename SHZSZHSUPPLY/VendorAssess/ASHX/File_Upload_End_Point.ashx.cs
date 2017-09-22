@@ -29,6 +29,9 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
                 case "fileUpload":
                     doFileUpload(context);
                     break;
+                case "overDueUpload":
+                    overDueUpload(context);
+                    break;
                 case "kciUpload":
                     doKCIFileUpload(context);
                     break;
@@ -39,6 +42,17 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
                     context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = false, error = "default fail" }));
                     break;
             }
+        }
+
+        private void overDueUpload(HttpContext context)
+        {
+            As_File file = upload(context, NORMAL_UPLOAD);
+            string tempVendorID = context.Request.Params["tempVendorID"];
+            string fileTypeID = context.Request.Params["fileTypeID"];
+            string fileTypeName = File_Type_BLL.selectFileTypeName(fileTypeID);
+            string factoryName = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
+            UpdateFlag_BLL.updateFileOverDueFlagAsHold(fileTypeName, tempVendorID, factoryName);
+            writeResult(context, file);
         }
 
         private void doKCIFileUpload(HttpContext context)

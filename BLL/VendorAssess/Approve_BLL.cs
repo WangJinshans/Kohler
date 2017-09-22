@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Model;
+using MODEL.VendorAssess;
 
 namespace BLL.VendorAssess
 {
@@ -21,7 +22,10 @@ namespace BLL.VendorAssess
 
         public static bool resetFormStatus(string formID,string formTypeID, string tempVendorID)
         {
+            //删除签名
             Signature_BLL.deleteSignature(formID);
+            //删除签名时间
+            Signature_BLL.deleteSignatureDate(formID);
             FormType_DAL.setFormFlag(formTypeID,tempVendorID, 0);
             Approve_DAL.deleteApproveRecord(formID);
             AddForm_DAL.deleteForm(formID);
@@ -32,7 +36,15 @@ namespace BLL.VendorAssess
                 EmployeeForm_DAL.deleteEmployeeForm(formID);
                 EditFlow_DAL.deleteFormEditFlow(formID);
             }
-            //删除签名
+
+            //添加拒绝记录
+            As_Form_Reject form = new As_Form_Reject();
+            form.Form_ID = formID;
+            if (!FormReject_BLL.isExist(form))
+            {
+                FormReject_BLL.insertFormReject(form);
+            }
+
             return true;
         }
 

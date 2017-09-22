@@ -101,5 +101,10 @@ namespace BLL
         {
             return VendorForm_DAL.getFormTypeIDByFormID(formid);
         }
+
+        public static bool isAccessSuccessful(string form)
+        {
+            return VendorForm_DAL.isAccessSuccessful(form);
+        }
     }
 }

@@ -21,6 +21,7 @@ namespace BLL.VendorAssess
             }
         }
 
+
         private static string getFactory(string formID)
         {
             return Signature_DAL.getFactory(formID);
@@ -176,13 +177,37 @@ namespace BLL.VendorAssess
                 {
                     dataFiled = switchPositionName(position);
                     string sql = "update " + tableName + " set " + dataFiled + "=''";
-                    Signature_DAL.deleteSignature(sql);
+                    Signature_DAL.deleteSignatureDate(sql);
                 }
                 return true;
             }
             return false;
         }
 
+
+        /// <summary>
+        /// 删除签名时间
+        /// </summary>
+        /// <param name="formID"></param>
+        /// <returns></returns>
+        internal static bool deleteSignatureDate(string formID)
+        {
+            string dataFiled = "";
+            string tableName = switchFormID(formID);
+            //在As_Form_AccessFlow中查出所有会审批的人的职位
+            List<string> positions = getAccessPositions(formID);
+            if (positions.Count > 0)//需要进行审批
+            {
+                foreach (string position in positions)
+                {
+                    dataFiled = switchPositionName(position) + "_Date";
+                    string sql = "update " + tableName + " set " + dataFiled + "=''";
+                    Signature_DAL.deleteSignature(sql);
+                }
+                return true;
+            }
+            return false;
+        }
 
         /// <summary>
         /// 从As_Form_AssessFlow中查出该表所有需要审批的人的职位  并放入数组中返回

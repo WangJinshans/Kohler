@@ -92,5 +92,18 @@ namespace DAL.VendorAssess
                 return 2;
             }
         }
+
+        public static int deleteSignatureDate(string sql)
+        {
+            try
+            {
+                DBHelp.ExecuteCommand(sql);
+                return 1;
+            }
+            catch (Exception e)
+            {
+                return 2;
+            }
+        }
     }
 }

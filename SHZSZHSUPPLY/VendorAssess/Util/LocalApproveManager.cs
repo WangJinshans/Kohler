@@ -397,26 +397,46 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             int rs2 = UpdateFlag_BLL.updateFlagAsApproved(formTypeID, tempVendorID);
             int rs3 = 1;//之所以为1 是为了在times=0的时候不会造成任何影响
             bool isFormOverDue = false;
-            bool isFileOverDue = false;
-            isFileOverDue = FileOverDue_BLL.isFileOverDue(formID);
-            if (isFileOverDue)
-            {
-                List<string> fileIDs = new List<string>();
-                fileIDs = FileOverDue_BLL.getFileIDsByFormID(formID);
-                if (fileIDs.Count > 0)
-                {
-                    //更新过期重新审批后的标志
-                    foreach(string fileID in fileIDs)
-                    {
-                        UpdateFlag_BLL.updateReAccessFileStatus(fileID);
-                    }
-                }
-            }
             isFormOverDue = FormOverDue_BLL.isOverDue(formID);
             if (isFormOverDue)//属于过期表   需要把重新审批的表的标签 改成已通过
             {
                 string oldFormID = FormOverDue_BLL.getOldFormID(formID);//对于已经在重新审批中的表 oldFormID 在As_Vendor_FormType_History一定存在 在过期表中也一定存在
                 rs3 = UpdateFlag_BLL.updateReAccessFormStatus(oldFormID, tempVendorID);//成功返回2 失败返回-1
+                //首先属于表过期才存在文件过期引起的可能
+                //bool isFileOverDue = false;
+                //isFileOverDue = FileOverDue_BLL.isFileOverDue(formID);
+                //if (isFileOverDue)
+                //{
+                //    bool ok = true;
+                //    List<string> fileIDs = new List<string>();//过期文件集合
+                //    List<string> formIDs = new List<string>();//每一个过期文件对应的所有表的集合
+                //    fileIDs = FileOverDue_BLL.getFileIDsByFormID(formID);
+                //    if (fileIDs.Count > 0)
+                //    {
+                //        //获取所有与该表绑定的文件 查出每一个文件绑定了那些表 如果某一个表绑定的文件都已经审批过了 更新文件过期审批标志
+                //        foreach (string fileID in fileIDs)
+                //        {
+                //            //查出所有与该文件绑定的表的Form_ID
+                //            formIDs = FileOverDue_BLL.getRelativeFormByFile(fileID);
+                //            //判断是否所有的表都已经过审
+                //            if (formIDs.Count > 0)
+                //            {
+                //                foreach (string form in formIDs)
+                //                {
+                //                    if (FillVendorInfo_BLL.isAccessSuccessful(form) == false)
+                //                    {
+                //                        //更新过期重新审批后的标志
+                //                        ok = false;
+                //                    }
+                //                }
+                //                if (ok)//所有的表都已经审批完成
+                //                {
+                //                    UpdateFlag_BLL.updateReAccessFileStatus(fileID);
+                //                }
+                //            }
+                //        }
+                //    }
+                //}
             }
             if (rs1 > 0 && rs2 > 0 && rs3 > 0)
             {

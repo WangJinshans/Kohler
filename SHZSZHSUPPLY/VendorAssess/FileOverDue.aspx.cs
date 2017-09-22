@@ -78,7 +78,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             string tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
             string itemCategory = GridView1.Rows[drv.RowIndex].Cells[0].Text;
             string fileTypeID = File_Type_BLL.selectFileTypeID(GridView1.Rows[drv.RowIndex].Cells[0].Text.ToString().Trim(), tempVendorID);//获取file_Type_ID
-            string requestType = "fileUpload";
+            string requestType = "overDueUpload";
             if (e.CommandName == "upload")
             {
                 LocalScriptManager.CreateScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}')", requestType, tempVendorID, tempVendorName, fileTypeID), "upload");
@@ -280,6 +280,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     newvendor.Form_Type_ID = vendor.Form_Type_ID;
                     newvendor.Factory_Name = vendor.Factory_Name;
                     newvendor.Temp_Vendor_Name = vendor.Temp_Vendor_Name;
+                    newvendor.Vendor_Name = vendor.Vendor_Name;
                     newvendor.Flag = 0;
                     ContractApproval_BLL.addContractApproval(newvendor);//添加纪录 当查找的时候会找到最新的这张表
 
@@ -357,11 +358,19 @@ namespace SHZSZHSUPPLY.VendorAssess
                 PagedDataSource dataSource = new PagedDataSource();
                 //插入到表过期中
                 IList<As_Form_OverDue> lists = FileOverDue_BLL.getOverDueForm(Temp_Vendor_ID, factory);
+                if (lists == null)
+                {
+                    return;
+                }
                 if (lists.Count > 0)
                 {
                     foreach (As_Form_OverDue overDue in lists)
                     {
-                        FormOverDue_BLL.addOverDueForm(overDue);
+                        //FormOverDue_BLL.addOverDueForm(overDue);
+                        if (overDue.Status != "Hold")
+                        {
+                            FormOverDue_BLL.addOverDueForm(overDue);
+                        }
                     }
                 }
                 dataSource.DataSource = FileOverDue_BLL.getVendorFormOverDue(factory, Temp_Vendor_ID);

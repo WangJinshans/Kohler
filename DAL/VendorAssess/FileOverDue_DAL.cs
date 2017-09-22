@@ -221,6 +221,22 @@ namespace DAL.VendorAssess
             return forms;
         }
 
+        public static List<string> getRelativeFormByFile(string fileID)
+        {
+            List<string> formIDs = new List<string>();
+            string sql = "select As_Form_File.Form_ID from As_Form_File,As_Vendor_FormType where As_Vendor_FormType.Form_ID=As_Form_File.Form_ID and As_Form_File.File_ID='" + fileID + "'";
+            DataTable table = new DataTable();
+            table = DBHelp.GetDataSet(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    formIDs.Add(dr["Form_ID"].ToString().Trim());
+                }
+            }
+            return formIDs;
+        }
+
         public static DataTable getTempVendorID_All(string employeeID)
         {
             string sql = "Select distinct Temp_Vendor_ID From View_File_OverDue Where Employee_ID=@Employee_ID";
@@ -239,17 +255,33 @@ namespace DAL.VendorAssess
       
         public static bool isFileOverDue(string tempvendorID,string fileTypeID,string factory)
         {
-            string sql = "select * from As_Vendor_FileType_History where Temp_Vendor_ID='" + tempvendorID + "' and FileType_ID='" + fileTypeID + "' and (Factory_Name='" + factory + "' or Factory_Name='ALL')";
-            using (SqlDataReader reader = DBHelp.GetReader(sql))
-                if (reader.Read())
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+            if (factory == "ALL")
+            {
+                string sqls = "select * from As_Vendor_FileType_History where Temp_Vendor_ID='" + tempvendorID + "' and FileType_ID='" + fileTypeID + "'";
+                using (SqlDataReader reader = DBHelp.GetReader(sqls))
+                    if (reader.Read())
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+            }
+            else
+            {
+                string sql = "select * from As_Vendor_FileType_History where Temp_Vendor_ID='" + tempvendorID + "' and FileType_ID='" + fileTypeID + "' and Factory_Name in('" + factory + "','ALL')";
+                using (SqlDataReader reader = DBHelp.GetReader(sql))
+                    if (reader.Read())
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
         }
+    }
       
         public static bool checkVendor(string tempVendorID)
         {

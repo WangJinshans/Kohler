@@ -30,7 +30,10 @@ namespace BLL
         {
             return UpdateFlag_DAL.updateFlagAsHold(fORM_TYPE_ID, tempVendorID, Employee_DAL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString()));
         }
-
+        public static int updateFileOverDueFlagAsHold(string fileTypeName, string tempVendorID,string factory)
+        {
+            return UpdateFlag_DAL.updateFileOverDueFlagAsHold(fileTypeName, tempVendorID,factory);
+        }
         public static int updateFlagAsFinish(string FORM_TYPE_ID,string tempVendorID)
         {
             return UpdateFlag_DAL.updateFlagAsFinish(FORM_TYPE_ID, tempVendorID, Employee_DAL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString()));
