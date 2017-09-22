@@ -177,6 +177,11 @@ namespace DAL.VendorAssess
             return formIDlist;
         }
 
+        public static int changeStatus(string sql, SqlParameter[] sp)
+        {
+            return DBHelp.ExecuteCommand(sql, sp);
+        }
+
         public static DataTable getFormPath(string formID)
         {
             string sql = "select * from View_Form where Form_ID='" + formID + "'";
