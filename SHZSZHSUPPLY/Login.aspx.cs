@@ -30,99 +30,45 @@ namespace SHZSZHSUPPLY
             try
             {
 
-
-                //if (adAuth.IsAuthenticated(TextBox1.Text, TextBox2.Text) == true)
-
-                //{
-
-
-                //    string groups = adAuth.GetGroups();
-
-
-
-
-                //    if (groups.IndexOf(usergroup) < 0)
-
-                //    {
-
-                //        Label1.Text = "No permission to login ";
-
-                //        return;
-
-                //    }
-
-
-
-                //    string greet1 = adAuth.getdisplayname();
-                //    string urladdress;
-
-
-                //    //transfer display name by url
-                //    urladdress = "WebForm1.aspx?name1=" + greet1 + "&name2=" + TextBox1.Text;
-
-
-                //    //You can redirect now.
-
-                //    UserInfo_BLL UserInfo_BLL = new UserInfo_BLL();
-                //    List<UserInfo_BO> UserInfo_BO_List = new List<UserInfo_BO>();
-                //    UserInfo_BO_List = UserInfo_BLL.UserInfo_BLL_List(TextBox1.Text);
-
-                //    if (UserInfo_BO_List.Count == 0)
-                //    {
-                //        Session.Add("plantname", "无");
-                //    }
-
-                //    else
-                //    {
-                //        Session.Add("plantname", UserInfo_BO_List[0].Write_Plant.ToString());
-                //    }
-
-                //    Session.Add("usernum", TextBox1.Text);
-
-                //    Session.Timeout = 30;
-
-
-
-                //Response.Redirect(urladdress);
-                if (/*adAuth.IsAuthenticated(TextBox1.Text, TextBox2.Text==*/true)
+                if (adAuth.IsAuthenticated(TextBox1.Text, TextBox2.Text) == true)
 
                 {
 
 
-                    //string groups  = adAuth.GetGroups();
+                    string groups = adAuth.GetGroups();
 
 
 
 
-                    //if (groups.IndexOf(usergroup) <0) 
+                    if (groups.IndexOf(usergroup) < 0)
 
-                    //    {
+                    {
 
-                    //    Label1.Text = "No permission to login ";
+                        Label1.Text = "No permission to login ";
 
-                    //        //return;
+                        return;
 
-                    //    }
+                    }
 
 
 
-                    //string greet1 = adAuth.getdisplayname();
+                    string greet1 = adAuth.getdisplayname();
                     string urladdress;
 
 
                     //transfer display name by url
-                    urladdress = "WebForm1.aspx?name1=" + "Linda.Li" + "&name2=" + "ko18524";
+                    urladdress = "WebForm1.aspx?name1=" + greet1 + "&name2=" + TextBox1.Text;
 
 
                     //You can redirect now.
 
                     UserInfo_BLL UserInfo_BLL = new UserInfo_BLL();
                     List<UserInfo_BO> UserInfo_BO_List = new List<UserInfo_BO>();
-                    //UserInfo_BO_List = UserInfo_BLL.UserInfo_BLL_List(TextBox1.Text);
+                    UserInfo_BO_List = UserInfo_BLL.UserInfo_BLL_List(TextBox1.Text);
 
                     if (UserInfo_BO_List.Count == 0)
                     {
-                        Session.Add("plantname", "上海科勒");
+                        Session.Add("plantname", "无");
                     }
 
                     else
@@ -133,6 +79,10 @@ namespace SHZSZHSUPPLY
                     Session.Add("usernum", TextBox1.Text);
 
                     Session.Timeout = 30;
+
+
+                    //Response.Redirect(urladdress);
+
 
                     //初始化审批系统，并跳转
                     initVendorAssess(TextBox1.Text.Trim());
