@@ -26,13 +26,13 @@ namespace SHZSZHSUPPLY.VenderInfo
 
             ItemCategoryVendertype_BLL  ItemCategory_BLL = new ItemCategoryVendertype_BLL();
 
-            //if (Session["usernum"] == null)
-            //{
+            if (Session["usernum"] == null)
+            {
 
-            //    Response.Redirect("../Login.aspx");
-            //    return;
-            //}
-          
+                Response.Redirect("../Login.aspx");
+                return;
+            }
+
 
             if (IsPostBack == false)
             {

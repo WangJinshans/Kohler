@@ -20,12 +20,12 @@ namespace SHZSZHSUPPLY.VenderInfo
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            //if (Session["usernum"] == null)
-            //{
+            if (Session["usernum"] == null)
+            {
 
-            //    Response.Redirect("../Login.aspx");
-            //    return;
-            //}
+                Response.Redirect("../Login.aspx");
+                return;
+            }
 
 
 
@@ -36,7 +36,7 @@ namespace SHZSZHSUPPLY.VenderInfo
 
                 SystemAdmin_BLL systemadmin = new SystemAdmin_BLL();
 
-                if (/*systemadmin.SystemAdmincheck(Session["usernum"].ToString ()) ==*/ true)
+                if (systemadmin.SystemAdmincheck(Session["usernum"].ToString()) == true)
                 {
                     DropDownList1.SelectedValue = Session["plantname"].ToString();
                     List<VenderList_BO> VenderList_BO_ListAll = new List<VenderList_BO>();

@@ -4,11 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.DirectoryServices ;
-using BLL.LDAP ;
+using System.DirectoryServices;
+using BLL.LDAP;
 using BLL.UserInfo;
 using DAL.UserInfo;
-
+using Model;
+using BLL;
 
 namespace SHZSZHSUPPLY
 {
@@ -21,87 +22,152 @@ namespace SHZSZHSUPPLY
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-             string adPath  = "LDAP://DC=kohlerco,DC=com" ;
-             LdapAuthentication  adAuth=new LdapAuthentication(adPath);
-            const string  usergroup  = "SKZSZHSUPPLY";
+            string adPath = "LDAP://DC=kohlerco,DC=com";
+            LdapAuthentication adAuth = new LdapAuthentication(adPath);
+            const string usergroup = "SKZSZHSUPPLY";
 
 
-      try
-      {
-               
-                if (/*adAuth.IsAuthenticated(TextBox1.Text, TextBox2.Text==*/true) 
-                
-                {
-                          
-                
-               //string groups  = adAuth.GetGroups();
+            try
+            {
+
+
+                //if (adAuth.IsAuthenticated(TextBox1.Text, TextBox2.Text) == true)
+
+                //{
+
+
+                //    string groups = adAuth.GetGroups();
 
 
 
-              
-                //if (groups.IndexOf(usergroup) <0) 
+
+                //    if (groups.IndexOf(usergroup) < 0)
 
                 //    {
-                       
-                //    Label1.Text = "No permission to login ";
 
-                //        //return;
-                   
+                //        Label1.Text = "No permission to login ";
+
+                //        return;
+
                 //    }
 
-               
-                
-               //string greet1 = adAuth.getdisplayname();
-               string urladdress ;
-                              
 
-                //transfer display name by url
-                urladdress = "WebForm1.aspx?name1=" + "Linda.Li" + "&name2=" + "ko18524";
-                
-              
-                //You can redirect now.
 
-                UserInfo_BLL UserInfo_BLL = new UserInfo_BLL();
-                List<UserInfo_BO> UserInfo_BO_List = new List<UserInfo_BO>();
-                //UserInfo_BO_List = UserInfo_BLL.UserInfo_BLL_List(TextBox1.Text);
+                //    string greet1 = adAuth.getdisplayname();
+                //    string urladdress;
 
-                if (UserInfo_BO_List.Count == 0)
+
+                //    //transfer display name by url
+                //    urladdress = "WebForm1.aspx?name1=" + greet1 + "&name2=" + TextBox1.Text;
+
+
+                //    //You can redirect now.
+
+                //    UserInfo_BLL UserInfo_BLL = new UserInfo_BLL();
+                //    List<UserInfo_BO> UserInfo_BO_List = new List<UserInfo_BO>();
+                //    UserInfo_BO_List = UserInfo_BLL.UserInfo_BLL_List(TextBox1.Text);
+
+                //    if (UserInfo_BO_List.Count == 0)
+                //    {
+                //        Session.Add("plantname", "无");
+                //    }
+
+                //    else
+                //    {
+                //        Session.Add("plantname", UserInfo_BO_List[0].Write_Plant.ToString());
+                //    }
+
+                //    Session.Add("usernum", TextBox1.Text);
+
+                //    Session.Timeout = 30;
+
+
+
+                //Response.Redirect(urladdress);
+                if (/*adAuth.IsAuthenticated(TextBox1.Text, TextBox2.Text==*/true)
+
                 {
-                    Session.Add("plantname", "上海科勒");
-                }
 
+
+                    //string groups  = adAuth.GetGroups();
+
+
+
+
+                    //if (groups.IndexOf(usergroup) <0) 
+
+                    //    {
+
+                    //    Label1.Text = "No permission to login ";
+
+                    //        //return;
+
+                    //    }
+
+
+
+                    //string greet1 = adAuth.getdisplayname();
+                    string urladdress;
+
+
+                    //transfer display name by url
+                    urladdress = "WebForm1.aspx?name1=" + "Linda.Li" + "&name2=" + "ko18524";
+
+
+                    //You can redirect now.
+
+                    UserInfo_BLL UserInfo_BLL = new UserInfo_BLL();
+                    List<UserInfo_BO> UserInfo_BO_List = new List<UserInfo_BO>();
+                    //UserInfo_BO_List = UserInfo_BLL.UserInfo_BLL_List(TextBox1.Text);
+
+                    if (UserInfo_BO_List.Count == 0)
+                    {
+                        Session.Add("plantname", "上海科勒");
+                    }
+
+                    else
+                    {
+                        Session.Add("plantname", UserInfo_BO_List[0].Write_Plant.ToString());
+                    }
+
+                    Session.Add("usernum", TextBox1.Text);
+
+                    Session.Timeout = 30;
+
+                    //初始化审批系统，并跳转
+                    initVendorAssess(TextBox1.Text.Trim());
+
+                }
                 else
                 {
-                    Session.Add("plantname", UserInfo_BO_List[0].Write_Plant.ToString());
+
+                    Label1.Text = "错误的用户名和密码";
                 }
-                                
-                Session.Add("usernum", TextBox1.Text);
-
-                Session.Timeout = 30;
-
-              
-                
-                Response.Redirect(urladdress);
-
-
-               
-
-
-               
-                }
-          else
-          {
-          
-                Label1.Text = "错误的用户名和密码";
-                }
-      }
-        catch 
+            }
+            catch
             {
-            Label1.Text = "Error authenticating user";
+                Label1.Text = "Error authenticating user";
             }
 
 
 
+        }
+
+        private void initVendorAssess(string employeeID)
+        {
+            As_Employee employee = Employee_BLL.getEmolyeeById(employeeID);
+            if (true)
+            {
+                Session["Employee_ID"] = employee.Employee_ID;
+                Session["Employee_Name"] = employee.Employee_Name;
+                Session["Position_Name"] = employee.Positon_Name;
+                Session["Factory_Name"] = Employee_BLL.getEmployeeFactory(employee.Employee_ID);//获取厂名
+                Response.Write("<script>parent.location.href='" + "../WebForm1.aspx?name1=" + employee.Employee_Name + "&name2=" + employee.Employee_ID + "'</script>");
+            }
+            else
+            {
+                //Response.Redirect("index.aspx");
+            }
         }
     }
 }
