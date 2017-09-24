@@ -224,13 +224,18 @@
             layui.use(['layer'], function () {
                 var layer = layui.layer;
                 layer.prompt({
-                    title: '请输供应商代码（6位编码）'
+                    title: '请输供应商代码'
                 }, function (value, index, elem) {
-                    if (value.length != 6) {
-                        layer.msg("请输入正确的编码");
-                    } else if (isNaN(value)) {
-                        layer.msg("请输入数字");
-                    } else {
+                    //if (value.length != 6) {
+                    //    layer.msg("请输入正确的编码");
+                    //} else if (isNaN(value)) {
+                    //    layer.msg("请输入数字");
+                    //} else {
+                    //    layer.msg(value);
+                    //    layer.close(index);
+                    //    __myDoPostBack('vendorTransfer', value);
+                    //}
+                    if (value.length != 0) {
                         layer.msg(value);
                         layer.close(index);
                         __myDoPostBack('vendorTransfer', value);

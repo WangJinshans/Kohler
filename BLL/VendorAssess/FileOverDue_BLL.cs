@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Collections;
+using System.Data.SqlClient;
 
 namespace BLL.VendorAssess
 {
@@ -121,9 +122,35 @@ namespace BLL.VendorAssess
             return formlists;
         }
 
+        /// <summary>
+        /// 查找是否有正在编辑的表格
+        /// </summary>
+        /// <param name="formid"></param>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        public static int checkForm(string formid, string v)
+        {
+            string sql = "Select count(*) from "+v+" Where flag in (0,1) And Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",formid)
+            };
+            return DBHelp.GetScalarFix(sql, sp);
+        }
+
         public static List<As_Form_OverDue> getVendorFormOverDue(string facory,string temp_Vendor_ID)
         {
-            return FileOverDue_DAL.getVendorFormOverDue(facory, temp_Vendor_ID);
+            List<As_Form_OverDue> list = FileOverDue_DAL.getVendorFormOverDue(facory, temp_Vendor_ID);
+            List<As_Form_OverDue> returnList = new List<As_Form_OverDue>();
+            foreach (As_Form_OverDue item in list)
+            {
+                if (!FormType_BLL.isPending(item.Form_ID))
+                {
+                    returnList.Add(item);
+                }
+            }
+            list.Clear();
+            return returnList;
         }
 
         /// <summary>
@@ -207,6 +234,11 @@ namespace BLL.VendorAssess
         public static List<string> getRelativeFormByFile(string fileID)
         {
             return FileOverDue_DAL.getRelativeFormByFile(fileID);
+        }
+
+        internal static bool hasOverDueFile(string tempVendorID, string factory)
+        {
+            return FileOverDue_DAL.hasOverDueFile(tempVendorID, factory);
         }
     }
 }

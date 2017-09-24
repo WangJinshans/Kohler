@@ -237,6 +237,17 @@ namespace DAL.VendorAssess
             return formIDs;
         }
 
+        public static bool hasOverDueFile(string tempVendorID, string factory)
+        {
+            string sql = "Select count(*) From As_VendorFile_OverDue Where Temp_Vendor_ID=@Temp_Vendor_ID and Factory_Name=@Factory_Name and Status='Disable'";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("@Factory_Name",factory)
+            };
+            return DBHelp.GetScalarFix(sql, sp) > 0;         
+        }
+
         public static DataTable getTempVendorID_All(string employeeID)
         {
             string sql = "Select distinct Temp_Vendor_ID From View_File_OverDue Where Employee_ID=@Employee_ID";

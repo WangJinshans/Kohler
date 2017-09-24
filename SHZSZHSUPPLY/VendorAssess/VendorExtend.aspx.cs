@@ -123,6 +123,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             As_Vendor_Extend vs = new As_Vendor_Extend();
             vs = VendorExtend_BLL.getVendorExtend(formID);
+            vs.Flag = flag;
             int join = VendorExtend_BLL.updateVendorExtend(vs);
             if (join > 0)
             {

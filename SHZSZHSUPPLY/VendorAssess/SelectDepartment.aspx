@@ -5,11 +5,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <link rel="stylesheet" href="Script/layui/layui.js" />
     <title></title>
     <%--<base target="_self" />--%> 
 </head>
 <body>
     <form id="form1" runat="server">
+    <div>
+        <asp:DropDownList runat="server" ID="lstDepartment" AutoPostBack="True" OnSelectedIndexChanged="lstDepartment_SelectedIndexChanged" ></asp:DropDownList>
+    </div>
     <div>
     <%--<a href="index.aspx" style="visibility:hidden">返回主界面</a>--%>
         <asp:GridView ID="GridView1" runat="server" AllowSorting="True" AutoGenerateColumns="False" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" BackColor="White" BorderColor="#336666" BorderStyle="Double" BorderWidth="3px" CellPadding="4" GridLines="Horizontal">

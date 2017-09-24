@@ -469,6 +469,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             getSessionInfo();
             As_Contract_Approval contractApproval = new As_Contract_Approval();
             contractApproval = getContractApproval();
+            contractApproval.Flag = flag;
             int join = ContractApproval_BLL.updateContractApproval(contractApproval);
             if (join > 0)
             {

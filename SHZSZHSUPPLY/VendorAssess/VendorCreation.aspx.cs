@@ -197,6 +197,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             vendor.Chief_Inspector = Image5.ImageUrl.ToString().Trim();
             vendor.Comments = TextBox32.Text;
             vendor.Temp_Vendor_ID = tempVendorID;
+            vendor.Flag = flag;
 
             int join = VendorCreation_BLL.updateVendorCreation(vendor);
             if (join > 0)

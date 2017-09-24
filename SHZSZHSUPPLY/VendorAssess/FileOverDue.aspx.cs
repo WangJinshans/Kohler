@@ -88,6 +88,139 @@ namespace SHZSZHSUPPLY.VendorAssess
         }
 
         /// <summary>
+        /// 检查是否已经创建了最新的表格
+        /// </summary>
+        /// <returns></returns>
+        private bool hasNewForm(string formid)
+        {
+            int result = 0;
+            if (formid.Contains("BiddingForm"))//比价表
+            {
+                result = FileOverDue_BLL.checkForm(formid, "As_Bidding_Approval_Form");
+            }
+            if (formid.Contains("VendorDesignated"))//指定供应商申请表
+            {
+                result = FileOverDue_BLL.checkForm(formid, "As_Vendor_Designated_Apply");
+            }
+            if (formid.Contains("VendorCreation"))//指定供应商申请表
+            {
+                result = FileOverDue_BLL.checkForm(formid, "As_VendorCreation");
+            }
+            if (formid.Contains("VendorExtend"))//指定供应商申请表
+            {
+                result = FileOverDue_BLL.checkForm(formid, "As_Vendor_Extend");
+            }
+            if (formid.Contains("VendorBlock"))//指定供应商申请表
+            {
+                result = FileOverDue_BLL.checkForm(formid, "As_Vendor_Block_Or_UnBlock");
+            }
+            if (formid.Contains("VendorDiscovery"))//指定供应商申请表
+            {
+                result = FileOverDue_BLL.checkForm(formid, "As_Vendor_Discovery");
+            }
+            if (formid.Contains("VendorRisk"))//指定供应商申请表
+            {
+                result = FileOverDue_BLL.checkForm(formid, "As_Vendor_Risk");
+            }
+            if (formid.Contains("ContractApproval"))//指定供应商申请表
+            {
+                result = FileOverDue_BLL.checkForm(formid, "As_Contract_Approval");
+            }
+            if (formid.Contains("VendorSelection"))//指定供应商申请表
+            {
+                result = FileOverDue_BLL.checkForm(formid, "As_Vendor_Selection");
+            }
+
+            return result>=1;
+        }
+
+        /// <summary>
+        /// redirect
+        /// </summary>
+        /// <param name="commandArgument"></param>
+        /// <param name="tempVendorID"></param>
+        private string switchPage(string formTypeID)
+        {
+            string url = "";
+            switch (formTypeID)
+            {
+                case "001":
+                    url = "VendorDiscovery.aspx";
+                    break;
+                case "002":
+                    url = "BiddingApprovalform.aspx";
+                    break;
+                case "013":
+                    url = "BiddingApprovalform.aspx";
+                    break;
+                case "014":
+                    url = "BiddingApprovalform.aspx";
+                    break;
+                case "015":
+                    url = "BiddingApprovalform.aspx";
+                    break;
+                case "016":
+                    url = "BiddingApprovalform.aspx";
+                    break;
+                case "017":
+                    url = "BiddingApprovalform.aspx";
+                    break;
+                case "003":
+                    url = "VendorRiskAnalysis.aspx";
+                    break;
+                case "004":
+                    url = "VendorDesignatedApply.aspx";
+                    break;
+                case "025":
+                    url = "VendorDesignatedApply.aspx";
+                    break;
+                case "005":
+                    url = "ContractApprovalForm.aspx";
+                    break;
+                case "006":
+                    url = "ContractApprovalForm.aspx";
+                    break;
+                case "007":
+                    url = "ContractApprovalForm.aspx";
+                    break;
+                case "008":
+                    url = "ContractApprovalForm.aspx";
+                    break;
+                case "009":
+                    url = "ContractApprovalForm.aspx";
+                    break;
+                case "010":
+                    url = "ContractApprovalForm.aspx";
+                    break;
+                case "011":
+                    url = "ContractApprovalForm.aspx";
+                    break;
+                case "012":
+                    url = "ContractApprovalForm.aspx";
+                    break;
+                case "018":
+                    url = "VendorSelection.aspx";
+                    break;
+                case "019":
+                    url = "VendorCreation.aspx";
+                    break;
+                default:
+                    break;
+            }
+            return url;
+        }
+
+        private string canSubmit(string formID,string formTypeID)
+        {
+            int selectedFormPriorityNumber = getSelectedFormPriorityNumber(formTypeID);
+            if (withOutAccess(selectedFormPriorityNumber, Session["tempVendorID"].ToString()) && isOptionalMinimum(selectedFormPriorityNumber, Session["tempVendorID"].ToString()) && isRequiredMinimum(selectedFormPriorityNumber, Session["tempVendorID"].ToString()))
+            {
+                return "yes";
+            }
+            return "no";
+        }
+
+        /// <summary>
         /// GridView1中需要上传文件 并且文件上传成功之后回掉回初始化GridView2
         /// GridView2 负责与该文件有绑定关系的所有表的处理 
         /// </summary>
@@ -101,13 +234,19 @@ namespace SHZSZHSUPPLY.VendorAssess
             string optional = GridView2.Rows[drv.RowIndex].Cells[2].Text;//可选与必选
             string status = GridView2.Rows[drv.RowIndex].Cells[3].Text;//状态标志 
 
-            string submit = "yes";//提交的顺序控制
-            string aimPageName = "";
-
             string form_Type_ID = AddForm_BLL.GetForm_Type_ID(formid);
-            int selectedFormPriorityNumber = getSelectedFormPriorityNumber(form_Type_ID);
+            string aimPageName = "";
+            string submit = canSubmit(formid,form_Type_ID);//提交的顺序控制
+
             if (e.CommandName == "refill")
             {
+                if (hasNewForm(formid))
+                {
+                    aimPageName = switchPage(form_Type_ID);
+                    Response.Redirect(aimPageName + "?submit=" + submit + "&type=" + form_Type_ID);
+                    return;
+                }
+
                 if (formid.Contains("BiddingForm"))//比价表
                 {
                     //获取最新表的所有值
@@ -119,12 +258,11 @@ namespace SHZSZHSUPPLY.VendorAssess
                     newbidding.Temp_Vendor_ID = bidding.Temp_Vendor_ID;
                     newbidding.Factory_Name = bidding.Factory_Name;
                     newbidding.Temp_Vendor_Name = bidding.Temp_Vendor_Name;
-
                     newbidding.Flag = 0;
                     As_Bidding_Approval_BLL.addBiddingForm(newbidding);//添加纪录 当查找的时候会找到最新的这张表
 
                     As_New_Forms news = new As_New_Forms();
-                    news.Factory_Name = Request.Form["quiz1"];
+                    news.Factory_Name = Session["Factory_Name"].ToString();
                     news.Form_Name = FormType_BLL.getFormNameByTypeID(newbidding.Form_Type_ID);
                     news.Temp_Vendor_ID = bidding.Temp_Vendor_ID;
                     string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
@@ -146,7 +284,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     As_Vendor_Designated_Apply_BLL.addForm(newvendor);
 
                     As_New_Forms news = new As_New_Forms();
-                    news.Factory_Name = Request.Form["quiz1"];
+                    news.Factory_Name = Session["Factory_Name"].ToString();
                     news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
                     news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
                     string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
@@ -171,7 +309,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     VendorCreation_BLL.addVendorCreation(newvendor);//添加纪录 当查找的时候会找到最新的这张表
 
                     As_New_Forms news = new As_New_Forms();
-                    news.Factory_Name = Request.Form["quiz1"];
+                    news.Factory_Name = Session["Factory_Name"].ToString();
                     news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
                     news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
                     string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
@@ -194,7 +332,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     VendorExtend_BLL.addVendorExtend(newvendor);//添加纪录 当查找的时候会找到最新的这张表
 
                     As_New_Forms news = new As_New_Forms();
-                    news.Factory_Name = Request.Form["quiz1"];
+                    news.Factory_Name = Session["Factory_Name"].ToString();
                     news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
                     news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
                     string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
@@ -217,7 +355,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     VendorBlockOrUnBlock_BLL.addVendorBlock(newvendor);//添加纪录 当查找的时候会找到最新的这张表
 
                     As_New_Forms news = new As_New_Forms();
-                    news.Factory_Name = Request.Form["quiz1"];
+                    news.Factory_Name = Session["Factory_Name"].ToString();
                     news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
                     news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
                     string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
@@ -240,7 +378,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     VendorDiscovery_BLL.addVendorDiscovery(newvendor);//添加纪录 当查找的时候会找到最新的这张表
 
                     As_New_Forms news = new As_New_Forms();
-                    news.Factory_Name = Request.Form["quiz1"];
+                    news.Factory_Name = Session["Factory_Name"].ToString();
                     news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
                     news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
                     string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
@@ -263,7 +401,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     VendorRiskAnalysis_BLL.addVendorRisk(newvendor);//添加纪录 当查找的时候会找到最新的这张表
 
                     As_New_Forms news = new As_New_Forms();
-                    news.Factory_Name = Request.Form["quiz1"];
+                    news.Factory_Name = Session["Factory_Name"].ToString();
                     news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
                     news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
                     string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
@@ -287,7 +425,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     ContractApproval_BLL.addContractApproval(newvendor);//添加纪录 当查找的时候会找到最新的这张表
 
                     As_New_Forms news = new As_New_Forms();
-                    news.Factory_Name = Request.Form["quiz1"];
+                    news.Factory_Name = Session["Factory_Name"].ToString();
                     news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
                     news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
                     string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
@@ -310,7 +448,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     VendorSelection_BLL.addVendorSelection(newvendor);//添加纪录 当查找的时候会找到最新的这张表
 
                     As_New_Forms news = new As_New_Forms();
-                    news.Factory_Name = Request.Form["quiz1"];
+                    news.Factory_Name = Session["Factory_Name"].ToString();
                     news.Form_Name = FormType_BLL.getFormNameByTypeID(newvendor.Form_Type_ID);
                     news.Temp_Vendor_ID = vendor.Temp_Vendor_ID;
                     string form_ID = NewForms_BLL.getNewFormID(news);//新的form_ID
@@ -355,9 +493,8 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         private void showVendorRelatedForms(string Temp_Vendor_ID)
         {
-            factory = "上海科勒";
+            factory = Session["Factory_Name"].ToString();
             //获取该供应商所有应文件过期而需要重新审批的表
-            //factory = Request.Form["quiz1"];
             if (Temp_Vendor_ID != null)//通过VendorID来加载数据库中该供应商的过期文件
             {                //先获取该供应商所有过期的文件
                 PagedDataSource dataSource = new PagedDataSource();

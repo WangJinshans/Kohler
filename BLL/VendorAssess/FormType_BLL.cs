@@ -1,6 +1,8 @@
 ﻿using DAL;
 using System.Collections.Generic;
 using System.Data;
+using System;
+using System.Data.SqlClient;
 
 namespace BLL
 {
@@ -139,6 +141,22 @@ namespace BLL
                 }
             }
             return formName;
+        }
+
+        /// <summary>
+        /// 判断此formid是否正在审批中
+        /// </summary>
+        /// <param name="form_ID"></param>
+        /// <returns></returns>
+        internal static bool isPending(string form_ID)
+        {
+
+            string sql = "Select count(*) from As_Vendor_FormType Where flag<>0 and Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",form_ID)
+            };
+            return DBHelp.GetScalarFix(sql, sp) > 0;
         }
     }
 }

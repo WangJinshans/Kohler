@@ -4,6 +4,8 @@ using Model;
 using MODEL;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -15,17 +17,29 @@ namespace AendorAssess
         public static As_Approve approve;
         public static Dictionary<string, string> paramInfo;
         public static Page originPage;
+        public Dictionary<string, string> dc;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            string sql = "SELECT * FROM As_Employee";
-            PagedDataSource objpds = new PagedDataSource();
-            objpds.DataSource = Employee_BLL.selectEmployee(sql);
-            GridView1.DataSource = objpds;
-            GridView1.DataBind();
+            if (!IsPostBack)
+            {
+                //绑定部门选择下拉框
+                dc = Department_BLL.getDepartments(Session["Factory_Name"].ToString());
+                JavaScriptSerializer jss = new JavaScriptSerializer();
+                ViewState.Add("departmentSelect", jss.Serialize(dc));
+                lstDepartment.DataSource = dc.Keys;
+                lstDepartment.DataBind();
 
-            GridView1.SelectedIndex = 0;
-            GridView1_SelectedIndexChanged(null, null);
+                //表格绑定数据
+                string sql = "SELECT * FROM As_Employee Where Department_ID='" + dc[lstDepartment.Text] + "'";
+                bindData(sql);
+            }
+            else
+            {
+                JavaScriptSerializer jss = new JavaScriptSerializer();
+                dc = jss.Deserialize<Dictionary<string, string>>(ViewState["departmentSelect"].ToString());
+            }
+            
         }
 
         protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
@@ -138,6 +152,23 @@ namespace AendorAssess
                 approve.Position_Name = Form_AssessFlow.Five;
                 AssessFlow_BLL.addApprove(approve);
             }
+        }
+
+        private void bindData(string sql)
+        {
+            PagedDataSource objpds = new PagedDataSource();
+            objpds.DataSource = Employee_BLL.selectEmployee(sql);
+            GridView1.DataSource = objpds;
+            GridView1.DataBind();
+
+            GridView1.SelectedIndex = 0;
+            GridView1_SelectedIndexChanged(null, null);
+        }
+
+        protected void lstDepartment_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string sql = "SELECT * FROM As_Employee Where Department_ID='" + dc[lstDepartment.Text] + "'";
+            bindData(sql);
         }
     }
 }

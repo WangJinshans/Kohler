@@ -67,6 +67,7 @@
     <Compile Include="VendorAssess\As_Vendor_Designated_Apply_BLL.cs" />
     <Compile Include="VendorAssess\CheckFlag_BLL.cs" />
     <Compile Include="VendorAssess\ContractApproval_BLL.cs" />
+    <Compile Include="VendorAssess\Department_BLL.cs" />
     <Compile Include="VendorAssess\EmployeeForm_BLL.cs" />
     <Compile Include="VendorAssess\EditFlow_BLL.cs" />
     <Compile Include="VendorAssess\FileOverDue_BLL.cs" />

@@ -240,7 +240,7 @@ namespace DAL.VendorAssess
         public static List<string> getFileTypeIDs(string tempVendorID, string factory)
         {
             List<string> fileTypeIDs = new List<string>();
-            string sql = "select File_Type_ID from As_VendorFile_OverDue where Temp_Vendor_ID='" + tempVendorID + "' and (Factory_Name='" + factory + "' or Factory_Name='ALL')";
+            string sql = "select File_Type_ID from View_VendorFile_OverDue where Temp_Vendor_ID='" + tempVendorID + "' and (Factory_Name='" + factory + "' or Factory_Name='ALL') and Status='Hold'";
             DataTable table = new DataTable();
             table = DBHelp.GetDataSet(sql);
             if (table.Rows.Count > 0)
@@ -256,8 +256,8 @@ namespace DAL.VendorAssess
         public static string getFileIDByType(string tempVendorID, string fileTypeID, string factory)
         {
             string fileID = "";
-            string sql = "select [File_ID] from As_Vendor_FileType where Temp_Vendor_ID='" + tempVendorID + "' and File_Type_ID='" + fileTypeID + "' and (Factory_Name='" + factory + "' or Factory_Name='ALL')";
-            DataTable table = new DataTable();
+            string sql = "select [File_ID] from As_Vendor_FileType where Temp_Vendor_ID='" + tempVendorID + "' and FileType_ID='" + fileTypeID + "' and (Factory_Name='" + factory + "' or Factory_Name='ALL')";
+            DataTable table = DBHelp.GetDataSet(sql);
             if (table.Rows.Count > 0)
             {
                 foreach (DataRow dr in table.Rows)
@@ -272,7 +272,7 @@ namespace DAL.VendorAssess
         {
             string formID = "";
             string sql = "select Form_ID from As_Form_File where [File_ID]='" + fileID + "'";
-            DataTable table = new DataTable();
+            DataTable table = DBHelp.GetDataSet(sql);
             if (table.Rows.Count > 0)
             {
                 foreach (DataRow dr in table.Rows)

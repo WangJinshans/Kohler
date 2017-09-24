@@ -10,6 +10,11 @@ namespace DAL
 {
     public class VendorCreation_DAL
     {
+        /// <summary>
+        /// 专用于创建阶段，show阶段不适用 2017年9月24日20:20:56
+        /// </summary>
+        /// <param name="formID"></param>
+        /// <returns></returns>
         public static int checkVendorCreation(string formID)
         {
             string sql = "select * from As_VendorCreation where Form_ID=@Form_ID";

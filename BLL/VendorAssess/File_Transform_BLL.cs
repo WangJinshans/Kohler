@@ -213,6 +213,11 @@ namespace BLL.VendorAssess
             IList<As_Form_OverDue> OverDueFileForms = new List<As_Form_OverDue>();
             OverDueFileForms = FileOverDue_BLL.getOverDueForm(tempVendorID, factory);//获取所有与File过期的Form_ID
 
+            if (FileOverDue_BLL.hasOverDueFile(tempVendorID, factory))
+            {
+                return "请返回文件过期页面，上传所有已过期文件后重新尝试";
+            }
+
             if (checkFileSubmit(tempVendorID, factory) && checkFormSubmit(tempVendorID, factory))//检查文件和表提交
             {
                 string result = checkFileOverDueKciFileSubmit(tempVendorID, factory);//过期文件的审批过程中是否包含KCI审批
@@ -275,6 +280,10 @@ namespace BLL.VendorAssess
                 {
                     //没有提交KCI的审批结果
                     return NO_KCI_EXIST;
+                }
+                else
+                {
+                    return result;
                 }
             }
             return CHECK_FAIL;
@@ -517,12 +526,35 @@ namespace BLL.VendorAssess
             fileTypeIDs = File_Transform_DAL.getFileTypeIDs(tempVendorID, factory);
             if (fileTypeIDs.Count > 0)
             {
+                //foreach (string fileTypeID in fileTypeIDs)
+                //{
+                //    //获取新的file_ID 
+                //    string fileID = File_Transform_DAL.getFileIDByType(tempVendorID, fileTypeID, factory);
+                //    string filePath = File_BLL.getFilePathByID(fileID);
+                //    OverDueFileWithPath.Add(fileID, filePath);
+                //}
+                string[] tempArray = new string[7];
+                DataTable table;
                 foreach (string fileTypeID in fileTypeIDs)
                 {
-                    //获取新的file_ID 
                     string fileID = File_Transform_DAL.getFileIDByType(tempVendorID, fileTypeID, factory);
-                    string filePath = File_BLL.getFilePathByID(fileID);
-                    OverDueFileWithPath.Add(fileID, filePath);
+                    table = File_Transform_DAL.getFilePath(fileID);
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow dr in table.Rows)
+                        {
+                            //string filePath = dr["File_Path"].ToString().Trim();
+                            tempArray[0] = dr["File_Path"].ToString().Trim();
+                            tempArray[1] = dr["Is_Shared"].ToString();
+                            tempArray[2] = dr["File_Type_ID"].ToString();
+                            tempArray[3] = dr["File_Type_Range"].ToString();
+                            tempArray[4] = dr["File_Enable_Time"].ToString();
+                            tempArray[5] = dr["File_Due_Time"].ToString();
+                            tempArray[6] = dr["File_Type_Name"].ToString();
+                            OverDueFileWithPath.Add(fileID, String.Join("&", tempArray));
+                            //return fileWithPath;
+                        }
+                    }
                 }
             }
             return OverDueFileWithPath;
@@ -546,6 +578,7 @@ namespace BLL.VendorAssess
             fileTypeIDs = File_Transform_DAL.getFileTypeIDs(tempVendorID, factory);
             if (fileTypeIDs.Count > 0)
             {
+                List<string> formIDlist = new List<string>();
                 foreach (string fileTypeID in fileTypeIDs)
                 {
                     //获取新的file_ID 
@@ -557,8 +590,37 @@ namespace BLL.VendorAssess
                         if (formID != "")
                         {
                             //获取新的formID的form_Path
-                            string formPath = File_Transform_DAL.getFormPathByFormID(formID);
-                            OverDueFileWithPath.Add(formID, formPath);//添加form和formPath
+                            //string formPath = File_Transform_DAL.getFormPathByFormID(formID);
+                            //OverDueFileWithPath.Add(formID, formPath);//添加form和formPath
+                            formIDlist.Add(formID);
+                        }
+                    }
+                }
+
+                DataTable table;
+                string[] tempArray = new string[7];
+                foreach (string formID in formIDlist)
+                {
+                    table = File_Transform_DAL.getFormPath(formID);
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow dr in table.Rows)
+                        {
+                            tempArray[0] = dr["Form_Path"].ToString().Trim();
+                            tempArray[1] = "FALSE";
+                            tempArray[2] = dr["File_Type_ID"].ToString();
+                            tempArray[3] = dr["File_Type_Range"].ToString();
+                            tempArray[4] = "";//TODO::更新starttime，end time 2017年9月10日21:02:50
+                            tempArray[5] = "";
+                            tempArray[6] = dr["File_Type_Name"].ToString();
+                            try
+                            {
+                                OverDueFileWithPath.Add(formID, String.Join("&", tempArray));
+                            }
+                            catch (System.ArgumentException)
+                            {
+                                continue;
+                            }
                         }
                     }
                 }
@@ -578,6 +640,8 @@ namespace BLL.VendorAssess
         {
             List<string> forms = new List<string>();
             List<string> fileTypeIDs = new List<string>();
+
+
             fileTypeIDs = File_Transform_DAL.getFileTypeIDs(tempVendorID, factory);//获取所有过期文件的fileTypeID
             if (fileTypeIDs.Count > 0)
             {
@@ -590,7 +654,10 @@ namespace BLL.VendorAssess
                     {
                         string formID = File_Transform_DAL.getFormIDByFileID(fileID);
                         //获取新的formID的form_Path
-                        forms.Add(formID);
+                        if (formID != "")
+                        {
+                            forms.Add(formID);
+                        }
                     }
                 }
             }

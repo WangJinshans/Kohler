@@ -66,5 +66,10 @@ namespace BLL.VendorAssess
             }
             return filePath;
         }
+
+        public static bool checkBiddingForm(string formID, int flag)
+        {
+            return As_Bidding_Approval_DAL.checkVendorBiddingApprovalForm(formID,flag);
+        }
     }
 }

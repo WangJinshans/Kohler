@@ -69,6 +69,24 @@ namespace DAL.VendorAssess
             return formID;
         }
 
+        public static bool checkVendorBiddingApprovalForm(string formID, int flag)
+        {
+            string sql = "select * from As_Bidding_Approval_Form where Form_ID=@Form_ID and flag=@Flag";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",formID)
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public static int SubmitOk(string formID)
         {
             int submit = -1;
