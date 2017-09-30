@@ -252,9 +252,9 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             }
             else//非最终  签名
             {
+                //第一个是用户部门
                 As_Approve ap = Approve_BLL.getApproveTop(formID);
 
-                //第一个是用户部门
                 if (ap.User_Department == "YES")//用户部门的审批签名
                 {
                     Signature_BLL.setSignature(formID, positionName, "User_Department_Manager");
@@ -283,7 +283,6 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                         if (AssessFlow_BLL.updateApprove(formID, positionName) > 0)
                         {
                             ap = Approve_BLL.getApproveTop(formID);
-
                             LocalLog.writeLog(formID, String.Format("{0}审批已通过，正在等待{1}审批    时间：{2}", ae.Positon_Name + ae.Employee_Name, ap.Position_Name, DateTime.Now), As_Write.APPROVE_SUCCESS, tempVendorID);
 
                             //TODO::Async
@@ -344,13 +343,6 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             As_Form_AssessFlow flow = AssessFlow_BLL.getFormAssessFlow(formID);
             List<string> flowSequence = new List<string> { flow.First, flow.Second, flow.Third, flow.Four, flow.Five };
             List<string> flowSequences = new List<string>();
-            //foreach (string item in flowSequence)
-            //{
-            //    if (item == "")
-            //    {
-            //        flowSequence.Remove(item);
-            //    }
-            //}
             for (int i = 0; i < flowSequence.Count; i++)
             {
                 if (flowSequence[i] != "")
@@ -358,7 +350,13 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                     flowSequences.Add(flowSequence[i]);
                 }
             }
+            //判断该职位未审批 user_DepartMent为yes  防止用户部门选择最后一个人 被判断为最后一个人审批
+            //当第一个人审批的时候用户部门的Asscess_Flag 为0 存在直接返回 NOT_FINAL  不存在再走下面的
 
+            if (userDepartMentAsLastOne(formID, positionName))//
+            {
+                return NOT_FINAL;
+            }
             if (positionName.Equals(flowSequences[flowSequences.Count - 1]))
             {
                 if (flow.Kci == "1")
@@ -374,6 +372,18 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             //IEnumerable<string> trueSequence = from str in flowSequence where !str.Equals("") select str ;
 
             return NOT_FINAL;
+        }
+
+
+        /// <summary>
+        /// 判断用户部门选择的是否是最后一个审批人
+        /// </summary>
+        /// <param name="formID"></param>
+        /// <param name="positionName"></param>
+        /// <returns></returns>
+        private static bool userDepartMentAsLastOne(string formID, string positionName)
+        {
+            return Approve_BLL.userDepartMentAsLastOne(formID, positionName);
         }
 
         /// <summary>

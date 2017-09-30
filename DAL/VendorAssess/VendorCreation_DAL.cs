@@ -97,7 +97,7 @@ namespace DAL
 
         public static int updateVendorCreation(As_Vendor_Creation vendorCreation)
         {
-            string sql = "update As_VendorCreation SET Purpose=@Purpose,Initiator_Name=@Initiator_Name,Initiator_Tel=@Initiator_Tel,Company_Code=@Company_Code,Vendor_Code=@Vendor_Code,Vendor_Name=@Vendor_Name,Street=@Street,City=@City,Country=@Country,Region=@Region,Language=@Language,Telephone_No=@Telephone_No,Fax_No=@Fax_No,Email_Address_One=@Email_Address_One,Email_Address_Two=@Email_Address_Two,Tax_Identification_Number=@Tax_Identification_Number,Payment_Term=@Payment_Term,Payment_Method=@Payment_Method,Bank_Code=@Bank_Code,Bank_Name=@Bank_Name,Bank_Country=@Bank_Country,Bank_Account=@Bank_Account,Money_Type=@Money_Type,Trade_Onym=@Trade_Onym,Comments=@Comments,flag=@flag,Form_Type_ID=@Form_Type_ID,Temp_Vendor_ID=@Temp_Vendor_ID where Form_ID=@Form_ID";
+            string sql = "update As_VendorCreation SET Purpose=@Purpose,Initiator_Name=@Initiator_Name,Initiator_Tel=@Initiator_Tel,Company_Code=@Company_Code,Vendor_Code=@Vendor_Code,Vendor_Name=@Vendor_Name,Street=@Street,City=@City,Country=@Country,Region=@Region,Language=@Language,Telephone_No=@Telephone_No,Fax_No=@Fax_No,Email_Address_One=@Email_Address_One,Email_Address_Two=@Email_Address_Two,Tax_Identification_Number=@Tax_Identification_Number,Payment_Term=@Payment_Term,Payment_Method=@Payment_Method,Bank_Code=@Bank_Code,Bank_Name=@Bank_Name,Bank_Country=@Bank_Country,Bank_Account=@Bank_Account,Money_Type=@Money_Type,Trade_Onym=@Trade_Onym,Comments=@Comments,flag=@flag,Form_Type_ID=@Form_Type_ID,Temp_Vendor_ID=@Temp_Vendor_ID,Account_Group=@Account_Group,Postal_Code=@Postal_Code where Form_ID=@Form_ID";
 
             //string sqls = "update As_VendorCreation set Purpose=@Purpose,Initiator_Name=@Initiator_Name,"
             //    + "Initiator_Tel=@Initiator_Tel,Company_Code=@Company_Code,Vendor_Code=@Vendor_Code,"
@@ -143,7 +143,9 @@ namespace DAL
                 new SqlParameter("@Comments",vendorCreation.Comments),
                 new SqlParameter("@flag",vendorCreation.Flag),
                 new SqlParameter("@Form_Type_ID",vendorCreation.Form_Type_ID),
-                new SqlParameter("@Temp_Vendor_ID",vendorCreation.Temp_Vendor_ID)
+                new SqlParameter("@Temp_Vendor_ID",vendorCreation.Temp_Vendor_ID),
+                new SqlParameter("@Account_Group",vendorCreation.Account_Group),
+                new SqlParameter("@Postal_Code",vendorCreation.Postal_Code)
             };
             return DBHelp.ExecuteCommand(sql, sp);
         }

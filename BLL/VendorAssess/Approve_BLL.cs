@@ -53,5 +53,10 @@ namespace BLL.VendorAssess
         {
             return Approve_DAL.getApproveTop(formID);
         }
+
+        public static bool userDepartMentAsLastOne(string formID, string positionName)
+        {
+            return Approve_DAL.userDepartMentAsLastOne(formID,positionName);
+        }
     }
 }

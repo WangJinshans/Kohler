@@ -58,5 +58,24 @@ namespace DAL.VendorAssess
             }
             return ap;
         }
+
+        public static bool userDepartMentAsLastOne(string formID, string positionName)
+        {
+            string sql = "select * from As_Approve where Form_ID=@Form_ID and Position_Name=@Position_Name and User_Department='YES' and Assess_Flag='0'";
+            SqlParameter[] SP = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",formID),
+                new SqlParameter("@Position_Name",positionName)
+            };
+            using (SqlDataReader reader = DBHelp.GetReader(sql, SP))
+                if (reader.Read())
+                {
+                    return true;//存在用户部门未审批记录 返回false
+                }
+                else
+                {
+                    return false;//不存在用户部门未审批记录 返回false
+                }
+        }
     }
 }
