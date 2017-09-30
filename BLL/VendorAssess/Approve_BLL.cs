@@ -40,6 +40,7 @@ namespace BLL.VendorAssess
             //添加拒绝记录
             As_Form_Reject form = new As_Form_Reject();
             form.Form_ID = formID;
+            form.Temp_Vendor_ID = tempVendorID;
             if (!FormReject_BLL.isExist(form))
             {
                 FormReject_BLL.insertFormReject(form);

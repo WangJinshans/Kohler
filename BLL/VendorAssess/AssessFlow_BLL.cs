@@ -35,6 +35,10 @@ namespace BLL
         {
             return AssessFlow_DAL.updateApprove(formid,positionname);
         }
+        public static int updateUserDepartmentApprove(string formid, string positionname)//更新供应商信息
+        {
+            return AssessFlow_DAL.updateUserDepartmentApprove(formid, positionname);
+        }
         public static int updateApproveFail(string formid, string positionname)//更新供应商信息
         {
             return AssessFlow_DAL.updateApproveFail(formid, positionname);

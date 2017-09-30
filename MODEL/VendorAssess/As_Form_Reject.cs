@@ -8,7 +8,7 @@ namespace MODEL.VendorAssess
     public class As_Form_Reject
     {
         private string form_ID;
-        private string status;
+        private string temp_Vendor_ID;
 
         public string Form_ID
         {
@@ -23,16 +23,16 @@ namespace MODEL.VendorAssess
             }
         }
 
-        public string Status
+        public string Temp_Vendor_ID
         {
             get
             {
-                return status;
+                return temp_Vendor_ID;
             }
 
             set
             {
-                status = value;
+                temp_Vendor_ID = value;
             }
         }
     }

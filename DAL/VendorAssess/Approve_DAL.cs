@@ -53,6 +53,7 @@ namespace DAL.VendorAssess
                 ap.Employee_ID = dt.Rows[0]["Employee_ID"].ToString();
                 ap.Email = dt.Rows[0]["Employee_Email"].ToString();
                 ap.Employee_Name = dt.Rows[0]["Employee_Name"].ToString();
+                ap.User_Department = dt.Rows[0]["User_Department"].ToString();
                 //TODO::添加其他参数
             }
             return ap;

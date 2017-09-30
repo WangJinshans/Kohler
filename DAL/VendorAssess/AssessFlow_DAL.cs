@@ -104,7 +104,7 @@ namespace DAL
         public static int addApprove(As_Approve approve)
         {
 
-            string sql = "insert into As_approve values(@Form_ID,@Position_Name,@Assess_Flag,@Assess_Time,@Assess_Reason,@Temp_Vendor_ID,@Factory_Name,@Form_Type_Name,@Temp_Vendor_Name)";
+            string sql = "insert into As_approve values(@Form_ID,@Position_Name,@Assess_Flag,@Assess_Time,@Assess_Reason,@Temp_Vendor_ID,@Factory_Name,@Form_Type_Name,@Temp_Vendor_Name,@User_Department)";
             Object ob = DBNull.Value;
             SqlParameter[] sp = new SqlParameter[]
             {
@@ -116,7 +116,8 @@ namespace DAL
                 new SqlParameter("Temp_Vendor_ID",approve.Temp_Vendor_ID),
                 new SqlParameter("Factory_Name",approve.Factory_Name),
                 new SqlParameter("Form_Type_Name",approve.Form_Type_Name),
-                new SqlParameter("Temp_Vendor_Name",approve.Temp_Vendor_Name)
+                new SqlParameter("Temp_Vendor_Name",approve.Temp_Vendor_Name),
+                new SqlParameter("User_Department",approve.User_Department)
             };
             return DBHelp.GetScalar(sql, sp);
         }
@@ -146,7 +147,7 @@ namespace DAL
         //TODO::已在数据库中分厂，此处可做可不做 2017年8月20日19:10:20
         public static int updateApprove(string formid,string positionname)
         {
-            string sql = "UPDATE As_Approve SET Assess_flag='已通过',Assess_Time=@Assess_Time WHERE Form_ID=@Form_ID and Position_Name=@Position_Name";
+            string sql = "UPDATE As_Approve SET Assess_flag='已通过',Assess_Time=@Assess_Time WHERE Form_ID=@Form_ID and Position_Name=@Position_Name and User_Department='NO'";
             //string sql = "UPDATE As_Approve SET Assess_flag='已通过' WHERE Form_ID='" + formid+"'and Position_Name='"+ positionname + "'";
             SqlParameter[] sp = new SqlParameter[]
             {
@@ -156,6 +157,19 @@ namespace DAL
             };
             return DBHelp.ExecuteCommand(sql,sp);
         }
+        public static int updateUserDepartmentApprove(string formid, string positionname)
+        {
+            string sql = "UPDATE As_Approve SET Assess_flag='已通过',Assess_Time=@Assess_Time WHERE Form_ID=@Form_ID and Position_Name=@Position_Name and User_Department='YES'";
+            //string sql = "UPDATE As_Approve SET Assess_flag='已通过' WHERE Form_ID='" + formid+"'and Position_Name='"+ positionname + "'";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Assess_Time",DateTime.Now),
+                new SqlParameter("@Form_ID",formid),
+                new SqlParameter("@Position_Name",positionname)
+            };
+            return DBHelp.ExecuteCommand(sql, sp);
+        }
+
         public static int updateApproveFail(string formid, string positionname)
         {
             string sql = "UPDATE As_Approve SET Assess_flag='未通过' WHERE Form_ID='" + formid + "'and Position_Name='" + positionname + "'";

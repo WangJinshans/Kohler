@@ -59,26 +59,31 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             //添加员工所要审批的表格
             if (Form_AssessFlow.First != "")
             {
+                approve.User_Department = "NO";
                 approve.Position_Name = Form_AssessFlow.First;
                 AssessFlow_BLL.addApprove(approve);
             }
             if (Form_AssessFlow.Second != "")
             {
+                approve.User_Department = "NO";
                 approve.Position_Name = Form_AssessFlow.Second;
                 AssessFlow_BLL.addApprove(approve);
             }
             if (Form_AssessFlow.Third != "")
             {
+                approve.User_Department = "NO";
                 approve.Position_Name = Form_AssessFlow.Third;
                 AssessFlow_BLL.addApprove(approve);
             }
             if (Form_AssessFlow.Four != "")
             {
+                approve.User_Department = "NO";
                 approve.Position_Name = Form_AssessFlow.Four;
                 AssessFlow_BLL.addApprove(approve);
             }
             if (Form_AssessFlow.Five != "")
             {
+                approve.User_Department = "NO";
                 approve.Position_Name = Form_AssessFlow.Five;
                 AssessFlow_BLL.addApprove(approve);
             }
@@ -247,14 +252,16 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             }
             else//非最终  签名
             {
-                //进行签名处理
-                if (Signature_BLL.setSignature(formID, positionName) && Signature_BLL.setSignatureDate(formID, positionName) != -1)
+                //第一个是用户部门
+                As_Approve ap = Approve_BLL.getApproveTop(formID);
+                if (ap.User_Department == "YES")//用户部门的审批签名
                 {
-                    if (AssessFlow_BLL.updateApprove(formID, positionName) > 0)
+                    Signature_BLL.setSignature(formID, positionName, "User_Department_Manager");
+                    Signature_BLL.setUserDepartmentSignatureDate(formID, "User_Department_Manager_Date");
+                    if (AssessFlow_BLL.updateUserDepartmentApprove(formID, positionName) > 0)
                     {
-                        As_Approve ap = Approve_BLL.getApproveTop(formID);
-                        LocalLog.writeLog(formID, String.Format("{0}审批已通过，正在等待{1}审批    时间：{2}",ae.Positon_Name+ae.Employee_Name ,ap.Position_Name, DateTime.Now), As_Write.APPROVE_SUCCESS, tempVendorID);
-                        
+                        LocalLog.writeLog(formID, String.Format("{0}审批已通过，正在等待{1}审批    时间：{2}", ae.Positon_Name + ae.Employee_Name, ap.Position_Name, DateTime.Now), As_Write.APPROVE_SUCCESS, tempVendorID);
+
                         //TODO::Async
                         LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), ap.Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批");
 
@@ -263,6 +270,26 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
 
                         //true结果返回后暂时无作用——2017年9月9日13:37:57
                         return true;
+                    }
+                }
+                else
+                {
+                    //进行签名处理
+                    if (Signature_BLL.setSignature(formID, positionName) && Signature_BLL.setSignatureDate(formID, positionName) != -1)
+                    {
+                        if (AssessFlow_BLL.updateApprove(formID, positionName) > 0)
+                        {
+                            LocalLog.writeLog(formID, String.Format("{0}审批已通过，正在等待{1}审批    时间：{2}", ae.Positon_Name + ae.Employee_Name, ap.Position_Name, DateTime.Now), As_Write.APPROVE_SUCCESS, tempVendorID);
+
+                            //TODO::Async
+                            LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), ap.Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批");
+
+                            //提示并拉起返回刷新
+                            LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){document.location.href = document.URL;}"), "toast");
+
+                            //true结果返回后暂时无作用——2017年9月9日13:37:57
+                            return true;
+                        }
                     }
                 }
             }

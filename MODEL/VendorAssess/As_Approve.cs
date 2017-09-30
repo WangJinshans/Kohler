@@ -21,6 +21,8 @@ namespace Model
         private string employee_ID;
         private string employee_Name;
         private string email;
+        private string user_Department;
+
 
         public string Form_ID
         {
@@ -189,6 +191,19 @@ namespace Model
             set
             {
                 employee_Name = value;
+            }
+        }
+
+        public string User_Department
+        {
+            get
+            {
+                return user_Department;
+            }
+
+            set
+            {
+                user_Department = value;
             }
         }
     }

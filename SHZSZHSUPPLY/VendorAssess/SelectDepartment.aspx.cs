@@ -17,6 +17,7 @@ namespace AendorAssess
         public static As_Approve approve;
         public static Dictionary<string, string> paramInfo;
         public static Page originPage;
+        public static As_Assess_Flow assess_flows;
         public Dictionary<string, string> dc;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -48,6 +49,7 @@ namespace AendorAssess
             string positionName = this.GridView1.SelectedRow.Cells[2].Text.ToString();
             Form_AssessFlow = new As_Form_AssessFlow();
             As_Assess_Flow assess_flow = Session["AssessflowInfo"] as As_Assess_Flow;
+            assess_flows = assess_flow;
             string kci= Request.QueryString["kci"];
             //string kci = Request.QueryString["ss"]; null
             Form_AssessFlow.Form_ID= Request.QueryString["formid"];
@@ -88,26 +90,38 @@ namespace AendorAssess
             //添加员工所要审批的表格
             if (Form_AssessFlow.First != "")
             {
+                if (assess_flows.User_Department_Assess == "1")
+                {
+                    approve.User_Department = "YES";
+                }
+                else
+                {
+                    approve.User_Department = "NO";
+                }
                 approve.Position_Name = Form_AssessFlow.First;
                 AssessFlow_BLL.addApprove(approve);
             }
             if (Form_AssessFlow.Second != "")
             {
+                approve.User_Department = "NO";
                 approve.Position_Name = Form_AssessFlow.Second;
                 AssessFlow_BLL.addApprove(approve);
             }
             if (Form_AssessFlow.Third!= "")
             {
+                approve.User_Department = "NO";
                 approve.Position_Name = Form_AssessFlow.Third;
                 AssessFlow_BLL.addApprove(approve);
             }
             if (Form_AssessFlow.Four != "")
             {
+                approve.User_Department = "NO";
                 approve.Position_Name = Form_AssessFlow.Four;
                 AssessFlow_BLL.addApprove(approve);
             }
             if (Form_AssessFlow.Five != "")
             {
+                approve.User_Department = "NO";
                 approve.Position_Name = Form_AssessFlow.Five;
                 AssessFlow_BLL.addApprove(approve);
             }

@@ -81,6 +81,24 @@ namespace BLL.VendorAssess
             }
             return -1;//ERROR
         }
+        public static int setUserDepartmentSignatureDate(string formID,string dataFiled)
+        {
+            try
+            {
+                string tableName = "";//哪张表
+                tableName = switchFormID(formID);
+                string sql = "update " + tableName + " set " + dataFiled + "='" + DateTime.Now.ToString().Trim() + "' where Form_ID='" + formID + "'";
+                if (Signature_DAL.SignatureDate(sql) > 0)
+                {
+                    return 1;//SUCCESS
+                }
+            }
+            catch (Exception)
+            {
+                return 2;//NO DATE
+            }
+            return -1;//ERROR
+        }
 
         private static string getPositionNameUrl(string position,string factory)//获取当前职位的签名地址绝对路径
         {
@@ -173,6 +191,10 @@ namespace BLL.VendorAssess
             List<string> positions = getAccessPositions(formID);
             if (positions.Count > 0)//需要进行审批
             {
+                //删除用户部门的签名以及时间
+                string sql1 = "update " + tableName + " set User_Department_Manager='',User_Department_Manager_Date='' where Form_ID='" + formID + "'";
+                Signature_DAL.deleteSignature(sql1);
+
                 foreach (string position in positions)
                 {
                     dataFiled = switchPositionName(position);

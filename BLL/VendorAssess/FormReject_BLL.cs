@@ -16,10 +16,10 @@ namespace BLL.VendorAssess
         {
             return FormReject_DAL.insertFormReject(form);
         }
-        public static int updateRejectFormStatus(As_Form_Reject form)
-        {
-            return FormReject_DAL.updateRejectFormStatus(form);
-        }
+        //public static int updateRejectFormStatus(As_Form_Reject form)
+        //{
+        //    return FormReject_DAL.updateRejectFormStatus(form);
+        //}
         public static bool isExist(As_Form_Reject form)
         {
             return FormReject_DAL.isExist(form);
