@@ -697,6 +697,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="files\" />
     <Folder Include="jsddm.0.25\pic\" />
     <Folder Include="Upload\" />
     <Folder Include="VendorAssess\TEST\TransferTemp\" />
@@ -731,28 +732,6 @@
     <Content Include="App_Browsers\Default.browser" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="files\1 - 副本.pdf" />
-    <Content Include="files\1.pdf" />
-    <Content Include="files\2.pdf" />
-    <Content Include="files\3.pdf" />
-    <Content Include="files\a.pdf" />
-    <Content Include="files\b.pdf" />
-    <Content Include="files\c.pdf" />
-    <Content Include="files\d.pdf" />
-    <Content Include="files\e.pdf" />
-    <Content Include="files\f.pdf" />
-    <Content Include="files\g.pdf" />
-    <Content Include="files\h.pdf" />
-    <Content Include="files\i.pdf" />
-    <Content Include="files\j.pdf" />
-    <Content Include="files\k.pdf" />
-    <Content Include="files\l.pdf" />
-    <Content Include="files\m.pdf" />
-    <Content Include="files\n.pdf" />
-    <Content Include="files\o.pdf" />
-    <Content Include="files\p.pdf" />
-    <Content Include="files\q.pdf" />
-    <Content Include="files\rthm1_9_compatible_apps.pdf" />
     <None Include="Properties\PublishProfiles\test.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

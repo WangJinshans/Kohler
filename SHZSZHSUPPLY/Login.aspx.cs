@@ -112,7 +112,7 @@ namespace SHZSZHSUPPLY
                 Session["Employee_Name"] = employee.Employee_Name;
                 Session["Position_Name"] = employee.Positon_Name;
                 Session["Factory_Name"] = Employee_BLL.getEmployeeFactory(employee.Employee_ID);//获取厂名
-                Response.Write("<script>parent.location.href='" + "../WebForm1.aspx?name1=" + employee.Employee_Name + "&name2=" + employee.Employee_ID + "'</script>");
+                Response.Write("<script>parent.location.href='" + "./WebForm1.aspx?name1=" + employee.Employee_Name + "&name2=" + employee.Employee_ID + "'</script>");
             }
             else
             {

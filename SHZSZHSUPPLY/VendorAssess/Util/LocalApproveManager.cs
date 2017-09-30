@@ -252,14 +252,17 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             }
             else//非最终  签名
             {
-                //第一个是用户部门
                 As_Approve ap = Approve_BLL.getApproveTop(formID);
+
+                //第一个是用户部门
                 if (ap.User_Department == "YES")//用户部门的审批签名
                 {
                     Signature_BLL.setSignature(formID, positionName, "User_Department_Manager");
                     Signature_BLL.setUserDepartmentSignatureDate(formID, "User_Department_Manager_Date");
                     if (AssessFlow_BLL.updateUserDepartmentApprove(formID, positionName) > 0)
                     {
+                        ap = Approve_BLL.getApproveTop(formID);
+
                         LocalLog.writeLog(formID, String.Format("{0}审批已通过，正在等待{1}审批    时间：{2}", ae.Positon_Name + ae.Employee_Name, ap.Position_Name, DateTime.Now), As_Write.APPROVE_SUCCESS, tempVendorID);
 
                         //TODO::Async
@@ -279,6 +282,8 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                     {
                         if (AssessFlow_BLL.updateApprove(formID, positionName) > 0)
                         {
+                            ap = Approve_BLL.getApproveTop(formID);
+
                             LocalLog.writeLog(formID, String.Format("{0}审批已通过，正在等待{1}审批    时间：{2}", ae.Positon_Name + ae.Employee_Name, ap.Position_Name, DateTime.Now), As_Write.APPROVE_SUCCESS, tempVendorID);
 
                             //TODO::Async

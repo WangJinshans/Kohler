@@ -132,12 +132,25 @@
                  show(5);
              }
          }
+
+         function isIE() { //ie?
+             return !!window.ActiveXObject || "ActiveXObject" in window;
+         }
+
         function show(index) {
             var nodes = document.getElementsByClassName('nav n'+String(index));
             for (var i = 0; i < nodes.length; i++) {
-                nodes.item(i).style = 'display:normal';
+                if (isIE()) {
+                    nodes.item(i).style.display = '';
+                } else {
+                    nodes.item(i).style = 'display:normal';
+                }
             }
-            document.getElementsByClassName('nav nt' + String(index))[0].style = 'background-color:#324143;color:white;display:normal';
+            if (isIE()) {
+                document.getElementsByClassName('nav nt' + String(index))[0].style.display = '';
+            } else {
+                document.getElementsByClassName('nav nt' + String(index))[0].style = 'background-color:#324143;color:white;display:normal';
+            }
         }
 
     </script>
@@ -173,7 +186,7 @@
                                 <li><a href="VenderInfo/SharedItemMA.aspx" target="iFrame1">供应商变更及文档删除</a></li>
                             </ul>
                         </li>
-                        <li><a href="#" target="iFrame1">供应商审批</a>
+                        <li><a href="#">供应商审批</a>
                             <ul>
                                 <li><a class="nav nt1" style="background-color:#324143;color:white;display:none">新建</a></li>
                                 <li><a class="nav n1" style="display:none" href="VendorAssess/VendorInfo.aspx" target="iFrame1">供应商信息创建</a></li>
