@@ -130,7 +130,7 @@
     <Content Include="VendorAssess\FormWaitToFill.aspx" />
     <Content Include="VendorAssess\Html_Template\File_Upload_Page.html" />
     <Content Include="VendorAssess\Html_Template\Mail_Template.html" />
-    <Content Include="VendorAssess\Html_Template\PageTemplate.aspx" />
+    <Content Include="VendorAssess\Script\laydate\PageTemplate.aspx" />
     <Content Include="VendorAssess\index.aspx" />
     <Content Include="VendorAssess\KCI.aspx" />
     <Content Include="VendorAssess\login.aspx" />
@@ -247,6 +247,7 @@
     <Content Include="VendorAssess\Script\layui\lay\modules\tree.js" />
     <Content Include="VendorAssess\Script\layui\lay\modules\upload.js" />
     <Content Include="VendorAssess\Script\layui\lay\modules\util.js" />
+    <Content Include="VendorAssess\Script\My97DatePicker\calendar.js" />
     <Content Include="VendorAssess\Script\My97DatePicker\lang\en.js" />
     <Content Include="VendorAssess\Script\My97DatePicker\lang\zh-cn.js" />
     <Content Include="VendorAssess\Script\My97DatePicker\lang\zh-tw.js" />
@@ -502,11 +503,11 @@
     <Compile Include="VendorAssess\FormWaitToFill.aspx.designer.cs">
       <DependentUpon>FormWaitToFill.aspx</DependentUpon>
     </Compile>
-    <Compile Include="VendorAssess\Html_Template\PageTemplate.aspx.cs">
+    <Compile Include="VendorAssess\Script\laydate\PageTemplate.aspx.cs">
       <DependentUpon>PageTemplate.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="VendorAssess\Html_Template\PageTemplate.aspx.designer.cs">
+    <Compile Include="VendorAssess\Script\laydate\PageTemplate.aspx.designer.cs">
       <DependentUpon>PageTemplate.aspx</DependentUpon>
     </Compile>
     <Compile Include="VendorAssess\index.aspx.cs">

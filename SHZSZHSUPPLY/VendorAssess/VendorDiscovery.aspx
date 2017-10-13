@@ -145,6 +145,7 @@
 			border-width: 0px;
 			overflow: hidden;
 			text-align: center;
+            width: 95%;
 		}
 
 
@@ -167,6 +168,7 @@
 		}
 
 		.auto-style1 {
+            width: 95%;
 			border-style: none;
 			border-color: inherit;
 			border-width: 0px;
@@ -205,13 +207,13 @@
 					</td>
 					<td class="auto-style4">法人*</td>
 					<td colspan="2" class="auto-style4">
-						<asp:TextBox ID="TextBox3" runat="server" CssClass="auto-style1" Width="109px"></asp:TextBox>
+						<asp:TextBox ID="TextBox3" runat="server" CssClass="auto-style1" ></asp:TextBox>
 					</td>
 				</tr>
 				<tr>
 					<td>地址*</td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox4" runat="server" Width="161px" CssClass="t"></asp:TextBox>
+						<asp:TextBox ID="TextBox4" runat="server" Width="250px" CssClass="t"></asp:TextBox>
 					</td>
 					<td>电话*</td>
 					<td colspan="2">
@@ -219,7 +221,7 @@
 					</td>
 					<td>传真*</td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox6" runat="server" CssClass="auto-style1" Width="121px"></asp:TextBox>
+						<asp:TextBox ID="TextBox6" runat="server" CssClass="auto-style1" ></asp:TextBox>
 					</td>
 				</tr>
 				<tr>
@@ -243,7 +245,7 @@
 						<asp:TextBox ID="TextBox10" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 					<td>
-						<asp:TextBox ID="TextBox11" runat="server" CssClass="auto-style1" Width="121px"></asp:TextBox>
+						<asp:TextBox ID="TextBox11" runat="server" CssClass="auto-style1"></asp:TextBox>
 					</td>
 				</tr>
 				<tr>
@@ -260,7 +262,7 @@
 						<asp:TextBox ID="TextBox52" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 					<td>
-						<asp:TextBox ID="TextBox53" runat="server" CssClass="auto-style1" Width="121px"></asp:TextBox>
+						<asp:TextBox ID="TextBox53" runat="server" CssClass="auto-style1"></asp:TextBox>
 					</td>
 				</tr>
 				<tr>
@@ -277,7 +279,7 @@
 						<asp:TextBox ID="TextBox57" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 					<td>
-						<asp:TextBox ID="TextBox58" runat="server" CssClass="auto-style1" Width="121px"></asp:TextBox>
+						<asp:TextBox ID="TextBox58" runat="server" CssClass="auto-style1"></asp:TextBox>
 					</td>
 				</tr>
 				<tr>
@@ -287,22 +289,22 @@
 				</tr>
 				<tr>
 					<td colspan="3" rowspan="3">
-						<asp:TextBox ID="TextBox12" runat="server" CssClass="auto-style1" Height="78px" Width="292px"></asp:TextBox></td>
+						<asp:TextBox ID="TextBox12" runat="server" CssClass="auto-style1" TextMode="MultiLine" Wrap="true" Height="78px" MaxLength="200" Rows="3"></asp:TextBox></td>
 					<td colspan="3" rowspan="3">
-						<asp:TextBox ID="TextBox13" runat="server" CssClass="auto-style1" Height="63px" Width="85px"></asp:TextBox></td>
+						<asp:TextBox ID="TextBox13" runat="server" CssClass="auto-style1" Height="63px" ></asp:TextBox></td>
 					<td colspan="3">
-						<asp:TextBox ID="TextBox14" runat="server" CssClass="auto-style1" Width="198px"></asp:TextBox></td>
+						<asp:TextBox ID="TextBox14" runat="server" CssClass="auto-style1"></asp:TextBox></td>
 				</tr>
 				<tr>
 
 					<td colspan="3">
-						<asp:TextBox ID="TextBox41" runat="server" CssClass="auto-style1" Width="198px"></asp:TextBox>
+						<asp:TextBox ID="TextBox41" runat="server" CssClass="auto-style1"></asp:TextBox>
 					</td>
 				</tr>
 				<tr>
 
 					<td colspan="3">
-						<asp:TextBox ID="TextBox42" runat="server" CssClass="auto-style1" Width="198px"></asp:TextBox>
+						<asp:TextBox ID="TextBox42" runat="server" CssClass="auto-style1" ></asp:TextBox>
 					</td>
 				</tr>
 				<tr>
@@ -319,7 +321,7 @@
 					<td colspan="2">
 						<asp:TextBox ID="TextBox17" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox18" runat="server" CssClass="auto-style1" Height="16px" Width="119px"></asp:TextBox></td>
+						<asp:TextBox ID="TextBox18" runat="server" CssClass="auto-style1" Height="16px" ></asp:TextBox></td>
 				</tr>
 				<tr>
 					<td colspan="3">员工总数*</td>
@@ -335,7 +337,7 @@
 					<td colspan="2">
 						<asp:TextBox ID="TextBox21" runat="server" CssClass="t"></asp:TextBox></td>
 					<td>
-						<asp:TextBox ID="TextBox22" runat="server" CssClass="auto-style1" Width="122px"></asp:TextBox></td>
+						<asp:TextBox ID="TextBox22" runat="server" CssClass="auto-style1"></asp:TextBox></td>
 				</tr>
 				<tr>
 					<td colspan="3">公司占地面积*</td>
@@ -348,7 +350,7 @@
 					<td colspan="3">
 						<asp:TextBox ID="TextBox24" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="3">
-						<asp:TextBox ID="TextBox25" runat="server" CssClass="auto-style1" Width="181px"></asp:TextBox></td>
+						<asp:TextBox ID="TextBox25" runat="server" CssClass="auto-style1" ></asp:TextBox></td>
 				</tr>
 				<tr>
 					<td colspan="3">每周工作时间</td>
@@ -361,7 +363,7 @@
 					<td colspan="3">
 						<asp:TextBox ID="TextBox27" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="3">
-						<asp:TextBox ID="TextBox28" runat="server" CssClass="auto-style1" Width="191px"></asp:TextBox></td>
+						<asp:TextBox ID="TextBox28" runat="server" CssClass="auto-style1"></asp:TextBox></td>
 				</tr>
 				<tr>
 					<td colspan="3">产品主要原料</td>
@@ -374,7 +376,7 @@
 					<td colspan="2">
 						<asp:TextBox ID="TextBox32" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="4">
-						<asp:TextBox ID="TextBox33" runat="server" CssClass="auto-style1" Width="215px"></asp:TextBox></td>
+						<asp:TextBox ID="TextBox33" runat="server" CssClass="auto-style1" ></asp:TextBox></td>
 				</tr>
 				<tr>
 					<td colspan="3">
@@ -382,7 +384,7 @@
 					<td colspan="2">
 						<asp:TextBox ID="TextBox65" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="4">
-						<asp:TextBox ID="TextBox66" runat="server" CssClass="auto-style1" Width="215px"></asp:TextBox></td>
+						<asp:TextBox ID="TextBox66" runat="server" CssClass="auto-style1"></asp:TextBox></td>
 				</tr>
 				<tr>
 					<td colspan="3">
@@ -390,7 +392,7 @@
 					<td colspan="2">
 						<asp:TextBox ID="TextBox68" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="4">
-						<asp:TextBox ID="TextBox69" runat="server" CssClass="auto-style1" Width="215px"></asp:TextBox></td>
+						<asp:TextBox ID="TextBox69" runat="server" CssClass="auto-style1" ></asp:TextBox></td>
 				</tr>
 
 				<tr>

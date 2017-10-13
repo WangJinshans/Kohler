@@ -111,6 +111,7 @@
 			border-width: 0px;
 			overflow: hidden;
 			text-align: center;
+            width:95%;
 		}
 
 		.auto-style3 {
@@ -160,9 +161,9 @@
                     var res = pdf.output();
                     //var data = JSON.parse(res);
                     //data.append("data", res);
-                    requestToPdfAshx(res);
-                    //pdf.autoPrint();
-                    //pdf.save(file);
+                    //requestToPdfAshx(res);
+                    pdf.autoPrint();
+                    pdf.save(file);
                     //requestToPdfAshx(file, formID);
                 },
                 background: "#f7f7f7"    //设置PDF背景色（默认透明，实际显示为黑色）
@@ -312,9 +313,9 @@
 				</tr>
 				<tr>
 					<td colspan="3" rowspan="3">
-						<asp:TextBox ID="TextBox12" runat="server" CssClass="auto-style1" Height="78px" Width="292px" ReadOnly="True"></asp:TextBox></td>
+						<asp:TextBox ID="TextBox12" runat="server" TextMode="MultiLine" Wrap="true" CssClass="auto-style1" Height="78px" ReadOnly="True"></asp:TextBox></td>
 					<td colspan="3" rowspan="3">
-						<asp:TextBox ID="TextBox13" runat="server" CssClass="auto-style1" Height="63px" Width="85px" ReadOnly="True"></asp:TextBox></td>
+						<asp:TextBox ID="TextBox13" runat="server" CssClass="auto-style1" Height="63px" ReadOnly="True"></asp:TextBox></td>
 					<td colspan="3">
 						<asp:TextBox ID="TextBox14" runat="server" CssClass="auto-style1" Width="198px" ReadOnly="True"></asp:TextBox></td>
 				</tr>

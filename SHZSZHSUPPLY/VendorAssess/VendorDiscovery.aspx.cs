@@ -378,6 +378,7 @@ namespace AendorAssess
             }
             else
             {
+                Response.Write("<script>window.alert('保存失败！')</script>");
                 return null;
             }
         }

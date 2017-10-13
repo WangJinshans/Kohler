@@ -25,8 +25,12 @@
     <script src="Script/layui/layui.js"></script>
     <script src="Script/Own/fileUploader.js"></script>
     <script>
+        window.onload = function () {
+            blockBack();
+        }
+
         layui.use(['form', 'layedit', 'laydate', 'element'], function () {
-            var form = layui.form()
+            var form = layui.form()      
             , layer = layui.layer
             , layedit = layui.layedit
             , laydate = layui.laydate

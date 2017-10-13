@@ -131,6 +131,13 @@ function popUp(formid) {
     });
 }
 
+function blockBack() {
+    history.pushState(null, null, document.URL);
+    window.addEventListener('popstate', function () {
+        history.pushState(null, null, document.URL);
+    });
+}
+
 function __myDoPostBack(eventTarget, eventArgument) {
     var theForm = document.forms['form1'];
     if (document.getElementById('__EVENTTARGET') == null) {

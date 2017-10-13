@@ -48,7 +48,14 @@ namespace DAL
         {
             SqlCommand cmd = new SqlCommand(sql, Connection);
             cmd.Parameters.AddRange(values);
-            return cmd.ExecuteNonQuery();
+            try
+            {
+                return cmd.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
         }
 
         public static int GetScalar(string safeSql)
