@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace DAL
 {
@@ -96,10 +97,11 @@ namespace DAL
 
         public static List<string> viewGetEmployeeName(string department)
         {
-            string sql = "select Employee_Name from View_Employee_Department where Department_Name=@Department_Name";
+            string sql = "select Employee_Name from View_Employee_Department where Department_Name=@Department_Name and Factory_Name=@Factory_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("@Department_Name",department)
+                new SqlParameter("@Department_Name",department),
+                new SqlParameter("@Factory_Name",HttpContext.Current.Session["Factory_Name"].ToString())
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)
@@ -116,10 +118,11 @@ namespace DAL
 
         public static List<string> viewGetEmployeeID(string department)
         {
-            string sql = "select Employee_ID from View_Employee_Department where Department_Name=@Department_Name";
+            string sql = "select Employee_ID from View_Employee_Department where Department_Name=@Department_Name and Factory_Name=@Factory_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("@Department_Name",department)
+                new SqlParameter("@Department_Name",department),
+                new SqlParameter("@Factory_Name",HttpContext.Current.Session["Factory_Name"].ToString())
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count>0)
