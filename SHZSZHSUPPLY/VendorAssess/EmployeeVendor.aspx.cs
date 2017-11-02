@@ -87,13 +87,45 @@ namespace AendorAssess
             //绑定数据源
             GridView2.DataBind();
 
+
+            //查询所有等待其他部门填写的表格
+            string sql1 = String.Format("SELECT * FROM View_Vendor_FormType WHERE Temp_Vendor_ID='{0}'and flag ='2' and Factory_Name='{1}' order by Form_Type_Priority_Number asc", tempVendorID, factoryName);
+            PagedDataSource objpds1 = new PagedDataSource();
+            objpds1.DataSource = SelectForm_BLL.selectForm(sql1);
+            if (objpds1.Count > 0)
+            {
+                Legend3.Visible = true;
+                GridView1.DataSource = objpds1;
+                GridView1.DataBind();
+            }
+            else
+            {
+                Legend3.Visible = false;
+                GridView1.DataSource = null;
+                GridView1.DataBind();
+            }
+
+
+
             //根据供应商类型编号查询所有已提交表格
-            As_Form form = new As_Form();
+            //As_Form form = new As_Form();
             string sql2 = String.Format("SELECT * FROM As_Form WHERE Temp_Vendor_ID='{0}' and Factory_Name='{1}' and Status='new'", tempVendorID, factoryName);
             PagedDataSource objpds2 = new PagedDataSource();
             objpds2.DataSource = SelectForm_BLL.selectForm(sql2);
-            GridView3.DataSource = objpds2;
-            GridView3.DataBind();
+            if (objpds2.Count > 0)
+            {
+                Legend1.Visible = true;
+                GridView3.DataSource = objpds2;
+                GridView3.DataBind();
+            }
+            else
+            {
+                Legend1.Visible = false;
+                GridView3.DataSource = null;
+                GridView3.DataBind();
+            }
+
+
             //根据供应商类型编号查询所有待上传文件
             string sql3 = String.Format("SELECT * FROM View_Vendor_FileType WHERE Temp_Vendor_ID='{0}' and Factory_Name='{1}'", tempVendorID, factoryName);
             PagedDataSource objpds3 = new PagedDataSource();
@@ -102,16 +134,6 @@ namespace AendorAssess
             GridView4.DataSource = objpds3;
             //绑定数据源
             GridView4.DataBind();
-
-            ////根据供应商类型编号查询所有已上传文件 
-            //As_File file = new As_File();
-            //string sql4 = String.Format("SELECT * FROM As_File WHERE Temp_Vendor_ID='{0}' and Factory_Name in ('{1}','ALL') and Status='new'", tempVendorID, factoryName);
-            //PagedDataSource objpds4 = new PagedDataSource();
-            //objpds4.DataSource = File_BLL.selectFile(sql4);
-            ////获取数据源
-            //GridView5.DataSource = objpds4;
-            ////绑定数据源
-            //GridView5.DataBind();
         }
 
         /// <summary>
