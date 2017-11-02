@@ -24,6 +24,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             if (!IsPostBack)
             {
                 readVendorInfo();
+                LocalScriptManager.CreateScript(Page, "recoverSelectData()", "recoverInfo");
             }
             else
             {
@@ -95,7 +96,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 btnTransfer.Enabled = false;
                 btnTransfer.CssClass = "layui-btn layui-btn-disabled";
-                btnTransfer.ToolTip = "无法转移，请等待审批完毕或此账户无权限";
+                btnTransfer.ToolTip = "无法转移，此账号无权限操作或仍然有表单未审批完成";
             }
         }
 

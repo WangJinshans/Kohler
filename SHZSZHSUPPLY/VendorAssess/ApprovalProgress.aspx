@@ -24,30 +24,30 @@
 
             //监听
             form.on('select', function (data) {
-                currentFactory = document.getElementById('factory').selectedIndex;
-                currentType = document.getElementById('type').selectedIndex;
-                currentName = document.getElementById('name').selectedIndex;
-                storageParams();
-
-                switch (data.elem.id) {
-                    case 'factory':
-                        onFactorySelectChanged();
-                        break;
-                    case 'type':
-                        onVendorTypeSelectChanged();
-                        break;
-                    case 'name':
-                        __myDoPostBack('refreshNewVendor', document.getElementById('name').value);
-                        break;
-                    default:
-                        break;
-                }
-                console.log(data.elem); //得到select原始DOM对象
-                console.log(data.value); //得到被选中的值
-                console.log(data.othis); //得到美化后的DOM对象
+                onSelect(data);
             });
-
         });
+
+        function onSelect(data) {
+            currentFactory = document.getElementById('factory').selectedIndex;
+            currentType = document.getElementById('type').selectedIndex;
+            currentName = document.getElementById('name').selectedIndex;
+            storageParams();
+
+            switch (data.elem.id) {
+                case 'factory':
+                    onFactorySelectChanged();
+                    break;
+                case 'type':
+                    onVendorTypeSelectChanged();
+                    break;
+                case 'name':
+                    __myDoPostBack('refreshNewVendor', document.getElementById('name').value);
+                    break;
+                default:
+                    break;
+            }
+        }
 
         function refreshForm() {
             layui.use(['form'], function () {
@@ -197,6 +197,20 @@
             }
             refreshForm();
         }
+
+        function recoverSelectData() {
+            document.getElementById('factory').selectedIndex = localStorage.getItem('factory');
+            document.getElementById('type').selectedIndex = localStorage.getItem('type');
+            onVendorTypeSelectChanged();
+            var nameSelect = document.getElementById('name');
+
+            //否则为恢复现场
+            nameSelect.selectedIndex = localStorage.getItem('name');
+
+            var data = { elem: nameSelect, value: nameSelect.value };
+            onSelect(data);
+        }
+
     </script>
     <script>
         function setVendorName(name) {
@@ -314,19 +328,14 @@
                 <h2 class="layui-colla-title">常规进度信息</h2>
                 <div class="layui-colla-content layui-show">
                     <p id="normalInfoDetail" runat="server">
-                        人事部经理：审批已通过  时间：2017-08-06 10:43:13.650<br />
-                        采购部经理：审批已通过  时间：2017-08-06 11:55:13.650<br />
-                        正在等待质量部经理审批...
                    
                     </p>
                 </div>
             </div>
             <div class="layui-colla-item">
                 <h2 class="layui-colla-title">当前文件或表格出现的问题</h2>
-                <div class="layui-colla-content">
+                <div class="layui-colla-content layui-show">
                     <p id="exceptionInfoDetail" runat="server">
-                        质量部经理：审批拒绝  时间：2017-08-06 10:43:13.650<br />
-                        原因：表格附带文件错误，填写错误，缺少支持文件
                    
                     </p>
                 </div>
