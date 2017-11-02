@@ -438,7 +438,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
             else
             {
-                //如果是采购
+                //如果是采购 或 供应链部
                 if (VendorSelection_BLL.checkDepartment(Session["Employee_ID"].ToString(), edtFlow))
                 {
                     //saveForm(1, "保存表格");//注意032为fileTypeID

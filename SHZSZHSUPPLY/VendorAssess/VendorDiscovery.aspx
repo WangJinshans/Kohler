@@ -489,7 +489,7 @@
 			</table>
 		</div>
 
-		<div style="text-align: center">
+		<div style="text-align: center;margin-bottom:50px">
 			<asp:Button ID="Button1" runat="server" Text="提交" CssClass="layui-btn" OnClick="Button1_Click" />
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       
 			<asp:Button ID="Button2" runat="server" Text="保存" CssClass="layui-btn layui-btn-normal" OnClick="Button2_Click" />

@@ -75,6 +75,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 setSelected(vendorRisk.Financial, new[] { RadioButton40, RadioButton41, RadioButton42 });
                 setSelected(vendorRisk.Kohler_Forward_Plan, new[] { RadioButton43, RadioButton44, RadioButton45 });
                 setSelected(vendorRisk.Supplier_Forward_Plan, new[] { RadioButton46, RadioButton47, RadioButton48 });
+                setSelected(vendorRisk.Price, new[] { RadioButton94, RadioButton95, RadioButton96 });
                 setSelected(vendorRisk.Change_Of_Source, new[] { RadioButton49, RadioButton50, RadioButton51 });
                 setSelected(vendorRisk.Annual_Shutdown, new[] { RadioButton52, RadioButton53, RadioButton54 });
                 setSelected(vendorRisk.Computer_Systems, new[] { RadioButton55, RadioButton56, RadioButton57 });

@@ -151,6 +151,9 @@
 	                border-color: #666666;
 	                background-color: #ffffff;
 	            }
+	    .auto-style1 {
+            height: 30px;
+        }
 	</style>
     <script>
         function takeScreenshot(file, formID) {
@@ -269,9 +272,9 @@
 			<td colspan="3"><asp:TextBox runat="server" ID="txbProduct" BorderStyle="None" style="text-align:center" Width="100%" Height="100%" ReadOnly="true"></asp:TextBox></td>
 		</tr>
 		<tr>
-			<td>Part No.零件号</td>
-			<td>Supplier:供应商*</td>
-			<td colspan="2"><asp:TextBox ID="txbVendor" style="text-align:center" runat="server" BorderStyle="None" Width="100%" Height="100%" ReadOnly="true"></asp:TextBox></td>
+			<td class="auto-style1">Part No.零件号</td>
+			<td class="auto-style1">Supplier:供应商*</td>
+			<td colspan="2" class="auto-style1"><asp:TextBox ID="txbVendor" style="text-align:center" runat="server" BorderStyle="None" Width="100%" Height="100%" ReadOnly="true"></asp:TextBox></td>
 		</tr>
 		<tr >
 			<td><asp:TextBox ID="txbPartNo" style="text-align:center" runat="server" BorderStyle="None" Width="100%" Height="100%" ReadOnly="true"></asp:TextBox></td>
@@ -470,6 +473,13 @@
 			<td ><asp:RadioButton Enabled="false" ID="RadioButton48" Text=" " runat="server" GroupName="15" /></td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" ID="TextBox24" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
+        <tr>
+            <td>Price 价格*</td>
+            <td ><asp:RadioButton Enabled="false" ID="RadioButton94" Text=" " runat="server" GroupName="31"/></td>
+            <td ><asp:RadioButton Enabled="false" ID="RadioButton95" Text=" " runat="server" GroupName="31"/></td>
+            <td ><asp:RadioButton Enabled="false" ID="RadioButton96" Text=" " runat="server" GroupName="31"/></td>
+            <td ><asp:TextBox ReadOnly="true" ID="TextBox40" runat="server" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
+        </tr>
 		<tr>
 			<td >Change of source (site) of manufacture
 				<br />
@@ -600,7 +610,7 @@
 		</tr>
 	</table>
 	</div>
-		<div>
+		<div style="margin-bottom:50px;">
 			<table class="gridtable" style="margin: auto;width:1000px; border-collapse: collapse;">
 				<tr>
 					<td>

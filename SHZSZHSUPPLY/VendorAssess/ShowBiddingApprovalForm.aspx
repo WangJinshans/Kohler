@@ -400,7 +400,7 @@
         </div>
 
         <div>
-            <table class="gridtable" style="margin: auto;width:1000px; border-collapse: collapse; ">
+            <table class="gridtable" style="margin: auto;width:1000px;margin-bottom:50px; border-collapse: collapse; ">
                 <tr>
                     <td>
                         <div>

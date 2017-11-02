@@ -984,7 +984,7 @@
                 </tr>
             </table>
         </div>
-        <div>
+        <div style="margin-bottom:50px">
             <table class="gridtable" style="margin: auto;width:1000px; border-collapse: collapse; ">
                 <tr>
                     <td>
