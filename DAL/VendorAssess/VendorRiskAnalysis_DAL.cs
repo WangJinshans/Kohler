@@ -111,7 +111,7 @@ namespace DAL.VendorAssess
         /// <returns></returns>
         public static int updateVendorRisk(As_Vendor_Risk vendorRisk, IList<As_Vendor_Risk_Notes> list)
         {
-            string sql = "update As_Vendor_Risk SET Form_Type_ID=@Form_Type_ID,Supplier=@Supplier,Part_No=@Part_No,Manufacturer=@Manufacturer,Where_Used=@Where_Used,Annual_Spend=@Annual_Spend,Overall_Risk_Category=@Overall_Risk_Category,General_Assessment=@General_Assessment,Contingency_Plan=@Contingency_Plan,Urgency=@Urgency,Complete_By=@Complete_By,Compiled_By=@Compiled_By,Date=@Date,Corporate_Strategy=@Corporate_Strategy,Stability=@Stability,Contractual=@Contractual,Third_Party_Involvement=@Third_Party_Involvement,Location=@Location,Transport=@Transport,Seasonality=@Seasonality,Environmental_Capacity=@Environmental_Capacity,Stocks=@Stocks,Dedicated_Facilities=@Dedicated_Facilities,Recycling_Policy=@Recycling_Policy,Communication=@Communication,Financial=@Financial,Kohler_Forward_Plan=@Kohler_Forward_Plan,Supplier_Forward_Plan=@Supplier_Forward_Plan,Change_Of_Source=@Change_Of_Source,Annual_Shutdown=@Annual_Shutdown,Computer_Systems=@Computer_Systems,Intellectual_Property_Kohler=@Intellectual_Property_Kohler,Relationship=@Relationship,Technological_Capacity=@Technological_Capacity,Machine_Breakdown=@Machine_Breakdown,Quality_Accreditation=@Quality_Accreditation,Audit_Failure=@Audit_Failure,Alternative_Supplier=@Alternative_Supplier,Alternative_Materials=@Alternative_Materials,Complexity=@Complexity,Research_And_Development=@Research_And_Development,Rejections_Or_Complaints=@Rejections_Or_Complaints,Specifications=@Specifications,Flag=@Flag,Product=@Product,Temp_Vendor_ID=@Temp_Vendor_ID where Form_ID=@Form_ID";
+            string sql = "update As_Vendor_Risk SET Form_Type_ID=@Form_Type_ID,Supplier=@Supplier,Part_No=@Part_No,Manufacturer=@Manufacturer,Where_Used=@Where_Used,Annual_Spend=@Annual_Spend,Overall_Risk_Category=@Overall_Risk_Category,General_Assessment=@General_Assessment,Contingency_Plan=@Contingency_Plan,Urgency=@Urgency,Complete_By=@Complete_By,Compiled_By=@Compiled_By,Date=@Date,Corporate_Strategy=@Corporate_Strategy,Stability=@Stability,Contractual=@Contractual,Third_Party_Involvement=@Third_Party_Involvement,Location=@Location,Transport=@Transport,Seasonality=@Seasonality,Environmental_Capacity=@Environmental_Capacity,Stocks=@Stocks,Dedicated_Facilities=@Dedicated_Facilities,Recycling_Policy=@Recycling_Policy,Communication=@Communication,Financial=@Financial,Kohler_Forward_Plan=@Kohler_Forward_Plan,Supplier_Forward_Plan=@Supplier_Forward_Plan,Price=@Price,Change_Of_Source=@Change_Of_Source,Annual_Shutdown=@Annual_Shutdown,Computer_Systems=@Computer_Systems,Intellectual_Property_Kohler=@Intellectual_Property_Kohler,Relationship=@Relationship,Technological_Capacity=@Technological_Capacity,Machine_Breakdown=@Machine_Breakdown,Quality_Accreditation=@Quality_Accreditation,Audit_Failure=@Audit_Failure,Alternative_Supplier=@Alternative_Supplier,Alternative_Materials=@Alternative_Materials,Complexity=@Complexity,Research_And_Development=@Research_And_Development,Rejections_Or_Complaints=@Rejections_Or_Complaints,Specifications=@Specifications,Flag=@Flag,Product=@Product,Temp_Vendor_ID=@Temp_Vendor_ID where Form_ID=@Form_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Form_ID",vendorRisk.Form_ID),
@@ -143,6 +143,7 @@ namespace DAL.VendorAssess
                 new SqlParameter("@Financial",vendorRisk.Financial),
                 new SqlParameter("@Kohler_Forward_Plan",vendorRisk.Kohler_Forward_Plan),
                 new SqlParameter("@Supplier_Forward_Plan",vendorRisk.Supplier_Forward_Plan),
+                new SqlParameter("@Price",vendorRisk.Price),
                 new SqlParameter("@Change_Of_Source",vendorRisk.Change_Of_Source),
                 new SqlParameter("@Annual_Shutdown",vendorRisk.Annual_Shutdown),
                 new SqlParameter("@Computer_Systems",vendorRisk.Computer_Systems),
@@ -218,7 +219,7 @@ namespace DAL.VendorAssess
                     vendorRisk.Financial = Convert.ToByte(dr["Financial"]);
                     vendorRisk.Kohler_Forward_Plan = Convert.ToByte(dr["Kohler_Forward_Plan"]);
                     vendorRisk.Supplier_Forward_Plan = Convert.ToByte(dr["Supplier_Forward_Plan"]);
-                    //vendorRisk.Price = Convert.ToByte(dr["Price"]);
+                    vendorRisk.Price = Convert.ToByte(dr["Price"]);
                     vendorRisk.Change_Of_Source = Convert.ToByte(dr["Change_Of_Source"]);
                     vendorRisk.Annual_Shutdown = Convert.ToByte(dr["Annual_Shutdown"]);
                     vendorRisk.Computer_Systems = Convert.ToByte(dr["Computer_Systems"]);

@@ -235,6 +235,7 @@ namespace DAL
                     Vendor_Discovery.Region_Three = Convert.ToString(dr["Region_Three"]);
                     Vendor_Discovery.Material_Store_Conditon_Three = Convert.ToString(dr["Material_Store_Conditon_Three"]);
                     Vendor_Discovery.ISO = Convert.ToString(dr["ISO"]);
+                    Vendor_Discovery.Transport = Convert.ToString(dr["Transport"]);
                     Vendor_Discovery.Device_Name = Convert.ToString(dr["Device_Name"]);
                     Vendor_Discovery.Device_Size = Convert.ToString(dr["Device_Size"]);
                     Vendor_Discovery.Device_Year = Convert.ToString(dr["Device_Year"]);
