@@ -22,7 +22,7 @@ namespace Model
 
         public string Where_Used { get; set; }
 
-        public double? Annual_Spend { get; set; }
+        public string Annual_Spend { get; set; }
 
         public byte? Overall_Risk_Category { get; set; }
 

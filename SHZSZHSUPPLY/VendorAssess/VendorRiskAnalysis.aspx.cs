@@ -201,7 +201,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             vendorRisk.Part_No = txbPartNo.Text.Trim();
             vendorRisk.Manufacturer = TextBox1.Text.Trim();
             vendorRisk.Where_Used = txbWhereUsed.Text.Trim();
-            vendorRisk.Annual_Spend = Convert.ToDouble(TextBox2.Text.Trim());
+            vendorRisk.Annual_Spend = TextBox2.Text.Trim();
             vendorRisk.Overall_Risk_Category = Convert.ToByte(getSelected(new[] { RadioButton1, RadioButton2, RadioButton3 }));
             vendorRisk.General_Assessment = TextBox3.Text.Trim();
             vendorRisk.Contingency_Plan = TextBox4.Text.Trim();

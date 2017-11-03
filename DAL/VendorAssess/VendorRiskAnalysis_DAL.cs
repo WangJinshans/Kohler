@@ -196,7 +196,7 @@ namespace DAL.VendorAssess
                     vendorRisk.Part_No = Convert.ToString(dr["Part_No"]);
                     vendorRisk.Manufacturer = Convert.ToString(dr["Manufacturer"]);
                     vendorRisk.Where_Used = Convert.ToString(dr["Where_Used"]);
-                    vendorRisk.Annual_Spend = Convert.ToDouble(dr["Annual_Spend"]);
+                    vendorRisk.Annual_Spend = Convert.ToString(dr["Annual_Spend"]);
                     vendorRisk.Overall_Risk_Category = Convert.ToByte(dr["Overall_Risk_Category"]);
                     vendorRisk.General_Assessment = Convert.ToString(dr["General_Assessment"]);
                     vendorRisk.Contingency_Plan = Convert.ToString(dr["Contingency_Plan"]);
