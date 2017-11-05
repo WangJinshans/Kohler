@@ -166,7 +166,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                 //TODO::这里不能这样写，具体参考Creation的写法，这里暂时不改
                 HttpContext.Current.Session["tempvendorname"] = tempVendorName;
                 HttpContext.Current.Session["Employee_ID"] = HttpContext.Current.Session["Employee_ID"];
-                HttpContext.Current.Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx'</script>");
+                HttpContext.Current.Response.Write("<script>window.alert('提交成功！');window.location.href='/VendorAssess/EmployeeVendor.aspx'</script>");
             }
 
             return true;
@@ -207,8 +207,8 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
 
             LocalScriptManager.CreateScript(SelectDepartment.originPage, "message('提示测试')", "redirectpage1");
 
-            //LocalScriptManager.CreateScript(SelectDepartment.originPage, String.Format("messageFunc('{0}', {1})","表格已成功提交", "function () {window.location.href='EmployeeVendor.aspx';}"), "redirectpage");
-            HttpContext.Current.Response.Redirect("EmployeeVendor.aspx");
+            //LocalScriptManager.CreateScript(SelectDepartment.originPage, String.Format("messageFunc('{0}', {1})","表格已成功提交", "function () {window.location.href='/VendorAssess/EmployeeVendor.aspx;}"), "redirectpage");
+            HttpContext.Current.Response.Redirect("/VendorAssess/EmployeeVendor.aspx");
             return true;
         }
         #endregion
@@ -310,7 +310,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
 
                 string fileTypeName = FormType_BLL.getFormNameByFormID(formID);
                 string factory = AddForm_BLL.getFactoryByFormID(formID);
-                string file = HttpContext.Current.Server.MapPath("../files/")+File_BLL.generateFileID(tempVendorID, fileTypeName, factory) + ".pdf";
+                string file = HttpContext.Current.Server.MapPath(LSetting.File_Path)+File_BLL.generateFileID(tempVendorID, fileTypeName, factory) + ".pdf";
 
                 Process p = Process.Start(pdf, url + " \"" + file + "\"");
                 p.WaitForExit();
@@ -398,6 +398,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             int rs1 = AssessFlow_BLL.updateApprove(formID, positionName);
             int rs2 = UpdateFlag_BLL.updateFlagWaitKCI(formTypeID, tempVendorID);
 
+            //添加KCI审批
             As_KCI_Approval kciApproval = new As_KCI_Approval();
             kciApproval.Form_ID = formID;
             kciApproval.Temp_Vendor_ID = tempVendorID;
@@ -407,22 +408,23 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             kciApproval.Form_Type_Name = FormType_BLL.getFormNameByTypeID(formTypeID);
             int rs3 = KCIApproval_BLL.addKCIApproval(kciApproval);
 
+            //判断结果
             if (rs1 > 0 && rs2 > 0 && rs3 > 0)
             {
+                //日志
                 LocalLog.writeLog(formID, String.Format("系统内部审批完成,KCI审批已添加，正在等待KCI审批结果    时间：{0}", DateTime.Now), As_Write.APPROVE_SUCCESS, tempVendorID);
 
-                As_Employee ae = Employee_BLL.getEmolyeeById(HttpContext.Current.Session["Employee_ID"].ToString());
-
+                //邮件通知
+                As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID));
                 LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "等待审批", DateTime.Now.ToString(), "系统内部审批已完成，正在等待KCI审批结果，请获取KCI审批结果后登录系统更新KCI审批信息");
 
+                //提示，并生成文件，写入系统，返回刷新
                 string fileTypeName = FormType_BLL.getFormNameByFormID(formID);
                 string factory = AddForm_BLL.getFactoryByFormID(formID);
                 string file = File_BLL.generateFileID(tempVendorID, fileTypeName, factory) + ".pdf";
-
-                //提示，并生成文件，写入系统，返回刷新
                 LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){document.location.href = document.URL;}"), "testid");
 
-                //LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){" + String.Format("takeScreenshot('{0}','{1}');", file, formID) + "}"), "testid");
+                //返回
                 return true;
             }
             return false;
@@ -482,16 +484,20 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             }
             if (rs1 > 0 && rs2 > 0 && rs3 > 0)
             {
+                //日志
                 LocalLog.writeLog(formID, String.Format("系统内部审批完成,表格审批完成    时间：{0}", DateTime.Now), As_Write.APPROVE_SUCCESS, tempVendorID);
 
-                As_Employee ae = Employee_BLL.getEmolyeeById(HttpContext.Current.Session["Employee_ID"].ToString());
+                //邮件通知
+                As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID));
                 LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "审批完成", DateTime.Now.ToString(), "系统内部审批完成,表格审批完成");
 
+                //提示
                 string fileTypeName = FormType_BLL.getFormNameByFormID(formID);
                 string factory = AddForm_BLL.getFactoryByFormID(formID);
                 string file = File_BLL.generateFileID(tempVendorID, fileTypeName, factory) + ".pdf";
                 LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){document.location.href = document.URL;}"), "testid");
-                //LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){"+ String.Format("takeScreenshot('{0}','{1}');", file, formID) + "}"), "testid");
+
+                //返回
                 return true;
             }
             return false;
