@@ -1,6 +1,7 @@
 ﻿using BLL;
 using BLL.VendorAssess;
 using Model;
+using MODEL;
 using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
 using System.Collections.Generic;
@@ -136,20 +137,9 @@ namespace SHZSZHSUPPLY.VendorAssess
                 Session["tempVendorID"] = tempVendorID;
 
                 //点击不同表格进入到不同界面.
-                switchPage(e.CommandArgument.ToString(), tempVendorID);
+                Response.Redirect("/VendorAssess/" + PageSelect.dcEditToShow[e.CommandArgument.ToString()] + "?type=" + e.CommandArgument.ToString());
             }
         }
 
-        private void switchPage(string commandArgument, string tempVendorID)
-        {
-            switch (commandArgument)
-            {
-                case "018":
-                    Response.Redirect("VendorSelection.aspx?type=018");
-                    break;
-                default:
-                    break;
-            }
-        }
     }
 }

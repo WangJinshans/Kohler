@@ -282,7 +282,7 @@
                         <asp:TextBox ID="TextBox24" runat="server" CssClass="auto-style1" Width="313px" ReadOnly="True"></asp:TextBox></td>
                 </tr>
             </table>
-            <table class="gridtable" style="margin: 0 auto; width: 1000px; border-collapse: collapse;">
+            <table class="gridtable" style="margin: 0 auto;margin-bottom:50px; width: 1000px; border-collapse: collapse;">
                 <tr>
                     <td>
 

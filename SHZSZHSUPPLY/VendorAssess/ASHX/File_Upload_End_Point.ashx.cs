@@ -1,6 +1,7 @@
 ﻿using BLL;
 using Model;
 using MODEL.VendorAssess;
+using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -67,7 +68,7 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             string fileTypeID = Properties.Settings.Default.File_Type_ID_KCI;
             string factoryName = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
             string fileID = tempVendorID + File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(fileTypeID,factoryName);
-            string path = HttpContext.Current.Server.MapPath("../../files/") + fileID + ".pdf";
+            string path = HttpContext.Current.Server.MapPath(LSetting.File_Path) + fileID + ".pdf";
             postFile.SaveAs(path);
 
 
@@ -145,7 +146,7 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             string factoryName = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
             string fileInfo = File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(fileTypeID,factoryName);
             string fileID = tempVendorID + fileInfo;
-            string path = HttpContext.Current.Server.MapPath("../../files/") + fileID + ".pdf";
+            string path = HttpContext.Current.Server.MapPath(LSetting.File_Path) + fileID + ".pdf";
 
             As_File file = new As_File();
             file.File_Path = path;
@@ -200,7 +201,6 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
         public string newUuid { get; set; }
         public string error { get; set; }
         public string message { get; set; }
-
         public int status { get; set; }
     }
 }

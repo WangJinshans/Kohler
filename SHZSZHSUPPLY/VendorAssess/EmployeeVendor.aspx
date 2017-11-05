@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="EmployeeVendor.aspx.cs" Inherits="AendorAssess.EmployeeVendor" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="EmployeeVendor.aspx.cs" MaintainScrollPositionOnPostback="true" Inherits="AendorAssess.EmployeeVendor" %>
 
 <!DOCTYPE html>
 
@@ -11,12 +11,12 @@
     <title></title>
 
     <style>
-        .url-enable{
-            color:dodgerblue;
-            text-decoration:underline;
+        .url-enable {
+            color: dodgerblue;
+            text-decoration: underline;
         }
-        .url-disable{
 
+        .url-disable {
         }
     </style>
 
@@ -30,7 +30,7 @@
         }
 
         layui.use(['form', 'layedit', 'laydate', 'element'], function () {
-            var form = layui.form()      
+            var form = layui.form()
             , layer = layui.layer
             , layedit = layui.layedit
             , laydate = layui.laydate
@@ -42,11 +42,7 @@
             });
         });
         function onSelect(data) {
-            currentFactory = document.getElementById('factory').selectedIndex;
-            currentType = document.getElementById('type').selectedIndex;
-            currentName = document.getElementById('name').selectedIndex;
-            storageParams();
-
+            
             switch (data.elem.id) {
                 case 'factory':
                     onFactorySelectChanged();
@@ -55,6 +51,10 @@
                     onVendorTypeSelectChanged();
                     break;
                 case 'name':
+                    currentFactory = document.getElementById('factory').selectedIndex;
+                    currentType = document.getElementById('type').selectedIndex;
+                    currentName = document.getElementById('name').selectedIndex;
+                    storageParams();
                     __myDoPostBack('refreshVendor', document.getElementById('name').value);
                     break;
                 default:
@@ -156,7 +156,7 @@
     <style></style>
     <form id="form1" class="layui-form" runat="server">
         <div class="layui-form-item" style="width: 1000px; margin: 0 auto">
-            <a href="./index.aspx" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px;visibility:hidden">返回</a>
+            <a href="./index.aspx" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px; visibility: hidden">返回</a>
             <label class="layui-form-label">供应商选择</label>
             <div class="layui-input-inline">
                 <select id="factory" name="quiz1" onchange="onFactorySelectChanged()">
@@ -189,7 +189,7 @@
                 <fieldset class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
                     <legend id="Legend2" runat="server">待填写表格</legend>
                 </fieldset>
-                <asp:GridView Style="width:1000px; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView2" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView2_RowCommand" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4">
+                <asp:GridView Style="width: 1000px; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView2" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView2_RowCommand" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4">
                     <Columns>
                         <asp:BoundField DataField="Prority" HeaderText="填写顺序"
                             SortExpression="Prority" Visible="TRUE" />
@@ -227,16 +227,66 @@
                 </asp:GridView>
             </div>
             <div>
-                <fieldset class="layui-elem-field layui-field-title" style="width:1000px; margin: 50px auto 20px auto;">
-                    <legend id="Legend1" runat="server">已提交表格</legend>
+                <fieldset runat="server" id="Legend3" class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
+                    <legend>等待其他部门填写的表格</legend>
                 </fieldset>
-                <asp:GridView Style="width:1000px; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView3" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView3_RowCommand" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4" >
+                <asp:GridView Style="width: 1000px; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView3_RowCommand" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4">
                     <Columns>
                         <asp:BoundField DataField="Temp_Vendor_Name" HeaderText="供应商名称"
                             SortExpression="Temp_Vendor_Name" />
                         <asp:BoundField DataField="Form_Type_Name" HeaderText="表格名称"
                             SortExpression="Form_Type_Name" />
                         <asp:BoundField DataField="Form_ID" HeaderText="表格编号" SortExpression="Form_ID" />
+
+                        <asp:TemplateField HeaderText="状态">
+                            <ItemTemplate>
+                                <asp:Label runat="server" Text="填写中" ForeColor="Orange"></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:BoundField DataField="Form_Type_ID" HeaderText="表格类型编号"
+                            SortExpression="Form_Type_ID" Visible="False" />
+                        <asp:BoundField DataField="DepotSummary" HeaderText="DepotSummary"
+                            SortExpression="DepotSummary" Visible="False" />
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:LinkButton ID="lbtShowDetails" runat="server" CommandName="showDetails"
+                                    CommandArgument='<%# Eval("Form_Type_ID") %>'>查看</asp:LinkButton>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+
+
+                    </Columns>
+                    <FooterStyle BackColor="#FFF" ForeColor="#330099" />
+                    <%--<HeaderStyle BackColor="#04A5C2" Font-Bold="True" ForeColor="#FEFEFE" />--%>
+                    <HeaderStyle BackColor="#507CD1" Font-Bold="true" ForeColor="White" />
+                    <PagerStyle BackColor="#FFFFCC" ForeColor="#330099" HorizontalAlign="Center" />
+                    <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="#663399" />
+                    <SortedAscendingCellStyle BackColor="#FEFCEB" />
+                    <SortedAscendingHeaderStyle BackColor="#AF0101" />
+                    <SortedDescendingCellStyle BackColor="#F6F0C0" />
+                    <SortedDescendingHeaderStyle BackColor="#7E0000" />
+                </asp:GridView>
+            </div>
+            <div>
+                <fieldset id="Legend1" runat="server" class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
+                    <legend>已提交表格</legend>
+                </fieldset>
+                <asp:GridView Style="width: 1000px; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView3" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView3_RowCommand" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4">
+                    <Columns>
+                        <asp:BoundField DataField="Temp_Vendor_Name" HeaderText="供应商名称"
+                            SortExpression="Temp_Vendor_Name" />
+                        <asp:BoundField DataField="Form_Type_Name" HeaderText="表格名称"
+                            SortExpression="Form_Type_Name" />
+                        <asp:BoundField DataField="Form_ID" HeaderText="表格编号" SortExpression="Form_ID" />
+
+                        <asp:TemplateField HeaderText="状态">
+                            <ItemTemplate>
+                                <asp:LinkButton ID="lbtFormStatus" runat="server" CommandName="showStatus"
+                                    CommandArgument='<%# Eval("Form_ID") %>' Text='<%# Eval("Assess_Status").ToString()=="0"?"正在审批":"审批完成" %>' ForeColor='<%# Eval("Assess_Status").ToString()=="0"?System.Drawing.Color.Orange:System.Drawing.Color.Green%>' />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+
+
                         <asp:BoundField DataField="Form_Type_ID" HeaderText="表格类型编号"
                             SortExpression="Form_Type_ID" Visible="False" />
                         <asp:BoundField DataField="DepotSummary" HeaderText="DepotSummary"
@@ -265,52 +315,59 @@
                 <fieldset class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
                     <legend id="vendorName" runat="server">文件上传</legend>
                 </fieldset>
-                <asp:GridView Style="width: 1000px; margin: 0 auto;" class="layui-table" lay-even="" lay-skin="nob" ID="GridView4" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView4_RowCommand" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="4">
-                    <Columns>
-                        <asp:BoundField DataField="id" HeaderText="id"
-                            SortExpression="id" Visible="False" />
-                        <asp:BoundField DataField="Temp_Vendor_ID" HeaderText="供应商编号"
-                            SortExpression="Temp_Vendor_ID" />
-                        <asp:BoundField DataField="FileType_ID" HeaderText="文件类型编号"
-                            SortExpression="FileType_ID" />
-                        <asp:TemplateField HeaderText="类型">
-                            <ItemTemplate>
-                                <asp:Label runat="server" Text='<%# Eval("File_Is_Necessary").ToString() == "TRUE" ?"必选":""%>'></asp:Label>
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                        <asp:BoundField DataField="File_Type_Range" HeaderText="范围"
-                            SortExpression="File_Type_Range" />
+                <asp:ScriptManager ID="scriptManager" runat="server"></asp:ScriptManager>
+                <asp:UpdatePanel ID="updatePanel" UpdateMode="Conditional" runat="server" ChildrenAsTriggers="false">
+                    <ContentTemplate>
+                        <asp:GridView Style="width: 1000px; margin: 0 auto; margin-bottom: 50px;" class="layui-table" lay-even="" lay-skin="nob" ID="GridView4" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView4_RowCommand" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="4">
+                            <Columns>
+                                <asp:BoundField DataField="id" HeaderText="id"
+                                    SortExpression="id" Visible="False" />
+                                <asp:BoundField DataField="Temp_Vendor_ID" HeaderText="供应商编号"
+                                    SortExpression="Temp_Vendor_ID" />
+                                <asp:BoundField DataField="FileType_ID" HeaderText="文件类型编号"
+                                    SortExpression="FileType_ID" />
+                                <asp:TemplateField HeaderText="类型">
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" Text='<%# Eval("File_Is_Necessary").ToString() == "TRUE" ?"必选":""%>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:BoundField DataField="File_Type_Range" HeaderText="范围"
+                                    SortExpression="File_Type_Range" />
+                                <asp:BoundField DataField="Item_Valid" HeaderText="有效期"
+                                    SortExpression="Item_Valid" />
 
-                        <asp:TemplateField HeaderText="文件类型名称">
-                            <ItemTemplate>
-                                <asp:LinkButton Enabled='<%# Eval("Flag").ToString() == "1"?true:false %>' CssClass='<%# Eval("Flag").ToString() == "1"?"url-enable":"url-disable" %>' Text='<%# Bind("FileType_Name") %>' ID="lbFileNameDetail" runat="server" CommandName="FileDetail" CommandArgument='<%# Eval("FileType_ID") %>' />
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                        <asp:BoundField DataField="DepotSummary" HeaderText="DepotSummary"
-                            SortExpression="DepotSummary" Visible="False" />
-                        <asp:TemplateField HeaderText="状态">
-                            <ItemTemplate>
-                                <img src="<%# Eval("Flag").ToString() == "1" ? "./Script/layui/images/check.png" : "" %>" />
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                        <asp:TemplateField HeaderText="动作">
-                            <ItemTemplate>
-                                <asp:LinkButton ID="lbtUpLoad" runat="server" CommandName='<%# Eval("Flag").ToString() == "1" ?"ReLoad" :"UpLoad" %>' CommandArgument='<%# Eval("FileType_ID") %>'><%# Eval("Flag").ToString()=="1"?"覆盖":"上传" %></asp:LinkButton>
-                            </ItemTemplate>
-                        </asp:TemplateField>
+                                <asp:TemplateField HeaderText="文件类型名称">
+                                    <ItemTemplate>
+                                        <asp:LinkButton Enabled='<%# Eval("Flag").ToString() == "1"?true:false %>' CssClass='<%# Eval("Flag").ToString() == "1"?"url-enable":"url-disable" %>' Text='<%# Bind("FileType_Name") %>' ID="lbFileNameDetail" runat="server" CommandName="FileDetail" CommandArgument='<%# Eval("FileType_ID") %>' />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:BoundField DataField="DepotSummary" HeaderText="DepotSummary"
+                                    SortExpression="DepotSummary" Visible="False" />
+                                <asp:TemplateField HeaderText="状态">
+                                    <ItemTemplate>
+                                        <img src="<%# Eval("Flag").ToString() == "1" ? "./Script/layui/images/check.png" : "" %>" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="动作">
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="lbtUpLoad" runat="server" CommandName='<%# Eval("Flag").ToString() == "1" ?"ReLoad" :"UpLoad" %>' CommandArgument='<%# Eval("FileType_ID") %>'><%# Eval("Flag").ToString()=="1"?"覆盖":"上传" %></asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
 
 
-                    </Columns>
-                    <FooterStyle BackColor="#CCCC99" ForeColor="Black" />
-                    <%--<HeaderStyle BackColor="#333333" Font-Bold="True" ForeColor="White" />--%>
-                    <HeaderStyle BackColor="#507CD1" Font-Bold="true" ForeColor="White" />
-                    <PagerStyle BackColor="White" ForeColor="Black" HorizontalAlign="Center" />
-                    <SelectedRowStyle BackColor="#CC3333" Font-Bold="True" ForeColor="White" />
-                    <SortedAscendingCellStyle BackColor="#F7F7F7" />
-                    <SortedAscendingHeaderStyle BackColor="#4B4B4B" />
-                    <SortedDescendingCellStyle BackColor="#E5E5E5" />
-                    <SortedDescendingHeaderStyle BackColor="#242121" />
-                </asp:GridView>
+                            </Columns>
+                            <FooterStyle BackColor="#CCCC99" ForeColor="Black" />
+                            <%--<HeaderStyle BackColor="#333333" Font-Bold="True" ForeColor="White" />--%>
+                            <HeaderStyle BackColor="#507CD1" Font-Bold="true" ForeColor="White" />
+                            <PagerStyle BackColor="White" ForeColor="Black" HorizontalAlign="Center" />
+                            <SelectedRowStyle BackColor="#CC3333" Font-Bold="True" ForeColor="White" />
+                            <SortedAscendingCellStyle BackColor="#F7F7F7" />
+                            <SortedAscendingHeaderStyle BackColor="#4B4B4B" />
+                            <SortedDescendingCellStyle BackColor="#E5E5E5" />
+                            <SortedDescendingHeaderStyle BackColor="#242121" />
+                        </asp:GridView>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
             </div>
         </div>
     </form>

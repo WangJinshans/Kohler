@@ -136,6 +136,10 @@ namespace BLL.VendorAssess
             {
                 table = "As_Bidding_Approval_Form";
             }
+            else if (formID.Contains("Selection"))
+            {
+                table = "As_Vendor_Selection";
+            }
             return table;
         }
 

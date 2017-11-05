@@ -110,6 +110,48 @@ namespace DAL
             return Convert.ToInt32(paramReturn.Value);
         }
 
+        public static string getNormalCode(string tempVendorID)
+        {
+            string sql = "select Normal_Vendor_ID from As_Temp_Vendor Where Temp_Vendor_ID=@ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@ID",tempVendorID)
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                return dt.Rows[0]["Normal_Vendor_ID"].ToString();
+            }
+            return "";
+        }
+
+        public static As_Temp_Vendor getTempVendor(string tempVendorID)
+        {
+            As_Temp_Vendor tempVendor = null;
+            string sql = "Select * From As_Temp_Vendor Where Temp_Vendor_ID=@Temp_Vendor_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("Temp_Vendor_ID",tempVendorID)
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                tempVendor = new As_Temp_Vendor();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    tempVendor.Temp_Vendor_Name = dr["Temp_Vendor_Name"].ToString();
+                    tempVendor.Vendor_Type_ID = dr["Vendor_Type_ID"].ToString();
+                    tempVendor.Normal_Vendor_ID = dr["Normal_Vendor_ID"].ToString();
+                    tempVendor.Temp_Vendor_ID = tempVendorID;
+                    tempVendor.Purchase_Amount = Convert.ToInt32(dr["Purchase_Amount"]);
+                    tempVendor.SH = dr["SH"].ToString();
+                    tempVendor.ZS = dr["ZS"].ToString();
+                    tempVendor.ZH = dr["ZH"].ToString();
+                }
+            }
+            return tempVendor;
+        }
+
         public static int addBindVendorFormAndFile(string tempVendorID, bool promise, bool assign, bool charge, string money,string factory)
         {
             SqlCommand cmd = new SqlCommand("newVendorProcedure", DBHelp.Connection);

@@ -23,7 +23,20 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             if (!IsPostBack)
             {
+                //读取列表
                 readVendorInfo();
+
+                //处理get请求
+                if (Request.QueryString["formID"] != null && Request.QueryString["formID"] != "")
+                {
+                    formName.InnerText = Request.QueryString["formID"];
+                    showDetail(Request.QueryString["formID"]);
+                }
+                else
+                {
+                    //恢复现场
+                    LocalScriptManager.CreateScript(Page, "recoverSelectData()", "recoverInfo");
+                }
             }
             else
             {
@@ -44,6 +57,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     default:
                         break;
                 }
+
             }
         }
 
@@ -85,7 +99,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             //检查是否可转移
             string factory = Session["Factory_Name"].ToString();
             string employee_ID = Session["Employee_ID"].ToString();
-            if (File_Transform_BLL.checkFormSubmit(tempVendorID,factory) && AddEmployeeVendor_BLL.hasEmployeeID(tempVendorID,employee_ID) && File_Transform_BLL.FormAccessSuccessFul(tempVendorID,factory))
+            if (File_Transform_BLL.checkFormSubmit(tempVendorID, factory) && AddEmployeeVendor_BLL.hasEmployeeID(tempVendorID, employee_ID) && File_Transform_BLL.FormAccessSuccessFul(tempVendorID, factory))
             {
                 btnTransfer.Enabled = true;
                 btnTransfer.CssClass = "layui-btn";
@@ -95,7 +109,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 btnTransfer.Enabled = false;
                 btnTransfer.CssClass = "layui-btn layui-btn-disabled";
-                btnTransfer.ToolTip = "无法转移，请等待审批完毕或此账户无权限";
+                btnTransfer.ToolTip = "无法转移，此账号无权限操作或仍然有表单未审批完成";
             }
         }
 
@@ -105,16 +119,21 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
                 formName.InnerText = GridView3.Rows[drv.RowIndex].Cells[1].Text;
-
-                string normal = ApprovalProgress_BLL.readFormNormalInfo(e.CommandArgument.ToString());
-                string exception = ApprovalProgress_BLL.readFormExceptionInfo(e.CommandArgument.ToString());
-
-                normalInfoDetail.InnerHtml = normal;
-                exceptionInfoDetail.InnerHtml = exception;
-
-                Random rd = new Random();
-                LocalScriptManager.CreateScript(Page, String.Format("setFormProgress('{0}')", rd.Next(10, 101)), "setformprogress");
+                showDetail(e.CommandArgument.ToString());
             }
+        }
+
+        private void showDetail(string formID)
+        {
+            string normal = ApprovalProgress_BLL.readFormNormalInfo(formID);
+            string exception = ApprovalProgress_BLL.readFormExceptionInfo(formID);
+
+            normalInfoDetail.InnerHtml = normal;
+            exceptionInfoDetail.InnerHtml = exception;
+
+            Random rd = new Random();
+            LocalScriptManager.CreateScript(Page, String.Format("setFormProgress('{0}')", rd.Next(10, 101)), "setformprogress");
+
         }
 
         protected void btnTransfer_Click(string code)
@@ -131,7 +150,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             string factory = Session["Factory_Name"].ToString();
             string tempVendorID = Request.Form["quiz3"];
 
-            if (!File_Transform_BLL.checkFileSubmit(tempVendorID,factory))
+            if (!File_Transform_BLL.checkFileSubmit(tempVendorID, factory))
             {
                 LocalScriptManager.CreateScript(Page, "message('请补充上传所有“必须”类型的文件')", "filemsg");
             }
@@ -170,18 +189,18 @@ namespace SHZSZHSUPPLY.VendorAssess
                 }
                 else if (transferResult.Equals(File_Transform_BLL.CODE_EXIST))
                 {
-                    LocalScriptManager.CreateScript(Page, "message('已将最新的文件更新到供应商管理系统，"+transferResult+"')", "filemsg1");
+                    LocalScriptManager.CreateScript(Page, "message('已将最新的文件更新到供应商管理系统，" + transferResult + "')", "filemsg1");
                 }
                 else
                 {
-                    LocalScriptManager.CreateScript(Page, "message('"+transferResult+"')", "filemsg1");
+                    LocalScriptManager.CreateScript(Page, "message('" + transferResult + "')", "filemsg1");
                 }
             }
         }
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            
+
         }
     }
 }

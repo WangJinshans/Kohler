@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using MODEL.VendorAssess;
 using System.Data;
+using System.Web;
 
 namespace DAL.VendorAssess
 {
@@ -27,10 +28,11 @@ namespace DAL.VendorAssess
 
         public static As_Edit_Flow getEditFlow(string fORM_TYPE_ID)
         {
-            string sql = "select * from As_Edit_Flow where Form_Type_ID=@Form_Type_ID";
+            string sql = "select * from As_Edit_Flow where Form_Type_ID=@Form_Type_ID and Factory_Name=@Factory_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("@Form_Type_ID",fORM_TYPE_ID)
+                new SqlParameter("@Form_Type_ID",fORM_TYPE_ID),
+                new SqlParameter("@Factory_Name",HttpContext.Current.Session["Factory_Name"].ToString())
             };
             DataTable tb = DBHelp.GetDataSet(sql, sp);
             if (tb.Rows.Count > 0)

@@ -325,7 +325,7 @@
                 </td>
             </tr>
         </table>
-        <table class="gridtable" style="margin: auto; width: 1000px; border-collapse: collapse;">
+        <table class="gridtable" style="margin: auto;margin-bottom:50px; width: 1000px; border-collapse: collapse;">
             <tr>
                 <td>
                     <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">

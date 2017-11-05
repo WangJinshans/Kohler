@@ -170,10 +170,10 @@
                     SortExpression="File_ID" Visible="false" />
                 <asp:BoundField DataField="DepotSummary" HeaderText="DepotSummary"
                     SortExpression="DepotSummary" Visible="False" />
-                <asp:TemplateField>
+                <asp:TemplateField ControlStyle-ForeColor="Blue" ControlStyle-Font-Underline="true">
                     <ItemTemplate>
                         <asp:LinkButton ID="lbtShowDetails" runat="server" CommandName="showDetails"
-                            CommandArgument='<%# Eval("File_ID") %>'>详情</asp:LinkButton>
+                            CommandArgument='<%# Eval("File_Name") %>'>详情</asp:LinkButton>
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>

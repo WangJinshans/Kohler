@@ -24,6 +24,14 @@ namespace DAL
                     form.Temp_Vendor_Name = Convert.ToString(dr["Temp_Vendor_Name"]);
                     form.Form_ID = Convert.ToString(dr["Form_ID"]);
                     form.Form_Type_ID = Convert.ToString(dr["Form_Type_ID"]);
+                    try
+                    {
+                        form.Assess_Status = dr["Assess_Status"].ToString();
+                    }
+                    catch (Exception)
+                    {
+
+                    }
                     list.Add(form);
                 }
             }

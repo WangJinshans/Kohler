@@ -42,12 +42,37 @@ namespace SHZSZHSUPPLY.VendorAssess
             return jss.Serialize(suppliers[sequence]);
         }
 
+        private void hideImage(string signature, Image image)
+        {
+            if (signature != "")
+            {
+                image.Visible = true;
+                image.ImageUrl = signature;
+            }
+            else
+            {
+                image.Visible = false;
+            }
+        }
+
+        /// <summary>
+        /// 隐藏suo'y
+        /// </summary>
+        private void hideAllImage()
+        {
+            for (int i = 1; i <= 12; i++)
+            {
+                ((Image)Controls[3].FindControl("Image" + i)).Visible = false;
+            }
+        }
+
         /// <summary>
         /// 显示表格
         /// </summary>
         private void showVendorSelection()
         {
             string[] strArray = { "one", "two", "three", "four", "five" };
+            hideAllImage();
 
             //初始化表格数据源
             As_Vendor_Selection vendorSelection = VendorSelection_BLL.checkFlag(formID);
@@ -65,6 +90,10 @@ namespace SHZSZHSUPPLY.VendorAssess
                 txbThree.Text = vendorSelection.Supplier_Three_ID;
                 txbFour.Text = vendorSelection.Supplier_Four_ID;
                 txbFive.Text = vendorSelection.Supplier_Five_ID;
+                txbRecommend.Text = vendorSelection.Recommend;
+                hideImage(vendorSelection.Quality_Dept_Manager, Image8);
+                hideImage(vendorSelection.Purchasing_Manager, Image2);
+                hideImage(vendorSelection.Finance_Leader, Image11);
             }
 
             //更新supplier数据
@@ -206,7 +235,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             string fileID = GridView2.Rows[drv.RowIndex].Cells[1].Text.ToString().Trim();//获取fileID
             if (e.CommandName == "view")
             {
-                string filePath = "../files/" + fileID + ".pdf";
+                string filePath = LSetting.File_Path + fileID + ".pdf";
                 if (filePath != "")
                 {
                     ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>viewFile('" + filePath + "');</script>");

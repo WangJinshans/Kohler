@@ -43,6 +43,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     vendorRisk.Supplier = tempVendorName;
                     vendorRisk.Flag = 0;
                     vendorRisk.Factory_Name = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString());
+                    vendorRisk.Annual_Spend = TempVendor_BLL.getTempVendor(tempVendorID).Purchase_Amount.ToString();
                     int n = VendorRiskAnalysis_BLL.addVendorRisk(vendorRisk);
                     if (n == 0)
                     {
@@ -58,6 +59,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                         bindingFormWithFile();
                         showfilelist(formID);
                     }
+                    showVendorRiskAnalysis();
                 }
                 else
                 {
@@ -130,6 +132,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 setSelected(vendorRisk.Financial, new[] { RadioButton40, RadioButton41, RadioButton42 });
                 setSelected(vendorRisk.Kohler_Forward_Plan, new[] { RadioButton43, RadioButton44, RadioButton45 });
                 setSelected(vendorRisk.Supplier_Forward_Plan, new[] { RadioButton46, RadioButton47, RadioButton48 });
+                setSelected(vendorRisk.Price, new[] { RadioButton94, RadioButton95, RadioButton96 });
                 setSelected(vendorRisk.Change_Of_Source, new[] { RadioButton49, RadioButton50, RadioButton51 });
                 setSelected(vendorRisk.Annual_Shutdown, new[] { RadioButton52, RadioButton53, RadioButton54 });
                 setSelected(vendorRisk.Computer_Systems, new[] { RadioButton55, RadioButton56, RadioButton57 });
@@ -200,7 +203,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             vendorRisk.Part_No = txbPartNo.Text.Trim();
             vendorRisk.Manufacturer = TextBox1.Text.Trim();
             vendorRisk.Where_Used = txbWhereUsed.Text.Trim();
-            vendorRisk.Annual_Spend = Convert.ToDouble(TextBox2.Text.Trim());
+            vendorRisk.Annual_Spend = TextBox2.Text.Trim();
             vendorRisk.Overall_Risk_Category = Convert.ToByte(getSelected(new[] { RadioButton1, RadioButton2, RadioButton3 }));
             vendorRisk.General_Assessment = TextBox3.Text.Trim();
             vendorRisk.Contingency_Plan = TextBox4.Text.Trim();
@@ -232,6 +235,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             vendorRisk.Financial = Convert.ToByte(getSelected(new[] { RadioButton40, RadioButton41, RadioButton42 }));
             vendorRisk.Kohler_Forward_Plan = Convert.ToByte(getSelected(new[] { RadioButton43, RadioButton44, RadioButton45 }));
             vendorRisk.Supplier_Forward_Plan = Convert.ToByte(getSelected(new[] { RadioButton46, RadioButton47, RadioButton48 }));
+            vendorRisk.Price = Convert.ToByte(getSelected(new[] { RadioButton94, RadioButton95, RadioButton96 }));
             vendorRisk.Change_Of_Source = Convert.ToByte(getSelected(new[] { RadioButton49, RadioButton50, RadioButton51 }));
             vendorRisk.Annual_Shutdown = Convert.ToByte(getSelected(new[] { RadioButton52, RadioButton53, RadioButton54 }));
             vendorRisk.Computer_Systems = Convert.ToByte(getSelected(new[] { RadioButton55, RadioButton56, RadioButton57 }));
@@ -294,7 +298,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             if (LocalApproveManager.doAddApprove(formId, FORM_NAME, FORM_TYPE_ID, tempVendorID))
             {
-                Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx'</script>");
+                Response.Write("<script>window.alert('提交成功！');window.location.href='/VendorAssess/EmployeeVendor.aspx</script>");
             }
         }
 

@@ -35,5 +35,29 @@ namespace DAL
             };
             return DBHelp.GetDataSet(sql, sp);
         }
+
+        public static As_Employee_Vendor get(string tempVendorID)
+        {
+            string sql = "Select * From As_Employee_Vendor Where Temp_Vendor_ID=@Temp_Vendor_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Temp_Vendor_ID",tempVendorID)
+            };
+            As_Employee_Vendor ae = null;
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0) 
+            {
+                ae = new As_Employee_Vendor();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    ae.Employee_ID = dr["Employee_ID"].ToString();
+                    ae.Temp_Vendor_ID = tempVendorID;
+                    ae.Vendor_Type_ID = dr["Vendor_Type_ID"].ToString();
+                    ae.Temp_Vendor_Name = dr["Temp_Vendor_Name"].ToString();
+                    ae.Type = dr["Type"].ToString();
+                }
+            }
+            return ae;
+        }
     }
 }

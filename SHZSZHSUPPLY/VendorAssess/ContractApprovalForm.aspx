@@ -141,6 +141,7 @@
 			border: 0px;
 			overflow: hidden;
 			width: 100%;
+            height:100%;
 			text-align: center;
             border-top-style:none;
             border-right-style:none;
@@ -166,9 +167,10 @@
              overflow: hidden;
              text-align: center;
              width:100%;
+             height:100%;
          }
 		 .auto-style2 {
-             height: 12px;
+             height: 100%;
          }
 		 .auto-style3 {
              height: 10px;
@@ -199,7 +201,7 @@
                     <td colspan="1" rowspan="1" style="border:none;font-size:small;" class="auto-style3">Capital</td>
                     <td colspan="3" rowspan="1" style="border-collapse:collapse;border-bottom:0;border-right:0;font-size:small;" class="auto-style3">
                         <asp:Label Text="Contract Subject:" runat="server" BorderStyle="None"  /></td>
-                    <td colspan="3" rowspan="2" style="border-collapse:collapse;border-top:0;border-left:0;"><asp:TextBox runat="server" ID="Textbox5" BorderStyle="None"/></td>
+                    <td colspan="3" rowspan="2" style="border-collapse:collapse;border-top:0;border-left:0;"><asp:TextBox CssClass="auto-style1" runat="server" ID="Textbox5" BorderStyle="None"/></td>
                     <td colspan="2" rowspan="1" style="border-bottom:0;border-right:0;" class="auto-style3">
                         <asp:Label Text="Vendor Name:" runat="server"  /></td>
                     <td colspan="4" rowspan="2" style="border-left:0;border-bottom:0;"><asp:TextBox runat="server" ID="Textbox8" CssClass="auto-style1" BorderStyle="None"/></td>
@@ -269,7 +271,7 @@
                     <td colspan="4" style="text-align:center">Approve by 批准人</td>
                 </tr>
                 <tr>
-                    <td colspan="16"><asp:TextBox runat="server" ID="Textbox4" BorderStyle="None" style="width:100%"/></td>
+                    <td colspan="16"><asp:TextBox runat="server" CssClass="auto-style2" ID="Textbox4" BorderStyle="None" style="width:100%"/></td>
                     <td colspan="2">
                         <asp:Image ImageUrl="imageurl" ID="Image8" runat="server" /></td>
                     <td colspan="2" style="text-align:center">User Dept Head<br>使用部门领导</td>
@@ -549,7 +551,7 @@
                     <td colspan="3" style="border-bottom:0;border-top:0;"></td>
                 </tr>
             </table>
-         <div style="text-align:center">
+         <div style="text-align:center;margin-bottom:50px">
             <asp:Button ID="Button1" runat="server" Text="提交" CssClass="layui-btn" OnClick="Button1_Click"/>&nbsp;&nbsp;&nbsp;&nbsp;
             <asp:Button ID="Button2" runat="server" Text="保存" CssClass="layui-btn layui-btn-normal" OnClick="Button2_Click" />&nbsp;&nbsp;&nbsp;&nbsp;
             <asp:Button ID="Button3" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Button3_Click" />

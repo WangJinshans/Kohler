@@ -41,6 +41,7 @@ namespace DAL
         {
             SqlCommand cmd = new SqlCommand(safeSql, Connection);
             int result = cmd.ExecuteNonQuery();
+            cmd.Dispose();
             return result;
         }
 
@@ -50,10 +51,13 @@ namespace DAL
             cmd.Parameters.AddRange(values);
             try
             {
-                return cmd.ExecuteNonQuery();
+                int result = cmd.ExecuteNonQuery();
+                cmd.Dispose();
+                return result;
             }
             catch (Exception)
             {
+                cmd.Dispose();
                 return 0;
             }
         }
@@ -62,6 +66,7 @@ namespace DAL
         {
             SqlCommand cmd = new SqlCommand(safeSql, Connection);
             int result = Convert.ToInt32(cmd.ExecuteScalar());
+            cmd.Dispose();
             return result;
         }
 
@@ -70,6 +75,7 @@ namespace DAL
             SqlCommand cmd = new SqlCommand(sql, Connection);
             cmd.Parameters.AddRange(values);
             int result = Convert.ToInt32(cmd.ExecuteScalar());
+            cmd.Dispose();
             return result;
         }
 
@@ -79,6 +85,7 @@ namespace DAL
             cmd.Parameters.AddRange(values);
             //int result = Convert.ToInt32(cmd.ExecuteScalar());
             int result = cmd.ExecuteNonQuery();
+            cmd.Dispose();
             return result;
         }
 

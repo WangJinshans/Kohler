@@ -241,7 +241,7 @@ namespace VendorAssess
         //    {
         //        Session["tempvendorname"] = tempVendorName;
         //        Session["Employee_ID"] = Session["Employee_ID"];
-        //        Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx'</script>");
+        //        Response.Write("<script>window.alert('提交成功！');window.location.href='/VendorAssess/EmployeeVendor.aspx</script>");
         //    }
         //}
 

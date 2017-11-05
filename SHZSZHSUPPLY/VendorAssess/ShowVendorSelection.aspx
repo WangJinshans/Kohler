@@ -984,7 +984,46 @@
                 </tr>
             </table>
         </div>
-        <div>
+
+        <div style="margin:0 auto;margin-top:50px;width:1000px;height:80px">
+            We recommend<asp:TextBox ReadOnly="true" ID="txbRecommend" runat="server" TextMode="MultiLine" style="width:100%"></asp:TextBox>
+        </div>
+        <table style="width:1000px;margin:0 auto">
+            <tr>
+                <td>Purchasing Dept</td>
+                <td><asp:Image ImageUrl="imageurl" ID="Image1" runat="server" /></td>
+                <td>Manager</td>
+                <td><asp:Image ImageUrl="imageurl" ID="Image2" runat="server" /></td>
+                <td>Department Header</td>
+                <td><asp:Image ImageUrl="imageurl" ID="Image3" runat="server" /></td>
+            </tr>
+            <tr>
+                <td>Engineering Dept</td>
+                <td><asp:Image ImageUrl="imageurl" ID="Image4" runat="server" /></td>
+                <td>Manager</td>
+                <td><asp:Image ImageUrl="imageurl" ID="Image5" runat="server" /></td>
+                <td>Department Header</td>
+                <td><asp:Image ImageUrl="imageurl" ID="Image6" runat="server" /></td>
+            </tr>
+            <tr>
+                <td>Quality Dept</td>
+                <td><asp:Image ImageUrl="imageurl" ID="Image7" runat="server" /></td>
+                <td>Manager</td>
+                <td><asp:Image ImageUrl="imageurl" ID="Image8" runat="server" /></td>
+                <td>Department Header</td>
+                <td><asp:Image ImageUrl="imageurl" ID="Image9" runat="server" /></td>
+            </tr>
+            <tr>
+                <td>Finance Dept</td>
+                <td><asp:Image ImageUrl="imageurl" ID="Image10" runat="server" /></td>
+                <td>Manager</td>
+                <td><asp:Image ImageUrl="imageurl" ID="Image11" runat="server" /></td>
+                <td>Department Header</td>
+                <td><asp:Image ImageUrl="imageurl" ID="Image12" runat="server" /></td>
+            </tr>
+        </table>
+
+        <div style="margin-bottom:50px">
             <table class="gridtable" style="margin: auto;width:1000px; border-collapse: collapse; ">
                 <tr>
                     <td>

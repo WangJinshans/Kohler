@@ -106,6 +106,7 @@ namespace DAL
         {
             As_File File = null;
             string sql = "select File_ID from As_File where File_Type_ID=@File_Type_ID and Temp_Vendor_ID=@Temp_Vendor_ID and Factory_Name in (@Factory_Name,'ALL')";
+            string sql2 = "select File_ID from View_File where File_Type_ID=@File_Type_ID and Normal_Vendor_ID=@Normal_Vendor_ID and Factory_Name in (@Factory_Name,'ALL')";
             //string sql = "select File_ID from As_NewFiles_ID where File_Type_ID=@File_Type_ID and Temp_Vendor_ID=@Temp_Vendor_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
@@ -113,11 +114,27 @@ namespace DAL
                 new SqlParameter("@Temp_Vendor_ID",tempVendorID),
                 new SqlParameter("@Factory_Name",factory)
             };
+            SqlParameter[] sp2 = new SqlParameter[]
+            {
+                new SqlParameter("@File_Type_ID",filetypeid),
+                new SqlParameter("@Normal_Vendor_ID",TempVendor_DAL.getNormalCode(tempVendorID)),
+                new SqlParameter("@Factory_Name",factory)
+            };
+
             DataTable dt = DBHelp.GetDataSet(sql, sp);
-            if(dt.Rows.Count>0)
+            DataTable dt2 = DBHelp.GetDataSet(sql2, sp2);
+            if (dt.Rows.Count>0)
             {
                 File = new As_File();
                 foreach(DataRow dr in dt.Rows)
+                {
+                    File.File_ID = Convert.ToString(dr["File_ID"]);
+                }
+            }
+            else if (dt2.Rows.Count>0)
+            {
+                File = new As_File();
+                foreach (DataRow dr in dt2.Rows)
                 {
                     File.File_ID = Convert.ToString(dr["File_ID"]);
                 }
@@ -140,9 +157,11 @@ namespace DAL
                     Vendor_FileType.FileType_Name = Convert.ToString(dr["FileType_Name"]);
                     Vendor_FileType.File_Is_Necessary = Convert.ToString(dr["File_Is_Necessary"]);
                     Vendor_FileType.Flag = Convert.ToInt32(dr["flag"]);
+                    Vendor_FileType.Item_Valid = Convert.ToString(dr["Item_Valid"]);
                     list.Add(Vendor_FileType);
                 }
             }
+            dt.Dispose();
             return list;
         }
 
@@ -163,9 +182,18 @@ namespace DAL
             return list;
         }
 
+        /// <summary>
+        /// 查询是否有此文件，另外如果是复用的状态下，需要使用sql2进行查询
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <param name="filetypeid"></param>
+        /// <param name="factory"></param>
+        /// <returns></returns>
         public static int selectFileID(string tempVendorID,string filetypeid,string factory)//根据供应商名称与文件类型查询文件的id是否存在
         {
+            int result = 0;
             string sql = "select File_ID from As_File where File_Type_ID=@File_Type_ID and Temp_Vendor_ID=@Temp_Vendor_ID and Factory_Name in (@Factory_Name,'ALL')";
+            string sql2 = "select File_ID from View_File where File_Type_ID=@File_Type_ID and Normal_Vendor_ID=@Normal_Vendor_ID and Factory_Name in (@Factory_Name,'ALL')";
             //string sql = "select File_ID from As_NewFiles_ID where File_Type_ID=@File_Type_ID and Temp_Vendor_ID=@Temp_Vendor_ID";//在As_File中没法仅仅只通过File_Type_ID，Temp_Vendor_ID找到最新的File_ID
             SqlParameter[] sp = new SqlParameter[]
             {
@@ -173,15 +201,22 @@ namespace DAL
                 new SqlParameter("@Temp_Vendor_ID",tempVendorID),
                 new SqlParameter("@Factory_Name",factory)
             };
+            SqlParameter[] sp2 = new SqlParameter[]
+            {
+                new SqlParameter("@File_Type_ID",filetypeid),
+                new SqlParameter("@Normal_Vendor_ID",TempVendor_DAL.getNormalCode(tempVendorID)),
+                new SqlParameter("@Factory_Name",factory)
+            };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
-            if (dt.Rows.Count > 0)
+            DataTable dt2 = DBHelp.GetDataSet(sql2, sp2);
+            if (dt.Rows.Count > 0 || dt2.Rows.Count>0)
             {
-                return 1;
+                result = 1;
             }
-            else
-            {
-                return 0;
-            }
+
+            dt.Dispose();
+            dt2.Dispose();
+            return result;
         }
 
         public static int UpdateFlag(string File_ID, string Temp_Vendor_Name)

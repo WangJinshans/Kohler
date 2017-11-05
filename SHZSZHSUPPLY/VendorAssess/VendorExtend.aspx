@@ -12,7 +12,7 @@
     <script src="Script/Own/fileUploader.js"></script>
     <script>
         function viewFile(filePath) {
-            window.open("../files/a.pdf");
+            window.open(filePath);
         }
     </script>
     <style type="text/css">
@@ -252,7 +252,7 @@ table.gridtable td {
             </tr>
             
         </table>
-        <div style="text-align:center">
+        <div style="text-align:center;margin-bottom:50px">
          <asp:Button ID="Button1" runat="server" Text="保存" CssClass="layui-btn" OnClick="Button1_Click" />&nbsp;&nbsp;&nbsp;&nbsp;
          <asp:Button ID="Button2" runat="server" Text="提交" CssClass="layui-btn layui-btn-normal" OnClick="Button2_Click" />&nbsp;&nbsp;&nbsp;&nbsp;
          <asp:Button ID="Button3" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Button3_Click" />

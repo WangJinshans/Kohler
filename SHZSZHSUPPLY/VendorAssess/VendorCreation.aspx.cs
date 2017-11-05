@@ -228,10 +228,10 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// <param name="formId"></param>
         public void approveAssess(string formId)
         {
-            //需要Form_Type_Name 暂时更更改该函数参数
-            if (LocalApproveManager.doAddApprove(formId, FORM_NAME, FORM_TYPE_ID,tempVendorID))
+            if (LocalApproveManager.doAddApprove(formId, FORM_NAME, FORM_TYPE_ID, tempVendorID))
             {
-                Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx'</script>");
+                Response.Write("<script>window.alert('提交成功！');window.location.href='/VendorAssess/EmployeeVendor.aspx';</script>");
+                //Response.Write("<script>window.alert('提交成功！');window.location.href='/VendorAssess/EmployeeVendor.aspx</script>");
             }
         }
 
@@ -242,6 +242,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             if (submit == "yes")
             {
                 saveForm(2, "提交表格");
+
                 approveAssess(formID);
             }
             else

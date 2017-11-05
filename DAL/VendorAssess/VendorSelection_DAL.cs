@@ -117,6 +117,11 @@ namespace DAL.VendorAssess
                     vendorSelection.Supplier_Five_ID = Convert.ToString(dr["Supplier_Five_ID"]);
                     vendorSelection.Temp_Vendor_Name = Convert.ToString(dr["Temp_Vendor_Name"]);
                     vendorSelection.Factory_Name= Convert.ToString(dr["Factory_Name"]);
+                    vendorSelection.Recommend = Convert.ToString(dr["Recommend"]);
+                    vendorSelection.User_Department_Manager = Convert.ToString(dr["User_Department_Manager"]);
+                    vendorSelection.Quality_Dept_Manager = Convert.ToString(dr["Quality_Dept_Manager"]);
+                    vendorSelection.Purchasing_Manager = Convert.ToString(dr["Purchasing_Manager"]);
+                    vendorSelection.Finance_Leader = Convert.ToString(dr["Finance_Leader"]);
                 }
             }
             return vendorSelection;
@@ -124,7 +129,7 @@ namespace DAL.VendorAssess
 
         public static int updateVendorSelection(As_Vendor_Selection vendorSelection)
         {
-            string sql = "update As_Vendor_Selection SET Form_Type_ID=@Form_Type_ID,Flag=@Flag,Temp_Vendor_ID=@Temp_Vendor_ID,Ref_No=@Ref_No,Date=@Date,Supplier_One_ID=@Supplier_One_ID,Supplier_Two_ID=@Supplier_Two_ID,Supplier_Three_ID=@Supplier_Three_ID,Supplier_Four_ID=@Supplier_Four_ID,Supplier_Five_ID=@Supplier_Five_ID,Temp_Vendor_Name=@Temp_Vendor_Name where Form_ID=@Form_ID";
+            string sql = "update As_Vendor_Selection SET Form_Type_ID=@Form_Type_ID,Flag=@Flag,Temp_Vendor_ID=@Temp_Vendor_ID,Ref_No=@Ref_No,Date=@Date,Supplier_One_ID=@Supplier_One_ID,Supplier_Two_ID=@Supplier_Two_ID,Supplier_Three_ID=@Supplier_Three_ID,Supplier_Four_ID=@Supplier_Four_ID,Supplier_Five_ID=@Supplier_Five_ID,Temp_Vendor_Name=@Temp_Vendor_Name,Recommend=@Recommend where Form_ID=@Form_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Form_ID",vendorSelection.Form_ID),
@@ -138,7 +143,8 @@ namespace DAL.VendorAssess
                 new SqlParameter("@Supplier_Three_ID",vendorSelection.Supplier_Three_ID),
                 new SqlParameter("@Supplier_Four_ID",vendorSelection.Supplier_Four_ID),
                 new SqlParameter("@Supplier_Five_ID",vendorSelection.Supplier_Five_ID),
-                new SqlParameter("@Temp_Vendor_Name",vendorSelection.Temp_Vendor_Name)
+                new SqlParameter("@Temp_Vendor_Name",vendorSelection.Temp_Vendor_Name),
+                new SqlParameter("@Recommend",vendorSelection.Recommend)
             };
             int result = DBHelp.ExecuteCommand(sql, sp);
             return result;

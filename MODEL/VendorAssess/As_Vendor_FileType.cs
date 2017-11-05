@@ -16,6 +16,7 @@ namespace Model
         private string factory_Name;
         private string file_Type_Range;
         private string file_Is_Necessary;
+        private string item_Valid;
 
 
 
@@ -121,6 +122,19 @@ namespace Model
             set
             {
                 file_Is_Necessary = value;
+            }
+        }
+
+        public string Item_Valid
+        {
+            get
+            {
+                return item_Valid;
+            }
+
+            set
+            {
+                item_Valid = value;
             }
         }
     }

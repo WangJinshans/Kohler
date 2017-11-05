@@ -396,6 +396,13 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Site.Master.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Site.Master.designer.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+    </Compile>
     <Compile Include="VenderInfo\SharedItemMA.aspx.cs">
       <DependentUpon>SharedItemMA.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -759,6 +766,7 @@
     <Content Include="VendorAssess\Script\laydate\theme\default\font\iconfont.eot" />
     <Content Include="VendorAssess\Script\laydate\theme\default\font\iconfont.ttf" />
     <Content Include="VendorAssess\Script\laydate\theme\default\font\iconfont.woff" />
+    <Content Include="Site.Master" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

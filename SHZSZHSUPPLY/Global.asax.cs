@@ -25,7 +25,15 @@ namespace SHZSZHSUPPLY
         void Application_Error(object sender, EventArgs e)
         {
             // 在出现未处理的错误时运行的代码
-
+            Exception exception = Server.GetLastError();
+            if (exception != null)
+            {
+                if (exception is HttpUnhandledException && Session["Employee_Name"]==null)
+                {
+                    Response.Write("<script>window.alert('登录已过期，请重新登录系统！');window.location.href='/Login.aspx'</script>");
+                    Server.ClearError();
+                }
+            }
         }
 
         void Session_Start(object sender, EventArgs e)

@@ -13,142 +13,146 @@
 	<script type="text/javascript" src="Script/My97DatePicker/WdatePicker.js" ></script>
     <script>
         function viewFile(filePath) {
-            window.open("../files/a.pdf");
+            window.open(filePath);
         }
     </script>
 	<style type="text/css">
-	 
-		.td-label-style {
-			color: black;
-			font-size: 10.0pt;
-			font-weight: 700;
-			font-style: normal;
-			text-decoration: none;
-			font-family: Arial, sans-serif;
-			text-align: center;
-			vertical-align: middle;
-			white-space: nowrap;
-			border-left-style: none;
-			border-left-color: inherit;
-			border-left-width: medium;
-			border-right-style: none;
-			border-right-color: inherit;
-			border-right-width: medium;
-			border-top: .5pt solid windowtext;
-			border-left: .5pt solid windowtext;
-			border-right: .5pt solid windowtext;
-			border-bottom: .5pt solid windowtext;
-			padding: 0px;
-		}
-		.td-label-text-center-bold{
-			color: black;
-			font-size: 10.0pt;
-			font-weight: 700;
-			font-style: normal;
-			text-decoration: none;
-			font-family: Arial, sans-serif;
-			text-align: center;
-			vertical-align: middle;
-			white-space: nowrap;
-			border-left: .5pt solid windowtext;
-			border-right-style: none;
-			border-right-color: inherit;
-			border-right-width: medium;
-			border-top: .5pt solid windowtext;
-			border-bottom: .5pt solid windowtext;
-		}
-		.risk-label-left{
-			width:30%;
-		}
-		.div {
-			width: 600px;
-			height: 200px;
-			border: 2px;
-		}
+	    .td-label-style {
+	        color: black;
+	        font-size: 10.0pt;
+	        font-weight: 700;
+	        font-style: normal;
+	        text-decoration: none;
+	        font-family: Arial, sans-serif;
+	        text-align: center;
+	        vertical-align: middle;
+	        white-space: nowrap;
+	        border-left-style: none;
+	        border-left-color: inherit;
+	        border-left-width: medium;
+	        border-right-style: none;
+	        border-right-color: inherit;
+	        border-right-width: medium;
+	        border-top: .5pt solid windowtext;
+	        border-left: .5pt solid windowtext;
+	        border-right: .5pt solid windowtext;
+	        border-bottom: .5pt solid windowtext;
+	        padding: 0px;
+	    }
 
-		h1 {
-			text-align: center;
-		}
+	    .td-label-text-center-bold {
+	        color: black;
+	        font-size: 10.0pt;
+	        font-weight: 700;
+	        font-style: normal;
+	        text-decoration: none;
+	        font-family: Arial, sans-serif;
+	        text-align: center;
+	        vertical-align: middle;
+	        white-space: nowrap;
+	        border-left: .5pt solid windowtext;
+	        border-right-style: none;
+	        border-right-color: inherit;
+	        border-right-width: medium;
+	        border-top: .5pt solid windowtext;
+	        border-bottom: .5pt solid windowtext;
+	    }
 
-		h3 {
-			text-align: right;
-		}
+	    .risk-label-left {
+	        width: 30%;
+	    }
 
-		p {
-			text-align: right;
-		}
+	    .div {
+	        width: 600px;
+	        height: 200px;
+	        border: 2px;
+	    }
 
-		.button {
-			font-family: Arial;
-			color: #000000;
-			font-size: 27px;
-			padding: 9px;
-			text-decoration: none;
-			-webkit-border-radius: 10px;
-			-moz-border-radius: 10px;
-			border-radius: 10px;
-			-webkit-box-shadow: 0px 1px 0px #666666;
-			-moz-box-shadow: 0px 1px 0px #666666;
-			box-shadow: 0px 1px 0px #666666;
-			text-shadow: 1px 1px 3px #666666;
-			border: solid #e0e0e0 0px;
-			background: -webkit-gradient(linear, 0 0, 0 100%, from(#dbd8da), to(#c9c9c9));
-			background: -moz-linear-gradient(top, #dbd8da, #c9c9c9);
-		}
+	    h1 {
+	        text-align: center;
+	    }
 
-		.button:hover {
-			background: #dedbde;
-		}
+	    h3 {
+	        text-align: right;
+	    }
 
-		.t {
-			border: 0px;
-			overflow: hidden;
-			width: 95%;
-			text-align: center;
-		}
+	    p {
+	        text-align: right;
+	    }
+
+	    .button {
+	        font-family: Arial;
+	        color: #000000;
+	        font-size: 27px;
+	        padding: 9px;
+	        text-decoration: none;
+	        -webkit-border-radius: 10px;
+	        -moz-border-radius: 10px;
+	        border-radius: 10px;
+	        -webkit-box-shadow: 0px 1px 0px #666666;
+	        -moz-box-shadow: 0px 1px 0px #666666;
+	        box-shadow: 0px 1px 0px #666666;
+	        text-shadow: 1px 1px 3px #666666;
+	        border: solid #e0e0e0 0px;
+	        background: -webkit-gradient(linear, 0 0, 0 100%, from(#dbd8da), to(#c9c9c9));
+	        background: -moz-linear-gradient(top, #dbd8da, #c9c9c9);
+	    }
+
+	        .button:hover {
+	            background: #dedbde;
+	        }
+
+	    .t {
+	        border: 0px;
+	        overflow: hidden;
+	        width: 95%;
+	        text-align: center;
+	    }
 
 
-		td {
-			border: solid #000000;
-			border-width: 1px 1px 1px 1px;
-			padding: 10px 0px;
-			height:30px;
-		}
+	    td {
+	        border: solid #000000;
+	        border-width: 1px 1px 1px 1px;
+	        padding: 10px 0px;
+	        height: 30px;
+	    }
 
-		.head {
-			border: solid #000000;
-			border-width: 1px 1px 1px 1px;
-			padding: 10px 0px;
-		}
+	    .head {
+	        border: solid #000000;
+	        border-width: 1px 1px 1px 1px;
+	        padding: 10px 0px;
+	    }
 
-		table {
-			border: solid #000000;
-			border-width: 1px 1px 1px 1px;
-			margin-left: auto;
-		}
-		table.gridtable {
-	font-family: verdana,arial,sans-serif;
-	font-size:11px;
-	color:#333333;
-	border-width: 1px;
-	border-color: #666666;
-	border-collapse: collapse;
-}
-table.gridtable th {
-	border-width: 1px;
-	padding: 8px;
-	border-style: solid;
-	border-color: #666666;
-	background-color: #dedede;
-}
-table.gridtable td {
-	border-width: 1px;
-	padding: 8px;
-	border-style: solid;
-	border-color: #666666;
-	background-color: #ffffff;
-}
-		
+	    table {
+	        border: solid #000000;
+	        border-width: 1px 1px 1px 1px;
+	        margin-left: auto;
+	    }
+
+	        table.gridtable {
+	            font-family: verdana,arial,sans-serif;
+	            font-size: 11px;
+	            color: #333333;
+	            border-width: 1px;
+	            border-color: #666666;
+	            border-collapse: collapse;
+	        }
+
+	            table.gridtable th {
+	                border-width: 1px;
+	                padding: 8px;
+	                border-style: solid;
+	                border-color: #666666;
+	                background-color: #dedede;
+	            }
+
+	            table.gridtable td {
+	                border-width: 1px;
+	                padding: 8px;
+	                border-style: solid;
+	                border-color: #666666;
+	                background-color: #ffffff;
+	            }
 	</style>
 </head>
 
@@ -181,8 +185,8 @@ table.gridtable td {
 		<tr>
 			<td >Where Used: 用在何处*</td>
 			<td ><asp:TextBox ID="txbWhereUsed" style="text-align:center" runat="server" BorderStyle="None" Width="100%" Height="100%"></asp:TextBox></td>
-			<td class="td-label-style">Annual Spend:年开支*</td>
-			<td ><asp:TextBox runat="server" ID="TextBox2" Width="100%" Height="100%" BorderStyle="None" style="text-align:center">0</asp:TextBox></td>
+			<td class="td-label-style">Annual Spend:年开支*(￥人民币-万元)</td>
+			<td ><asp:TextBox runat="server" ReadOnly="true" ID="TextBox2" Width="100%" Height="100%" BorderStyle="None" style="text-align:center">0</asp:TextBox></td>
 		</tr>
 		<tr>
 			<td ></td>
@@ -384,7 +388,13 @@ table.gridtable td {
 			<td ><asp:RadioButton ID="RadioButton48" Text=" " runat="server" GroupName="15" /></td>
 			<td ><asp:TextBox runat="server" ID="TextBox24" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
 		</tr>
-
+        <tr>
+            <td>Price 价格*</td>
+            <td ><asp:RadioButton ID="RadioButton94" Text=" " runat="server" GroupName="31"/></td>
+            <td ><asp:RadioButton ID="RadioButton95" Text=" " runat="server" GroupName="31"/></td>
+            <td ><asp:RadioButton ID="RadioButton96" Text=" " runat="server" GroupName="31"/></td>
+            <td ><asp:TextBox ID="TextBox40" runat="server" BorderStyle="None" Width="100%" Height="100%" style="text-align:center"></asp:TextBox></td>
+        </tr>
 		<tr>
 			<td >Change of source (site) of manufacture
 				<br />
@@ -532,7 +542,7 @@ table.gridtable td {
 	</table>
 	</div>
 
-	<div style="text-align: center">
+	<div style="text-align: center;margin-bottom:50px">
 		<asp:Button ID="Button1" runat="server" Text="提交" CssClass="layui-btn" OnClick="Button1_Click" />
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       
 		<asp:Button ID="Button2" runat="server" Text="保存" CssClass="layui-btn layui-btn-normal" OnClick="Button2_Click" />
