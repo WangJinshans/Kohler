@@ -29,7 +29,7 @@ namespace DAL.VendorAssess
 
         public static bool checkFileSubmit(string tempVendorID, string factory,string fileID)
         {
-            string sql = "select [File_ID] from As_File where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name in ('" + factory + "','ALL') and [File_ID]='" + fileID + "' and Status='new'";
+            string sql = "select [File_ID] from View_File where Temp_Vendor_ID='" + tempVendorID + "' OR Normal_Vendor_ID='"+TempVendor_DAL.getNormalCode(tempVendorID)+"' and Factory_Name in ('" + factory + "','ALL') and [File_ID]='" + fileID + "' and Status='new'";
             using (SqlDataReader reader = DBHelp.GetReader(sql))
                 if (reader.Read())
                 {

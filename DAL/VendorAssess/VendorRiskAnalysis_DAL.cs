@@ -17,14 +17,15 @@ namespace DAL.VendorAssess
         /// <returns></returns>
         public static int addVendorRisk(As_Vendor_Risk vendorRisk)
         {
-            string sql = "insert into As_Vendor_Risk(Temp_Vendor_ID,Form_Type_ID,Supplier,Flag,Factory_Name) values(@Temp_Vendor_ID,@Form_Type_ID,@Supplier,@Flag,@Factory_Name)";
+            string sql = "insert into As_Vendor_Risk(Temp_Vendor_ID,Form_Type_ID,Supplier,Flag,Factory_Name,Annual_Spend) values(@Temp_Vendor_ID,@Form_Type_ID,@Supplier,@Flag,@Factory_Name,@Annual_Spend)";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_ID",vendorRisk.Temp_Vendor_ID),
                 new SqlParameter("@Supplier",vendorRisk.Supplier),
                 new SqlParameter("@Flag",vendorRisk.Flag),
                 new SqlParameter("@Form_Type_ID",vendorRisk.Form_Type_ID),
-                new SqlParameter("@Factory_Name",vendorRisk.Factory_Name)
+                new SqlParameter("@Factory_Name",vendorRisk.Factory_Name),
+                new SqlParameter("@Annual_Spend",vendorRisk.Annual_Spend)
             };
             return DBHelp.GetScalar(sql, sp);
         }
