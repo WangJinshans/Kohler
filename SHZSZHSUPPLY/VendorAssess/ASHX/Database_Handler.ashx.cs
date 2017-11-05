@@ -51,7 +51,7 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
 
 
             //写出日志
-            As_Employee ae = Employee_BLL.getEmolyeeById(HttpContext.Current.Session["Employee_ID"].ToString());
+            As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID));
             As_Write aw = new As_Write();
             aw.Employee_ID = ae.Employee_ID;
             aw.Form_ID = formID;
