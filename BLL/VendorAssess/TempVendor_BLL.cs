@@ -91,19 +91,14 @@ namespace BLL
             return info;
         }
 
-        internal static string getNormalCode(string tempVendorID)
+        public static As_Temp_Vendor getTempVendor(string tempVendorID)
         {
-            string sql = "select Normal_Vendor_ID from As_Temp_Vendor Where Temp_Vendor_ID=@ID";
-            SqlParameter[] sp = new SqlParameter[]
-            {
-                new SqlParameter("@ID",tempVendorID)
-            };
-            DataTable dt = DBHelp.GetDataSet(sql, sp);
-            if (dt.Rows.Count > 0)
-            {
-                return dt.Rows[0]["Normal_Vendor_ID"].ToString();
-            }
-            return "";
+            return TempVendor_DAL.getTempVendor(tempVendorID);
+        }
+
+        public static string getNormalCode(string tempVendorID)
+        {
+            return TempVendor_DAL.getNormalCode(tempVendorID);
         }
 
         /// <summary>
