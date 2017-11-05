@@ -6,19 +6,19 @@
 var uploadFileResult = { 'success': false };
 
 
-function uploadFile(requestType, tempVendorID, tempVendorName, fileTypeID,callback) {
+function uploadFile(requestType, tempVendorID, tempVendorName, fileTypeID, needDate, callback) {
     layui.use(['form', 'layer'], function () {
         var layer = layui.layer;
         layer.open({
             type: 2,
             title: '文件上传',
             maxmin: true,
-            content: './Html_Template/File_Upload_Page.html',
+            content: '/VendorAssess/Html_Template/File_Upload_Page.html',
             area: ['800px', '300px'],
             shadeClose: false,
             success: function (layero, index) {
                 var iframeWin = window[layero.find('iframe')[0]['name']];
-                iframeWin.setOwnParams(requestType,tempVendorID, tempVendorName, fileTypeID);
+                iframeWin.setOwnParams(requestType,tempVendorID, tempVendorName, fileTypeID, needDate);
             },
             cancel: function (index, layero) {
                 var iframeWin = window[layero.find('iframe')[0]['name']];
@@ -84,7 +84,7 @@ function openReasonDialog(form_id,position_name,factory_name,callback) {
                 $.ajax({
                     type: "post",
                     async:false,
-                    url: "./ASHX/Database_Handler.ashx",
+                    url: "/VendorAssess/ASHX/Database_Handler.ashx",
                     data: { requestType: 'approveReason', formID: form_id, positionName: position_name, factoryName: factory_name, reason: value },
                     dataType: "json",
                     success: function (data, textStatus) {
