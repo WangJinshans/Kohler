@@ -34,7 +34,7 @@ namespace SHZSZHSUPPLY.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool Mail_Enabled {
             get {
                 return ((bool)(this["Mail_Enabled"]));
@@ -43,7 +43,7 @@ namespace SHZSZHSUPPLY.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("../files/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("/files/")]
         public string File_UpLoad_Path {
             get {
                 return ((string)(this["File_UpLoad_Path"]));
@@ -61,7 +61,7 @@ namespace SHZSZHSUPPLY.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("./TEST/TransferTemp/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("/VendorAssess/TEST/TransferTemp/")]
         public string Transfer_Temp_Path {
             get {
                 return ((string)(this["Transfer_Temp_Path"]));
@@ -70,7 +70,7 @@ namespace SHZSZHSUPPLY.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("../Upload/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("/Upload/")]
         public string Transfer_Dest_Path {
             get {
                 return ((string)(this["Transfer_Dest_Path"]));
@@ -92,6 +92,15 @@ namespace SHZSZHSUPPLY.Properties {
         public string PDF_Tool_Path {
             get {
                 return ((string)(this["PDF_Tool_Path"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("配置文件中的路径均为从根目录出发的路径（\"/\"为根目录）")]
+        public string 说明 {
+            get {
+                return ((string)(this["说明"]));
             }
         }
     }
