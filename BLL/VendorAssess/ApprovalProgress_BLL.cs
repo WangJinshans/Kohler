@@ -33,7 +33,7 @@ namespace BLL.VendorAssess
         public static string readFormExceptionInfo(string formID)
         {
             string result = "";
-            DataTable dt = Write_DAL.getHistory(new string[] { As_Write.APPROVE_FAIL }, formID, true);
+            DataTable dt = Write_DAL.getHistory(new string[] { As_Write.APPROVE_FAIL,As_Write.MAIL_ERROR }, formID, true);
             if (dt.Rows.Count > 0)
             {
                 foreach (DataRow item in dt.Rows)

@@ -39,5 +39,33 @@ namespace BLL
             }
             return false;
         }
+
+        /// <summary>
+        /// 从发起人表中获取发起人ko
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <returns></returns>
+        public static string getEmployeeID(string tempVendorID)
+        {
+            DataTable dt = AddEmployeeVendor_DAL.getEmployeeID(tempVendorID);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow item in dt.Rows)
+                {
+                    return item["Employee_ID"].ToString();
+                }
+            }
+            return "";
+        }
+
+        /// <summary>
+        /// 获取此供应商的新建者或者复用发起人
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <returns></returns>
+        public static As_Employee_Vendor getEmployeeVendor(string tempVendorID)
+        {
+            return AddEmployeeVendor_DAL.get(tempVendorID);
+        }
     }
 }
