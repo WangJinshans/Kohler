@@ -4,13 +4,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../Script/fine-uploader/fine-uploader-new.css" />
-    <link rel="stylesheet" href="../Script/layui/css/layui.css" />
-    <!--<link rel="stylesheet" href="../Script/laydate/theme/default/laydate.css" />-->
-    <script src="../Script/jquery-3.2.1.min.js"></script>
-    <script src="../Script/layui/layui.js"></script>
-    <script src="../Script/fine-uploader/jquery.fine-uploader.js"></script>
-
+    <link rel="stylesheet" href="/VendorAssess/Script/fine-uploader/fine-uploader-new.css" />
+    <link rel="stylesheet" href="/VendorAssess/Script/layui/css/layui.css" />
+    <!--<link rel="stylesheet" href="/VendorAssess/Script/laydate/theme/default/laydate.css" />-->
+    <script src="/VendorAssess/Script/jquery-3.2.1.min.js"></script>
+    <script src="/VendorAssess/Script/layui/layui.js"></script>
+    <script src="/VendorAssess/Script/fine-uploader/jquery.fine-uploader.js"></script>
     <script type="text/template" id="qq-template-manual-trigger">
         <div class="qq-uploader-selector qq-uploader" qq-drop-area-text="拖动文件到此处">
             <div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
@@ -147,7 +146,6 @@
             </dialog>
         </div>
     </script>
-
     <style>
         #trigger-upload {
             color: white;
@@ -169,10 +167,9 @@
             width: 60%;
         }
     </style>
-
 </head>
 <body>
-    <div class="layui-form-pane" style="width:550px;margin:0 auto">
+    <div id="date-select" class="layui-form-pane" style="width:550px;margin:0 auto;">
         <div class="layui-form-item">
             <label class="layui-form-label">范围选择</label>
             <div class="layui-input-inline">
@@ -217,19 +214,24 @@
 
         });
     </script>
-
     <div id="fine-uploader-validation" style="min-height: 150px"></div>
     <script>
-        var requestType, tempVendorID, tempVendorName, fileTypeID, factory_Name;
+        var requestType, tempVendorID, tempVendorName, fileTypeID, factoryName, needSetDate;
         var resultJSON;
 
 
-        function setOwnParams(type, vendorID, vendorName, typeID, factory) {
+        function setOwnParams(type, vendorID, vendorName, typeID, needDate) {
             tempVendorID = vendorID;
             tempVendorName = vendorName;
             fileTypeID = typeID;
             requestType = type;
-            factory_Name = factory;//厂
+            needSetDate = needDate;
+
+            var dateSelect = document.getElementById('date-select');
+            if (!needDate) {
+                dateSelect.style.display = "none";
+                dateSelect.style.visibility = 'hidden';
+            }
         }
 
         function getUploadResult() {
@@ -242,7 +244,7 @@
             folders: true,
             autoUpload: false,
             request: {
-                endpoint: '../ASHX/File_Upload_End_Point.ashx'
+                endpoint: '/VendorAssess/ASHX/File_Upload_End_Point.ashx'
             },
             text: {
                 uploadButton: '上传'
@@ -253,8 +255,8 @@
             },
             thumbnails: {
                 placeholders: {
-                    waitingPath: '../Script/fine-uploader/placeholders/waiting-generic.png',
-                    notAvailablePath: '../Script/fine-uploader/placeholders/not_available-generic.png'
+                    waitingPath: '/VendorAssess/Script/fine-uploader/placeholders/waiting-generic.png',
+                    notAvailablePath: '/VendorAssess/Script/fine-uploader/placeholders/not_available-generic.png'
                 }
             },
             messages: {
@@ -324,23 +326,33 @@
         function onUploadBtnClicked() {
             var start = document.getElementById('LAY_demorange_s').value;
             var end = document.getElementById('LAY_demorange_e').value;
-            if (start == "" || end == "") {
-                showMsg('请选择文件有效期');
-                return;
+            if (needSetDate) {
+                if (start == "" || end == "") {
+                    showMsg('请选择文件有效期');
+                    return;
+                }
             } else {
-                restrictedUploader.setParams({
-                    path: "./files/",
-                    requestType: requestType, //requestType
-                    tempVendorID: tempVendorID,
-                    tempVendorName: tempVendorName,
-                    fileTypeID: fileTypeID,
-                    factory_Name: "上海科勒",
-                    startTime: start,
-                    endTime:end
+                layui.use('laydate', function () {
+                    var laydate = layui.laydate;
+
+                    start = laydate.now();
+                    end = '2099-06-16';
                 });
-                restrictedUploader.uploadStoredFiles();
             }
+
+
+            restrictedUploader.setParams({
+                path: "./files/",
+                requestType: requestType, //requestType
+                tempVendorID: tempVendorID,
+                tempVendorName: tempVendorName,
+                fileTypeID: fileTypeID,
+                startTime: start,
+                endTime: end
+            });
+            restrictedUploader.uploadStoredFiles();
         }
+
     </script>
 </body>
 </html>
