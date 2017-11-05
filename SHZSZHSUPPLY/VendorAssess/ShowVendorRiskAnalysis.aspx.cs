@@ -51,6 +51,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 txbProduct.Text = vendorRisk.Product;
                 txbVendor.Text = vendorRisk.Supplier;
                 txbPartNo.Text = vendorRisk.Part_No;
+                txbWhereUsed.Text = vendorRisk.Where_Used;
                 TextBox1.Text = vendorRisk.Manufacturer;
                 TextBox2.Text = vendorRisk.Annual_Spend.ToString();
                 setSelected(vendorRisk.Overall_Risk_Category, new[] { RadioButton1, RadioButton2, RadioButton3 });
@@ -228,7 +229,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             string fileID = GridView2.Rows[drv.RowIndex].Cells[1].Text.ToString().Trim();//获取fileID
             if (e.CommandName == "view")
             {
-                string filePath = "../files/" + fileID + ".pdf";
+                string filePath = LSetting.File_Path + fileID + ".pdf";
                 if (filePath != "")
                 {
                     ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>viewFile('" + filePath + "');</script>");

@@ -265,7 +265,7 @@
 			<td colspan="9" style="text-align:right">编号：PR-05-13-0</td>
 		</tr>
 		<tr>
-			<td colspan="4" style="text-align:left" >Supply Risk Analysis Master template 风险分析模板</td>
+			<td colspan="4" style="text-align:left" class="auto-style1" >Supply Risk Analysis Master template 风险分析模板</td>
 		</tr>
 		<tr>
 			<td colspan="1" style="text-align:left">Product: 产品</td>
