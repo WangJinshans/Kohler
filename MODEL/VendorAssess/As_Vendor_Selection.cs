@@ -22,6 +22,11 @@ namespace MODEL.VendorAssess
         private string supplier_Five_ID;
         private string temp_Vendor_Name;
         private string factory_Name;
+        private string recommend;
+        private string user_Department_Manager;
+        private string quality_Dept_Manager;
+        private string purchasing_Manager;
+        private string finance_Leader;
 
         public string Form_ID
         {
@@ -215,6 +220,71 @@ namespace MODEL.VendorAssess
             set
             {
                 factory_Name = value;
+            }
+        }
+
+        public string Recommend
+        {
+            get
+            {
+                return recommend;
+            }
+
+            set
+            {
+                recommend = value;
+            }
+        }
+
+        public string User_Department_Manager
+        {
+            get
+            {
+                return user_Department_Manager;
+            }
+
+            set
+            {
+                user_Department_Manager = value;
+            }
+        }
+
+        public string Quality_Dept_Manager
+        {
+            get
+            {
+                return quality_Dept_Manager;
+            }
+
+            set
+            {
+                quality_Dept_Manager = value;
+            }
+        }
+
+        public string Purchasing_Manager
+        {
+            get
+            {
+                return purchasing_Manager;
+            }
+
+            set
+            {
+                purchasing_Manager = value;
+            }
+        }
+
+        public string Finance_Leader
+        {
+            get
+            {
+                return finance_Leader;
+            }
+
+            set
+            {
+                finance_Leader = value;
             }
         }
     }

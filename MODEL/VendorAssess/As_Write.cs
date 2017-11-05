@@ -13,6 +13,9 @@ namespace Model
         public const string FORM_EDIT = "表格动作";
         public const string NORMAL_ACTION = "常规";
         public const string FORM_MULTI_EDIT = "多人填写";
+        public const string MAIL_CANCELLED = "邮件取消";
+        public const string MAIL_SUCCESS = "邮件发送";
+        public const string MAIL_ERROR = "邮件错误";
 
         private int id;
         private string employee_ID;
