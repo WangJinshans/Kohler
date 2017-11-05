@@ -12,7 +12,7 @@
     <script src="Script/Own/fileUploader.js"></script>
     <script>
         function viewFile(filePath) {
-            window.open("../files/a.pdf");
+            window.open(filePath);
         }
     </script>
      <style type="text/css">
