@@ -232,14 +232,16 @@ namespace AendorAssess
                 string tempVendorName = Session["tempvendorname"].ToString();
                 string fileTypeID = GridView4.Rows[drv.RowIndex].Cells[2].Text;
                 string requestType = "fileUpload";
-                LocalScriptManager.CreateScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}',{4})", requestType, tempVendorID, tempVendorName, fileTypeID, GridView4.Rows[drv.RowIndex].Cells[5].Text.ToLower()), "upload");
+                ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "upload", String.Format("uploadFile('{0}','{1}','{2}','{3}',{4})", requestType, tempVendorID, tempVendorName, fileTypeID, GridView4.Rows[drv.RowIndex].Cells[5].Text.ToLower()), true);
+                //LocalScriptManager.CreateScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}',{4})", requestType, tempVendorID, tempVendorName, fileTypeID, GridView4.Rows[drv.RowIndex].Cells[5].Text.ToLower()), "upload");
             }//查看
             else if (e.CommandName == "FileDetail")
             {
                 string fileTypeID = e.CommandArgument.ToString();
                 string fileName = File_BLL.getFileName(fileTypeID, Session["tempVendorID"].ToString(), factory_Name);
 
-                Response.Write(String.Format("<script>window.open('{0}');</script>", LSetting.File_Path + fileName));
+                ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "showFileDetail", String.Format("<script>window.open('{0}');</script>", LSetting.File_Path + fileName), false);
+                //Response.Write(String.Format("<script>window.open('{0}');</script>", LSetting.File_Path + fileName));
             }
         }
 
