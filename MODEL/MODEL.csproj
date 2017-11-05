@@ -90,6 +90,7 @@
     <Compile Include="VendorAssess\As_Vendor_Type.cs" />
     <Compile Include="VendorAssess\As_Write.cs" />
     <Compile Include="VendorAssess\As_Bidding_Approval_Item.cs" />
+    <Compile Include="VendorAssess\PageSelect.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
