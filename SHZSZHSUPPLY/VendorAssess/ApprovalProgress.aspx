@@ -29,10 +29,6 @@
         });
 
         function onSelect(data) {
-            currentFactory = document.getElementById('factory').selectedIndex;
-            currentType = document.getElementById('type').selectedIndex;
-            currentName = document.getElementById('name').selectedIndex;
-            storageParams();
 
             switch (data.elem.id) {
                 case 'factory':
@@ -42,6 +38,10 @@
                     onVendorTypeSelectChanged();
                     break;
                 case 'name':
+                    currentFactory = document.getElementById('factory').selectedIndex;
+                    currentType = document.getElementById('type').selectedIndex;
+                    currentName = document.getElementById('name').selectedIndex;
+                    storageParams();
                     __myDoPostBack('refreshNewVendor', document.getElementById('name').value);
                     break;
                 default:
@@ -147,10 +147,10 @@
 
         function getParams() {
             this.vendorInfoJson = JSON.parse(localStorage.getItem('infoJson'));
-            document.getElementById('factory').selectedIndex = localStorage.getItem('factory');
-            document.getElementById('type').selectedIndex = localStorage.getItem('type');
+            document.getElementById('factory').selectedIndex = localStorage.getItem('progressFactory');
+            document.getElementById('type').selectedIndex = localStorage.getItem('progressType');
             onVendorTypeSelectChanged();
-            document.getElementById('name').selectedIndex = localStorage.getItem('name');
+            document.getElementById('name').selectedIndex = localStorage.getItem('progressName');
         }
 
         function setParams(infoJson) {
@@ -159,9 +159,9 @@
         }
 
         function storageParams() {
-            localStorage.setItem('factory', currentFactory);
-            localStorage.setItem('type', currentType);
-            localStorage.setItem('name', currentName);
+            localStorage.setItem('progressFactory', currentFactory);
+            localStorage.setItem('progressType', currentType);
+            localStorage.setItem('progressName', currentName);
         }
 
         function onFactorySelectChanged() {
@@ -199,13 +199,13 @@
         }
 
         function recoverSelectData() {
-            document.getElementById('factory').selectedIndex = localStorage.getItem('factory');
-            document.getElementById('type').selectedIndex = localStorage.getItem('type');
+            document.getElementById('factory').selectedIndex = localStorage.getItem('progressFactory');
+            document.getElementById('type').selectedIndex = localStorage.getItem('progressType');
             onVendorTypeSelectChanged();
             var nameSelect = document.getElementById('name');
 
             //否则为恢复现场
-            nameSelect.selectedIndex = localStorage.getItem('name');
+            nameSelect.selectedIndex = localStorage.getItem('progressName');
 
             var data = { elem: nameSelect, value: nameSelect.value };
             onSelect(data);
