@@ -179,6 +179,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 txbThree.Text = vendorSelection.Supplier_Three_ID;
                 txbFour.Text = vendorSelection.Supplier_Four_ID;
                 txbFive.Text = vendorSelection.Supplier_Five_ID;
+                txbRecommend.Text = vendorSelection.Recommend;
             }
 
             //更新supplier数据
@@ -276,7 +277,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         //        //TODO::这里不能这样写，具体参考Creation的写法，这里暂时不改
         //        Session["tempvendorname"] = tempVendorName;
         //        Session["Employee_ID"] = Session["Employee_ID"];
-        //        Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx'</script>");
+        //        Response.Write("<script>window.alert('提交成功！');window.location.href='/VendorAssess/EmployeeVendor.aspx</script>");
         //    }
         //}
 
@@ -301,6 +302,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             vendorSelection.Supplier_Three_ID = txbThree.Text.Trim();
             vendorSelection.Supplier_Four_ID = txbFour.Text.Trim();
             vendorSelection.Supplier_Five_ID = txbFive.Text.Trim();
+            vendorSelection.Recommend = txbRecommend.Text.Trim();
 
             //As_Vendor_Selection_Supplier
             int[] indexArray = new int[] { 1, 37, 48, 90, 94, 136, 140, 182, 186, 228 };
@@ -404,7 +406,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             As_Edit_Flow edtFlow = EditFlow_BLL.getEditFlow(FORM_TYPE_ID);
             List<string> departments = new List<string>() { edtFlow.Edit_One_Department, edtFlow.Edit_Two_Department, edtFlow.Edit_Three_Department };
 
-            //check
+            //check, if multiForm record not exist
             if (EditFlow_BLL.checkFormEditFlow(formID) <= 0)
             {
                 departments.RemoveAll(delegate (string item)
@@ -434,7 +436,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
                 JavaScriptSerializer jss = new JavaScriptSerializer();
                 LocalScriptManager.CreateScript(Page, "selectEmployeeID(" + jss.Serialize(departments)+","+jss.Serialize(totalIDList)+","+jss.Serialize(totalNameList)+")", "selectID");
-
+                //执行到此处并无日志和邮件写出
             }
             else
             {
@@ -466,20 +468,21 @@ namespace SHZSZHSUPPLY.VendorAssess
                         UpdateFlag_BLL.updateFlagAsFinish(FORM_TYPE_ID, tempVendorID);
 
                         //写出日志
-                        As_Employee ae = Employee_BLL.getEmolyeeById(HttpContext.Current.Session["Employee_ID"].ToString());
+                        As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID));
                         LocalLog.writeLog(formID, String.Format("{0}已填写，多人填写完毕",currentDepartment), As_Write.FORM_MULTI_EDIT, tempVendorID);
 
                         //Mail
-                        LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FORM_NAME, "等待填写", DateTime.Now.ToString(), "此表格已填写完毕，请登陆系统后提交审批");
+                        LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FORM_NAME, "填写完毕", DateTime.Now.ToString(), "此表格已填写完毕，请登陆系统后提交审批");
                     }
                     else
                     {
+                        As_Approve ap = MultiEdit_BLL.getMultiEditTop(formID);
+
                         //写出日志
-                        LocalLog.writeLog(formID, String.Format("{0}已填写，等待其他部门填写",currentDepartment), As_Write.FORM_MULTI_EDIT, tempVendorID);
+                        LocalLog.writeLog(formID, String.Format("{0}已填写，等待 {1} 填写",currentDepartment, ap.Employee_Name), As_Write.FORM_MULTI_EDIT, tempVendorID);
 
                         //Mail
-                        As_Approve ap = MultiEdit_BLL.getMultiEditTop(formID);
-                        LocalMail.backToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, ap.Temp_Vendor_Name, FORM_NAME, "等待填写", DateTime.Now.ToString(), "此表格已由其他部门填写完毕，正在等待当前部门填写，请登陆系统填写表格并确认");
+                        LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, ap.Temp_Vendor_Name, FORM_NAME, "等待填写", DateTime.Now.ToString(), "此表格已由其他部门填写完毕，正在等待当前部门填写，请登陆系统填写表格并确认");
                     }
 
                     LocalScriptManager.CreateScript(Page, "layerMsgFunc('已确认',function(){window.location.href='FormWaitToFill.aspx';})", "otherCFM");
@@ -488,6 +491,9 @@ namespace SHZSZHSUPPLY.VendorAssess
             //如果是，保存表格，禁止此人再次编辑，fill——flag此人均置为1
         }
 
+        /// <summary>
+        /// 选择填写部门之后
+        /// </summary>
         private void selectResult()
         {
             getSessionInfo();
@@ -569,6 +575,9 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
         }
 
+        /// <summary>
+        /// 上传文件之后
+        /// </summary>
         private void fileUploadResult()
         {
             getSessionInfo();
@@ -578,10 +587,19 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 EmployeeForm_BLL.changeFillFlag(Session["Employee_ID"].ToString(), formID, 1);
                 UpdateFlag_BLL.updateFlagAsHold(FORM_TYPE_ID, tempVendorID);
+
+                As_Approve ap = MultiEdit_BLL.getMultiEditTop(formID);
+
+                //Log
+                LocalLog.writeLog(formID, String.Format("{0}已填写，等待 {1} 填写", Employee_BLL.getEmployeeDepartment(Session["Employee_ID"].ToString()),ap.Employee_Name), As_Write.FORM_MULTI_EDIT, tempVendorID);
+                
+                //Mail
+                LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, ap.Temp_Vendor_Name, FORM_NAME, "等待填写", DateTime.Now.ToString(), "此表格已由其他部门填写完毕，正在等待当前部门填写，请登陆系统填写表格并确认");
+
+                //跳转
                 Response.Redirect("EmployeeVendor.aspx");
             }
 
-            LocalLog.writeLog(formID, String.Format("{0}已填写，等待其他部门填写", Employee_BLL.getEmployeeDepartment(Session["Employee_ID"].ToString())), As_Write.FORM_MULTI_EDIT, tempVendorID);
         }
 
         #region GridView
