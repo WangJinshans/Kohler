@@ -162,7 +162,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             string fileID = GridView2.Rows[drv.RowIndex].Cells[1].Text.ToString().Trim();//获取fileID
             if (e.CommandName == "view")
             {
-                string filePath = "../files/" + fileID + ".pdf";
+                string filePath = LSetting.File_Path + fileID + ".pdf";
                 if (filePath != "")
                 {
                     ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>viewFile('" + filePath + "');</script>");
