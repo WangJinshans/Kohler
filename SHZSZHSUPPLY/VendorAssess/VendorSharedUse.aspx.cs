@@ -1,5 +1,6 @@
 ﻿using BLL;
 using BLL.VendorAssess;
+using MODEL;
 using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
 using System.Collections.Generic;
@@ -74,9 +75,22 @@ namespace SHZSZHSUPPLY.VendorAssess
             this.tempVendorID = tempVendorID;
         }
 
+        /// <summary>
+        /// RowCommand
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void File_GridView_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            //查看
+            if (e.CommandName == "showDetails")
+            {
+                //参数
+                string fileName = e.CommandArgument.ToString();
 
+                //跳转
+                Response.Write(String.Format("<script>window.open('{0}');</script>", LSetting.File_Path + fileName));
+            }
         }
 
         /// <summary>
