@@ -43,6 +43,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     vendorRisk.Supplier = tempVendorName;
                     vendorRisk.Flag = 0;
                     vendorRisk.Factory_Name = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString());
+                    vendorRisk.Annual_Spend = TempVendor_BLL.getTempVendor(tempVendorID).Purchase_Amount.ToString();
                     int n = VendorRiskAnalysis_BLL.addVendorRisk(vendorRisk);
                     if (n == 0)
                     {
@@ -58,6 +59,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                         bindingFormWithFile();
                         showfilelist(formID);
                     }
+                    showVendorRiskAnalysis();
                 }
                 else
                 {
@@ -296,7 +298,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             if (LocalApproveManager.doAddApprove(formId, FORM_NAME, FORM_TYPE_ID, tempVendorID))
             {
-                Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx'</script>");
+                Response.Write("<script>window.alert('提交成功！');window.location.href='/VendorAssess/EmployeeVendor.aspx</script>");
             }
         }
 

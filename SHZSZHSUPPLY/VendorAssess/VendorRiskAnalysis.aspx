@@ -13,7 +13,7 @@
 	<script type="text/javascript" src="Script/My97DatePicker/WdatePicker.js" ></script>
     <script>
         function viewFile(filePath) {
-            window.open("../files/a.pdf");
+            window.open(filePath);
         }
     </script>
 	<style type="text/css">
@@ -185,8 +185,8 @@
 		<tr>
 			<td >Where Used: 用在何处*</td>
 			<td ><asp:TextBox ID="txbWhereUsed" style="text-align:center" runat="server" BorderStyle="None" Width="100%" Height="100%"></asp:TextBox></td>
-			<td class="td-label-style">Annual Spend:年开支*</td>
-			<td ><asp:TextBox runat="server" ID="TextBox2" Width="100%" Height="100%" BorderStyle="None" style="text-align:center">0</asp:TextBox></td>
+			<td class="td-label-style">Annual Spend:年开支*(￥人民币-万元)</td>
+			<td ><asp:TextBox runat="server" ReadOnly="true" ID="TextBox2" Width="100%" Height="100%" BorderStyle="None" style="text-align:center">0</asp:TextBox></td>
 		</tr>
 		<tr>
 			<td ></td>
