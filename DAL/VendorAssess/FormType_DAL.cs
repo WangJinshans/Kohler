@@ -121,6 +121,12 @@ namespace DAL
             return DBHelp.GetDataSet(sql);
         }
 
+        public static DataTable getFormID(string tempVendorID,string typeName)
+        {
+            string sql = "select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID+"' and Form_Type_Name='" + typeName + "'";
+            return DBHelp.GetDataSet(sql);
+        }
+
         public static DataTable getFormNameByTypeID(string form_Type_ID)
         {
             string sql = "select Form_Type_Name from As_Form_Type where Form_Type_ID='" + form_Type_ID + "'";
