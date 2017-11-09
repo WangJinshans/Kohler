@@ -7,6 +7,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
+    <link rel="Stylesheet" href="VendorAssess/Script/jquery-3.2.1.min.js" />
     <style type="text/css">
         .style1 {
             width: 100%;
@@ -79,7 +80,6 @@
 
                     #jsddm li a:hover {
                         background: #24313C;
-                        
                     }
 
                 #jsddm li ul {
@@ -104,51 +104,54 @@
                             #jsddm li ul li a:hover {
                                 background: #8EA344;
                             }
-                                    .navenable{
-            display:normal;
+
+        .navenable {
+            display: normal;
         }
-        .nav{
-            display:none;
+
+        .nav {
+            display: none;
         }
-        .n1,.n2,.n3,.n4,.n5{
-            display:none;
+
+        .n1, .n2, .n3, .n4, .n5 {
+            display: none;
         }
     </style>
 
-     <script type="text/javascript">
-         function filterNavigation(a, b, c, d, e) {
-             if (a == 'TRUE') {
-                 show(1);
-             }
-             if (b == 'TRUE') {
-                 show(2);
-             }
-             if (c == 'TRUE') {
-                 show(3);
-             }
-             if (d == 'TRUE') {
-                 show(4);
-             }
-             if (e == 'TRUE') {
-                 show(5);
-             }
-         }
+    <script type="text/javascript">
+        window.onload = function () {
 
-         function isIE() { //ie?
-             return !!window.ActiveXObject || "ActiveXObject" in window;
-         }
+        }
+
+        function filterNavigation(a, b, c, d, e) {
+            if (a == 'TRUE') {
+                show(1);
+            }
+            if (b == 'TRUE') {
+                show(2);
+            }
+            if (c == 'TRUE') {
+                show(3);
+            }
+            if (d == 'TRUE') {
+                show(4);
+            }
+            if (e == 'TRUE') {
+                show(5);
+            }
+        }
+
+        function isIE() { //ie?
+            return !!window.ActiveXObject || "ActiveXObject" in window;
+        }
 
         function show(index) {
-            var nodes = document.getElementsByClassName('nav n'+String(index));
+            var nodes = $('a.nav.n' + String(index));
             for (var i = 0; i < nodes.length; i++) {
-                if (isIE()) {
-                    nodes.item(i).style.display = '';
-                } else {
-                    nodes.item(i).style = 'display:normal';
-                }
+                nodes[i].style.display = '';
             }
-            if (isIE()) {
-                document.getElementsByClassName('nav nt' + String(index))[0].style.display = '';
+            if (isIE() || (isSafari = navigator.userAgent.indexOf("Safari") > 0)) {
+                $('a.nav.nt' + String(index))[0].style.display = '';
             } else {
                 document.getElementsByClassName('nav nt' + String(index))[0].style = 'background-color:#324143;color:white;display:normal';
             }
@@ -179,7 +182,7 @@
                 <td bgcolor="#324143">
 
                     <ul id="jsddm">
-                        <li><a href="#" style="text-align: center;display:none">供应商管理</a>
+                        <li><a href="#" style="text-align: center; display: none">供应商管理</a>
                             <ul>
                                 <li><a href="VenderInfo/VenderCreate.aspx" target="iFrame1">供应商信息创建 </a></li>
                                 <li><a href="VenderInfo/VenderMaintenance.aspx" target="iFrame1">供应商信息编辑</a></li>
@@ -188,28 +191,28 @@
                             </ul>
                         </li>
 
-                        <li><a href="#">供应商审批</a>
+                        <li><a href="#" onclick="filterNavigation('TRUE', 'TRUE', 'TRUE', 'TRUE', 'TRUE')">供应商审批</a>
                             <ul>
-                                <li><a class="nav nt1" style="background-color:#324143;color:white;display:none">新建</a></li>
-                                <li><a class="nav n1" style="display:none" href="VendorAssess/VendorInfo.aspx" target="iFrame1">供应商信息创建</a></li>
-                                <li><a class="nav n1" style="display:none" href="VendorAssess/VendorSharedUse.aspx" target="iFrame1">供应商信息复用</a></li>
-                                <li><a class="nav n1" style="display:none" href="VendorAssess/EmployeeVendor.aspx" target="iFrame1">供应商审批文件管理</a></li>
-                                <li><a class="nav n1" style="display:none" href="VendorAssess/FormWaitToFill.aspx" target="iFrame1">多部门供应商表单填写</a></li>
+                                <li><a class="nav nt1" style="background-color: #324143; color: white; display: none">新建</a></li>
+                                <li><a class="nav n1" style="display: none" href="VendorAssess/VendorInfo.aspx" target="iFrame1">供应商信息创建</a></li>
+                                <li><a class="nav n1" style="display: none" href="VendorAssess/VendorSharedUse.aspx" target="iFrame1">供应商信息复用</a></li>
+                                <li><a class="nav n1" style="display: none" href="VendorAssess/EmployeeVendor.aspx" target="iFrame1">供应商审批文件管理</a></li>
+                                <li><a class="nav n1" style="display: none" href="VendorAssess/FormWaitToFill.aspx" target="iFrame1">多部门供应商表单填写</a></li>
 
-                                <li><a class="nav nt2" style="background-color:#324143;color:white;display:none">审批</a></li>
-                                <li><a class="nav n2" style="display:none" href="VendorAssess/ShowApproveForm.aspx" target="iFrame1">常规审批</a></li>
-                                <li><a class="nav n2" style="display:none" href="VendorAssess/KCI.aspx" target="iFrame1">KCI审批</a></li>
+                                <li><a class="nav nt2" style="background-color: #324143; color: white; display: none">审批</a></li>
+                                <li><a class="nav n2" style="display: none" href="VendorAssess/ShowApproveForm.aspx" target="iFrame1">常规审批</a></li>
+                                <li><a class="nav n2" style="display: none" href="VendorAssess/KCI.aspx" target="iFrame1">KCI审批</a></li>
 
-                                <li><a class="nav nt3" style="background-color:#324143;color:white;display:none">编辑</a></li>
-                                <li><a class="nav n3" style="display:none" href="VendorAssess/FileOverDue.aspx" target="iFrame1">供应商过期文件编辑</a></li>
-                                <li><a class="nav n3" style="display:none" href="VenderInfo/VenderMaintenance.aspx" target="iFrame1">供应商信息编辑</a></li>
+                                <li><a class="nav nt3" style="background-color: #324143; color: white; display: none">编辑</a></li>
+                                <li><a class="nav n3" style="display: none" href="VendorAssess/FileOverDue.aspx" target="iFrame1">供应商过期文件编辑</a></li>
+                                <li><a class="nav n3" style="display: none" href="VenderInfo/VenderMaintenance.aspx" target="iFrame1">供应商信息编辑</a></li>
 
-                                <li><a class="nav nt4" style="background-color:#324143;color:white;display:none">查看</a></li>
-                                <li><a class="nav n4" style="display:none" href="VendorAssess/ApprovalProgress.aspx" target="iFrame1">供应商审批状态查看</a></li>
-                                <li><a class="nav n4" style="display:none" href="VenderInfo/VenderInfoDisplay.aspx" target="iFrame1">供应商信息查看</a></li>
+                                <li><a class="nav nt4" style="background-color: #324143; color: white; display: none">查看</a></li>
+                                <li><a class="nav n4" style="display: none" href="VendorAssess/ApprovalProgress.aspx" target="iFrame1">供应商审批状态查看</a></li>
+                                <li><a class="nav n4" style="display: none" href="VenderInfo/VenderInfoDisplay.aspx" target="iFrame1">供应商信息查看</a></li>
 
-                                <li><a class="nav nt5" style="background-color:#324143;color:white;display:none">删除</a></li>
-                                <li><a class="nav n5" style="display:none" href="VenderInfo/SharedItemMA.aspx" target="iFrame1">供应商变更及文档删除</a></li>
+                                <li><a class="nav nt5" style="background-color: #324143; color: white; display: none">删除</a></li>
+                                <li><a class="nav n5" style="display: none" href="VenderInfo/SharedItemMA.aspx" target="iFrame1">供应商变更及文档删除</a></li>
                             </ul>
                         </li>
                         <li><a href="#" style="text-align: center">供应商评估</a>
