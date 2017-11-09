@@ -77,5 +77,32 @@ namespace DAL.VendorAssess
                     return false;//不存在用户部门未审批记录 返回false
                 }
         }
+
+        public static int refuseAssess(string formID, string position, string factory, string reason, string formTypeID, string tempVendorID, string employeeID, string tableName)
+        {
+            SqlCommand cmd = new SqlCommand("refuseAssess", DBHelp.Connection);
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@formID",formID),
+                new SqlParameter("@position",position),
+                new SqlParameter("@factory",factory),
+                new SqlParameter("@reason",reason),
+                new SqlParameter("@formTypeID",formTypeID),
+                new SqlParameter("@tempVendorID",tempVendorID),
+                new SqlParameter("@employeeID",employeeID),
+                new SqlParameter("@aimFormName",tableName)
+            };
+            SqlParameter paramReturn = new SqlParameter("@return", SqlDbType.Int);
+            paramReturn.Direction = ParameterDirection.ReturnValue;
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Clear();
+            cmd.Parameters.AddRange(sp);
+            cmd.Parameters.Add(paramReturn);
+            cmd.ExecuteNonQuery();
+            DBHelp.Connection.Close();
+
+            return Convert.ToInt32(paramReturn.Value);
+        }
     }
 }
