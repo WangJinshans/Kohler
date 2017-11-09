@@ -50,13 +50,14 @@ namespace BLL.VendorAssess
             Smtp.Host = "apaccasarray.kohlerco.com";
             //Smtp.SendCompleted += Smtp_SendCompleted;
 
-            Tuple<SmtpClient,MailMessage, string, string,string> tuple = Tuple.Create(Smtp,MailMessage,HttpContext.Current.Session["Employee_ID"].ToString(), other+"目标："+aimEmail, tempVendorID);
+            string formID = FormType_BLL.getFormID(tempVendorID, formTypeName);
+            Tuple<SmtpClient,MailMessage, string, string,string,string> tuple = Tuple.Create(Smtp,MailMessage,HttpContext.Current.Session["Employee_ID"].ToString(), other+"目标："+aimEmail, tempVendorID,formID);
             ThreadPool.QueueUserWorkItem(new WaitCallback(ThreadProc), tuple);
         }
 
         static void ThreadProc(object state)
         {
-            Tuple<SmtpClient, MailMessage,string, string, string> tuple = (Tuple<SmtpClient , MailMessage,string, string, string>)state;
+            Tuple<SmtpClient, MailMessage,string, string, string,string> tuple = (Tuple<SmtpClient , MailMessage,string, string, string,string>)state;
             SmtpClient Smtp = tuple.Item1;
             MailMessage MailMessage = tuple.Item2;
             try
@@ -82,7 +83,14 @@ namespace BLL.VendorAssess
             catch (Exception e)
             {
                 Smtp.SendAsyncCancel();
-                Write_BLL.writeLog(tuple.Item3, "", ("邮件发送失败内容：" + tuple.Item4), As_Write.MAIL_ERROR, tuple.Item5);
+                try
+                {
+                    Write_BLL.writeLog(tuple.Item3,tuple.Item6, ("邮件发送失败内容：" + tuple.Item4), As_Write.MAIL_ERROR, tuple.Item5);
+                }
+                catch (Exception)
+                {
+
+                }
             }
             finally
             {
@@ -124,8 +132,8 @@ namespace BLL.VendorAssess
             SmtpClient Smtp = new SmtpClient();
             Smtp.Host = "apaccasarray.kohlerco.com";
 
-
-            Tuple<SmtpClient, MailMessage, string, string, string> tuple = Tuple.Create(Smtp, MailMessage, HttpContext.Current.Session["Employee_ID"].ToString(), other + "目标：" + aimEmail, tempVendorID);
+            string formID = FormType_BLL.getFormID(tempVendorID, formTypeName);
+            Tuple<SmtpClient, MailMessage, string, string, string,string> tuple = Tuple.Create(Smtp, MailMessage, HttpContext.Current.Session["Employee_ID"].ToString(), other + "目标：" + aimEmail, tempVendorID,formID);
             ThreadPool.QueueUserWorkItem(new WaitCallback(ThreadProc), tuple);
         }
 

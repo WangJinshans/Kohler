@@ -105,7 +105,7 @@ namespace BLL.VendorAssess
             return Signature_DAL.getPositionNameUrl(position, factory);
         }
 
-        private static string switchFormID(string formID)//未完待续。。。
+        public static string switchFormID(string formID)//未完待续。。。
         {
             string table = "";
             if(formID.Contains("ContractApproval"))
