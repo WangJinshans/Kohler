@@ -13,12 +13,12 @@ function uploadFile(requestType, tempVendorID, tempVendorName, fileTypeID, needD
             type: 2,
             title: '文件上传',
             maxmin: true,
-            content: '/VendorAssess/Html_Template/File_Upload_Page.html',
+            content: '/VendorAssess/Html_Template/File_Upload_Page.html?v=1',
             area: ['800px', '300px'],
             shadeClose: false,
             success: function (layero, index) {
                 var iframeWin = window[layero.find('iframe')[0]['name']];
-                iframeWin.setOwnParams(requestType,tempVendorID, tempVendorName, fileTypeID, needDate);
+                iframeWin.setOwnParams(requestType, tempVendorID, tempVendorName, fileTypeID, needDate);
             },
             cancel: function (index, layero) {
                 var iframeWin = window[layero.find('iframe')[0]['name']];
@@ -65,11 +65,34 @@ function message(msg) {
 function messageFunc(msg, func) {
     layui.use(['layer'], function () {
         var layer = layui.layer;
-        layer.msg(msg, { time: 1500 },func);
+        layer.msg(msg, { time: 1500 }, func);
     })
 }
 
-function openReasonDialog(form_id,position_name,factory_name,callback) {
+function messageConfirm(msg, aimURL) {
+    layui.use(['layer'], function () {
+        var layer = layui.layer;
+        layer.open({
+            title: '提示'
+        , content: msg
+        , yes: function (index, layero) {
+            window.location.href = aimURL;
+        }
+        });
+    })
+}
+
+function messageConfirmNone(msg) {
+    layui.use(['layer'], function () {
+        var layer = layui.layer;
+        layer.open({
+            title: '提示'
+            , content: msg
+        });
+    })
+}
+
+function openReasonDialog(form_id, position_name, factory_name, callback) {
     layui.use(['layer'], function () {
         var layer = layui.layer;
         layer.prompt({
@@ -83,7 +106,7 @@ function openReasonDialog(form_id,position_name,factory_name,callback) {
             } else {
                 $.ajax({
                     type: "post",
-                    async:false,
+                    async: false,
                     url: "/VendorAssess/ASHX/Database_Handler.ashx",
                     data: { requestType: 'approveReason', formID: form_id, positionName: position_name, factoryName: factory_name, reason: value },
                     dataType: "json",
@@ -94,7 +117,7 @@ function openReasonDialog(form_id,position_name,factory_name,callback) {
                         layer.close(index);
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        layer.msg("操作失败"+textStatus+errorThrown);
+                        layer.msg("操作失败" + textStatus + errorThrown);
                     }
                 });
             }
