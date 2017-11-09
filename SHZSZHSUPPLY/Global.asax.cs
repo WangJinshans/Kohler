@@ -33,7 +33,13 @@ namespace SHZSZHSUPPLY
                     Response.Write("<script>window.alert('登录已过期，请重新登录系统！');window.location.href='/Login.aspx'</script>");
                     Server.ClearError();
                 }
+                else if (exception.InnerException.Message.Contains("插入重复键"))
+                {
+                    Response.Write("<script>window.alert('此动作已执行，请勿重复！');window.location.href='/VendorAssess/EmployeeVendor.aspx'</script>");
+                    Server.ClearError();
+                }
             }
+            
         }
 
         void Session_Start(object sender, EventArgs e)
