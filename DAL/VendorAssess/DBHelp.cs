@@ -110,6 +110,8 @@ namespace DAL
             SqlCommand cmd = new SqlCommand(safeSql, Connection);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(ds);
+            da.Dispose();
+            cmd.Dispose();
             return ds.Tables[0];
         }
 
@@ -120,6 +122,8 @@ namespace DAL
             cmd.Parameters.AddRange(values);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(ds);
+            da.Dispose();
+            cmd.Dispose();
             return ds.Tables[0];
         }
 

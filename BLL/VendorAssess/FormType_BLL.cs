@@ -146,6 +146,7 @@ namespace BLL
                     formName = dr["Form_Type_Name"].ToString().Trim();
                 }
             }
+            table.Dispose();
             return formName;
         }
 
