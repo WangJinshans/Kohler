@@ -761,12 +761,12 @@
     <Content Include="VendorAssess\Script\fine-uploader\jquery.fine-uploader.min.js.map" />
     <Content Include="VendorAssess\Script\fine-uploader\LICENSE" />
     <Content Include="VendorAssess\ASHX\File_Upload_End_Point.ashx" />
-    <Content Include="VendorAssess\ASHX\Database_Handler.ashx" />
     <Content Include="VendorAssess\ASHX\PDF.ashx" />
     <Content Include="VendorAssess\Script\laydate\theme\default\font\iconfont.eot" />
     <Content Include="VendorAssess\Script\laydate\theme\default\font\iconfont.ttf" />
     <Content Include="VendorAssess\Script\laydate\theme\default\font\iconfont.woff" />
     <Content Include="Site.Master" />
+    <Content Include="VendorAssess\ASHX\Database_Handler.ashx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

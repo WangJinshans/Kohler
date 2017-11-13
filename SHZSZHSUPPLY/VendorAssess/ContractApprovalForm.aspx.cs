@@ -818,7 +818,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 //TODO::这里不能这样写，具体参考Creation的写法，这里暂时不改
                 Session["tempvendorname"] = tempVendorName;
                 Session["Employee_ID"] = Session["Employee_ID"];
-                Response.Write("<script>window.alert('提交成功！');window.location.href='/VendorAssess/EmployeeVendor.aspx</script>");
+                Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx</script>");
             }
         }
 

@@ -135,9 +135,17 @@ namespace SHZSZHSUPPLY.VendorAssess
             else if (e.CommandName == "fail")//KCI审批不过
             {
                 //流程回滚
-                Approve_BLL.resetFormStatus(formID, Form_Type_ID, temp_vendor_ID);
-                //写出日志
-                LocalLog.writeLog(formID, String.Format("KCI审批失败，表格审批状态重置,请重新填写后再次提交审批    时间{0}", DateTime.Now.ToString()), As_Write.APPROVE_SUCCESS, temp_vendor_ID);
+                string tableName = Signature_BLL.switchFormID(formID);
+                int i = Approve_BLL.refuseAssess(formID, "", Session["Factory_Name"].ToString(), "kci审批失败", Form_Type_ID, temp_vendor_ID, Session["Employee_ID"].ToString(), tableName);
+                if (i == 1)
+                {
+                    //写出日志
+                    LocalLog.writeLog(formID, String.Format("KCI审批失败，表格审批状态重置,请重新填写后再次提交审批    时间{0}", DateTime.Now.ToString()), As_Write.APPROVE_SUCCESS, temp_vendor_ID);
+                }
+                else
+                {   //否则是存储过程执行失败
+                    Response.Write("<script>messageConfirmNone('KCI拒绝失败！数据库响应错误！');</script>");
+                }
             }
             string requestType = "kciUpload";
             string fileTypeID = formID;//TODO::暂时为form_ID

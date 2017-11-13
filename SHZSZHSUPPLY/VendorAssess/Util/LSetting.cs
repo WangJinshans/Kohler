@@ -29,5 +29,13 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                 return Properties.Settings.Default.Log_Enabled;
             }
         }
+
+        public static string File_Reltive_Path
+        {
+            get
+            {
+                return Properties.Settings.Default.File_Relative_Path;
+            }
+        }
     }
 }

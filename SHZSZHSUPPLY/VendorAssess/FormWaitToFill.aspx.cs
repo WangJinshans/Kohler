@@ -131,13 +131,13 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 //获取供应商名称转换为临时ID的值传入session;
                 GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
-                string tempvendorname = GridView2.Rows[drv.RowIndex].Cells[2].Text;
+                string tempvendorname = HttpUtility.HtmlDecode(GridView2.Rows[drv.RowIndex].Cells[2].Text);
                 string formTypeID = e.CommandArgument.ToString();
                 string tempVendorID = TempVendor_BLL.getTempVendorID(tempvendorname);
                 Session["tempVendorID"] = tempVendorID;
 
                 //点击不同表格进入到不同界面.
-                Response.Redirect("/VendorAssess/" + PageSelect.dcEditToShow[e.CommandArgument.ToString()] + "?type=" + e.CommandArgument.ToString());
+                Response.Redirect(PageSelect.dcEditToShow[e.CommandArgument.ToString()] + "?type=" + e.CommandArgument.ToString());
             }
         }
 

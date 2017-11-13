@@ -13,7 +13,7 @@ using BLL;
 
 namespace SHZSZHSUPPLY
 {
-    public partial class WebForm1 : System.Web .UI .Page  
+    public partial class WebForm1 : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -24,23 +24,30 @@ namespace SHZSZHSUPPLY
             //    Response.Redirect("../Login.aspx");
             //    return;
             //}
-           
 
-            Label2.Text = Request.QueryString ["name1"];
-            Label3.Text = Request.QueryString["name2"];
 
-            iFrame1.Attributes.Add("src", "MainPage.aspx");
-
-            try
+            if (!IsPostBack)
             {
-                List<string> list = Employee_BLL.getAuthority(Session["Employee_ID"].ToString());
+                Label2.Text = Request.QueryString["name1"];
+                Label3.Text = Request.QueryString["name2"];
 
-                LocalScriptManager.CreateScript(Page, String.Format("filterNavigation('{0}', '{1}', '{2}', '{3}', '{4}')", list[0], list[1], list[2], list[3], list[4]), "dis");
+                iFrame1.Attributes.Add("src", "MainPage.aspx");
 
+                try
+                {
+                    List<string> list = Employee_BLL.getAuthority(Session["Employee_ID"].ToString());
+
+                    LocalScriptManager.CreateScript(Page, String.Format("filterNavigation('{0}', '{1}', '{2}', '{3}', '{4}')", list[0], list[1], list[2], list[3], list[4]), "dis");
+
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("read error");
+                }
             }
-            catch (Exception)
+            else
             {
-                Console.WriteLine("read error");
+
             }
         }
 
@@ -52,14 +59,13 @@ namespace SHZSZHSUPPLY
 
         private void WebForm1_Unload(object sender, EventArgs e)
         {
-            BLL.Utility.SqlUtil  Sqlutil = new BLL.Utility.SqlUtil ();
+            BLL.Utility.SqlUtil Sqlutil = new BLL.Utility.SqlUtil();
             Sqlutil.Sqlclose();
         }
 
-      
-
-    
 
 
-} 
+
+
     }
+}

@@ -242,6 +242,7 @@ namespace DAL.VendorAssess
                         item.Price1 = dts.Rows[j]["Price"].ToString().Trim();
                         item.Price2 = dts.Rows[j]["Price1"].ToString().Trim();
                         item.Price3 = dts.Rows[j]["Price2"].ToString().Trim();
+                        item.Remark = dts.Rows[j]["Remark"].ToString().Trim();
                         item.Form_ID = dts.Rows[j]["Form_ID"].ToString().Trim();
                         Vendor_Approval.ProjectList.Add(item);
                     }

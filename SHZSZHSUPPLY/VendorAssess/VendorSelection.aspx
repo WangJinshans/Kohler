@@ -9,7 +9,7 @@
     <script type="text/javascript" src="Script/My97DatePicker/WdatePicker.js"></script>
     <script src="Script/layui/layui.js"></script>
     <script src="Script/jquery-3.2.1.min.js"></script>
-    <script src="Script/Own/fileUploader.js"></script>
+    <script src="Script/Own/fileUploader.js?v=2"></script>
     <script>
         onload = function () {
             var obj = parent.document.getElementById("iFrame1");  //取得父页面IFrame对象  
@@ -46,14 +46,14 @@
                     btn: ['是', '否'],
                     yes: function (index, layero) {
                         if (hasFile) {
-                            la_layer.msg("保存表格，变更fill flag", { time: 1000 }, function () {
+                            la_layer.msg("表单已保存并提交，即将跳转...", { time: 1000 }, function () {
                                 __myDoPostBack("fileUploadResult", true);
                             });
                         } else {
-                            la_layer.msg("请上传填写授权文件或其他证明材料", { time: 1000 }, function () {
+                            la_layer.msg("请上传填写授权文件或其他证明材料", { time: 1500 }, function () {
                                 requestType = "multiFillUpload";
                                 fileTypeID = "032";
-                                uploadFile(requestType, tempVendorID, tempVendorName, fileTypeID, function (result) {
+                                uploadFile(requestType, tempVendorID, tempVendorName, fileTypeID,false, function (result) {
                                     if (result['success']) {
                                         __myDoPostBack("fileUploadResult", true);
                                     } else {
@@ -64,7 +64,7 @@
                         }
                     },
                     btn2: function (index, layero) {
-                        la_layer.msg("保存表格，变更fill flag", { icon: 1, time: 1000 }, function () {
+                        la_layer.msg("表单已保存并提交，即将跳转...", { icon: 1, time: 1500 }, function () {
                             __myDoPostBack("fileUploadResult", true);
                         });
 

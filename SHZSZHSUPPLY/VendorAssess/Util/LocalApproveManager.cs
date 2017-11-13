@@ -207,8 +207,8 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
 
             LocalScriptManager.CreateScript(SelectDepartment.originPage, "message('提示测试')", "redirectpage1");
 
-            //LocalScriptManager.CreateScript(SelectDepartment.originPage, String.Format("messageFunc('{0}', {1})","表格已成功提交", "function () {window.location.href='/VendorAssess/EmployeeVendor.aspx;}"), "redirectpage");
-            HttpContext.Current.Response.Redirect("/VendorAssess/EmployeeVendor.aspx");
+            //LocalScriptManager.CreateScript(SelectDepartment.originPage, String.Format("messageFunc('{0}', {1})","表格已成功提交", "function () {window.location.href='~/VendorAssess/EmployeeVendor.aspx;}"), "redirectpage");
+            HttpContext.Current.Response.Redirect("EmployeeVendor.aspx");
             return true;
         }
         #endregion
@@ -231,23 +231,29 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
 
             //最终  即将进行KCI
             if (result == KCI_FINAL)
-            {
-                Signature_BLL.setSignature(formID, positionName);//签名
+            {   
+                //PDF
+                LocalScriptManager.CreateScript(page, "waiting('正在生成PDF文档...');", "waiting");
+                outPutPDF(formID, tempVendorID, page);
+
+                //签名
+                Signature_BLL.setSignature(formID, positionName);
                 Signature_BLL.setSignatureDate(formID, positionName);
 
-                //PDF
-                outPutPDF(formID,tempVendorID);
-
+                //执行KCI
                 return doKCIApprove(formID, tempVendorID, formTypeID, positionName, page);
             }//正常最终
             else if (result == NORMAL_FINAL)//签名
             {
-                Signature_BLL.setSignature(formID, positionName);//签名
+                //PDF
+                LocalScriptManager.CreateScript(page, "waiting('正在生成PDF文档...');", "waiting");
+                outPutPDF(formID, tempVendorID, page);
+
+                //签名
+                Signature_BLL.setSignature(formID, positionName);
                 Signature_BLL.setSignatureDate(formID, positionName);
 
-                //PDF
-                outPutPDF(formID,tempVendorID);
-
+                //执行final
                 return doFinalApprove(formID, tempVendorID, formTypeID, positionName, page);
             }
             else//非最终  签名
@@ -301,7 +307,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             return false;
         }
 
-        public static void outPutPDF(string formID,string tempVendorID)
+        public static void outPutPDF(string formID,string tempVendorID, System.Web.UI.Page page)
         {
             try
             {
@@ -313,6 +319,8 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                 string file = HttpContext.Current.Server.MapPath(LSetting.File_Path)+File_BLL.generateFileID(tempVendorID, fileTypeName, factory) + ".pdf";
 
                 Process p = Process.Start(pdf, url + " \"" + file + "\"");
+                p.StartInfo.CreateNoWindow = true;
+                p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 p.WaitForExit();
 
                 As_Form form = new As_Form();
@@ -323,6 +331,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                 {
                     throw new Exception("数据库更新失败");
                 }
+                LocalScriptManager.CreateScript(page, "closeWaiting();", "closeWaiting");
             }
             catch (Exception)
             {

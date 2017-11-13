@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
-    <script src="Script/Own/fileUploader.js"></script>
+    <script src="Script/Own/fileUploader.js?v=2"></script>
     <script type="text/javascript" src="Script/My97DatePicker/WdatePicker.js"></script>
     <script type="text/javascript">
         $(function () {
@@ -159,6 +159,9 @@
                 <td colspan="1">Date:</td>
                 <td colspan="5"><asp:TextBox runat="server" id="TextBox8" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" height="100%" width="90%" /></td>
             </tr>
+            
+        </table>
+        <table style="margin: auto; border-collapse:initial;width:1000px" cellpadding="0" cellspacing="0">
             <tr>
                 <td colspan="6" style="text-align:left">Approval Signature</td>
             </tr>

@@ -6,6 +6,7 @@ using MODEL.VendorAssess;
 using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
 using System.Collections.Generic;
+using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.UI.WebControls;
 
@@ -78,7 +79,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
             string tempVendorID = GridView1.Rows[drv.RowIndex].Cells[1].Text;
             string tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
-            string itemCategory = GridView1.Rows[drv.RowIndex].Cells[0].Text;
+            string itemCategory = HttpUtility.HtmlDecode(GridView1.Rows[drv.RowIndex].Cells[0].Text);
             string fileTypeID = File_Type_BLL.selectFileTypeID(GridView1.Rows[drv.RowIndex].Cells[0].Text.ToString().Trim(), tempVendorID);//获取file_Type_ID
             string requestType = "overDueUpload";
             if (e.CommandName == "upload")

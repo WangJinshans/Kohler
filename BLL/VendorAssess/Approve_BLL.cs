@@ -58,5 +58,18 @@ namespace BLL.VendorAssess
         {
             return Approve_DAL.userDepartMentAsLastOne(formID,positionName);
         }
+
+        public static void resetForm(string formID, string formTypeID, string tempVendorID)
+        {
+            //删除签名
+            Signature_BLL.deleteSignature(formID);
+            //删除签名时间
+            Signature_BLL.deleteSignatureDate(formID);
+        }
+
+        public static int refuseAssess(string formID, string position, string factory, string reason, string formTypeID, string tempVendorID, string employeeID,string tableName)
+        {
+            return Approve_DAL.refuseAssess(formID, position, factory, reason, formTypeID, tempVendorID, employeeID,tableName);
+        }
     }
 }

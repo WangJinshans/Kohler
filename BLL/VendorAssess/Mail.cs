@@ -18,7 +18,7 @@ namespace BLL.VendorAssess
             SmtpClient Smtp = null;
             MailMessage MailMessage = null;
 
-            string path = HttpContext.Current.Server.MapPath("/VendorAssess/Html_Template/Mail_Template.html");
+            string path = HttpContext.Current.Server.MapPath("~/VendorAssess/Html_Template/Mail_Template.html");
             StreamReader sr = new StreamReader(path);
             string content = sr.ReadToEnd();
             sr.Close();
@@ -48,52 +48,43 @@ namespace BLL.VendorAssess
 
             Smtp = new SmtpClient();
             Smtp.Host = "apaccasarray.kohlerco.com";
-            //Smtp.SendCompleted += Smtp_SendCompleted;
+            Smtp.Timeout = 30000;
+            Smtp.SendCompleted += Smtp_SendCompleted;
 
-            Tuple<SmtpClient,MailMessage, string, string,string> tuple = Tuple.Create(Smtp,MailMessage,HttpContext.Current.Session["Employee_ID"].ToString(), other+"目标："+aimEmail, tempVendorID);
+            string formID = FormType_BLL.getFormID(tempVendorID, formTypeName);
+            Tuple<SmtpClient,MailMessage, string, string,string,string> tuple = Tuple.Create(Smtp,MailMessage,HttpContext.Current.Session["Employee_ID"].ToString(), other+"目标："+aimEmail, tempVendorID,formID);
             ThreadPool.QueueUserWorkItem(new WaitCallback(ThreadProc), tuple);
         }
 
         static void ThreadProc(object state)
         {
-            Tuple<SmtpClient, MailMessage,string, string, string> tuple = (Tuple<SmtpClient , MailMessage,string, string, string>)state;
+            Tuple<SmtpClient, MailMessage,string, string, string,string> tuple = (Tuple<SmtpClient , MailMessage,string, string, string,string>)state;
             SmtpClient Smtp = tuple.Item1;
             MailMessage MailMessage = tuple.Item2;
             try
             {
-                //Smtp.SendCompleted += (s, e) =>
-                //{
-                //    string[] args = (string[])e.UserState;
-                //    if (e.Cancelled)
-                //    {
-                //        Write_BLL.writeLog(HttpContext.Current.Session["Employee_ID"].ToString(), "", ("邮件已被取消内容：" + args[1]), As_Write.MAIL_CANCELLED, args[0]);
-                //    }
-                //    if (e.Error == null)
-                //    {
-                //        Write_BLL.writeLog(HttpContext.Current.Session["Employee_ID"].ToString(), "", ("邮件发送成功内容：" + args[1]), As_Write.MAIL_SUCCESS, args[0]);
-                //    }
-                //    else
-                //    {
-                //        Write_BLL.writeLog(HttpContext.Current.Session["Employee_ID"].ToString(), "", ("邮件发送失败内容：" + args[1]), As_Write.MAIL_ERROR, args[0]);
-                //    }
-                //};
-                Smtp.SendAsync(MailMessage, new string[] { tuple.Item5, tuple.Item4 });
+                Smtp.SendAsync(MailMessage, new string[] { tuple.Item5, tuple.Item4, tuple.Item3, tuple.Item6 });
             }
             catch (Exception e)
             {
                 Smtp.SendAsyncCancel();
-                Write_BLL.writeLog(tuple.Item3, "", ("邮件发送失败内容：" + tuple.Item4), As_Write.MAIL_ERROR, tuple.Item5);
+                try
+                {
+                    Write_BLL.writeLog(tuple.Item3,tuple.Item6, ("邮件发送失败内容：" + tuple.Item4), As_Write.MAIL_ERROR, tuple.Item5);
+                }
+                catch (Exception)
+                {
+
+                }
             }
             finally
             {
-                MailMessage.Dispose();
-                Smtp.Dispose();
             }
         }
 
         public static void backToast(string aimEmail, string name, string factory, string tempVendorID, string tempVendorName, string formTypeName, string status, string lastTime, string other)
         {
-            string path = HttpContext.Current.Server.MapPath("/VendorAssess/Html_Template/Mail_Template.html");
+            string path = HttpContext.Current.Server.MapPath("~/VendorAssess/Html_Template/Mail_Template.html");
             StreamReader sr = new StreamReader(path);
             string content = sr.ReadToEnd();
             sr.Close();
@@ -123,9 +114,11 @@ namespace BLL.VendorAssess
 
             SmtpClient Smtp = new SmtpClient();
             Smtp.Host = "apaccasarray.kohlerco.com";
+            Smtp.Timeout = 30000;
+            Smtp.SendCompleted += Smtp_SendCompleted;
 
-
-            Tuple<SmtpClient, MailMessage, string, string, string> tuple = Tuple.Create(Smtp, MailMessage, HttpContext.Current.Session["Employee_ID"].ToString(), other + "目标：" + aimEmail, tempVendorID);
+            string formID = FormType_BLL.getFormID(tempVendorID, formTypeName);
+            Tuple<SmtpClient, MailMessage, string, string, string,string> tuple = Tuple.Create(Smtp, MailMessage, HttpContext.Current.Session["Employee_ID"].ToString(), other + "目标：" + aimEmail, tempVendorID,formID);
             ThreadPool.QueueUserWorkItem(new WaitCallback(ThreadProc), tuple);
         }
 
@@ -135,15 +128,15 @@ namespace BLL.VendorAssess
             string[] args = (string[])e.UserState;
             if (e.Cancelled)
             {
-                Write_BLL.writeLog(HttpContext.Current.Session["Employee_ID"].ToString(), "", ("邮件已被取消内容：" + args[1]), As_Write.MAIL_CANCELLED, args[0]);
+                Write_BLL.writeLog(args[2], args[3], ("邮件已被取消内容：" + args[1]), As_Write.MAIL_CANCELLED, args[0]);
             }
             if (e.Error == null)
             {
-                Write_BLL.writeLog(HttpContext.Current.Session["Employee_ID"].ToString(), "", ("邮件发送成功内容：" + args[1]), As_Write.MAIL_SUCCESS, args[0]);
+                Write_BLL.writeLog(args[2], args[3], ("邮件发送成功内容：" + args[1]), As_Write.MAIL_SUCCESS, args[0]);
             }
             else
             {
-                Write_BLL.writeLog(HttpContext.Current.Session["Employee_ID"].ToString(), "", ("邮件发送失败内容：" + args[1]), As_Write.MAIL_ERROR, args[0]);
+                Write_BLL.writeLog(args[2], args[3], ("邮件发送失败内容：" + args[1]), As_Write.MAIL_ERROR, args[0]);
             }
         }
     }

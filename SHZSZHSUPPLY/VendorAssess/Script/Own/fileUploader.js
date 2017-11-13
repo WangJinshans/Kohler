@@ -5,6 +5,14 @@
 
 var uploadFileResult = { 'success': false };
 
+function getRootPath(){ 
+    var strFullPath=window.document.location.href; 
+    var strPath=window.document.location.pathname; 
+    var pos=strFullPath.indexOf(strPath); 
+    var prePath=strFullPath.substring(0,pos); 
+    var postPath=strPath.substring(0,strPath.substr(1).indexOf('/')+1); 
+    return(prePath+postPath); 
+}
 
 function uploadFile(requestType, tempVendorID, tempVendorName, fileTypeID, needDate, callback) {
     layui.use(['form', 'layer'], function () {
@@ -18,7 +26,7 @@ function uploadFile(requestType, tempVendorID, tempVendorName, fileTypeID, needD
             shadeClose: false,
             success: function (layero, index) {
                 var iframeWin = window[layero.find('iframe')[0]['name']];
-                iframeWin.setOwnParams(requestType,tempVendorID, tempVendorName, fileTypeID, needDate);
+                iframeWin.setOwnParams(requestType, tempVendorID, tempVendorName, fileTypeID, needDate);
             },
             cancel: function (index, layero) {
                 var iframeWin = window[layero.find('iframe')[0]['name']];
@@ -65,11 +73,51 @@ function message(msg) {
 function messageFunc(msg, func) {
     layui.use(['layer'], function () {
         var layer = layui.layer;
-        layer.msg(msg, { time: 1500 },func);
+        layer.msg(msg, { time: 1500 }, func);
     })
 }
 
-function openReasonDialog(form_id,position_name,factory_name,callback) {
+function messageConfirm(msg, aimURL) {
+    layui.use(['layer'], function () {
+        var layer = layui.layer;
+        layer.open({
+            title: '提示'
+        , content: msg
+        , yes: function (index, layero) {
+            window.location.href = aimURL;
+        }
+        });
+    })
+}
+
+function messageConfirmNone(msg) {
+    layui.use(['layer'], function () {
+        var layer = layui.layer;
+        layer.open({
+            title: '提示'
+            , content: msg
+        });
+    })
+}
+
+function waiting(msg) {
+    layui.use(['layer'], function () {
+        layer.msg(msg, {
+            icon: 16
+            , shade: 0.01
+            , time: 0
+            , shadeClose: true
+        });
+    });
+}
+
+function closeWaiting() {
+    layui.use(['layer'], function () {
+        layer.closeAll();
+    });
+}
+
+function openReasonDialog(form_id, position_name, factory_name, callback) {
     layui.use(['layer'], function () {
         var layer = layui.layer;
         layer.prompt({
@@ -83,8 +131,8 @@ function openReasonDialog(form_id,position_name,factory_name,callback) {
             } else {
                 $.ajax({
                     type: "post",
-                    async:false,
-                    url: "/VendorAssess/ASHX/Database_Handler.ashx",
+                    async: false,
+                    url: "./ASHX/Database_Handler.ashx",
                     data: { requestType: 'approveReason', formID: form_id, positionName: position_name, factoryName: factory_name, reason: value },
                     dataType: "json",
                     success: function (data, textStatus) {
@@ -94,7 +142,7 @@ function openReasonDialog(form_id,position_name,factory_name,callback) {
                         layer.close(index);
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        layer.msg("操作失败"+textStatus+errorThrown);
+                        layer.msg("操作失败" + textStatus + errorThrown);
                     }
                 });
             }

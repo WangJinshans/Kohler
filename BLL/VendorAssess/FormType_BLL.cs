@@ -87,6 +87,27 @@ namespace BLL
             }
         }
 
+        /// <summary>
+        /// 在实时绑定表中获取formid
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <param name="formTypeName"></param>
+        /// <returns></returns>
+        public static string getFormID(string tempVendorID, string formTypeName)
+        {
+            DataTable table = new DataTable();
+            string formID = "";
+            table = FormType_DAL.getFormID(tempVendorID,formTypeName);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    formID = dr["Form_ID"].ToString().Trim();
+                }
+            }
+            return formID;
+        }
+
         public static bool isRequiredMinimum(int number, string temp_Vendor_ID)
         {
             int min = 100;
@@ -125,6 +146,7 @@ namespace BLL
                     formName = dr["Form_Type_Name"].ToString().Trim();
                 }
             }
+            table.Dispose();
             return formName;
         }
 

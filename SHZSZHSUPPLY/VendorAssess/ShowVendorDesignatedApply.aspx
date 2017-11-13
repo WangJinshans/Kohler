@@ -9,7 +9,7 @@
 
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
-    <script src="Script/Own/fileUploader.js"></script>
+    <script src="Script/Own/fileUploader.js?v=2"></script>
     <script src="Script/PDF/js/html2canvas.js"></script>
     <script src="Script/PDF/js/jspdf.debug.js"></script>
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
@@ -148,7 +148,7 @@
             <asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="Button1" runat="server" OnClick="Button1_Click" Style="float: right;" />
         </div>
         <div id="div1" style="text-align: right">
-            <table style="margin: auto; border-collapse: initial; width: 1000px" cellpadding="0" cellspacing="0">
+            <table style="margin: auto;text-align:center; border-collapse: initial; width: 1000px" cellpadding="0" cellspacing="0">
                 <caption style="font-size: small; text-align: right; border-style: none;">PR-05-10-2</caption>
                 <caption style="font-size: xx-large;" class="auto-style2">上海科勒有限公司</caption>
                 <tr>
@@ -194,6 +194,9 @@
                     <td colspan="5">
                         <asp:TextBox ID="TextBox8" runat="server" CssClass="auto-style1" Width="811px" ReadOnly="True"></asp:TextBox></td>
                 </tr>
+                
+            </table>
+            <table style="margin: auto;text-align:center; border-collapse: initial;" cellpadding="0" cellspacing="0">
                 <tr>
                     <td colspan="6" style="text-align: left">Approval Signature</td>
                 </tr>
