@@ -5,6 +5,14 @@
 
 var uploadFileResult = { 'success': false };
 
+function getRootPath(){ 
+    var strFullPath=window.document.location.href; 
+    var strPath=window.document.location.pathname; 
+    var pos=strFullPath.indexOf(strPath); 
+    var prePath=strFullPath.substring(0,pos); 
+    var postPath=strPath.substring(0,strPath.substr(1).indexOf('/')+1); 
+    return(prePath+postPath); 
+}
 
 function uploadFile(requestType, tempVendorID, tempVendorName, fileTypeID, needDate, callback) {
     layui.use(['form', 'layer'], function () {
@@ -13,7 +21,7 @@ function uploadFile(requestType, tempVendorID, tempVendorName, fileTypeID, needD
             type: 2,
             title: '文件上传',
             maxmin: true,
-            content: '/VendorAssess/Html_Template/File_Upload_Page.html?v=1',
+            content: './Html_Template/File_Upload_Page.html',
             area: ['800px', '300px'],
             shadeClose: false,
             success: function (layero, index) {
@@ -92,6 +100,23 @@ function messageConfirmNone(msg) {
     })
 }
 
+function waiting(msg) {
+    layui.use(['layer'], function () {
+        layer.msg(msg, {
+            icon: 16
+            , shade: 0.01
+            , time: 0
+            , shadeClose: true
+        });
+    });
+}
+
+function closeWaiting() {
+    layui.use(['layer'], function () {
+        layer.closeAll();
+    });
+}
+
 function openReasonDialog(form_id, position_name, factory_name, callback) {
     layui.use(['layer'], function () {
         var layer = layui.layer;
@@ -107,7 +132,7 @@ function openReasonDialog(form_id, position_name, factory_name, callback) {
                 $.ajax({
                     type: "post",
                     async: false,
-                    url: "/VendorAssess/ASHX/Database_Handler.ashx",
+                    url: "./ASHX/Database_Handler.ashx",
                     data: { requestType: 'approveReason', formID: form_id, positionName: position_name, factoryName: factory_name, reason: value },
                     dataType: "json",
                     success: function (data, textStatus) {
