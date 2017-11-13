@@ -167,131 +167,131 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 CheckBox1.Checked = true;
             }
-            else if (contractApproval.Purchase_Type == "Indirect")
+            if (contractApproval.Purchase_Type == "Indirect")
             {
                 CheckBox2.Checked = true;
             }
-            else if (contractApproval.Purchase_Type == "Capital")
+            if (contractApproval.Purchase_Type == "Capital")
             {
                 CheckBox3.Checked = true;
             }
-            else if (contractApproval.Existing_Vendor == "yes")
+            if (contractApproval.Existing_Vendor == "yes")
             {
                 CheckBox4.Checked = true;
             }
-            else if (contractApproval.Existing_Vendor == "no")
+            if (contractApproval.Existing_Vendor == "no")
             {
                 CheckBox5.Checked = true;
             }
-            else if (contractApproval.Payment_Terms_Commitment == "1")
+            if (contractApproval.Payment_Terms_Commitment == "1")
             {
                 CheckBox6.Checked = true;
             }
-            else if (contractApproval.Price_Adjustment_Commitment == "1")
+            if (contractApproval.Price_Adjustment_Commitment == "1")
             {
                 CheckBox7.Checked = true;
             }
-            else if (contractApproval.Volume_Commitment == "1")
+            if (contractApproval.Volume_Commitment == "1")
             {
                 CheckBox8.Checked = true;
             }
-            else if (contractApproval.Period_Commitment == "1")
+            if (contractApproval.Period_Commitment == "1")
             {
                 CheckBox9.Checked = true;
             }
-            else if (contractApproval.Rebate_Commitment == "1")
+            if (contractApproval.Rebate_Commitment == "1")
             {
                 CheckBox10.Checked = true;
             }
-            else if (contractApproval.Work_Scope_Commitment == "1")
+            if (contractApproval.Work_Scope_Commitment == "1")
             {
                 CheckBox11.Checked = true;
             }
-            else if (contractApproval.Acceptence_Criteria_Commitment == "1")
+            if (contractApproval.Acceptence_Criteria_Commitment == "1")
             {
                 CheckBox12.Checked = true;
             }
-            else if (contractApproval.Warranty_Commitment == "1")
+            if (contractApproval.Warranty_Commitment == "1")
             {
                 CheckBox13.Checked = true;
             }
-            else if (contractApproval.Termination_Commitment == "1")
+            if (contractApproval.Termination_Commitment == "1")
             {
                 CheckBox14.Checked = true;
             }
-            else if (contractApproval.Exclusivity_Commitment == "1")
+            if (contractApproval.Exclusivity_Commitment == "1")
             {
                 CheckBox15.Checked = true;
             }
-            else if (contractApproval.Other_Provisions_Commitment == "1")
+            if (contractApproval.Other_Provisions_Commitment == "1")
             {
                 CheckBox16.Checked = true;
             }
-            else if (contractApproval.Changes == "1")
+            if (contractApproval.Changes == "1")
             {
                 CheckBox18.Checked = true;
                 if (contractApproval.Notice_Commitment == "1")
                 {
                     CheckBox20.Checked = true;
                 }
-                else if (contractApproval.Confidentiality_Commitment == "1")
+                if (contractApproval.Confidentiality_Commitment == "1")
                 {
                     CheckBox21.Checked = true;
                 }
-                else if (contractApproval.Announcement_Commitment == "1")
+                if (contractApproval.Announcement_Commitment == "1")
                 {
                     CheckBox22.Checked = true;
                 }
-                else if (contractApproval.Waivers_Commitment == "1")
+                if (contractApproval.Waivers_Commitment == "1")
                 {
                     CheckBox23.Checked = true;
                 }
-                else if (contractApproval.Severalbility_Commitment == "1")
+                if (contractApproval.Severalbility_Commitment == "1")
                 {
                     CheckBox24.Checked = true;
                 }
-                else if (contractApproval.Force_Commitment == "1")
+                if (contractApproval.Force_Commitment == "1")
                 {
                     CheckBox25.Checked = true;
                 }
-                else if (contractApproval.Delegation_Commitment == "1")
+                if (contractApproval.Delegation_Commitment == "1")
                 {
                     CheckBox26.Checked = true;
                 }
-                else if (contractApproval.Dispute_Resolution_Commitment == "1")
+                if (contractApproval.Dispute_Resolution_Commitment == "1")
                 {
                     CheckBox27.Checked = true;
                 }
-                else if (contractApproval.Other_Provisions_Commitment == "1")
+                if (contractApproval.Other_Provisions_Commitment == "1")
                 {
                     CheckBox28.Checked = true;
                 }
             }
-            else if (contractApproval.Safety_Manual == "1")
+            if (contractApproval.Safety_Manual == "1")
             {
                 CheckBox29.Checked = true;
             }
-            else if (contractApproval.Safety_Construction_Agreement == "1")
+            if (contractApproval.Safety_Construction_Agreement == "1")
             {
                 CheckBox30.Checked = true;
             }
-            else if (contractApproval.Evaluation_Control == "1")
+            if (contractApproval.Evaluation_Control == "1")
             {
                 CheckBox31.Checked = true;
             }
-            else if (contractApproval.Envouriment_Factory_List == "1")
+            if (contractApproval.Envouriment_Factory_List == "1")
             {
                 CheckBox32.Checked = true;
             }
-            else if (contractApproval.ACT == "1")
+            if (contractApproval.ACT == "1")
             {
                 CheckBox33.Checked = true;
             }
-            else if (contractApproval.Ergonomic_Confirmation == "1")
+            if (contractApproval.Ergonomic_Confirmation == "1")
             {
                 CheckBox34.Checked = true;
             }
-            else if (contractApproval.EHS == "1")
+            if (contractApproval.EHS == "1")
             {
                 CheckBox35.Checked = true;
             }
@@ -338,7 +338,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 if (positionName.Equals(Session["Position_Name"].ToString()))
                 {
                     //int i = AssessFlow_BLL.updateApprove(formid, positionName);
-                    if (LocalApproveManager.doSuccessApprove(formid, Session["tempVendorID"].ToString(), FORM_TYPE_ID, positionName, Page))
+                    if (LocalApproveManager.doSuccessApprove(formid, tempVendorID, FORM_TYPE_ID, positionName, Page))
                     {
                         //Response.Write("<script>window.alert('成功通过审批！');window.location.href='ShowContractApprovalForm.aspx'</script>");
                     }
@@ -382,7 +382,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             string fileID = GridView2.Rows[drv.RowIndex].Cells[1].Text.ToString().Trim();//获取fileID
             if (e.CommandName == "view")
             {
-                string filePath = LSetting.File_Path + fileID + ".pdf";
+                string filePath = LSetting.File_Reltive_Path + fileID + ".pdf";
                 if (filePath != "")
                 {
                     ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>viewFile('" + filePath + "');</script>");
