@@ -4,12 +4,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="/VendorAssess/Script/fine-uploader/fine-uploader-new.css" />
-    <link rel="stylesheet" href="/VendorAssess/Script/layui/css/layui.css" />
-    <!--<link rel="stylesheet" href="/VendorAssess/Script/laydate/theme/default/laydate.css" />-->
-    <script src="/VendorAssess/Script/jquery-3.2.1.min.js"></script>
-    <script src="/VendorAssess/Script/layui/layui.js"></script>
-    <script src="/VendorAssess/Script/fine-uploader/jquery.fine-uploader.js"></script>
+    <link rel="stylesheet" href="../Script/fine-uploader/fine-uploader-new.css" />
+    <link rel="stylesheet" href="../Script/layui/css/layui.css" />
+    <!--<link rel="stylesheet" href="../Script/laydate/theme/default/laydate.css" />-->
+    <script src="../Script/jquery-3.2.1.min.js"></script>
+    <script src="../Script/layui/layui.js"></script>
+    <script src="../Script/fine-uploader/jquery.fine-uploader.js"></script>
     <script type="text/template" id="qq-template-manual-trigger">
         <div class="qq-uploader-selector qq-uploader" qq-drop-area-text="拖动文件到此处">
             <div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
@@ -244,7 +244,7 @@
             folders: true,
             autoUpload: false,
             request: {
-                endpoint: '/VendorAssess/ASHX/File_Upload_End_Point.ashx'
+                endpoint: '../ASHX/File_Upload_End_Point.ashx'
             },
             text: {
                 uploadButton: '上传'
@@ -255,8 +255,8 @@
             },
             thumbnails: {
                 placeholders: {
-                    waitingPath: '/VendorAssess/Script/fine-uploader/placeholders/waiting-generic.png',
-                    notAvailablePath: '/VendorAssess/Script/fine-uploader/placeholders/not_available-generic.png'
+                    waitingPath: '../Script/fine-uploader/placeholders/waiting-generic.png',
+                    notAvailablePath: '../Script/fine-uploader/placeholders/not_available-generic.png'
                 }
             },
             messages: {
