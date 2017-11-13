@@ -8,7 +8,7 @@
     <title></title>
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
-    <script src="Script/Own/fileUploader.js"></script>
+    <script src="Script/Own/fileUploader.js?v=2"></script>
     <script src="Script/My97DatePicker/WdatePicker.js"></script>
     <script src="Script/PDF/js/html2canvas.js"></script>
     <script src="Script/PDF/js/jspdf.debug.js"></script>
@@ -167,13 +167,13 @@
                 <td colspan="2" rowspan="1" style="border: none; font-size: small;" class="auto-style3">
                     <asp:Label Text="Type of Purchase:" runat="server" BorderStyle="None" /></td>
                 <td colspan="1" rowspan="2" style="border: none; text-align: center;">
-                    <asp:CheckBox Text="" runat="server" onclick="choose(1)" ID="CheckBox1" disabled="disabled" /></td>
+                    <asp:CheckBox Text="" runat="server" onclick="choose(1)" ID="CheckBox1" Enable="False" /></td>
                 <td colspan="1" rowspan="1" style="border: none; font-size: small;" class="auto-style3">Direct</td>
                 <td colspan="1" rowspan="2" style="border: none; text-align: center">
-                    <asp:CheckBox Text="" runat="server" onclick="choose(2)" disabled="disabled" ID="CheckBox2" /></td>
+                    <asp:CheckBox Text="" runat="server" onclick="choose(2)" Enable="False" ID="CheckBox2" /></td>
                 <td colspan="1" rowspan="1" style="border: none; font-size: small;" class="auto-style3">Indirect</td>
                 <td colspan="1" rowspan="2" style="border: none; text-align: center">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox3" disabled="disabled" onclick="choose(3)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox3" Enable="False" onclick="choose(3)" /></td>
                 <td colspan="1" rowspan="1" style="border: none; font-size: small;" class="auto-style3">Capital</td>
                 <td colspan="3" rowspan="1" style="border-collapse: collapse; border-bottom: 0; border-right: 0; font-size: small;" class="auto-style3">
                     <asp:Label Text="Contract Subject:" runat="server" BorderStyle="None" /></td>
@@ -209,7 +209,7 @@
                     <br>
                     现有供应商 * </td>
                 <td colspan="1" rowspan="2" style="border-style: none; text-align: center">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox4" disabled="disabled" onclick="choose(4)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox4" Enable="False" onclick="choose(4)" /></td>
                 <td colspan="1" rowspan="1" style="border-bottom: 0; border-left: 0; border-right: 0; text-align: center">yes</td>
                 <td colspan="1" rowspan="2" style="border-left: 0; border-right: 0;">
                     <asp:TextBox runat="server" ReadOnly="true" ID="Textbox10" BorderStyle="None" /></td>
@@ -239,7 +239,7 @@
                     <asp:TextBox runat="server" ReadOnly="true" ID="Textbox86" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" Height="10px" />
                 </td>
                 <td colspan="1" rowspan="2" style="border-style: none; text-align: center;">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox5" disabled="disabled" onclick="choose(5)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox5" Enable="False" onclick="choose(5)" /></td>
                 <td colspan="1" rowspan="1" style="text-align: center; border-style: none;">no</td>
             </tr>
             <tr>
@@ -280,7 +280,7 @@
                 <td class="auto-style2">
                     <asp:TextBox runat="server" ID="Textbox9" BorderStyle="None" /></td>
                 <td style="text-align: center" class="auto-style2">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox6" disabled="disabled" onclick="choose(6)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox6" Enable="False" onclick="choose(6)" /></td>
                 <td colspan="8" class="auto-style2">
                     <asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox13" BorderStyle="None" ReadOnly="true"></asp:TextBox></td>
                 <td colspan="2" class="auto-style2">
@@ -297,7 +297,7 @@
                 <td>
                     <asp:TextBox runat="server" ID="Textbox17" BorderStyle="None" /></td>
                 <td style="text-align: center">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox7" disabled="disabled" onclick="choose(7)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox7" Enable="False" onclick="choose(7)" /></td>
                 <td colspan="8">
                     <asp:TextBox runat="server" ID="Textbox19" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
                 <td colspan="2" rowspan="11">
@@ -313,7 +313,7 @@
                 <td>
                     <asp:TextBox runat="server" ID="Textbox21" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox8" disabled="disabled" onclick="choose(8)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox8" Enable="False" onclick="choose(8)" /></td>
                 <td colspan="8">
                     <asp:TextBox runat="server" ID="Textbox23" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
@@ -325,7 +325,7 @@
                 <td>
                     <asp:TextBox runat="server" ID="Textbox25" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox9" disabled="disabled" onclick="choose(9)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox9" Enable="False" onclick="choose(9)" /></td>
                 <td colspan="8">
                     <asp:TextBox runat="server" ID="Textbox27" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
@@ -337,7 +337,7 @@
                 <td>
                     <asp:TextBox runat="server" ID="Textbox29" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox10" disabled="disabled" onclick="choose(10)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox10" Enable="False" onclick="choose(10)" /></td>
                 <td colspan="8">
                     <asp:TextBox runat="server" ID="Textbox31" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
@@ -349,7 +349,7 @@
                 <td>
                     <asp:TextBox runat="server" ID="Textbox33" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox11" disabled="disabled" onclick="choose(11)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox11" Enable="False" onclick="choose(11)" /></td>
                 <td colspan="8">
                     <asp:TextBox runat="server" ID="Textbox35" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
@@ -361,7 +361,7 @@
                 <td>
                     <asp:TextBox runat="server" ID="Textbox37" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox12" disabled="disabled" onclick="choose(12)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox12" Enable="False" onclick="choose(12)" /></td>
                 <td colspan="8">
                     <asp:TextBox runat="server" ID="Textbox39" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
@@ -373,7 +373,7 @@
                 <td>
                     <asp:TextBox runat="server" ID="Textbox41" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox13" disabled="disabled" onclick="choose(13)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox13" Enable="False" onclick="choose(13)" /></td>
                 <td colspan="8">
                     <asp:TextBox runat="server" ID="Textbox43" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
@@ -386,7 +386,7 @@
                 <td>
                     <asp:TextBox runat="server" ID="Textbox45" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox14" disabled="disabled" onclick="choose(14)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox14" Enable="False" onclick="choose(14)" /></td>
                 <td colspan="8">
                     <asp:TextBox runat="server" ID="Textbox47" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
@@ -398,7 +398,7 @@
                 <td>
                     <asp:TextBox runat="server" ID="Textbox49" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox15" disabled="disabled" onclick="choose(15)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox15" Enable="False" onclick="choose(15)" /></td>
                 <td colspan="8">
                     <asp:TextBox runat="server" ID="Textbox51" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
@@ -410,7 +410,7 @@
                 <td>
                     <asp:TextBox runat="server" ID="Textbox53" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox16" disabled="disabled" onclick="choose(16)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox16" Enable="False" onclick="choose(16)" /></td>
                 <td colspan="8">
                     <asp:TextBox runat="server" ID="Textbox55" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
@@ -427,10 +427,10 @@
             <tr>
                 <td colspan="8" style="text-align: center; border-bottom: 0; border-right: 0;">Does this contract use a pre-approved contract template with no changes?</td>
                 <td colspan="2" rowspan="2" style="border-style: none; text-align: center;">
-                    <asp:CheckBox Text="" ID="CheckBox18" runat="server" disabled="disabled" onclick="choose(18)" /></td>
+                    <asp:CheckBox Text="" ID="CheckBox18" runat="server" Enable="False" onclick="choose(18)" /></td>
                 <td colspan="2" style="border-style: none; text-align: left;">yes</td>
                 <td colspan="2" rowspan="2" style="border-style: none; text-align: center;">
-                    <asp:CheckBox Text="" ID="CheckBox19" runat="server" disabled="disabled" onclick="choose(19)" /></td>
+                    <asp:CheckBox Text="" ID="CheckBox19" runat="server" Enable="False" onclick="choose(19)" /></td>
                 <td colspan="2" style="border-style: none; text-align: left;">no</td>
                 <td colspan="4" style="text-align: center; border-style: none">(If no, please fill in the below section)</td>
             </tr>
@@ -459,7 +459,7 @@
                 <td>
                     <asp:TextBox runat="server" ID="Textbox18" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox20" disabled="disabled" onclick="choose(20)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox20" Enable="False" onclick="choose(20)" /></td>
                 <td colspan="8">
                     <asp:TextBox runat="server" ID="Textbox22" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
                 <td colspan="2" rowspan="9">
@@ -476,7 +476,7 @@
                 <td>
                     <asp:TextBox runat="server" ID="Textbox34" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox21" disabled="disabled" onclick="choose(21)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox21" Enable="False" onclick="choose(21)" /></td>
                 <td colspan="8">
                     <asp:TextBox runat="server" ID="Textbox38" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
@@ -488,7 +488,7 @@
                 <td>
                     <asp:TextBox runat="server" ID="Textbox50" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox22" disabled="disabled" onclick="choose(22)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox22" Enable="False" onclick="choose(22)" /></td>
                 <td colspan="8">
                     <asp:TextBox runat="server" ID="Textbox54" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
@@ -500,7 +500,7 @@
                 <td>
                     <asp:TextBox runat="server" ID="Textbox61" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox23" disabled="disabled" onclick="choose(23)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox23" Enable="False" onclick="choose(23)" /></td>
                 <td colspan="8">
                     <asp:TextBox runat="server" ID="Textbox62" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
@@ -512,7 +512,7 @@
                 <td>
                     <asp:TextBox runat="server" ID="Textbox65" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox24" disabled="disabled" onclick="choose(24)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox24" Enable="False" onclick="choose(24)" /></td>
                 <td colspan="8">
                     <asp:TextBox runat="server" ID="Textbox66" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
@@ -524,7 +524,7 @@
                 <td>
                     <asp:TextBox runat="server" ID="Textbox69" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox25" disabled="disabled" onclick="choose(25)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox25" Enable="False" onclick="choose(25)" /></td>
                 <td colspan="8">
                     <asp:TextBox runat="server" ID="Textbox70" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
@@ -536,7 +536,7 @@
                 <td>
                     <asp:TextBox runat="server" ID="Textbox73" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox26" disabled="disabled" onclick="choose(26)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox26" Enable="False" onclick="choose(26)" /></td>
                 <td colspan="8">
                     <asp:TextBox runat="server" ID="Textbox74" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
@@ -548,7 +548,7 @@
                 <td>
                     <asp:TextBox runat="server" ID="Textbox77" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox27" disabled="disabled" onclick="choose(27)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox27" Enable="False" onclick="choose(27)" /></td>
                 <td colspan="8">
                     <asp:TextBox runat="server" ID="Textbox78" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
@@ -560,7 +560,7 @@
                 <td>
                     <asp:TextBox runat="server" ID="Textbox81" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox28" disabled="disabled" onclick="choose(28)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox28" Enable="False" onclick="choose(28)" /></td>
                 <td colspan="8">
                     <asp:TextBox runat="server" ID="Textbox82" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
@@ -582,7 +582,7 @@
             <tr>
                 <td colspan="2" style="text-align: center; border-style: none">承包商环境、健康安全手册</td>
                 <td colspan="1" style="text-align: center; border-left: 0; border-bottom: 0;">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox29" disabled="disabled" onclick="choose(29)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox29" Enable="False" onclick="choose(29)" /></td>
                 <td colspan="3" style="border-bottom: 0;"></td>
                 <td colspan="3" style="border-bottom: 0;"></td>
                 <td colspan="3" style="border-bottom: 0;"></td>
@@ -592,7 +592,7 @@
             <tr>
                 <td colspan="2" style="text-align: center; border-style: none">安全施工协议</td>
                 <td colspan="1" style="text-align: center; border-top: 0; border-left: 0; border-bottom: 0;">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox30" disabled="disabled" onclick="choose(30)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox30" Enable="False" onclick="choose(30)" /></td>
                 <td colspan="1" style="text-align: left; border-style: none;">Signature:</td>
                 <td colspan="2" style="text-align: center; border-left: 0; border-top: 0;">
                     <asp:TextBox runat="server" ID="Textbox42" BorderStyle="None" ReadOnly="true" /></td>
@@ -614,7 +614,7 @@
             <tr>
                 <td colspan="2" style="text-align: center; border-style: none">危险源辨别、评价控制</td>
                 <td colspan="1" style="text-align: center; border-top: 0; border-left: 0; border-bottom: 0;">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox31" disabled="disabled" onclick="choose(31)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox31" Enable="False" onclick="choose(31)" /></td>
                 <td colspan="3" style="text-align: left; border-left: 0; border-top: 0; border-bottom: 0;">签名：</td>
                 <td colspan="3" style="text-align: left; border-top: 0; border-bottom: 0;">签名：</td>
                 <td colspan="3" style="text-align: left; border-top: 0; border-bottom: 0;">签名：</td>
@@ -624,7 +624,7 @@
             <tr>
                 <td colspan="2" style="text-align: center; border-style: none">环境因素清单</td>
                 <td colspan="1" style="text-align: center; border-top: 0; border-left: 0; border-bottom: 0;">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox32" disabled="disabled" onclick="choose(32)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox32" Enable="False" onclick="choose(32)" /></td>
                 <td colspan="1" style="text-align: left; border-style: none;">Date:</td>
                 <td colspan="2" style="text-align: center; border-left: 0; border-top: 0;">
                     <asp:TextBox runat="server" ReadOnly="true" ID="Textbox75" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" Height="35px" /></td>
@@ -644,7 +644,7 @@
             <tr>
                 <td colspan="2" style="text-align: center; border-style: none">已签署ACT</td>
                 <td colspan="1" style="text-align: center; border-top: 0; border-left: 0; border-bottom: 0;">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox33" disabled="disabled" onclick="choose(33)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox33" Enable="False" onclick="choose(33)" /></td>
                 <td colspan="3" style="text-align: left; border-style: none">日期：</td>
                 <td colspan="3" style="text-align: left; border-top: 0; border-bottom: 0;">日期：</td>
                 <td colspan="3" style="text-align: left; border-top: 0; border-bottom: 0;">日期：</td>
@@ -654,7 +654,7 @@
             <tr>
                 <td colspan="2" style="text-align: center; border-style: none">人机工程确认</td>
                 <td colspan="1" style="text-align: center; border-top: 0; border-left: 0; border-bottom: 0;">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox34" disabled="disabled" onclick="choose(34)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox34" Enable="False" onclick="choose(34)" /></td>
                 <td colspan="3" style="border-bottom: 0; border-top: 0;"></td>
                 <td colspan="3" style="border-bottom: 0; border-top: 0;"></td>
                 <td colspan="3" style="border-bottom: 0; border-top: 0;"></td>
@@ -664,7 +664,7 @@
             <tr>
                 <td colspan="2" style="text-align: center; border-style: none">EHS认可(需要时)</td>
                 <td colspan="1" style="text-align: center; border-top: 0; border-left: 0; border-bottom: 0;">
-                    <asp:CheckBox Text="" runat="server" ID="CheckBox35" disabled="disabled" onclick="choose(35)" /></td>
+                    <asp:CheckBox Text="" runat="server" ID="CheckBox35" Enable="False" onclick="choose(35)" /></td>
                 <td colspan="3" style="border-bottom: 0; border-top: 0;"></td>
                 <td colspan="3" style="border-bottom: 0; border-top: 0;"></td>
                 <td colspan="3" style="border-bottom: 0; border-top: 0;"></td>

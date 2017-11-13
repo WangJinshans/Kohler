@@ -8,7 +8,7 @@
 	<title>供应商调查表</title>
     <script src="Script/jquery-3.2.1.min.js"></script>
 	<script src="Script/layui/layui.js"></script>
-	<script src="Script/Own/fileUploader.js"></script>
+	<script src="Script/Own/fileUploader.js?v=2"></script>
     <script src="Script/PDF/js/html2canvas.js"></script>
     <script src="Script/PDF/js/jspdf.debug.js"></script>
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
@@ -503,15 +503,23 @@
 						<asp:TextBox ID="TextBox48" runat="server" CssClass="t" ReadOnly="True"></asp:TextBox>
 					</td>
 				</tr>
-				<tr>
+				<%--<tr>
 					<td colspan="2">签名</td>
 					<td colspan="2"><asp:Image ImageUrl="imageurl" ID="Image1" runat="server" /></td>
 					<td colspan="2"><asp:Image ImageUrl="imageurl" ID="Image2" runat="server" /></td>
 					<td colspan="2" style="border-right:0;"><asp:Image ImageUrl="imageurl" ID="Image3" runat="server" /></td>
                     <td colspan="1" style="border-left:0;"></td>
-				</tr>
+				</tr>--%>
 			</table>
+            <table style="margin: auto;width:1000px; border-collapse: collapse">
+                <tr>
+					<td colspan="2">签名</td>
+					<td colspan="2"><asp:Image ImageUrl="imageurl" ID="Image1" runat="server" /></td>
+					<td colspan="2"><asp:Image ImageUrl="imageurl" ID="Image2" runat="server" /></td>
+					<td colspan="2"><asp:Image ImageUrl="imageurl" ID="Image3" runat="server" /></td>
 
+				</tr>
+            </table>
 			<div style="text-align: center">
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

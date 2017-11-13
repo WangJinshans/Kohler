@@ -8,7 +8,7 @@
     <title></title>
     <script src="Script/jquery-3.2.1.min.js"></script>
 	<script src="Script/layui/layui.js"></script>
-	<script src="Script/Own/fileUploader.js"></script>
+	<script src="Script/Own/fileUploader.js?v=2"></script>
     <script src="Script/PDF/js/html2canvas.js"></script>
     <script src="Script/PDF/js/jspdf.debug.js"></script>
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
@@ -16,7 +16,7 @@
          .t {
              border: 0px;
              overflow: hidden;
-             width: 50%;
+             width: 100%;
              text-align: center;
          }
 
@@ -62,26 +62,39 @@
          }
 
          .auto-style5 {
-             width: 537px;
+             width: 50%;
          }
 
          .auto-style6 {
-             width: 507px;
+             width: 50%;
          }
 
          .auto-style7 {
-             width: 507px;
+             width: 100%;
              margin-left: 40px;
          }
 
          .auto-style8 {
-             width: 537px;
+             width: 464px;
              height: 61px;
          }
 
          .auto-style9 {
              width: 507px;
              height: 61px;
+         }
+         .auto-style10 {
+             border-style: none;
+             border-color: inherit;
+             border-width: 0px;
+             overflow: hidden;
+             width: 464px;
+             text-align: center;
+             height: 44px;
+         }
+         .auto-style11 {
+             width: 507px;
+             height: 44px;
          }
      </style>
 
@@ -159,9 +172,9 @@
         <table style="margin: auto; border-collapse:initial;width:1000px" cellpadding="0" cellspacing="0">
             <caption style="font-size:xx-large; " class="auto-style2">VENDOR CREATION</caption>
             <tr>
-                <td colspan="1" style="text-align:center" class="t">Please select Language / 请选择语言 :</td>
-                <td colspan="1" style="text-align:center" class="auto-style6">
-                    <asp:DropDownList runat="server" style="Height:100%; Width:100%;text-align:center">
+                <td colspan="1" style="text-align:center" class="auto-style10">Please select Language / 请选择语言 :</td>
+                <td colspan="1" style="text-align:center" class="auto-style11">
+                    <asp:DropDownList runat="server" style="Height:100%; Width:100%;text-align:center; margin-left: 0px;">
                         <asp:ListItem Text="CH" />
                         <asp:ListItem Text="EN" />
                     </asp:DropDownList>

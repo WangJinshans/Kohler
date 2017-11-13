@@ -11,7 +11,7 @@
 	<script type="text/javascript" src="Script/My97DatePicker/WdatePicker.js"></script>
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
-    <script src="Script/Own/fileUploader.js"></script>
+    <script src="Script/Own/fileUploader.js?v=2"></script>
 	<script type="text/javascript">
 	    onload = function () {
 	        var obj = parent.document.getElementById("iFrame1");  //取得父页面IFrame对象  
@@ -479,14 +479,17 @@
 						<asp:TextBox ID="TextBox48" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 				</tr>
-				<tr>
+				
+			</table>
+            <table style="margin: auto;width:1000px; border-collapse: collapse">
+                <tr>
 					<td colspan="2">签名</td>
 					<td colspan="2"><asp:Image ImageUrl="imageurl" ID="Image1" runat="server" /></td>
 					<td colspan="2"><asp:Image ImageUrl="imageurl" ID="Image2" runat="server" /></td>
 					<td colspan="2"><asp:Image ImageUrl="imageurl" ID="Image3" runat="server" /></td>
 
 				</tr>
-			</table>
+            </table>
 		</div>
 
 		<div style="text-align: center;margin-bottom:50px">

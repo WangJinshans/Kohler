@@ -11,7 +11,7 @@
     <script src="Script/My97DatePicker/WdatePicker.js"></script>
     <script src="Script/jquery-3.2.1.min.js"></script>  
 	<script src="Script/layer/layer.js"></script>  
-    <script src="Script/Own/fileUploader.js"></script>
+    <script src="Script/Own/fileUploader.js?v=2"></script>
 
     <script type="text/javascript" >
        function initMoney(){
