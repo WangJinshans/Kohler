@@ -5,6 +5,7 @@ using MODEL;
 using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
 using System.Collections.Generic;
+using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -153,7 +154,7 @@ namespace AendorAssess
             {
                 //获取供应商名称转换为临时ID的值传入session;
                 GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
-                string tempvendorname = GridView2.Rows[drv.RowIndex].Cells[2].Text;
+                string tempvendorname = HttpUtility.HtmlDecode(GridView2.Rows[drv.RowIndex].Cells[2].Text);
                 string formTypeID = e.CommandArgument.ToString();
                 string tempVendorID = TempVendor_BLL.getTempVendorID(tempvendorname);
                 Session["tempVendorID"] = tempVendorID;
@@ -202,7 +203,7 @@ namespace AendorAssess
             }
             else if (e.CommandName == "showStatus")
             {
-                Response.Redirect("/VendorAssess/ApprovalProgress.aspx?formID=" + e.CommandArgument.ToString());
+                Response.Redirect("ApprovalProgress.aspx?formID=" + e.CommandArgument.ToString());
             }
         }
 
@@ -240,7 +241,7 @@ namespace AendorAssess
                 string fileTypeID = e.CommandArgument.ToString();
                 string fileName = File_BLL.getFileName(fileTypeID, Session["tempVendorID"].ToString(), factory_Name);
 
-                ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "showFileDetail", String.Format("<script>window.open('{0}');</script>", LSetting.File_Path + fileName), false);
+                ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "showFileDetail", String.Format("<script>window.open('{0}');</script>", "../files/" + fileName), false);
                 //Response.Write(String.Format("<script>window.open('{0}');</script>", LSetting.File_Path + fileName));
             }
         }

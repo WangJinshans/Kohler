@@ -118,7 +118,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             if (e.CommandName == "showDetails")
             {
                 GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
-                formName.InnerText = GridView3.Rows[drv.RowIndex].Cells[1].Text;
+                formName.InnerText = HttpUtility.HtmlDecode(GridView3.Rows[drv.RowIndex].Cells[1].Text);
                 showDetail(e.CommandArgument.ToString());
             }
         }
