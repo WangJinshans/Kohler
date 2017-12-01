@@ -16,6 +16,7 @@ namespace Model
         private string assess_Five_ID;
         private string assess_Six_ID;
         private string user_Department_Assess;
+        private string Factory_Name { get; set; }
 
 
         public int Id

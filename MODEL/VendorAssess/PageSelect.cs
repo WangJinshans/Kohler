@@ -8,12 +8,26 @@ namespace MODEL
     public static class PageSelect
     {
         public static Dictionary<string, string> dcEditToShow = new Dictionary<string, string>();
+        public static Dictionary<string, string> dcFormToModel = new Dictionary<string, string>();
 
         static PageSelect()
         {
             initEditToShow();
+            initFormToModel();
         }
 
+        private static void initFormToModel()
+        {
+            dcFormToModel.Clear();
+            dcFormToModel.Add("ContractApproval", "As_Contract_Approval");
+            dcFormToModel.Add("VendorExtend", "As_Vendor_Extend");
+            dcFormToModel.Add("VendorBlock", "As_Vendor_Block_Or_UnBlock");
+            dcFormToModel.Add("VendorCreation", "As_VendorCreation");
+            dcFormToModel.Add("VendorDesignated", "As_Vendor_Designated_Apply");
+            dcFormToModel.Add("VendorDiscovery", "As_Vendor_Discovery");
+            dcFormToModel.Add("BiddingForm", "As_Bidding_Approval_Form");
+            dcFormToModel.Add("Selection", "As_Vendor_Selection");
+        }
 
         private static void initEditToShow()
         {

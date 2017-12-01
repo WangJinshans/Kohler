@@ -13,7 +13,7 @@ namespace Model
         private string vendor_Type_ID;
         private string normal_Vendor_ID;
         private int id;
-        private int purchase_Amount;
+        private double purchase_Amount;
         private string sH, zS, zH;
 
         public string Temp_Vendor_ID
@@ -80,7 +80,7 @@ namespace Model
             }
         }
 
-        public int Purchase_Amount
+        public double Purchase_Amount
         {
             get
             {
