@@ -17,5 +17,10 @@ namespace BLL
         {
             return VendorType_DAL.selectVendorPromise(tempVendorID);
         }
+
+        //internal static string getTypeIDByType(string newType)
+        //{
+        //    return VendorType_DAL.getTypeIDByType(newType);
+        //}
     }
 }

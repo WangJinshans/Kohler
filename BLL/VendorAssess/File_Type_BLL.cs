@@ -37,5 +37,10 @@ namespace BLL
         {
             return File_Type_DAL.getFileTypeIDByItemCategory(itemCategory);
         }
+
+        public static string getFileTypeNameByID(string fileTypeID)
+        {
+            return File_Type_DAL.getFileTypeNameByID(fileTypeID);
+        }
     }
 }

@@ -17,6 +17,7 @@ namespace Model
         private string form_Type_Is_Optional;
         private string form_ID;
         private int prority;
+        private string factory_Name;
 
         public int Id
         {
@@ -132,6 +133,19 @@ namespace Model
             set
             {
                 prority = value;
+            }
+        }
+
+        public string Factory_Name
+        {
+            get
+            {
+                return factory_Name;
+            }
+
+            set
+            {
+                factory_Name = value;
             }
         }
     }

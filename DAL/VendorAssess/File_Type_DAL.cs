@@ -45,7 +45,22 @@ namespace DAL
             }
             return false;
         }
-        
+
+        public static string getFileTypeNameByID(string fileTypeID)
+        {
+            string fileTypeName = "";
+            string sql = "select File_Type_Name from As_File_Type where File_Type_ID='" + fileTypeID + "'";
+            DataTable table = DBHelp.GetDataSet(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    fileTypeName = dr["File_Type_Name"].ToString().Trim();
+                }
+            }
+            return fileTypeName;
+        }
+
         public static string getFileTypeIDByItemCategory(string itemCategory)
         {
             string fileTypeName = "";

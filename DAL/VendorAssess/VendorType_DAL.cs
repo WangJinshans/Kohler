@@ -30,6 +30,22 @@ namespace DAL
             }
             return list;
         }
+
+        public static string getTypeIDByType(string newType)
+        {
+            string sql = "select Vendor_Type_ID from As_Vendor_Type where Vendor_Type='" + newType + "'";
+            DataTable table = DBHelp.GetDataSet(sql);
+            string vendor_Type_ID = "";
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    vendor_Type_ID = dr["Vendor_Type_ID"].ToString().Trim();
+                }
+            }
+            return vendor_Type_ID;
+        }
+
         //通过文件类型编号查询文件类型对象
         public static IList<As_VendorType_FileType> listVendorTypeFileType(string sql)
         {

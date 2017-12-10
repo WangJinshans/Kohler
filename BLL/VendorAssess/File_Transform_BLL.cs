@@ -289,6 +289,70 @@ namespace BLL.VendorAssess
             return CHECK_FAIL;
         }
 
+        /// <summary>
+        /// 获取修改的所有需要转移的文件和表以及对应的路径
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <param name="factory"></param>
+        public static void ModifyTransfer(string tempVendorID, string factory,string destPath,string employeeID)
+        {
+            Dictionary<string, string> modifyFileItem = new Dictionary<string, string>();
+            List<string> fileList = new List<string>();
+
+            //从As_Vendor_Modify_File表中获取所有的fileTypeID的list
+            //更具对应的fileTypeID查找出在As_File中查找File_Name和File_Path
+            //并添加到 modifyFileItem这个有 File_Name和File_Path 对应的Dictionary中
+            fileList = File_Transform_DAL.getModifyFileList(tempVendorID, factory);
+            string[] tempArray = new string[7];
+            if (fileList != null && fileList.Count > 0)
+            {
+                foreach (string file_Type_ID in fileList)
+                {
+                    string file_ID = File_Transform_DAL.getModifyFileID(file_Type_ID, tempVendorID, factory);
+                    DataTable table = File_Transform_DAL.getFilePath(file_ID);
+                    if (table != null && table.Rows.Count > 0)
+                    {
+                        foreach (DataRow dr in table.Rows)
+                        {
+                            tempArray[0] = dr["File_Path"].ToString().Trim();
+                            tempArray[1] = dr["Is_Shared"].ToString();
+                            tempArray[2] = dr["File_Type_ID"].ToString();
+                            tempArray[3] = dr["File_Type_Range"].ToString();
+                            tempArray[4] = dr["File_Enable_Time"].ToString();
+                            tempArray[5] = dr["File_Due_Time"].ToString();
+                            tempArray[6] = dr["File_Type_Name"].ToString();
+                        }
+                    }
+                    modifyFileItem.Add(file_ID, String.Join("&", tempArray));
+                }
+            }
+
+            if (modifyFileItem != null && modifyFileItem.Count > 0)
+            {
+                string vendor_Code = TempVendor_BLL.getNormalCode(tempVendorID);
+                copyFile(modifyFileItem, tempVendorID, destPath, vendor_Code, factory, employeeID);
+            }
+
+            //转移修改表
+            string formID = VendorModify_BLL.getFormID(tempVendorID,factory);
+            string temp_Vendor_ID = tempVendorID;
+            string vendorCode = TempVendor_BLL.getNormalCode(temp_Vendor_ID);
+            string Item_Category = FormType_BLL.getFormNameByFormID(formID);
+            string Item_Path = AddForm_BLL.getFormPathByFormID(formID);
+            string Item_Plant = factory;
+            string Item_VendorType = TempVendor_BLL.getTempVendorType(tempVendorID);
+            string Item_State = "Enable";
+            string Item_Label = Item_Path.Substring(Item_Path.LastIndexOf("\\")+1).Replace(temp_Vendor_ID,vendorCode).Replace(".pdf","");
+            DateTime Upload_Date = DateTime.Now;
+            string positionName = Employee_BLL.getEmployeePositionName(employeeID);
+            string Upload_Person = Employee_BLL.getEmployeeeKoNumber(positionName, factory);
+
+            //TO::DO有效期未设置
+            File_Transform_BLL.addVendorFile(vendorCode, Item_Category, Item_Path, Item_Plant, Item_VendorType, Item_State, Item_Label, "", "", Upload_Date, Upload_Person);
+
+
+        }
+
 
         /// <summary>
         /// 修改版
@@ -1073,6 +1137,26 @@ namespace BLL.VendorAssess
         public static List<string> getForms(string tempVendorID, string factory)
         {
             return File_Transform_DAL.getForms(tempVendorID, factory);
+        }
+
+
+        /// <summary>
+        /// 判断是否完成修改 
+        /// </summary>
+        /// <param name="temp_Vendor_ID"></param>
+        /// <param name="factory_Name"></param>
+        /// <returns></returns>
+        public static bool isModifyOK(string temp_Vendor_ID, string factory_Name)
+        {
+            //检查As_Vendor_Modify_File的文件是否上传完成
+            //File_Transform_DAL.isModifyFileUploadOK(temp_Vendor_ID, factory_Name);
+            //检查As_Vendor_Modify_Info的IsChanging标志是否为NO
+            //File_Transform_DAL.isNotChanging(temp_Vendor_ID, factory_Name);
+            if (File_Transform_DAL.isModifyFileUploadOK(temp_Vendor_ID, factory_Name) && File_Transform_DAL.isNotChanging(temp_Vendor_ID, factory_Name))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

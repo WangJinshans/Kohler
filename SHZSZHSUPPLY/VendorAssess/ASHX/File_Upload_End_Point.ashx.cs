@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.SessionState;
+using WebLearning.BLL;
 
 namespace SHZSZHSUPPLY.VendorAssess.ASHX
 {
@@ -39,10 +40,55 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
                 case "multiFillUpload":
                     multiFillUpload(context);
                     break;
+                case "modifyFileUpload":
+                    modifyFileUpload(context);
+                    break;
                 default:
                     context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = false, error = "default fail" }));
                     break;
             }
+        }
+
+        private void modifyFileUpload(HttpContext context)
+        {
+            As_File file = modifyUpload(context, NORMAL_UPLOAD);
+            writeResult(context, file);
+        }
+
+        private As_File modifyUpload(HttpContext context, int nORMAL_UPLOAD)
+        {
+            HttpPostedFile postFile = context.Request.Files["qqfile"];
+            string startTime = context.Request.Params["startTime"];
+            string endTime = context.Request.Params["endTime"];
+
+            string tempVendorID = context.Request.Params["tempVendorID"];
+            string tempVendorName = context.Request.Params["tempVendorName"];
+            string fileTypeID = context.Request.Params["fileTypeID"];
+            string factoryName = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
+            string fileInfo = File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(fileTypeID, factoryName);
+            string fileID = tempVendorID + fileInfo;
+            string path = HttpContext.Current.Server.MapPath(LSetting.File_Path) + fileID + ".pdf";
+
+            As_File file = new As_File();
+            file.File_Path = path;
+            file.Temp_Vendor_ID = tempVendorID;
+            file.Temp_Vendor_Name = tempVendorName;
+            file.File_ID = fileID;
+            file.File_Name = fileID + ".pdf";
+            file.File_Enable_Time = startTime;
+            file.File_Due_Time = endTime;
+            file.File_Type_ID = fileTypeID;
+            file.Factory_Name = factoryName;
+            postFile.SaveAs(path);
+            string file_Type_Name = File_Type_BLL.getFileTypeNameByID(fileTypeID);
+            Vendor_Modify_File_BLL.upDataUploadFlag(tempVendorName, factoryName, file_Type_Name);
+
+            FileInfo fi = new FileInfo(path);
+            if (fi.Exists)
+            {
+                return file;
+            }
+            return null;
         }
 
         private void overDueUpload(HttpContext context)

@@ -54,6 +54,10 @@ namespace SHZSZHSUPPLY.VendorAssess
                     case "vendorTransfer":
                         btnTransfer_Click(Request.Form["__EVENTARGUMENT"]);
                         break;
+                    case "vendorModifyTransfer":
+                        //供应商信息修改后的转移
+                        btnModifyTransfer_Click();
+                        break;
                     default:
                         break;
                 }
@@ -110,6 +114,20 @@ namespace SHZSZHSUPPLY.VendorAssess
                 btnTransfer.Enabled = false;
                 btnTransfer.CssClass = "layui-btn layui-btn-disabled";
                 btnTransfer.ToolTip = "无法转移，此账号无权限操作或仍然有表单未审批完成";
+            }
+
+            //检查是否修改可转移
+            if (File_Transform_BLL.isModifyOK(tempVendorID, factory))
+            {
+                btnModifyTransfer.Enabled = true;
+                btnModifyTransfer.CssClass = "layui-btn";
+                btnModifyTransfer.ToolTip = "可以开始转移";
+            }
+            else
+            {
+                btnModifyTransfer.Enabled = false;
+                btnModifyTransfer.CssClass = "layui-btn layui-btn-disabled";
+                btnModifyTransfer.ToolTip = "无法转移，此账号无权限操作或仍然有表单未审批完成";
             }
         }
 
@@ -198,9 +216,23 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
         }
 
-        protected void Button1_Click(object sender, EventArgs e)
-        {
 
+
+        private void btnModifyTransfer_Click()
+        {
+            btnTransfer.Enabled = true;
+            //btnTransfer.CssClass = "layui-btn layui-btn-disabled";
+            btnTransfer.CssClass = "layui-btn";
+            btnTransfer.ToolTip = "无法转移，请等待";
+            string factory = Session["Factory_Name"].ToString();
+            string tempVendorID = Request.Form["quiz3"];
+
+            //在审批完成的时候转移了修改表 并插入了item_List中
+
+            //转移新提交的文件 并复制到UpLoad文件夹中
+            File_Transform_BLL.ModifyTransfer(tempVendorID, factory, Properties.Settings.Default.Transfer_Dest_Path, Session["Employee_ID"].ToString().Trim());
+            LocalScriptManager.CreateScript(Page, "message('已将最新的修改的文件更新到供应商管理系统)", "filemsg1");
         }
+
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Model;
 using System.Data.SqlClient;
 using System.Data;
+using MODEL.VendorAssess;
 
 namespace DAL
 {
@@ -47,6 +48,43 @@ namespace DAL
             return false;
         }
 
+
+        /// <summary>
+        /// 获取该供应商的详细信息
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <returns></returns>
+        public static As_Vendor_Modify_Info getTempVendorByVendorCode(string temVendorID)
+        {
+            As_Vendor_Modify_Info tempVendor = null;
+            string sql = "Select As_Temp_Vendor.Temp_Vendor_Name,As_Temp_Vendor.Vendor_Type_ID,As_Temp_Vendor.Temp_Vendor_ID,As_Temp_Vendor.Normal_Vendor_ID,As_Temp_Vendor.Purchase_Amount,As_Temp_Vendor.SH,As_Temp_Vendor.ZS,As_Temp_Vendor.ZH,As_Vendor_Type.Promise,As_Vendor_Type.Vendor_Type,As_Vendor_Type.Advance_Charge,As_Vendor_Type.Advance_Charge,As_Vendor_Type.Vendor_Assign From As_Temp_Vendor,As_Vendor_Type Where As_Temp_Vendor.Vendor_Type_ID=As_Vendor_Type.Vendor_Type_ID and As_Temp_Vendor.Temp_Vendor_ID=@Temp_Vendor_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Temp_Vendor_ID",temVendorID)
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                tempVendor = new As_Vendor_Modify_Info();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    tempVendor.Temp_Vendor_Name = dr["Temp_Vendor_Name"].ToString();
+                    tempVendor.Vendor_Type_ID = dr["Vendor_Type_ID"].ToString();
+                    tempVendor.Normal_Vendor_ID = dr["Normal_Vendor_ID"].ToString().Trim();
+                    tempVendor.Temp_Vendor_ID = temVendorID;
+                    tempVendor.Purchase_Amount = Convert.ToInt32(dr["Purchase_Amount"]);
+                    tempVendor.Vendor_Type= dr["Vendor_Type"].ToString();
+                    tempVendor.Advance_Charge = dr["Advance_Charge"].ToString();
+                    tempVendor.Promise = dr["Promise"].ToString();
+                    tempVendor.Vendor_Assign = dr["Vendor_Assign"].ToString();
+                    tempVendor.SH = dr["SH"].ToString();
+                    tempVendor.ZS = dr["ZS"].ToString();
+                    tempVendor.ZH = dr["ZH"].ToString();
+                }
+            }
+            return tempVendor;
+        }
+
         public static string getTempVendorName(string tempVendorID)
         {
             string tempVendorName = "";
@@ -71,6 +109,26 @@ namespace DAL
             string tempVendorID = "";
             string sql = "select Temp_Vendor_ID from As_Temp_Vendor where Temp_Vendor_Name=@Temp_Vendor_Name";
             //string sql = "select Temp_Vendor_ID from As_Employee_Vendor where Temp_Vendor_Name=@Temp_Vendor_Name";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                 new SqlParameter("Temp_Vendor_Name",TempVendorName)
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    tempVendorID = Convert.ToString(dr["Temp_Vendor_ID"]);
+                }
+            }
+            return tempVendorID;
+        }
+
+
+        public static string getTempVendorIDFixed(string TempVendorName,string vendorType)
+        {
+            string tempVendorID = "";
+            string sql = "select As_Temp_Vendor.Temp_Vendor_ID from As_Temp_Vendor,As_Vendor_Type where As_Temp_Vendor.Vendor_Type_ID=As_Vendor_Type.Vendor_Type_ID and As_Temp_Vendor.Temp_Vendor_Name=@Temp_Vendor_Name and As_Vendor_Type.Vendor_Type='" + vendorType + "'";
             SqlParameter[] sp = new SqlParameter[]
             {
                  new SqlParameter("Temp_Vendor_Name",TempVendorName)
@@ -162,6 +220,34 @@ namespace DAL
                 new SqlParameter("@assign",assign.ToString()),
                 new SqlParameter("@charge",charge.ToString()),
                 new SqlParameter("@money",Convert.ToInt32(money)),
+                new SqlParameter("@factory",factory.ToString())
+            };
+            SqlParameter paramReturn = new SqlParameter("@return", SqlDbType.Int);
+            paramReturn.Direction = ParameterDirection.ReturnValue;
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Clear();
+            cmd.Parameters.AddRange(sp);
+            cmd.Parameters.Add(paramReturn);
+            cmd.ExecuteNonQuery();
+            DBHelp.Connection.Close();
+            return Convert.ToInt32(paramReturn.Value);
+        }
+
+
+
+
+        public static int checkVendor(string tempVendorID, string type, bool promise, bool assign, bool charge, string money, string factory)
+        {
+            SqlCommand cmd = new SqlCommand("vendor_Modify_exist", DBHelp.Connection);
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@temp_vendor_id",tempVendorID),
+                new SqlParameter("@type",type),
+                new SqlParameter("@promise",promise.ToString()),
+                new SqlParameter("@assign",assign.ToString()),
+                new SqlParameter("@charge",charge.ToString()),
+                new SqlParameter("@money",Convert.ToDecimal(money)),
                 new SqlParameter("@factory",factory.ToString())
             };
             SqlParameter paramReturn = new SqlParameter("@return", SqlDbType.Int);

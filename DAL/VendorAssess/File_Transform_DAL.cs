@@ -299,6 +299,51 @@ namespace DAL.VendorAssess
             return formPath;
         }
 
+        /// <summary>
+        /// 获取修改后的文件路径
+        /// </summary>
+        /// <param name="file_Nmae"></param>
+        /// <param name="tempVendorID"></param>
+        /// <param name="factory"></param>
+        /// <returns></returns>
+        public static string getModifyFileID(string file_Type_ID, string tempVendorID, string factory)
+        {
+            string sql = "select [File_ID] from As_File where File_Type_ID='" + file_Type_ID + "' and Temp_Vendor_ID='" + tempVendorID + "' and (Factory_Name='" + factory + "' or Factory_Name='ALL')";
+            DataTable table = DBHelp.GetDataSet(sql);
+            string file_ID = "";
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    file_ID = dr["File_ID"].ToString().Trim();
+                }
+            }
+            return file_ID;
+        }
+
+        /// <summary>
+        /// 获取所有修改的需要上传的文件名称
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <param name="factory"></param>
+        /// <returns></returns>
+        public static List<string> getModifyFileList(string tempVendorID, string factory)
+        {
+            string sql = "select File_Type_ID from As_Vendor_Modify_File where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "'";
+            List<string> fileList = new List<string>();
+            string file_Type_ID = "";
+            DataTable table = DBHelp.GetDataSet(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    file_Type_ID = dr["File_Type_ID"].ToString().Trim();
+                    fileList.Add(file_Type_ID);
+                }
+            }
+            return fileList;
+        }
+
         public static int addNormalCode(string sql)
         {
             return DBHelp.ExecuteCommand(sql);
@@ -326,6 +371,69 @@ namespace DAL.VendorAssess
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// 判断信息修改后需要上传的文件是否已经上传完成
+        /// </summary>
+        /// <param name="temp_Vendor_ID"></param>
+        /// <param name="factory_Name"></param>
+        /// <returns></returns>
+        public static bool isModifyFileUploadOK(string temp_Vendor_ID, string factory_Name)
+        {
+            if (temp_Vendor_ID.Equals(""))
+            {
+                return false;
+            }
+            //判断这个temp_Vendor_ID是否存在 不存在直接返回false
+            string sql1 = "select Temp_Vendor_ID from As_Vendor_Modify_File where Temp_Vendor_ID='" + temp_Vendor_ID + "' and Factory_Name='" + factory_Name + "'";
+            using (SqlDataReader reader = DBHelp.GetReader(sql1))
+            {
+                if (!reader.Read())
+                {
+                    return false;
+                }
+            }
+            string sql = "select File_Type_Name from As_Vendor_Modify_File where Temp_Vendor_ID='" + temp_Vendor_ID + "' and Factory_Name='" + factory_Name + "' and Flag=0";
+            using (SqlDataReader reader = DBHelp.GetReader(sql))
+            {
+                if (reader.Read())
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+
+        }
+
+
+        /// <summary>
+        /// 检查正在审批的标志是否为YES
+        /// </summary>
+        /// <param name="temp_Vendor_ID"></param>
+        /// <param name="factory_Name"></param>
+        /// <returns></returns>
+        public static bool isNotChanging(string temp_Vendor_ID, string factory_Name)
+        {
+            if (temp_Vendor_ID.Equals(""))
+            {
+                return false;
+            }
+            string sql = "select Temp_Vendor_ID from As_Vendor_Modify_Info where Temp_Vendor_ID='" + temp_Vendor_ID + "' and Factory_Name='" + factory_Name + "' and IsChanging='YES'";
+            using (SqlDataReader reader = DBHelp.GetReader(sql))
+            {
+                if (reader.Read())
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
         }
     }
 }

@@ -3,12 +3,14 @@ using BLL;
 using BLL.VendorAssess;
 using Model;
 using MODEL;
+using MODEL.VendorAssess;
 using SHZSZHSUPPLY.VendorAssess.Html_Template;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using WebLearning.BLL;
 
 namespace SHZSZHSUPPLY.VendorAssess.Util
 {
@@ -17,6 +19,9 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
         public const int NOT_FINAL = 0;
         public const int NORMAL_FINAL = 1;
         public const int KCI_FINAL = 2;
+
+        public const string VENDOR_MODIFY_FORM_TYPE_ID = "020";
+
 
         #region 审批建立
         /// <summary>
@@ -211,6 +216,131 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             HttpContext.Current.Response.Redirect("/VendorAssess/EmployeeVendor.aspx");
             return true;
         }
+
+
+
+        /// <summary>
+        /// 供应商信息修改流程实例
+        /// </summary>
+        /// <param name="formId"></param>
+        /// <param name="form_Name"></param>
+        /// <param name="form_Type_ID"></param>
+        /// <param name="tempVendorID"></param>
+        /// <param name="factory"></param>
+        /// <returns></returns>
+        internal static bool AddModifyAssess(string formId, string form_Name, string form_Type_ID, string tempVendorID, string factory)
+        {
+            //实例审批流程 判断是否更改账期或者银行信息？
+            //银行信息账期是否修改
+            //从As_Vendor_Modify_Info中获取是否修改payTermChanged和bankChanged信息
+            bool payOrBankChanged = Vendor_Modify_File_BLL.isNeedFinance(tempVendorID, factory);
+            As_Form_AssessFlow assessFlow = new As_Form_AssessFlow();
+            assessFlow.Form_ID = formId;
+            assessFlow.First = "采购部经理";
+            assessFlow.Second = "";
+            if (payOrBankChanged)
+            {
+                assessFlow.Second = "财务部经理";
+            }
+            assessFlow.Third = "";
+            assessFlow.Four = "";
+            assessFlow.Five = "";
+            assessFlow.Kci = "";
+            assessFlow.Temp_Vendor_ID = tempVendorID;
+            assessFlow.Factory_Name = factory;
+            //添加流程
+            AssessFlow_BLL.addFormAssessFlow(assessFlow);
+
+            As_Approve approve = new As_Approve();
+            As_Assess_Flow assess_flows = new As_Assess_Flow();
+            approve.Factory_Name = factory;
+            approve.Form_ID = formId;
+            approve.Form_Type_Name = form_Name;
+            approve.Assess_Reason = "";
+            approve.Assess_Flag = "0";  //0为未通过
+            approve.Assess_Time = DateTime.Now.ToString();
+            approve.Temp_Vendor_ID = tempVendorID;
+            approve.Temp_Vendor_Name = TempVendor_BLL.getTempVendorName(tempVendorID);
+
+            if (assessFlow.First != "")
+            {
+                approve.User_Department = "NO";
+                approve.Position_Name = assessFlow.First;
+                AssessFlow_BLL.addApprove(approve);
+            }
+            if (assessFlow.Second != "")
+            {
+                approve.User_Department = "NO";
+                approve.Position_Name = assessFlow.Second;
+                AssessFlow_BLL.addApprove(approve);
+            }
+            if (assessFlow.Third != "")
+            {
+                approve.User_Department = "NO";
+                approve.Position_Name = assessFlow.Third;
+                AssessFlow_BLL.addApprove(approve);
+            }
+            if (assessFlow.Four != "")
+            {
+                approve.User_Department = "NO";
+                approve.Position_Name = assessFlow.Four;
+                AssessFlow_BLL.addApprove(approve);
+            }
+            if (assessFlow.Five != "")
+            {
+                approve.User_Department = "NO";
+                approve.Position_Name = assessFlow.Five;
+                AssessFlow_BLL.addApprove(approve);
+            }
+            if (assessFlow.Kci == "1")
+            {
+                //最终确认需要KCI审批,已移动到LocalApproveManager中插入KCI
+            }
+
+            //提交表
+            As_Form form = new As_Form();
+            form.Form_ID = formId;
+            form.Form_Type_Name = form_Name;
+            form.Form_Type_ID = FormType_BLL.getFormTypeIDByName(form_Name);
+            form.Temp_Vendor_Name = TempVendor_BLL.getTempVendorName(tempVendorID);
+            form.Form_Path = "";
+            form.Temp_Vendor_ID = tempVendorID;
+            form.Factory_Name = factory;
+            int add = AddForm_BLL.addForm(form);
+
+            //插入到As_Vendor_Form_Type中
+            As_Vendor_FormType form_Type = new As_Vendor_FormType();
+            form_Type.Temp_Vendor_ID = tempVendorID;
+            form_Type.Form_Type_ID = form.Form_Type_ID;
+            form_Type.Form_Type_Name= form.Form_Type_Name;
+            form_Type.Temp_Vendor_Name = form.Temp_Vendor_Name;
+            form_Type.Factory_Name = factory;
+            form_Type.Form_ID = formId;
+            FillVendorInfo_BLL.addVendorFormType(form_Type);
+
+            //一旦提交就把表As_Vendor_FormType字段FLag置1.
+            int updateFlag = UpdateFlag_BLL.updateFlag(form.Form_Type_ID, tempVendorID);
+
+            //更新session
+            HttpContext.Current.Session["tempvendorname"] = form.Temp_Vendor_Name;
+            HttpContext.Current.Session["Employee_ID"] = HttpContext.Current.Session["Employee_ID"];
+
+            //写入日志
+            LocalLog.writeLog(formId, String.Format("表格提交成功，等待{0}审批    时间：{1}", assessFlow.First, DateTime.Now), As_Write.FORM_EDIT, tempVendorID);
+
+            //TODO::Async
+            As_Approve ap = Approve_BLL.getApproveTop(formId);
+            LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), form_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批");
+
+            //
+
+            //result
+            if (updateFlag > 0 && add > 0)
+            {
+                return true;
+            }
+            return false;
+        }
         #endregion
 
         #region 审批
@@ -244,6 +374,18 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             {
                 Signature_BLL.setSignature(formID, positionName);//签名
                 Signature_BLL.setSignatureDate(formID, positionName);
+
+
+                //供应商信息修改完成  更新修改表的更改完成
+                #region
+                if (formID.Contains("VendorModify"))
+                {
+                    //IsChanging更新为NO 审批完成之后不在可见
+                    string factory_Name = AddForm_BLL.getFactoryByFormID(formID);
+                    Vendor_Modify_File_BLL.upDataVendorChangingFlag(tempVendorID, factory_Name);
+                }
+                #endregion
+
 
                 //PDF
                 outPutPDF(formID,tempVendorID);
@@ -496,7 +638,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                 string factory = AddForm_BLL.getFactoryByFormID(formID);
                 string file = File_BLL.generateFileID(tempVendorID, fileTypeName, factory) + ".pdf";
                 LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){document.location.href = document.URL;}"), "testid");
-
+                
                 //返回
                 return true;
             }

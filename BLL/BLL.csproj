@@ -79,6 +79,8 @@
     <Compile Include="VendorAssess\MultiEdit_BLL.cs" />
     <Compile Include="VendorAssess\NewForms_BLL.cs" />
     <Compile Include="VendorAssess\Signature_BLL.cs" />
+    <Compile Include="VendorAssess\VendorCheckResult_BLL.cs" />
+    <Compile Include="VendorAssess\VendorModify_BLL.cs" />
     <Compile Include="VendorAssess\VendorSelectionSupplier_BLL.cs" />
     <Compile Include="VendorAssess\CheckFile_BLL.cs" />
     <Compile Include="VendorAssess\Employee_BLL.cs" />
@@ -101,6 +103,7 @@
     <Compile Include="VendorAssess\VendorRiskAnalysis_BLL.cs" />
     <Compile Include="VendorAssess\VendorSelection_BLL.cs" />
     <Compile Include="VendorAssess\VendorType_BLL.cs" />
+    <Compile Include="VendorAssess\Vendor_Modify_File_BLL.cs" />
     <Compile Include="VendorAssess\Write_BLL.cs" />
   </ItemGroup>
   <ItemGroup>

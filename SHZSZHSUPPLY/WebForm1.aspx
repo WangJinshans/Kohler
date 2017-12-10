@@ -203,6 +203,7 @@
                                 <li><a class="nav nt3" style="background-color:#324143;color:white;display:none">编辑</a></li>
                                 <li><a class="nav n3" style="display:none" href="VendorAssess/FileOverDue.aspx" target="iFrame1">供应商过期文件编辑</a></li>
                                 <li><a class="nav n3" style="display:none" href="VenderInfo/VenderMaintenance.aspx" target="iFrame1">供应商信息编辑</a></li>
+                                <li><a class="nav n1" style="display:none" href="VendorAssess/VendorModifyView.aspx" target="iFrame1">供应商信息修改</a></li>
 
                                 <li><a class="nav nt4" style="background-color:#324143;color:white;display:none">查看</a></li>
                                 <li><a class="nav n4" style="display:none" href="VendorAssess/ApprovalProgress.aspx" target="iFrame1">供应商审批状态查看</a></li>

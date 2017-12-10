@@ -9,7 +9,7 @@ namespace DAL
     {
         public static int updateForm(As_Vendor_Designated_Apply vendor_Designated)
         {
-            string sql = "update As_Vendor_Designated_Apply SET vendorName=@vendorName,SAPCode=@SAPCode,businessCategory=@businessCategory,effectiveTime=@effectiveTime,purchaseAmount=@purchaseAmount,reason=@reason,initiator=@initiator,initiatorDate=@initiatorDate,applicant=@applicant where Form_ID=@Form_ID";
+            string sql = "update As_Vendor_Designated_Apply SET vendorName=@vendorName,SAPCode=@SAPCode,businessCategory=@businessCategory,effectiveTime=@effectiveTime,purchaseAmount=@purchaseAmount,reason=@reason,vendorName1=@vendorName1,SAPCode_1=@SAPCode_1,businessCategory1=@businessCategory1,effectiveTime1=@effectiveTime1,purchaseAmount1=@purchaseAmount1,reason1=@reason1,vendorName2=@vendorName2,SAPCode_2=@SAPCode_2,businessCategory2=@businessCategory2,effectiveTime2=@effectiveTime2,purchaseAmount2=@purchaseAmount2,reason2=@reason2,vendorName3=@vendorName3,SAPCode_3=@SAPCode_3,businessCategory3=@businessCategory3,effectiveTime3=@effectiveTime3,purchaseAmount3=@purchaseAmount3,reason3=@reason3,vendorName4=@vendorName4,SAPCode_4=@SAPCode_4,businessCategory4=@businessCategory4,effectiveTime4=@effectiveTime4,purchaseAmount4=@purchaseAmount4,reason4=@reason4,initiator=@initiator,initiatorDate=@initiatorDate,applicant=@applicant where Form_ID=@Form_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@vendorName",vendor_Designated.VendorName),
@@ -21,6 +21,40 @@ namespace DAL
                 new SqlParameter("@initiator",vendor_Designated.Initiator),
                 new SqlParameter("@initiatorDate",vendor_Designated.InitiatorDate),
                 new SqlParameter("@applicant",vendor_Designated.Applicant),
+
+
+
+                new SqlParameter("@vendorName1",vendor_Designated.VendorName1),
+                new SqlParameter("@SAPCode_1",vendor_Designated.SAPCode_1),
+                new SqlParameter("@businessCategory1",vendor_Designated.BusinessCategory1),
+                new SqlParameter("@effectiveTime1",vendor_Designated.EffectiveTime1),
+                new SqlParameter("@purchaseAmount1",vendor_Designated.PurchaseAmount1),
+                new SqlParameter("@reason1",vendor_Designated.Reason1),
+
+
+                new SqlParameter("@vendorName2",vendor_Designated.VendorName2),
+                new SqlParameter("@SAPCode_2",vendor_Designated.SAPCode_2),
+                new SqlParameter("@businessCategory2",vendor_Designated.BusinessCategory2),
+                new SqlParameter("@effectiveTime2",vendor_Designated.EffectiveTime2),
+                new SqlParameter("@purchaseAmount2",vendor_Designated.PurchaseAmount2),
+                new SqlParameter("@reason2",vendor_Designated.Reason2),
+
+
+                new SqlParameter("@vendorName3",vendor_Designated.VendorName3),
+                new SqlParameter("@SAPCode_3",vendor_Designated.SAPCode_3),
+                new SqlParameter("@businessCategory3",vendor_Designated.BusinessCategory3),
+                new SqlParameter("@effectiveTime3",vendor_Designated.EffectiveTime3),
+                new SqlParameter("@purchaseAmount3",vendor_Designated.PurchaseAmount3),
+                new SqlParameter("@reason3",vendor_Designated.Reason3),
+
+
+                new SqlParameter("@vendorName4",vendor_Designated.VendorName4),
+                new SqlParameter("@SAPCode_4",vendor_Designated.SAPCode_4),
+                new SqlParameter("@businessCategory4",vendor_Designated.BusinessCategory4),
+                new SqlParameter("@effectiveTime4",vendor_Designated.EffectiveTime4),
+                new SqlParameter("@purchaseAmount4",vendor_Designated.PurchaseAmount4),
+                new SqlParameter("@reason4",vendor_Designated.Reason4),
+
                 //new SqlParameter("@requestDeptHead",vendor_Designated.RequestDeptHead),
                 //new SqlParameter("@finManager",vendor_Designated.FinManager),
                 //new SqlParameter("@applicantDate",vendor_Designated.ApplicantDate),
@@ -104,6 +138,39 @@ namespace DAL
                     vendorApply.Form_Type_ID = Convert.ToString(dr["Form_Type_ID"]);
                     vendorApply.Flag = Convert.ToInt32(dr["Flag"]);
                     vendorApply.Factory_Name= Convert.ToString(dr["Factory_Name"]);
+
+
+                    vendorApply.VendorName1 = Convert.ToString(dr["vendorName1"]);
+                    vendorApply.SAPCode_1 = Convert.ToString(dr["SAPCode_1"]);
+                    vendorApply.BusinessCategory1 = Convert.ToString(dr["businessCategory1"]);
+                    vendorApply.EffectiveTime1 = Convert.ToString(dr["effectiveTime1"]);
+                    vendorApply.PurchaseAmount1 = Convert.ToString(dr["purchaseAmount1"]);
+                    vendorApply.Reason1 = Convert.ToString(dr["reason1"]);
+
+
+                    vendorApply.VendorName2 = Convert.ToString(dr["vendorName2"]);
+                    vendorApply.SAPCode_2 = Convert.ToString(dr["SAPCode_2"]);
+                    vendorApply.BusinessCategory2 = Convert.ToString(dr["businessCategory2"]);
+                    vendorApply.EffectiveTime2 = Convert.ToString(dr["effectiveTime2"]);
+                    vendorApply.PurchaseAmount2 = Convert.ToString(dr["purchaseAmount2"]);
+                    vendorApply.Reason2 = Convert.ToString(dr["reason2"]);
+
+
+                    vendorApply.VendorName3 = Convert.ToString(dr["vendorName3"]);
+                    vendorApply.SAPCode_3 = Convert.ToString(dr["SAPCode_3"]);
+                    vendorApply.BusinessCategory3 = Convert.ToString(dr["businessCategory3"]);
+                    vendorApply.EffectiveTime3 = Convert.ToString(dr["effectiveTime3"]);
+                    vendorApply.PurchaseAmount3 = Convert.ToString(dr["purchaseAmount3"]);
+                    vendorApply.Reason3 = Convert.ToString(dr["reason3"]);
+
+
+                    vendorApply.VendorName4 = Convert.ToString(dr["vendorName4"]);
+                    vendorApply.SAPCode_4 = Convert.ToString(dr["SAPCode_4"]);
+                    vendorApply.BusinessCategory4 = Convert.ToString(dr["businessCategory4"]);
+                    vendorApply.EffectiveTime4 = Convert.ToString(dr["effectiveTime4"]);
+                    vendorApply.PurchaseAmount4 = Convert.ToString(dr["purchaseAmount4"]);
+                    vendorApply.Reason4 = Convert.ToString(dr["reason4"]);
+
                 }
             }
             return vendorApply;

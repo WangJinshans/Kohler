@@ -158,5 +158,10 @@ namespace BLL
             };
             return DBHelp.GetScalarFix(sql, sp) > 0;
         }
+
+        public static string getFormTypeIDByName(string form_Name)
+        {
+            return FormType_DAL.getFormTypeIDByName(form_Name);
+        }
     }
 }

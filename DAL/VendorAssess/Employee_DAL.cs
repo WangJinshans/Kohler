@@ -51,6 +51,43 @@ namespace DAL
             return null;
         }
 
+        public static string getEmployeePositionName(string employeeID)
+        {
+            string sql = "select Positon_Name from As_Employee where Employee_ID='" + employeeID + "'";
+            DataTable table = DBHelp.GetDataSet(sql);
+            string positionName = "";
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    positionName = dr["Positon_Name"].ToString().Trim();
+                }
+            }
+            return positionName;
+        }
+
+
+        /// <summary>
+        /// 获取员工的Ko号
+        /// </summary>
+        /// <param name="positionName"></param>
+        /// <param name="factory_Name"></param>
+        /// <returns></returns>
+        public static string getEmployeeeKoNumber(string positionName, string factory_Name)
+        {
+            string sql = "select Employee_ID from As_Employee where Factory_Name='" + factory_Name + "' and Positon_Name='" + positionName + "'";
+            string employeeID = "";
+            DataTable table = DBHelp.GetDataSet(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    employeeID = dr["Employee_ID"].ToString();
+                }
+            }
+            return employeeID;
+        }
+
         public static List<string> getAuthority(string employee_ID)
         {
             string sql = "select * From As_Authority Where Authority_ID in (Select Authority_ID From As_Employee Where Employee_ID=@Employee_ID)";

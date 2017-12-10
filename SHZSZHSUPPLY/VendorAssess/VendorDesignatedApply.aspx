@@ -135,7 +135,7 @@
                 <td colspan="1" >预估年采购金额(Estimated Purchase Amount)*</td>
                 <td colspan="1" >原因*</td>
             </tr>
-             <tr>
+            <tr>
                 <td colspan="1" >Vendor Name*</td>
                 <td colspan="1" >SAP Code*</td>
                 <td colspan="1" >Business Category*</td>
@@ -150,6 +150,38 @@
                 <td colspan="1" ><asp:TextBox runat="server" id="TextBox4" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" height="35px"/></td>
                 <td colspan="1" ><asp:TextBox ID="TextBox5" runat="server" CssClass="t" Height="35px" ></asp:TextBox></td>
                 <td colspan="1" ><asp:TextBox ID="TextBox6" runat="server" CssClass="t" Height="35px" ></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td colspan="1" ><asp:TextBox ID="TextBox9" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                <td colspan="1" ><asp:TextBox ID="TextBox10" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                <td colspan="1" ><asp:TextBox ID="TextBox11" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                <td colspan="1" ><asp:TextBox runat="server" id="TextBox15" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" height="35px"/></td>
+                <td colspan="1" ><asp:TextBox ID="TextBox16" runat="server" CssClass="t" Height="35px" ></asp:TextBox></td>
+                <td colspan="1" ><asp:TextBox ID="TextBox19" runat="server" CssClass="t" Height="35px" ></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td colspan="1" ><asp:TextBox ID="TextBox20" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                <td colspan="1" ><asp:TextBox ID="TextBox23" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                <td colspan="1" ><asp:TextBox ID="TextBox25" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                <td colspan="1" ><asp:TextBox runat="server" id="TextBox26" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" height="35px"/></td>
+                <td colspan="1" ><asp:TextBox ID="TextBox27" runat="server" CssClass="t" Height="35px" ></asp:TextBox></td>
+                <td colspan="1" ><asp:TextBox ID="TextBox28" runat="server" CssClass="t" Height="35px" ></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td colspan="1" ><asp:TextBox ID="TextBox29" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                <td colspan="1" ><asp:TextBox ID="TextBox30" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                <td colspan="1" ><asp:TextBox ID="TextBox31" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                <td colspan="1" ><asp:TextBox runat="server" id="TextBox32" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" height="35px"/></td>
+                <td colspan="1" ><asp:TextBox ID="TextBox33" runat="server" CssClass="t" Height="35px" ></asp:TextBox></td>
+                <td colspan="1" ><asp:TextBox ID="TextBox34" runat="server" CssClass="t" Height="35px" ></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td colspan="1" ><asp:TextBox ID="TextBox35" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                <td colspan="1" ><asp:TextBox ID="TextBox36" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                <td colspan="1" ><asp:TextBox ID="TextBox37" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                <td colspan="1" ><asp:TextBox runat="server" id="TextBox38" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" height="35px"/></td>
+                <td colspan="1" ><asp:TextBox ID="TextBox39" runat="server" CssClass="t" Height="35px" ></asp:TextBox></td>
+                <td colspan="1" ><asp:TextBox ID="TextBox40" runat="server" CssClass="t" Height="35px" ></asp:TextBox></td>
             </tr>
             <tr>
                 <td colspan="1" >Initiator:</td>

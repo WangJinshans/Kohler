@@ -60,6 +60,7 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
@@ -123,6 +124,7 @@
     <Content Include="VendorAssess\BiddingApprovalForm.aspx" />
     <Content Include="VendorAssess\ContractApprovalForm.aspx" />
     <Content Include="VendorAssess\FileOverDue.aspx" />
+    <Content Include="VendorAssess\FileUpload.aspx" />
     <Content Include="VendorAssess\FormOverDue.aspx" />
     <Content Include="VendorAssess\Html_Template\Approve_Reason.html" />
     <Content Include="VendorAssess\Html_Template\Html_Test_Page.html" />
@@ -130,6 +132,7 @@
     <Content Include="VendorAssess\FormWaitToFill.aspx" />
     <Content Include="VendorAssess\Html_Template\File_Upload_Page.html" />
     <Content Include="VendorAssess\Html_Template\Mail_Template.html" />
+    <Content Include="VendorAssess\Html_Template\VendorModifyInfo.html" />
     <Content Include="VendorAssess\Script\laydate\PageTemplate.aspx" />
     <Content Include="VendorAssess\index.aspx" />
     <Content Include="VendorAssess\KCI.aspx" />
@@ -139,7 +142,7 @@
     <Content Include="VendorAssess\Script\laydate\laydate.js" />
     <Content Include="VendorAssess\Script\laydate\theme\default\font\iconfont.svg" />
     <Content Include="VendorAssess\Script\laydate\theme\default\laydate.css" />
-    <Content Include="VendorAssess\Script\layer\layer.js" />
+    <Content Include="VendorAssess\Script\layer\layui.js" />
     <Content Include="VendorAssess\Script\layer\skin\default\icon-ext.png" />
     <Content Include="VendorAssess\Script\layer\skin\default\icon.png" />
     <Content Include="VendorAssess\Script\layer\skin\default\layer.css" />
@@ -272,6 +275,7 @@
     <Content Include="VendorAssess\ShowVendorDesignatedApply.aspx" />
     <Content Include="VendorAssess\ShowVendorDiscovery.aspx" />
     <Content Include="VendorAssess\ShowVendorExtend.aspx" />
+    <Content Include="VendorAssess\ShowVendorModify.aspx" />
     <Content Include="VendorAssess\ShowVendorRiskAnalysis.aspx" />
     <Content Include="VendorAssess\Html_Template\EditEmployeeSelection.html" />
     <Content Include="VendorAssess\Script\fine-uploader\continue.gif" />
@@ -315,9 +319,12 @@
     <Content Include="VendorAssess\VendorDiscovery.aspx" />
     <Content Include="VendorAssess\VendorExtend.aspx" />
     <Content Include="VendorAssess\VendorInfo.aspx" />
+    <Content Include="VendorAssess\VendorModify.aspx" />
+    <Content Include="VendorAssess\VendorModifyView.aspx" />
     <Content Include="VendorAssess\VendorRiskAnalysis.aspx" />
     <Content Include="VendorAssess\VendorSelection.aspx" />
     <Content Include="VendorAssess\VendorSharedUse.aspx" />
+    <Content Include="VendorAssess\VendorModifyInfo.aspx" />
     <Content Include="WebForm1.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -465,6 +472,9 @@
     <Compile Include="VendorAssess\ASHX\File_Upload_End_Point.ashx.cs">
       <DependentUpon>File_Upload_End_Point.ashx</DependentUpon>
     </Compile>
+    <Compile Include="VendorAssess\ASHX\MyAjaxTest.ashx.cs">
+      <DependentUpon>MyAjaxTest.ashx</DependentUpon>
+    </Compile>
     <Compile Include="VendorAssess\ASHX\PDF.ashx.cs">
       <DependentUpon>PDF.ashx</DependentUpon>
     </Compile>
@@ -495,6 +505,13 @@
     </Compile>
     <Compile Include="VendorAssess\FileOverDue.aspx.designer.cs">
       <DependentUpon>FileOverDue.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorAssess\FileUpload.aspx.cs">
+      <DependentUpon>FileUpload.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\FileUpload.aspx.designer.cs">
+      <DependentUpon>FileUpload.aspx</DependentUpon>
     </Compile>
     <Compile Include="VendorAssess\FormOverDue.aspx.cs">
       <DependentUpon>FormOverDue.aspx</DependentUpon>
@@ -601,6 +618,13 @@
     <Compile Include="VendorAssess\ShowVendorExtend.aspx.designer.cs">
       <DependentUpon>ShowVendorExtend.aspx</DependentUpon>
     </Compile>
+    <Compile Include="VendorAssess\ShowVendorModify.aspx.cs">
+      <DependentUpon>ShowVendorModify.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\ShowVendorModify.aspx.designer.cs">
+      <DependentUpon>ShowVendorModify.aspx</DependentUpon>
+    </Compile>
     <Compile Include="VendorAssess\ShowVendorRiskAnalysis.aspx.cs">
       <DependentUpon>ShowVendorRiskAnalysis.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -667,6 +691,20 @@
     <Compile Include="VendorAssess\VendorInfo.aspx.designer.cs">
       <DependentUpon>VendorInfo.aspx</DependentUpon>
     </Compile>
+    <Compile Include="VendorAssess\VendorModify.aspx.cs">
+      <DependentUpon>VendorModify.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\VendorModify.aspx.designer.cs">
+      <DependentUpon>VendorModify.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorAssess\VendorModifyView.aspx.cs">
+      <DependentUpon>VendorModifyView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\VendorModifyView.aspx.designer.cs">
+      <DependentUpon>VendorModifyView.aspx</DependentUpon>
+    </Compile>
     <Compile Include="VendorAssess\VendorRiskAnalysis.aspx.cs">
       <DependentUpon>VendorRiskAnalysis.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -687,6 +725,13 @@
     </Compile>
     <Compile Include="VendorAssess\VendorSharedUse.aspx.designer.cs">
       <DependentUpon>VendorSharedUse.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorAssess\VendorModifyInfo.aspx.cs">
+      <DependentUpon>VendorModifyInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\VendorModifyInfo.aspx.designer.cs">
+      <DependentUpon>VendorModifyInfo.aspx</DependentUpon>
     </Compile>
     <Compile Include="WebForm1.aspx.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
@@ -767,6 +812,7 @@
     <Content Include="VendorAssess\Script\laydate\theme\default\font\iconfont.ttf" />
     <Content Include="VendorAssess\Script\laydate\theme\default\font\iconfont.woff" />
     <Content Include="Site.Master" />
+    <Content Include="VendorAssess\ASHX\MyAjaxTest.ashx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

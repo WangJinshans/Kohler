@@ -15,6 +15,24 @@ namespace Model
         private int id;
         private int purchase_Amount;
         private string sH, zS, zH;
+        private string vendor_Type;
+        private string vendor_Assign;
+        private string advance_Charge;
+        private string promise;
+        private string isChanging;
+
+
+        private string typeNumber;//类型数目
+        
+        //6个类型
+        private string vendorTypeOne;
+        private string vendorTypeTwo;
+        private string vendorTypeThree;
+        private string vendorTypeFour;
+        private string vendorTypeFive;
+        private string vendorTypeSix;
+
+
 
         public string Temp_Vendor_ID
         {
@@ -129,6 +147,162 @@ namespace Model
             set
             {
                 zH = value;
+            }
+        }
+
+        public string Vendor_Type
+        {
+            get
+            {
+                return vendor_Type;
+            }
+
+            set
+            {
+                vendor_Type = value;
+            }
+        }
+
+        public string Vendor_Assign
+        {
+            get
+            {
+                return vendor_Assign;
+            }
+
+            set
+            {
+                vendor_Assign = value;
+            }
+        }
+
+        public string Promise
+        {
+            get
+            {
+                return promise;
+            }
+
+            set
+            {
+                promise = value;
+            }
+        }
+
+        public string Advance_Charge
+        {
+            get
+            {
+                return advance_Charge;
+            }
+
+            set
+            {
+                advance_Charge = value;
+            }
+        }
+
+        public string IsChanging
+        {
+            get
+            {
+                return isChanging;
+            }
+
+            set
+            {
+                isChanging = value;
+            }
+        }
+
+        public string TypeNumber
+        {
+            get
+            {
+                return typeNumber;
+            }
+
+            set
+            {
+                typeNumber = value;
+            }
+        }
+
+        public string VendorTypeOne
+        {
+            get
+            {
+                return vendorTypeOne;
+            }
+
+            set
+            {
+                vendorTypeOne = value;
+            }
+        }
+
+        public string VendorTypeThree
+        {
+            get
+            {
+                return vendorTypeThree;
+            }
+
+            set
+            {
+                vendorTypeThree = value;
+            }
+        }
+
+        public string VendorTypeFour
+        {
+            get
+            {
+                return vendorTypeFour;
+            }
+
+            set
+            {
+                vendorTypeFour = value;
+            }
+        }
+
+        public string VendorTypeFive
+        {
+            get
+            {
+                return vendorTypeFive;
+            }
+
+            set
+            {
+                vendorTypeFive = value;
+            }
+        }
+
+        public string VendorTypeSix
+        {
+            get
+            {
+                return vendorTypeSix;
+            }
+
+            set
+            {
+                vendorTypeSix = value;
+            }
+        }
+
+        public string VendorTypeTwo
+        {
+            get
+            {
+                return vendorTypeTwo;
+            }
+
+            set
+            {
+                vendorTypeTwo = value;
             }
         }
     }

@@ -37,6 +37,7 @@ namespace MODEL
             dcEditToShow.Add("017", "BiddingApprovalform.aspx");
             dcEditToShow.Add("018", "VendorSelection.aspx");
             dcEditToShow.Add("019", "VendorCreation.aspx");
+            dcEditToShow.Add("020", "VendorModify.aspx");
             dcEditToShow.Add("025", "VendorDesignatedApply.aspx");
         }
     }

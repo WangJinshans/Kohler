@@ -152,6 +152,36 @@ namespace VendorAssess
                 TextBox22.Text = Vendor_Designated.SupplyChainDirectorDate.ToString();
                 Image7.ImageUrl = Vendor_Designated.Persident;
                 TextBox24.Text = Vendor_Designated.FinalDate.ToString();
+
+                //补
+                TextBox9.Text = Vendor_Designated.VendorName1;
+                TextBox10.Text = Vendor_Designated.SAPCode_1;
+                TextBox11.Text = Vendor_Designated.BusinessCategory1;
+                TextBox15.Text = Vendor_Designated.EffectiveTime1.ToString();
+                TextBox16.Text = Vendor_Designated.PurchaseAmount1;
+                TextBox19.Text = Vendor_Designated.Reason1;
+
+                TextBox20.Text = Vendor_Designated.VendorName2;
+                TextBox23.Text = Vendor_Designated.SAPCode_2;
+                TextBox25.Text = Vendor_Designated.BusinessCategory2;
+                TextBox26.Text = Vendor_Designated.EffectiveTime2.ToString();
+                TextBox27.Text = Vendor_Designated.PurchaseAmount2;
+                TextBox28.Text = Vendor_Designated.Reason2;
+
+                TextBox29.Text = Vendor_Designated.VendorName3;
+                TextBox30.Text = Vendor_Designated.SAPCode_3;
+                TextBox31.Text = Vendor_Designated.BusinessCategory3;
+                TextBox32.Text = Vendor_Designated.EffectiveTime3.ToString();
+                TextBox33.Text = Vendor_Designated.PurchaseAmount3;
+                TextBox34.Text = Vendor_Designated.Reason3;
+
+                TextBox35.Text = Vendor_Designated.VendorName4;
+                TextBox36.Text = Vendor_Designated.SAPCode_4;
+                TextBox37.Text = Vendor_Designated.BusinessCategory4;
+                TextBox38.Text = Vendor_Designated.EffectiveTime4.ToString();
+                TextBox39.Text = Vendor_Designated.PurchaseAmount4;
+                TextBox40.Text = Vendor_Designated.Reason4;
+
             }
             //展示附件
             showfilelist(formID);
@@ -287,7 +317,35 @@ namespace VendorAssess
             //Vendor_Designated.Persident = TextBox23.Text.ToString().Trim();
             //Vendor_Designated.FinalDate = TextBox24.Text.ToString().Trim();
             Vendor_Designated.Flag = flag;
-            
+
+            Vendor_Designated.VendorName1 = TextBox9.Text;
+            Vendor_Designated.SAPCode_1 = TextBox10.Text;
+            Vendor_Designated.BusinessCategory1 = TextBox11.Text;
+            Vendor_Designated.EffectiveTime1 = TextBox15.Text;
+            Vendor_Designated.PurchaseAmount1 = TextBox16.Text;
+            Vendor_Designated.Reason1 = TextBox19.Text;
+            ;
+            Vendor_Designated.VendorName2 = TextBox20.Text;
+            Vendor_Designated.SAPCode_2 = TextBox23.Text;
+            Vendor_Designated.BusinessCategory2 = TextBox25.Text;
+            Vendor_Designated.EffectiveTime2 = TextBox26.Text;
+            Vendor_Designated.PurchaseAmount2 = TextBox27.Text;
+            Vendor_Designated.Reason2 = TextBox28.Text;
+            ;
+            Vendor_Designated.VendorName3 = TextBox29.Text;
+            Vendor_Designated.SAPCode_3 = TextBox30.Text;
+            Vendor_Designated.BusinessCategory3 = TextBox31.Text;
+            Vendor_Designated.EffectiveTime3 = TextBox32.Text;
+            Vendor_Designated.PurchaseAmount3 = TextBox33.Text;
+            Vendor_Designated.Reason3 = TextBox34.Text;
+            ;
+            Vendor_Designated.VendorName4 = TextBox35.Text;
+            Vendor_Designated.SAPCode_4 = TextBox36.Text;
+            Vendor_Designated.BusinessCategory4 = TextBox37.Text;
+            Vendor_Designated.EffectiveTime4 = TextBox38.Text;
+            Vendor_Designated.PurchaseAmount4 = TextBox39.Text;
+            Vendor_Designated.Reason4 = TextBox40.Text;
+
             int join = As_Vendor_Designated_Apply_BLL.updateForm(Vendor_Designated);
             if (join > 0)
             {

@@ -140,6 +140,10 @@ namespace BLL.VendorAssess
             {
                 table = "As_Vendor_Selection";
             }
+            else if (formID.Contains("VendorModify"))
+            {
+                table = "As_VendorModify";
+            }
             return table;
         }
 

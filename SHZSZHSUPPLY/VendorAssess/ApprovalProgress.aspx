@@ -231,6 +231,9 @@
                 element.progress('formProgress', percent + '%');
             });
         }
+        function modifyTransfor() {
+            __myDoPostBack('vendorModifyTransfer', "");
+        }
     </script>
 
     <script>
@@ -351,6 +354,11 @@
 
         <div style="width: 500px; margin: 50px auto 30px auto; text-align: center">
             <asp:Button ID="btnTransfer" runat="server" CssClass="layui-btn layui-btn-disabled" Enabled="false" Text="转移" ToolTip="请等待所有表格审批完毕" OnClientClick="return openNormalCodeDialog();" />
+        </div>
+
+
+         <div style="width: 500px; margin: 50px auto 30px auto; text-align: center">
+            <asp:Button ID="btnModifyTransfer" runat="server" CssClass="layui-btn layui-btn-disabled" Enabled="false" Text="信息修改转移" ToolTip="请等待所有表格审批完毕" OnClientClick="return modifyTransfor();" />
         </div>
         <%--<div style="width: 500px; margin: 50px auto 30px auto; text-align: center">
             <asp:Button ID="Button1" runat="server" CssClass="layui-btn layui-btn-disabled" Text="生成pdf" OnClick="Button1_Click" />

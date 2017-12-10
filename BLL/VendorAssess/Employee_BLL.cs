@@ -44,5 +44,15 @@ namespace BLL
         {
             return Employee_DAL.getAuthority(employee_ID);
         }
+
+        public static string getEmployeeeKoNumber(string positionName, string factory_Name)
+        {
+            return Employee_DAL.getEmployeeeKoNumber(positionName, factory_Name);
+        }
+
+        internal static string getEmployeePositionName(string employeeID)
+        {
+            return Employee_DAL.getEmployeePositionName(employeeID);
+        }
     }
 }

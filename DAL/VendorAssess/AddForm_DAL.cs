@@ -51,6 +51,26 @@ namespace DAL
             return DBHelp.ExecuteCommand(sql);
         }
 
+
+        /// <summary>
+        /// 在As_Form中获取对应的formID的表的存储路径
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public static string getFormPathByFormID(string sql)
+        {
+            DataTable table = DBHelp.GetDataSet(sql);
+            string formPath = "";
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    formPath = dr["Form_Path"].ToString().Trim();
+                }
+            }
+            return formPath;
+        }
+
         public static bool deleteForm(string formID)
         {
             string sql = "delete from As_Form where Form_ID=@Form_ID";
