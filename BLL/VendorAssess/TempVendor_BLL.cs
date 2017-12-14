@@ -9,6 +9,7 @@ using System.Data;
 using DAL.VendorAssess;
 using System.Web;
 using System.Data.SqlClient;
+using MODEL.VendorAssess;
 
 namespace BLL
 {
@@ -36,6 +37,16 @@ namespace BLL
         public static bool checkUsed(string tempVendorID, string factoryName)
         {
             return TempVendor_DAL.getUsed(tempVendorID, factoryName);
+        }
+
+        internal static string getTempVendorIDFixed(string temp_Vendor_Name,string vendor_Type)
+        {
+            return TempVendor_DAL.getTempVendorIDFixed(temp_Vendor_Name, vendor_Type);
+        }
+
+        public static As_Vendor_Modify_Info getTempVendorByVendorCode(string temp_Vendor_ID)
+        {
+            return TempVendor_DAL.getTempVendorByVendorCode(temp_Vendor_ID);
         }
 
         /// <summary>
@@ -89,6 +100,27 @@ namespace BLL
                 }
             }
             return info;
+        }
+
+        /// <summary>
+        /// 由于一个供应商只有一个VendorCode 但是一个类型对应了一个Temp_Vendor_ID,vendor_Type_ID + VnedorCode 能找到对应的临时供应商 
+        /// </summary>
+        /// <param name="vendor_Code"></param>
+        /// <param name="vendorType"></param>
+        /// <returns></returns>
+        public static string getTempVendorIDByCodeAndType(string vendor_Code,string vendorType)
+        {
+            string temp_Vendor_ID = "";
+            string sql = "select As_Temp_Vendor.Temp_Vendor_ID from As_Temp_Vendor,As_Vendor_Type where As_Temp_Vendor.Vendor_Type_ID=As_Vendor_Type.Vendor_Type_ID and As_Temp_Vendor.Temp_Vendor_Name='" + vendor_Code + "' and As_Vendor_Type.Vendor_Type='" + vendorType + "'";
+            DataTable table = DBHelp.GetDataSet(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    temp_Vendor_ID = dr["Temp_Vendor_ID"].ToString().Trim();
+                }
+            }
+            return temp_Vendor_ID;
         }
 
         public static As_Temp_Vendor getTempVendor(string tempVendorID)

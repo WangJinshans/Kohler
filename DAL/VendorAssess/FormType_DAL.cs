@@ -115,6 +115,26 @@ namespace DAL
             return null;
         }
 
+        /// <summary>
+        /// 从As_Form_Type中获取Form_Type_ID
+        /// </summary>
+        /// <param name="form_Name"></param>
+        /// <returns></returns>
+        public static string getFormTypeIDByName(string form_Name)
+        {
+            string sql = "select Form_Type_ID from As_Form_Type where Form_Type_Name='" + form_Name + "'";
+            DataTable dt = DBHelp.GetDataSet(sql);
+            string form_Type_ID = "";
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    form_Type_ID = dr["Form_Type_ID"].ToString();
+                }
+            }
+            return form_Type_ID;
+        }
+
         public static DataTable getFormNameByFormID(string FormID)
         {
             string sql = "select Form_Type_Name from As_Form where Form_ID='" + FormID + "'";

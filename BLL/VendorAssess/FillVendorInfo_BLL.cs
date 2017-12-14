@@ -78,6 +78,16 @@ namespace BLL
         }
 
         /// <summary>
+        /// 删除As_Vendor_Form_Type中的一条记录
+        /// </summary>
+        /// <param name="formID"></param>
+        public static void deleteVendorFormType(string formID)
+        {
+            string sql = "delete from As_Vendor_FormType where Form_ID='" + formID + "'";
+            VendorForm_DAL.deleteVendorFormType(sql);
+        }
+
+        /// <summary>
         /// 添加其他类型
         /// </summary>
         /// <param name="tempVendorID"></param>

@@ -86,6 +86,10 @@ namespace DAL.VendorAssess
             {
                 table = "As_Vendor_Risk";
             }
+            else if (formID.Contains("VendorModify"))
+            {
+                table = "As_VendorModify";
+            }
             return table;
         }
 

@@ -210,5 +210,9 @@ namespace BLL
             }
             return reason.ToString();
         }
+        public static string getFormTypeIDByName(string form_Name)
+        {
+            return FormType_DAL.getFormTypeIDByName(form_Name);
+        }
     }
 }

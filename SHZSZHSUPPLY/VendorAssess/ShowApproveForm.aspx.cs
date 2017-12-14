@@ -100,6 +100,9 @@ namespace AendorAssess
                 case "019":
                     Response.Redirect("ShowVendorCreation.aspx?type=019");
                     break;
+                case "020":
+                    Response.Redirect("ShowVendorModify.aspx?type=020");
+                    break;
                 default:
                     break;
             }

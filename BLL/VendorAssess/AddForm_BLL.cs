@@ -54,5 +54,18 @@ namespace BLL
             }
             return factory_Nmae;
         }
+
+
+
+        /// <summary>
+        /// 在As_Form中查找对应formID的文件的存储路径
+        /// </summary>
+        /// <param name="formID"></param>
+        /// <returns></returns>
+        public static string getFormPathByFormID(string formID)
+        {
+            string sql = "select Form_Path from As_Form where Form_ID='" + formID + "'";
+            return AddForm_DAL.getFormPathByFormID(sql);
+        }
     }
 }

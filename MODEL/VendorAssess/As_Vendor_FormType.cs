@@ -17,6 +17,7 @@ namespace Model
         private string form_Type_Is_Optional;
         private string form_ID;
         private int prority;
+        private string factory_Name;
 
         public const string FLAG0 = "待发起人填写/提交";
         public const string FLAG1 = "已提交,等待审批";
@@ -166,6 +167,19 @@ namespace Model
             set
             {
                 prority = value;
+            }
+        }
+
+        public string Factory_Name
+        {
+            get
+            {
+                return factory_Name;
+            }
+
+            set
+            {
+                factory_Name = value;
             }
         }
     }
