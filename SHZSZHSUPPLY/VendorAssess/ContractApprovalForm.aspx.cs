@@ -442,7 +442,8 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
             else
             {
-                Response.Write("<script>window.alert('无法提交！')</script>");
+                LocalApproveManager.showPendingReason(Page,tempVendorID,true);
+                //Response.Write("<script>window.alert('无法提交！')</script>");
             }
         }
 
@@ -456,7 +457,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             return;
             As_Form_File Form_File = new As_Form_File();
             //string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
-            string sql = "select * from View_Form_File where Form_ID='" + FormID + "' and [File_ID] in (select [File_ID] from As_Vendor_FileType where Temp_Vendor_ID='" + tempVendorID + "') and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
+            string sql = "select * from View_Form_File where Form_ID='" + FormID + "'  and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
             PagedDataSource objpds = new PagedDataSource();
             objpds.DataSource = FormFile_BLL.listFile(sql);
             GridView1.DataSource = objpds;
@@ -482,7 +483,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 Write_BLL.addWrite(write);
                 if (flag == 1)
                 {
-                    Response.Write("<script>window.alert('保存成功！')</script>");
+                    LocalScriptManager.createManagerScript(Page, "window.alert('保存成功！')", "save");
                 }
                 return contractApproval;
             }
@@ -802,7 +803,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 if (assess_flow.User_Department_Assess == "1")
                 {
-                    LocalScriptManager.CreateScript(Page, "messageBox('" + "是否是标准合同？" + "','" + formID + "');", "StandardConstract");
+                    LocalScriptManager.createManagerScript(Page, "messageBox('" + "是否是标准合同？" + "','" + formID + "');", "StandardConstract");
                 }
                 else//非承诺性且非用户部门   暂时没有此类情况 不做处理
                 {
@@ -811,7 +812,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
             else if (assess_flow.User_Department_Assess == "1")
             {
-                LocalScriptManager.CreateScript(Page, "popUp('" + formID + "','yes');", "SHOW");
+                LocalScriptManager.createManagerScript(Page, "popUp('" + formID + "','yes');", "SHOW");
             }
             else
             {

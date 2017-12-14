@@ -19,5 +19,15 @@ namespace BLL.VendorAssess
             };
             return Department_DAL.getDepartments(sql, sp);
         }
+
+        internal static string findHead(string department_ID)
+        {
+            string sql = "Select Department_Head From As_Department Where Department_ID=@DeptID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@DeptID",department_ID)
+            };
+            return Department_DAL.findHead(sql, sp);
+        }
     }
 }

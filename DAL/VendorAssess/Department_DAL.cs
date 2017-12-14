@@ -24,5 +24,10 @@ namespace DAL.VendorAssess
             }
             return null;
         }
+
+        public static string findHead(string sql, SqlParameter[] sp)
+        {
+            return DBHelp.GetScalarString(sql, sp);
+        }
     }
 }

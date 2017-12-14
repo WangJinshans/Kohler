@@ -9,7 +9,7 @@
 
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
-    <script src="Script/Own/fileUploader.js?v=2"></script>
+    <script src="Script/Own/fileUploader.js?v=5"></script>
     <script src="Script/PDF/js/html2canvas.js"></script>
     <script src="Script/PDF/js/jspdf.debug.js"></script>
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
@@ -29,7 +29,7 @@
                 padding: 8px;
                 border-style: solid;
                 border-color: #666666;
-                background-color:#507CD1;
+                background-color: #507CD1;
             }
 
             table.gridtable td {
@@ -69,51 +69,6 @@
             text-align: center;
         }
     </style>
-
-       <script>
-           function takeScreenshot(file, formID) {
-            html2canvas(document.getElementById("div1"), {
-                // 渲染完成时调用，获得 canvas
-                onrendered: function (canvas) {
-                    var contentWidth = canvas.width;
-                    var contentHeight = canvas.height;
-                    //一页pdf显示html页面生成的canvas高度;
-                    var pageHeight = contentWidth / 592.28 * 841.89;
-                    //未生成pdf的html页面高度
-                    var leftHeight = contentHeight;
-                    //页面偏移
-                    var position = 0;
-                    //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
-                    var imgWidth = 595.28;
-                    var imgHeight = 592.28 / contentWidth * contentHeight;
-
-                    var pageData = canvas.toDataURL('image/jpeg', 1.0);
-
-                    var pdf = new jsPDF('', 'pt', 'a4');
-
-                    //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
-                    //当内容未超过pdf一页显示的范围，无需分页
-                    if (leftHeight < pageHeight) {
-                        pdf.addImage(pageData, 'JPEG', 20, 20, imgWidth - 50, imgHeight);
-                    } else {
-                        while (leftHeight > 0) {
-                            pdf.addImage(pageData, 'JPEG', 20, position + 20, imgWidth - 50, imgHeight - 100)
-                            leftHeight -= pageHeight;
-                            position -= 841.89;
-                            //避免添加空白页
-                            if (leftHeight > 0) {
-                                pdf.addPage();
-                            }
-                        }
-                    }
-                    pdf.autoPrint();
-                    pdf.save(file);
-                    requestToPdfAshx(file, formID);
-                },
-                background: "#f7f7f7"    //设置PDF背景色（默认透明，实际显示为黑色）
-            });
-        }
-    </script>
     <script>
         function setScore(textbox, score) {
             var tb = document.getElementById(textbox);
@@ -179,29 +134,25 @@
                 document.getElementById("total" + (i + 1)).textContent = total;
             }
         }
-        function requestToPdfAshx(fileName, formID) {
-            $.get(
-                "ASHX/PDF.ashx",
-                { "fileName": fileName, "formID": formID },
-                function (res) {
-                    window.location.href = document.URL;
-                    alert(res);
-                }
-            );
-        }
     </script>
-     <script>
-        function viewFile(filePath) {
-            window.open(filePath);
+    <script>
+        window.onload = function () {
+            showAllText();
+            hideShowOtherElements();
         }
     </script>
 </head>
 <body>
     <form id="form1" runat="server">
-        <div class="layui-form-item" style="width:1000px;margin:0 auto">
-            <a onclick="goBack()" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
-            <asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="Button1" runat="server" OnClick="Button1_Click" style="float: right; " />
-        </div>
+        <asp:ScriptManager runat="server" ID="ScriptManager"></asp:ScriptManager>
+        <asp:UpdatePanel runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
+            <ContentTemplate>
+                <div class="layui-form-item" style="width: 1000px; margin: 0 auto">
+                    <a onclick="goBack()" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
+                    <asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="btnPDF" runat="server" OnClientClick="requestToPdfAshx()" Style="float: right;" />
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
         <div id="div1">
             <table style="width: 1500px; margin: auto; border-collapse: collapse" border="1">
                 <caption style="font-size: xx-large">Supplier Selection Form     供应商选择表</caption>
@@ -971,60 +922,72 @@
                 </tr>
                 <tr>
                     <td colspan="2"></td>
-                    <td style=" color: red; text-decoration: underline; text-align: center;" id="total1">score</td>
+                    <td style="color: red; text-decoration: underline; text-align: center;" id="total1">score</td>
                     <td colspan="2"></td>
-                    <td style=" color: red; text-decoration: underline; text-align: center;" id="total2">score</td>
+                    <td style="color: red; text-decoration: underline; text-align: center;" id="total2">score</td>
                     <td colspan="2"></td>
-                    <td style=" color: red; text-decoration: underline; text-align: center;" id="total3">score</td>
+                    <td style="color: red; text-decoration: underline; text-align: center;" id="total3">score</td>
                     <td colspan="2"></td>
-                    <td style=" color: red; text-decoration: underline; text-align: center;" id="total4">score</td>
+                    <td style="color: red; text-decoration: underline; text-align: center;" id="total4">score</td>
                     <td colspan="2"></td>
-                    <td style=" color: red; text-decoration: underline; text-align: center;" id="total5">score</td>
-                    <td  colspan="2"></td>
+                    <td style="color: red; text-decoration: underline; text-align: center;" id="total5">score</td>
+                    <td colspan="2"></td>
                 </tr>
             </table>
         </div>
 
-        <div style="margin:0 auto;margin-top:50px;width:1000px;height:80px">
-            We recommend<asp:TextBox ReadOnly="true" ID="txbRecommend" runat="server" TextMode="MultiLine" style="width:100%"></asp:TextBox>
+        <div style="margin: 0 auto; margin-top: 50px; width: 1000px; height: 80px">
+            We recommend<asp:TextBox ReadOnly="true" ID="txbRecommend" runat="server" TextMode="MultiLine" Style="width: 100%"></asp:TextBox>
         </div>
-        <table style="width:1000px;margin:0 auto">
+        <table style="width: 1000px; margin: 0 auto">
             <tr>
                 <td>Purchasing Dept</td>
-                <td><asp:Image ImageUrl="imageurl" ID="Image1" runat="server" /></td>
+                <td>
+                    <asp:Image ImageUrl="imageurl" ID="Image1" runat="server" /></td>
                 <td>Manager</td>
-                <td><asp:Image ImageUrl="imageurl" ID="Image2" runat="server" /></td>
+                <td>
+                    <asp:Image ImageUrl="imageurl" ID="Image2" runat="server" /></td>
                 <td>Department Header</td>
-                <td><asp:Image ImageUrl="imageurl" ID="Image3" runat="server" /></td>
+                <td>
+                    <asp:Image ImageUrl="imageurl" ID="Image3" runat="server" /></td>
             </tr>
             <tr>
                 <td>Engineering Dept</td>
-                <td><asp:Image ImageUrl="imageurl" ID="Image4" runat="server" /></td>
+                <td>
+                    <asp:Image ImageUrl="imageurl" ID="Image4" runat="server" /></td>
                 <td>Manager</td>
-                <td><asp:Image ImageUrl="imageurl" ID="Image5" runat="server" /></td>
+                <td>
+                    <asp:Image ImageUrl="imageurl" ID="Image5" runat="server" /></td>
                 <td>Department Header</td>
-                <td><asp:Image ImageUrl="imageurl" ID="Image6" runat="server" /></td>
+                <td>
+                    <asp:Image ImageUrl="imageurl" ID="Image6" runat="server" /></td>
             </tr>
             <tr>
                 <td>Quality Dept</td>
-                <td><asp:Image ImageUrl="imageurl" ID="Image7" runat="server" /></td>
+                <td>
+                    <asp:Image ImageUrl="imageurl" ID="Image7" runat="server" /></td>
                 <td>Manager</td>
-                <td><asp:Image ImageUrl="imageurl" ID="Image8" runat="server" /></td>
+                <td>
+                    <asp:Image ImageUrl="imageurl" ID="Image8" runat="server" /></td>
                 <td>Department Header</td>
-                <td><asp:Image ImageUrl="imageurl" ID="Image9" runat="server" /></td>
+                <td>
+                    <asp:Image ImageUrl="imageurl" ID="Image9" runat="server" /></td>
             </tr>
             <tr>
                 <td>Finance Dept</td>
-                <td><asp:Image ImageUrl="imageurl" ID="Image10" runat="server" /></td>
+                <td>
+                    <asp:Image ImageUrl="imageurl" ID="Image10" runat="server" /></td>
                 <td>Manager</td>
-                <td><asp:Image ImageUrl="imageurl" ID="Image11" runat="server" /></td>
+                <td>
+                    <asp:Image ImageUrl="imageurl" ID="Image11" runat="server" /></td>
                 <td>Department Header</td>
-                <td><asp:Image ImageUrl="imageurl" ID="Image12" runat="server" /></td>
+                <td>
+                    <asp:Image ImageUrl="imageurl" ID="Image12" runat="server" /></td>
             </tr>
         </table>
 
-        <div style="margin-bottom:50px">
-            <table class="gridtable" style="margin: auto;width:1000px; border-collapse: collapse; ">
+        <div style="margin-bottom: 50px">
+            <table class="gridtable" style="margin: auto; width: 1000px; border-collapse: collapse;">
                 <tr>
                     <td>
                         <div>
@@ -1043,13 +1006,13 @@
                                         SortExpression="DepotSummary" Visible="False" />
                                     <asp:TemplateField>
                                         <ItemTemplate>
-                                            <asp:LinkButton ID="lbtapprovesuccess" runat="server" CommandName="approvesuccess"
+                                            <asp:LinkButton OnClientClick="waiting('正在处理')" ID="lbtapprovesuccess" runat="server" CommandName="approvesuccess"
                                                 CommandArgument='<%# Eval("Form_ID") %>'>通过审批</asp:LinkButton>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField>
                                         <ItemTemplate>
-                                            <asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="fail"
+                                            <asp:LinkButton OnClientClick="waiting('正在处理')" ID="lbtapprovefail" runat="server" CommandName="fail"
                                                 CommandArgument='<%# Eval("Form_ID") %>'>拒绝审批</asp:LinkButton>
                                         </ItemTemplate>
                                     </asp:TemplateField>

@@ -9,7 +9,7 @@
 
     <script src="Script/jquery-3.2.1.min.js"></script>
 	<script src="Script/layui/layui.js"></script>
-	<script src="Script/Own/fileUploader.js?v=2"></script>
+	<script src="Script/Own/fileUploader.js?v=5"></script>
     <script src="Script/PDF/js/html2canvas.js"></script>
     <script src="Script/PDF/js/jspdf.debug.js"></script>
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
@@ -156,107 +156,23 @@
         }
 	</style>
     <script>
-        function takeScreenshot(file, formID) {
-            html2canvas(document.getElementById("div1"), {
-                // 渲染完成时调用，获得 canvas
-                onrendered: function (canvas) {
-                    // 从 canvas 提取图片数据
-                    //var imgData = canvas.toDataURL('image/jpeg');
-                    //var canWidth = canvas.width;
-                    //var canHeight = canvas.height;
-                    //var arrDPI = js_getDPI();//获取显示器DPI
-                    //var dpiX = 96;
-                    //var dpiY = 96;
-                    //if (arrDPI.length > 0) {
-                    //    dpiX = arrDPI[0];
-                    //    dpiY = arrDPI[1];
-                    //}
-                    //var doc = new jsPDF("p", "mm", [230,315]);
-                    ////doc.text('', 10, 20);
-                    ////var doc = new jsPDF('', 'in', [(canWidth) / dpiX, (canHeight + 10) / dpiY]);//设置PDF宽高为要显示的元素的宽高，将像素转化为英寸  
-                    //doc.addImage(imgData, 'JPEG', 10, 10,209,297);
-                    ////doc.addImage(imgData, 'JPEG', 0, 0, 0, 0);
-                    //doc.save(filename);
-                    var contentWidth = canvas.width;
-                    var contentHeight = canvas.height;
-
-                    //一页pdf显示html页面生成的canvas高度;
-                    var pageHeight = contentWidth / 592.28 * 841.89;
-                    //未生成pdf的html页面高度
-                    var leftHeight = contentHeight;
-                    //页面偏移
-                    var position = 0;
-                    //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
-                    var imgWidth = 595.28;
-                    var imgHeight = 592.28 / contentWidth * contentHeight;
-
-                    var pageData = canvas.toDataURL('image/jpeg', 1.0);
-
-                    var pdf = new jsPDF('', 'pt', 'a4');
-
-                    //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
-                    //当内容未超过pdf一页显示的范围，无需分页
-                    if (leftHeight < pageHeight) {
-                        pdf.addImage(pageData, 'JPEG', 20, 20, imgWidth - 50, imgHeight - 50);
-                    } else {
-                        while (leftHeight > 0) {
-                            pdf.addImage(pageData, 'JPEG', 20, position + 20, imgWidth - 50, imgHeight - 300)
-                            leftHeight -= pageHeight;
-                            position -= 841.89;
-                            //避免添加空白页
-                            if (leftHeight > 0) {
-                                pdf.addPage();
-                            }
-                        }
-                    }
-                    pdf.autoPrint();
-                    pdf.save(file);
-                    requestToPdfAshx(file, formID);
-                },
-                background: "#f7f7f7"    //设置PDF背景色（默认透明，实际显示为黑色）
-            });
-        }
-        function js_getDPI() {
-            var arrDPI = new Array();
-            if (window.screen.deviceXDPI != undefined) {
-                arrDPI[0] = window.screen.deviceXDPI;
-                arrDPI[1] = window.screen.deviceYDPI;
-            }
-            else {
-                var tmpNode = document.createElement("DIV");
-                tmpNode.style.cssText = "width:1in;height:1in;position:absolute;left:0px;top:0px;z-index:99;visibility:hidden";
-                document.body.appendChild(tmpNode);
-                arrDPI[0] = parseInt(tmpNode.offsetWidth);
-                arrDPI[1] = parseInt(tmpNode.offsetHeight);
-                tmpNode.parentNode.removeChild(tmpNode);
-            }
-            return arrDPI;
-        }
-    </script>
-    <script>
-        function requestToPdfAshx(fileName, formID) {
-            $.get(
-                "ASHX/PDF.ashx",
-                { "fileName": fileName, "formID": formID },
-                function (res) {
-                    window.location.href = document.URL;
-                    alert(res);
-                }
-            );
-        }
-    </script>
-    <script>
-        function viewFile(filePath) {
-            window.open(filePath);
+        window.onload = function () {
+            showAllText();
+            hideShowOtherElements();
         }
     </script>
 </head>
 <body>
 	<form id="form1" runat="server">
-    <div class="layui-form-item" style="width:1000px;margin:0 auto">
-            <a onclick="goBack()" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
-            <asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="Button1" runat="server" OnClick="Button1_Click" style="float: right; " />
-        </div>    
+    <asp:ScriptManager runat="server" ID="ScriptManager"></asp:ScriptManager>
+        <asp:UpdatePanel runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
+            <ContentTemplate>
+                <div class="layui-form-item" style="width: 1000px; margin: 0 auto">
+                    <a onclick="goBack()" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
+                    <asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="btnPDF" runat="server" OnClientClick="requestToPdfAshx()" Style="float: right;" />
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>  
     <div style="text-align: center" id="div1">
         
         <table aria-readonly="true" id="table1" style="width:1000px; margin:auto; border-collapse:collapse" cellpadding:"0" cellspacing="0" border="1">
@@ -285,7 +201,7 @@
 		<tr>
 			<td >Where Used: 用在何处*</td>
 			<td ><asp:TextBox ID="txbWhereUsed" style="text-align:center" runat="server" BorderStyle="None" Width="100%" Height="100%" ReadOnly="true"></asp:TextBox></td>
-			<td class="td-label-style">Annual Spend:年开支*</td>
+			<td class="td-label-style">Annual Spend:年开支*(￥人民币-万元)</td>
 			<td ><asp:TextBox runat="server" ID="TextBox2" Width="100%" Height="100%" BorderStyle="None" style="text-align:center" ReadOnly="true">0</asp:TextBox></td>
 		</tr>
 		<tr>
@@ -318,6 +234,25 @@
 			<td >Date:</td>
 			<td ><asp:TextBox ReadOnly="true" runat="server" id="TextBox8" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" height="100%" width="90%" /></td>
 		</tr>
+        <tr>
+            <td rowspan="2">
+                审批
+            </td>
+            <td>
+                采购部
+            </td>
+            <td>
+                财务部
+            </td>
+            <td>
+                总经理
+            </td>
+        </tr>
+        <tr>
+            <td><asp:Image ImageUrl="imageurl" ID="Image1" runat="server" /></td>
+            <td><asp:Image ImageUrl="imageurl" ID="Image2" runat="server" /></td>
+            <td><asp:Image ImageUrl="imageurl" ID="Image3" runat="server" /></td>
+        </tr>
 	</table>
 		<table style="width:1000px;margin:auto; border-collapse:collapse" cellpadding:"0" cellspacing="0" border="1">
 			<caption style="font-size:x-large ">SUPPLY RISK ANALYSIS</caption>
@@ -629,13 +564,13 @@
 											SortExpression="DepotSummary" Visible="False" />
 										<asp:TemplateField>
 											<ItemTemplate>
-												<asp:LinkButton ID="lbtapprovesuccess" runat="server" CommandName="approvesuccess"
+												<asp:LinkButton OnClientClick="waiting('正在处理')" ID="lbtapprovesuccess" runat="server" CommandName="approvesuccess"
 													CommandArgument='<%# Eval("Form_ID") %>'>通过审批</asp:LinkButton>
 											</ItemTemplate>
 										</asp:TemplateField>
 										<asp:TemplateField>
 											<ItemTemplate>
-												<asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="fail"
+												<asp:LinkButton OnClientClick="waiting('正在处理')" ID="lbtapprovefail" runat="server" CommandName="fail"
 													CommandArgument='<%# Eval("Form_ID") %>'>拒绝审批</asp:LinkButton>
 											</ItemTemplate>
 										</asp:TemplateField>

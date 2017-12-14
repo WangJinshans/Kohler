@@ -178,7 +178,7 @@ namespace BLL
         public static string getTempVendorType(string tempVendorID)
         {
             string VendorType = "";
-            string sql = "select As_Vendor_Type.Vendor_Type from As_Vendor_Type,As_Temp_Vendor where As_Vendor_Type.Vendor_Type_ID=As_Temp_Vendor.Vendor_Type_ID and As_Temp_Vendor.Temp_Vendor_ID='" + tempVendorID + "'";
+            string sql = "select Vendor_Type from View_Temp_Vendor where Temp_Vendor_ID='" + tempVendorID + "'";
             DataTable table = new DataTable();
             table = DBHelp.GetDataSet(sql);
             if (table.Rows.Count > 0)

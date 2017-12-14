@@ -1,19 +1,13 @@
-﻿/*created by Wei Tingjiang
+﻿/*
+ *created by Wei Tingjiang
  *Notes:使用此文件中的函数之前必须在页面内部引入layui.css、layui.js、JQuery文件
  */
 
 
 var uploadFileResult = { 'success': false };
 
-function getRootPath(){ 
-    var strFullPath=window.document.location.href; 
-    var strPath=window.document.location.pathname; 
-    var pos=strFullPath.indexOf(strPath); 
-    var prePath=strFullPath.substring(0,pos); 
-    var postPath=strPath.substring(0,strPath.substr(1).indexOf('/')+1); 
-    return(prePath+postPath); 
-}
 
+//上传文件
 function uploadFile(requestType, tempVendorID, tempVendorName, fileTypeID, needDate, callback) {
     layui.use(['form', 'layer'], function () {
         var layer = layui.layer;
@@ -21,7 +15,7 @@ function uploadFile(requestType, tempVendorID, tempVendorName, fileTypeID, needD
             type: 2,
             title: '文件上传',
             maxmin: true,
-            content: './Html_Template/File_Upload_Page.html',
+            content: './Html_Template/File_Upload_Page.html?v=3',
             area: ['800px', '300px'],
             shadeClose: false,
             success: function (layero, index) {
@@ -59,10 +53,12 @@ function uploadFile(requestType, tempVendorID, tempVendorName, fileTypeID, needD
     });
 }
 
+//获取文件上传结果
 function getUploadResult() {
     return uploadFileResult;
 }
 
+//基本提示
 function message(msg) {
     layui.use(['layer'], function () {
         var layer = layui.layer;
@@ -70,6 +66,7 @@ function message(msg) {
     })
 }
 
+//提示后可自行回调的提示
 function messageFunc(msg, func) {
     layui.use(['layer'], function () {
         var layer = layui.layer;
@@ -77,6 +74,7 @@ function messageFunc(msg, func) {
     })
 }
 
+//确认后可跳转到指定url的确认框
 function messageConfirm(msg, aimURL) {
     layui.use(['layer'], function () {
         var layer = layui.layer;
@@ -90,6 +88,7 @@ function messageConfirm(msg, aimURL) {
     })
 }
 
+//带确认按钮的提示框
 function messageConfirmNone(msg) {
     layui.use(['layer'], function () {
         var layer = layui.layer;
@@ -100,6 +99,18 @@ function messageConfirmNone(msg) {
     })
 }
 
+//可自定义title的带确认按钮的提示框
+function messageConfirmTitle(title, msg) {
+    layui.use(['layer'], function () {
+        var layer = layui.layer;
+        layer.open({
+            title: title
+            , content: msg
+        });
+    })
+}
+
+//打开等待遮罩
 function waiting(msg) {
     layui.use(['layer'], function () {
         layer.msg(msg, {
@@ -111,12 +122,14 @@ function waiting(msg) {
     });
 }
 
+//关闭等待遮罩
 function closeWaiting() {
     layui.use(['layer'], function () {
         layer.closeAll();
     });
 }
 
+//拒绝审批，打开原因填写
 function openReasonDialog(form_id, position_name, factory_name, callback) {
     layui.use(['layer'], function () {
         var layer = layui.layer;
@@ -179,6 +192,20 @@ function popUp(formid) {
     });
 }
 
+//确认是否需要进行kci审批，需要在调用页面实现postback回调
+function openKCIConfirm() {
+    layui.use(['layer'], function () {
+        layer.confirm('是否需要KCI审批？', {
+            btn: ['是', '否'], yes: function (index, layero) {
+                __myDoPostBack('addKCI', '');
+        }, btn2: function (index, layero) {
+            __myDoPostBack('removeKCI', '');
+        }
+        });
+    })
+}
+
+//禁止回退
 function blockBack() {
     history.pushState(null, null, document.URL);
     window.addEventListener('popstate', function () {
@@ -186,6 +213,7 @@ function blockBack() {
     });
 }
 
+//强制实现postback
 function __myDoPostBack(eventTarget, eventArgument) {
     var theForm = document.forms['form1'];
     if (document.getElementById('__EVENTTARGET') == null) {
@@ -214,13 +242,15 @@ function __myDoPostBack(eventTarget, eventArgument) {
     }
 }
 
+//回退，无刷新
 function goBack() {
-    window.history.go(-1); //回退，无刷新
+    window.history.go(-1); 
 }
 
+//回退，强制刷新
 function goBackRefresh() {
     window.history.back();
-    location.reload(); //回退，强制刷新
+    location.reload(); 
 }
 
 //供应商创建专属调用
@@ -230,4 +260,82 @@ function changeCurrentVendor(factory, type, vendorID) {
     localStorage.setItem('newName', vendorID);
 
     document.location.href = 'EmployeeVendor.aspx';
+}
+
+//URL处理
+function getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]); return null;
+}
+
+//隐藏show页面的多余元素
+function hideShowOtherElements() {
+    if (getQueryString("outPutID") != null) {
+        //处理outputPDF事件
+        $(".layui-btn").hide();
+        $(".gridtable").hide();
+    }
+}
+
+//Show页面textarea设置
+function showAllText() {
+    $.each($("textarea"), function (i, n) {
+        $(n).css("height", n.scrollHeight + "px");
+    });
+}
+
+//Open PDF with a new tab
+function viewFile(filePath) {
+    window.open(filePath);
+}
+
+//请求生成PDF预览，供前端使用（同一时间只有一份pdf存在，保存在设置中的临时文件夹）,需要实现button（id为btnPDF）
+function requestToPdfAshx(ops) {
+    waiting('正在生产PDF预览...');
+    $.post("ASHX/PDF.ashx", { requestType: 'showPDF', pdfURL: $('input#btnPDF').attr('title'),options:arguments[0]?arguments[0]:'' }, function (data, status) {
+        var json = JSON.parse(data);
+        if (json['success']) {
+            closeWaiting();
+            window.open(json['message']);
+        } else {
+            closeWaiting();
+            message(json['message']);
+        }
+    })
+}
+
+//打开签名选择对话框
+function openSignatureSelection(elem,callback) {
+    layui.use(['layer'], function () {
+        var layer = layui.layer;
+        layer.open({
+            type: 2,
+            title: '选择签名',
+            maxmin: true,
+            content: './Html_Template/SignatureSelection.aspx',
+            area: ['500px', '400px'],
+            shadeClose: true,
+            btn: ['确定'],
+            yes: function (index, layero) {
+                var iframeWin = window[layero.find('iframe')[0]['name']];
+                var result = iframeWin.getResult();
+                if (callback != null) {
+                    callback(result);
+                } else {
+                    elem.src = result;
+                    document.getElementById('ImgExSrc').value = elem.id + ',' + result;
+                    document.getElementById('btnNewImage').click();
+                    //__myDoPostBack('newImageSrc', elem.id + ',' + result);
+                }
+                layer.close(index);
+            },
+            success: function (layero, index) {
+                
+            },
+            cancel: function (index, layero) {
+
+            }
+        });
+    });
 }

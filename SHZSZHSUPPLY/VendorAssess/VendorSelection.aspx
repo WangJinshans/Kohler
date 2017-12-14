@@ -6,22 +6,12 @@
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
-    <script type="text/javascript" src="Script/My97DatePicker/WdatePicker.js"></script>
-    <script src="Script/layui/layui.js"></script>
     <script src="Script/jquery-3.2.1.min.js"></script>
+    <script src="Script/layui/layui.js"></script>
     <script src="Script/Own/fileUploader.js?v=2"></script>
+    <script type="text/javascript" src="Script/My97DatePicker/WdatePicker.js"></script>
     <script>
-        onload = function () {
-            var obj = parent.document.getElementById("iFrame1");  //取得父页面IFrame对象  
-            //alert(obj.height); //弹出父页面中IFrame中设置的高度
-
-
-            obj.height = this.document.body.scrollHeight + "px";  //调整父页面中IFrame的高度为此页面的高度
-        }
         var la_layer;
-        layui.use(['layer'], function () {
-            la_layer = layui.layer;
-        });
     </script>
     <script>
         function viewFile(filePath) {
@@ -68,6 +58,9 @@
                             __myDoPostBack("fileUploadResult", true);
                         });
 
+                    },
+                    cancel: function (index, layero) {
+                        return false;
                     }
                 });
             });
@@ -95,8 +88,11 @@
                             layer.msg("请确认是否已经正确选择");
                         } else {
                             layer.close(index);
-                            layer.msg("填写选择完毕，请重新提交本表格", { time: 1000 }, function () {
-                                __myDoPostBack("selectResult", JSON.stringify(result));
+                            layer.open({
+                                title: '提示',
+                                content: '填写选择完毕，请重新提交本表格', btn: ['确定'],
+                                yes: function (index, layero) {__myDoPostBack("selectResult", JSON.stringify(result));},
+                                cancel: function () { return false;}
                             });
                         }
                     },
@@ -105,10 +101,10 @@
                         for (var i = 0; i < dpL.length; i++) {
                             iframeWin.addSelect(dpL[i], idL, nameL);
                         }
-                    },
+                    }/*,
                     cancel: function (index, layero) {
                         return false;
-                    }
+                    }*/
                 });
             });
         }
@@ -260,7 +256,10 @@
     <form id="form1" runat="server">
         <%--<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
 		<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />--%>
-        <div>
+        <asp:ScriptManager ID="scriptManager" runat="server"></asp:ScriptManager>
+        <asp:UpdatePanel ID="updatePanelTable" UpdateMode="Conditional" runat="server" ChildrenAsTriggers="false">
+            <ContentTemplate>
+                <div>
             <table style="width: 1500px; margin: auto; border-collapse: collapse" border="1">
                 <caption style="font-size: xx-large">Supplier Selection Form     供应商选择表</caption>
                 <tr>
@@ -1042,44 +1041,47 @@
                 </tr>
             </table>
         </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+        
         <div style="margin:0 auto;margin-top:50px;width:1000px;height:80px">
             We recommend<asp:TextBox ID="txbRecommend" runat="server" TextMode="MultiLine" style="width:100%"></asp:TextBox>
         </div>
         <table style="width:1000px;margin:0 auto">
             <tr>
                 <td>Purchasing Dept</td>
-                <td><asp:Image ImageUrl="imageurl" ID="Image1" runat="server" /></td>
+                <td><asp:Image ImageUrl="imageurl" ID="Image1" runat="server" Visible="false"/></td>
                 <td>Manager</td>
-                <td><asp:Image ImageUrl="imageurl" ID="Image2" runat="server" /></td>
+                <td><asp:Image ImageUrl="imageurl" ID="Image2" runat="server" Visible="false" /></td>
                 <td>Department Header</td>
-                <td><asp:Image ImageUrl="imageurl" ID="Image3" runat="server" /></td>
+                <td><asp:Image ImageUrl="imageurl" ID="Image3" runat="server" Visible="false" /></td>
             </tr>
             <tr>
                 <td>Engineering Dept</td>
-                <td><asp:Image ImageUrl="imageurl" ID="Image4" runat="server" /></td>
+                <td><asp:Image ImageUrl="imageurl" ID="Image4" runat="server" Visible="false" /></td>
                 <td>Manager</td>
-                <td><asp:Image ImageUrl="imageurl" ID="Image5" runat="server" /></td>
+                <td><asp:Image ImageUrl="imageurl" ID="Image5" runat="server" Visible="false" /></td>
                 <td>Department Header</td>
-                <td><asp:Image ImageUrl="imageurl" ID="Image6" runat="server" /></td>
+                <td><asp:Image ImageUrl="imageurl" ID="Image6" runat="server" Visible="false" /></td>
             </tr>
             <tr>
                 <td>Quality Dept</td>
-                <td><asp:Image ImageUrl="imageurl" ID="Image7" runat="server" /></td>
+                <td><asp:Image ImageUrl="imageurl" ID="Image7" runat="server" Visible="false" /></td>
                 <td>Manager</td>
-                <td><asp:Image ImageUrl="imageurl" ID="Image8" runat="server" /></td>
+                <td><asp:Image ImageUrl="imageurl" ID="Image8" runat="server" Visible="false" /></td>
                 <td>Department Header</td>
-                <td><asp:Image ImageUrl="imageurl" ID="Image9" runat="server" /></td>
+                <td><asp:Image ImageUrl="imageurl" ID="Image9" runat="server" Visible="false" /></td>
             </tr>
             <tr>
                 <td>Finance Dept</td>
-                <td><asp:Image ImageUrl="imageurl" ID="Image10" runat="server" /></td>
+                <td><asp:Image ImageUrl="imageurl" ID="Image10" runat="server" Visible="false" /></td>
                 <td>Manager</td>
-                <td><asp:Image ImageUrl="imageurl" ID="Image11" runat="server" /></td>
+                <td><asp:Image ImageUrl="imageurl" ID="Image11" runat="server" Visible="false" /></td>
                 <td>Department Header</td>
-                <td><asp:Image ImageUrl="imageurl" ID="Image12" runat="server" /></td>
+                <td><asp:Image ImageUrl="imageurl" ID="Image12" runat="server" Visible="false" /></td>
             </tr>
         </table>
-        <div style="text-align: center;margin-bottom:50px">
+        <%--<div style="text-align: center;margin-bottom:50px">
             <asp:Button ID="Button1" runat="server" Text="提交" CssClass="layui-btn" OnClick="Button1_Click" />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
    
@@ -1090,7 +1092,23 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	
             <asp:Button ID="Button3" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Button3_Click" />
+        </div>--%>
+        <asp:UpdatePanel ID="updatePanel" UpdateMode="Conditional" runat="server" ChildrenAsTriggers="false">
+            <ContentTemplate>
+                <div style="text-align: center;margin-bottom:50px">
+            <asp:Button ID="Button1" runat="server" Text="提交" CssClass="layui-btn" OnClick="Button1_Click" />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
+   
+            <asp:Button ID="Button4" runat="server" Text="确认" CssClass="layui-btn" OnClick="Button4_Click" />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       
+	
+            <asp:Button ID="Button2" runat="server" Text="保存" CssClass="layui-btn layui-btn-normal" OnClick="Button2_Click" OnClientClick="waiting('正在保存')" />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	
+            <asp:Button ID="Button3" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Button3_Click" />
         </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
         <div style="float: left;display:none">
 
             <table>

@@ -20,13 +20,18 @@ namespace DAL
                 {
                     As_Approve Approve = new As_Approve();
                     Approve.Form_ID = Convert.ToString(dr["Form_ID"]);
-                    Approve.Position_Name = Convert.ToString(dr["Position_Name"]);
-                    Approve.Assess_Flag = Convert.ToString(dr["Assess_Flag"]);
-                    Approve.Assess_Time= Convert.ToString(dr["Assess_Time"]);
-                    Approve.Assess_Reason = Convert.ToString(dr["Assess_Reason"]);
-                    Approve.Temp_Vendor_Name = Convert.ToString(dr["Temp_Vendor_Name"]);
                     Approve.Form_Type_Name = Convert.ToString(dr["Form_Type_Name"]);
+                    Approve.Position_Name = Convert.ToString(dr["Position_Name"]);
+                    //Approve.Assess_Flag = Convert.ToString(dr["Assess_Flag"]);
+                    //Approve.Assess_Time= Convert.ToString(dr["Assess_Time"]);
+                    //Approve.Assess_Reason = Convert.ToString(dr["Assess_Reason"]);
+                    Approve.Temp_Vendor_Name = Convert.ToString(dr["Temp_Vendor_Name"]);
+                    Approve.Temp_Vendor_ID = Convert.ToString(dr["Temp_Vendor_ID"]);
+                    Approve.Vendor_Type = Convert.ToString(dr["Vendor_Type"]);
                     Approve.Form_Type_ID = Convert.ToString(dr["Form_Type_ID"]);
+                    Approve.Employee_Name = Convert.ToString(dr["Employee_Name"]);
+                    Approve.Position_Name = Convert.ToString(dr["Position_Name"]);
+                    Approve.Form_Type_Name = Convert.ToString(dr["Form_Type_Name"]);
                     list.Add(Approve);
                 }
 

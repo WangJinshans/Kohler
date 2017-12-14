@@ -4,6 +4,8 @@ using BLL;
 using System.Web.UI.WebControls;
 using AendorAssess;
 using SHZSZHSUPPLY.VendorAssess.Util;
+using System.Web.UI;
+using BLL.VendorAssess;
 
 namespace VendorAssess
 {
@@ -19,22 +21,21 @@ namespace VendorAssess
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            return;
             //在非show页面中不可操作
-            Image1.Visible = false;
             Image2.Visible = false;
             Image3.Visible = false;
             Image4.Visible = false;
             Image5.Visible = false;
             Image6.Visible = false;
             Image7.Visible = false;
-            TextBox13.Visible = false;//时间控件隐藏
-            TextBox14.Visible = false;
-            TextBox18.Visible = false;
-            TextBox17.Visible = false;
-            TextBox21.Visible = false;
-            TextBox22.Visible = false;
-            TextBox24.Visible = false;
+            //TextBox13.Visible = false;//时间控件隐藏
+            //TextBox14.Visible = false;
+            //TextBox18.Visible = false;
+            //TextBox17.Visible = false;
+            //TextBox21.Visible = false;
+            //TextBox22.Visible = false;
+            //TextBox24.Visible = false;
             if (!IsPostBack)
             {
                 //获取session信息
@@ -77,11 +78,20 @@ namespace VendorAssess
             else
             {
                 //处理postback回调
-                string res = Request["__EVENTTARGET"];
                 switch (Request["__EVENTTARGET"])
                 {
                     case "submitForm":
                         LocalApproveManager.submitForm();
+                        break;
+                    case "newImageSrc":
+                        {
+                            string[] temp = Request.Form["__EVENTARGUMENT"].ToString().Split(',');
+                            Control control = FindControl(temp[0]);
+                            if (control != null)
+                            {
+                                ((Image)control).ImageUrl = temp[1];
+                            }
+                        }
                         break;
                     default:
                         break;
@@ -152,24 +162,39 @@ namespace VendorAssess
                 TextBox22.Text = Vendor_Designated.SupplyChainDirectorDate.ToString();
                 Image7.ImageUrl = Vendor_Designated.Persident;
                 TextBox24.Text = Vendor_Designated.FinalDate.ToString();
+
+                //补
+                TextBox9.Text = Vendor_Designated.VendorName1;
+                TextBox10.Text = Vendor_Designated.SAPCode_1;
+                TextBox11.Text = Vendor_Designated.BusinessCategory1;
+                TextBox15.Text = Vendor_Designated.EffectiveTime1.ToString();
+                TextBox16.Text = Vendor_Designated.PurchaseAmount1;
+                TextBox19.Text = Vendor_Designated.Reason1;
+
+                TextBox20.Text = Vendor_Designated.VendorName2;
+                TextBox23.Text = Vendor_Designated.SAPCode_2;
+                TextBox25.Text = Vendor_Designated.BusinessCategory2;
+                TextBox26.Text = Vendor_Designated.EffectiveTime2.ToString();
+                TextBox27.Text = Vendor_Designated.PurchaseAmount2;
+                TextBox28.Text = Vendor_Designated.Reason2;
+
+                TextBox29.Text = Vendor_Designated.VendorName3;
+                TextBox30.Text = Vendor_Designated.SAPCode_3;
+                TextBox31.Text = Vendor_Designated.BusinessCategory3;
+                TextBox32.Text = Vendor_Designated.EffectiveTime3.ToString();
+                TextBox33.Text = Vendor_Designated.PurchaseAmount3;
+                TextBox34.Text = Vendor_Designated.Reason3;
+
+                TextBox35.Text = Vendor_Designated.VendorName4;
+                TextBox36.Text = Vendor_Designated.SAPCode_4;
+                TextBox37.Text = Vendor_Designated.BusinessCategory4;
+                TextBox38.Text = Vendor_Designated.EffectiveTime4.ToString();
+                TextBox39.Text = Vendor_Designated.PurchaseAmount4;
+                TextBox40.Text = Vendor_Designated.Reason4;
             }
             //展示附件
             showfilelist(formID);
         }
-
-        ///// <summary>
-        ///// 显示审批列表
-        ///// </summary>
-        ///// <param name="FormID"></param>
-        //public void showApproveForm(string FormID)
-        //{
-        //    As_Approve approve = new As_Approve();
-        //    string sql = "SELECT * FROM As_Approve WHERE Form_ID='" + FormID + "'";
-        //    PagedDataSource objpds = new PagedDataSource();
-        //    objpds.DataSource = AssessFlow_BLL.listApprove(sql,positionName);
-        //    //GridView1.DataSource = objpds;
-        //    //GridView1.DataBind();
-        //}
 
         /// <summary>
         /// 显示文件列表
@@ -179,7 +204,7 @@ namespace VendorAssess
         {
             return;
             As_Form_File Form_File = new As_Form_File();
-            string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and [File_ID] in (select [File_ID] from As_Vendor_FileType where Temp_Vendor_ID='" + tempVendorID + "') and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
+            string sql = "select * from As_Form_File where Form_ID='" + FormID + "'  and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
             PagedDataSource objpds = new PagedDataSource();
             objpds.DataSource = FormFile_BLL.listFile(sql);
             GridView2.DataSource = objpds;
@@ -216,37 +241,6 @@ namespace VendorAssess
         }
 
         /// <summary>
-        /// 网页内部弹出，确定用户部门流程
-        /// </summary>
-        /// <param name="formTypeID"></param>
-        /// <param name="formID"></param>
-        //public void newApproveAccess(string formTypeID, string formID)
-        //{
-        //    //形成参数
-        //    As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(formTypeID);
-
-        //    //写入session之后供SelectDepartment页面使用
-        //    Session["AssessflowInfo"] = assess_flow;
-        //    Session["tempVendorID"] = tempVendorID;
-        //    Session["factory"] = "上海科勒";//TODO:自动三厂选择
-        //    Session["form_name"] = FORM_NAME;
-        //    Session["tempVendorName"] = tempVendorName;
-
-        //    //如果是用户部门
-        //    if (assess_flow.User_Department_Assess == "1")
-        //    {
-        //        LocalScriptManager.CreateScript(Page, "popUp('" + formID + "');", "SHOW");
-        //    }
-        //    else
-        //    {
-        //        Session["tempvendorname"] = tempVendorName;
-        //        Session["Employee_ID"] = Session["Employee_ID"];
-        //        Response.Write("<script>window.alert('提交成功！');window.location.href='/VendorAssess/EmployeeVendor.aspx</script>");
-        //    }
-        //}
-
-
-        /// <summary>
         /// 保存表格
         /// </summary>
         /// <param name="flag"></param>
@@ -270,11 +264,12 @@ namespace VendorAssess
             Vendor_Designated.Initiator = TextBox7.Text.ToString().Trim();
             Vendor_Designated.InitiatorDate = TextBox8.Text.ToString().Trim();
             Vendor_Designated.Applicant = Image8.ImageUrl;
+            Vendor_Designated.RequestDeptHead = Image1.ImageUrl;
             //Vendor_Designated.Applicant = TextBox9.Text.ToString().Trim();
             //Vendor_Designated.RequestDeptHead = TextBox10.Text.ToString().Trim();
             //Vendor_Designated.FinManager = TextBox11.Text.ToString().Trim();
-            //Vendor_Designated.ApplicantDate = TextBox12.Text.ToString().Trim();
-            //Vendor_Designated.RequestDeptHeadDate = TextBox13.Text.ToString().Trim();
+            Vendor_Designated.ApplicantDate = TextBox12.Text.ToString().Trim();
+            Vendor_Designated.RequestDeptHeadDate = TextBox13.Text.ToString().Trim();
             //Vendor_Designated.FinManagerDate = TextBox14.Text.ToString().Trim();
             //Vendor_Designated.PurchasingManager = TextBox15.Text.ToString().Trim();
             //Vendor_Designated.GM = TextBox16.Text.ToString().Trim();
@@ -287,7 +282,35 @@ namespace VendorAssess
             //Vendor_Designated.Persident = TextBox23.Text.ToString().Trim();
             //Vendor_Designated.FinalDate = TextBox24.Text.ToString().Trim();
             Vendor_Designated.Flag = flag;
+
+            Vendor_Designated.VendorName1 = TextBox9.Text;
+            Vendor_Designated.SAPCode_1 = TextBox10.Text;
+            Vendor_Designated.BusinessCategory1 = TextBox11.Text;
+            Vendor_Designated.EffectiveTime1 = TextBox15.Text;
+            Vendor_Designated.PurchaseAmount1 = TextBox16.Text;
+            Vendor_Designated.Reason1 = TextBox19.Text;
             
+            Vendor_Designated.VendorName2 = TextBox20.Text;
+            Vendor_Designated.SAPCode_2 = TextBox23.Text;
+            Vendor_Designated.BusinessCategory2 = TextBox25.Text;
+            Vendor_Designated.EffectiveTime2 = TextBox26.Text;
+            Vendor_Designated.PurchaseAmount2 = TextBox27.Text;
+            Vendor_Designated.Reason2 = TextBox28.Text;
+            
+            Vendor_Designated.VendorName3 = TextBox29.Text;
+            Vendor_Designated.SAPCode_3 = TextBox30.Text;
+            Vendor_Designated.BusinessCategory3 = TextBox31.Text;
+            Vendor_Designated.EffectiveTime3 = TextBox32.Text;
+            Vendor_Designated.PurchaseAmount3 = TextBox33.Text;
+            Vendor_Designated.Reason3 = TextBox34.Text;
+            
+            Vendor_Designated.VendorName4 = TextBox35.Text;
+            Vendor_Designated.SAPCode_4 = TextBox36.Text;
+            Vendor_Designated.BusinessCategory4 = TextBox37.Text;
+            Vendor_Designated.EffectiveTime4 = TextBox38.Text;
+            Vendor_Designated.PurchaseAmount4 = TextBox39.Text;
+            Vendor_Designated.Reason4 = TextBox40.Text;
+
             int join = As_Vendor_Designated_Apply_BLL.updateForm(Vendor_Designated);
             if (join > 0)
             {
@@ -300,7 +323,8 @@ namespace VendorAssess
                 Write_BLL.addWrite(write);
                 if (flag == 1)
                 {
-                    Response.Write("<script>window.alert('保存成功！')</script>");
+                    LocalScriptManager.createManagerScript(Page, "window.alert('保存成功！')", "save");
+                    //Response.Write("<script>window.alert('保存成功！')</script>");
                 }
                 return Vendor_Designated;
             }
@@ -325,7 +349,8 @@ namespace VendorAssess
             }
             else
             {
-                Response.Write("<script>window.alert('无法提交！')</script>");
+                LocalApproveManager.showPendingReason(Page,tempVendorID,true);
+                //Response.Write("<script>window.alert('无法提交！')</script>");
             }
         }
 
@@ -351,5 +376,19 @@ namespace VendorAssess
             }
         }
 
+        protected void btnNewImage_Click(object sender, EventArgs e)
+        {
+            string[] temp = ImgExSrc.Value.ToString().Split(',');
+            Control control = FindControl(temp[0]);
+            if (control != null)
+            {
+                ((Image)control).ImageUrl = temp[1];
+            }
+            if (temp[0].Equals("Image8"))   //find Head
+            {
+                Image1.ImageUrl = String.Format(Signature_BLL.urlPath, Employee_BLL.findHead(temp[1].Substring(temp[1].LastIndexOf('/')+1).Replace(".png", "")));
+                tableUpdatePanel.Update();
+            }
+        }
     }
 }

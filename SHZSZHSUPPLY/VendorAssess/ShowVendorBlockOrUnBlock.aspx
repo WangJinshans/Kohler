@@ -8,7 +8,7 @@
     <title></title>
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
-    <script src="Script/Own/fileUploader.js?v=2"></script>
+    <script src="Script/Own/fileUploader.js?v=5"></script>
     <script src="Script/PDF/js/html2canvas.js"></script>
     <script src="Script/PDF/js/jspdf.debug.js"></script>
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
@@ -190,76 +190,26 @@
         }
     </style>
     <script>
-        function viewFile(filePath) {
-            window.open(filePath);
-        }
-    </script>
-    <script>
-        function takeScreenshot(file, formID) {
-            html2canvas(document.getElementById("table1"), {
-                // 渲染完成时调用，获得 canvas
-                onrendered: function (canvas) {
-                    var contentWidth = canvas.width;
-                    var contentHeight = canvas.height;
-                    //一页pdf显示html页面生成的canvas高度;
-                    var pageHeight = contentWidth / 592.28 * 841.89;
-                    //未生成pdf的html页面高度
-                    var leftHeight = contentHeight;
-                    //页面偏移
-                    var position = 0;
-                    //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
-                    var imgWidth = 595.28;
-                    var imgHeight = 592.28 / contentWidth * contentHeight;
-
-                    var pageData = canvas.toDataURL('image/jpeg', 1.0);
-
-                    var pdf = new jsPDF('', 'pt', 'a4');
-
-                    //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
-                    //当内容未超过pdf一页显示的范围，无需分页
-                    if (leftHeight < pageHeight) {
-                        pdf.addImage(pageData, 'JPEG', 20, 20, imgWidth - 50, imgHeight);
-                    } else {
-                        while (leftHeight > 0) {
-                            pdf.addImage(pageData, 'JPEG', 20, position + 20, imgWidth - 50, imgHeight - 100)
-                            leftHeight -= pageHeight;
-                            position -= 841.89;
-                            //避免添加空白页
-                            if (leftHeight > 0) {
-                                pdf.addPage();
-                            }
-                        }
-                    }
-                    pdf.autoPrint();
-                    pdf.save(file);
-                    requestToPdfAshx(file, formID);
-                },
-                background: "#f7f7f7"    //设置PDF背景色（默认透明，实际显示为黑色）
-            });
-        }
-    </script>
-    <script>
-        function requestToPdfAshx(fileName, formID) {
-            $.get(
-                "ASHX/PDF.ashx",
-                { "fileName": fileName, "formID": formID },
-                function (res) {
-                    window.location.href = document.URL;
-                    alert(res);
-                }
-            );
+        window.onload = function () {
+            showAllText();
+            hideShowOtherElements();
         }
     </script>
 </head>
 <body>
     <form id="form1" runat="server">
-        <div class="layui-form-item" style="width:1000px;margin:0 auto">
-            <a onclick="goBack()" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
-            <asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="Button1" runat="server" OnClick="Button1_Click" style="float: right; " />
-        </div>
+        <asp:ScriptManager runat="server" ID="ScriptManager"></asp:ScriptManager>
+        <asp:UpdatePanel runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
+            <ContentTemplate>
+                <div class="layui-form-item" style="width: 1000px; margin: 0 auto">
+                    <a onclick="goBack()" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
+                    <asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="btnPDF" runat="server" OnClientClick="requestToPdfAshx()" Style="float: right;" />
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
 
         <div style="text-align: right" class="auto-style12">PR-05-07-04</div>
-        <br>
+        <br/>
         <table id="table1" style="margin: auto; border-collapse: initial;width:1000px" cellpadding="0" cellspacing="0">
             <caption style="font-size: xx-large;" class="auto-style2">VENDOR BLOCK or UNBLOCK</caption>
             <tr>
@@ -341,13 +291,13 @@
                                 SortExpression="DepotSummary" Visible="False" />
                             <asp:TemplateField>
                                 <ItemTemplate>
-                                    <asp:LinkButton ID="lbtapprovesuccess" runat="server" CommandName="approvesuccess"
+                                    <asp:LinkButton OnClientClick="waiting('正在处理')" ID="lbtapprovesuccess" runat="server" CommandName="approvesuccess"
                                         CommandArgument='<%# Eval("Form_ID") %>'>通过审批</asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField>
                                 <ItemTemplate>
-                                    <asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="fail"
+                                    <asp:LinkButton OnClientClick="waiting('正在处理')" ID="lbtapprovefail" runat="server" CommandName="fail"
                                         CommandArgument='<%# Eval("Form_ID") %>'>拒绝审批</asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>

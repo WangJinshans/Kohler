@@ -1,4 +1,5 @@
 ﻿using BLL;
+using MODEL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace AendorAssess
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string sql = String.Format("select * from View_Approve_Top where Position_Name='{0}' and Factory_Name='{1}'", Session["Position_Name"].ToString(),Session["Factory_Name"]);
+            string sql = String.Format("select * from View_Approve_Top_Detail where Position_Name='{0}' and Factory_Name='{1}'", Session["Position_Name"].ToString(),Session["Factory_Name"]);
             PagedDataSource objpds = new PagedDataSource();
             objpds.DataSource = SelectApproveForm_BLL.selectApproveForm(sql);
             GridView1.DataSource = objpds;
@@ -25,13 +26,13 @@ namespace AendorAssess
             if (e.CommandName == "showDetails")
             {
                 GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
-                Session["tempVendorID"] = TempVendor_BLL.getTempVendorID(GridView1.Rows[drv.RowIndex].Cells[2].Text.ToString().Trim());//获取temp_Vendor_ID 并放入Session
-                Session["formid"] = GridView1.Rows[drv.RowIndex].Cells[0].Text;
+                Session["tempVendorID"] = GridView1.DataKeys[drv.RowIndex].Values["Temp_Vendor_ID"]; //GridView1.Rows[drv.RowIndex].Cells[6].Text; ;//获取temp_Vendor_ID 并放入Session
+                Session["formid"] = GridView1.DataKeys[drv.RowIndex].Values["Form_ID"];// GridView1.Rows[drv.RowIndex].Cells[0].Text;
                 Session["formTypeID"] = e.CommandArgument.ToString();
-                string formname = HttpUtility.HtmlDecode(GridView1.Rows[drv.RowIndex].Cells[1].Text);//获取点击的那张表的名称
+                //string formname = HttpUtility.HtmlDecode(GridView1.Rows[drv.RowIndex].Cells[0].Text);//获取点击的那张表的名称
 
                 //根据名称进入不同的页面
-                switchShowPage(e.CommandArgument.ToString());
+                Response.Redirect("Show" + PageSelect.dcEditToShow[e.CommandArgument.ToString()]+"?type="+e.CommandArgument.ToString());
             }
         }
 

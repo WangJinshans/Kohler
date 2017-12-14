@@ -43,26 +43,32 @@ namespace AendorAssess
         {
             if (Temp_Vendor_Name.Text.Equals("") || Purchase_Money.Text.Equals(""))
             {
-                LocalScriptManager.CreateScript(Page, "messageBox('" + "请输入供应商信息" + "');", "VendorInfo");
+                LocalScriptManager.createManagerScript(Page, "messageBox('" + "请输入供应商信息" + "');", "VendorInfo");
                 return false;
             }
 
             try
             {
-                if (Convert.ToInt32(Purchase_Money.Text.Trim())<=0)
+                double money = Convert.ToDouble(Purchase_Money.Text.Trim());
+                if (money<=0)
                 {
-                    LocalScriptManager.CreateScript(Page, "messageBox('" + "金额错误" + "');", "Purchase_Money");
+                    LocalScriptManager.createManagerScript(Page, "messageBox('" + "金额错误" + "');", "Purchase_Money");
+                    return false;
+                }
+                else if (money>=10000)
+                {
+                    LocalScriptManager.createManagerScript(Page, "messageBox('" + "系统采购金额上限为一亿，已超出上限" + "');", "Purchase_Money");
                     return false;
                 }
             }
             catch (Exception)
             {
-                LocalScriptManager.CreateScript(Page, "messageBox('" + "请输入正确的金额" + "');", "Purchase_Money");
+                LocalScriptManager.createManagerScript(Page, "messageBox('" + "请输入正确的金额" + "');", "Purchase_Money");
                 return false;
             }
             //if (!Promise.Checked && !Advance_Charge.Checked && !Vendor_Assign.Checked)
             //{
-            //    LocalScriptManager.CreateScript(Page, "messageBox('" + "请选择承诺、预付款、指定选项" + "');", "Purchase_Money");
+            //    LocalScriptManager.createManagerScript(Page, "messageBox('" + "请选择承诺、预付款、指定选项" + "');", "Purchase_Money");
             //    return false;
             //}
             return true;
@@ -97,11 +103,11 @@ namespace AendorAssess
             int result = TempVendor_BLL.vendorExisted(Temp_Vendor_Name.Text.Trim(), vendorType);
             if (result == TempVendor_BLL.EXISTED)   //已经存在，提示无法重复创建
             {
-                LocalScriptManager.CreateScript(Page, "message('供应商已存在，请勿重复创建')", "vendorExisted");
+                LocalScriptManager.createManagerScript(Page, "message('供应商已存在，请勿重复创建')", "vendorExisted");
             }
             else if (result == TempVendor_BLL.NO_TYPE) //无此类型，跳转询问，确认后跳转addVendorMultiType（）函数
             {
-                LocalScriptManager.CreateScript(Page, "openConfirmDialog()", "vendorNoType");
+                LocalScriptManager.createManagerScript(Page, "openConfirmDialog()", "vendorNoType");
             }
             else //无此供应商信息，创建
             {
@@ -128,7 +134,7 @@ namespace AendorAssess
             As_Temp_Vendor Temp_Vendor = new As_Temp_Vendor();
             Temp_Vendor.Temp_Vendor_Name = Temp_Vendor_Name.Text.Trim();
             Temp_Vendor.Vendor_Type_ID = vendorTypeID;
-            Temp_Vendor.Purchase_Amount = Convert.ToInt32(purchaseMoney);
+            Temp_Vendor.Purchase_Amount = Math.Round(Convert.ToDouble(Purchase_Money.Text), 3); //3位小数
             Temp_Vendor.Normal_Vendor_ID = TempVendor_BLL.getNormalCode(TempVendor_BLL.getTempVendorID(Temp_Vendor.Temp_Vendor_Name));
             int joinTempVendor = FillVendorInfo_BLL.addTempVendor(Temp_Vendor);
 
@@ -157,7 +163,7 @@ namespace AendorAssess
             //alert
             if (bindResult == 1)
             {
-                LocalScriptManager.CreateScript(Page, String.Format("changeCurrentVendor('{0}','{1}','{2}')",Session["Factory_Name"], DropDownList1.SelectedValue.Trim(), tempVendorID), "changeCurrentVendor");
+                LocalScriptManager.createManagerScript(Page, String.Format("changeCurrentVendor('{0}','{1}','{2}')",Session["Factory_Name"], DropDownList1.SelectedValue.Trim(), tempVendorID), "changeCurrentVendor");
                 //Response.Redirect("EmployeeVendor.aspx");
             }
             else

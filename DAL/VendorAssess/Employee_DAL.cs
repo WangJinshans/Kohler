@@ -32,6 +32,20 @@ namespace DAL
             return list;
         }
 
+        public static DataTable getAllEmployee(object factory)
+        {
+            string sql = "Select Department_Name,Employee_ID,Employee_Name From View_Employee_Department Where Factory_Name='" + factory + "'";
+            DataTable dt = DBHelp.GetDataSet(sql);
+            if (dt.Rows.Count>0)
+            {
+                return dt;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public static string getEmployeeDepartment(string currentEmployeeID)
         {
             string sql = "select Department_Name from View_Employee_Department where Employee_ID=@Employee_ID";
@@ -154,7 +168,7 @@ namespace DAL
                     Employee.Employee_ID = Convert.ToString(dr["Employee_ID"]);
                     Employee.Employee_Name = Convert.ToString(dr["Employee_Name"]);
                     Employee.Employee_Email = Convert.ToString(dr["Employee_Email"]);
-                    //Employee.Department_ID = Convert.ToString(dr["Department_ID"]);
+                    Employee.Department_ID = Convert.ToString(dr["Department_ID"]);
                     Employee.Department_Name = Convert.ToString(dr["Department_Name"]);
                     Employee.Positon_Name = Convert.ToString(dr["Positon_Name"]);
                     Employee.Employee_Password = Convert.ToString(dr["Employee_Password"]);

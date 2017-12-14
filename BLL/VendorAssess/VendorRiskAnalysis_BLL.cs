@@ -37,11 +37,11 @@ namespace BLL
         /// <returns></returns>
         public static As_Vendor_Risk checkFlag(string formID)
         {
-            int flag = VendorRiskAnalysis_DAL.getVendorRiskAnalysisFlag(formID);
-            if (flag == 1)
-            {
-                return VendorRiskAnalysis_DAL.getVendorRiskAnalysis(formID);
-            }
+            //int flag = VendorRiskAnalysis_DAL.getVendorRiskAnalysisFlag(formID);
+            //if (flag == 1)
+            //{
+            //    return VendorRiskAnalysis_DAL.getVendorRiskAnalysis(formID);
+            //}
             return VendorRiskAnalysis_DAL.getVendorRiskAnalysis(formID);
         }
 

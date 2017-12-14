@@ -130,6 +130,7 @@
     <Content Include="VendorAssess\FormWaitToFill.aspx" />
     <Content Include="VendorAssess\Html_Template\File_Upload_Page.html" />
     <Content Include="VendorAssess\Html_Template\Mail_Template.html" />
+    <Content Include="VendorAssess\Html_Template\SignatureSelection.aspx" />
     <Content Include="VendorAssess\Script\laydate\PageTemplate.aspx" />
     <Content Include="VendorAssess\index.aspx" />
     <Content Include="VendorAssess\KCI.aspx" />
@@ -301,14 +302,82 @@
     <Content Include="VendorAssess\Script\fine-uploader\templates\simple-thumbnails.html" />
     <Content Include="VendorAssess\Script\fine-uploader\trash.gif" />
     <Content Include="VendorAssess\ShowVendorSelection.aspx" />
+    <Content Include="VendorAssess\TEST\files\102T3.png" />
     <Content Include="VendorAssess\TEST\files\Finance_Leader.jpg" />
     <Content Include="VendorAssess\TEST\files\General_Manager.jpg" />
+    <Content Include="VendorAssess\TEST\files\ko100u5.png" />
+    <Content Include="VendorAssess\TEST\files\ko101s5.png" />
+    <Content Include="VendorAssess\TEST\files\ko108G9.png" />
+    <Content Include="VendorAssess\TEST\files\ko10949.png" />
+    <Content Include="VendorAssess\TEST\files\ko18464.png" />
+    <Content Include="VendorAssess\TEST\files\ko18479.png" />
+    <Content Include="VendorAssess\TEST\files\ko18480.png" />
+    <Content Include="VendorAssess\TEST\files\ko18500.png" />
+    <Content Include="VendorAssess\TEST\files\ko18501.png" />
+    <Content Include="VendorAssess\TEST\files\ko18514.png" />
+    <Content Include="VendorAssess\TEST\files\ko18516.png" />
+    <Content Include="VendorAssess\TEST\files\ko18523.png" />
+    <Content Include="VendorAssess\TEST\files\ko18524.png" />
+    <Content Include="VendorAssess\TEST\files\ko19236.png" />
+    <Content Include="VendorAssess\TEST\files\ko19445.png" />
+    <Content Include="VendorAssess\TEST\files\ko23157.png" />
+    <Content Include="VendorAssess\TEST\files\ko23165.png" />
+    <Content Include="VendorAssess\TEST\files\ko24213.png" />
+    <Content Include="VendorAssess\TEST\files\ko24916.png" />
+    <Content Include="VendorAssess\TEST\files\ko25409.png" />
+    <Content Include="VendorAssess\TEST\files\ko26027.png" />
+    <Content Include="VendorAssess\TEST\files\ko27048.png" />
+    <Content Include="VendorAssess\TEST\files\ko27768.png" />
+    <Content Include="VendorAssess\TEST\files\ko27971.png" />
+    <Content Include="VendorAssess\TEST\files\ko29973.png" />
+    <Content Include="VendorAssess\TEST\files\ko52238.png" />
+    <Content Include="VendorAssess\TEST\files\ko52620.png" />
+    <Content Include="VendorAssess\TEST\files\ko53327.png" />
+    <Content Include="VendorAssess\TEST\files\ko54780.png" />
+    <Content Include="VendorAssess\TEST\files\ko55920.png" />
+    <Content Include="VendorAssess\TEST\files\ko55948.png" />
+    <Content Include="VendorAssess\TEST\files\ko56466.png" />
+    <Content Include="VendorAssess\TEST\files\ko56505.png" />
+    <Content Include="VendorAssess\TEST\files\ko58085.png" />
+    <Content Include="VendorAssess\TEST\files\ko58990.png" />
+    <Content Include="VendorAssess\TEST\files\ko64192.png" />
+    <Content Include="VendorAssess\TEST\files\ko65228.png" />
+    <Content Include="VendorAssess\TEST\files\ko65427.png" />
+    <Content Include="VendorAssess\TEST\files\ko66832.png" />
+    <Content Include="VendorAssess\TEST\files\ko66900.png" />
+    <Content Include="VendorAssess\TEST\files\ko73358.png" />
+    <Content Include="VendorAssess\TEST\files\ko75675.png" />
+    <Content Include="VendorAssess\TEST\files\ko75677.png" />
+    <Content Include="VendorAssess\TEST\files\ko75678.png" />
+    <Content Include="VendorAssess\TEST\files\ko76028.png" />
+    <Content Include="VendorAssess\TEST\files\ko76029.png" />
+    <Content Include="VendorAssess\TEST\files\ko76075.png" />
+    <Content Include="VendorAssess\TEST\files\ko77197.png" />
+    <Content Include="VendorAssess\TEST\files\ko78110.png" />
+    <Content Include="VendorAssess\TEST\files\ko78180.png" />
+    <Content Include="VendorAssess\TEST\files\ko78324.png" />
+    <Content Include="VendorAssess\TEST\files\ko79595.png" />
+    <Content Include="VendorAssess\TEST\files\ko79788.png" />
+    <Content Include="VendorAssess\TEST\files\ko83714.png" />
+    <Content Include="VendorAssess\TEST\files\ko85682.png" />
+    <Content Include="VendorAssess\TEST\files\ko86768.png" />
+    <Content Include="VendorAssess\TEST\files\ko90996.png" />
+    <Content Include="VendorAssess\TEST\files\ko91504.png" />
+    <Content Include="VendorAssess\TEST\files\ko92870.png" />
+    <Content Include="VendorAssess\TEST\files\ko96015.png" />
+    <Content Include="VendorAssess\TEST\files\ko96510.png" />
+    <Content Include="VendorAssess\TEST\files\ko96950.png" />
+    <Content Include="VendorAssess\TEST\files\ko97890.png" />
+    <Content Include="VendorAssess\TEST\files\ko98603.png" />
+    <Content Include="VendorAssess\TEST\files\ko98613.png" />
     <Content Include="VendorAssess\TEST\files\Legal_Affair_Department.jpg" />
+    <Content Include="VendorAssess\TEST\files\mmexport1511499054503_08.png" />
+    <Content Include="VendorAssess\TEST\files\mmexport1511499054503_26.png" />
     <Content Include="VendorAssess\TEST\files\Purchasing_Manager.jpg" />
     <Content Include="VendorAssess\TEST\files\Quality_Dept_Manager.jpg" />
-    <Content Include="VendorAssess\TEST\files\signature.jpg" />
     <Content Include="VendorAssess\TEST\files\Supplier_Chain_Leader.jpg" />
     <Content Include="VendorAssess\TEST\files\User_Department.jpg" />
+    <Content Include="VendorAssess\TEST\files\zsk0580.png" />
     <Content Include="VendorAssess\VendorBlockOrUnBlock.aspx" />
     <Content Include="VendorAssess\VendorCreation.aspx" />
     <Content Include="VendorAssess\VendorDesignatedApply.aspx" />
@@ -509,6 +578,13 @@
     </Compile>
     <Compile Include="VendorAssess\FormWaitToFill.aspx.designer.cs">
       <DependentUpon>FormWaitToFill.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorAssess\Html_Template\SignatureSelection.aspx.cs">
+      <DependentUpon>SignatureSelection.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\Html_Template\SignatureSelection.aspx.designer.cs">
+      <DependentUpon>SignatureSelection.aspx</DependentUpon>
     </Compile>
     <Compile Include="VendorAssess\Script\laydate\PageTemplate.aspx.cs">
       <DependentUpon>PageTemplate.aspx</DependentUpon>

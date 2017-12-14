@@ -20,7 +20,8 @@ namespace AendorAssess
 
             List<string> list = Employee_BLL.getAuthority(Label1.Text.Trim());
 
-            LocalScriptManager.CreateScript(Page, String.Format("filterNavigation('{0}', '{1}', '{2}', '{3}', '{4}')",list[0], list[1], list[2], list[3], list[4]), "dis");
+            //LocalScriptManager.CreateScript(Page, String.Format("filterNavigation('{0}', '{1}', '{2}', '{3}', '{4}')",list[0], list[1], list[2], list[3], list[4]), "dis");
+            LocalScriptManager.CreateScript(Page, "filterNavigation('TRUE', 'TRUE', 'TRUE', 'TRUE', 'TRUE')", "dis");
         }
     }
 }

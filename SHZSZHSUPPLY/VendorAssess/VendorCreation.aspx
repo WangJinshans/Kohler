@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
-    <script src="Script/Own/fileUploader.js?v=2"></script>
+    <script src="Script/Own/fileUploader.js?v=5"></script>
     <script>
         function viewFile(filePath) {
             window.open(filePath);
@@ -19,7 +19,7 @@
 		.t {
 			border: 0px;
 			overflow: hidden;
-			width: 95%;
+			width: 100%;
 			text-align: center;
 		}
 		td {
@@ -76,117 +76,117 @@
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">目的*</td>
-				<td colspan="1" style="text-align:left" class="auto-style7"><asp:TextBox ID="TextBox1" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style7"><asp:TextBox TextMode="MultiLine" ID="TextBox1" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">申请人姓名*</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox2" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox TextMode="MultiLine" ID="TextBox2" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">申请人电话*</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox3" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox TextMode="MultiLine" ID="TextBox3" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">科勒公司代码*</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox4" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox TextMode="MultiLine" ID="TextBox4" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">ACCOUNT GROUP*</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox5" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox TextMode="MultiLine" ID="TextBox5" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">供应商名字 （中文）*</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox6" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox TextMode="MultiLine" ID="TextBox6" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">供应商名字 （英文/拼音）*</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox7" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox TextMode="MultiLine" ID="TextBox7" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">地址*</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox8" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox TextMode="MultiLine" ID="TextBox8" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">邮政编码*</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox9" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox TextMode="MultiLine" ID="TextBox9" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">城市*</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox10" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox TextMode="MultiLine" ID="TextBox10" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">国家*</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox11" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox TextMode="MultiLine" ID="TextBox11" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">地区*</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox12" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox TextMode="MultiLine" ID="TextBox12" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">语言*</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox13" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox TextMode="MultiLine" ID="TextBox13" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">电话*</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox14" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox TextMode="MultiLine" ID="TextBox14" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">传真*</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox15" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox TextMode="MultiLine" ID="TextBox15" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">邮箱地址（供下单）*</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox16" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox TextMode="MultiLine" ID="TextBox16" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">邮箱地址（收付款通知书）*</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox17" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox TextMode="MultiLine" ID="TextBox17" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">税务登记证号码*</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox18" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox TextMode="MultiLine" ID="TextBox18" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			<tr>
 				<td colspan="2" style="text-align:center;background-color:black;color:#ffffff">PAYMENT TRANSACTIONS</td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">付款账期*</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox19" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox TextMode="MultiLine" ID="TextBox19" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">付款方法*</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox20" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox TextMode="MultiLine" ID="TextBox20" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			 <tr>
 				<td colspan="2" style="text-align:center;background-color:black;color:#ffffff">BANK INFORMATION</td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">银行代码</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox21" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox TextMode="MultiLine" ID="TextBox21" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">银行中文名称 (含支行）*</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox22" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox TextMode="MultiLine" ID="TextBox22" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">银行所在国家*</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox23" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox TextMode="MultiLine" ID="TextBox23" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">银行帐号*</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox24" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox TextMode="MultiLine" ID="TextBox24" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			 <tr>
 				<td colspan="2" style="text-align:center;background-color:black;color:#ffffff">PURCHASING</td>
 			</tr>
 			 <tr>
 				<td colspan="1" style="text-align:left" class="auto-style8">货币种类（供下单）*</td>
-				<td colspan="1" style="text-align:left" class="auto-style9"><asp:TextBox ID="TextBox25" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style9"><asp:TextBox TextMode="MultiLine" ID="TextBox25" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			 <tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">贸易术语*</td>
-				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox ID="TextBox26" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+				<td colspan="1" style="text-align:left" class="auto-style6"><asp:TextBox TextMode="MultiLine" ID="TextBox26" runat="server" CssClass="t"></asp:TextBox></td>
 			</tr>
 			<tr>
 				<td colspan="2" style="text-align:center;background-color:black;color:#ffffff">SUPPORTING</td>
@@ -214,7 +214,7 @@
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">直线经理审批</td>
 				<td colspan="1" style="text-align:left" class="auto-style6">
-                    <asp:Image ImageUrl="imageurl" ID="Image1" runat="server" /></td>
+                    <asp:Image onclick="openSignatureSelection(this,null)" AlternateText="请选择图片" ImageUrl="imageurl" ID="Image1" runat="server" /></td>
 			</tr>
 			<tr>
 				<td colspan="1" style="text-align:left" class="auto-style5">采购经理审批</td>
@@ -237,14 +237,28 @@
 			</tr>
 			<tr>
 				<td colspan="2" style="text-align:center">
-					<asp:TextBox ID="TextBox32" runat="server" CssClass="t" Height="35px"></asp:TextBox>
+					<asp:TextBox TextMode="MultiLine" ID="TextBox32" runat="server" CssClass="t"></asp:TextBox>
 				</td>
 			</tr>
 		</table>
-		<div style="text-align:center;margin-bottom:50px">
+		<%--<div style="text-align:center;margin-bottom:50px">
 			<asp:Button ID="Button1" runat="server" Text="提交" CssClass="layui-btn" OnClick="Button1_Click" />&nbsp;&nbsp;&nbsp;&nbsp;
             <asp:Button ID="Button2" runat="server" Text="保存" CssClass="layui-btn layui-btn-normal" OnClick="Button2_Click" />&nbsp;&nbsp;&nbsp;&nbsp;
-            <asp:Button ID="Button3" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Button3_Click" /></div>
+            <asp:Button ID="Button3" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Button3_Click" /></div>--%>
+        <asp:ScriptManager ID="scriptManager" runat="server"></asp:ScriptManager>
+        <asp:UpdatePanel ID="updatePanel" UpdateMode="Conditional" runat="server" ChildrenAsTriggers="false">
+            <ContentTemplate>
+                <asp:HiddenField runat="server" ID="ImgExSrc" />
+                <asp:Button runat="server" ID="btnNewImage" style="display:none" OnClick="btnNewImage_Click" />
+                <div style="text-align: center; margin-bottom: 50px">
+                    <asp:Button ID="Button1" runat="server" Text="提交" CssClass="layui-btn" OnClick="Button1_Click" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       
+		        <asp:Button ID="Button2" runat="server" Text="保存" CssClass="layui-btn layui-btn-normal" OnClick="Button2_Click" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		        <asp:Button ID="Button3" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Button3_Click" />
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
 		<table style="display:none">
 			<asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" CellPadding="4" OnRowCommand="GridView2_RowCommand" GridLines="None" ForeColor="#333333">
 						<AlternatingRowStyle BackColor="White" ForeColor="#284775" />

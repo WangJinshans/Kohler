@@ -13,7 +13,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class ShowVendorDiscovery : System.Web.UI.Page
     {
-        private string formID = "";
+        public string formID = "";
         private string positionName = "";
         private string FORM_TYPE_ID = "";
         private string tempVendorID = "";
@@ -132,7 +132,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             As_Form_File Form_File = new As_Form_File();
             //string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
-            string sql = "select * from View_Form_File where Form_ID='" + FormID + "' and [File_ID] in (select [File_ID] from As_Vendor_FileType where Temp_Vendor_ID='" + tempVendorID + "') and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
+            string sql = "select * from View_Form_File where Form_ID='" + FormID + "'  and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
             PagedDataSource objpds = new PagedDataSource();
             objpds.DataSource = FormFile_BLL.listFile(sql);
             GridView2.DataSource = objpds;
@@ -209,6 +209,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 positionName = Convert.ToString(Session["Position_Name"]);
                 tempVendorID = AddForm_BLL.GetTempVendorID(formID);//获取tempvendorID
                 FORM_TYPE_ID = Request.QueryString["type"];
+                btnPDF.ToolTip = Request.Url+"&outPutID=" + formID;
             }
         }
 

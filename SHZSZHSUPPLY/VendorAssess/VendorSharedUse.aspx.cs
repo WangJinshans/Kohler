@@ -89,7 +89,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 string fileName = e.CommandArgument.ToString();
 
                 //跳转
-                Response.Write(String.Format("<script>window.open('{0}');</script>", "/files/" + fileName));
+                Response.Write(String.Format("<script>window.open('{0}');</script>", LSetting.File_Reltive_Path + fileName));
             }
         }
 

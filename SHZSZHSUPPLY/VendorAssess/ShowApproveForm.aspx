@@ -16,17 +16,29 @@
         <fieldset class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
             <legend id="vendorName" runat="server">待审批项目</legend>
         </fieldset>
-        <asp:GridView Style="width: 1000px; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
+        <asp:GridView DataKeyNames="Form_ID,Temp_Vendor_ID" Style="width: 1000px; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
             <AlternatingRowStyle BackColor="White" />
             <Columns>
-                <asp:BoundField DataField="Form_ID" HeaderText="表格编号"
-                    SortExpression="Form_ID" />
+                <%--<asp:TemplateField HeaderText="Form_ID" Visible="false">
+                    <ItemTemplate>
+                        <asp:Label runat="server" Text='<%# Eval("Form_ID") %>'/>
+                    </ItemTemplate>
+                </asp:TemplateField>--%>
                 <asp:BoundField DataField="Form_Type_Name" HeaderText="表格名称"
                     SortExpression="Form_Type_Name" />
                 <asp:BoundField DataField="Temp_Vendor_Name" HeaderText="供应商名称"
                     SortExpression="Temp_Vendor_Name" />
+                <asp:BoundField DataField="Vendor_Type" HeaderText="供应商类型"
+                    SortExpression="Vendor_Type" />
+                <asp:BoundField DataField="Employee_Name" HeaderText="提交人"
+                    SortExpression="Employee_Name" />
                 <asp:BoundField DataField="Form_Type_ID" HeaderText="表格类型编号"
                     SortExpression="Form_Type_ID" Visible="false" />
+<%--                <asp:TemplateField HeaderText="Temp_Vendor_ID" Visible="false">
+                    <ItemTemplate>
+                        <asp:Label runat="server" Text='<%# Eval("Temp_Vendor_ID") %>'/>
+                    </ItemTemplate>
+                </asp:TemplateField>--%>
                 <asp:BoundField DataField="DepotSummary" HeaderText="DepotSummary"
                     SortExpression="DepotSummary" Visible="False" />
                 <asp:TemplateField>

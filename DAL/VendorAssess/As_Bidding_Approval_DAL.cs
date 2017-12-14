@@ -104,21 +104,22 @@ namespace DAL.VendorAssess
 
         public static int addVendorBiddingApprovalForm(As_Bidding_Approval vendorApproval)
         {
-            string sql = "insert into As_Bidding_Approval_Form(Temp_Vendor_ID,Flag,Factory_Name,Temp_Vendor_Name,Form_Type_ID)values(@Temp_Vendor_ID,@Flag,@Factory_Name,@Temp_Vendor_Name,@Form_Type_ID)";
+            string sql = "insert into As_Bidding_Approval_Form(Temp_Vendor_ID,Flag,Factory_Name,Temp_Vendor_Name,Form_Type_ID,Initiator)values(@Temp_Vendor_ID,@Flag,@Factory_Name,@Temp_Vendor_Name,@Form_Type_ID,@Initiator)";
             SqlParameter[] sp = new SqlParameter[]
             {
                new SqlParameter("@Temp_Vendor_ID",vendorApproval.Temp_Vendor_ID),
                new SqlParameter("@Flag",vendorApproval.Flag),
                new SqlParameter("@Factory_Name",vendorApproval.Factory_Name),
                new SqlParameter("@Temp_Vendor_Name",vendorApproval.Temp_Vendor_Name),
-               new SqlParameter("@Form_Type_ID",vendorApproval.Form_Type_ID)
+               new SqlParameter("@Form_Type_ID",vendorApproval.Form_Type_ID),
+               new SqlParameter("@Initiator",vendorApproval.Initiator)
             };
             return DBHelp.GetScalar(sql, sp);
         }
 
         public static int updateVendorBiddingApprovalForm(As_Bidding_Approval vendorApproval)
         {
-            string sql = "update As_Bidding_Approval_Form SET Serial_No=@Serial_No,Date=@Date,Product=@Product,Purchase_Amount=@Purchase_Amount,MOQ1=@MOQ1,MOQ2=@MOQ2,MOQ3=@MOQ3,Lead_Time1=@Lead_Time1,Lead_Time2=@Lead_Time2,Lead_Time3=@Lead_Time3,Payment_Term1=@Payment_Term1,Payment_Term2=@Payment_Term2,Payment_Term3=@Payment_Term3,Remark1=@Remark1,Remark2=@Remark2,Remark3=@Remark3,Reason_One=@Reason_One,Reason_Two=@Reason_Two,Form_Type_ID=@Form_Type_ID,Temp_Vendor_ID=@Temp_Vendor_ID,Temp_Vendor_Name=@Temp_Vendor_Name, Flag=@Flag where Form_ID=@Form_ID";
+            string sql = "update As_Bidding_Approval_Form SET Serial_No=@Serial_No,Date=@Date,Product=@Product,Purchase_Amount=@Purchase_Amount,MOQ1=@MOQ1,MOQ2=@MOQ2,MOQ3=@MOQ3,Lead_Time1=@Lead_Time1,Lead_Time2=@Lead_Time2,Lead_Time3=@Lead_Time3,Payment_Term1=@Payment_Term1,Payment_Term2=@Payment_Term2,Payment_Term3=@Payment_Term3,Remark1=@Remark1,Remark2=@Remark2,Remark3=@Remark3,Reason_One=@Reason_One,Reason_Two=@Reason_Two,Form_Type_ID=@Form_Type_ID,Temp_Vendor_ID=@Temp_Vendor_ID,Temp_Vendor_Name=@Temp_Vendor_Name,Initiator=@Initiator,User_Department_Manager=@User_Department_Manager, Flag=@Flag, Vendor_Recommend=@Vendor_Recommend where Form_ID=@Form_ID";
 
             string sql1 = "insert into As_Bidding_Approval_Form_Item(Item,Description,Price,Price1,Price2,Remark,Form_ID) values(@Item,@Description,@Price,@Price1,@Price2,@Remark,@Form_ID)";
 
@@ -154,7 +155,10 @@ namespace DAL.VendorAssess
                 new SqlParameter("@Form_Type_ID",vendorApproval.Form_Type_ID),
                 new SqlParameter("@Temp_Vendor_ID",vendorApproval.Temp_Vendor_ID),
                 new SqlParameter("@Temp_Vendor_Name",vendorApproval.Temp_Vendor_Name),
-                new SqlParameter("@Flag",vendorApproval.Flag)
+                new SqlParameter("@Flag",vendorApproval.Flag),
+                new SqlParameter("@Initiator",vendorApproval.Initiator),
+                new SqlParameter("@User_Department_Manager",vendorApproval.User_Department_Manager),
+                new SqlParameter("@Vendor_Recommend",vendorApproval.Vendor_Recommend)
             };
             //new SqlParameter("@Initiator",vendorApproval.Initiator),
             //new SqlParameter("@Supplier_Chain_Leader",vendorApproval.Supplier_Chain_Leader),
@@ -214,10 +218,10 @@ namespace DAL.VendorAssess
                     Vendor_Approval.Remark3 = Convert.ToString(dr["Remark3"]);
                     Vendor_Approval.Reason_One = Convert.ToString(dr["Reason_One"]);
                     Vendor_Approval.Reason_Two = Convert.ToString(dr["Reason_Two"]);
-                    //Vendor_Approval.Initiator = Convert.ToString(dr["Initiator"]);
-                    Vendor_Approval.Supplier_Chain_Leader = Convert.ToString(dr["Supplier_Chain_Leader"]);
+                    Vendor_Approval.Initiator = Convert.ToString(dr["Initiator"]);
+                    Vendor_Approval.Supplier_Chain_Leader = Convert.ToString(dr["Purchasing_Manager"]);
                     Vendor_Approval.Finance_Leader = Convert.ToString(dr["Finance_Leader"]);
-                    Vendor_Approval.Business_Leader = Convert.ToString(dr["Business_Leader"]);
+                    Vendor_Approval.Business_Leader = Convert.ToString(dr["General_Manager"]);
                     Vendor_Approval.Form_ID = Convert.ToString(dr["Form_ID"]);
                     Vendor_Approval.Form_Type_ID = Convert.ToString(dr["Form_Type_ID"]);
                     Vendor_Approval.Temp_Vendor_ID = Convert.ToString(dr["Temp_Vendor_ID"]);
@@ -225,6 +229,8 @@ namespace DAL.VendorAssess
                     Vendor_Approval.Factory_Name= Convert.ToString(dr["Factory_Name"]);
                     //Vendor_Approval.Bar_Code = Convert.ToString(dr["Bar_Code"]);
                     Vendor_Approval.Flag = Convert.ToInt32(dr["Flag"]);
+                    Vendor_Approval.User_Department_Manager = Convert.ToString(dr["User_Department_Manager"]);
+                    Vendor_Approval.Vendor_Recommend = Convert.ToString(dr["Vendor_Recommend"]);
                 }
                 SqlParameter[] sp1 = new SqlParameter[]
                 {

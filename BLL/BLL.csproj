@@ -78,6 +78,7 @@
     <Compile Include="VendorAssess\Mail.cs" />
     <Compile Include="VendorAssess\MultiEdit_BLL.cs" />
     <Compile Include="VendorAssess\NewForms_BLL.cs" />
+    <Compile Include="VendorAssess\PDF_BLL.cs" />
     <Compile Include="VendorAssess\Signature_BLL.cs" />
     <Compile Include="VendorAssess\VendorSelectionSupplier_BLL.cs" />
     <Compile Include="VendorAssess\CheckFile_BLL.cs" />

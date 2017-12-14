@@ -8,7 +8,7 @@
     <title></title>
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
-    <script src="Script/Own/fileUploader.js?v=2"></script>
+    <script src="Script/Own/fileUploader.js?v=5"></script>
     <script src="Script/My97DatePicker/WdatePicker.js"></script>
     <script src="Script/PDF/js/html2canvas.js"></script>
     <script src="Script/PDF/js/jspdf.debug.js"></script>
@@ -87,73 +87,23 @@
         }
     </style>
     <script>
-        function takeScreenshot(file, formID) {
-            html2canvas(document.getElementById("table1"), {
-                // 渲染完成时调用，获得 canvas
-                onrendered: function (canvas) {
-                    var contentWidth = canvas.width;
-                    var contentHeight = canvas.height;
-                    //一页pdf显示html页面生成的canvas高度;
-                    var pageHeight = contentWidth / 592.28 * 841.89;
-                    //未生成pdf的html页面高度
-                    var leftHeight = contentHeight;
-                    //页面偏移
-                    var position = 0;
-                    //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
-                    var imgWidth = 595.28;
-                    var imgHeight = 592.28 / contentWidth * contentHeight;
-
-                    var pageData = canvas.toDataURL('image/jpeg', 1.0);
-
-                    var pdf = new jsPDF('', 'pt', 'a4');
-
-                    //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
-                    //当内容未超过pdf一页显示的范围，无需分页
-                    if (leftHeight < pageHeight) {
-                        pdf.addImage(pageData, 'JPEG', 20, 20, imgWidth - 50, imgHeight);
-                    } else {
-                        while (leftHeight > 0) {
-                            pdf.addImage(pageData, 'JPEG', 20, position + 20, imgWidth - 50, imgHeight - 100)
-                            leftHeight -= pageHeight;
-                            position -= 841.89;
-                            //避免添加空白页
-                            if (leftHeight > 0) {
-                                pdf.addPage();
-                            }
-                        }
-                    }
-                    pdf.autoPrint();
-                    pdf.save(file);
-                    //requestToPdfAshx(file, formID);
-                },
-                background: "#f7f7f7"    //设置PDF背景色（默认透明，实际显示为黑色）
-            });
-        }
-    </script>
-    <script>
-        function viewFile(filePath) {
-            window.open(filePath);
-        }
-    </script>
-    <script>
-        function requestToPdfAshx(fileName, formID) {
-            $.get(
-                "ASHX/PDF.ashx",
-                { "fileName": fileName, "formID": formID },
-                function (res) {
-                    window.location.href = document.URL;
-                    alert(res);
-                }
-            );
+        window.onload = function () {
+            showAllText();
+            hideShowOtherElements();
         }
     </script>
 </head>
 <body>
     <form id="form1" runat="server">
-        <div class="layui-form-item" style="width: 1000px; margin: 0 auto">
-            <a onclick="goBack()" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
-            <asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="Button1" runat="server" OnClick="Button1_Click" Style="float: right;" />
-        </div>
+        <asp:ScriptManager runat="server" ID="ScriptManager"></asp:ScriptManager>
+        <asp:UpdatePanel runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
+            <ContentTemplate>
+                <div class="layui-form-item" style="width: 1000px; margin: 0 auto">
+                    <a onclick="goBack()" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
+                    <asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="btnPDF" runat="server" OnClientClick="requestToPdfAshx('--zoom 0.7 ')" Style="float: right;" />
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
         <table id="table1" style="margin: auto; width: 100%; border-collapse: collapse" cellpadding="0" cellspacing="0">
             <tr>
                 <td colspan="14" style="text-align: center; border-right: 0; font-size: small;">Contract Approval Form - Purchasing<br>
@@ -161,7 +111,7 @@
                 <td colspan="2" style="border-right: 0; border-left: 0;">Ref No.:<br>
                     合同编号：</td>
                 <td colspan="4" style="border-left: 0;">
-                    <asp:TextBox runat="server" ID="Textbox1" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox1" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
             <tr>
                 <td colspan="2" rowspan="1" style="border: none; font-size: small;" class="auto-style3">
@@ -178,11 +128,11 @@
                 <td colspan="3" rowspan="1" style="border-collapse: collapse; border-bottom: 0; border-right: 0; font-size: small;" class="auto-style3">
                     <asp:Label Text="Contract Subject:" runat="server" BorderStyle="None" /></td>
                 <td colspan="3" rowspan="2" style="border-collapse: collapse; border-top: 0; border-left: 0;">
-                    <asp:TextBox runat="server" ReadOnly="true" ID="Textbox5" BorderStyle="None" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ReadOnly="true" ID="Textbox5" BorderStyle="None" /></td>
                 <td colspan="2" rowspan="1" style="border-bottom: 0; border-right: 0;" class="auto-style3">
                     <asp:Label Text="Vendor Name:" runat="server" /></td>
                 <td colspan="4" rowspan="2" style="border-left: 0; border-bottom: 0;">
-                    <asp:TextBox runat="server" ID="Textbox8" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox8" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
             <tr>
                 <td colspan="2" rowspan="1" style="border: none">采购类别：*</td>
@@ -199,11 +149,11 @@
                 <td colspan="2" rowspan="1" style="border: none">
                     <asp:Label Text="Sourcing Specialist:" runat="server" BorderStyle="None" /></td>
                 <td colspan="6" rowspan="2" style="border-collapse: collapse; border-top: 0; border-left: 0; color: #00ffff">
-                    <asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox2" ReadOnly="true" Height="28px" />
+                    <asp:TextBox TextMode="MultiLine" runat="server" CssClass="auto-style1" ID="Textbox2" ReadOnly="true" Height="28px" />
                 </td>
                 <td colspan="3" style="border-collapse: collapse; border-top: 0; border-bottom: 0; border-right: 0;">Contract Annual Amount:</td>
                 <td colspan="3" rowspan="2" style="border-collapse: collapse; border-top: 0; border-left: 0;">
-                    <asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox6" Height="48px" ReadOnly="true" />
+                    <asp:TextBox TextMode="MultiLine" runat="server" CssClass="auto-style1" ID="Textbox6" Height="48px" ReadOnly="true" />
                 </td>
                 <td colspan="2" rowspan="3" style="border-bottom: 0; border-right: 0; border-top: 0;">Existing vendor:
                     <br>
@@ -212,7 +162,7 @@
                     <asp:CheckBox Text="" runat="server" ID="CheckBox4" Enable="False" onclick="choose(4)" /></td>
                 <td colspan="1" rowspan="1" style="border-bottom: 0; border-left: 0; border-right: 0; text-align: center">yes</td>
                 <td colspan="1" rowspan="2" style="border-left: 0; border-right: 0;">
-                    <asp:TextBox runat="server" ReadOnly="true" ID="Textbox10" BorderStyle="None" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ReadOnly="true" ID="Textbox10" BorderStyle="None" /></td>
                 <td colspan="1" rowspan="1" style="border-left: 0; text-align: center;">
                     <asp:Label Text="years' relationship" runat="server" BorderStyle="None" /></td>
             </tr>
@@ -226,17 +176,17 @@
             <tr>
                 <td colspan="2" rowspan="1" style="border: none">User Dept / CC#:</td>
                 <td colspan="6" rowspan="2" style="border-collapse: collapse; border-top: 0; border-left: 0; color: #00ffff">
-                    <asp:TextBox runat="server" CssClass="ts" ID="Textbox3" ReadOnly="true" />
+                    <asp:TextBox TextMode="MultiLine" runat="server" CssClass="ts" ID="Textbox3" ReadOnly="true" />
                 </td>
                 <td colspan="3" rowspan="2" style="border-collapse: collapse; border-bottom: 0; border-top: 0; border-right: 0;">Contract Period:<br>
                     合同周期：</td>
                 <td colspan="1" rowspan="2" style="border-style: none;">
-                    <asp:TextBox runat="server" ReadOnly="true" ID="Textbox7" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" Height="10px" />
+                    <asp:TextBox TextMode="MultiLine" runat="server" ReadOnly="true" ID="Textbox7" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" Height="10px" />
                 </td>
                 <td colspan="1" rowspan="2" style="border-style: none; text-align: center;">TO
                 </td>
                 <td colspan="1" rowspan="2" style="border-collapse: collapse; border-top: 0; border-left: 0;">
-                    <asp:TextBox runat="server" ReadOnly="true" ID="Textbox86" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" Height="10px" />
+                    <asp:TextBox TextMode="MultiLine" runat="server" ReadOnly="true" ID="Textbox86" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" Height="10px" />
                 </td>
                 <td colspan="1" rowspan="2" style="border-style: none; text-align: center;">
                     <asp:CheckBox Text="" runat="server" ID="CheckBox5" Enable="False" onclick="choose(5)" /></td>
@@ -253,7 +203,7 @@
             </tr>
             <tr>
                 <td colspan="16">
-                    <asp:TextBox runat="server" ReadOnly="true" ID="Textbox4" BorderStyle="None" CssClass="auto-style1" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ReadOnly="true" ID="Textbox4" BorderStyle="None" CssClass="auto-style1" /></td>
                 <td colspan="2">
                     <asp:Image ID="Image8" runat="server" ImageUrl="imageurl" />
                 </td>
@@ -276,13 +226,13 @@
                 <td colspan="5" class="auto-style2">Payment Terms<br>
                     付款条件*</td>
                 <td class="auto-style2">
-                    <asp:TextBox runat="server" ID="Textbox11" BorderStyle="None" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox11" BorderStyle="None" /></td>
                 <td class="auto-style2">
-                    <asp:TextBox runat="server" ID="Textbox9" BorderStyle="None" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox9" BorderStyle="None" /></td>
                 <td style="text-align: center" class="auto-style2">
                     <asp:CheckBox Text="" runat="server" ID="CheckBox6" Enable="False" onclick="choose(6)" /></td>
                 <td colspan="8" class="auto-style2">
-                    <asp:TextBox runat="server" CssClass="auto-style1" ID="Textbox13" BorderStyle="None" ReadOnly="true"></asp:TextBox></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" CssClass="auto-style1" ID="Textbox13" BorderStyle="None" ReadOnly="true"></asp:TextBox></td>
                 <td colspan="2" class="auto-style2">
                     <asp:Image ID="Image7" runat="server" ImageUrl="imageurl" />
                 </td>
@@ -293,13 +243,13 @@
                 <td colspan="5">Price & price adjustment<br>
                     价格&调价*</td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox16" BorderStyle="None" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox16" BorderStyle="None" /></td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox17" BorderStyle="None" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox17" BorderStyle="None" /></td>
                 <td style="text-align: center">
                     <asp:CheckBox Text="" runat="server" ID="CheckBox7" Enable="False" onclick="choose(7)" /></td>
                 <td colspan="8">
-                    <asp:TextBox runat="server" ID="Textbox19" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox19" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
                 <td colspan="2" rowspan="11">
                     <asp:Image ID="Image6" runat="server" ImageUrl="imageurl" />
                 </td>
@@ -309,120 +259,120 @@
                 <td colspan="5">Volume or total amount<br>
                     数量或总额*</td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox20" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox20" BorderStyle="None" ReadOnly="true" /></td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox21" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox21" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
                     <asp:CheckBox Text="" runat="server" ID="CheckBox8" Enable="False" onclick="choose(8)" /></td>
                 <td colspan="8">
-                    <asp:TextBox runat="server" ID="Textbox23" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox23" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
             <tr>
                 <td colspan="5">Period &amp; renewal<br>
                     周期&amp;续约*</td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox24" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox24" BorderStyle="None" ReadOnly="true" /></td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox25" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox25" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
                     <asp:CheckBox Text="" runat="server" ID="CheckBox9" Enable="False" onclick="choose(9)" /></td>
                 <td colspan="8">
-                    <asp:TextBox runat="server" ID="Textbox27" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox27" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
             <tr>
                 <td colspan="5">Rebate &amp; commission<br>
                     折扣&amp;佣金*</td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox28" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox28" BorderStyle="None" ReadOnly="true" /></td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox29" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox29" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
                     <asp:CheckBox Text="" runat="server" ID="CheckBox10" Enable="False" onclick="choose(10)" /></td>
                 <td colspan="8">
-                    <asp:TextBox runat="server" ID="Textbox31" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox31" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
             <tr>
                 <td colspan="5">Scope of Work / Service Level Agreement<br>
                     工作范围/服务水平协议</td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox32" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox32" BorderStyle="None" ReadOnly="true" /></td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox33" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox33" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
                     <asp:CheckBox Text="" runat="server" ID="CheckBox11" Enable="False" onclick="choose(11)" /></td>
                 <td colspan="8">
-                    <asp:TextBox runat="server" ID="Textbox35" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox35" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
             <tr>
                 <td colspan="5">Acceptence Criteria<br>
                     接受条件*</td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox36" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox36" BorderStyle="None" ReadOnly="true" /></td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox37" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox37" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
                     <asp:CheckBox Text="" runat="server" ID="CheckBox12" Enable="False" onclick="choose(12)" /></td>
                 <td colspan="8">
-                    <asp:TextBox runat="server" ID="Textbox39" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox39" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
             <tr>
                 <td colspan="5">Warranty<br>
                     担保</td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox40" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox40" BorderStyle="None" ReadOnly="true" /></td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox41" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox41" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
                     <asp:CheckBox Text="" runat="server" ID="CheckBox13" Enable="False" onclick="choose(13)" /></td>
                 <td colspan="8">
-                    <asp:TextBox runat="server" ID="Textbox43" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox43" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
 
             <tr>
                 <td colspan="5">Termination<br>
                     终止</td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox44" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox44" BorderStyle="None" ReadOnly="true" /></td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox45" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox45" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
                     <asp:CheckBox Text="" runat="server" ID="CheckBox14" Enable="False" onclick="choose(14)" /></td>
                 <td colspan="8">
-                    <asp:TextBox runat="server" ID="Textbox47" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox47" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
             <tr>
                 <td colspan="5">Exclusivity<br>
                     独占权</td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox48" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox48" BorderStyle="None" ReadOnly="true" /></td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox49" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox49" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
                     <asp:CheckBox Text="" runat="server" ID="CheckBox15" Enable="False" onclick="choose(15)" /></td>
                 <td colspan="8">
-                    <asp:TextBox runat="server" ID="Textbox51" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox51" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
             <tr>
                 <td colspan="5">Other key terms, please specify<br>
                     其他关键条款，请说明</td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox52" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox52" BorderStyle="None" ReadOnly="true" /></td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox53" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox53" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
                     <asp:CheckBox Text="" runat="server" ID="CheckBox16" Enable="False" onclick="choose(16)" /></td>
                 <td colspan="8">
-                    <asp:TextBox runat="server" ID="Textbox55" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox55" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
             <tr>
                 <td colspan="5">Penalty detail in breach of contract<br>
                     违反合同的罚款细节</td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox56" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox56" BorderStyle="None" ReadOnly="true" /></td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox57" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox57" BorderStyle="None" ReadOnly="true" /></td>
                 <td colspan="9">
-                    <asp:TextBox runat="server" ID="Textbox59" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox59" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
             <tr>
                 <td colspan="8" style="text-align: center; border-bottom: 0; border-right: 0;">Does this contract use a pre-approved contract template with no changes?</td>
@@ -455,13 +405,13 @@
             <tr>
                 <td colspan="5">Notic注意</td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox12" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox12" BorderStyle="None" ReadOnly="true" /></td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox18" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox18" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
                     <asp:CheckBox Text="" runat="server" ID="CheckBox20" Enable="False" onclick="choose(20)" /></td>
                 <td colspan="8">
-                    <asp:TextBox runat="server" ID="Textbox22" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox22" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
                 <td colspan="2" rowspan="9">
                     <asp:Image ID="Image5" runat="server" ImageUrl="imageurl" />
                 </td>
@@ -472,97 +422,97 @@
                 <td colspan="5">Confidentiality<br>
                     保密性</td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox30" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox30" BorderStyle="None" ReadOnly="true" /></td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox34" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox34" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
                     <asp:CheckBox Text="" runat="server" ID="CheckBox21" Enable="False" onclick="choose(21)" /></td>
                 <td colspan="8">
-                    <asp:TextBox runat="server" ID="Textbox38" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox38" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
             <tr>
                 <td colspan="5">Announcement<br>
                     声明</td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox46" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox46" BorderStyle="None" ReadOnly="true" /></td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox50" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox50" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
                     <asp:CheckBox Text="" runat="server" ID="CheckBox22" Enable="False" onclick="choose(22)" /></td>
                 <td colspan="8">
-                    <asp:TextBox runat="server" ID="Textbox54" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox54" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
             <tr>
                 <td colspan="5">Waivers<br>
                     弃权</td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox60" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox60" BorderStyle="None" ReadOnly="true" /></td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox61" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox61" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
                     <asp:CheckBox Text="" runat="server" ID="CheckBox23" Enable="False" onclick="choose(23)" /></td>
                 <td colspan="8">
-                    <asp:TextBox runat="server" ID="Textbox62" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox62" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
             <tr>
                 <td colspan="5">Severalbility<br>
                     服务性</td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox64" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox64" BorderStyle="None" ReadOnly="true" /></td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox65" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox65" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
                     <asp:CheckBox Text="" runat="server" ID="CheckBox24" Enable="False" onclick="choose(24)" /></td>
                 <td colspan="8">
-                    <asp:TextBox runat="server" ID="Textbox66" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox66" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
             <tr>
                 <td colspan="5">Force Majeure<br>
                     不可抗力</td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox68" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox68" BorderStyle="None" ReadOnly="true" /></td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox69" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox69" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
                     <asp:CheckBox Text="" runat="server" ID="CheckBox25" Enable="False" onclick="choose(25)" /></td>
                 <td colspan="8">
-                    <asp:TextBox runat="server" ID="Textbox70" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox70" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
             <tr>
                 <td colspan="5">Assignment & Delegation<br>
                     分配&授权</td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox72" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox72" BorderStyle="None" ReadOnly="true" /></td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox73" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox73" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
                     <asp:CheckBox Text="" runat="server" ID="CheckBox26" Enable="False" onclick="choose(26)" /></td>
                 <td colspan="8">
-                    <asp:TextBox runat="server" ID="Textbox74" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox74" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
             <tr>
                 <td colspan="5">Dispute Resolution<br>
                     纠纷解决</td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox76" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox76" BorderStyle="None" ReadOnly="true" /></td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox77" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox77" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
                     <asp:CheckBox Text="" runat="server" ID="CheckBox27" Enable="False" onclick="choose(27)" /></td>
                 <td colspan="8">
-                    <asp:TextBox runat="server" ID="Textbox78" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox78" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
             <tr>
                 <td colspan="5">Other legal provisions, please specify<br>
                     其他法律条款，请说明</td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox80" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox80" BorderStyle="None" ReadOnly="true" /></td>
                 <td>
-                    <asp:TextBox runat="server" ID="Textbox81" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox81" BorderStyle="None" ReadOnly="true" /></td>
                 <td style="text-align: center">
                     <asp:CheckBox Text="" runat="server" ID="CheckBox28" Enable="False" onclick="choose(28)" /></td>
                 <td colspan="8">
-                    <asp:TextBox runat="server" ID="Textbox82" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox82" CssClass="auto-style1" BorderStyle="None" ReadOnly="true" /></td>
             </tr>
             <tr>
                 <td colspan="3" style="text-align: center; background-color: #808080;">以下用于工程项目合同，需要时提供</td>
@@ -595,7 +545,7 @@
                     <asp:CheckBox Text="" runat="server" ID="CheckBox30" Enable="False" onclick="choose(30)" /></td>
                 <td colspan="1" style="text-align: left; border-style: none;">Signature:</td>
                 <td colspan="2" style="text-align: center; border-left: 0; border-top: 0;">
-                    <asp:TextBox runat="server" ID="Textbox42" BorderStyle="None" ReadOnly="true" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ID="Textbox42" BorderStyle="None" ReadOnly="true" /></td>
                 <td colspan="1" style="text-align: left; border-style: none;">Signature:</td>
                 <td colspan="2" style="text-align: center; border-left: 0; border-top: 0;">
                     <asp:Image ImageUrl="imageurl" ID="Image1" runat="server" /></td>
@@ -627,19 +577,19 @@
                     <asp:CheckBox Text="" runat="server" ID="CheckBox32" Enable="False" onclick="choose(32)" /></td>
                 <td colspan="1" style="text-align: left; border-style: none;">Date:</td>
                 <td colspan="2" style="text-align: center; border-left: 0; border-top: 0;">
-                    <asp:TextBox runat="server" ReadOnly="true" ID="Textbox75" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" Height="35px" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ReadOnly="true" ID="Textbox75" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" Height="35px" /></td>
                 <td colspan="1" style="text-align: left; border-style: none;">Date:</td>
                 <td colspan="2" style="text-align: center; border-left: 0; border-top: 0;">
-                    <asp:TextBox runat="server" ReadOnly="true" ID="Textbox79" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" Height="35px" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ReadOnly="true" ID="Textbox79" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" Height="35px" /></td>
                 <td colspan="1" style="text-align: left; border-style: none;">Date:</td>
                 <td colspan="2" style="text-align: center; border-left: 0; border-top: 0;">
-                    <asp:TextBox runat="server" ReadOnly="true" ID="Textbox83" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" Height="35px" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ReadOnly="true" ID="Textbox83" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" Height="35px" /></td>
                 <td colspan="1" style="text-align: left; border-style: none;">Date:</td>
                 <td colspan="2" style="text-align: center; border-left: 0; border-top: 0;">
-                    <asp:TextBox runat="server" ReadOnly="true" ID="Textbox84" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" Height="35px" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ReadOnly="true" ID="Textbox84" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" Height="35px" /></td>
                 <td colspan="1" style="text-align: left; border-style: none;">Date:</td>
                 <td colspan="2" style="text-align: center; border-left: 0; border-top: 0;">
-                    <asp:TextBox runat="server" ReadOnly="true" ID="Textbox85" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" Height="35px" /></td>
+                    <asp:TextBox TextMode="MultiLine" runat="server" ReadOnly="true" ID="Textbox85" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" Height="35px" /></td>
             </tr>
             <tr>
                 <td colspan="2" style="text-align: center; border-style: none">已签署ACT</td>
@@ -688,13 +638,13 @@
                                 SortExpression="DepotSummary" Visible="False" />
                             <asp:TemplateField>
                                 <ItemTemplate>
-                                    <asp:LinkButton ID="lbtapprovesuccess" runat="server" CommandName="approvesuccess"
+                                    <asp:LinkButton OnClientClick="waiting('正在处理')" ID="lbtapprovesuccess" runat="server" CommandName="approvesuccess"
                                         CommandArgument='<%# Eval("Form_ID") %>'>通过审批</asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField>
                                 <ItemTemplate>
-                                    <asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="fail"
+                                    <asp:LinkButton OnClientClick="waiting('正在处理')" ID="lbtapprovefail" runat="server" CommandName="fail"
                                         CommandArgument='<%# Eval("Form_ID") %>'>拒绝审批</asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>

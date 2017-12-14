@@ -175,7 +175,7 @@ namespace AendorAssess
             string result = CheckFile_BLL.checkFileWithResult(commandArgument, tempVendorID);
             if (!result.Equals(""))
             {
-                LocalScriptManager.CreateScript(Page, "message('请上传：" + result + "')", "msg");
+                LocalScriptManager.createManagerScript(Page, "messageConfirmNone('请上传：" + result + "')", "msg");
                 return;
             }
 
@@ -241,7 +241,7 @@ namespace AendorAssess
                 string fileTypeID = e.CommandArgument.ToString();
                 string fileName = File_BLL.getFileName(fileTypeID, Session["tempVendorID"].ToString(), factory_Name);
 
-                ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "showFileDetail", String.Format("<script>window.open('{0}');</script>", "../files/" + fileName), false);
+                ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "showFileDetail", String.Format("<script>window.open('{0}');</script>", LSetting.File_Reltive_Path + fileName), false);
                 //Response.Write(String.Format("<script>window.open('{0}');</script>", LSetting.File_Path + fileName));
             }
         }
@@ -329,6 +329,21 @@ namespace AendorAssess
         private bool isRequiredMinimum(int number, string temp_Vendor_ID)//可选表前面的必须表都已经审完
         {
             return FormType_BLL.isRequiredMinimum(number, temp_Vendor_ID);
+        }
+
+        protected void btnRefresh_Click(object sender, EventArgs e)
+        {
+            string tempVendorID = Session["tempVendorID"].ToString();
+            string factoryName = Session["Factory_Name"].ToString();
+            //根据供应商类型编号查询所有待上传文件
+            string sql3 = String.Format("SELECT * FROM View_Vendor_FileType WHERE Temp_Vendor_ID='{0}' and Factory_Name='{1}'", tempVendorID, factoryName);
+            PagedDataSource objpds3 = new PagedDataSource();
+            objpds3.DataSource = SelectEmployeeVendor_BLL.listVendorFileType(sql3);
+            //获取数据源
+            GridView4.DataSource = objpds3;
+            //绑定数据源
+            GridView4.DataBind();
+            updatePanel.Update();
         }
     }
 }

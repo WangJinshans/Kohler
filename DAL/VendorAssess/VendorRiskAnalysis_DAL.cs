@@ -241,6 +241,9 @@ namespace DAL.VendorAssess
                     vendorRisk.Bar_Code = Convert.ToString(dr["Bar_Code"]);
                     vendorRisk.Temp_Vendor_ID = Convert.ToString(dr["Temp_Vendor_ID"]);
                     vendorRisk.Factory_Name= Convert.ToString(dr["Factory_Name"]);
+                    vendorRisk.Purchasing_Manager = Convert.ToString(dr["Purchasing_Manager"]);
+                    vendorRisk.Finance_Leader = Convert.ToString(dr["Finance_Leader"]);
+                    vendorRisk.General_Manager = Convert.ToString(dr["General_Manager"]);
                 }
             }
             return vendorRisk;

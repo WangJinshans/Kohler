@@ -9,17 +9,17 @@
 
 	<link rel="stylesheet" href="Script/layui/css/layui.css" />
 	<script type="text/javascript" src="Script/My97DatePicker/WdatePicker.js"></script>
-    <script src="Script/jquery-3.2.1.min.js"></script>
-    <script src="Script/layui/layui.js"></script>
-    <script src="Script/Own/fileUploader.js?v=2"></script>
+	<script src="Script/jquery-3.2.1.min.js"></script>
+	<script src="Script/layui/layui.js"></script>
+	<script src="Script/Own/fileUploader.js?v=5"></script>
 	<script type="text/javascript">
-	    onload = function () {
-	        var obj = parent.document.getElementById("iFrame1");  //取得父页面IFrame对象  
-	        //alert(obj.height); //弹出父页面中IFrame中设置的高度
+		onload = function () {
+			var obj = parent.document.getElementById("iFrame1");  //取得父页面IFrame对象  
+			//alert(obj.height); //弹出父页面中IFrame中设置的高度
 
 
-	        obj.height = this.document.body.scrollHeight + "px";  //调整父页面中IFrame的高度为此页面的高度
-	    }
+			obj.height = this.document.body.scrollHeight + "px";  //调整父页面中IFrame的高度为此页面的高度
+		}
 
 		$(function () {
 			layer.config({
@@ -54,11 +54,11 @@
 		//	});
 		//}
 	</script>
-    <script>
-        function viewFile(filePath) {
-            window.open(filePath);
-        }
-    </script>
+	<script>
+		function viewFile(filePath) {
+			window.open(filePath);
+		}
+	</script>
 	<%--<script type="text/javascript">
 
 		function __myDoPostBack(eventTarget, eventArgument) {
@@ -145,7 +145,7 @@
 			border-width: 0px;
 			overflow: hidden;
 			text-align: center;
-            width: 95%;
+			width: 95%;
 		}
 
 
@@ -168,7 +168,7 @@
 		}
 
 		.auto-style1 {
-            width: 95%;
+			width: 95%;
 			border-style: none;
 			border-color: inherit;
 			border-width: 0px;
@@ -179,9 +179,11 @@
 		.auto-style3 {
 			height: 37px;
 		}
-	    .auto-style4 {
-            height: 38px;
-        }
+		.auto-style4 {
+			height: 38px;
+            word-break:break-all;
+            word-wrap:break-word;
+		}
 	</style>
 </head>
 <body style="margin: auto">
@@ -189,7 +191,7 @@
 		<%--<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
 		<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />--%>
 		<div style="text-align: center">
-			<table style="margin: auto;width:1000px; border-collapse: collapse">
+			<table style="margin: auto;width:1000px; border-collapse: collapse;word-break:break-all">
 				<caption style="font-size: xx-large">供应商调查表</caption>
 				<tr>
 					<td colspan="9" style="text-align: right">编号:PR-05-01-5</td>
@@ -203,25 +205,25 @@
 				<tr>
 					<td class="auto-style4">企业名称*</td>
 					<td colspan="5" class="auto-style4">
-						<asp:TextBox ID="TextBox2" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox2" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 					<td class="auto-style4">法人*</td>
 					<td colspan="2" class="auto-style4">
-						<asp:TextBox ID="TextBox3" runat="server" CssClass="auto-style1" ></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox3" runat="server" CssClass="auto-style1" ></asp:TextBox>
 					</td>
 				</tr>
 				<tr>
 					<td>地址*</td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox4" runat="server" Width="250px" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox4" runat="server" Width="250px" CssClass="t"></asp:TextBox>
 					</td>
 					<td>电话*</td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox5" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox5" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 					<td>传真*</td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox6" runat="server" CssClass="auto-style1" ></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox6" runat="server" CssClass="auto-style1" ></asp:TextBox>
 					</td>
 				</tr>
 				<tr>
@@ -233,53 +235,53 @@
 				</tr>
 				<tr>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox7" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox7" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox8" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox8" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox9" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox9" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox10" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox10" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 					<td>
-						<asp:TextBox ID="TextBox11" runat="server" CssClass="auto-style1"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox11" runat="server" CssClass="auto-style1"></asp:TextBox>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox49" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox49" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox50" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox50" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox51" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox51" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox52" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox52" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 					<td>
-						<asp:TextBox ID="TextBox53" runat="server" CssClass="auto-style1"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox53" runat="server" CssClass="auto-style1"></asp:TextBox>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox54" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox54" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox55" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox55" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox56" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox56" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox57" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox57" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 					<td>
-						<asp:TextBox ID="TextBox58" runat="server" CssClass="auto-style1"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox58" runat="server" CssClass="auto-style1"></asp:TextBox>
 					</td>
 				</tr>
 				<tr>
@@ -289,22 +291,22 @@
 				</tr>
 				<tr>
 					<td colspan="3" rowspan="3">
-						<asp:TextBox ID="TextBox12" runat="server" CssClass="auto-style1" TextMode="MultiLine" Wrap="true" Height="78px" MaxLength="200" Rows="3"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox12" runat="server" CssClass="auto-style1" Wrap="true" Height="78px" MaxLength="200" Rows="3"></asp:TextBox></td>
 					<td colspan="3" rowspan="3">
-						<asp:TextBox ID="TextBox13" runat="server" CssClass="auto-style1" Height="63px" ></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox13" runat="server" CssClass="auto-style1" Height="63px" ></asp:TextBox></td>
 					<td colspan="3">
-						<asp:TextBox ID="TextBox14" runat="server" CssClass="auto-style1"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox14" runat="server" CssClass="auto-style1" ></asp:TextBox></td>
 				</tr>
 				<tr>
 
 					<td colspan="3">
-						<asp:TextBox ID="TextBox41" runat="server" CssClass="auto-style1"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox41" runat="server" CssClass="auto-style1"></asp:TextBox>
 					</td>
 				</tr>
 				<tr>
 
 					<td colspan="3">
-						<asp:TextBox ID="TextBox42" runat="server" CssClass="auto-style1" ></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox42" runat="server" CssClass="auto-style1" ></asp:TextBox>
 					</td>
 				</tr>
 				<tr>
@@ -315,13 +317,13 @@
 				</tr>
 				<tr>
 					<td colspan="3">
-						<asp:TextBox ID="TextBox15" runat="server" CssClass="t"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox15" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox16" runat="server" CssClass="t"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox16" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox17" runat="server" CssClass="t"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox17" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox18" runat="server" CssClass="auto-style1" Height="16px" ></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox18" runat="server" CssClass="auto-style1" Height="16px" ></asp:TextBox></td>
 				</tr>
 				<tr>
 					<td colspan="3">员工总数*</td>
@@ -331,13 +333,13 @@
 				</tr>
 				<tr>
 					<td colspan="3">
-						<asp:TextBox ID="TextBox19" runat="server" CssClass="t"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox19" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="3">
-						<asp:TextBox ID="TextBox20" runat="server" CssClass="t"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox20" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox21" runat="server" CssClass="t"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox21" runat="server" CssClass="t"></asp:TextBox></td>
 					<td>
-						<asp:TextBox ID="TextBox22" runat="server" CssClass="auto-style1"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox22" runat="server" CssClass="auto-style1"></asp:TextBox></td>
 				</tr>
 				<tr>
 					<td colspan="3">公司占地面积*</td>
@@ -346,11 +348,11 @@
 				</tr>
 				<tr>
 					<td colspan="3">
-						<asp:TextBox ID="TextBox23" runat="server" CssClass="t"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox23" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="3">
-						<asp:TextBox ID="TextBox24" runat="server" CssClass="t"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox24" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="3">
-						<asp:TextBox ID="TextBox25" runat="server" CssClass="auto-style1" ></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox25" runat="server" CssClass="auto-style1" ></asp:TextBox></td>
 				</tr>
 				<tr>
 					<td colspan="3">每周工作时间</td>
@@ -359,11 +361,11 @@
 				</tr>
 				<tr>
 					<td colspan="3">
-						<asp:TextBox ID="TextBox26" runat="server" CssClass="t"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox26" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="3">
-						<asp:TextBox ID="TextBox27" runat="server" CssClass="t"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox27" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="3">
-						<asp:TextBox ID="TextBox28" runat="server" CssClass="auto-style1"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox28" runat="server" CssClass="auto-style1"></asp:TextBox></td>
 				</tr>
 				<tr>
 					<td colspan="3">产品主要原料</td>
@@ -372,27 +374,27 @@
 				</tr>
 				<tr>
 					<td colspan="3">
-						<asp:TextBox ID="TextBox31" runat="server" CssClass="t"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox31" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox32" runat="server" CssClass="t"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox32" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="4">
-						<asp:TextBox ID="TextBox33" runat="server" CssClass="auto-style1" ></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox33" runat="server" CssClass="auto-style1" ></asp:TextBox></td>
 				</tr>
 				<tr>
 					<td colspan="3">
-						<asp:TextBox ID="TextBox64" runat="server" CssClass="t"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox64" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox65" runat="server" CssClass="t"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox65" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="4">
-						<asp:TextBox ID="TextBox66" runat="server" CssClass="auto-style1"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox66" runat="server" CssClass="auto-style1"></asp:TextBox></td>
 				</tr>
 				<tr>
 					<td colspan="3">
-						<asp:TextBox ID="TextBox67" runat="server" CssClass="t"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox67" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox68" runat="server" CssClass="t"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox68" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="4">
-						<asp:TextBox ID="TextBox69" runat="server" CssClass="auto-style1" ></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox69" runat="server" CssClass="auto-style1" ></asp:TextBox></td>
 				</tr>
 
 				<tr>
@@ -401,9 +403,9 @@
 				</tr>
 				<tr>
 					<td colspan="5">
-						<asp:TextBox ID="TextBox29" runat="server" CssClass="t"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox29" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="4">
-						<asp:TextBox ID="TextBox30" runat="server" CssClass="t"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox30" runat="server" CssClass="t"></asp:TextBox></td>
 				</tr>
 				<tr>
 					<td colspan="2">生产设备名称</td>
@@ -414,91 +416,103 @@
 				</tr>
 				<tr>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox43" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox43" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox44" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox44" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox45" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox45" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox46" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox46" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 					<td>
-						<asp:TextBox ID="TextBox47" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox47" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2">检测设备</td>
 					<td colspan="7">
-						<asp:TextBox ID="TextBox34" runat="server" CssClass="t"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox34" runat="server" CssClass="t"></asp:TextBox></td>
 				</tr>
 				<tr>
 					<td colspan="2">频繁配送能力/采购周期/最小定单</td>
 					<td colspan="2">
-						<asp:TextBox ID="TextBox35" runat="server" CssClass="t"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox35" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="3">
-						<asp:TextBox ID="TextBox59" runat="server" CssClass="t"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox59" runat="server" CssClass="t"></asp:TextBox></td>
 					<td colspan="3" style="border-right:0;">
-						<asp:TextBox ID="TextBox60" runat="server" CssClass="t"></asp:TextBox></td>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox60" runat="server" CssClass="t"></asp:TextBox></td>
 				</tr>
 				<tr>
 					<td colspan="2">供应商早期参与</td>
 					<td colspan="7">
-						<asp:TextBox ID="TextBox36" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox36" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2" class="auto-style3">生产工艺生产系统</td>
 					<td colspan="7" class="auto-style3">
-						<asp:TextBox ID="TextBox37" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox37" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2">客户订货主要流程</td>
 					<td colspan="7">
-						<asp:TextBox ID="TextBox38" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox38" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2">经营方向</td>
 					<td colspan="7">
-						<asp:TextBox ID="TextBox39" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox39" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2">主要雇员的士气和经验</td>
 					<td colspan="7">
-						<asp:TextBox ID="TextBox40" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox40" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2">结论</td>
 					<td colspan="7">
-						<asp:TextBox ID="TextBox48" runat="server" CssClass="t"></asp:TextBox>
+						<asp:TextBox TextMode="MultiLine" ID="TextBox48" runat="server" CssClass="t"></asp:TextBox>
 					</td>
 				</tr>
 				
 			</table>
-            <table style="margin: auto;width:1000px; border-collapse: collapse">
-                <tr>
+			<table style="margin: auto;width:1000px; border-collapse: collapse">
+				<tr>
 					<td colspan="2">签名</td>
 					<td colspan="2"><asp:Image ImageUrl="imageurl" ID="Image1" runat="server" /></td>
 					<td colspan="2"><asp:Image ImageUrl="imageurl" ID="Image2" runat="server" /></td>
 					<td colspan="2"><asp:Image ImageUrl="imageurl" ID="Image3" runat="server" /></td>
 
 				</tr>
-            </table>
+			</table>
 		</div>
 
-		<div style="text-align: center;margin-bottom:50px">
+		<%--<div style="text-align: center;margin-bottom:50px">
 			<asp:Button ID="Button1" runat="server" Text="提交" CssClass="layui-btn" OnClick="Button1_Click" />
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       
 			<asp:Button ID="Button2" runat="server" Text="保存" CssClass="layui-btn layui-btn-normal" OnClick="Button2_Click" />
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<asp:Button ID="Button3" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Button3_Click" />
-		</div>
+		</div>--%>
+		<asp:ScriptManager ID="scriptManager" runat="server"></asp:ScriptManager>
+		<asp:UpdatePanel ID="updatePanel" UpdateMode="Conditional" runat="server" ChildrenAsTriggers="false">
+			<ContentTemplate>
+				<div style="text-align: center; margin-bottom: 50px">
+					<asp:Button ID="Button1" runat="server" Text="提交" CssClass="layui-btn" OnClick="Button1_Click" />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       
+				<asp:Button ID="Button2" runat="server" Text="保存" CssClass="layui-btn layui-btn-normal" OnClick="Button2_Click" />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<asp:Button ID="Button3" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Button3_Click" />
+				</div>
+			</ContentTemplate>
+		</asp:UpdatePanel>
 		<div style="float: left;display:none">
 			<table>
 				<tr>

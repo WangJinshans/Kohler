@@ -123,7 +123,17 @@
 
         }
 
+        function saveAU(a,b,c,d,e) {
+            localStorage.setItem('authority', [ a, b, c, d, e ]);
+        }
+
+        function reshowMenu() {
+            var arr = localStorage.getItem('authority');
+            filterNavigation(arr[0], arr[1], arr[2], arr[3], arr[4]);
+        }
+
         function filterNavigation(a, b, c, d, e) {
+
             if (a == 'TRUE') {
                 show(1);
             }
@@ -191,17 +201,17 @@
                             </ul>
                         </li>
 
-                        <li><a href="#" onclick="filterNavigation('TRUE', 'TRUE', 'TRUE', 'TRUE', 'TRUE')">供应商审批</a>
+                        <li><a href="#" onclick="reshowMenu()">供应商审批</a>
                             <ul>
                                 <li><a class="nav nt1" style="background-color: #324143; color: white; display: none">新建</a></li>
                                 <li><a class="nav n1" style="display: none" href="VendorAssess/VendorInfo.aspx" target="iFrame1">供应商信息创建</a></li>
                                 <li><a class="nav n1" style="display: none" href="VendorAssess/VendorSharedUse.aspx" target="iFrame1">供应商信息复用</a></li>
                                 <li><a class="nav n1" style="display: none" href="VendorAssess/EmployeeVendor.aspx" target="iFrame1">供应商审批文件管理</a></li>
-                                <li><a class="nav n1" style="display: none" href="VendorAssess/FormWaitToFill.aspx" target="iFrame1">多部门供应商表单填写</a></li>
 
                                 <li><a class="nav nt2" style="background-color: #324143; color: white; display: none">审批</a></li>
                                 <li><a class="nav n2" style="display: none" href="VendorAssess/ShowApproveForm.aspx" target="iFrame1">常规审批</a></li>
                                 <li><a class="nav n2" style="display: none" href="VendorAssess/KCI.aspx" target="iFrame1">KCI审批</a></li>
+                                <li><a class="nav n2" style="display: none" href="VendorAssess/FormWaitToFill.aspx" target="iFrame1">多部门供应商表单填写</a></li>
 
                                 <li><a class="nav nt3" style="background-color: #324143; color: white; display: none">编辑</a></li>
                                 <li><a class="nav n3" style="display: none" href="VendorAssess/FileOverDue.aspx" target="iFrame1">供应商过期文件编辑</a></li>

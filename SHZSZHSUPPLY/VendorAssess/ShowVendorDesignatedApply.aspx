@@ -9,9 +9,7 @@
 
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
-    <script src="Script/Own/fileUploader.js?v=2"></script>
-    <script src="Script/PDF/js/html2canvas.js"></script>
-    <script src="Script/PDF/js/jspdf.debug.js"></script>
+    <script src="Script/Own/fileUploader.js?v=5"></script>
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
 
     <style type="text/css">
@@ -80,79 +78,28 @@
         }
     </style>
     <script>
-        function takeScreenshot(file, formID) {
-            html2canvas(document.getElementById("div1"), {
-                // 渲染完成时调用，获得 canvas
-                onrendered: function (canvas) {
-                    var contentWidth = canvas.width;
-                    var contentHeight = canvas.height;
-                    //一页pdf显示html页面生成的canvas高度;
-                    var pageHeight = contentWidth / 592.28 * 841.89;
-                    //未生成pdf的html页面高度
-                    var leftHeight = contentHeight;
-                    //页面偏移
-                    var position = 0;
-                    //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
-                    var imgWidth = 595.28;
-                    var imgHeight = 592.28 / contentWidth * contentHeight;
-
-                    var pageData = canvas.toDataURL('image/jpeg', 1.0);
-
-                    var pdf = new jsPDF('', 'pt', 'a4');
-
-                    //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
-                    //当内容未超过pdf一页显示的范围，无需分页
-                    if (leftHeight < pageHeight) {
-                        pdf.addImage(pageData, 'JPEG', 20, 20, imgWidth, imgHeight);
-                    } else {
-                        while (leftHeight > 0) {
-                            pdf.addImage(pageData, 'JPEG', 20, position, imgWidth, imgHeight)
-                            leftHeight -= pageHeight;
-                            position -= 841.89;
-                            //避免添加空白页
-                            if (leftHeight > 0) {
-                                pdf.addPage();
-                            }
-                        }
-                    }
-                    pdf.autoPrint();
-                    pdf.save(file);
-                    requestToPdfAshx(file, formID);
-                },
-                background: "#f7f7f7"    //设置PDF背景色（默认透明，实际显示为黑色）
-            });
-        }
-    </script>
-    <script>
-        function viewFile(filePath) {
-            window.open(filePath);
-        }
-    </script>
-    <script>
-        function requestToPdfAshx(fileName, formID) {
-            $.get(
-                "ASHX/PDF.ashx",
-                { "fileName": fileName, "formID": formID },
-                function (res) {
-                    window.location.href = document.URL;
-                    alert(res);
-                }
-            );
+        window.onload = function () {
+            showAllText();
+            hideShowOtherElements();
         }
     </script>
 </head>
 <body>
     <form id="form1" runat="server">
-        <div class="layui-form-item" style="width: 1000px; margin: 0 auto">
-            <a onclick="goBack()" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
-            <asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="Button1" runat="server" OnClick="Button1_Click" Style="float: right;" />
-        </div>
+        <asp:ScriptManager runat="server" ID="ScriptManager"></asp:ScriptManager>
+        <asp:UpdatePanel runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
+            <ContentTemplate>
+                <div class="layui-form-item" style="width: 1000px; margin: 0 auto">
+                    <a onclick="goBack()" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
+                    <asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="btnPDF" runat="server" OnClientClick="requestToPdfAshx()" Style="float: right;" />
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
         <div id="div1" style="text-align: right">
             <table style="margin: auto;text-align:center; border-collapse: initial; width: 1000px" cellpadding="0" cellspacing="0">
                 <caption style="font-size: small; text-align: right; border-style: none;">PR-05-10-2</caption>
-                <caption style="font-size: xx-large;" class="auto-style2">上海科勒有限公司</caption>
                 <tr>
-                    <td colspan="6" style="text-align: center">指定供应商申请表</td>
+                    <td colspan="6" style="text-align: center"><font size="4">上海科勒有限公司</font><br/>指定供应商申请表</td>
                 </tr>
                 <tr>
                     <td colspan="1">供应商名称*</td>
@@ -172,31 +119,63 @@
                 </tr>
                 <tr>
                     <td colspan="1">
-                        <asp:TextBox ID="TextBox1" runat="server" CssClass="t" Height="35px" ReadOnly="True"></asp:TextBox></td>
+                        <asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox1" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
                     <td colspan="1">
-                        <asp:TextBox ID="TextBox2" runat="server" CssClass="t" Height="35px" ReadOnly="True"></asp:TextBox></td>
+                        <asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox2" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
                     <td colspan="1">
-                        <asp:TextBox ID="TextBox3" runat="server" CssClass="t" Height="35px" ReadOnly="True"></asp:TextBox></td>
+                        <asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox3" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
                     <td colspan="1">
-                        <asp:TextBox ID="TextBox4" runat="server" CssClass="t" Height="35px" ReadOnly="True"></asp:TextBox></td>
+                        <asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox4" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
                     <td colspan="1">
-                        <asp:TextBox ID="TextBox5" runat="server" CssClass="t" Height="35px" ReadOnly="True"></asp:TextBox></td>
+                        <asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox5" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
                     <td colspan="1">
-                        <asp:TextBox ID="TextBox6" runat="server" CssClass="t" Height="35px" ReadOnly="True"></asp:TextBox></td>
+                        <asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox6" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                </tr>
+                <tr>
+                    <td colspan="1" ><asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox9" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                    <td colspan="1" ><asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox10" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                    <td colspan="1" ><asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox11" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                    <td colspan="1" ><asp:TextBox ReadOnly="true" TextMode="MultiLine" runat="server" id="TextBox15" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" height="35px"/></td>
+                    <td colspan="1" ><asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox16" runat="server" CssClass="t" Height="35px" ></asp:TextBox></td>
+                    <td colspan="1" ><asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox19" runat="server" CssClass="t" Height="35px" ></asp:TextBox></td>
+                </tr>
+                <tr>
+                    <td colspan="1" ><asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox20" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                    <td colspan="1" ><asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox23" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                    <td colspan="1" ><asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox25" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                    <td colspan="1" ><asp:TextBox ReadOnly="true" TextMode="MultiLine" runat="server" id="TextBox26" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" height="35px"/></td>
+                    <td colspan="1" ><asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox27" runat="server" CssClass="t" Height="35px" ></asp:TextBox></td>
+                    <td colspan="1" ><asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox28" runat="server" CssClass="t" Height="35px" ></asp:TextBox></td>
+                </tr>
+                <tr>
+                    <td colspan="1" ><asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox29" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                    <td colspan="1" ><asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox30" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                    <td colspan="1" ><asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox31" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                    <td colspan="1" ><asp:TextBox ReadOnly="true" TextMode="MultiLine" runat="server" id="TextBox32" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" height="35px"/></td>
+                    <td colspan="1" ><asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox33" runat="server" CssClass="t" Height="35px" ></asp:TextBox></td>
+                    <td colspan="1" ><asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox34" runat="server" CssClass="t" Height="35px" ></asp:TextBox></td>
+                </tr>
+                <tr>
+                    <td colspan="1" ><asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox35" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                    <td colspan="1" ><asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox36" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                    <td colspan="1" ><asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox37" runat="server" CssClass="t" Height="35px"></asp:TextBox></td>
+                    <td colspan="1" ><asp:TextBox ReadOnly="true" TextMode="MultiLine" runat="server" id="TextBox38" BorderStyle="None" type="text" class="Wdate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" height="35px"/></td>
+                    <td colspan="1" ><asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox39" runat="server" CssClass="t" Height="35px" ></asp:TextBox></td>
+                    <td colspan="1" ><asp:TextBox ReadOnly="true" TextMode="MultiLine" ID="TextBox40" runat="server" CssClass="t" Height="35px" ></asp:TextBox></td>
                 </tr>
                 <tr>
                     <td colspan="1">Initiator:</td>
                     <td colspan="5">
-                        <asp:TextBox ID="TextBox7" runat="server" CssClass="auto-style1" Width="819px" ReadOnly="True"></asp:TextBox></td>
+                        <asp:TextBox ReadOnly="true" ID="TextBox7" runat="server" CssClass="auto-style1" Width="819px"></asp:TextBox></td>
                 </tr>
                 <tr>
                     <td colspan="1">Date:</td>
                     <td colspan="5">
-                        <asp:TextBox ID="TextBox8" runat="server" CssClass="auto-style1" Width="811px" ReadOnly="True"></asp:TextBox></td>
+                        <asp:TextBox ReadOnly="true" ID="TextBox8" runat="server" CssClass="auto-style1" Width="811px"></asp:TextBox></td>
                 </tr>
                 
             </table>
-            <table style="margin: auto;text-align:center; border-collapse: initial;" cellpadding="0" cellspacing="0">
+            <table style="margin: auto;text-align:center;width:1000px; border-collapse: initial;" cellpadding="0" cellspacing="0">
                 <tr>
                     <td colspan="6" style="text-align: left">Approval Signature</td>
                 </tr>
@@ -217,15 +196,15 @@
                 <tr>
                     <td colspan="1">Date: </td>
                     <td colspan="1">
-                        <asp:TextBox ID="TextBox12" runat="server" CssClass="auto-style1" ReadOnly="True"></asp:TextBox>
+                        <asp:TextBox ReadOnly="true" ID="TextBox12" runat="server" CssClass="auto-style1"></asp:TextBox>
                     </td>
                     <td colspan="1">Date: </td>
                     <td colspan="1" class="auto-style3">
-                        <asp:TextBox ID="TextBox13" runat="server" CssClass="auto-style1" ReadOnly="True"></asp:TextBox>
+                        <asp:TextBox ReadOnly="true" ID="TextBox13" runat="server" CssClass="auto-style1"></asp:TextBox>
                     </td>
                     <td colspan="1">Date: </td>
                     <td colspan="1">
-                        <asp:TextBox ID="TextBox14" runat="server" CssClass="auto-style1" ReadOnly="True"></asp:TextBox>
+                        <asp:TextBox ReadOnly="true" ID="TextBox14" runat="server" CssClass="auto-style1"></asp:TextBox>
                     </td>
                 </tr>
                 <tr>
@@ -241,11 +220,11 @@
                 <tr>
                     <td colspan="1">Dtae: </td>
                     <td colspan="2">
-                        <asp:TextBox ID="TextBox17" runat="server" CssClass="auto-style1" Width="280px" ReadOnly="True"></asp:TextBox>
+                        <asp:TextBox ReadOnly="true" ID="TextBox17" runat="server" CssClass="auto-style1" Width="280px"></asp:TextBox>
                     </td>
                     <td colspan="1" class="auto-style3">Date: </td>
                     <td colspan="2">
-                        <asp:TextBox ID="TextBox18" runat="server" CssClass="auto-style1" Width="344px" ReadOnly="True"></asp:TextBox>
+                        <asp:TextBox ReadOnly="true" ID="TextBox18" runat="server" CssClass="auto-style1" Width="344px"></asp:TextBox>
                     </td>
                 </tr>
                 <tr>
@@ -264,11 +243,11 @@
                 <tr>
                     <td colspan="1">Dtae: </td>
                     <td colspan="2">
-                        <asp:TextBox ID="TextBox21" runat="server" ReadOnly="True" CssClass="auto-style1" Width="280px"></asp:TextBox>
+                        <asp:TextBox ReadOnly="true" ID="TextBox21" runat="server" CssClass="auto-style1" Width="280px"></asp:TextBox>
                     </td>
                     <td colspan="1" class="auto-style3">Date: </td>
                     <td colspan="2">
-                        <asp:TextBox ID="TextBox22" runat="server" CssClass="auto-style1" Width="344px" ReadOnly="True"></asp:TextBox></td>
+                        <asp:TextBox ReadOnly="true" ID="TextBox22" runat="server" CssClass="auto-style1" Width="344px"></asp:TextBox></td>
                 </tr>
                 <tr>
                     <td colspan="1">President:</td>
@@ -282,7 +261,7 @@
                 <tr>
                     <td colspan="1">Date:</td>
                     <td colspan="5">
-                        <asp:TextBox ID="TextBox24" runat="server" CssClass="auto-style1" Width="313px" ReadOnly="True"></asp:TextBox></td>
+                        <asp:TextBox ReadOnly="true" ID="TextBox24" runat="server" CssClass="auto-style1" Width="313px"></asp:TextBox></td>
                 </tr>
             </table>
             <table class="gridtable" style="margin: 0 auto;margin-bottom:50px; width: 1000px; border-collapse: collapse;">
@@ -302,13 +281,13 @@
                                     SortExpression="DepotSummary" Visible="False" />
                                 <asp:TemplateField>
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="lbtapprovesuccess" runat="server" CommandName="approvesuccess"
+                                        <asp:LinkButton OnClientClick="waiting('正在处理')" ID="lbtapprovesuccess" runat="server" CommandName="approvesuccess"
                                             CommandArgument='<%# Eval("Form_ID") %>'>通过审批</asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField>
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="fail"
+                                        <asp:LinkButton OnClientClick="waiting('正在处理')" ID="lbtapprovefail" runat="server" CommandName="fail"
                                             CommandArgument='<%# Eval("Form_ID") %>'>拒绝审批</asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>

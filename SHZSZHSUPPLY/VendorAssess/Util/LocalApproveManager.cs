@@ -24,13 +24,20 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
         /// </summary>
         /// <param name="formID"></param>
         /// <param name="FORM_TYPE_ID"></param>
-        public static bool doAddApprove(string formID, string FORM_NAME, string FORM_TYPE_ID, string tempVendorID)
+        public static bool doAddApprove(string formID, string FORM_NAME, string FORM_TYPE_ID, string tempVendorID, int kci=-1)
         {
             string Form_Type_Name = FORM_NAME;
             string factory = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
 
             //实例化审批流程
             As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(FORM_TYPE_ID);
+            string typeName = TempVendor_BLL.getTempVendorType(tempVendorID);
+            if (typeName.Contains("非生产") && !typeName.Contains("质量"))//001-018,041,042
+            {
+                AssessFlow_BLL.removeQuality(assess_flow);
+            }
+
+            //真正的审批顺序
             As_Form_AssessFlow Form_AssessFlow = new As_Form_AssessFlow();
             Form_AssessFlow.Form_ID = formID;
             Form_AssessFlow.First = assess_flow.User_Department_Assess;
@@ -38,7 +45,14 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             Form_AssessFlow.Third = assess_flow.Assess_Three_ID;
             Form_AssessFlow.Four = assess_flow.Assess_Four_ID;
             Form_AssessFlow.Five = assess_flow.Assess_Five_ID;
-            Form_AssessFlow.Kci = assess_flow.Assess_Six_ID;
+            if (kci != -1)
+            {
+                Form_AssessFlow.Kci = kci.ToString();
+            }
+            else
+            {
+                Form_AssessFlow.Kci = assess_flow.Assess_Six_ID;
+            }
             Form_AssessFlow.Temp_Vendor_ID = tempVendorID;
             Form_AssessFlow.Factory_Name = factory;
 
@@ -148,6 +162,12 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
 
             //形成参数
             As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(FORM_TYPE_ID);
+            string typeName = TempVendor_BLL.getTempVendorType(tempVendorID);
+            if (typeName.Contains("非生产") && !typeName.Contains("质量"))//001-018,041,042
+            {
+                AssessFlow_BLL.removeQuality(assess_flow);
+            }
+
 
             //写入session之后供SelectDepartment页面使用
             HttpContext.Current.Session["AssessflowInfo"] = assess_flow;
@@ -159,7 +179,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             //如果是用户部门
             if (assess_flow.User_Department_Assess == "1")
             {
-                LocalScriptManager.CreateScript(page, "popUp('" + formID + "');", "SHOW");
+                LocalScriptManager.createManagerScript(page, "popUp('" + formID + "');", "SHOW");
             }
             else
             {
@@ -232,27 +252,25 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             //最终  即将进行KCI
             if (result == KCI_FINAL)
             {   
-                //PDF
-                LocalScriptManager.CreateScript(page, "waiting('正在生成PDF文档...');", "waiting");
-                outPutPDF(formID, tempVendorID, page);
-
                 //签名
                 Signature_BLL.setSignature(formID, positionName);
                 Signature_BLL.setSignatureDate(formID, positionName);
+
+                //PDF
+                PDF_BLL.outPutPDF(formID, tempVendorID, Properties.Settings.Default.PDF_Tool_Path, LSetting.File_Path, page);
 
                 //执行KCI
                 return doKCIApprove(formID, tempVendorID, formTypeID, positionName, page);
             }//正常最终
             else if (result == NORMAL_FINAL)//签名
             {
-                //PDF
-                LocalScriptManager.CreateScript(page, "waiting('正在生成PDF文档...');", "waiting");
-                outPutPDF(formID, tempVendorID, page);
-
                 //签名
                 Signature_BLL.setSignature(formID, positionName);
                 Signature_BLL.setSignatureDate(formID, positionName);
 
+                //PDF
+                PDF_BLL.outPutPDF(formID, tempVendorID, Properties.Settings.Default.PDF_Tool_Path, LSetting.File_Path, page);
+                
                 //执行final
                 return doFinalApprove(formID, tempVendorID, formTypeID, positionName, page);
             }
@@ -271,7 +289,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
 
                         LocalLog.writeLog(formID, String.Format("{0}审批已通过，正在等待{1}审批    时间：{2}", ae.Positon_Name + ae.Employee_Name, ap.Position_Name, DateTime.Now), As_Write.APPROVE_SUCCESS, tempVendorID);
 
-                        //TODO::Async
+                        //Mail
                         LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), ap.Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批");
 
                         //提示并拉起返回刷新
@@ -291,7 +309,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                             ap = Approve_BLL.getApproveTop(formID);
                             LocalLog.writeLog(formID, String.Format("{0}审批已通过，正在等待{1}审批    时间：{2}", ae.Positon_Name + ae.Employee_Name, ap.Position_Name, DateTime.Now), As_Write.APPROVE_SUCCESS, tempVendorID);
 
-                            //TODO::Async
+                            //Mail
                             LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), ap.Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批");
 
                             //提示并拉起返回刷新
@@ -331,7 +349,6 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                 {
                     throw new Exception("数据库更新失败");
                 }
-                LocalScriptManager.CreateScript(page, "closeWaiting();", "closeWaiting");
             }
             catch (Exception)
             {
@@ -510,6 +527,30 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// 获取当前pending的表格
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <returns></returns>
+        public static string getCurrentAssessing(string tempVendorID)
+        {
+            return FormType_BLL.getCurrentAssessState(tempVendorID);
+        }
+
+        public static void showPendingReason(System.Web.UI.Page page, string tempVendorID,bool isPanel)
+        {
+            string reason = getCurrentAssessing(tempVendorID);
+
+            if (isPanel)
+            {
+                LocalScriptManager.createManagerScript(page, string.Format("messageConfirmTitle('{0}','{1}')", "无法提交，原因如下！", reason), "reasonShow");
+            }
+            else
+            {
+                LocalScriptManager.CreateScript(page, string.Format("messageConfirmTitle('{0}','{1}')", "无法提交，原因如下！", reason), "reasonShow");
+            }
         }
         #endregion
 

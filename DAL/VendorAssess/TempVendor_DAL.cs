@@ -161,7 +161,7 @@ namespace DAL
                 new SqlParameter("@promise",promise.ToString()),
                 new SqlParameter("@assign",assign.ToString()),
                 new SqlParameter("@charge",charge.ToString()),
-                new SqlParameter("@money",Convert.ToInt32(money)),
+                new SqlParameter("@money",Math.Round(Convert.ToDouble(money), 3)),
                 new SqlParameter("@factory",factory.ToString())
             };
             SqlParameter paramReturn = new SqlParameter("@return", SqlDbType.Int);
