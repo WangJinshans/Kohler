@@ -55,7 +55,7 @@ namespace DAL
                 cmd.Dispose();
                 return result;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 cmd.Dispose();
                 return 0;
@@ -68,6 +68,15 @@ namespace DAL
             int result = Convert.ToInt32(cmd.ExecuteScalar());
             cmd.Dispose();
             return result;
+        }
+
+        public static string GetScalarString(string sql,SqlParameter[] values)
+        {
+            SqlCommand cmd = new SqlCommand(sql, Connection);
+            cmd.Parameters.AddRange(values);
+            object ob = cmd.ExecuteScalar();
+            cmd.Dispose();
+            return ob is DBNull?"":ob.ToString();
         }
 
         public static int GetScalarFix(string sql,params SqlParameter[] values)

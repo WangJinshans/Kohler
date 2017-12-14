@@ -25,7 +25,7 @@ namespace BLL.VendorAssess
 
             content = content.Replace("$mailTitle", "供应商审批流程通知");
             content = content.Replace("$otherTitle", "审批通知");
-            content = content.Replace("$date", DateTime.Now.ToLocalTime().ToString());
+            content = content.Replace("$date", DateTime.Now.ToString());
             content = content.Replace("$name", name);
             content = content.Replace("$factoryName", factory);
             content = content.Replace("$tempVendorID", tempVendorID);
@@ -91,7 +91,7 @@ namespace BLL.VendorAssess
 
             content = content.Replace("$mailTitle", "供应商审批流程通知");
             content = content.Replace("$otherTitle", "回返通知");
-            content = content.Replace("$date", DateTime.Now.ToLocalTime().ToString());
+            content = content.Replace("$date", DateTime.Now.ToString());
             content = content.Replace("$name", name);
             content = content.Replace("$factoryName", factory);
             content = content.Replace("$tempVendorID", tempVendorID);

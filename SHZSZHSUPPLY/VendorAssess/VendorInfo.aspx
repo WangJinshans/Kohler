@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
-    <script src="Script/Own/fileUploader.js?v=2"></script>
+    <script src="Script/Own/fileUploader.js?v=5"></script>
     <%--<script src="Script/layer/layer.js"></script>--%>
     <script>
         layui.use(['form', 'layedit', 'laydate'], function () {
@@ -111,7 +111,12 @@
                 <tr>
                     <td></td>
                     <td>
-                        <asp:Button CssClass="layui-btn" ID="Button1" runat="server" Text="提交" OnClick="button1_click" />
+                        <asp:ScriptManager runat="server" ID="ScriptManager"></asp:ScriptManager>
+                        <asp:UpdatePanel runat="server" ID="UpdatePanel" ChildrenAsTriggers="false" UpdateMode="Conditional">
+                            <ContentTemplate>
+                                <asp:Button CssClass="layui-btn" ID="Button1" runat="server" Text="提交" OnClick="button1_click" />
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
                     </td>
                     <td>
                         <%--<asp:Button CssClass="layui-btn layui-btn-primary" ID="Button2" runat="server" Text="返回" OnClick="Button2_Click" />--%>

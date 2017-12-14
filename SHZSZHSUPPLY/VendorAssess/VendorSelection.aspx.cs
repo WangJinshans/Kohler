@@ -37,14 +37,6 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            //foreach (Control item in this.Controls[3].Controls)
-            //{
-            //    if (item is TextBox && item.ID.Contains("TextBox"))
-            //    {
-            //        ((TextBox)item).Text = "0";
-            //    }
-            //}
-
             if (!IsPostBack)
             {
                 //获取session信息
@@ -73,7 +65,6 @@ namespace SHZSZHSUPPLY.VendorAssess
 
                         //向FormFile表中添加相应的文件、表格绑定信息
                         bindingFormWithFile();
-                        showfilelist(formID);
                     }
                 }
                 else
@@ -87,6 +78,9 @@ namespace SHZSZHSUPPLY.VendorAssess
                 //处理postback回调
                 switch (Request["__EVENTTARGET"])
                 {
+                    case "showVendorSelection":
+                        showVendorSelection();
+                        break;
                     case "submitForm":
                         LocalApproveManager.submitForm();
                         //submitForm();
@@ -193,32 +187,12 @@ namespace SHZSZHSUPPLY.VendorAssess
                     setSelected(Convert.ToByte(supplier[supplier.Count - 3]), new[] { (RadioButton)Controls[3].FindControl("RadioButton" + (t + 3)), (RadioButton)Controls[3].FindControl("RadioButton" + (t + 4)), (RadioButton)Controls[3].FindControl("RadioButton" + (t + 5)) });
                     setSelected(Convert.ToByte(supplier[supplier.Count - 2]), new[] { (RadioButton)Controls[3].FindControl("RadioButton" + (t + 6)), (RadioButton)Controls[3].FindControl("RadioButton" + (t + 7)), (RadioButton)Controls[3].FindControl("RadioButton" + (t + 8)) });
                     setSelected(Convert.ToByte(supplier[supplier.Count - 1]), new[] { (RadioButton)Controls[3].FindControl("RadioButton" + (t + 9)), (RadioButton)Controls[3].FindControl("RadioButton" + (t + 10)), (RadioButton)Controls[3].FindControl("RadioButton" + (t + 11)) });
-                    LocalScriptManager.CreateScript(Page, "showSupplier("+i+"," + getSupplier(strArray[i]) + ")", "showSuppliers"+i);
+                    LocalScriptManager.CreateScript(Page, "showSupplier("+i+"," + getSupplier(strArray[i]) + ");", "showSuppliers"+i);
                 }
             }
 
             //重新计算Total
-            LocalScriptManager.CreateScript(Page, "setTotal()", "reCalTotal");
-
-            //展示附件
-            showfilelist(formID);
-        }
-
-
-        /// <summary>
-        /// 显示文件
-        /// </summary>
-        /// <param name="FormID"></param>
-        private void showfilelist(string FormID)
-        {
-            return;
-            As_Form_File Form_File = new As_Form_File();
-            //string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
-            string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and [File_ID] in (select [File_ID] from As_Vendor_FileType where Temp_Vendor_ID='" + tempVendorID + "') and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
-            PagedDataSource objpds = new PagedDataSource();
-            objpds.DataSource = FormFile_BLL.listFile(sql);
-            GridView2.DataSource = objpds;
-            GridView2.DataBind();
+            LocalScriptManager.CreateScript(Page, "setTotal();", "reCalTotal");
         }
 
         /// <summary>
@@ -249,39 +223,6 @@ namespace SHZSZHSUPPLY.VendorAssess
             Response.Redirect("EmployeeVendor.aspx");
             return "";
         }
-
-        /// <summary>
-        /// 网页内部弹出对话框，确定用户部门流程
-        /// </summary>
-        /// <param name="formTypeID"></param>
-        /// <param name="formID"></param>
-        //public void newApproveAccess(string formTypeID, string formID)
-        //{
-        //    //形成参数
-        //    As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(formTypeID);
-
-        //    //写入session之后供SelectDepartment页面使用
-        //    Session["AssessflowInfo"] = assess_flow;
-        //    Session["tempVendorID"] = tempVendorID;
-        //    Session["factory"] = "上海科勒";
-        //    Session["form_name"] = FORM_NAME;
-        //    Session["tempVendorName"] = tempVendorName;
-
-        //    //如果是用户部门
-        //    if (assess_flow.User_Department_Assess == "1")
-        //    {
-        //        LocalScriptManager.CreateScript(Page, "popUp('" + formID + "');", "SHOW");
-        //    }
-        //    else
-        //    {
-        //        //TODO::这里不能这样写，具体参考Creation的写法，这里暂时不改
-        //        Session["tempvendorname"] = tempVendorName;
-        //        Session["Employee_ID"] = Session["Employee_ID"];
-        //        Response.Write("<script>window.alert('提交成功！');window.location.href='/VendorAssess/EmployeeVendor.aspx</script>");
-        //    }
-        //}
-
-
 
         private As_Vendor_Selection saveForm(int flag, string manul)
         {
@@ -377,7 +318,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
             else
             {
-                Response.Write("<script>window.alert('无法提交，请等待其他表格审批完毕后再次尝试！')</script>");
+                LocalApproveManager.showPendingReason(Page, tempVendorID, true);
             }
         }
 
@@ -385,7 +326,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             if (saveForm(1, "保存表格") != null)
             {
-                LocalScriptManager.CreateScript(Page, String.Format("layerMsg('{0}')", "保存成功！"), "saveForm");
+                LocalScriptManager.createManagerScript(Page, "closeWaiting();layerMsg('保存成功！')", "save");
             }
         }
 
@@ -435,7 +376,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 }
 
                 JavaScriptSerializer jss = new JavaScriptSerializer();
-                LocalScriptManager.CreateScript(Page, "selectEmployeeID(" + jss.Serialize(departments)+","+jss.Serialize(totalIDList)+","+jss.Serialize(totalNameList)+")", "selectID");
+                LocalScriptManager.createManagerScript(Page, "selectEmployeeID(" + jss.Serialize(departments)+","+jss.Serialize(totalIDList)+","+jss.Serialize(totalNameList)+")", "selectID");
                 //执行到此处并无日志和邮件写出
             }
             else
@@ -445,7 +386,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 {
                     //saveForm(1, "保存表格");//注意032为fileTypeID
                     bool has_R_D_File = VendorSelection_BLL.checkRDFile(formID, "032");
-                    LocalScriptManager.CreateScript(Page, "R_D_Confirm("+has_R_D_File.ToString().ToLower()+",'"+tempVendorID+"','"+tempVendorName+"')", "rdcfm");
+                    LocalScriptManager.createManagerScript(Page, "R_D_Confirm("+has_R_D_File.ToString().ToLower()+",'"+tempVendorID+"','"+tempVendorName+"')", "rdcfm");
                 }
                 else
                 {
@@ -485,7 +426,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                         LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, ap.Temp_Vendor_Name, FORM_NAME, "等待填写", DateTime.Now.ToString(), "此表格已由其他部门填写完毕，正在等待当前部门填写，请登陆系统填写表格并确认");
                     }
 
-                    LocalScriptManager.CreateScript(Page, "layerMsgFunc('已确认',function(){window.location.href='FormWaitToFill.aspx';})", "otherCFM");
+                    LocalScriptManager.createManagerScript(Page, "layerMsgFunc('已确认',function(){window.location.href='FormWaitToFill.aspx';})", "otherCFM");
                 }
             }
             //如果是，保存表格，禁止此人再次编辑，fill——flag此人均置为1
@@ -639,8 +580,8 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 string requestType = "multiFillUpload";
                 string fileTypeID = "032";
-                LocalScriptManager.CreateScript(Page, "layerMsg(" + "'请上传文件'" + ")", "rdyes1");
-                LocalScriptManager.CreateScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}')", requestType, tempVendorID, tempVendorName, fileTypeID), "upload");
+                LocalScriptManager.createManagerScript(Page, "layerMsg(" + "'请上传文件'" + ")", "rdyes1");
+                LocalScriptManager.createManagerScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}')", requestType, tempVendorID, tempVendorName, fileTypeID), "upload");
                 EmployeeForm_BLL.changeFillFlag(Session["Employee_ID"].ToString(), formID, 1);
             }
         }
@@ -649,7 +590,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             //保存表格，禁止此人编辑，直到所有部门均填写完毕后，开放提交
 
-            LocalScriptManager.CreateScript(Page, "layerMsg(" + "'已确认，正在等待其他部门填写该表'" + ")", "rdno1");
+            LocalScriptManager.createManagerScript(Page, "layerMsg(" + "'已确认，正在等待其他部门填写该表'" + ")", "rdno1");
             EmployeeForm_BLL.changeFillFlag(Session["Employee_ID"].ToString(), formID, 1);
 
             getSessionInfo();

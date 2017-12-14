@@ -206,5 +206,7 @@ namespace Model
                 user_Department = value;
             }
         }
+
+        public string Vendor_Type { get; set; }
     }
 }

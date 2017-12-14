@@ -40,7 +40,6 @@ namespace AendorAssess
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Image1.Visible = false;
             Image2.Visible = false;
             Image3.Visible = false;
             Image4.Visible = false;//在非show页面中图片控件不可操作
@@ -57,6 +56,7 @@ namespace AendorAssess
                     biddingApproval.Form_Type_ID = FORM_TYPE_ID;
                     biddingApproval.Temp_Vendor_Name = tempVendorName;
                     biddingApproval.Temp_Vendor_ID = tempVendorID;
+                    biddingApproval.Initiator = String.Format(Signature_BLL.urlPath, Session["Employee_ID"]);
                     biddingApproval.Flag = 0;//将表格标志位信息改为已填写
                     biddingApproval.Factory_Name = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString());
 
@@ -74,6 +74,7 @@ namespace AendorAssess
                         //向FormFile表中添加相应的文件、表格绑定信息
                         bindingFormWithFile();
                         showfilelist(formID);
+                        showBiddingForm();
                     }
                 }
                 else
@@ -133,6 +134,9 @@ namespace AendorAssess
                 TextBox16.Text = biddingForm.Remark3;
                 TextBox17.Text = biddingForm.Reason_One;
                 TextBox18.Text = biddingForm.Reason_Two;
+                TextBox49.Text = biddingForm.Vendor_Recommend;
+                Image1.ImageUrl = biddingForm.Initiator;
+                Image5.ImageUrl = biddingForm.User_Department_Manager;
                 hideImage(biddingForm.Supplier_Chain_Leader, Image2);
                 hideImage(biddingForm.Finance_Leader, Image3);
                 hideImage(biddingForm.Business_Leader, Image4);
@@ -214,7 +218,7 @@ namespace AendorAssess
             return; //取消填写页面的绑定文件展示 2017年9月22日09:45:21
             As_Form_File Form_File = new As_Form_File();
             //string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
-            string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and [File_ID] in (select [File_ID] from As_Vendor_FileType where Temp_Vendor_ID='" + tempVendorID + "') and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
+            string sql = "select * from As_Form_File where Form_ID='" + FormID + "'  and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
             PagedDataSource objpds = new PagedDataSource();
             objpds.DataSource = FormFile_BLL.listFile(sql);
             GridView2.DataSource = objpds;
@@ -310,7 +314,10 @@ namespace AendorAssess
             BiddingForm.Remark3 = TextBox16.Text.Trim();
             BiddingForm.Reason_One = TextBox17.Text.Trim();
             BiddingForm.Reason_Two = TextBox18.Text.Trim();
+            BiddingForm.Vendor_Recommend = TextBox49.Text.Trim();
             //image
+            BiddingForm.Initiator = Image1.ImageUrl;
+            BiddingForm.User_Department_Manager = Image5.ImageUrl;
 
             //BiddingForm.Bar_Code = TextBox27.Text.Trim();
             BiddingForm.ProjectList = new List<As_Bidding_Approval_Item>() ;
@@ -339,7 +346,7 @@ namespace AendorAssess
                 Write_BLL.addWrite(write);
                 if (flag == 1)
                 {
-                    Response.Write("<script>window.alert('保存成功！')</script>");
+                    LocalScriptManager.createManagerScript(Page, "window.alert('保存成功！')", "save");
                 }
                 return BiddingForm;
             }
@@ -364,7 +371,8 @@ namespace AendorAssess
             }
             else
             {
-                Response.Write("<script>window.alert('无法提交，请等待其他表格审批完毕后再次尝试！')</script>");
+                LocalApproveManager.showPendingReason(Page,tempVendorID,true);
+               // Response.Write("<script>window.alert('无法提交，请等待其他表格审批完毕后再次尝试！')</script>");
             }
         }
 
@@ -386,6 +394,16 @@ namespace AendorAssess
             if (filePath != "")
             {
                 ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>viewFile('" + filePath + "');</script>");
+            }
+        }
+
+        protected void btnNewImage_Click(object sender, EventArgs e)
+        {
+            string[] temp = ImgExSrc.Value.ToString().Split(',');
+            Control control = FindControl(temp[0]);
+            if (control != null)
+            {
+                ((Image)control).ImageUrl = temp[1];
             }
         }
 

@@ -279,7 +279,8 @@ namespace SHZSZHSUPPLY.VendorAssess
                 Write_BLL.addWrite(write);
                 if (flag == 1)
                 {
-                    Response.Write("<script>window.alert('保存成功！')</script>");
+                    LocalScriptManager.createManagerScript(Page, "closeWaiting();message('保存成功！')", "save");
+                    //Response.Write("<script>window.alert('保存成功！')</script>");
                 }
                 return vendorRisk;
             }
@@ -298,7 +299,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             if (LocalApproveManager.doAddApprove(formId, FORM_NAME, FORM_TYPE_ID, tempVendorID))
             {
-                LocalScriptManager.CreateScript(this.Page, string.Format("messageConfirm('{0}','{1}')", "提交成功", "EmployeeVendor.aspx"),"submited");
+                LocalScriptManager.createManagerScript(this.Page, string.Format("messageConfirm('{0}','{1}')", "提交成功", "EmployeeVendor.aspx"),"submited");
                 //Response.Write("<script>window.alert('提交成功！');window.location.href='/VendorAssess/EmployeeVendor.aspx</script>");
             }
         }
@@ -315,7 +316,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
             else
             {
-                Response.Write("<script>window.alert('无法提交！')</script>");
+                LocalApproveManager.showPendingReason(Page,tempVendorID,true);
             }
         }
 

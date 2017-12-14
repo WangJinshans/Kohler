@@ -185,7 +185,7 @@
             var laydate = layui.laydate;
 
             var start = {
-                min: laydate.now()
+                min: '2000-01-01 0:0:0'/*laydate.now()*/
               , max: '2099-06-16 23:59:59'
               , istoday: false
               , choose: function (datas) {
@@ -195,7 +195,7 @@
             };
 
             var end = {
-                min: laydate.now()
+                min: '2000-01-01 0:0:0'/*laydate.now()*/
               , max: '2099-06-16 23:59:59'
               , istoday: false
               , choose: function (datas) {

@@ -20,7 +20,6 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
             Image1.Visible = false;//非show页面中不可操作
             Image2.Visible = false;
             if (!IsPostBack)
@@ -80,7 +79,8 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
             else
             {
-                Response.Write("<script>window.alert('无法提交！')</script>");
+                LocalApproveManager.showPendingReason(Page,tempVendorID,true);
+                //Response.Write("<script>window.alert('无法提交！')</script>");
             }
         }
 
@@ -103,7 +103,8 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             if (LocalApproveManager.doAddApprove(formId,FORM_NAME,FORM_TYPE_ID, tempVendorID))
             {
-                Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx</script>");
+                LocalScriptManager.createManagerScript(this.Page, string.Format("messageConfirm('{0}','{1}')", "提交成功", "EmployeeVendor.aspx"),"submited");
+                //Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx</script>");
             }
         }
 
@@ -145,7 +146,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 Write_BLL.addWrite(write);
                 if (flag == 1)
                 {
-                    Response.Write("<script>window.alert('保存成功！')</script>");
+                    LocalScriptManager.createManagerScript(Page, "window.alert('保存成功！')", "save");
                 }
                 return v;
             }
@@ -173,7 +174,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             return;
             As_Form_File Form_File = new As_Form_File();
             //string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
-            string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and [File_ID] in (select [File_ID] from As_Vendor_FileType where Temp_Vendor_ID='" + tempVendorID + "') and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
+            string sql = "select * from As_Form_File where Form_ID='" + FormID + "'  and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
             PagedDataSource objpds = new PagedDataSource();
             objpds.DataSource = FormFile_BLL.listFile(sql);
             GridView1.DataSource = objpds;

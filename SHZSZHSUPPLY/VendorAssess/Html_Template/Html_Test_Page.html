@@ -6,6 +6,9 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script src="../Script/jquery-3.2.1.min.js"></script>
+    <script src="../Script/layui/layui.js" charset="utf-8"></script>
+    <script src="../Script/Own/fileUploader.js?v=6" charset="utf-8"></script>
     <link rel="stylesheet" href="../Script/layui/css/layui.css" media="all">
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
@@ -108,10 +111,9 @@
         </div>
 
 
-        <button onclick="uploadFile('1111','2222','3333','4444')" type="button">nsaf</button>
+        <button onclick="openSignatureSelection(this)" type="button">nsaf</button>
     </form>
-    <script src="../Script/layui/layui.js" charset="utf-8"></script>
-    <script src="../Script/Own/fileUploader.js?v=2" charset="utf-8"></script>
+
     <script>
         layui.use(['form', 'layedit', 'laydate'], function(){
           var form = layui.form()

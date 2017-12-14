@@ -22,6 +22,24 @@ namespace SHZSZHSUPPLY.VendorAssess {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
+        /// scriptManager 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.ScriptManager scriptManager;
+        
+        /// <summary>
+        /// updatePanelTable 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel updatePanelTable;
+        
+        /// <summary>
         /// txbRef 控件。
         /// </summary>
         /// <remarks>
@@ -2810,6 +2828,15 @@ namespace SHZSZHSUPPLY.VendorAssess {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Image Image12;
+        
+        /// <summary>
+        /// updatePanel 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel updatePanel;
         
         /// <summary>
         /// Button1 控件。

@@ -43,6 +43,34 @@ namespace Model
         private int flag;
         private string factory_Name;
 
+        private string vendorName1;
+        private string sAPCode_1;
+        private string businessCategory1;
+        private string effectiveTime1;
+        private string purchaseAmount1;
+        private string reason1;
+
+        private string vendorName2;
+        private string sAPCode_2;
+        private string businessCategory2;
+        private string effectiveTime2;
+        private string purchaseAmount2;
+        private string reason2;
+
+        private string vendorName3;
+        private string sAPCode_3;
+        private string businessCategory3;
+        private string effectiveTime3;
+        private string purchaseAmount3;
+        private string reason3;
+
+        private string vendorName4;
+        private string sAPCode_4;
+        private string businessCategory4;
+        private string effectiveTime4;
+        private string purchaseAmount4;
+        private string reason4;
+
         public string VendorName
         {
             get
@@ -329,7 +357,7 @@ namespace Model
             }
         }
 
-        
+
 
         public string FinalDate
         {
@@ -458,6 +486,318 @@ namespace Model
             set
             {
                 factory_Name = value;
+            }
+        }
+
+        public string VendorName1
+        {
+            get
+            {
+                return vendorName1;
+            }
+
+            set
+            {
+                vendorName1 = value;
+            }
+        }
+
+        public string SAPCode_1
+        {
+            get
+            {
+                return sAPCode_1;
+            }
+
+            set
+            {
+                sAPCode_1 = value;
+            }
+        }
+
+        public string BusinessCategory1
+        {
+            get
+            {
+                return businessCategory1;
+            }
+
+            set
+            {
+                businessCategory1 = value;
+            }
+        }
+
+        public string EffectiveTime1
+        {
+            get
+            {
+                return effectiveTime1;
+            }
+
+            set
+            {
+                effectiveTime1 = value;
+            }
+        }
+
+        public string PurchaseAmount1
+        {
+            get
+            {
+                return purchaseAmount1;
+            }
+
+            set
+            {
+                purchaseAmount1 = value;
+            }
+        }
+
+        public string Reason1
+        {
+            get
+            {
+                return reason1;
+            }
+
+            set
+            {
+                reason1 = value;
+            }
+        }
+
+        public string VendorName2
+        {
+            get
+            {
+                return vendorName2;
+            }
+
+            set
+            {
+                vendorName2 = value;
+            }
+        }
+
+        public string SAPCode_2
+        {
+            get
+            {
+                return sAPCode_2;
+            }
+
+            set
+            {
+                sAPCode_2 = value;
+            }
+        }
+
+        public string BusinessCategory2
+        {
+            get
+            {
+                return businessCategory2;
+            }
+
+            set
+            {
+                businessCategory2 = value;
+            }
+        }
+
+        public string EffectiveTime2
+        {
+            get
+            {
+                return effectiveTime2;
+            }
+
+            set
+            {
+                effectiveTime2 = value;
+            }
+        }
+
+        public string PurchaseAmount2
+        {
+            get
+            {
+                return purchaseAmount2;
+            }
+
+            set
+            {
+                purchaseAmount2 = value;
+            }
+        }
+
+        public string Reason2
+        {
+            get
+            {
+                return reason2;
+            }
+
+            set
+            {
+                reason2 = value;
+            }
+        }
+
+        public string VendorName3
+        {
+            get
+            {
+                return vendorName3;
+            }
+
+            set
+            {
+                vendorName3 = value;
+            }
+        }
+
+        public string SAPCode_3
+        {
+            get
+            {
+                return sAPCode_3;
+            }
+
+            set
+            {
+                sAPCode_3 = value;
+            }
+        }
+
+        public string BusinessCategory3
+        {
+            get
+            {
+                return businessCategory3;
+            }
+
+            set
+            {
+                businessCategory3 = value;
+            }
+        }
+
+        public string EffectiveTime3
+        {
+            get
+            {
+                return effectiveTime3;
+            }
+
+            set
+            {
+                effectiveTime3 = value;
+            }
+        }
+
+        public string PurchaseAmount3
+        {
+            get
+            {
+                return purchaseAmount3;
+            }
+
+            set
+            {
+                purchaseAmount3 = value;
+            }
+        }
+
+        public string Reason3
+        {
+            get
+            {
+                return reason3;
+            }
+
+            set
+            {
+                reason3 = value;
+            }
+        }
+
+        public string VendorName4
+        {
+            get
+            {
+                return vendorName4;
+            }
+
+            set
+            {
+                vendorName4 = value;
+            }
+        }
+
+        public string SAPCode_4
+        {
+            get
+            {
+                return sAPCode_4;
+            }
+
+            set
+            {
+                sAPCode_4 = value;
+            }
+        }
+
+        public string BusinessCategory4
+        {
+            get
+            {
+                return businessCategory4;
+            }
+
+            set
+            {
+                businessCategory4 = value;
+            }
+        }
+
+        public string EffectiveTime4
+        {
+            get
+            {
+                return effectiveTime4;
+            }
+
+            set
+            {
+                effectiveTime4 = value;
+            }
+        }
+
+        public string PurchaseAmount4
+        {
+            get
+            {
+                return purchaseAmount4;
+            }
+
+            set
+            {
+                purchaseAmount4 = value;
+            }
+        }
+
+        public string Reason4
+        {
+            get
+            {
+                return reason4;
+            }
+
+            set
+            {
+                reason4 = value;
             }
         }
     }

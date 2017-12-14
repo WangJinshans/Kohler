@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System;
 using System.Data.SqlClient;
+using Model;
+using System.Text;
 
 namespace BLL
 {
@@ -179,6 +181,34 @@ namespace BLL
                 new SqlParameter("@Form_ID",form_ID)
             };
             return DBHelp.GetScalarFix(sql, sp) > 0;
+        }
+
+        /// <summary>
+        /// 获取当前pending的表格
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <returns></returns>
+        public static string getCurrentAssessState(string tempVendorID)
+        {
+            StringBuilder reason = new StringBuilder();
+            DataTable dt = FormType_DAL.getVendorFormType(tempVendorID);
+            if (dt != null && dt.Rows.Count>0)
+            {
+                foreach (DataRow item in dt.Rows)
+                {
+                    reason.Append(item["Form_Type_Name"]);
+                    reason.Append(" 状态：");
+                    reason.Append(As_Vendor_FormType.translateFlag(item["flag"].ToString()));
+                    reason.Append("<br/>");
+                }
+                reason.Append("供应商：");
+                reason.Append(dt.Rows[0]["Temp_Vendor_Name"].ToString());
+            }
+            if (reason.Length == 0)
+            {
+                reason.Append("顺序越界，请提交此表之前的表格");
+            }
+            return reason.ToString();
         }
     }
 }

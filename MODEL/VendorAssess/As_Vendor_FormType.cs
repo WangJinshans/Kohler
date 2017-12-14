@@ -18,6 +18,40 @@ namespace Model
         private string form_ID;
         private int prority;
 
+        public const string FLAG0 = "待发起人填写/提交";
+        public const string FLAG1 = "已提交,等待审批";
+        public const string FLAG2 = "已确认，等待其他部门填写";
+        public const string FLAG3 = "等待kci审批";
+        public const string FLAG4 = "审批完毕";
+
+
+        public static string translateFlag(string flag)
+        {
+            string st = "";
+            switch (flag)
+            {
+                case "0":
+                    st = FLAG0;
+                    break;
+                case "1":
+                    st = FLAG1;
+                    break;
+                case "2":
+                    st = FLAG2;
+                    break;
+                case "3":
+                    st = FLAG3;
+                    break;
+                case "4":
+                    st = FLAG4;
+                    break;
+                default:
+                    break;
+            }
+            return st;
+        }
+
+
         public int Id
         {
             get

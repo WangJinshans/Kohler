@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
-    <script src="Script/Own/fileUploader.js?v=2"></script>
+    <script src="Script/Own/fileUploader.js?v=5"></script>
     <script>
         window.onload = function () {
             blockBack();
@@ -42,7 +42,7 @@
             });
         });
         function onSelect(data) {
-            
+
             switch (data.elem.id) {
                 case 'factory':
                     onFactorySelectChanged();
@@ -63,7 +63,8 @@
         }
 
         function fireRefresh() {
-            __myDoPostBack('refreshVendor', document.getElementById('name').value);
+            document.getElementById("<%= btnRefresh.ClientID %>").click();
+            //__myDoPostBack('refreshVendor', document.getElementById('name').value);
         }
     </script>
     <script>
@@ -189,42 +190,47 @@
                 <fieldset class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
                     <legend id="Legend2" runat="server">待填写表格</legend>
                 </fieldset>
-                <asp:GridView Style="width: 1000px; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView2" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView2_RowCommand" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4">
-                    <Columns>
-                        <asp:BoundField DataField="Prority" HeaderText="填写顺序"
-                            SortExpression="Prority" Visible="TRUE" />
-                        <asp:BoundField DataField="Temp_Vendor_ID" HeaderText="供应商编号"
-                            SortExpression="Temp_Vendor_ID" Visible="False" />
-                        <asp:BoundField DataField="Temp_Vendor_Name" HeaderText="供应商名称"
-                            SortExpression="Temp_Vendor_Name" />
-                        <asp:BoundField DataField="Form_Type_ID" HeaderText="表格类型编号"
-                            SortExpression="Form_Type_ID" Visible="False" />
-                        <asp:BoundField DataField="Form_Type_Name" HeaderText="表格名称"
-                            SortExpression="Form_Type_Name" />
-                        <asp:BoundField DataField="Form_Type_Is_Optional" HeaderText="性质" NullDisplayText=""
-                            SortExpression="Form_Type_Is_Optional" />
+                <asp:ScriptManager ID="scriptManager" runat="server" EnablePartialRendering="true"></asp:ScriptManager>
+                <asp:UpdatePanel ID="updatePanelWaitingFill" UpdateMode="Conditional" runat="server" ChildrenAsTriggers="false">
+                    <ContentTemplate>
+                        <asp:GridView Style="width: 1000px; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView2" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView2_RowCommand" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4">
+                            <Columns>
+                                <asp:BoundField DataField="Prority" HeaderText="填写顺序"
+                                    SortExpression="Prority" Visible="TRUE" />
+                                <asp:BoundField DataField="Temp_Vendor_ID" HeaderText="供应商编号"
+                                    SortExpression="Temp_Vendor_ID" Visible="False" />
+                                <asp:BoundField DataField="Temp_Vendor_Name" HeaderText="供应商名称"
+                                    SortExpression="Temp_Vendor_Name" />
+                                <asp:BoundField DataField="Form_Type_ID" HeaderText="表格类型编号"
+                                    SortExpression="Form_Type_ID" Visible="False" />
+                                <asp:BoundField DataField="Form_Type_Name" HeaderText="表格名称"
+                                    SortExpression="Form_Type_Name" />
+                                <asp:BoundField DataField="Form_Type_Is_Optional" HeaderText="性质" NullDisplayText=""
+                                    SortExpression="Form_Type_Is_Optional" />
 
-                        <asp:BoundField DataField="DepotSummary" HeaderText="DepotSummary"
-                            SortExpression="DepotSummary" Visible="False" />
-                        <asp:TemplateField>
-                            <ItemTemplate>
-                                <asp:LinkButton ID="lbtShowDetails" runat="server" CommandName="showDetails"
-                                    CommandArgument='<%# Eval("Form_Type_ID")%>'>填写表格</asp:LinkButton>
-                            </ItemTemplate>
-                        </asp:TemplateField>
+                                <asp:BoundField DataField="DepotSummary" HeaderText="DepotSummary"
+                                    SortExpression="DepotSummary" Visible="False" />
+                                <asp:TemplateField>
+                                    <ItemTemplate>
+                                        <asp:LinkButton OnClientClick="waiting('正在加载')" ID="lbtShowDetails" runat="server" CommandName="showDetails"
+                                            CommandArgument='<%# Eval("Form_Type_ID")%>'>填写表格</asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
 
 
-                    </Columns>
-                    <FooterStyle BackColor="#FFF" ForeColor="#330099" />
-                    <%--<HeaderStyle BackColor="#006F83" Font-Bold="True" ForeColor="#FEFEFE" />--%>
-                    <HeaderStyle BackColor="#507CD1" Font-Bold="true" ForeColor="White" />
-                    <PagerStyle BackColor="#FFFFCC" ForeColor="#330099" HorizontalAlign="Center" />
-                    <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="#663399" />
-                    <SortedAscendingCellStyle BackColor="#FEFCEB" />
-                    <SortedAscendingHeaderStyle BackColor="#AF0101" />
-                    <SortedDescendingCellStyle BackColor="#F6F0C0" />
-                    <SortedDescendingHeaderStyle BackColor="#7E0000" />
-                </asp:GridView>
+                            </Columns>
+                            <FooterStyle BackColor="#FFF" ForeColor="#330099" />
+                            <%--<HeaderStyle BackColor="#006F83" Font-Bold="True" ForeColor="#FEFEFE" />--%>
+                            <HeaderStyle BackColor="#507CD1" Font-Bold="true" ForeColor="White" />
+                            <PagerStyle BackColor="#FFFFCC" ForeColor="#330099" HorizontalAlign="Center" />
+                            <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="#663399" />
+                            <SortedAscendingCellStyle BackColor="#FEFCEB" />
+                            <SortedAscendingHeaderStyle BackColor="#AF0101" />
+                            <SortedDescendingCellStyle BackColor="#F6F0C0" />
+                            <SortedDescendingHeaderStyle BackColor="#7E0000" />
+                        </asp:GridView>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
             </div>
             <div>
                 <fieldset runat="server" id="Legend3" class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
@@ -249,7 +255,7 @@
                             SortExpression="DepotSummary" Visible="False" />
                         <asp:TemplateField>
                             <ItemTemplate>
-                                <asp:LinkButton ID="lbtShowDetails" runat="server" CommandName="showDetails"
+                                <asp:LinkButton OnClientClick="waiting('正在加载')" ID="lbtShowDetails" runat="server" CommandName="showDetails"
                                     CommandArgument='<%# Eval("Form_Type_ID") %>'>查看</asp:LinkButton>
                             </ItemTemplate>
                         </asp:TemplateField>
@@ -293,7 +299,7 @@
                             SortExpression="DepotSummary" Visible="False" />
                         <asp:TemplateField>
                             <ItemTemplate>
-                                <asp:LinkButton ID="lbtShowDetails" runat="server" CommandName="showDetails"
+                                <asp:LinkButton OnClientClick="waiting('正在加载')" ID="lbtShowDetails" runat="server" CommandName="showDetails"
                                     CommandArgument='<%# Eval("Form_Type_ID") %>'>查看</asp:LinkButton>
                             </ItemTemplate>
                         </asp:TemplateField>
@@ -315,9 +321,9 @@
                 <fieldset class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
                     <legend id="vendorName" runat="server">文件上传</legend>
                 </fieldset>
-                <asp:ScriptManager ID="scriptManager" runat="server"></asp:ScriptManager>
                 <asp:UpdatePanel ID="updatePanel" UpdateMode="Conditional" runat="server" ChildrenAsTriggers="false">
                     <ContentTemplate>
+                        <asp:Button runat="server" style="display:none" ID="btnRefresh" OnClick="btnRefresh_Click" />
                         <asp:GridView Style="width: 1000px; margin: 0 auto; margin-bottom: 50px;" class="layui-table" lay-even="" lay-skin="nob" ID="GridView4" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView4_RowCommand" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="4">
                             <Columns>
                                 <asp:BoundField DataField="id" HeaderText="id"

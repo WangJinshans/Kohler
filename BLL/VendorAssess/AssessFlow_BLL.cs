@@ -3,6 +3,7 @@ using Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -52,6 +53,20 @@ namespace BLL
         public static int deleteFormAccess(string formID)
         {
             return AssessFlow_DAL.deleteFormAccess(formID);
+        }
+
+        public static void removeQuality(As_Assess_Flow assess_flow)
+        {
+            object value = null;
+            foreach (PropertyInfo pi in assess_flow.GetType().GetProperties())
+            {
+                value = pi.GetValue(assess_flow, null);
+                if (value is string && ((String)value).Contains("质量"))
+                {
+                    pi.SetValue(assess_flow, "", null);
+                    break;
+                }
+            }
         }
     }
 }

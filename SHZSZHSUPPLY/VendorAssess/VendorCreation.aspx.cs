@@ -4,6 +4,7 @@ using Model;
 using MODEL;
 using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace SHZSZHSUPPLY.VendorAssess
@@ -20,7 +21,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Image1.Visible = false;//非show页面中不可操作
+            Image1.Visible = true;//非show页面中不可操作
             Image2.Visible = false;
             Image3.Visible = false;
             Image4.Visible = false;
@@ -55,7 +56,6 @@ namespace SHZSZHSUPPLY.VendorAssess
 
                         //向FormFile表中添加相应的文件、表格绑定信息
                         bindingFormWithFile();
-                        showfilelist(formID);
                     }
 
                 }
@@ -66,7 +66,18 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
             else
             {
-                //非用户部门，无submit回调
+                //处理postback回调
+                switch (Request["__EVENTTARGET"])
+                {
+                    case "removeKCI":
+                        approveAssess(0);       //removeKCI
+                        break;
+                    case "addKCI":
+                        approveAssess(1);       //addKCI
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -128,33 +139,15 @@ namespace SHZSZHSUPPLY.VendorAssess
 
                 //动态签名的不需要在非show页面进行显示
 
-                //Image1.ImageUrl = vendor.Line_Manager;
+                Image1.ImageUrl = vendor.Line_Manager;
                 //Image2.ImageUrl = vendor.Purchasing_Manager;
                 //Image3.ImageUrl = vendor.Ministry_Of_Law;
                 //Image4.ImageUrl = vendor.Accounting_Dept;
                 //Image5.ImageUrl = vendor.Chief_Inspector;
                 TextBox32.Text = vendor.Comments;
             }
-
-            //展示附件
-            showfilelist(formID);
         }
 
-        /// <summary>
-        /// 显示文件
-        /// </summary>
-        /// <param name="FormID"></param>
-        private void showfilelist(string FormID)
-        {
-            return;
-            getSessionInfo();
-            As_Form_File Form_File = new As_Form_File();
-            string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and [File_ID] in (select [File_ID] from As_Vendor_FileType where Temp_Vendor_ID='"+tempVendorID+ "') and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
-            PagedDataSource objpds = new PagedDataSource();
-            objpds.DataSource = FormFile_BLL.listFile(sql);
-            GridView2.DataSource = objpds;
-            GridView2.DataBind();
-        }
 
         private As_Vendor_Creation saveForm(int flag, string manul)
         {
@@ -211,7 +204,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 Write_BLL.addWrite(write);
                 if (flag == 1)
                 {
-                    Response.Write("<script>window.alert('保存成功！')</script>");
+                    LocalScriptManager.createManagerScript(Page, "window.alert('保存成功！')", "save");
                 }
                 return vendor;
             }
@@ -226,12 +219,13 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// </summary>
         /// <param name="formTypeID"></param>
         /// <param name="formId"></param>
-        public void approveAssess(string formId)
+        public void approveAssess(int kci)
         {
-            if (LocalApproveManager.doAddApprove(formId, FORM_NAME, FORM_TYPE_ID, tempVendorID))
+            getSessionInfo();
+
+            if (LocalApproveManager.doAddApprove(formID, FORM_NAME, FORM_TYPE_ID, tempVendorID,kci))
             {
-                Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx';</script>");
-                //Response.Write("<script>window.alert('提交成功！');window.location.href='~/VendorAssess/EmployeeVendor.aspx</script>");
+                LocalScriptManager.createManagerScript(this.Page, string.Format("messageConfirm('{0}','{1}')", "提交成功", "EmployeeVendor.aspx"),"submited");
             }
         }
 
@@ -243,11 +237,13 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 saveForm(2, "提交表格");
 
-                approveAssess(formID);
+                LocalScriptManager.createManagerScript(this.Page, "openKCIConfirm()", "kci");
+                //approveAssess(formID);
             }
             else
             {
-                Response.Write("<script>window.alert('无法提交！')</script>");
+                LocalApproveManager.showPendingReason(Page,tempVendorID,true);
+                //Response.Write("<script>window.alert('无法提交！')</script>");
             }
         }
 
@@ -271,6 +267,16 @@ namespace SHZSZHSUPPLY.VendorAssess
                 {
                     ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>viewFile('" + filePath + "');</script>");
                 }
+            }
+        }
+
+        protected void btnNewImage_Click(object sender, EventArgs e)
+        {
+            string[] temp = ImgExSrc.Value.ToString().Split(',');
+            Control control = FindControl(temp[0]);
+            if (control != null)
+            {
+                ((Image)control).ImageUrl = temp[1];
             }
         }
     }

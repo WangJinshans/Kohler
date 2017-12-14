@@ -22,34 +22,14 @@ namespace BLL
             return As_Vendor_Designated_Apply_DAL.addForm(vendorDesignatedApply);
         }
 
-        public static string getFormID(string tempVendorID,string form_Type_ID,string factory)
+        public static string getFormID(string tempVendorID, string form_Type_ID, string factory)
         {
-            return As_Vendor_Designated_Apply_DAL.getFormID(tempVendorID, form_Type_ID,factory);
+            return As_Vendor_Designated_Apply_DAL.getFormID(tempVendorID, form_Type_ID, factory);
         }
 
         public static As_Vendor_Designated_Apply checkFlag(string formID)
         {
-            As_Vendor_Designated_Apply VendorDesignated = null;
-            int flag = As_Vendor_Designated_Apply_DAL.getFlag(formID);
-            if (flag == 1)
-            {
-                VendorDesignated = As_Vendor_Designated_Apply_DAL.getForm(formID);
-                return VendorDesignated;
-            }
-            else if (flag == 2)
-            {
-                VendorDesignated = As_Vendor_Designated_Apply_DAL.getForm(formID);
-                return VendorDesignated;
-            }
-            else if (flag == 0)
-            {
-                VendorDesignated = As_Vendor_Designated_Apply_DAL.getForm(formID);
-                return VendorDesignated;
-            }
-            else
-            {
-                return null;
-            }
+            return As_Vendor_Designated_Apply_DAL.getForm(formID);
         }
 
         public static int updateForm(As_Vendor_Designated_Apply vendor_Designated)

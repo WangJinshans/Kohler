@@ -142,5 +142,9 @@ namespace Model
                 factory_Name = value;
             }
         }
+
+        public string Purchasing_Manager { get; set; }
+        public string Finance_Leader { get; set; }
+        public string General_Manager { get; set; }
     }
 }

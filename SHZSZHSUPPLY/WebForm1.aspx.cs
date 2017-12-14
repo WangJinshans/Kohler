@@ -37,7 +37,7 @@ namespace SHZSZHSUPPLY
                 {
                     List<string> list = Employee_BLL.getAuthority(Session["Employee_ID"].ToString());
 
-                    LocalScriptManager.CreateScript(Page, String.Format("filterNavigation('{0}', '{1}', '{2}', '{3}', '{4}')", list[0], list[1], list[2], list[3], list[4]), "dis");
+                    LocalScriptManager.CreateScript(Page, String.Format("filterNavigation('{0}', '{1}', '{2}', '{3}', '{4}');saveAU('{0}', '{1}', '{2}', '{3}', '{4}')", list[0], list[1], list[2], list[3], list[4]), "dis");
 
                 }
                 catch (Exception)

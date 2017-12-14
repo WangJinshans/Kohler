@@ -38,6 +38,18 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
         }
 
+        private void hideImage(string signature, Image image)
+        {
+            if (signature != "")
+            {
+                image.ImageUrl = signature;
+            }
+            else
+            {
+                image.Visible = false;
+            }
+        }
+
 
         /// <summary>
         /// 显示分析分析表
@@ -61,6 +73,12 @@ namespace SHZSZHSUPPLY.VendorAssess
                 TextBox6.Text = vendorRisk.Complete_By;
                 TextBox7.Text = vendorRisk.Compiled_By;
                 TextBox8.Text = vendorRisk.Date.ToString();
+
+                //Image
+                hideImage(vendorRisk.Purchasing_Manager, Image1);
+                hideImage(vendorRisk.Finance_Leader, Image2);
+                hideImage(vendorRisk.General_Manager, Image3);
+
                 setSelected(vendorRisk.Corporate_Strategy, new[] { RadioButton4, RadioButton5, RadioButton6 });
                 setSelected(vendorRisk.Stability, new[] { RadioButton7, RadioButton8, RadioButton9 });
                 setSelected(vendorRisk.Contractual, new[] { RadioButton10, RadioButton11, RadioButton12 });
@@ -124,9 +142,8 @@ namespace SHZSZHSUPPLY.VendorAssess
         public void showfilelist(string FormID)
         {
             As_Form_File Form_File = new As_Form_File();
-            //string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
             string tempVendorID = AddForm_BLL.GetTempVendorID(formID);
-            string sql = "select * from View_Form_File where Form_ID='" + FormID + "' and [File_ID] in (select [File_ID] from As_Vendor_FileType where Temp_Vendor_ID='" + tempVendorID + "') and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
+            string sql = "select * from View_Form_File where Form_ID='" + FormID + "'  and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
             PagedDataSource objpds = new PagedDataSource();
             objpds.DataSource = FormFile_BLL.listFile(sql);
             GridView2.DataSource = objpds;
@@ -192,6 +209,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 positionName = Session["Position_Name"].ToString();
                 FORM_TYPE_ID = Request.QueryString["type"];
                 tempVendorID = AddForm_BLL.GetTempVendorID(formID);//获取tempvendorID
+                btnPDF.ToolTip = Request.Url+"&outPutID=" + formID;
             }
         }
 

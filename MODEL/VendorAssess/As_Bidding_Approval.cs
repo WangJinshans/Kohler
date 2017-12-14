@@ -36,6 +36,7 @@ namespace MODEL.VendorAssess
         private string temp_Vendor_Name;
         private string form_Type_ID;
         private string factory_Name;
+        private string user_Department_Manager;
 
         public string Serial_No
         {
@@ -413,5 +414,20 @@ namespace MODEL.VendorAssess
                 factory_Name = value;
             }
         }
+
+        public string User_Department_Manager
+        {
+            get
+            {
+                return user_Department_Manager;
+            }
+
+            set
+            {
+                user_Department_Manager = value;
+            }
+        }
+
+        public string Vendor_Recommend { get; set; }
     }
 }

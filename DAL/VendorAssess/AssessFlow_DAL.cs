@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace DAL
 {
@@ -14,10 +15,11 @@ namespace DAL
         public static As_Assess_Flow getFirstAssessFlow(string formtypeid)
         {
             As_Assess_Flow Assess_Flow = null;
-            string sql = "SELECT * FROM As_Assess_Flow Where Form_Type_ID=@formtypeid";
+            string sql = "SELECT * FROM As_Assess_Flow Where Form_Type_ID=@formtypeid and Factory_Name=@Factory_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("@formtypeid",formtypeid)
+                new SqlParameter("@formtypeid",formtypeid),
+                new SqlParameter("@Factory_Name",HttpContext.Current.Session["Factory_Name"].ToString())
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)

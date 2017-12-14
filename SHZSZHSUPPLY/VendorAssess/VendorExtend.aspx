@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
-    <script src="Script/Own/fileUploader.js?v=2"></script>
+    <script src="Script/Own/fileUploader.js?v=5"></script>
     <script>
         function viewFile(filePath) {
             window.open(filePath);
@@ -252,11 +252,23 @@ table.gridtable td {
             </tr>
             
         </table>
-        <div style="text-align:center;margin-bottom:50px">
+        <%--<div style="text-align:center;margin-bottom:50px">
          <asp:Button ID="Button1" runat="server" Text="保存" CssClass="layui-btn" OnClick="Button1_Click" />&nbsp;&nbsp;&nbsp;&nbsp;
          <asp:Button ID="Button2" runat="server" Text="提交" CssClass="layui-btn layui-btn-normal" OnClick="Button2_Click" />&nbsp;&nbsp;&nbsp;&nbsp;
          <asp:Button ID="Button3" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Button3_Click" />
-        </div>
+        </div>--%>
+        <asp:ScriptManager ID="scriptManager" runat="server"></asp:ScriptManager>
+        <asp:UpdatePanel ID="updatePanel" UpdateMode="Conditional" runat="server" ChildrenAsTriggers="false">
+            <ContentTemplate>
+                <div style="text-align: center; margin-bottom: 50px">
+                    <asp:Button ID="Button1" runat="server" Text="提交" CssClass="layui-btn" OnClick="Button1_Click" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       
+		        <asp:Button ID="Button2" runat="server" Text="保存" CssClass="layui-btn layui-btn-normal" OnClick="Button2_Click" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		        <asp:Button ID="Button3" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Button3_Click" />
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
         <div style="display:none">
             <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" CellPadding="4" GridLines="None" ForeColor="#333333">
 						<AlternatingRowStyle BackColor="White" ForeColor="#284775" />

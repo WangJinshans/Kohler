@@ -1,64 +1,78 @@
 ﻿using BLL;
+using BLL.VendorAssess;
 using Model;
+using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Script.Serialization;
+using System.Web.SessionState;
 
 namespace SHZSZHSUPPLY.VendorAssess.ASHX
 {
     /// <summary>
     /// PDF 的摘要说明
     /// </summary>
-    public class PDF : IHttpHandler
+    public class PDF : IHttpHandler, IRequiresSessionState
     {
-
+        /// <summary>
+        /// 处理request
+        /// </summary>
+        /// <param name="context"></param>
         public void ProcessRequest(HttpContext context)
         {
-            if (true)
-            {
-                return;
-            }
-
             context.Response.ContentType = "text/plain";
-            string data = context.Request.Form["datas"];
-            string fileName = context.Request["fileName"] ?? ""; //编码格式
-            string formID = context.Request["formID"] ?? "";
-
-            string filename = "D:\\test\\NewFile.pdf";
-            FileStream fs = File.Create(filename);
-            Byte[] info = new UTF8Encoding(true).GetBytes(data);
-            fs.Write(info, 0, info.Length);
-            fs.Flush();//清除该流的所有缓冲区，使得所有缓冲的数据都被写入到基础设备
-            fs.Close();
-
-            FileInfo fi = new FileInfo("C:\\Users\\廷江\\Downloads\\" + fileName);
-            string path = HttpContext.Current.Server.MapPath("../../files/");
-            string newPath = path + fileName;
-
-            while (!fi.Exists)
+            switch (context.Request.Params["requestType"])
             {
-                fi = new FileInfo("C:\\Users\\廷江\\Downloads\\" + fileName);
-            }
-            fi.MoveTo(newPath);
-        
-            //As_Form中添加字段Form_Path 保存PDF文件的路径
-            As_Form form = new As_Form();
-            form.Form_ID = formID;
-            form.Form_Path = newPath;
-            int result=AddForm_BLL.upDateFormPath(formID, newPath);
-            if (result == 1)
-            {
-                //context.Response.Write("pdf生成成功！");
-            }
-            else
-            {
-                //context.Response.Write("pdf生成失败！");
+                case "showPDF":
+                    outPutPDF(context);
+                    break;
+                default:
+                    context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = false, error = "default fail" }));
+                    break;
             }
         }
 
+        /// <summary>
+        /// 向前端发送临时pdf编号，如果是新的请求则重新生成后再发送
+        /// </summary>
+        private void outPutPDF(HttpContext context)
+        {
+            string url = context.Request.Params["pdfURL"];
+            string options = context.Request.Params["options"];
+            string sessionID = HttpContext.Current.Session.SessionID;
+            string filePath = HttpContext.Current.Server.MapPath(Properties.Settings.Default.Transfer_Temp_Path) + sessionID + ".pdf";
+            string root = HttpContext.Current.Server.MapPath("/");
+            string vRoot = HttpContext.Current.Server.MapPath("~/");
+            if (!root.Equals(vRoot))
+            {
+                vRoot = vRoot.Replace(root, "/");
+            }
+            else
+            {
+                vRoot = "/";
+            }
+            bool result = PDF_BLL.showPDF(url, sessionID, filePath, Properties.Settings.Default.PDF_Tool_Path,(sender,e)=> {
+                if (((Process)sender).ExitCode == 0)
+                {
+                    //context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, message = context.Request.UrlReferrer.OriginalString.ToString().Replace(context.Request.UrlReferrer.PathAndQuery, Properties.Settings.Default.Transfer_Temp_Path.Remove(0, 1) + sessionID + ".pdf")}));
+                    context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, message = context.Request.Url.ToString().Replace(context.Request.Url.AbsolutePath, vRoot.Replace("\\","")+Properties.Settings.Default.Transfer_Temp_Path.Remove(0, 1) + sessionID + ".pdf") }));
+                }
+                else
+                {
+                    context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = false, message = "PDF生成失败,错误代码："+ ((Process)sender).ExitCode }));
+                }
+            },options.Equals("")? "--zoom 0.8 " : options);
+        }
+
+
+        /// <summary>
+        /// IsReusable
+        /// </summary>
         public bool IsReusable
         {
             get

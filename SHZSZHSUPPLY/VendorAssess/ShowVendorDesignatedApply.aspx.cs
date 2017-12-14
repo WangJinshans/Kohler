@@ -54,7 +54,7 @@ namespace VendorAssess
             As_Form_File Form_File = new As_Form_File();
             //string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
             string tempVendorID = AddForm_BLL.GetTempVendorID(formID);
-            string sql = "select * from View_Form_File where Form_ID='" + FormID + "' and [File_ID] in (select [File_ID] from As_Vendor_FileType where Temp_Vendor_ID='" + tempVendorID + "') and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
+            string sql = "select * from View_Form_File where Form_ID='" + FormID + "'  and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
             PagedDataSource objpds = new PagedDataSource();
             objpds.DataSource = FormFile_BLL.listFile(sql);
             GridView2.DataSource = objpds;
@@ -97,6 +97,35 @@ namespace VendorAssess
                 hideImage(form.Persident, Image7);
                 //Image7.ImageUrl = form.Persident;
                 TextBox24.Text = form.FinalDate.ToString();
+
+                //补
+                TextBox9.Text = form.VendorName1;
+                TextBox10.Text = form.SAPCode_1;
+                TextBox11.Text = form.BusinessCategory1;
+                TextBox15.Text = form.EffectiveTime1.ToString();
+                TextBox16.Text = form.PurchaseAmount1;
+                TextBox19.Text = form.Reason1;
+               
+                TextBox20.Text = form.VendorName2;
+                TextBox23.Text = form.SAPCode_2;
+                TextBox25.Text = form.BusinessCategory2;
+                TextBox26.Text = form.EffectiveTime2.ToString();
+                TextBox27.Text = form.PurchaseAmount2;
+                TextBox28.Text = form.Reason2;
+          
+                TextBox29.Text = form.VendorName3;
+                TextBox30.Text = form.SAPCode_3;
+                TextBox31.Text = form.BusinessCategory3;
+                TextBox32.Text = form.EffectiveTime3.ToString();
+                TextBox33.Text = form.PurchaseAmount3;
+                TextBox34.Text = form.Reason3;
+                                 
+                TextBox35.Text = form.VendorName4;
+                TextBox36.Text = form.SAPCode_4;
+                TextBox37.Text = form.BusinessCategory4;
+                TextBox38.Text = form.EffectiveTime4.ToString();
+                TextBox39.Text = form.PurchaseAmount4;
+                TextBox40.Text = form.Reason4;
             }
             else
             {
@@ -170,6 +199,7 @@ namespace VendorAssess
                 positionName = Session["Position_Name"].ToString();
                 FORM_TYPE_ID = Request.QueryString["type"];
                 tempVendorID = AddForm_BLL.GetTempVendorID(formID);//获取tempvendorID
+                btnPDF.ToolTip = Request.Url+"&outPutID=" + formID;
             }
         }
 

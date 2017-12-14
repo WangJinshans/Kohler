@@ -73,12 +73,14 @@ namespace SHZSZHSUPPLY.VendorAssess
                 TextBox16.Text = biddingForm.Remark3;
                 TextBox17.Text = biddingForm.Reason_One;
                 TextBox18.Text = biddingForm.Reason_Two;
+                TextBox49.Text = biddingForm.Vendor_Recommend;
                 //TODO::image
 
                 hideImage(biddingForm.Supplier_Chain_Leader, Image2);
                 hideImage(biddingForm.Initiator, Image1);
                 hideImage(biddingForm.Business_Leader, Image4);
                 hideImage(biddingForm.Finance_Leader, Image3);
+                hideImage(biddingForm.User_Department_Manager, Image5);
 
                 int[] arr = { 0, 0, 0, 0, 0 };
                 for (int i = 0; i < biddingForm.ProjectList.Count; i++)
@@ -152,7 +154,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             As_Form_File Form_File = new As_Form_File();
             //string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
             string tempVendorID = AddForm_BLL.GetTempVendorID(formID);
-            string sql = "select * from View_Form_File where Form_ID='" + FormID + "' and [File_ID] in (select [File_ID] from As_Vendor_FileType where Temp_Vendor_ID='" + tempVendorID + "') and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
+            string sql = "select * from View_Form_File where Form_ID='" + FormID + "'  and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
             PagedDataSource objpds = new PagedDataSource();
             objpds.DataSource = FormFile_BLL.listFile(sql);
             GridView2.DataSource = objpds;
@@ -217,6 +219,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 positionName = Session["Position_Name"].ToString();
                 FORM_TYPE_ID = Request.QueryString["type"];
                 tempVendorID = AddForm_BLL.GetTempVendorID(formID);//获取tempvendorID
+                btnPDF.ToolTip = Request.Url+"&outPutID=" + formID;
             }
         }
 
@@ -232,7 +235,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
-            string fileID = GridView2.Rows[drv.RowIndex].Cells[1].ToString().Trim();//获取fileID
+            string fileID = GridView2.Rows[drv.RowIndex].Cells[1].Text.ToString().Trim();//获取fileID
             string filePath = LSetting.File_Reltive_Path + fileID + ".pdf";
             if (filePath != "")
             {

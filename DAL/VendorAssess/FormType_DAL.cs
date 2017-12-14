@@ -134,6 +134,23 @@ namespace DAL
         }
 
         /// <summary>
+        /// 获取全表flag为1，2，3
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <returns></returns>
+        public static DataTable getVendorFormType(string tempVendorID)
+        {
+            DataTable dt = null;
+            string sql = "SELECT * FROM View_Vendor_FormType Where Temp_Vendor_ID=@Temp_Vendor_ID and flag in (1,2,3)";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Temp_Vendor_ID",tempVendorID)
+            };
+            using (dt = DBHelp.GetDataSet(sql,sp))
+            return dt;
+        }
+
+        /// <summary>
         /// 获取所有可选的表的优先顺序
         /// </summary>
         /// <param name="temp_Vendor_ID"></param>
