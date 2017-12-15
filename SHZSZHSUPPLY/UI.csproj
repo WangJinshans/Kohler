@@ -886,12 +886,9 @@
     <Content Include="VendorAssess\Script\laydate\theme\default\font\iconfont.ttf" />
     <Content Include="VendorAssess\Script\laydate\theme\default\font\iconfont.woff" />
     <Content Include="Site.Master" />
-<<<<<<< HEAD
     <Content Include="VendorAssess\ASHX\Database_Handler.ashx" />
     <Content Include="VendorAssess\TEST\TransferTemp\0yoslos11h323b2tw1xppi3i.pdf" />
-=======
     <Content Include="VendorAssess\ASHX\MyAjaxTest.ashx" />
->>>>>>> WJS_11_05_VendorEditor
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

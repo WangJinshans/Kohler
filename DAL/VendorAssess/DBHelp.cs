@@ -15,8 +15,7 @@ namespace DAL
         {
             get
             {
-
-                string connectionString = "server=.;database=SKZSZHSUPPLY;uid=sa;pwd=wangjinshan123..";
+                string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["connectionstring"].ToString();
 
                 if (connection == null)
                 {
