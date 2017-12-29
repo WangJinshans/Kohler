@@ -64,6 +64,17 @@ namespace BLL
         }
 
         /// <summary>
+        /// 查找出该供应商的合同审批表的formTypeID
+        /// </summary>
+        /// <param name="temp_Vendor_ID"></param>
+        /// <param name="factory_Name"></param>
+        /// <returns></returns>
+        public static string getVendorContractFormTypeID(string temp_Vendor_ID, string factory_Name)
+        {
+            return VendorFile_DAL.getVendorContractFormTypeID(temp_Vendor_ID, factory_Name);
+        }
+
+        /// <summary>
         /// 动态绑定供应商的表格和文件
         /// </summary>
         /// <param name="tempVendorID"></param>
@@ -115,6 +126,25 @@ namespace BLL
         public static bool isAccessSuccessful(string form)
         {
             return VendorForm_DAL.isAccessSuccessful(form);
+        }
+
+        /// <summary>
+        /// 查询供应商信息表是否审批完成
+        /// </summary>
+        /// <param name="sql4"></param>
+        /// <returns></returns>
+        public static bool isVendorCreationAssessed(string sql4)
+        {
+            return VendorForm_DAL.isVendorCreationAssessed(sql4);
+        }
+        /// <summary>
+        /// 合同是否已经提交
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public static bool isVendorContractSubmited(string sql)
+        {
+            return VendorForm_DAL.isVendorContractSubmited(sql);
         }
     }
 }

@@ -186,7 +186,7 @@ namespace DAL
 
                 + "Envouriment_Factory_List=@Envouriment_Factory_List,ACT=@ACT,Ergonomic_Confirmation=@Ergonomic_Confirmation,"
 
-                + "EHS=@EHS,SourcingSpecialist_Signature=@SourcingSpecialist_Signature,SourcingSpecialist_Date=@SourcingSpecialist_Date "
+                + "EHS=@EHS,SourcingSpecialist_Signature=@SourcingSpecialist_Signature,SourcingSpecialist_Date=@SourcingSpecialist_Date,Flag=@Flag "
 
                 + "where Form_ID=@Form_ID";
             SqlParameter[] sp = new SqlParameter[]
@@ -299,6 +299,7 @@ namespace DAL
                 new SqlParameter("@EHS",vendorContract.EHS),
                 new SqlParameter("@SourcingSpecialist_Signature",vendorContract.SourcingSpecialist_Signature),
                 new SqlParameter("@SourcingSpecialist_Date",vendorContract.SourcingSpecialist_Date),
+                new SqlParameter("@Flag",vendorContract.Flag),
                 //new SqlParameter("@User_Dept_Head_Signature",vendorContract.User_Dept_Head_Signature),
                 //new SqlParameter("@User_Dept_Head_Date",vendorContract.User_Dept_Head_Date),
                 //new SqlParameter("@SC_Leader_Signature",vendorContract.SC_Leader_Signature),

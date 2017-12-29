@@ -130,6 +130,32 @@ namespace DAL
             return formTypeID;
         }
 
+        public static bool isVendorContractSubmited(string sql)
+        {
+            using (SqlDataReader reader = DBHelp.GetReader(sql))
+                if (reader.Read())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+        }
+
+        public static bool isVendorCreationAssessed(string sql4)
+        {
+            using (SqlDataReader reader = DBHelp.GetReader(sql4))
+                if (reader.Read())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+        }
+
         public static string isOverDue(string temp_Vendor_ID,string form_Type_ID,string factory)
         {
             string sql = "select flag from As_Vendor_FormType where Temp_Vendor_ID='" + temp_Vendor_ID + "' and Form_Type_ID='" + form_Type_ID + "' and Factory_Name='" + factory + "'";

@@ -152,6 +152,26 @@
             onSelect(data);
         }
     </script>
+
+    <script>
+        //弹出询问是否签订合同的提示
+        function popHT() {
+            layui.use('form', function () {
+                var form = layui.form
+                , layer = layui.layer;
+                layer.open({
+                    content: '是否签订合同'
+                    , btn: ['立即签订', '暂不签订']
+                    , yes: function () {
+                        __myDoPostBack('ht','YES');
+                    }
+                    , btn2: function () {
+                        __myDoPostBack('ht', 'NO');
+                    }
+                })
+            });
+        }
+    </script>
 </head>
 <body>
     <style></style>

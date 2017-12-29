@@ -51,9 +51,30 @@ namespace AendorAssess
                     case "asyncRefresh":
                         updatePanel.Update();
                         break;
+                    case "ht":
+                        //是否签订合同
+                        contract(Request.Form["__EVENTARGUMENT"]);
+                        break;
                     default:
                         break;
                 }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="selection"></param>
+        private void contract(string selection)
+        {
+            if (selection.Equals("YES"))//立即签订
+            {
+                string form_Type_ID = FillVendorInfo_BLL.getVendorContractFormTypeID(temp_Vendor_ID, factory_Name);
+                switchPage(form_Type_ID, temp_Vendor_ID);
+            }
+            if (selection.Equals("NO"))//暂不签订
+            {
+
             }
         }
 
@@ -79,7 +100,7 @@ namespace AendorAssess
             //绑定session
             Session["tempvendorname"] = TempVendor_BLL.getTempVendorName(tempVendorID);
             Session["tempVendorID"] = tempVendorID;
-
+            temp_Vendor_ID = tempVendorID;
             As_Vendor_FormType Vendor_Form = new As_Vendor_FormType();
             //根据供应商类型编号查询所有未填写表格类型
             string sql = "SELECT * FROM View_Vendor_FormType WHERE Temp_Vendor_ID='" + tempVendorID + "'and flag ='0' and Factory_Name='" + factoryName + "' order by Form_Type_Priority_Number asc";
@@ -141,6 +162,21 @@ namespace AendorAssess
             GridView4.DataSource = objpds3;
             //绑定数据源
             GridView4.DataBind();
+
+
+
+            //合同签订提示  查询信息表是否审批完成 查询合同审批表是否提交
+
+            string sql4 = String.Format("select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='{0}' and Factory_Name='{1}' and Form_Type_ID='019' and flag=4", tempVendorID, factory_Name);
+            if (FillVendorInfo_BLL.isVendorCreationAssessed(sql4))//审批完成
+            {
+                //查找合同审批表中是否已有记录
+                string sql5 = "select Form_ID from As_Contract_Approval where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory_Name + "' and Flag=2";
+                if (!FillVendorInfo_BLL.isVendorContractSubmited(sql5))//未提交
+                {
+                    LocalScriptManager.CreateScript(Page, "popHT()", "HT");
+                }
+            }
         }
 
         /// <summary>

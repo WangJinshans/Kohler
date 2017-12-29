@@ -55,5 +55,20 @@ namespace DAL
             }
             return "";
         }
+
+        public static string getVendorContractFormTypeID(string temp_Vendor_ID, string factory_Name)
+        {
+            string sql = "select Form_Type_ID from As_Vendor_FormType where Temp_Vendor_ID='" + temp_Vendor_ID + "' and Factory_Name='" + factory_Name + "' and Form_Type_Name like '合同审批表%'";
+            DataTable table = DBHelp.GetDataSet(sql);
+            string formTypeID = "";
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    formTypeID = dr["Form_Type_ID"].ToString().Trim();
+                }
+            }
+            return formTypeID;
+        }
     }
 }
