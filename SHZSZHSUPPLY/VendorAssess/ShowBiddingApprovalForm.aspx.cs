@@ -74,6 +74,10 @@ namespace SHZSZHSUPPLY.VendorAssess
                 TextBox17.Text = biddingForm.Reason_One;
                 TextBox18.Text = biddingForm.Reason_Two;
                 TextBox49.Text = biddingForm.Vendor_Recommend;
+                TextBox50.Text = biddingForm.Rank1;
+                TextBox51.Text = biddingForm.Rank2;
+                TextBox52.Text = biddingForm.Rank3;
+                TextBox53.Text = biddingForm.Rank_Remark;
                 //TODO::image
 
                 hideImage(biddingForm.Supplier_Chain_Leader, Image2);

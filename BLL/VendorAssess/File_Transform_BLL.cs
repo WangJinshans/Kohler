@@ -26,6 +26,10 @@ namespace BLL.VendorAssess
         public const int FORM_TYPE = 21;
         public const int ALL_TYPE = 22;
 
+        public static string mode = "all";
+        public const string ALL_MODE = "all";
+        public const string APPEND_MODE = "append";
+
 
         public static string vendorTransForm(string tempVendorID, string factory,string normalCode, string destPath,string employeeID)
         {
@@ -53,7 +57,10 @@ namespace BLL.VendorAssess
                         {
                             normalCode = TempVendor_BLL.getNormalCode(tempVendorID);
                         }
-
+                        if (mode.Equals(ALL_MODE))
+                        {
+                            File_Transform_DAL.deleteALL(normalCode);
+                        }
                         string rs2 = copyFile(getFormsWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode, factory, employeeID);
                         if (rs2 != "")
                         {
@@ -91,6 +98,10 @@ namespace BLL.VendorAssess
                         {
                             normalCode = TempVendor_BLL.getNormalCode(tempVendorID);
                         }
+                        if (mode.Equals(ALL_MODE))
+                        {
+                            File_Transform_DAL.deleteALL(normalCode);
+                        }
                         string rs1 = copyFile(getFilesWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode,factory, employeeID);
                         if (rs1 != "")
                         {
@@ -104,10 +115,10 @@ namespace BLL.VendorAssess
                         return resultStr = rs0 + rs1 + rs2;
                     }
                 }
-                else if(result == "false")
+                else
                 {
                     //没有提交KCI的审批结果
-                    return CHECK_FAIL;
+                    return result;
                 }
             }
             return CHECK_FAIL;
@@ -131,6 +142,10 @@ namespace BLL.VendorAssess
             }
             if (checkFormOverDueKciFileSubmit(tempVendorID, factory) == "none")//不需要KCI
             {
+                if (mode.Equals(ALL_MODE))
+                {
+                    File_Transform_DAL.deleteALL(normalCode);
+                }
                 if (copyFile(getOverDueFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode,factory, employeeID) != "")//转移文件不成功
                 {
                     return TRANSFER_FAIL;
@@ -138,6 +153,10 @@ namespace BLL.VendorAssess
             }
             if (checkFormOverDueKciFileSubmit(tempVendorID, factory) == "true")//需要转移KCI的审批文件
             {
+                if (mode.Equals(ALL_MODE))
+                {
+                    File_Transform_DAL.deleteALL(normalCode);
+                }
                 if (copyFile(getOverDueFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode,factory, employeeID) == "" && copyFile(getOverDueKciFormWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode, factory, employeeID) == "")//转移文件成功
                 {
                 }
@@ -230,6 +249,10 @@ namespace BLL.VendorAssess
                         if (rs0 == CODE_EXIST)
                         {
                             normalCode = TempVendor_BLL.getNormalCode(tempVendorID);
+                        }
+                        if (mode.Equals(ALL_MODE))
+                        {
+                            File_Transform_DAL.deleteALL(normalCode);
                         }//新的File_ID的文件
                         rs1 = copyFile(getOverDueFileWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode,factory, employeeID);
                         if (rs1 != "")
@@ -260,6 +283,10 @@ namespace BLL.VendorAssess
                         if (rs0 == CODE_EXIST)
                         {
                             normalCode = TempVendor_BLL.getNormalCode(tempVendorID);
+                        }
+                        if (mode.Equals(ALL_MODE))
+                        {
+                            File_Transform_DAL.deleteALL(normalCode);
                         }
                         rs1 = copyFile(getOverDueFileWithPath(tempVendorID, factory),tempVendorID,destPath,normalCode,factory,employeeID);
                         if (rs1 != "")
@@ -330,6 +357,7 @@ namespace BLL.VendorAssess
             if (modifyFileItem != null && modifyFileItem.Count > 0)
             {
                 string vendor_Code = TempVendor_BLL.getNormalCode(tempVendorID);
+                mode = APPEND_MODE;
                 copyFile(modifyFileItem, tempVendorID, destPath, vendor_Code, factory, employeeID);
             }
 
@@ -927,7 +955,7 @@ namespace BLL.VendorAssess
                         kciNeed = true;
                         if (File_Transform_DAL.isKciFileSubmit(formid)==false)
                         {
-                            return "false";//没有上传KCI的处理结果
+                            return "Kci file does not exist: "+formid;//没有上传KCI的处理结果
                         }
                     }
                 }
@@ -1000,8 +1028,16 @@ namespace BLL.VendorAssess
         public static string copyFile(Dictionary<string, string> fileWithPath,string tempVendorID,string destPath,string code,string factory,string employeeID)
         {
             string type = TempVendor_BLL.getTempVendorType(tempVendorID);
+            string s = "";
+            string s1 ="";
+            string s2 ="";
+            string s3 ="";
+            string s4 ="";
+            string s5 ="";
+            string s6 = "";
             if (fileWithPath.Count > 0)
             {
+
                 foreach (string key in fileWithPath.Keys)
                 {
                     try
@@ -1017,33 +1053,69 @@ namespace BLL.VendorAssess
                             return PATH_IS_NULL;
                         }
 
+                        //Source
                         FileInfo fileSource = new FileInfo(filePath);//文件复制
 
                         string newName = fileSource.Name.Replace(tempVendorID, code);
                         string newPath = HttpContext.Current.Server.MapPath(destPath) + newName;
 
+                        //Destination
                         FileInfo destFile = new FileInfo(newPath);
-                        //过滤性转移，预防重复复制文件
-                        if (!destFile.Exists)
-                        {
-                            fileSource.CopyTo(newPath, true);
-                        }
+
                         //插入到文件上传的地方
                         if (type == "")
                         {
                             return null;
                         }
-                        //预防重复插入记录
-                        if (!recordExist(newName.Replace(".pdf","")))
+
+                        //过滤性转移，预防重复复制文件
+                        switch (mode)
                         {
-                            string s = fileInfo[6];
-                            string s1 = @"..\upload\" + newName;
-                            string s2 = Convert.ToBoolean(fileInfo[1]) ? "ALL" : factory;
-                            string s3 = fileInfo[3] == "全部" ? "ALL" : type;
-                            string s4 = newName.Replace(".pdf", "");
-                            string s5 = fileInfo[4];
-                            string s6 = fileInfo[5];
-                            addVendorFile(code, fileInfo[6], @"..\upload\"+newName, Convert.ToBoolean(fileInfo[1])?"ALL": factory, fileInfo[3]=="全部"?"ALL":type, "Enable", newName.Replace(".pdf", ""),fileInfo[4],fileInfo[5], DateTime.Now, employeeID);
+                            case APPEND_MODE:
+                                if (!destFile.Exists)   //减少一次覆盖文件是时间消耗
+                                {
+                                    fileSource.CopyTo(newPath, true);
+                                }
+                                s = fileInfo[6];
+                                s1 = @"..\upload\" + newName;
+                                s2 = Convert.ToBoolean(fileInfo[1]) ? "ALL" : factory;
+                                s3 = fileInfo[3] == "全部" ? "ALL" : type;
+                                s4 = newName.Replace(".pdf", "");
+                                s5 = fileInfo[4];
+                                s6 = fileInfo[5];
+
+                                //预防重复性
+                                if (recordExist(newName.Replace(".pdf", "")))
+                                {
+                                    updateVendorFile(code, fileInfo[6], @"..\upload\" + newName, Convert.ToBoolean(fileInfo[1]) ? "ALL" : factory, fileInfo[3] == "全部" ? "ALL" : type, "Enable", s4, fileInfo[4], fileInfo[5], DateTime.Now, employeeID);
+                                }
+                                else
+                                {
+                                    addVendorFile(code, fileInfo[6], @"..\upload\" + newName, Convert.ToBoolean(fileInfo[1]) ? "ALL" : factory, fileInfo[3] == "全部" ? "ALL" : type, "Enable", s4, fileInfo[4], fileInfo[5], DateTime.Now, employeeID);
+
+                                }
+                                break;
+                            case ALL_MODE:
+                                //预防重复插入记录
+                                if (!destFile.Exists)
+                                {
+                                    fileSource.CopyTo(newPath, true);
+                                }
+                                //预防重复插入记录
+                                if (!recordExist(newName.Replace(".pdf", "")))
+                                {
+                                    s = fileInfo[6];
+                                    s1 = @"..\upload\" + newName;
+                                    s2 = Convert.ToBoolean(fileInfo[1]) ? "ALL" : factory;
+                                    s3 = fileInfo[3] == "全部" ? "ALL" : type;
+                                    s4 = newName.Replace(".pdf", "");
+                                    s5 = fileInfo[4];
+                                    s6 = fileInfo[5];
+                                    addVendorFile(code, fileInfo[6], @"..\upload\" + newName, Convert.ToBoolean(fileInfo[1]) ? "ALL" : factory, fileInfo[3] == "全部" ? "ALL" : type, "Enable", newName.Replace(".pdf", ""), fileInfo[4], fileInfo[5], DateTime.Now, employeeID);
+                                }
+                                break;
+                            default:
+                                break;
                         }
                     }
                     catch (Exception e)
@@ -1053,6 +1125,26 @@ namespace BLL.VendorAssess
                 }
             }
             return "";
+        }
+
+        private static int updateVendorFile(string Vender_Code, string Item_Category, string Item_Path, string Item_Plant, string Item_VendorType, string Item_State, string Item_Label, string start, string end, DateTime Upload_Date, string Upload_Person)
+        {
+            string sql = "update itemList set Vender_Code=@Vender_Code,Item_Category=@Item_Category,Item_Path=@Item_Path,Item_Plant=@Item_Plant,Item_VenderType=@Item_VenderType,Item_State=@Item_State,Item_Startdate=@Item_Startdate,Item_Enddate=@Item_Enddate,Upload_Date=@Upload_Date,Upload_Person=@Upload_Person Where Item_Label=@Item_Label";
+            SqlParameter[] sq = new SqlParameter[]
+            {
+                new SqlParameter("@Vender_Code",Vender_Code),
+                new SqlParameter("@Item_Category",Item_Category),
+                new SqlParameter("@Item_Path",Item_Path),
+                new SqlParameter("@Item_Plant",Item_Plant),
+                new SqlParameter("@Item_VenderType",Item_VendorType),
+                new SqlParameter("@Item_State",Item_State),
+                new SqlParameter("@Item_Label",Item_Label),
+                new SqlParameter("@Item_Startdate",start),
+                new SqlParameter("@Item_Enddate",end),
+                new SqlParameter("@Upload_Date",DateTime.Now),
+                new SqlParameter("@Upload_Person",Upload_Person)
+            };
+            return File_Transform_DAL.updateVendorFile(sql, sq);
         }
 
         private static bool recordExist(string fileID)
@@ -1116,7 +1208,7 @@ namespace BLL.VendorAssess
 
         public static int addVendorPlantInfo(string Vender_Code, string Plant_Name, string Vendor_Type, string Vendor_State)
         {
-            string sql = "insert into venderPlantInfo(Vender_Code,Plant_Name,Vender_Type,Vender_State) values(@Vender_Code ,@Plant_Name,@Vender_Type,@Vender_State)";
+            string sql = "delete From venderPlantInfo Where Vender_Code=@Vender_Code;  insert into venderPlantInfo(Vender_Code,Plant_Name,Vender_Type,Vender_State) values(@Vender_Code ,@Plant_Name,@Vender_Type,@Vender_State)";
             SqlParameter[] sq = new SqlParameter[]
             {
                 new SqlParameter("@Vender_Code",Vender_Code),

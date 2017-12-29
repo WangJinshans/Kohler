@@ -96,9 +96,9 @@ namespace SHZSZHSUPPLY.VendorAssess
 
             exceptionInfoDetail.InnerText = "";
 
-            //LocalScriptManager.CreateScript(Page, String.Format("setVendorName('{0}')", TempVendor_BLL.getTempVendorName(tempVendorID)), "setvendorname");
+            //LocalScriptManager.createManagerScript(Page, String.Format("setVendorName('{0}')", TempVendor_BLL.getTempVendorName(tempVendorID)), "setvendorname");
 
-            LocalScriptManager.CreateScript(Page, String.Format("setFormProgress('{0}')", 0), "setformprogress");
+            LocalScriptManager.createManagerScript(Page, String.Format("setFormProgress('{0}')", 0), "setformprogress");
 
             //检查是否可转移
             string factory = Session["Factory_Name"].ToString();
@@ -149,8 +149,9 @@ namespace SHZSZHSUPPLY.VendorAssess
             normalInfoDetail.InnerHtml = normal;
             exceptionInfoDetail.InnerHtml = exception;
 
-            Random rd = new Random();
-            LocalScriptManager.CreateScript(Page, String.Format("setFormProgress('{0}')", rd.Next(10, 101)), "setformprogress");
+            UpdatePanel.Update();
+            //Random rd = new Random();
+            //LocalScriptManager.createManagerScript(Page, String.Format("setFormProgress('{0}')", rd.Next(10, 101)), "setformprogress");
 
         }
 
@@ -168,9 +169,13 @@ namespace SHZSZHSUPPLY.VendorAssess
             string factory = Session["Factory_Name"].ToString();
             string tempVendorID = Request.Form["quiz3"];
 
+            string[] options = code.Split('&');
+            code = options[0];
+            File_Transform_BLL.mode = options[1];
+
             if (!File_Transform_BLL.checkFileSubmit(tempVendorID, factory))
             {
-                LocalScriptManager.CreateScript(Page, "message('请补充上传所有“必须”类型的文件')", "filemsg");
+                LocalScriptManager.createManagerScript(Page, "messageConfirmNone('请补充上传所有“必须”类型的文件')", "filemsg");
             }
             else
             {
@@ -203,15 +208,15 @@ namespace SHZSZHSUPPLY.VendorAssess
 
                 if (transferResult == "")
                 {
-                    LocalScriptManager.CreateScript(Page, "message('已将最新的文件更新到供应商管理系统')", "filemsg1");
+                    LocalScriptManager.createManagerScript(Page, "messageConfirmNone('已将最新的文件更新到供应商管理系统')", "filemsg1");
                 }
                 else if (transferResult.Equals(File_Transform_BLL.CODE_EXIST))
                 {
-                    LocalScriptManager.CreateScript(Page, "message('已将最新的文件更新到供应商管理系统，" + transferResult + "')", "filemsg1");
+                    LocalScriptManager.createManagerScript(Page, "messageConfirmNone('已将最新的文件更新到供应商管理系统，" + transferResult + "')", "filemsg1");
                 }
                 else
                 {
-                    LocalScriptManager.CreateScript(Page, "message('" + transferResult + "')", "filemsg1");
+                    LocalScriptManager.createManagerScript(Page, "messageConfirmNone('" + transferResult + "')", "filemsg1");
                 }
             }
         }
@@ -231,7 +236,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
             //转移新提交的文件 并复制到UpLoad文件夹中
             File_Transform_BLL.ModifyTransfer(tempVendorID, factory, Properties.Settings.Default.Transfer_Dest_Path, Session["Employee_ID"].ToString().Trim());
-            LocalScriptManager.CreateScript(Page, "message('已将最新的修改的文件更新到供应商管理系统)", "filemsg1");
+            LocalScriptManager.createManagerScript(Page, "messageConfirmNone('已将最新的修改的文件更新到供应商管理系统)", "filemsg1");
         }
 
     }

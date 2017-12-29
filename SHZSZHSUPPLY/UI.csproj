@@ -133,6 +133,7 @@
     <Content Include="VendorAssess\Html_Template\File_Upload_Page.html" />
     <Content Include="VendorAssess\Html_Template\Mail_Template.html" />
     <Content Include="VendorAssess\Html_Template\SignatureSelection.aspx" />
+    <Content Include="VendorAssess\Html_Template\TransferOption.html" />
     <Content Include="VendorAssess\Html_Template\VendorModifyInfo.html" />
     <Content Include="VendorAssess\Script\laydate\PageTemplate.aspx" />
     <Content Include="VendorAssess\index.aspx" />

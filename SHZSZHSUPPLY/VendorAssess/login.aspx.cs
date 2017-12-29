@@ -27,7 +27,12 @@ namespace AendorAssess
                 Session["Employee_ID"] = employee.Employee_ID;
                 Session["Employee_Name"] = employee.Employee_Name;
                 Session["Position_Name"] = employee.Positon_Name;
-                Session["Factory_Name"] = Employee_BLL.getEmployeeFactory(employee.Employee_ID);//获取厂名
+                Session["Factory_Name"] = employee.Factory_Name;//获取厂名
+
+                //模拟登陆管理系统
+                Session.Add("usernum", employee_id);
+                Session.Add("plantname", employee.Factory_Name);
+
                 //Response.Redirect("../WebForm1.aspx?name1=" + employee.Employee_Name + "&name2=" + employee.Employee_ID);
                 Response.Write("<script>parent.location.href='"+ "../WebForm1.aspx?name1=" + employee.Employee_Name + "&name2=" + employee.Employee_ID + "'</script>");
             }

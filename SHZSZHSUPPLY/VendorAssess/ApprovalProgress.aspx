@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js" charset="utf-8"></script>
-    <script src="Script/Own/fileUploader.js?v=5"></script>
+    <script src="Script/Own/fileUploader.js?v=6"></script>
     <script>
         layui.use(['form', 'layedit', 'laydate', 'element'], function () {
             var form = layui.form()
@@ -147,10 +147,10 @@
 
         function getParams() {
             this.vendorInfoJson = JSON.parse(localStorage.getItem('infoJson'));
-            document.getElementById('factory').selectedIndex = localStorage.getItem('progressFactory');
-            document.getElementById('type').selectedIndex = localStorage.getItem('progressType');
+            document.getElementById('factory').selectedIndex = localStorage.getItem('progressFactory') == null ? 0 : localStorage.getItem('progressFactory');
+            document.getElementById('type').selectedIndex = localStorage.getItem('progressType') == null ? 0 : localStorage.getItem('progressType');
             onVendorTypeSelectChanged();
-            document.getElementById('name').selectedIndex = localStorage.getItem('progressName');
+            document.getElementById('name').selectedIndex = localStorage.getItem('progressName') == null ? 0 : localStorage.getItem('progressName');
         }
 
         function setParams(infoJson) {
@@ -261,13 +261,47 @@
             });
             return false;
         }
+        function openTransferConditionDialog() {
+            layui.use(['layer'], function () {
+                var layer = layui.layer;
+                layer.open({
+                    title: '选项',
+                    content: './Html_Template/TransferOption.html?v=1',
+                    type: 2,
+                    area: ['650px', '450px'],
+                    shade: 0.3,
+                    shadeClose: false, //点击遮罩关闭
+                    btn: ['确定'],
+                    yes: function (index, layero) {
+                        var iframeWin = window[layero.find('iframe')[0]['name']];
+                        var code = iframeWin.document.getElementById('inputNormalCode').value;
+                        var select = iframeWin.document.getElementById('ckALL').checked?"all":"append";
+                        if (iframeWin.document.getElementById('inputNormalCode').value == '') {
+                            layer.msg('请输入编号');
+                            return;
+                        } else {
+                            __myDoPostBack('vendorTransfer', code+'&'+select);
+                        }
+                        layer.close(index);
+                    },
+                    cancel: function (index, layero) {
+                        layer.close(index);
+                    },
+                    success: function (layero, index) {
+                        console.log(layero, index);
+                    }
+                });
+            })
+        }
     </script>
 
 </head>
 <body>
     <form id="form1" class="layui-form" runat="server">
+
+
         <div class="layui-form-item" style="width: 1000px; margin: 0 auto">
-            <a href="./index.aspx" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px;visibility:hidden">返回</a>
+            <a href="./index.aspx" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px; visibility: hidden">返回</a>
             <label class="layui-form-label">供应商选择</label>
             <div class="layui-input-inline">
                 <select id="factory" name="quiz1" onchange="onFactorySelectChanged()">
@@ -299,70 +333,67 @@
         <fieldset class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
             <legend id="vendorName" runat="server">供应商名称</legend>
         </fieldset>
+        <asp:ScriptManager runat="server" ID="ScriptManager"></asp:ScriptManager>
+        <asp:UpdatePanel runat="server" ID="UpdatePanel" ChildrenAsTriggers="false" UpdateMode="Conditional">
+            <ContentTemplate>
+                <asp:GridView Style="width: 1000px; margin: 0 auto" ID="GridView3" class="layui-table" lay-even="" lay-skin="nob" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="0px" CellPadding="4" OnRowCommand="GridView3_RowCommand">
+                    <Columns>
+                        <asp:BoundField DataField="Temp_Vendor_Name" HeaderText="供应商名称"
+                            SortExpression="Temp_Vendor_Name" />
+                        <asp:BoundField DataField="Form_Type_Name" HeaderText="表格名称"
+                            SortExpression="Form_Type_Name" />
+                        <asp:BoundField DataField="Form_ID" HeaderText="表格编号" SortExpression="Form_ID" />
+                        <asp:BoundField DataField="DepotSummary" HeaderText="DepotSummary"
+                            SortExpression="DepotSummary" Visible="False" />
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:LinkButton ID="lbtShowDetails" runat="server" CommandName="showDetails"
+                                    CommandArgument='<%# Eval("Form_ID") %>'>详情</asp:LinkButton>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                    </Columns>
+                    <FooterStyle BackColor="#CCCC99" ForeColor="Black" />
+                    <HeaderStyle BackColor="#507CD1" Font-Bold="true" ForeColor="White" />
+                    <PagerStyle BackColor="White" ForeColor="Black" HorizontalAlign="Center" />
+                    <SelectedRowStyle BackColor="#CC3333" Font-Bold="True" ForeColor="White" />
+                </asp:GridView>
 
-        <asp:GridView Style="width: 1000px; margin: 0 auto" ID="GridView3" class="layui-table" lay-even="" lay-skin="nob" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="0px" CellPadding="4" OnRowCommand="GridView3_RowCommand">
-            <Columns>
-                <asp:BoundField DataField="Temp_Vendor_Name" HeaderText="供应商名称"
-                    SortExpression="Temp_Vendor_Name" />
-                <asp:BoundField DataField="Form_Type_Name" HeaderText="表格名称"
-                    SortExpression="Form_Type_Name" />
-                <asp:BoundField DataField="Form_ID" HeaderText="表格编号" SortExpression="Form_ID" />
-                <asp:BoundField DataField="DepotSummary" HeaderText="DepotSummary"
-                    SortExpression="DepotSummary" Visible="False" />
-                <asp:TemplateField>
-                    <ItemTemplate>
-                        <asp:LinkButton ID="lbtShowDetails" runat="server" CommandName="showDetails"
-                            CommandArgument='<%# Eval("Form_ID") %>'>详情</asp:LinkButton>
-                    </ItemTemplate>
-                </asp:TemplateField>
-            </Columns>
-            <FooterStyle BackColor="#CCCC99" ForeColor="Black" />
-            <HeaderStyle BackColor="#507CD1" Font-Bold="true" ForeColor="White" />
-            <PagerStyle BackColor="White" ForeColor="Black" HorizontalAlign="Center" />
-            <SelectedRowStyle BackColor="#CC3333" Font-Bold="True" ForeColor="White" />
-        </asp:GridView>
 
-
-        <fieldset class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
-            <legend id="formName" runat="server">表格名称</legend>
-        </fieldset>
-        <div id="detailInfo" class="layui-collapse" lay-filter="formDetailCollapse" style="width: 1000px; margin: 0 auto">
-            <div class="layui-colla-item">
-                <h2 class="layui-colla-title">常规进度信息</h2>
-                <div class="layui-colla-content layui-show">
-                    <p id="normalInfoDetail" runat="server">
-                   
-                    </p>
+                <fieldset class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
+                    <legend id="formName" runat="server">表格名称</legend>
+                </fieldset>
+                <div id="detailInfo" class="layui-collapse" lay-filter="formDetailCollapse" style="width: 1000px; margin: 0 auto">
+                    <div class="layui-colla-item">
+                        <h2 class="layui-colla-title">常规进度信息</h2>
+                        <div class="layui-colla-content layui-show">
+                            <p id="normalInfoDetail" runat="server">
+                            </p>
+                        </div>
+                    </div>
+                    <div class="layui-colla-item">
+                        <h2 class="layui-colla-title">当前文件或表格出现的问题</h2>
+                        <div class="layui-colla-content layui-show">
+                            <p id="exceptionInfoDetail" runat="server">
+                            </p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="layui-colla-item">
-                <h2 class="layui-colla-title">当前文件或表格出现的问题</h2>
-                <div class="layui-colla-content layui-show">
-                    <p id="exceptionInfoDetail" runat="server">
-                   
-                    </p>
+
+                <fieldset class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
+                    <legend>直观进度</legend>
+                </fieldset>
+                <div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="formProgress" style="width: 1000px; margin: 0 auto 20px auto">
+                    <div class="layui-progress-bar" lay-percent="70%"></div>
                 </div>
-            </div>
-        </div>
 
-        <fieldset class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
-            <legend>直观进度</legend>
-        </fieldset>
-        <div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="formProgress" style="width: 1000px; margin: 0 auto 20px auto">
-            <div class="layui-progress-bar" lay-percent="70%"></div>
-        </div>
+                <div style="width: 500px; margin: 50px auto 30px auto; text-align: center">
+                    <asp:Button ID="btnTransfer" runat="server" CssClass="layui-btn layui-btn-disabled" Enabled="false" Text="转移" ToolTip="请等待所有表格审批完毕" OnClientClick="return openTransferConditionDialog();" />
+                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                    <asp:Button ID="btnModifyTransfer" runat="server" CssClass="layui-btn layui-btn-disabled" Enabled="false" Text="信息修改转移" ToolTip="请等待所有表格审批完毕" OnClientClick="return modifyTransfor();" />
+                </div>
 
-        <div style="width: 500px; margin: 50px auto 30px auto; text-align: center">
-            <asp:Button ID="btnTransfer" runat="server" CssClass="layui-btn layui-btn-disabled" Enabled="false" Text="转移" ToolTip="请等待所有表格审批完毕" OnClientClick="return openNormalCodeDialog();" />
-        </div>
-
-
-         <div style="width: 500px; margin: 50px auto 30px auto; text-align: center">
-            <asp:Button ID="btnModifyTransfer" runat="server" CssClass="layui-btn layui-btn-disabled" Enabled="false" Text="信息修改转移" ToolTip="请等待所有表格审批完毕" OnClientClick="return modifyTransfor();" />
-        </div>
-        <%--<div style="width: 500px; margin: 50px auto 30px auto; text-align: center">
-            <asp:Button ID="Button1" runat="server" CssClass="layui-btn layui-btn-disabled" Text="生成pdf" OnClick="Button1_Click" />
-        </div>--%>
+            </ContentTemplate>
+        </asp:UpdatePanel>
     </form>
 </body>
 </html>

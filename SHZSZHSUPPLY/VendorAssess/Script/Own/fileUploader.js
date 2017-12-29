@@ -23,7 +23,7 @@ function uploadFile(requestType, tempVendorID, tempVendorName, fileTypeID, needD
             type: 2,
             title: '文件上传',
             maxmin: true,
-            content: './Html_Template/File_Upload_Page.html?v=3',
+            content: './Html_Template/File_Upload_Page.html?v=4',
             area: ['800px', '300px'],
             shadeClose: false,
             success: function (layero, index) {

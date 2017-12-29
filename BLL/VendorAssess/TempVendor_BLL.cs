@@ -368,13 +368,13 @@ namespace BLL
         public static string getTempVendorIDByVendorCode(string tempVendorID)
         {
             string vendorCode = "";
-            string sql = "select Normal_Code from As_Temp_Vendor where Temp_Vendor_ID='" + tempVendorID + "'";
+            string sql = "select Temp_Vendor_ID from As_Temp_Vendor where Normal_Vendor_ID='" + tempVendorID + "'";
             DataTable table = DBHelp.GetDataSet(sql);
             if (table.Rows.Count > 0)
             {
                 foreach (DataRow dr in table.Rows)
                 {
-                    vendorCode = dr["Normal_Code"].ToString().Trim();
+                    vendorCode = dr["Temp_Vendor_ID"].ToString().Trim();
                 }
             }
             return vendorCode;

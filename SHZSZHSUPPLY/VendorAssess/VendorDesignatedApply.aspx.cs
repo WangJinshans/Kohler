@@ -21,7 +21,6 @@ namespace VendorAssess
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            return;
             //在非show页面中不可操作
             Image2.Visible = false;
             Image3.Visible = false;

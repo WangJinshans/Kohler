@@ -429,5 +429,9 @@ namespace MODEL.VendorAssess
         }
 
         public string Vendor_Recommend { get; set; }
+        public string Rank1 { get; set; }
+        public string Rank2 { get; set; }
+        public string Rank3 { get; set; }
+        public string Rank_Remark { get; set; }
     }
 }

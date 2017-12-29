@@ -135,6 +135,10 @@ namespace AendorAssess
                 TextBox17.Text = biddingForm.Reason_One;
                 TextBox18.Text = biddingForm.Reason_Two;
                 TextBox49.Text = biddingForm.Vendor_Recommend;
+                TextBox50.Text = biddingForm.Rank1;
+                TextBox51.Text = biddingForm.Rank2;
+                TextBox52.Text = biddingForm.Rank3;
+                TextBox53.Text = biddingForm.Rank_Remark;
                 Image1.ImageUrl = biddingForm.Initiator;
                 Image5.ImageUrl = biddingForm.User_Department_Manager;
                 hideImage(biddingForm.Supplier_Chain_Leader, Image2);
@@ -315,6 +319,10 @@ namespace AendorAssess
             BiddingForm.Reason_One = TextBox17.Text.Trim();
             BiddingForm.Reason_Two = TextBox18.Text.Trim();
             BiddingForm.Vendor_Recommend = TextBox49.Text.Trim();
+            BiddingForm.Rank1 = TextBox50.Text.Trim();
+            BiddingForm.Rank2 = TextBox51.Text.Trim();
+            BiddingForm.Rank3 = TextBox52.Text.Trim();
+            BiddingForm.Rank_Remark = TextBox53.Text.Trim();
             //image
             BiddingForm.Initiator = Image1.ImageUrl;
             BiddingForm.User_Department_Manager = Image5.ImageUrl;

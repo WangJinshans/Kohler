@@ -119,7 +119,7 @@ namespace DAL.VendorAssess
 
         public static int updateVendorBiddingApprovalForm(As_Bidding_Approval vendorApproval)
         {
-            string sql = "update As_Bidding_Approval_Form SET Serial_No=@Serial_No,Date=@Date,Product=@Product,Purchase_Amount=@Purchase_Amount,MOQ1=@MOQ1,MOQ2=@MOQ2,MOQ3=@MOQ3,Lead_Time1=@Lead_Time1,Lead_Time2=@Lead_Time2,Lead_Time3=@Lead_Time3,Payment_Term1=@Payment_Term1,Payment_Term2=@Payment_Term2,Payment_Term3=@Payment_Term3,Remark1=@Remark1,Remark2=@Remark2,Remark3=@Remark3,Reason_One=@Reason_One,Reason_Two=@Reason_Two,Form_Type_ID=@Form_Type_ID,Temp_Vendor_ID=@Temp_Vendor_ID,Temp_Vendor_Name=@Temp_Vendor_Name,Initiator=@Initiator,User_Department_Manager=@User_Department_Manager, Flag=@Flag, Vendor_Recommend=@Vendor_Recommend where Form_ID=@Form_ID";
+            string sql = "update As_Bidding_Approval_Form SET Serial_No=@Serial_No,Date=@Date,Product=@Product,Purchase_Amount=@Purchase_Amount,MOQ1=@MOQ1,MOQ2=@MOQ2,MOQ3=@MOQ3,Lead_Time1=@Lead_Time1,Lead_Time2=@Lead_Time2,Lead_Time3=@Lead_Time3,Payment_Term1=@Payment_Term1,Payment_Term2=@Payment_Term2,Payment_Term3=@Payment_Term3,Remark1=@Remark1,Remark2=@Remark2,Remark3=@Remark3,Rank1=@Rank1,Rank2=@Rank2,Rank3=@Rank3,Rank_Remark=@Rank_Remark, Reason_One=@Reason_One,Reason_Two=@Reason_Two,Form_Type_ID=@Form_Type_ID,Temp_Vendor_ID=@Temp_Vendor_ID,Temp_Vendor_Name=@Temp_Vendor_Name,Initiator=@Initiator,User_Department_Manager=@User_Department_Manager, Flag=@Flag, Vendor_Recommend=@Vendor_Recommend where Form_ID=@Form_ID";
 
             string sql1 = "insert into As_Bidding_Approval_Form_Item(Item,Description,Price,Price1,Price2,Remark,Form_ID) values(@Item,@Description,@Price,@Price1,@Price2,@Remark,@Form_ID)";
 
@@ -149,6 +149,10 @@ namespace DAL.VendorAssess
                 new SqlParameter("@Remark1",vendorApproval.Remark1),
                 new SqlParameter("@Remark2",vendorApproval.Remark2),
                 new SqlParameter("@Remark3",vendorApproval.Remark3),
+                new SqlParameter("@Rank1",vendorApproval.Rank1),
+                new SqlParameter("@Rank2",vendorApproval.Rank2),
+                new SqlParameter("@Rank3",vendorApproval.Rank3),
+                new SqlParameter("@Rank_Remark",vendorApproval.Rank_Remark),
                 new SqlParameter("@Reason_One",vendorApproval.Reason_One),
                 new SqlParameter("@Reason_Two",vendorApproval.Reason_Two),
                 new SqlParameter("@Form_ID",vendorApproval.Form_ID),
@@ -216,6 +220,10 @@ namespace DAL.VendorAssess
                     Vendor_Approval.Remark1 = Convert.ToString(dr["Remark1"]);
                     Vendor_Approval.Remark2 = Convert.ToString(dr["Remark2"]);
                     Vendor_Approval.Remark3 = Convert.ToString(dr["Remark3"]);
+                    Vendor_Approval.Rank1 = Convert.ToString(dr["Rank1"]);
+                    Vendor_Approval.Rank2 = Convert.ToString(dr["Rank2"]);
+                    Vendor_Approval.Rank3 = Convert.ToString(dr["Rank3"]);
+                    Vendor_Approval.Rank_Remark = Convert.ToString(dr["Rank_Remark"]);
                     Vendor_Approval.Reason_One = Convert.ToString(dr["Reason_One"]);
                     Vendor_Approval.Reason_Two = Convert.ToString(dr["Reason_Two"]);
                     Vendor_Approval.Initiator = Convert.ToString(dr["Initiator"]);

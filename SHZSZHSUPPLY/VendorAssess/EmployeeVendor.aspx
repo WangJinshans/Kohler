@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
-    <script src="Script/Own/fileUploader.js?v=5"></script>
+    <script src="Script/Own/fileUploader.js?v=6"></script>
     <script>
         window.onload = function () {
             blockBack();
@@ -176,6 +176,7 @@
 <body>
     <style></style>
     <form id="form1" class="layui-form" runat="server">
+        <%--<div style="font-size: medium; width:1000px;height:20px; color: White; text-align: center; margin:0 auto; background-color: #3f6d6b">新建供应商审批文件管理</div>--%>
         <div class="layui-form-item" style="width: 1000px; margin: 0 auto">
             <a href="./index.aspx" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px; visibility: hidden">返回</a>
             <label class="layui-form-label">供应商选择</label>
@@ -241,7 +242,7 @@
                             </Columns>
                             <FooterStyle BackColor="#FFF" ForeColor="#330099" />
                             <%--<HeaderStyle BackColor="#006F83" Font-Bold="True" ForeColor="#FEFEFE" />--%>
-                            <HeaderStyle BackColor="#507CD1" Font-Bold="true" ForeColor="White" />
+                            <HeaderStyle BackColor="#4e79a5" Font-Bold="true" ForeColor="White"/>
                             <PagerStyle BackColor="#FFFFCC" ForeColor="#330099" HorizontalAlign="Center" />
                             <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="#663399" />
                             <SortedAscendingCellStyle BackColor="#FEFCEB" />
@@ -328,7 +329,7 @@
                     </Columns>
                     <FooterStyle BackColor="#FFF" ForeColor="#330099" />
                     <%--<HeaderStyle BackColor="#04A5C2" Font-Bold="True" ForeColor="#FEFEFE" />--%>
-                    <HeaderStyle BackColor="#507CD1" Font-Bold="true" ForeColor="White" />
+                    <HeaderStyle BackColor="#3e62a7" Font-Bold="true" ForeColor="White" />
                     <PagerStyle BackColor="#FFFFCC" ForeColor="#330099" HorizontalAlign="Center" />
                     <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="#663399" />
                     <SortedAscendingCellStyle BackColor="#FEFCEB" />
@@ -371,7 +372,7 @@
                                     SortExpression="DepotSummary" Visible="False" />
                                 <asp:TemplateField HeaderText="状态">
                                     <ItemTemplate>
-                                        <img src="<%# Eval("Flag").ToString() == "1" ? "./Script/layui/images/check.png" : "" %>" />
+                                        <img src="<%# Eval("Flag").ToString() == "1" ? "./Script/layui/images/check.png" : "./Script/layui/images/uncheck.png" %>" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="动作">
@@ -384,7 +385,7 @@
                             </Columns>
                             <FooterStyle BackColor="#CCCC99" ForeColor="Black" />
                             <%--<HeaderStyle BackColor="#333333" Font-Bold="True" ForeColor="White" />--%>
-                            <HeaderStyle BackColor="#507CD1" Font-Bold="true" ForeColor="White" />
+                            <HeaderStyle BackColor="#515a6d" Font-Bold="true" ForeColor="White" />
                             <PagerStyle BackColor="White" ForeColor="Black" HorizontalAlign="Center" />
                             <SelectedRowStyle BackColor="#CC3333" Font-Bold="True" ForeColor="White" />
                             <SortedAscendingCellStyle BackColor="#F7F7F7" />

@@ -115,7 +115,7 @@ namespace DAL.VendorAssess
 
         public static bool AccessSuccessFul(string tempVendorID, string factory)
         {
-            string sql = "select * from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "' and flag<>4";//4代表已经审批完成
+            string sql = "select * from View_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "' and flag<>4 And Form_Type_Is_Optional='必选'";//4代表已经审批完成
             using (SqlDataReader reader = DBHelp.GetReader(sql))
                 if (reader.Read())
                 {
@@ -434,6 +434,17 @@ namespace DAL.VendorAssess
                     return true;
                 }
             }
+        }
+
+        public static int updateVendorFile(string sql, SqlParameter[] sq)
+        {
+            return DBHelp.ExecuteCommand(sql, sq);
+        }
+
+        public static int deleteALL(string code)
+        {
+            string sql = "delete From itemList where Vender_Code=@Code";
+            return DBHelp.ExecuteCommand(sql, new SqlParameter[] { new SqlParameter("@Code", code) });
         }
     }
 }

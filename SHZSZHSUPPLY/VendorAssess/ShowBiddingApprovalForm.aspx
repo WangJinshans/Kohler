@@ -9,7 +9,7 @@
 
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
-    <script src="Script/Own/fileUploader.js?v=5"></script>
+    <script src="Script/Own/fileUploader.js?v=6"></script>
     <script src="Script/PDF/js/html2canvas.js"></script>
     <script src="Script/PDF/js/jspdf.debug.js"></script>
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
@@ -290,6 +290,13 @@
                         <asp:TextBox TextMode="MultiLine"  runat="server" ID="TextBox16" CssClass="t"></asp:TextBox>
                     </td>
                     <td></td>
+                </tr>
+                <tr>
+                    <td colspan="2">名次</td>
+                    <td><asp:TextBox TextMode="MultiLine" ReadOnly="true" runat="server" ID="TextBox50" CssClass="t"></asp:TextBox></td>
+                    <td><asp:TextBox TextMode="MultiLine" ReadOnly="true" runat="server" ID="TextBox51" CssClass="t"></asp:TextBox></td>
+                    <td><asp:TextBox TextMode="MultiLine" ReadOnly="true" runat="server" ID="TextBox52" CssClass="t"></asp:TextBox></td>
+                    <td><asp:TextBox TextMode="MultiLine" ReadOnly="true" runat="server" ID="TextBox53" CssClass="t"></asp:TextBox></td>
                 </tr>
                 <tr>
                     <td colspan="6">以上所有的价格均为人民币不含税价。
