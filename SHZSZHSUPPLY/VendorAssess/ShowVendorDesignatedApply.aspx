@@ -182,15 +182,15 @@
                 <tr>
                     <td colspan="1">Applicant: </td>
                     <td colspan="1">
-                        <asp:Image ImageUrl="imageurl" ID="Image8" runat="server" />
+                        <asp:Image AlternateText=" "  ID="Image8" runat="server" />
                     </td>
                     <td colspan="1">Request Dept Head: </td>
                     <td colspan="1" class="auto-style3">
-                        <asp:Image ImageUrl="imageurl" ID="Image1" runat="server" />
+                        <asp:Image AlternateText=" "  ID="Image1" runat="server" />
                     </td>
                     <td colspan="1">FIN Manager: </td>
                     <td colspan="1">
-                        <asp:Image ID="Image2" runat="server" ImageUrl="imageurl" />
+                        <asp:Image AlternateText=" " ID="Image2" runat="server"  />
                     </td>
                 </tr>
                 <tr>
@@ -210,11 +210,11 @@
                 <tr>
                     <td colspan="1">Purchasing Manager: </td>
                     <td colspan="2">
-                        <asp:Image ID="Image3" runat="server" ImageUrl="imageurl" />
+                        <asp:Image AlternateText=" " ID="Image3" runat="server"  />
                     </td>
                     <td colspan="1" class="auto-style3">GM: </td>
                     <td colspan="2">
-                        <asp:Image ID="Image4" runat="server" ImageUrl="imageurl" />
+                        <asp:Image AlternateText=" " ID="Image4" runat="server"  />
                     </td>
                 </tr>
                 <tr>
@@ -230,11 +230,11 @@
                 <tr>
                     <td colspan="1">Director: </td>
                     <td colspan="2">
-                        <asp:Image ID="Image5" runat="server" ImageUrl="imageurl" />
+                        <asp:Image AlternateText=" " ID="Image5" runat="server"  />
                     </td>
                     <td colspan="1" class="auto-style3">Supply Chain Director: </td>
                     <td colspan="2">
-                        <asp:Image ID="Image6" runat="server" ImageUrl="imageurl" />
+                        <asp:Image AlternateText=" " ID="Image6" runat="server"  />
                     </td>
                 </tr>
                 <tr>
@@ -252,7 +252,7 @@
                 <tr>
                     <td colspan="1">President:</td>
                     <td colspan="5" style="text-align: left">
-                        <asp:Image ID="Image7" runat="server" ImageUrl="imageurl" />
+                        <asp:Image AlternateText=" " ID="Image7" runat="server"  />
                     </td>
                 </tr>
                 <tr>

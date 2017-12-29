@@ -236,6 +236,7 @@
     <Content Include="VendorAssess\Script\layui\images\face\71.gif" />
     <Content Include="VendorAssess\Script\layui\images\face\8.gif" />
     <Content Include="VendorAssess\Script\layui\images\face\9.gif" />
+    <Content Include="VendorAssess\Script\layui\images\uncheck.png" />
     <Content Include="VendorAssess\Script\layui\layui.js" />
     <Content Include="VendorAssess\Script\layui\lay\dest\layui.all.js" />
     <Content Include="VendorAssess\Script\layui\lay\modules\code.js" />
