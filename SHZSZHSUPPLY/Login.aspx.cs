@@ -87,7 +87,7 @@ namespace SHZSZHSUPPLY
                     //初始化审批系统，并跳转
                     try
                     {
-                        initVendorAssess(TextBox1.Text.Trim());
+                        initVendorAssess(TextBox1.Text.Trim().ToLower());
                     }
                     catch (Exception error)
                     {

@@ -57,7 +57,7 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
                 vRoot = "/";
             }
             bool result = PDF_BLL.showPDF(url, sessionID, filePath, Properties.Settings.Default.PDF_Tool_Path,(sender,e)=> {
-                if (((Process)sender).ExitCode == 0)
+                if (((Process)sender).ExitCode == 0 || ((Process)sender).ExitCode == 1)
                 {
                     //context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, message = context.Request.UrlReferrer.OriginalString.ToString().Replace(context.Request.UrlReferrer.PathAndQuery, Properties.Settings.Default.Transfer_Temp_Path.Remove(0, 1) + sessionID + ".pdf")}));
                     context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, message = context.Request.Url.ToString().Replace(context.Request.Url.AbsolutePath, vRoot.Replace("\\","")+Properties.Settings.Default.Transfer_Temp_Path.Remove(0, 1) + sessionID + ".pdf") }));

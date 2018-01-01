@@ -103,6 +103,16 @@ namespace BLL
         }
 
         /// <summary>
+        /// 是否为旧供应商
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <returns></returns>
+        public static bool isOldVendor(string tempVendorID)
+        {
+            return TempVendor_DAL.isOldVendor(tempVendorID);
+        }
+
+        /// <summary>
         /// 由于一个供应商只有一个VendorCode 但是一个类型对应了一个Temp_Vendor_ID,vendor_Type_ID + VnedorCode 能找到对应的临时供应商 
         /// </summary>
         /// <param name="vendor_Code"></param>

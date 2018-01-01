@@ -191,7 +191,7 @@
                         total += parseFloat(vl);
                     }
                 }
-                document.getElementById("total" + (i + 1)).textContent = total;
+                document.getElementById("total" + (i + 1)).textContent = total.toFixed(2);
             }
         }
 	</script>

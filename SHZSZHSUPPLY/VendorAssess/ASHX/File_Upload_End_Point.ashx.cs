@@ -67,7 +67,7 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             string factoryName = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
             string fileInfo = File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(fileTypeID, factoryName);
             string fileID = tempVendorID + fileInfo;
-            string path = HttpContext.Current.Server.MapPath(LSetting.File_Path) + fileID + ".pdf";
+            string path = LSetting.File_Path + fileID + ".pdf";
 
             As_File file = new As_File();
             file.File_Path = path;
@@ -79,11 +79,11 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             file.File_Due_Time = endTime;
             file.File_Type_ID = fileTypeID;
             file.Factory_Name = factoryName;
-            postFile.SaveAs(path);
+            postFile.SaveAs(HttpContext.Current.Server.MapPath(path));
             string file_Type_Name = File_Type_BLL.getFileTypeNameByID(fileTypeID);
             Vendor_Modify_File_BLL.upDataUploadFlag(tempVendorName, factoryName, file_Type_Name);
 
-            FileInfo fi = new FileInfo(path);
+            FileInfo fi = new FileInfo(HttpContext.Current.Server.MapPath(path));
             if (fi.Exists)
             {
                 return file;
@@ -114,8 +114,8 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             string fileTypeID = Properties.Settings.Default.File_Type_ID_KCI;
             string factoryName = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
             string fileID = tempVendorID + File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(fileTypeID,factoryName);
-            string path = HttpContext.Current.Server.MapPath(LSetting.File_Path) + fileID + ".pdf";
-            postFile.SaveAs(path);
+            string path = LSetting.File_Path + fileID + ".pdf";
+            postFile.SaveAs(HttpContext.Current.Server.MapPath(path));
 
 
             /*由于KCI需要与form_ID进行绑定 并且 不能触发As_File中的各种触发器
@@ -192,7 +192,7 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             string factoryName = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
             string fileInfo = File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(fileTypeID,factoryName);
             string fileID = tempVendorID + fileInfo;
-            string path = HttpContext.Current.Server.MapPath(LSetting.File_Path) + fileID + ".pdf";
+            string path = LSetting.File_Path + fileID + ".pdf";
 
             As_File file = new As_File();
             file.File_Path = path;
@@ -205,8 +205,8 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             file.File_Type_ID = fileTypeID;
             file.Factory_Name = factoryName;
 
-            postFile.SaveAs(path);
-            FileInfo fi = new FileInfo(path);
+            postFile.SaveAs(HttpContext.Current.Server.MapPath(path));
+            FileInfo fi = new FileInfo(HttpContext.Current.Server.MapPath(path));
             if (fi.Exists)
             {
                 return file;

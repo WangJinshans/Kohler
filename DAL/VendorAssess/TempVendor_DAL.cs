@@ -249,6 +249,27 @@ namespace DAL
             return tempVendorName;
         }
 
+        /// <summary>
+        /// 是否为旧供应商
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <returns></returns>
+        public static bool isOldVendor(string tempVendorID)
+        {
+            string sql = "select * from As_Employee_Vendor where Temp_Vendor_ID=@Temp_Vendor_ID and Type='OLD'";
+            using (SqlDataReader reader = DBHelp.GetReader(sql,new SqlParameter[] { new SqlParameter("@Temp_Vendor_ID",tempVendorID)}))
+            {
+                if (reader.Read())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
         public static string getTempVendorID(string TempVendorName)
         {
             string tempVendorID = "";

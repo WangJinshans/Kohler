@@ -206,15 +206,15 @@
                 </select>
             </div>
         </div>
-        <div>
-            <div>
-                <fieldset class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
+        <div style="width:1000px;margin:0 auto">
+            <div style="width:500px;float:left">
+                <fieldset class="layui-elem-field layui-field-title" style=" margin: 50px auto 20px auto;">
                     <legend id="Legend2" runat="server">待填写表格</legend>
                 </fieldset>
                 <asp:ScriptManager ID="scriptManager" runat="server" EnablePartialRendering="true"></asp:ScriptManager>
                 <asp:UpdatePanel ID="updatePanelWaitingFill" UpdateMode="Conditional" runat="server" ChildrenAsTriggers="false">
                     <ContentTemplate>
-                        <asp:GridView Style="width: 1000px; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView2" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView2_RowCommand" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4">
+                        <asp:GridView Style=" margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView2" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView2_RowCommand" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4">
                             <Columns>
                                 <asp:BoundField DataField="Prority" HeaderText="填写顺序"
                                     SortExpression="Prority" Visible="TRUE" />
@@ -252,6 +252,50 @@
                         </asp:GridView>
                     </ContentTemplate>
                 </asp:UpdatePanel>
+            </div>
+            <div style="width:500px;float:right">
+                <fieldset id="Legend1" runat="server" class="layui-elem-field layui-field-title" style=" margin: 50px auto 20px auto;">
+                    <legend>已提交表格</legend>
+                </fieldset>
+                <asp:GridView Style=" margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView3" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView3_RowCommand" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4">
+                    <Columns>
+                        <asp:BoundField DataField="Temp_Vendor_Name" HeaderText="供应商名称"
+                            SortExpression="Temp_Vendor_Name" />
+                        <asp:BoundField DataField="Form_Type_Name" HeaderText="表格名称"
+                            SortExpression="Form_Type_Name" />
+                        <asp:BoundField DataField="Form_ID" HeaderText="表格编号" SortExpression="Form_ID" />
+
+                        <asp:TemplateField HeaderText="状态">
+                            <ItemTemplate>
+                                <asp:LinkButton ID="lbtFormStatus" runat="server" CommandName="showStatus"
+                                    CommandArgument='<%# Eval("Form_ID") %>' Text='<%# Eval("Assess_Status").ToString()=="0"?"正在审批":"审批完成" %>' ForeColor='<%# Eval("Assess_Status").ToString()=="0"?System.Drawing.Color.Orange:System.Drawing.Color.Green%>' />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+
+
+                        <asp:BoundField DataField="Form_Type_ID" HeaderText="表格类型编号"
+                            SortExpression="Form_Type_ID" Visible="False" />
+                        <asp:BoundField DataField="DepotSummary" HeaderText="DepotSummary"
+                            SortExpression="DepotSummary" Visible="False" />
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:LinkButton OnClientClick="waiting('正在加载')" ID="lbtShowDetails" runat="server" CommandName="showDetails"
+                                    CommandArgument='<%# Eval("Form_Type_ID") %>'>查看</asp:LinkButton>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+
+
+                    </Columns>
+                    <FooterStyle BackColor="#FFF" ForeColor="#330099" />
+                    <%--<HeaderStyle BackColor="#04A5C2" Font-Bold="True" ForeColor="#FEFEFE" />--%>
+                    <HeaderStyle BackColor="#3e62a7" Font-Bold="true" ForeColor="White" />
+                    <PagerStyle BackColor="#FFFFCC" ForeColor="#330099" HorizontalAlign="Center" />
+                    <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="#663399" />
+                    <SortedAscendingCellStyle BackColor="#FEFCEB" />
+                    <SortedAscendingHeaderStyle BackColor="#AF0101" />
+                    <SortedDescendingCellStyle BackColor="#F6F0C0" />
+                    <SortedDescendingHeaderStyle BackColor="#7E0000" />
+                </asp:GridView>
             </div>
             <div>
                 <fieldset runat="server" id="Legend3" class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
@@ -294,50 +338,7 @@
                     <SortedDescendingHeaderStyle BackColor="#7E0000" />
                 </asp:GridView>
             </div>
-            <div>
-                <fieldset id="Legend1" runat="server" class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
-                    <legend>已提交表格</legend>
-                </fieldset>
-                <asp:GridView Style="width: 1000px; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView3" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView3_RowCommand" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4">
-                    <Columns>
-                        <asp:BoundField DataField="Temp_Vendor_Name" HeaderText="供应商名称"
-                            SortExpression="Temp_Vendor_Name" />
-                        <asp:BoundField DataField="Form_Type_Name" HeaderText="表格名称"
-                            SortExpression="Form_Type_Name" />
-                        <asp:BoundField DataField="Form_ID" HeaderText="表格编号" SortExpression="Form_ID" />
-
-                        <asp:TemplateField HeaderText="状态">
-                            <ItemTemplate>
-                                <asp:LinkButton ID="lbtFormStatus" runat="server" CommandName="showStatus"
-                                    CommandArgument='<%# Eval("Form_ID") %>' Text='<%# Eval("Assess_Status").ToString()=="0"?"正在审批":"审批完成" %>' ForeColor='<%# Eval("Assess_Status").ToString()=="0"?System.Drawing.Color.Orange:System.Drawing.Color.Green%>' />
-                            </ItemTemplate>
-                        </asp:TemplateField>
-
-
-                        <asp:BoundField DataField="Form_Type_ID" HeaderText="表格类型编号"
-                            SortExpression="Form_Type_ID" Visible="False" />
-                        <asp:BoundField DataField="DepotSummary" HeaderText="DepotSummary"
-                            SortExpression="DepotSummary" Visible="False" />
-                        <asp:TemplateField>
-                            <ItemTemplate>
-                                <asp:LinkButton OnClientClick="waiting('正在加载')" ID="lbtShowDetails" runat="server" CommandName="showDetails"
-                                    CommandArgument='<%# Eval("Form_Type_ID") %>'>查看</asp:LinkButton>
-                            </ItemTemplate>
-                        </asp:TemplateField>
-
-
-                    </Columns>
-                    <FooterStyle BackColor="#FFF" ForeColor="#330099" />
-                    <%--<HeaderStyle BackColor="#04A5C2" Font-Bold="True" ForeColor="#FEFEFE" />--%>
-                    <HeaderStyle BackColor="#3e62a7" Font-Bold="true" ForeColor="White" />
-                    <PagerStyle BackColor="#FFFFCC" ForeColor="#330099" HorizontalAlign="Center" />
-                    <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="#663399" />
-                    <SortedAscendingCellStyle BackColor="#FEFCEB" />
-                    <SortedAscendingHeaderStyle BackColor="#AF0101" />
-                    <SortedDescendingCellStyle BackColor="#F6F0C0" />
-                    <SortedDescendingHeaderStyle BackColor="#7E0000" />
-                </asp:GridView>
-            </div>
+            
             <div>
                 <fieldset class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
                     <legend id="vendorName" runat="server">文件上传</legend>

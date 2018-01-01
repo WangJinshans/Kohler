@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace BLL.VendorAssess
@@ -26,7 +27,7 @@ namespace BLL.VendorAssess
         public const int FORM_TYPE = 21;
         public const int ALL_TYPE = 22;
 
-        public static string mode = "all";
+        public static string mode = "append";
         public const string ALL_MODE = "all";
         public const string APPEND_MODE = "append";
 
@@ -123,7 +124,37 @@ namespace BLL.VendorAssess
             }
             return CHECK_FAIL;
         }
-        
+
+
+        /// <summary>
+        /// 不做任何检查，自由选择需要转移的文件
+        /// </summary>
+        /// <param name="dc"></param>
+        /// <param name="tempVendorID"></param>
+        /// <param name="factory"></param>
+        /// <param name="normalCode"></param>
+        /// <param name="destPath"></param>
+        /// <param name="employeeID"></param>
+        /// <returns></returns>
+        public static string vendorUncheckTransform(Dictionary<string, string> dc, string tempVendorID, string factory, string normalCode, string destPath, string employeeID)
+        {
+            string rs0 = insertNormalCode(normalCode, tempVendorID);
+            if (rs0 == CODE_EXIST)
+            {
+                normalCode = TempVendor_BLL.getNormalCode(tempVendorID);
+            }
+            //if (mode.Equals(ALL_MODE))
+            //{
+            //    File_Transform_DAL.deleteALL(normalCode);
+            //}
+            string rs1 = copyFile(dc, tempVendorID, destPath, normalCode, factory, employeeID);
+            if (rs1 != "")
+            {
+                return rs1;
+            }
+            return rs0 + rs1;
+        }
+
         /// <summary>
         /// 过期表重新审批后的文件转移
         /// </summary>
@@ -375,7 +406,7 @@ namespace BLL.VendorAssess
             string positionName = Employee_BLL.getEmployeePositionName(employeeID);
             string Upload_Person = Employee_BLL.getEmployeeeKoNumber(positionName, factory);
 
-            //TO::DO有效期未设置
+            //TODO::有效期未设置
             File_Transform_BLL.addVendorFile(vendorCode, Item_Category, Item_Path, Item_Plant, Item_VendorType, Item_State, Item_Label, "", "", Upload_Date, Upload_Person);
 
 
@@ -1027,6 +1058,7 @@ namespace BLL.VendorAssess
 
         public static string copyFile(Dictionary<string, string> fileWithPath,string tempVendorID,string destPath,string code,string factory,string employeeID)
         {
+            Regex regex = new Regex("TempVendor.*?(?=[A-Z])", RegexOptions.Compiled);
             string type = TempVendor_BLL.getTempVendorType(tempVendorID);
             string s = "";
             string s1 ="";
@@ -1047,7 +1079,7 @@ namespace BLL.VendorAssess
                         //0path,1shared,2typeID,3range,4start,5end,6typeName
                         string[] fileInfo = fileWithPath[key].Split('&');
 
-                        string filePath = fileInfo[0];
+                        string filePath = HttpContext.Current.Server.MapPath(fileInfo[0]);
                         if (filePath == "")
                         {
                             return PATH_IS_NULL;
@@ -1056,7 +1088,8 @@ namespace BLL.VendorAssess
                         //Source
                         FileInfo fileSource = new FileInfo(filePath);//文件复制
 
-                        string newName = fileSource.Name.Replace(tempVendorID, code);
+                        
+                        string newName = regex.Replace(fileSource.Name, code);
                         string newPath = HttpContext.Current.Server.MapPath(destPath) + newName;
 
                         //Destination

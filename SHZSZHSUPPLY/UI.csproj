@@ -133,6 +133,7 @@
     <Content Include="VendorAssess\Html_Template\File_Upload_Page.html" />
     <Content Include="VendorAssess\Html_Template\Mail_Template.html" />
     <Content Include="VendorAssess\Html_Template\SignatureSelection.aspx" />
+    <Content Include="VendorAssess\Html_Template\TransferComparison.aspx" />
     <Content Include="VendorAssess\Html_Template\TransferOption.html" />
     <Content Include="VendorAssess\Html_Template\VendorModifyInfo.html" />
     <Content Include="VendorAssess\Script\laydate\PageTemplate.aspx" />
@@ -597,6 +598,20 @@
     </Compile>
     <Compile Include="VendorAssess\FormWaitToFill.aspx.designer.cs">
       <DependentUpon>FormWaitToFill.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorAssess\Html_Template\SignatureSelection.aspx.cs">
+      <DependentUpon>SignatureSelection.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\Html_Template\SignatureSelection.aspx.designer.cs">
+      <DependentUpon>SignatureSelection.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorAssess\Html_Template\TransferComparison.aspx.cs">
+      <DependentUpon>TransferComparison.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\Html_Template\TransferComparison.aspx.designer.cs">
+      <DependentUpon>TransferComparison.aspx</DependentUpon>
     </Compile>
     <Compile Include="VendorAssess\Script\laydate\PageTemplate.aspx.cs">
       <DependentUpon>PageTemplate.aspx</DependentUpon>

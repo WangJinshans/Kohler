@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MODEL.ItemList
 {
-    class ItemList
+    public class ItemList
     {
         public string Vender_Code { get; set; }
         public string Item_Name { get; set; }

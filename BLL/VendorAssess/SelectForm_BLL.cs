@@ -25,5 +25,15 @@ namespace BLL
         {
             return SelectForm_DAL.selectFile(sql);
         }
+
+        public static IEnumerable selecManageFile(string sql)
+        {
+            return SelectForm_DAL.selectManageFile(sql);
+        }
+
+        public static IEnumerable selectAssessFile(string sql)
+        {
+            return SelectForm_DAL.selectAssessFile(sql);
+        }
     }
 }

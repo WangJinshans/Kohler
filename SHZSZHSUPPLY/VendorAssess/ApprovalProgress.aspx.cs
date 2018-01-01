@@ -96,14 +96,20 @@ namespace SHZSZHSUPPLY.VendorAssess
 
             exceptionInfoDetail.InnerText = "";
 
-            //LocalScriptManager.createManagerScript(Page, String.Format("setVendorName('{0}')", TempVendor_BLL.getTempVendorName(tempVendorID)), "setvendorname");
+            LocalScriptManager.createManagerScript(Page, String.Format("setVendorName('{0}')", TempVendor_BLL.getTempVendorName(tempVendorID)), "setvendorname");
 
-            LocalScriptManager.createManagerScript(Page, String.Format("setFormProgress('{0}')", 0), "setformprogress");
+            //LocalScriptManager.createManagerScript(Page, String.Format("setFormProgress('{0}')", 0), "setformprogress");
 
             //检查是否可转移
             string factory = Session["Factory_Name"].ToString();
             string employee_ID = Session["Employee_ID"].ToString();
             if (File_Transform_BLL.checkFormSubmit(tempVendorID, factory) && AddEmployeeVendor_BLL.hasEmployeeID(tempVendorID, employee_ID) && File_Transform_BLL.FormAccessSuccessFul(tempVendorID, factory))
+            {
+                btnTransfer.Enabled = true;
+                btnTransfer.CssClass = "layui-btn";
+                btnTransfer.ToolTip = "可以开始转移";
+            }
+            else if (TempVendor_BLL.isOldVendor(tempVendorID))
             {
                 btnTransfer.Enabled = true;
                 btnTransfer.CssClass = "layui-btn";
@@ -239,5 +245,9 @@ namespace SHZSZHSUPPLY.VendorAssess
             LocalScriptManager.createManagerScript(Page, "messageConfirmNone('已将最新的修改的文件更新到供应商管理系统)", "filemsg1");
         }
 
+        protected void btnTransfer_Click1(object sender, EventArgs e)
+        {
+            Session["apTempVendorID"] = Request["quiz3"];
+        }
     }
 }

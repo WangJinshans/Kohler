@@ -156,6 +156,10 @@
                         SortExpression="Form_Type_ID" Visible="False" />
                     <asp:BoundField DataField="Form_Type_Name" HeaderText="表格名称"
                         SortExpression="Form_Type_Name" />
+                    <asp:BoundField DataField="Vendor_Type" HeaderText="供应商类型"
+                        SortExpression="Vendor_Type" />
+                    <asp:BoundField DataField="Submit_Employee" HeaderText="提交人"
+                        SortExpression="Submit_Employee" />
 
                     <asp:BoundField DataField="DepotSummary" HeaderText="DepotSummary"
                         SortExpression="DepotSummary" Visible="False" />

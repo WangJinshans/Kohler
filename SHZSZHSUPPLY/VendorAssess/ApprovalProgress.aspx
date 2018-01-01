@@ -262,26 +262,18 @@
             return false;
         }
         function openTransferConditionDialog() {
-            layui.use(['layer'], function () {
+            var index = layui.use(['layer'], function () {
                 var layer = layui.layer;
                 layer.open({
                     title: '选项',
-                    content: './Html_Template/TransferOption.html?v=1',
+                    content: './Html_Template/TransferComparison.aspx?v=1',
                     type: 2,
+                    maxmin: true,
                     area: ['650px', '450px'],
                     shade: 0.3,
                     shadeClose: false, //点击遮罩关闭
-                    btn: ['确定'],
+                    btn: ['关闭窗口'],
                     yes: function (index, layero) {
-                        var iframeWin = window[layero.find('iframe')[0]['name']];
-                        var code = iframeWin.document.getElementById('inputNormalCode').value;
-                        var select = iframeWin.document.getElementById('ckALL').checked?"all":"append";
-                        if (iframeWin.document.getElementById('inputNormalCode').value == '') {
-                            layer.msg('请输入编号');
-                            return;
-                        } else {
-                            __myDoPostBack('vendorTransfer', code+'&'+select);
-                        }
                         layer.close(index);
                     },
                     cancel: function (index, layero) {
@@ -289,9 +281,11 @@
                     },
                     success: function (layero, index) {
                         console.log(layero, index);
+                        layer.full(index);
                     }
                 });
-            })
+            });
+            return true;
         }
     </script>
 
@@ -383,13 +377,13 @@
                     <legend>直观进度</legend>
                 </fieldset>
                 <div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="formProgress" style="width: 1000px; margin: 0 auto 20px auto">
-                    <div class="layui-progress-bar" lay-percent="70%"></div>
+                    <div class="layui-progress-bar" lay-percent="0%"></div>
                 </div>
 
                 <div style="width: 500px; margin: 50px auto 30px auto; text-align: center">
-                    <asp:Button ID="btnTransfer" runat="server" CssClass="layui-btn layui-btn-disabled" Enabled="false" Text="转移" ToolTip="请等待所有表格审批完毕" OnClientClick="return openTransferConditionDialog();" />
-                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                    <asp:Button ID="btnModifyTransfer" runat="server" CssClass="layui-btn layui-btn-disabled" Enabled="false" Text="信息修改转移" ToolTip="请等待所有表格审批完毕" OnClientClick="return modifyTransfor();" />
+                    <asp:Button ID="btnTransfer" runat="server" CssClass="layui-btn layui-btn-disabled" Enabled="false" Text="转移" ToolTip="请等待所有表格审批完毕" OnClientClick="return openTransferConditionDialog();" OnClick="btnTransfer_Click1" />
+                    <%--&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp--%>
+                    <asp:Button ID="btnModifyTransfer" runat="server" style="visibility:hidden;display:none" CssClass="layui-btn layui-btn-disabled" Enabled="false" Text="信息修改转移" ToolTip="请等待所有表格审批完毕" OnClientClick="return modifyTransfor();" />
                 </div>
 
             </ContentTemplate>

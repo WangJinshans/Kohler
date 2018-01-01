@@ -182,5 +182,8 @@ namespace Model
                 factory_Name = value;
             }
         }
+
+        public string Vendor_Type { get; set; }
+        public string Submit_Employee { get; set; }
     }
 }

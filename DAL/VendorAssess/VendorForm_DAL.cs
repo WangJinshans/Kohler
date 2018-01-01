@@ -25,8 +25,14 @@ namespace DAL
             };
             return DBHelp.GetScalar(sql, sp);
         }
-        //通过表格类型编号查询表格类型对象
-        public static IList<As_Vendor_FormType> listVendorFormType(string sql)
+
+        /// <summary>
+        /// //通过表格类型编号查询表格类型对象
+        /// </summary>
+        /// <param name="sql">sql</param>
+        /// <param name="isEdit">是否是从绑定表中查询，true为填写，false为多部门填写</param>
+        /// <returns></returns>
+        public static IList<As_Vendor_FormType> listVendorFormType(string sql,bool isEdit)
         {
             IList<As_Vendor_FormType> list = new List<As_Vendor_FormType>();
             DataTable dt = DBHelp.GetDataSet(sql);
@@ -35,31 +41,29 @@ namespace DAL
                 foreach (DataRow dr in dt.Rows)
                 {
                     As_Vendor_FormType Vendor_FormType = new As_Vendor_FormType();
-                    //Vendor_FormType.Id = Convert.ToInt32(dr["id"]);
-                    Vendor_FormType.Temp_Vendor_ID = Convert.ToString(dr["Temp_Vendor_ID"]);
-                    Vendor_FormType.Form_Type_ID = Convert.ToString(dr["Form_Type_ID"]);
-                    Vendor_FormType.Temp_Vendor_Name = Convert.ToString(dr["Temp_Vendor_Name"]);
-                    Vendor_FormType.Form_Type_Name = Convert.ToString(dr["Form_Type_Name"]);
-                    try
+                    if (isEdit)    //填写
                     {
+                        Vendor_FormType.Temp_Vendor_ID = Convert.ToString(dr["Temp_Vendor_ID"]);
+                        Vendor_FormType.Form_Type_ID = Convert.ToString(dr["Form_Type_ID"]);
+                        Vendor_FormType.Temp_Vendor_Name = Convert.ToString(dr["Temp_Vendor_Name"]);
+                        Vendor_FormType.Form_Type_Name = Convert.ToString(dr["Form_Type_Name"]);
                         Vendor_FormType.Prority = Convert.ToInt32(dr["Form_Type_Priority_Number"]);
-                    }
-                    catch (Exception)
-                    {
-                        Vendor_FormType.Prority = 0;
-                    }
-                    try
-                    {
                         Vendor_FormType.Form_Type_Is_Optional = Convert.ToString(dr["Form_Type_Is_Optional"]);
                         if (Vendor_FormType.Form_Type_Is_Optional == "可选")
                         {
                             Vendor_FormType.Form_Type_Is_Optional = null;
                         }
                     }
-                    catch (Exception)
+                    else  //多部门填写
                     {
-                        Vendor_FormType.Form_Type_Is_Optional = null;
+                        Vendor_FormType.Temp_Vendor_ID = Convert.ToString(dr["Temp_Vendor_ID"]);
+                        Vendor_FormType.Form_Type_ID = Convert.ToString(dr["Form_Type_ID"]);
+                        Vendor_FormType.Temp_Vendor_Name = Convert.ToString(dr["Temp_Vendor_Name"]);
+                        Vendor_FormType.Form_Type_Name = Convert.ToString(dr["Form_Type_Name"]);
+                        Vendor_FormType.Vendor_Type = Convert.ToString(dr["Vendor_Type"]);
+                        Vendor_FormType.Submit_Employee = Convert.ToString(dr["Submit_Employee"]);
                     }
+
 
                     list.Add(Vendor_FormType);
                 }

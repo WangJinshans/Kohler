@@ -14,9 +14,16 @@ namespace BLL
         {
             return SelectEmployeeVendor_DAL.selectEmployeeVendor(sql);
         }
-        public static IList<As_Vendor_FormType> listVendorFormType(string sql)
+
+        /// <summary>
+        /// 通过表格类型编号查询表格类型对象
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="isEdit">是否是从绑定表中查询，true为填写，false为多部门填写</param>
+        /// <returns></returns>
+        public static IList<As_Vendor_FormType> listVendorFormType(string sql,bool isEdit = false)
         {
-            return VendorForm_DAL.listVendorFormType(sql);
+            return VendorForm_DAL.listVendorFormType(sql,isEdit);
         }
         public static IList<As_Vendor_FileType> listVendorFileType(string sql)
         {

@@ -106,7 +106,7 @@ namespace AendorAssess
             string sql = "SELECT * FROM View_Vendor_FormType WHERE Temp_Vendor_ID='" + tempVendorID + "'and flag ='0' and Factory_Name='" + factoryName + "' order by Form_Type_Priority_Number asc";
             PagedDataSource objpds = new PagedDataSource();
             IList<As_Vendor_FormType> gridView2list = new List<As_Vendor_FormType>();
-            gridView2list = SelectEmployeeVendor_BLL.listVendorFormType(sql);
+            gridView2list = SelectEmployeeVendor_BLL.listVendorFormType(sql,true);
             objpds.DataSource = gridView2list;
 
             //获取数据源

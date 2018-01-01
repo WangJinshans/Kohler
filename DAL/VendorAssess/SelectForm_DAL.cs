@@ -38,6 +38,54 @@ namespace DAL
             return list;
         }
 
+        public static IEnumerable selectAssessFile(string sql)
+        {
+            IList<As_File> list = new List<As_File>();
+            DataTable dt = DBHelp.GetDataSet(sql);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow item in dt.Rows)
+                {
+                    As_File file = new As_File();
+                    file.File_Path = item["File_Path"].ToString();
+                    file.Is_Shared = Convert.ToBoolean(item["Is_Shared"]);
+                    file.File_Type_ID = item["File_Type_ID"].ToString();
+                    file.File_Type_Range = item["File_Type_Range"].ToString();
+                    file.File_Enable_Time = item["File_Enable_Time"].ToString();
+                    file.File_Due_Time = item["File_Due_Time"].ToString();
+                    file.File_Type_Name = item["File_Type_Name"].ToString();
+                    file.Temp_Vendor_ID = item["Temp_Vendor_ID"].ToString();
+                    file.File_ID = item["File_ID"].ToString();
+                    list.Add(file);
+                }
+            }
+            return list;
+        }
+
+        public static IEnumerable selectManageFile(string sql)
+        {
+            IList<As_File> list = new List<As_File>();
+            DataTable dt = DBHelp.GetDataSet(sql);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow item in dt.Rows)
+                {
+                    As_File file = new As_File();
+                    file.File_Path = item["Item_Path"].ToString();
+                    //file.Is_Shared = Convert.ToBoolean(item["Is_Shared"]);
+                    //file.File_Type_ID = item["File_Type_ID"].ToString();
+                    file.File_Type_Range = item["Item_VenderType"].ToString();
+                    file.File_Enable_Time = item["Item_Startdate"].ToString();
+                    file.File_Due_Time = item["Item_Enddate"].ToString();
+                    file.File_Type_Name = item["Item_Category"].ToString();
+                    //file.Temp_Vendor_ID = item["Temp_Vendor_ID"].ToString();
+                    //file.File_ID = item["File_ID"].ToString();
+                    list.Add(file);
+                }
+            }
+            return list;
+        }
+
         public static IList<As_File> selectFile(string sql)
         {
             IList<As_File> list = new List<As_File>();

@@ -33,6 +33,10 @@ namespace BLL.VendorAssess
         public static string readFormExceptionInfo(string formID)
         {
             string result = "";
+            if (formID.Equals("") || formID == null)
+            {
+                return result;
+            }
             DataTable dt = Write_DAL.getHistory(new string[] { As_Write.APPROVE_FAIL,As_Write.MAIL_ERROR }, formID, true);
             if (dt.Rows.Count > 0)
             {
@@ -53,6 +57,10 @@ namespace BLL.VendorAssess
         public static string readFormNormalInfo(string formID)
         {
             string result = "";
+            if (formID.Equals("") || formID==null)
+            {
+                return result;
+            }
             DataTable dt = Write_DAL.getHistory(new string[] { As_Write.APPROVE_SUCCESS,As_Write.FORM_EDIT,As_Write.FORM_MULTI_EDIT }, formID, true);
             if (dt.Rows.Count>0)
             {

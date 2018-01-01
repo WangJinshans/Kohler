@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -36,7 +37,7 @@ namespace BLL.VendorAssess
                 process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 process.EnableRaisingEvents = true;
                 process.Start();
-                if (!process.WaitForExit(10000)) //10s内必须退出
+                if (!process.WaitForExit(20000)) //20s内必须退出
                 {
                     process.Kill();
                     throw new Exception("TimeOut");
@@ -45,17 +46,22 @@ namespace BLL.VendorAssess
                 {
                     As_Form form = new As_Form();
                     form.Form_ID = formID;
-                    form.Form_Path = file;
+                    form.Form_Path = File_Path + File_BLL.generateFileID(tempVendorID, fileTypeName, factory) + ".pdf";
                     int result = AddForm_BLL.upDateFormPath(formID, file);
                     if (result <= 0)
                     {
+                        FileInfo fi = new FileInfo(file);
+                        if (fi.Exists)
+                        {
+                            fi.Delete();
+                        }
                         throw new Exception("数据库更新失败");
                     }
                 }
             }
             catch (Exception)
             {
-
+                
                 throw;
             }
         }
