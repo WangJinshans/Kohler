@@ -40,6 +40,15 @@ namespace WebLearning.KeLe {
         protected global::System.Web.UI.WebControls.Button type1;
         
         /// <summary>
+        /// type2 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button type2;
+        
+        /// <summary>
         /// type3 控件。
         /// </summary>
         /// <remarks>
@@ -67,15 +76,6 @@ namespace WebLearning.KeLe {
         protected global::System.Web.UI.WebControls.Button type5;
         
         /// <summary>
-        /// type2 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button type2;
-        
-        /// <summary>
         /// type6 控件。
         /// </summary>
         /// <remarks>
@@ -83,15 +83,6 @@ namespace WebLearning.KeLe {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button type6;
-        
-        /// <summary>
-        /// DropDownList2 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList2;
         
         /// <summary>
         /// faren 控件。

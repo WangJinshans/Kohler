@@ -25,6 +25,14 @@
         .info {
             width:300px;
         }
+        .another-info {
+            width:250px;
+        }
+        .my-btn {
+            text-align:right;
+            margin-right:5px;
+            margin-left:0px;
+        }
     </style>
 
 
@@ -289,32 +297,32 @@
     <form id="form1" class="layui-form" runat="server">
         <div class="layui-inline" style="margin: 0 auto; margin-top: 50px;">
 
-            <div class="layui-form-item">
-                <div class="layui-input-inline">
-                    <input type="text" id="Temp_Vendor_Name" runat="server" placeholder="请输入供应商名称" autocomplete="off" class="layui-input info" />
+            <div class="layui-form-item" style="padding:0px;"> 
+                <div class="layui-input-inline" style="margin-left:5px;width:350px;">
+                    <input type="text" id="Temp_Vendor_Name" runat="server" placeholder="请输入供应商名称" autocomplete="off" class="layui-input"  style="text-align: left;width:350px;"/>
                 </div>
-                <div class="layui-input-inline">
-                    <button id="getVendorInfo" class="layui-btn" onclick="postBack()"><i class="layui-icon">&#xe615;</i></button>
+                <div class="layui-input-inline" style="margin-left:0px;width:55px;">
+                    <button id="getvendorinfo" class="layui-btn" style="margin-left:0px;" onclick="postBack()"><i class="layui-icon">&#xe615;</i></button>
                 </div>
             </div>
             <div class="layui-form-item">
                 <div id="vendorTypeSelection" class="layui-input-inline" style="margin-top: 20px; width: 350px; display: none;">
                     <asp:Button ID="type1" CssClass="layui-btn" Text="直接物料常规" Visible="false" runat="server" OnClientClick="waiting('正在加载页面')" OnClick="types1_Click" />
-                    <asp:Button ID="type3" CssClass="layui-btn" Text="直接物料危化品" Visible="false" runat="server" OnClientClick="waiting('正在加载页面')" OnClick="types1_Click" />
-                    <asp:Button ID="type4" CssClass="layui-btn" Text="非生产性特种劳防品" Visible="false" runat="server" OnClientClick="waiting('正在加载页面')" OnClick="types1_Click" />
-                    <asp:Button ID="type5" CssClass="layui-btn" Text="非生产性危化品" Visible="false" runat="server" OnClientClick="waiting('正在加载页面')" OnClick="types1_Click" />
-                    <asp:Button ID="type2" CssClass="layui-btn" Text="非生产性常规" Visible="false" runat="server" OnClientClick="waiting('正在加载页面')" OnClick="types1_Click" />
+                    <asp:Button ID="type2" CssClass="layui-btn" Text="直接物料危化品" Visible="false" runat="server" OnClientClick="waiting('正在加载页面')" OnClick="types1_Click" />
+                    <asp:Button ID="type3" CssClass="layui-btn" Text="非生产性特种劳防品" Visible="false" runat="server" OnClientClick="waiting('正在加载页面')" OnClick="types1_Click" />
+                    <asp:Button ID="type4" CssClass="layui-btn" Text="非生产性危化品" Visible="false" runat="server" OnClientClick="waiting('正在加载页面')" OnClick="types1_Click" />
+                    <asp:Button ID="type5" CssClass="layui-btn" Text="非生产性常规" Visible="false" runat="server" OnClientClick="waiting('正在加载页面')" OnClick="types1_Click" />
                     <asp:Button ID="type6" CssClass="layui-btn" Text="非生产性质量部有标准的物料" Visible="false" runat="server" OnClientClick="waiting('正在加载页面')" OnClick="types1_Click" />
                 </div>
             </div>
-            <div class="layui-form-item">
+<%--            <div class="layui-form-item">
                 <label class="layui-form-label">原供应商类型</label>
                 <div class="layui-input-block info">
                     <asp:DropDownList ID="DropDownList2" CssClass="info" runat="server">
                         <asp:ListItem></asp:ListItem>
                     </asp:DropDownList>
                 </div>
-            </div>
+            </div>--%>
 
             <div class="layui-form-item">
                 <label id="labelPartOne" class="layui-form-label" style="width: 230px; text-align: left">法人未更改</label>
@@ -323,17 +331,17 @@
                 </div>
             </div>
             <div id="switchLegalPerson" style="display: none;" class="layui-form-item">
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: auto;">营业范围是否更改</label>
-                    <input id="workRangeSwitch" runat="server" type="checkbox" name="range" lay-skin="primary" lay-filter="workRange" title="更改">
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 230px;text-align: left">营业范围是否更改</label>
+                    <input id="workRangeSwitch" runat="server" type="checkbox" name="range" style="margin-right: 5px;" lay-skin="primary" lay-filter="workRange" title="更改">
                 </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: auto;">股份是否更改</label>
-                    <input id="stockSwitch" runat="server" type="checkbox" name="stocks" lay-skin="primary" lay-filter="stock" title="更改">
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 230px;text-align: left">股份是否更改</label>
+                    <input id="stockSwitch" runat="server" type="checkbox" style="margin-right: 5px;" name="stocks" lay-skin="primary" lay-filter="stock" title="更改">
                 </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: auto;">经营场所是否更改</label>
-                    <input id="workPlaceSwitch" runat="server" type="checkbox" name="place" lay-skin="primary" lay-filter="workPlace" title="更改">
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 230px;text-align: left">经营场所是否更改</label>
+                    <input id="workPlaceSwitch" runat="server" style="margin-right: 5px;" type="checkbox" name="place" lay-skin="primary" lay-filter="workPlace" title="更改">
                 </div>
             </div>
 
@@ -372,8 +380,8 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label" id="newTypeLb" style="display: none">新供应商类型</label>
-                <div class="layui-input-block info" id="dropDiv" style="display: none;">
-                    <asp:DropDownList ID="DropDownList1" CssClass="info" runat="server">
+                <div class="layui-input-block info" id="dropDiv" style="display: none;width:250px;">
+                    <asp:DropDownList ID="DropDownList1" runat="server">
                         <asp:ListItem>直接物料常规</asp:ListItem>
                         <asp:ListItem>直接物料危化品</asp:ListItem>
                         <asp:ListItem>非生产性特种劳防品</asp:ListItem>
@@ -386,7 +394,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">采购金额(万)</label>
                 <div class="layui-input-block info">
-                    <asp:TextBox ID="Purchase_Money" placeholder="金额" runat="server" class="layui-input info"></asp:TextBox>
+                    <asp:TextBox ID="Purchase_Money" placeholder="金额" runat="server" class="layui-input another-info"></asp:TextBox>
                 </div>
             </div>
             <div class="layui-form-item">

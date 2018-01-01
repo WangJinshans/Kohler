@@ -54,9 +54,9 @@ namespace WebLearning.DAL
         /// </summary>
         /// <param name="vendorCode"></param>
         /// <returns></returns>
-        public static string getTempVendorTypeNumber(string vendorCode)
+        public static string getTempVendorTypeNumber(string vendorName)
         {
-            string sql = "select COUNT(*)as TypeNumber from As_Temp_Vendor where Temp_Vendor_Name='" + vendorCode + "'";
+            string sql = "select COUNT(*)as TypeNumber from As_Temp_Vendor where Temp_Vendor_Name='" + vendorName + "'";
             string number = "";
             DataTable table = DBHelp.GetDataSet(sql);
             if (table.Rows.Count > 0)
@@ -74,9 +74,9 @@ namespace WebLearning.DAL
         /// </summary>
         /// <param name="vendorCode"></param>
         /// <returns></returns>
-        public static List<string> getTypeList(string vendorCode)
+        public static List<string> getTypeList(string vendorName)
         {
-            string sql = "select distinct Vendor_Type_ID from As_Temp_Vendor where Temp_Vendor_Name='" + vendorCode + "'";
+            string sql = "select distinct Vendor_Type_ID from As_Temp_Vendor where Temp_Vendor_Name='" + vendorName + "'";
             List<string> typeIDList = new List<string>();
             List<string> typeList = new List<string>();
             string type = "";
@@ -94,7 +94,7 @@ namespace WebLearning.DAL
             {
                 foreach (string vendorTypeID in typeIDList)
                 {
-                    type = getType(vendorTypeID, vendorCode);
+                    type = getType(vendorTypeID, vendorName);
                     typeList.Add(type);
                 }
             }
@@ -137,9 +137,9 @@ namespace WebLearning.DAL
         /// <param name="vendorTypeID"></param>
         /// <param name="vendorCode"></param>
         /// <returns></returns>
-        private static string getType(string vendorTypeID, string vendorCode)
+        private static string getType(string vendorTypeID, string vendorName)
         {
-            string sql = "select As_Vendor_Type.Vendor_Type from As_Temp_Vendor,As_Vendor_Type where As_Temp_Vendor.Vendor_Type_ID=As_Vendor_Type.Vendor_Type_ID and As_Temp_Vendor.Temp_Vendor_Name='" + vendorCode + "' and As_Temp_Vendor.Vendor_Type_ID='" + vendorTypeID + "'";
+            string sql = "select As_Vendor_Type.Vendor_Type from As_Temp_Vendor,As_Vendor_Type where As_Temp_Vendor.Vendor_Type_ID=As_Vendor_Type.Vendor_Type_ID and As_Temp_Vendor.Temp_Vendor_Name='" + vendorName + "' and As_Temp_Vendor.Vendor_Type_ID='" + vendorTypeID + "'";
             DataTable table = DBHelp.GetDataSet(sql);
             string type = "";
             if (table.Rows.Count > 0)
@@ -226,13 +226,34 @@ namespace WebLearning.DAL
             return fileList;
         }
 
-        public static int initVendorFile(Dictionary<string, string> list)
+        public static int initVendorFile(Dictionary<string, string> dc)
         {
-            if (list.Count != 9)
+            if (dc.Count != 9)
             {
                 return -1;
             }
-            return DBHelp.ExecuteStoredProcedure("vendor_Modify_Procedure", list);
+            SqlCommand cmd = new SqlCommand("vendor_Modify_Procedure", DBHelp.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;//存储过程
+            cmd.Parameters.Add(new SqlParameter("@temp_vendor_ID", SqlDbType.NVarChar, 50));
+            cmd.Parameters.Add(new SqlParameter("@factory_Name", SqlDbType.NVarChar, 50));
+            cmd.Parameters.Add(new SqlParameter("@leagalPerson", SqlDbType.NVarChar, 10));
+            cmd.Parameters.Add(new SqlParameter("@range", SqlDbType.NVarChar, 10));
+            cmd.Parameters.Add(new SqlParameter("@stocks", SqlDbType.NVarChar, 10));
+            cmd.Parameters.Add(new SqlParameter("@place", SqlDbType.NVarChar, 10));
+            cmd.Parameters.Add(new SqlParameter("@namePartTwoSwitch", SqlDbType.NVarChar, 10));
+            cmd.Parameters.Add(new SqlParameter("@namePartThreeSwitch", SqlDbType.NVarChar, 10));
+            cmd.Parameters.Add(new SqlParameter("@namePartFourSwitch", SqlDbType.NVarChar, 10));
+            cmd.Parameters["@temp_vendor_ID"].Value = dc["temp_vendor_ID"].ToString().Trim();
+            cmd.Parameters["@factory_Name"].Value = dc["factory_Name"].ToString().Trim();
+            cmd.Parameters["@leagalPerson"].Value = dc["leagalPerson"].ToString().Trim();
+            cmd.Parameters["@range"].Value = dc["range"].ToString().Trim();
+            cmd.Parameters["@stocks"].Value = dc["stocks"].ToString().Trim();
+            cmd.Parameters["@place"].Value = dc["place"].ToString().Trim();
+            cmd.Parameters["@namePartTwoSwitch"].Value = dc["namePartTwoSwitch"].ToString().Trim();
+            cmd.Parameters["@namePartThreeSwitch"].Value = dc["namePartThreeSwitch"].ToString().Trim();
+            cmd.Parameters["@namePartFourSwitch"].Value = dc["namePartFourSwitch"].ToString().Trim();
+            int number = cmd.ExecuteNonQuery();
+            return number;
         }
 
         /// <summary>

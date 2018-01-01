@@ -61,9 +61,18 @@ namespace BLL.VendorAssess
                         }
                     }
                 }
+                //更新oldTempVendorID的所有信息
+                upDateAll(newTemp_Vendor_ID, oldTempVendorID, factory_Name);
+                //删除原来的记录
+                FillVendorInfo_BLL.deleteVendorType(oldTempVendorID, factory_Name);
             }
             return newTemp_Vendor_ID;
           
+        }
+
+        private static void upDateAll(string newTempVendorID, string oldTempVendorID,string factory)
+        {
+            VendorCheckResult_DAL.upDateAll(newTempVendorID,oldTempVendorID, factory);
         }
     }
 }

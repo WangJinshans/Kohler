@@ -285,7 +285,7 @@
                     <asp:GridView ID="GridView1" Style="width: 400px; margin: 0 auto; float: left;" class="layui-table" lay-even="" lay-skin="nob" runat="server" AutoGenerateColumns="false" BorderWidth="1px" CellPadding="4" OnRowCommand="GridView1_RowCommand">
                         <Columns>
                             <asp:BoundField DataField="File_Type_Name" HeaderText="文件名称"
-                                SortExpression="Form_ID" />
+                                SortExpression="File_Type_Name" />
                             <asp:TemplateField>
                                 <ItemTemplate>
                                     <asp:LinkButton ID="viewFile" runat="server" CommandName="view"

@@ -598,13 +598,6 @@
     <Compile Include="VendorAssess\FormWaitToFill.aspx.designer.cs">
       <DependentUpon>FormWaitToFill.aspx</DependentUpon>
     </Compile>
-    <Compile Include="VendorAssess\Html_Template\SignatureSelection.aspx.cs">
-      <DependentUpon>SignatureSelection.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="VendorAssess\Html_Template\SignatureSelection.aspx.designer.cs">
-      <DependentUpon>SignatureSelection.aspx</DependentUpon>
-    </Compile>
     <Compile Include="VendorAssess\Script\laydate\PageTemplate.aspx.cs">
       <DependentUpon>PageTemplate.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

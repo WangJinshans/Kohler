@@ -94,6 +94,7 @@
     <Compile Include="VendorAssess\As_Write.cs" />
     <Compile Include="VendorAssess\As_Bidding_Approval_Item.cs" />
     <Compile Include="VendorAssess\PageSelect.cs" />
+    <Compile Include="VendorAssess\VendorModifyDetail.cs" />
     <Compile Include="VendorAssess\Vendor_Modify_File.cs" />
   </ItemGroup>
   <ItemGroup />

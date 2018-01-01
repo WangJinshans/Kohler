@@ -53,7 +53,30 @@ namespace DAL.VendorAssess
         /// <returns></returns>
         public static int modify_CheckResult(string procedureName, string tempVendorID, string factory_Name, string newType,string oldType, bool promise, bool assign, bool charge, float money)
         {
-            return DBHelp.ExecuteModifyCheckResultStoredProcedure(procedureName, tempVendorID, factory_Name, newType, oldType, promise, assign, charge, money);
+            if (tempVendorID == "")
+            {
+                return -1;
+            }
+            SqlCommand cmd = new SqlCommand(procedureName, DBHelp.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;//存储过程
+            cmd.Parameters.Add(new SqlParameter("@temp_vendor_id", SqlDbType.NVarChar, 50));
+            cmd.Parameters.Add(new SqlParameter("@type", SqlDbType.NVarChar, 50));
+            cmd.Parameters.Add(new SqlParameter("@oldType", SqlDbType.NVarChar, 50));
+            cmd.Parameters.Add(new SqlParameter("@promise", SqlDbType.NVarChar, 10));
+            cmd.Parameters.Add(new SqlParameter("@assign", SqlDbType.NVarChar, 10));
+            cmd.Parameters.Add(new SqlParameter("@charge", SqlDbType.NVarChar, 10));
+            cmd.Parameters.Add(new SqlParameter("@money", SqlDbType.NVarChar, 10));
+            cmd.Parameters.Add(new SqlParameter("@factory", SqlDbType.NVarChar, 10));
+            cmd.Parameters["@temp_vendor_id"].Value = tempVendorID;
+            cmd.Parameters["@type"].Value = newType;
+            cmd.Parameters["@oldType"].Value = oldType;
+            cmd.Parameters["@promise"].Value = promise;
+            cmd.Parameters["@assign"].Value = assign;
+            cmd.Parameters["@charge"].Value = charge;
+            cmd.Parameters["@money"].Value = money;
+            cmd.Parameters["@factory"].Value = factory_Name;
+            int number = cmd.ExecuteNonQuery();
+            return number;
         }
 
         public static List<string> getShareFileTypeIDs(string newTemp_Vendor_ID, string factory_Name)
@@ -76,6 +99,112 @@ namespace DAL.VendorAssess
             return fileTypeIDList;
 
                
+        }
+
+        public static void upDateAll(string newTempVendorID,string oldTempVendorID,string factory)
+        {
+            string sql = "update As_Approve set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + "' and Factory_Name='" + factory + "'";
+            DBHelp.ExecuteCommand(sql);
+
+            sql = "update As_Approve_History set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + "' and Factory_Name='" + factory + "'";
+            DBHelp.ExecuteCommand(sql);
+
+            sql = "update As_Contract_Approval set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + "' and Factory_Name='" + factory + "'";
+            DBHelp.ExecuteCommand(sql);
+
+            sql = "update As_Employee_Form set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + "'";
+            DBHelp.ExecuteCommand(sql);
+
+            sql = "update As_File set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + "' and Factory_Name='" + factory + "'";
+            DBHelp.ExecuteCommand(sql);
+
+            sql = "update As_Form set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + "' and Factory_Name='" + factory + "'";
+            DBHelp.ExecuteCommand(sql);
+
+            sql = "update As_Bidding_Approval_Form set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + "' and Factory_Name='" + factory + "'";
+            DBHelp.ExecuteCommand(sql);
+
+            sql = "update As_Form_AssessFlow set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + "' and Factory_Name='" + factory + "'";
+            DBHelp.ExecuteCommand(sql);
+
+            sql = "update As_Form_EditFlow set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + "' and Factory_Name='" + factory + "'";
+            DBHelp.ExecuteCommand(sql);
+
+            sql = "update As_Form_File set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + "'";
+            DBHelp.ExecuteCommand(sql);
+
+            sql = "update As_KCI_Approval set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + "'";
+            DBHelp.ExecuteCommand(sql);
+
+            sql = "update As_Vendor_Block_Or_UnBlock set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + "' and Factory_Name='" + factory + "'";
+            DBHelp.ExecuteCommand(sql);
+
+            sql = "update As_Vendor_Designated_Apply set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + "' and Factory_Name='" + factory + "'";
+            DBHelp.ExecuteCommand(sql);
+
+            sql = "update As_Vendor_Discovery set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + "' and Factory_Name='" + factory + "'";
+            DBHelp.ExecuteCommand(sql);
+
+            sql = "update As_Vendor_Extend set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + "' and Factory_Name='" + factory + "'";
+            DBHelp.ExecuteCommand(sql);
+
+            //sql = "update As_Vendor_FormType set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + " and Factory='" + factory + "'";
+            //DBHelp.ExecuteCommand(sql);
+
+            sql = "update As_Vendor_FormType_History set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + "' and Factory_Name='" + factory + "'";
+            DBHelp.ExecuteCommand(sql);
+
+            sql = "update As_Vendor_Risk set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + "' and Factory_Name='" + factory + "'";
+            DBHelp.ExecuteCommand(sql);
+
+            sql = "update As_Vendor_Selection set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + "' and Factory_Name='" + factory + "'";
+            DBHelp.ExecuteCommand(sql);
+
+            //sql = "update As_Vendor_FormType set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + " and Factory='" + factory + "'";
+            //DBHelp.ExecuteCommand(sql);
+
+            sql = "update As_VendorCreation set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + "' and Factory_Name='" + factory + "'";
+            DBHelp.ExecuteCommand(sql);
+
+            sql = "update As_VendorFile_OverDue set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + "' and Factory_Name='" + factory + "'";
+            DBHelp.ExecuteCommand(sql);
+
+            sql = "update As_VendorModify set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + "' and Factory_Name='" + factory + "'";
+            DBHelp.ExecuteCommand(sql);
+
+            //sql = "update As_Vendor_FormType set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + " and Factory='" + factory + "'";
+            //DBHelp.ExecuteCommand(sql);
+
+            sql = "update As_Write set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + "'";
+            DBHelp.ExecuteCommand(sql);
+
+            //更新文件的ID
+            sql = "select File_Path from As_File where Temp_Vendor_ID='" + newTempVendorID + "' and Factory_Name='" + factory + "'";
+            DataTable table = DBHelp.GetDataSet(sql);
+            string fileID;
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    fileID = dr["File_Path"].ToString().Replace(oldTempVendorID, newTempVendorID);
+                    string sqls = "update As_File set File_Path='" + fileID + "' where Temp_Vendor_ID='" + newTempVendorID + "' and Factory_Name='" + factory + "'";
+                    DBHelp.ExecuteCommand(sqls);
+                }
+            }
+
+            //更新表的路径
+            sql = "select Form_Path from As_Form where Temp_Vendor_ID='" + newTempVendorID + "' and Factory_Name='" + factory + "'";
+            DataTable tables = DBHelp.GetDataSet(sql);
+            string formID;
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    formID = dr["Form_Path"].ToString().Replace(oldTempVendorID, newTempVendorID);
+                    string sqls = "update As_Form set Form_Path='" + formID + "' where Temp_Vendor_ID='" + newTempVendorID + "' and Factory_Name='" + factory + "'";
+                    DBHelp.ExecuteCommand(sqls);
+                }
+            }
         }
 
         public static bool isUpload(string oldTempVendorID, string factory_Name, string fileTypeID)

@@ -1,7 +1,9 @@
 ﻿using BLL;
+using DAL;
 using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Web.UI.WebControls;
 using WebLearning.BLL;
 using WebLearning.Model;
@@ -47,8 +49,15 @@ namespace WebLearning.KeLe
                 factory_Name = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString().Trim());
                 // 执行存储过程    向数据库As_Vendor_Modify_Info写入选择记录  并生成需要上传的文件列表到As_Vendor_Modify_File
 
+                //判断该类型是否已经存在修改记录了 在类型不改变的情况下该factory的 Temp_Vendor_ID将不会发生改变
+                //如果存在temp_Vendor_ID 则将status置为old 新插入的为new  
+
+                if (!getTempVendorID(factory_Name, temp_vendor_ID))
+                {
+                    updateVendorModifyFile(temp_vendor_ID, factory_Name);
+                }
+
                 Vendor_Modify_File_BLL.initVendorFile(getSelectionData());
-                //TODO:数据库中判断合同过期
 
                 //获取新文件的上传列表  并显示  提供上传按钮以供上传 上传后刷新界面 如果所有文件都已经提交  那么显示 修改按钮 点击进入供应商信息修改表
                 refreshVendor();
@@ -63,6 +72,28 @@ namespace WebLearning.KeLe
                         break;
                     default:
                         break;
+                }
+            }
+        }
+
+        private void updateVendorModifyFile(string temp_vendor_ID, string factory_Name)
+        {
+            string sql = "update As_Vendor_Modify_File set Status='old' where Temp_Vendor_ID='" + temp_vendor_ID + "' and Factory_Name='" + factory_Name + "'";
+            DBHelp.ExecuteCommand(sql);
+        }
+
+        private bool getTempVendorID(string factory_Name, string temp_vendor_ID)
+        {
+            string sql = "select File_Type_ID from As_Vendor_Modify_File where Temp_Vendor_ID='" + temp_vendor_ID + "' and Factory_Name='" + factory_Name + "' and Status='new'";
+            using (SqlDataReader reader = DBHelp.GetReader(sql))
+            {
+                if (reader.Read())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
                 }
             }
         }

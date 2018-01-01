@@ -88,6 +88,11 @@ namespace BLL
             return TempVendor_DAL.addBindVendorFormAndFile(tempVendorID, promise, assign, charge, money,factory);
         }
 
+        internal static void deleteVendorType(string oldTempVendorID,string factory_Name)
+        {
+            TempVendor_DAL.deleteVendorType(oldTempVendorID, factory_Name);
+        }
+
         /// <summary>
         /// 删除As_Vendor_Form_Type中的一条记录
         /// </summary>

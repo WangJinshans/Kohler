@@ -124,7 +124,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
 
             //展示附件
-            showfilelist(tempVendorName,factory);
+            showfilelist(tempVendorID,factory);
         }
 
 
@@ -137,7 +137,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             getSessionInfo();
             Vendor_Modify_File modify = new Vendor_Modify_File();
-            string sql = "select * from As_Vendor_Modify_File where Temp_Vendor_ID='" + temp_Vendor_ID + "' and factory_Name='" + factory + "'";
+            string sql = "select * from As_Vendor_Modify_File where Temp_Vendor_ID='" + temp_Vendor_ID + "' and factory_Name='" + factory + "' and Status='new'";
             PagedDataSource objpds = new PagedDataSource();
             objpds.DataSource = Vendor_Modify_File_BLL.listFile(sql);
             GridView2.DataSource = objpds;
@@ -241,11 +241,12 @@ namespace SHZSZHSUPPLY.VendorAssess
         protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
-            string fileID = GridView2.Rows[drv.RowIndex].Cells[1].Text.ToString().Trim();//获取fileID
+            string fileTypeName = GridView2.Rows[drv.RowIndex].Cells[0].Text.ToString().Trim();
+            string fileID= File_BLL.getFileID(tempVendorID, Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString().Trim()), fileTypeName);
             if (e.CommandName == "view")
             {
-                string filePath = VendorCreation_BLL.getFilePath(fileID);
-                if (filePath != "")
+                string filePath = "../files/" + fileID + ".pdf";/*VendorModify_BLL.getFilePath(fileID);*/
+                if (fileID != "")
                 {
                     ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>viewFile('" + filePath + "');</script>");
                 }

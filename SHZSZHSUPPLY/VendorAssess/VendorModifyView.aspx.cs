@@ -18,8 +18,8 @@ namespace WebLearning.KeLe
     public partial class VendorModifyView : System.Web.UI.Page
     {
 
-        private static string vendor_Code = "";
         private static string vendor_Name = "";
+        private static string vendor_type = "";
         private static string tempVendorID = "";
 
         protected void Page_Load(object sender, EventArgs e)
@@ -55,11 +55,10 @@ namespace WebLearning.KeLe
         /// 查询该供应商存在几个类型
         /// </summary>
         /// <param name="vendorCode"></param>
-        private void getVendorTypeInfo(string vendorCode)
+        private void getVendorTypeInfo(string vendorName)
         {
-            //赋值Vendor_Code
-            vendor_Name = vendorCode;
-            As_Temp_Vendor temp = Vendor_Modify_File_BLL.getTempVendorInfo(vendorCode);
+            vendor_Name = vendorName;
+            As_Temp_Vendor temp = Vendor_Modify_File_BLL.getTempVendorInfo(vendor_Name);
             JavaScriptSerializer jss = new JavaScriptSerializer();
             string tempVendorString = jss.Serialize(temp);
             LocalScriptManager.CreateScript(Page, "showVendorTypeInfo('" + tempVendorString + "')", "showTypeInfo");
@@ -93,6 +92,7 @@ namespace WebLearning.KeLe
         {
             string temp_Vendor_ID = TempVendor_BLL.getTempVendorIDByCodeAndType(vendor_Name, vendorType);
             tempVendorID = temp_Vendor_ID;
+            Session["tempVendorID"] = temp_Vendor_ID;
             string isChanging = Vendor_Modify_File_BLL.isVendorChanging(vendor_Name, vendorType);
             if (isChanging.Equals("YES"))//正在修改中 即已经建立过修改流程了
             {
@@ -111,21 +111,16 @@ namespace WebLearning.KeLe
             {
                 if (isExistsType(DropDownList1.Items[i].Value, myTypeList))
                 {
-                    DropDownList2.Items.Add(DropDownList1.Items[i].Value);
+                    //DropDownList2.Items.Add(DropDownList1.Items[i].Value);
                     DropDownList1.Items.Remove(DropDownList1.Items[i].Value);
                     i--;
                 }
             }
             //默认为第一个
-            if (DropDownList2 != null && DropDownList2.Items.Count > 0)
-            {
-                DropDownList2.SelectedIndex = 0;
-            }
-
-            for (int i = 0; i < 10000000; i++)
-            {
-
-            }
+            //if (DropDownList2 != null && DropDownList2.Items.Count > 0)
+            //{
+            //    DropDownList2.SelectedIndex = 0;
+            //}
             LocalScriptManager.CreateScript(Page, "close()", "close");
         }
 
@@ -171,7 +166,8 @@ namespace WebLearning.KeLe
 
             string temp_Vendor_Name = vendor_Name;//供应商名称
             string newVendor_Type = "";
-            string oldVendor_Type = DropDownList2.SelectedValue.Trim();//原供应类型
+            //string oldVendor_Type = DropDownList2.SelectedValue.Trim();//原供应类型
+            string oldVendor_Type = vendor_type;
             if (checkType.Checked)//不可见
             {
                 newVendor_Type = oldVendor_Type; //新供应商类型
@@ -194,8 +190,12 @@ namespace WebLearning.KeLe
             {
                 return;
             }
+            //插入到新的表中 保存相应的信息 最后审批完成之后执行一个存储过程
+
+
 
             //执行存储过程 将新的需要填写的表或提交的文件插入表
+            //供应商类型类型更改后  是否需要填写修改表 一般修改之后本公司都是需要修改的 
             string newTemp_Vendor_ID = VendorCheckResult_BLL.modify_CheckResult("vendor_Modify_exist", temp_Vendor_Name, factory_Name, newVendor_Type,oldVendor_Type, promise, vendor_Assign, advance_charge, money,Session["Employee_ID"].ToString().Trim());
             //进入文件上传界面 上传vendorModify填写表格的必须文件 
 
@@ -219,7 +219,7 @@ namespace WebLearning.KeLe
             {
                 if (isExistsType(DropDownList1.Items[i].Value, myTypeList))
                 {
-                    DropDownList2.Items.Add(DropDownList1.Items[i].Value);
+                    //DropDownList2.Items.Add(DropDownList1.Items[i].Value);
                     DropDownList1.Items.Remove(DropDownList1.Items[i].Value);
                     i--;
                 }
@@ -252,6 +252,8 @@ namespace WebLearning.KeLe
         protected void types1_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
+            //初始化选择的供应商类型
+            vendor_type = btn.Text.ToString().Trim();
             getVendorInfo(btn.Text.ToString().Trim(), vendor_Name);
         }
     }

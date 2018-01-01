@@ -373,13 +373,10 @@
                                 <Columns>
                                     <asp:BoundField DataField="File_Type_Name" HeaderText="文件名称"
                                         SortExpression="File_Type_Name" />
-                                    <asp:BoundField DataField="File_ID" HeaderText="文件编号"
-                                        SortExpression="File_ID" />
-
                                     <asp:TemplateField>
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbtapprovefail" runat="server" CommandName="view"
-                                                CommandArgument='<%# Eval("File_ID") %>'>查看文件</asp:LinkButton>
+                                                CommandArgument='<%# Eval("File_Type_Name") %>'>查看文件</asp:LinkButton>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                 </Columns>

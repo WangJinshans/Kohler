@@ -9,15 +9,16 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using WebLearning.BLL;
 
 namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class ShowVendorModify : System.Web.UI.Page
     {
-        private string formID = "";
-        private string positionName = "";
-        private string FORM_TYPE_ID = "";
-        private string tempVendorID = "";
+        private static string formID = "";
+        private static string positionName = "";
+        private static string FORM_TYPE_ID = "";
+        private static string tempVendorID = "";
         /// <summary>
         /// formID怎么得到  通过表审批的formID确定每一张表
         /// 
@@ -102,10 +103,11 @@ namespace SHZSZHSUPPLY.VendorAssess
         public void showfilelist(string FormID)
         {
             As_Form_File Form_File = new As_Form_File();
-            string tempVendorID = AddForm_BLL.GetTempVendorID(formID);
-            string sql = "select * from View_Form_File where Form_ID='" + FormID + "' and [File_ID] in (select [File_ID] from As_Vendor_FileType where Temp_Vendor_ID='" + tempVendorID + "') and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
+            string factory = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString().Trim());
+            tempVendorID = AddForm_BLL.GetTempVendorID(formID);
+            string sql = "select * from As_Vendor_Modify_File where Temp_Vendor_ID='" + tempVendorID + "' and factory_Name='" + factory + "' and Status='new'";
             PagedDataSource objpds = new PagedDataSource();
-            objpds.DataSource = FormFile_BLL.listFile(sql);
+            objpds.DataSource = Vendor_Modify_File_BLL.listFile(sql);
             GridView2.DataSource = objpds;
             GridView2.DataBind();
         }
@@ -197,11 +199,12 @@ namespace SHZSZHSUPPLY.VendorAssess
         protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
-            string fileID = GridView2.Rows[drv.RowIndex].Cells[1].Text.ToString().Trim();//获取fileID
+            string fileTypeName= GridView2.Rows[drv.RowIndex].Cells[0].Text.ToString().Trim();//获取fileID
+            string fileID = File_BLL.getFileID(tempVendorID, Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString().Trim()), fileTypeName);
             if (e.CommandName == "view")
             {
-                string filePath = LSetting.File_Path + fileID + ".pdf";
-                if (filePath != "")
+                string filePath = "../files/" + fileID + ".pdf";
+                if (fileID != "")
                 {
                     ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>viewFile('" + filePath + "');</script>");
                 }

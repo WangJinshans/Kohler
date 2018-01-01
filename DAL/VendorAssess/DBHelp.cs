@@ -61,73 +61,73 @@ namespace DAL
             }
         }
 
-        /// <summary>
-        /// 执行存储过程
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="dc"></param>
-        /// <returns></returns>
-        public static int ExecuteStoredProcedure(string name, Dictionary<string, string> dc)
-        {
-            SqlCommand cmd = new SqlCommand(name, Connection);
-            cmd.CommandType = CommandType.StoredProcedure;//存储过程
-            cmd.Parameters.Add(new SqlParameter("@temp_vendor_ID", SqlDbType.NVarChar, 50));
-            cmd.Parameters.Add(new SqlParameter("@factory_Name", SqlDbType.NVarChar, 50));
-            cmd.Parameters.Add(new SqlParameter("@leagalPerson", SqlDbType.NVarChar, 10));
-            cmd.Parameters.Add(new SqlParameter("@range", SqlDbType.NVarChar, 10));
-            cmd.Parameters.Add(new SqlParameter("@stocks", SqlDbType.NVarChar, 10));
-            cmd.Parameters.Add(new SqlParameter("@place", SqlDbType.NVarChar, 10));
-            cmd.Parameters.Add(new SqlParameter("@namePartTwoSwitch", SqlDbType.NVarChar, 10));
-            cmd.Parameters.Add(new SqlParameter("@namePartThreeSwitch", SqlDbType.NVarChar, 10));
-            cmd.Parameters.Add(new SqlParameter("@namePartFourSwitch", SqlDbType.NVarChar, 10));
-            cmd.Parameters["@temp_vendor_ID"].Value = dc["temp_vendor_ID"].ToString().Trim();
-            cmd.Parameters["@factory_Name"].Value = dc["factory_Name"].ToString().Trim();
-            cmd.Parameters["@leagalPerson"].Value = dc["leagalPerson"].ToString().Trim();
-            cmd.Parameters["@range"].Value = dc["range"].ToString().Trim();
-            cmd.Parameters["@stocks"].Value = dc["stocks"].ToString().Trim();
-            cmd.Parameters["@place"].Value = dc["place"].ToString().Trim();
-            cmd.Parameters["@namePartTwoSwitch"].Value = dc["namePartTwoSwitch"].ToString().Trim();
-            cmd.Parameters["@namePartThreeSwitch"].Value = dc["namePartThreeSwitch"].ToString().Trim();
-            cmd.Parameters["@namePartFourSwitch"].Value = dc["namePartFourSwitch"].ToString().Trim();
-            int number = cmd.ExecuteNonQuery();
-            return number;
-        }
+        ///// <summary>
+        ///// 执行存储过程
+        ///// </summary>
+        ///// <param name="name"></param>
+        ///// <param name="dc"></param>
+        ///// <returns></returns>
+        //public static int ExecuteStoredProcedure(string name, Dictionary<string, string> dc)
+        //{
+        //    SqlCommand cmd = new SqlCommand(name, Connection);
+        //    cmd.CommandType = CommandType.StoredProcedure;//存储过程
+        //    cmd.Parameters.Add(new SqlParameter("@temp_vendor_ID", SqlDbType.NVarChar, 50));
+        //    cmd.Parameters.Add(new SqlParameter("@factory_Name", SqlDbType.NVarChar, 50));
+        //    cmd.Parameters.Add(new SqlParameter("@leagalPerson", SqlDbType.NVarChar, 10));
+        //    cmd.Parameters.Add(new SqlParameter("@range", SqlDbType.NVarChar, 10));
+        //    cmd.Parameters.Add(new SqlParameter("@stocks", SqlDbType.NVarChar, 10));
+        //    cmd.Parameters.Add(new SqlParameter("@place", SqlDbType.NVarChar, 10));
+        //    cmd.Parameters.Add(new SqlParameter("@namePartTwoSwitch", SqlDbType.NVarChar, 10));
+        //    cmd.Parameters.Add(new SqlParameter("@namePartThreeSwitch", SqlDbType.NVarChar, 10));
+        //    cmd.Parameters.Add(new SqlParameter("@namePartFourSwitch", SqlDbType.NVarChar, 10));
+        //    cmd.Parameters["@temp_vendor_ID"].Value = dc["temp_vendor_ID"].ToString().Trim();
+        //    cmd.Parameters["@factory_Name"].Value = dc["factory_Name"].ToString().Trim();
+        //    cmd.Parameters["@leagalPerson"].Value = dc["leagalPerson"].ToString().Trim();
+        //    cmd.Parameters["@range"].Value = dc["range"].ToString().Trim();
+        //    cmd.Parameters["@stocks"].Value = dc["stocks"].ToString().Trim();
+        //    cmd.Parameters["@place"].Value = dc["place"].ToString().Trim();
+        //    cmd.Parameters["@namePartTwoSwitch"].Value = dc["namePartTwoSwitch"].ToString().Trim();
+        //    cmd.Parameters["@namePartThreeSwitch"].Value = dc["namePartThreeSwitch"].ToString().Trim();
+        //    cmd.Parameters["@namePartFourSwitch"].Value = dc["namePartFourSwitch"].ToString().Trim();
+        //    int number = cmd.ExecuteNonQuery();
+        //    return number;
+        //}
 
 
 
-        /// <summary>
-        /// 执行修改类型判断存储过程
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="dc"></param>
-        /// <returns></returns>
-        public static int ExecuteModifyCheckResultStoredProcedure(string storedProcedureName, string temp_Vendor_ID, string factory_Name, string newType,string oldType, bool promise, bool assign, bool charge, float money)
-        {
-            if (temp_Vendor_ID == "")
-            {
-                return -1;
-            }
-            SqlCommand cmd = new SqlCommand(storedProcedureName, Connection);
-            cmd.CommandType = CommandType.StoredProcedure;//存储过程
-            cmd.Parameters.Add(new SqlParameter("@temp_vendor_id", SqlDbType.NVarChar, 50));
-            cmd.Parameters.Add(new SqlParameter("@type", SqlDbType.NVarChar, 50));
-            cmd.Parameters.Add(new SqlParameter("@oldType", SqlDbType.NVarChar, 50));
-            cmd.Parameters.Add(new SqlParameter("@promise", SqlDbType.NVarChar, 10));
-            cmd.Parameters.Add(new SqlParameter("@assign", SqlDbType.NVarChar, 10));
-            cmd.Parameters.Add(new SqlParameter("@charge", SqlDbType.NVarChar, 10));
-            cmd.Parameters.Add(new SqlParameter("@money", SqlDbType.NVarChar, 10));
-            cmd.Parameters.Add(new SqlParameter("@factory", SqlDbType.NVarChar, 10));
-            cmd.Parameters["@temp_vendor_id"].Value = temp_Vendor_ID;
-            cmd.Parameters["@type"].Value = newType;
-            cmd.Parameters["@oldType"].Value = oldType;
-            cmd.Parameters["@promise"].Value = promise;
-            cmd.Parameters["@assign"].Value = assign;
-            cmd.Parameters["@charge"].Value = charge;
-            cmd.Parameters["@money"].Value = money;
-            cmd.Parameters["@factory"].Value = factory_Name;
-            int number = cmd.ExecuteNonQuery();
-            return number;
-        }
+        ///// <summary>
+        ///// 执行修改类型判断存储过程
+        ///// </summary>
+        ///// <param name="name"></param>
+        ///// <param name="dc"></param>
+        ///// <returns></returns>
+        //public static int ExecuteModifyCheckResultStoredProcedure(string storedProcedureName, string temp_Vendor_ID, string factory_Name, string newType,string oldType, bool promise, bool assign, bool charge, float money)
+        //{
+        //    if (temp_Vendor_ID == "")
+        //    {
+        //        return -1;
+        //    }
+        //    SqlCommand cmd = new SqlCommand(storedProcedureName, Connection);
+        //    cmd.CommandType = CommandType.StoredProcedure;//存储过程
+        //    cmd.Parameters.Add(new SqlParameter("@temp_vendor_id", SqlDbType.NVarChar, 50));
+        //    cmd.Parameters.Add(new SqlParameter("@type", SqlDbType.NVarChar, 50));
+        //    cmd.Parameters.Add(new SqlParameter("@oldType", SqlDbType.NVarChar, 50));
+        //    cmd.Parameters.Add(new SqlParameter("@promise", SqlDbType.NVarChar, 10));
+        //    cmd.Parameters.Add(new SqlParameter("@assign", SqlDbType.NVarChar, 10));
+        //    cmd.Parameters.Add(new SqlParameter("@charge", SqlDbType.NVarChar, 10));
+        //    cmd.Parameters.Add(new SqlParameter("@money", SqlDbType.NVarChar, 10));
+        //    cmd.Parameters.Add(new SqlParameter("@factory", SqlDbType.NVarChar, 10));
+        //    cmd.Parameters["@temp_vendor_id"].Value = temp_Vendor_ID;
+        //    cmd.Parameters["@type"].Value = newType;
+        //    cmd.Parameters["@oldType"].Value = oldType;
+        //    cmd.Parameters["@promise"].Value = promise;
+        //    cmd.Parameters["@assign"].Value = assign;
+        //    cmd.Parameters["@charge"].Value = charge;
+        //    cmd.Parameters["@money"].Value = money;
+        //    cmd.Parameters["@factory"].Value = factory_Name;
+        //    int number = cmd.ExecuteNonQuery();
+        //    return number;
+        //}
 
         public static int GetScalar(string safeSql)
         {

@@ -85,6 +85,151 @@ namespace DAL
             return tempVendor;
         }
 
+        public static void deleteVendorType(string oldTempVendorID,string factory_Name)
+        {
+            bool sh = false;
+            bool zh = false;
+            bool zs = false;
+            //查看其他厂是否有使用记录
+            //直接查找更新就行了 写复杂了.....
+            //string sqls = "select SH,ZH,ZS from As_Temp_Vendor where Temp_Vendor_ID='" + oldTempVendorID + "'";
+            //DataTable table = DBHelp.GetDataSet(sqls);
+            //if (table.Rows.Count > 0)
+            //{
+            //    foreach (DataRow dr in table.Rows)
+            //    {
+            //        string ssql = "update As_Temp_Vendor set SH='" + dr["SH"].ToString() + "',ZH='" + dr["ZH"].ToString() + "',ZS='" + dr["ZS"].ToString() + "' where Temp_Vendor_ID='" + newTempVendorID + "'";
+            //        DBHelp.ExecuteCommand(ssql);
+            //    }
+            //}
+            #region
+            string sql0 = "select Temp_Vendor_ID from As_Temp_Vendor where Temp_Vendor_ID='" + oldTempVendorID + "' and SH='上海科勒'";
+            using (SqlDataReader reader = DBHelp.GetReader(sql0))
+            {
+                if (reader.Read())
+                {
+                    sh = true;
+                }
+                else
+                {
+                    sh = false;
+                }
+            }
+
+
+            string sql1 = "select Temp_Vendor_ID from As_Temp_Vendor where Temp_Vendor_ID='" + oldTempVendorID + "' and ZS='中山科勒'";
+            using (SqlDataReader reader = DBHelp.GetReader(sql1))
+            {
+                if (reader.Read())
+                {
+                    zs = true;
+                }
+                else
+                {
+                    zs = false;
+                }
+            }
+            string sql2 = "select Temp_Vendor_ID from As_Temp_Vendor where Temp_Vendor_ID='" + oldTempVendorID + "' and ZS='珠海科勒'";
+            using (SqlDataReader reader = DBHelp.GetReader(sql2))
+            {
+                if (reader.Read())
+                {
+                    zh = true;
+                }
+                else
+                {
+                    zh = false;
+                }
+            }
+
+            if (sh && !zh && !zs)//仅有上海厂
+            {
+                string sql = "delete from As_Temp_Vendor where Temp_Vendor_ID='" + oldTempVendorID + "'";
+                DBHelp.ExecuteCommand(sql);
+            }
+            if (!sh && zh && !zs)//仅有珠海厂
+            {
+                string sql = "delete from As_Temp_Vendor where Temp_Vendor_ID='" + oldTempVendorID + "'";
+                DBHelp.ExecuteCommand(sql);
+            }
+            if (!sh && !zh && zs)//仅有中山厂
+            {
+                string sql = "delete from As_Temp_Vendor where Temp_Vendor_ID='" + oldTempVendorID + "'";
+                DBHelp.ExecuteCommand(sql);
+            }
+
+            if (sh && zh && !zs)//仅有上海珠海厂
+            {
+                if (factory_Name.Equals("上海科勒"))
+                {
+                    string sql = "update As_Temp_Vendor set SH='' where Temp_Vendor_ID='" + oldTempVendorID + "'";
+                    DBHelp.ExecuteCommand(sql);
+                    //sql = "delete from As_Temp_Vendor where Temp_Vendor_ID='" + oldTempVendorID + "'";
+                    //DBHelp.ExecuteCommand(sql);
+
+                }
+                if (factory_Name.Equals("珠海科勒"))
+                {
+                    string sql = "update As_Temp_Vendor set ZH='' where Temp_Vendor_ID='" + oldTempVendorID + "'";
+                    DBHelp.ExecuteCommand(sql);
+                    //sql = "delete from As_Temp_Vendor where Temp_Vendor_ID='" + oldTempVendorID + "'";
+                    //DBHelp.ExecuteCommand(sql);
+                }
+            }
+            if (sh && !zh && zs)//仅有上海中山厂
+            {
+                if (factory_Name.Equals("上海科勒"))
+                {
+                    string sql = "update As_Temp_Vendor set SH='' where Temp_Vendor_ID='" + oldTempVendorID + "'";
+                    DBHelp.ExecuteCommand(sql);
+                    //sql = "delete from As_Temp_Vendor where Temp_Vendor_ID='" + oldTempVendorID + "'";
+                    //DBHelp.ExecuteCommand(sql);
+                }
+                if (factory_Name.Equals("中山科勒"))
+                {
+                    string sql = "update As_Temp_Vendor set ZS='' where Temp_Vendor_ID='" + oldTempVendorID + "'";
+                    DBHelp.ExecuteCommand(sql);
+                    //sql = "delete from As_Temp_Vendor where Temp_Vendor_ID='" + oldTempVendorID + "'";
+                    //DBHelp.ExecuteCommand(sql);
+                }
+            }
+
+            if (!sh && zh && zs)//仅有珠海中山厂
+            {
+                if (factory_Name.Equals("珠海科勒"))
+                {
+                    string sql = "update As_Temp_Vendor set ZH='' where Temp_Vendor_ID='" + oldTempVendorID + "'";
+                    DBHelp.ExecuteCommand(sql);
+                }
+                if (factory_Name.Equals("中山科勒"))
+                {
+                    string sql = "update As_Temp_Vendor set ZS='' where Temp_Vendor_ID='" + oldTempVendorID + "'";
+                    DBHelp.ExecuteCommand(sql);
+                }
+            }
+
+            if (sh && zh && zs)
+            {
+                if (factory_Name.Equals("珠海科勒"))
+                {
+                    string sql = "update As_Temp_Vendor set ZH='' where Temp_Vendor_ID='" + oldTempVendorID + "'";
+                    DBHelp.ExecuteCommand(sql);
+                }
+                if (factory_Name.Equals("中山科勒"))
+                {
+                    string sql = "update As_Temp_Vendor set ZS='' where Temp_Vendor_ID='" + oldTempVendorID + "'";
+                    DBHelp.ExecuteCommand(sql);
+                }
+                if (factory_Name.Equals("上海科勒"))
+                {
+                    string sql = "update As_Temp_Vendor set SH='' where Temp_Vendor_ID='" + oldTempVendorID + "'";
+                    DBHelp.ExecuteCommand(sql);
+                }
+            }
+
+            #endregion
+        }
+
         public static string getTempVendorName(string tempVendorID)
         {
             string tempVendorName = "";

@@ -133,5 +133,21 @@ namespace BLL
             string fileTypeID = File_Type_DAL.getFileTypeID(fileTypeName);
             return tempVendorID + File_Type_BLL.getFormSpec(fileTypeName) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(fileTypeID, factory);
         }
+
+        public static string getFileID(string tempVendorID, string factory, string fileTypeName)
+        {
+            string fileTypeID = File_Type_BLL.getFileTypeIDByItemCategory(fileTypeName);
+            string sql = "select File_ID from As_File where File_Type_ID='" + fileTypeID + "' and Factory_Name in('ALL','" + factory + "') and Temp_Vendor_ID='" + tempVendorID + "'";
+            DataTable table = DBHelp.GetDataSet(sql);
+            string fileID = "";
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    fileID = dr["File_ID"].ToString();
+                }
+            }
+            return fileID;
+        }
     }
 }

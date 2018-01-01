@@ -73,7 +73,8 @@ namespace DAL.VendorAssess
 
         public static DataTable getFilePath(string fileID)
         {
-            throw new NotImplementedException();
+            string sql = "select File_Path from As_File where File_ID='" + fileID + "'";
+            return DBHelp.GetDataSet(sql);
         }
 
         public static As_Vendor_Modify getVendorModification(string formID)

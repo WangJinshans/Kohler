@@ -45,13 +45,13 @@ namespace WebLearning.BLL
         /// </summary>
         /// <param name="vendorCode"></param>
         /// <returns></returns>
-        public static As_Temp_Vendor getTempVendorInfo(string vendorCode)
+        public static As_Temp_Vendor getTempVendorInfo(string vendorName)
         {
             As_Temp_Vendor temp = new As_Temp_Vendor();
             List<string> typeList = new List<string>();
-            temp.Temp_Vendor_Name = vendorCode;
-            temp.TypeNumber = Vendor_Modify_File_DAL.getTempVendorTypeNumber(vendorCode);
-            typeList = Vendor_Modify_File_DAL.getTypeList(vendorCode);
+            temp.Temp_Vendor_Name = vendorName;
+            temp.TypeNumber = Vendor_Modify_File_DAL.getTempVendorTypeNumber(vendorName);
+            typeList = Vendor_Modify_File_DAL.getTypeList(vendorName);
             for (int i = 0; i < typeList.Count; i++)
             {
                 if (typeList[i].Equals("直接物料常规"))
