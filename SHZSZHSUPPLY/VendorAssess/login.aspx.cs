@@ -30,7 +30,7 @@ namespace AendorAssess
                 Session["Factory_Name"] = employee.Factory_Name;//获取厂名
 
                 //模拟登陆管理系统
-                Session.Add("usernum", employee_id);
+                Session.Add("usernum", employee.Employee_ID);
                 Session.Add("plantname", employee.Factory_Name);
 
                 //Response.Redirect("../WebForm1.aspx?name1=" + employee.Employee_Name + "&name2=" + employee.Employee_ID);
