@@ -180,7 +180,7 @@ namespace WebLearning.KeLe
             bool promise = Promise.Checked;//承诺
             bool advance_charge = Advance_Charge.Checked;//预付款
             bool vendor_Assign = Vendor_Assign.Checked;//指定
-            string factory_Name = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString());
+            string factory_Name = Session["Factory_Name"].ToString();
             int money = 0;
             try
             {
@@ -198,7 +198,6 @@ namespace WebLearning.KeLe
             //供应商类型类型更改后  是否需要填写修改表 一般修改之后本公司都是需要修改的 
             string newTemp_Vendor_ID = VendorCheckResult_BLL.modify_CheckResult("vendor_Modify_exist", temp_Vendor_Name, factory_Name, newVendor_Type,oldVendor_Type, promise, vendor_Assign, advance_charge, money,Session["Employee_ID"].ToString().Trim());
             //进入文件上传界面 上传vendorModify填写表格的必须文件 
-
 
             //获取提示信息
             ClientScript.RegisterStartupScript(this.GetType(), "my", "<script>popTips('"+ newTemp_Vendor_ID + "','"+factory_Name+"');</script>");

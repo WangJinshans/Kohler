@@ -40,13 +40,13 @@ namespace WebLearning.KeLe
                 if (leagalPerson.Equals("null") && range.Equals("null") && stocks.Equals("null") && place.Equals("null") && namePartTwoSwitch.Equals("null") && namePartThreeSwitch.Equals("null") && namePartFourSwitch.Equals("null"))//从已新建跳转过来
                 {
                     temp_vendor_ID = Request.QueryString["temp_vendor_id"].ToString().Trim();
-                    factory_Name = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString().Trim());
+                    factory_Name = Session["Factory_Name"].ToString();
                     refreshVendor();
                     return;
                 }
                 temp_vendor_ID = Request.QueryString["temp_vendor_id"].ToString().Trim();
                 temp_Vendor_Name = TempVendor_BLL.getTempVendorName(temp_vendor_ID);
-                factory_Name = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString().Trim());
+                factory_Name = Session["Factory_Name"].ToString();
                 // 执行存储过程    向数据库As_Vendor_Modify_Info写入选择记录  并生成需要上传的文件列表到As_Vendor_Modify_File
 
                 //判断该类型是否已经存在修改记录了 在类型不改变的情况下该factory的 Temp_Vendor_ID将不会发生改变

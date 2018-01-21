@@ -95,7 +95,7 @@ namespace AendorAssess
         /// <param name="tempVendorID"></param>
         private void refreshVendor(string tempVendorID)
         {
-            string factoryName = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString());
+            string factoryName = Session["Factory_Name"].ToString();
 
             //绑定session
             Session["tempvendorname"] = TempVendor_BLL.getTempVendorName(tempVendorID);
@@ -294,6 +294,13 @@ namespace AendorAssess
             int selectedFormPriorityNumber = getSelectedFormPriorityNumber(formTypeID);
 
             //获取可选与非可选 如果是可选 检查它前面是否有正在审批的  如果是必选直接走
+            As_Employee_Vendor employeeVendor = AddEmployeeVendor_BLL.getEmployeeVendor(temp_Vendor_ID);
+            if (employeeVendor.Type.Equals("OLD"))
+            {
+                Response.Redirect(aimPageName + "?submit=yes&type=" + formTypeID);
+                return;
+            }
+
             string optional = getOptional(selectedFormPriorityNumber);
             if (optional == "可选")
             {

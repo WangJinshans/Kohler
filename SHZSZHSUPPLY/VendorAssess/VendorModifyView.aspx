@@ -295,8 +295,12 @@
 </head>
 <body>
     <form id="form1" class="layui-form" runat="server">
-        <div class="layui-inline" style="margin: 0 auto; margin-top: 50px;">
+        <div style="width:1000px;margin:0 auto;margin-top:50px;">
 
+        <div class="layui-inline" style="width:495px;float:left">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>供应商信息更改</legend>
+            </fieldset>
             <div class="layui-form-item" style="padding:0px;"> 
                 <div class="layui-input-inline" style="margin-left:5px;width:350px;">
                     <input type="text" id="Temp_Vendor_Name" runat="server" placeholder="请输入供应商名称" autocomplete="off" class="layui-input"  style="text-align: left;width:350px;"/>
@@ -402,11 +406,9 @@
                 <input id="Advance_Charge" runat="server" type="checkbox" name="like1[write]" lay-skin="primary" title="预付款" />
                 <input id="Vendor_Assign" runat="server" type="checkbox" name="like1[write]" lay-skin="primary" title="指定" />
             </div>
-            <asp:Button CssClass="layui-btn btnTop" ID="Button1" runat="server" Text="提交" OnClientClick="return submitCheck();" OnClick="Button1_Click" />
-            <asp:Button CssClass="layui-btn layui-btn-primary btnTop" ID="Button2" runat="server" Text="返回" OnClick="Button2_Click" />
-        </div>
+            </div>
 
-        <div class="layui-inline" style="margin: 0 auto; margin-top: 50px;" id="infomation">
+        <div class="layui-inline" style="width:495px;float:right" id="infomation">
 
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
                 <legend>供应商基本信息</legend>
@@ -447,6 +449,12 @@
                 <input type="checkbox" id="advance_Charge" lay-skin="primary" title="预付款" disabled="">
                 <input type="checkbox" id="vendor_Assign" lay-skin="primary" title="指定" disabled="">
             </div>
+        </div>
+        </div>
+
+        <div style="width:500px;margin:0 auto">
+            <asp:Button CssClass="layui-btn btnTop" ID="Button1" runat="server" Text="提交" OnClientClick="return submitCheck();" OnClick="Button1_Click" />
+            <asp:Button CssClass="layui-btn layui-btn-primary btnTop" ID="Button2" runat="server" Text="返回" OnClick="Button2_Click" />
         </div>
     </form>
 </body>

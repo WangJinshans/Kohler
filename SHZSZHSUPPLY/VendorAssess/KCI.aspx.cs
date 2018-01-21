@@ -19,7 +19,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 position_Name = Session["Position_Name"].ToString().Trim();
                 if (position_Name.Equals("采购部经理") || position_Name.Equals("供应链经理"))//限制只有采购才有权限进入此页面
                 {
-                    string sql = "select * from As_KCI_Approval where Position_Name='" + position_Name + "' and Flag='0'";
+                    string sql = "select * from As_KCI_Approval where Position_Name='" + "采购部经理" + "' and Flag='0'";
                     PagedDataSource objpds = new PagedDataSource();
                     objpds.DataSource = KCIApproval_BLL.selectKCIApproval(sql);
                     GridView1.DataSource = objpds;

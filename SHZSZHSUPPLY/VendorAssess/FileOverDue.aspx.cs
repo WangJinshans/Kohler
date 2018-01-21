@@ -49,6 +49,24 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
         }
 
+        private void refreshVendor()
+        {
+            //string tempVendor = "TempVendor29";
+            //factory = "上海科勒";
+            ////获取该供应商所有应文件过期而需要重新审批的表
+            ////factory = Request.Form["quiz1"];
+            //if (Temp_Vendor_ID != null)//通过VendorID来加载数据库中该供应商的过期文件
+            //{                //先获取该供应商所有过期的文件
+            //    PagedDataSource dataSource = new PagedDataSource();
+            //    dataSource.DataSource = FileOverDue_BLL.getOverDueForm(Temp_Vendor_ID, factory);
+            //    GridView2.DataSource = dataSource;
+            //    GridView2.DataBind();
+            //    Session["tempVendorID"] = Temp_Vendor_ID;
+            //}
+            showVendorFiles();
+            showVendorRelatedForms(Session["overdue_tempVendorID"].ToString());
+        }
+
         /// <summary>
         /// 显示该职位需要处理的所有过期文献 
         /// </summary>
@@ -473,23 +491,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
         }
 
-        private void refreshVendor()
-        {
-            //string tempVendor = "TempVendor29";
-            //factory = "上海科勒";
-            ////获取该供应商所有应文件过期而需要重新审批的表
-            ////factory = Request.Form["quiz1"];
-            //if (Temp_Vendor_ID != null)//通过VendorID来加载数据库中该供应商的过期文件
-            //{                //先获取该供应商所有过期的文件
-            //    PagedDataSource dataSource = new PagedDataSource();
-            //    dataSource.DataSource = FileOverDue_BLL.getOverDueForm(Temp_Vendor_ID, factory);
-            //    GridView2.DataSource = dataSource;
-            //    GridView2.DataBind();
-            //    Session["tempVendorID"] = Temp_Vendor_ID;
-            //}
-            showVendorFiles();
-            showVendorRelatedForms(Session["overdue_tempVendorID"].ToString());
-        }
+
 
 
         private void showVendorRelatedForms(string Temp_Vendor_ID)

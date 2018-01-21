@@ -6,9 +6,10 @@
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
-    <script src="Script/jquery-3.2.1.min.js"></script>
-    <script src="Script/layui/layui.js"></script>
-    <script src="Script/Own/fileUploader.js?v=2"></script>
+    <link rel="stylesheet" href="./Script/layui/css/layui.css" />
+    <script src="./Script/jquery-3.2.1.min.js"></script>
+    <script src="./Script/layui/layui.js"></script>
+    <script src="./Script/Own/fileUploader.js?v=9"></script>
     <script type="text/javascript" src="Script/My97DatePicker/WdatePicker.js"></script>
     <script>
         var la_layer;
@@ -1096,13 +1097,13 @@
         <asp:UpdatePanel ID="updatePanel" UpdateMode="Conditional" runat="server" ChildrenAsTriggers="false">
             <ContentTemplate>
                 <div style="text-align: center;margin-bottom:50px">
-            <asp:Button ID="Button1" runat="server" Text="提交" CssClass="layui-btn" OnClick="Button1_Click" />
+            <asp:Button ID="Button1" runat="server" Text="提交" CssClass="layui-btn" OnClientClick="waiting('正在执行...')" OnClick="Button1_Click" />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
    
-            <asp:Button ID="Button4" runat="server" Text="确认" CssClass="layui-btn" OnClick="Button4_Click" />
+            <asp:Button ID="Button4" runat="server" Text="确认" CssClass="layui-btn" OnClientClick="waiting('正在执行...')" OnClick="Button4_Click" />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       
 	
-            <asp:Button ID="Button2" runat="server" Text="保存" CssClass="layui-btn layui-btn-normal" OnClick="Button2_Click" OnClientClick="waiting('正在保存')" />
+            <asp:Button ID="Button2" runat="server" Text="保存" CssClass="layui-btn layui-btn-normal" OnClientClick="waiting('正在执行...')" OnClick="Button2_Click" />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	
             <asp:Button ID="Button3" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Button3_Click" />

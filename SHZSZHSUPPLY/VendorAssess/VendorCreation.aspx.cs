@@ -39,10 +39,10 @@ namespace SHZSZHSUPPLY.VendorAssess
                     vendorCreation.Form_Type_ID = FORM_TYPE_ID;
                     vendorCreation.Vendor_Name = tempVendorName;
                     vendorCreation.Flag = 0;//将表格标志位信息改为0
-                    vendorCreation.Factory_Name = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString());
+                    vendorCreation.Factory_Name = Session["Factory_Name"].ToString();
 
                     //名字只读
-                    
+
                     int n = VendorCreation_BLL.addVendorCreation(vendorCreation);
                     if (n == 0)
                     {

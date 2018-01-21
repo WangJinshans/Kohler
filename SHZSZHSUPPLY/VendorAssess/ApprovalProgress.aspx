@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js" charset="utf-8"></script>
-    <script src="Script/Own/fileUploader.js?v=6"></script>
+    <script src="Script/Own/fileUploader.js?v=9"></script>
     <script>
         layui.use(['form', 'layedit', 'laydate', 'element'], function () {
             var form = layui.form()
@@ -172,7 +172,7 @@
             typeSelect.selectedIndex = 0;
 
             nameSelect.options.length = 0;
-            nameSelect.options.add(new Option('请选择供应商名称', ''));
+            nameSelect.options.add(new Option('直接选择或搜索选择', ''));
 
             refreshForm();
         }
@@ -183,7 +183,7 @@
             var nameSelect = document.getElementById('name');
 
             nameSelect.options.length = 0;
-            nameSelect.options.add(new Option("请选择供应商名称", ""))
+            nameSelect.options.add(new Option("直接选择或搜索选择", ""))
 
             if (typeSelect.selectedIndex == 0) {
                 return;
@@ -317,8 +317,8 @@
                 </select>
             </div>
             <div class="layui-input-inline">
-                <select id="name" name="quiz3">
-                    <option value="">请选择供应商名称</option>
+                <select id="name" name="quiz3" lay-verify="required" lay-search="">
+                    <option value="">直接选择或搜索选择</option>
                     <option value="name">name</option>
                 </select>
             </div>

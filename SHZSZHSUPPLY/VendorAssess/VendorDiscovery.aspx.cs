@@ -34,7 +34,7 @@ namespace AendorAssess
                     Vendor_Discovery.Temp_Vendor_Name = tempVendorName;
                     Vendor_Discovery.Temp_Vendor_ID = tempVendorID;
                     Vendor_Discovery.Flag = 0;//将表格标志位信息改为已填写
-                    Vendor_Discovery.Factory_Name = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString());
+                    Vendor_Discovery.Factory_Name = Session["Factory_Name"].ToString();
 
                     int n = VendorDiscovery_BLL.addVendorDiscovery(Vendor_Discovery);
                     if (n == 0)
@@ -409,7 +409,7 @@ namespace AendorAssess
                 //形成参数
                 As_Vendor_Discovery Vendor_Discovery = saveForm(2, "提交表格");
 
-                LocalApproveManager.doApproveWithSelection(Page,formID, FORM_NAME, FORM_TYPE_ID, tempVendorID, tempVendorName, Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString()));
+                LocalApproveManager.doApproveWithSelection(Page,formID, FORM_NAME, FORM_TYPE_ID, tempVendorID, tempVendorName, Session["Factory_Name"].ToString());
             }
             else
             {

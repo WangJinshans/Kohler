@@ -39,7 +39,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     vendorModify.Form_Type_ID = FORM_TYPE_ID;
                     vendorModify.Vendor_Name = tempVendorName;
                     vendorModify.Flag = 0;//将表格标志位信息改为0
-                    vendorModify.Factory_Name = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString());
+                    vendorModify.Factory_Name = Session["Factory_Name"].ToString();
 
                     //名字只读
 
@@ -86,7 +86,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             FORM_NAME = FormType_BLL.getFormNameByTypeID(FORM_TYPE_ID);
             tempVendorID = Request.QueryString["temp_Vendor_ID"].ToString().Trim();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
-            factory = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString().Trim());
+            factory = Session["Factory_Name"].ToString();
             formID = VendorModify_BLL.getFormID(tempVendorID, FORM_TYPE_ID, factory);
         }
 
@@ -242,7 +242,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
             string fileTypeName = GridView2.Rows[drv.RowIndex].Cells[0].Text.ToString().Trim();
-            string fileID= File_BLL.getFileID(tempVendorID, Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString().Trim()), fileTypeName);
+            string fileID= File_BLL.getFileID(tempVendorID, Session["Factory_Name"].ToString(), fileTypeName);
             if (e.CommandName == "view")
             {
                 string filePath = "../files/" + fileID + ".pdf";/*VendorModify_BLL.getFilePath(fileID);*/

@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
-    <script src="Script/Own/fileUploader.js?v=6"></script>
+    <script src="Script/Own/fileUploader.js?v=9"></script>
     <%--<script src="Script/layer/layer.js"></script>--%>
     <script>
         layui.use(['form', 'layedit', 'laydate'], function () {
@@ -84,7 +84,7 @@
                 </tr>
                 <tr>
                     <td colspan="3">
-                        <label class="layui-form-label">采购金额(万)</label>
+                        <label class="layui-form-label">采购金额(万元/年)</label>
                         <div class="layui-input-block">
                             <asp:TextBox ID="Purchase_Money" Style="width: 300px;" placeholder="金额" runat="server" class="layui-input"></asp:TextBox>
                         </div>

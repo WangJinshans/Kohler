@@ -103,7 +103,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         public void showfilelist(string FormID)
         {
             As_Form_File Form_File = new As_Form_File();
-            string factory = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString().Trim());
+            string factory = Session["Factory_Name"].ToString();
             tempVendorID = AddForm_BLL.GetTempVendorID(formID);
             string sql = "select * from As_Vendor_Modify_File where Temp_Vendor_ID='" + tempVendorID + "' and factory_Name='" + factory + "' and Status='new'";
             PagedDataSource objpds = new PagedDataSource();
@@ -145,7 +145,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 if (selectPositionName.Equals(Session["Position_Name"].ToString()))
                 {
-                    LocalScriptManager.CreateScript(Page, String.Format("openReasonDialog('{0}','{1}','{2}',{3})", formID, positionName, Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString()), "null"), "reasonDialog");
+                    LocalScriptManager.CreateScript(Page, String.Format("openReasonDialog('{0}','{1}','{2}',{3})", formID, positionName, Session["Factory_Name"].ToString(), "null"), "reasonDialog");
                 }
                 else
                 {
@@ -200,7 +200,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
             string fileTypeName= GridView2.Rows[drv.RowIndex].Cells[0].Text.ToString().Trim();//获取fileID
-            string fileID = File_BLL.getFileID(tempVendorID, Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString().Trim()), fileTypeName);
+            string fileID = File_BLL.getFileID(tempVendorID, Session["Factory_Name"].ToString(), fileTypeName);
             if (e.CommandName == "view")
             {
                 string filePath = "../files/" + fileID + ".pdf";

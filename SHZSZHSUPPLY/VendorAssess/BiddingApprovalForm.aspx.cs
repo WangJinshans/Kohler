@@ -58,7 +58,7 @@ namespace AendorAssess
                     biddingApproval.Temp_Vendor_ID = tempVendorID;
                     biddingApproval.Initiator = String.Format(Signature_BLL.urlPath, Session["Employee_ID"]);
                     biddingApproval.Flag = 0;//将表格标志位信息改为已填写
-                    biddingApproval.Factory_Name = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString());
+                    biddingApproval.Factory_Name = Session["Factory_Name"].ToString();
 
                     int n = As_Bidding_Approval_BLL.addBiddingForm(biddingApproval);
                     if (n == 0)
@@ -375,7 +375,7 @@ namespace AendorAssess
 
                 //对于用户部门，使用弹出对话框选择
                 //newApproveAccess(FORM_TYPE_ID, formID);
-                LocalApproveManager.doApproveWithSelection(Page, formID, FORM_NAME, FORM_TYPE_ID, tempVendorID, tempVendorName, Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString()));
+                LocalApproveManager.doApproveWithSelection(Page, formID, FORM_NAME, FORM_TYPE_ID, tempVendorID, tempVendorName, Session["Factory_Name"].ToString());
             }
             else
             {

@@ -45,10 +45,20 @@
          height:22px;
      }
      
-    </style>
+        #Select1 {
+            width: 358px;
+            margin-left: 86px;
+        }
      
-
-
+    </style>
+    <script type="text/javascript" src="VendorAssess/Script/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="VendorAssess/Script/layui/layui.js"></script>
+    <script type="text/javascript" src="VendorAssess/Script/Own/fileUploader.js?v=9"></script>
+    <script type="text/javascript">
+        function QusEmployee(parameters) {
+            
+        }
+    </script>
 </head>
 <body   style ="margin:0">
     <form id="form1" runat="server" class="style1"  >
@@ -83,9 +93,12 @@
     <tr>
     <td style="width:80px; font-size :medium ; font-family :Arial;font-weight :bold   ">密码:</td>
     <td><asp:TextBox ID="TextBox2" runat="server" style="width:30%" TextMode="Password"></asp:TextBox></td>
-    <td style="width:450px;font-family :Arial ; text-align :center;font-weight :bold ">供应商管理系统</td></tr></table></div>
+    <td style="width:450px;font-family :Arial ; text-align :center;font-weight :bold ">供应商管理系统(科勒中国)</td></tr></table></div>
     <div><table class ="style5" cellpadding ="0" cellspacing ="0" align="center">
-    <tr><td></td></tr></table></div>
+    <tr><td>
+        <asp:DropDownList ID="EmployeeList" Visible="False" runat="server" style="margin-left: 85px" Width="361px">
+        </asp:DropDownList>
+        </td></tr></table></div>
     <div><table  class ="style5" cellpadding ="0" cellspacing ="0" align="center">
     <tr>
     <td style="width:80px;  ">

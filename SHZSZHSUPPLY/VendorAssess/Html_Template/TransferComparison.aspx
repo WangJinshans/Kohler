@@ -8,7 +8,7 @@
     <link href="../Script/layui/css/layui.css" rel="stylesheet" />
     <script src="../Script/jquery-3.2.1.min.js"></script>
     <script src="../Script/layui/layui.js"></script>
-    <script src="../Script/Own/fileUploader.js?v=6"></script>
+    <script src="../Script/Own/fileUploader.js?v=9"></script>
     <title>系统文件对比</title>
     <style type="text/css">
         .left {

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
-    <script src="Script/Own/fileUploader.js?v=6"></script>
+    <script src="Script/Own/fileUploader.js?v=9"></script>
 	<script type="text/javascript" src="Script/My97DatePicker/WdatePicker.js" ></script>
     <script>
         function viewFile(filePath) {

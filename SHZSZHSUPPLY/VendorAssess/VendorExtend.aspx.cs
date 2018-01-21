@@ -33,7 +33,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     vendor.Form_Type_ID = FORM_TYPE_ID;
                     vendor.Temp_Vendor_Name = tempVendorID;
                     vendor.Flag = 0;//将表格标志位信息改为已填写
-                    vendor.Factory_Name = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString());
+                    vendor.Factory_Name = Session["Factory_Name"].ToString();
 
                     int n = VendorExtend_BLL.addVendorExtend(vendor);
                     if (n == 0)

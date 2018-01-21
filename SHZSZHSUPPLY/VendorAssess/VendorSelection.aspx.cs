@@ -50,7 +50,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     Vendor_Selection.Temp_Vendor_Name = tempVendorName;
                     Vendor_Selection.Temp_Vendor_ID = tempVendorID;
                     Vendor_Selection.Flag = 0;//将表格标志位信息改为已填写
-                    Vendor_Selection.Factory_Name = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString());
+                    Vendor_Selection.Factory_Name = Session["Factory_Name"].ToString();
 
                     int n = VendorSelection_BLL.addVendorSelection(Vendor_Selection);
                     if (n == 0)
@@ -314,7 +314,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 As_Vendor_Selection Vendor_Selection = saveForm(2, "提交表格");
 
                 //对于用户部门，使用弹出对话框选择
-                LocalApproveManager.doApproveWithSelection(Page, formID, FORM_NAME, FORM_TYPE_ID, tempVendorID, tempVendorName,Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString()));
+                LocalApproveManager.doApproveWithSelection(Page, formID, FORM_NAME, FORM_TYPE_ID, tempVendorID, tempVendorName,Session["Factory_Name"].ToString());
             }
             else
             {
@@ -343,7 +343,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             saveForm(1, "保存表格");
 
             //info
-            string currentDepartment = Employee_BLL.getEmployeeDepartment(Session["Employee_ID"].ToString());
+            string currentDepartment = Employee_BLL.getEmployeeDepartment(Session["Employee_ID"].ToString(), Session["Position_Name"].ToString());
             As_Edit_Flow edtFlow = EditFlow_BLL.getEditFlow(FORM_TYPE_ID);
             List<string> departments = new List<string>() { edtFlow.Edit_One_Department, edtFlow.Edit_Two_Department, edtFlow.Edit_Three_Department };
 
@@ -409,7 +409,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                         UpdateFlag_BLL.updateFlagAsFinish(FORM_TYPE_ID, tempVendorID);
 
                         //写出日志
-                        As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID));
+                        As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID), HttpContext.Current.Session["Factory_Name"].ToString());
                         LocalLog.writeLog(formID, String.Format("{0}已填写，多人填写完毕",currentDepartment), As_Write.FORM_MULTI_EDIT, tempVendorID);
 
                         //Mail
@@ -440,7 +440,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             getSessionInfo();
 
             string employee_ID = Session["Employee_ID"].ToString();
-            string currentDepartment = Employee_BLL.getEmployeeDepartment(employee_ID);
+            string currentDepartment = Employee_BLL.getEmployeeDepartment(employee_ID, Session["Position_Name"].ToString());
 
             //根据选择的list，初始化formeditflow，employeeformlist
             JavaScriptSerializer jss = new JavaScriptSerializer();
@@ -532,7 +532,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 As_Approve ap = MultiEdit_BLL.getMultiEditTop(formID);
 
                 //Log
-                LocalLog.writeLog(formID, String.Format("{0}已填写，等待 {1} 填写", Employee_BLL.getEmployeeDepartment(Session["Employee_ID"].ToString()),ap.Employee_Name), As_Write.FORM_MULTI_EDIT, tempVendorID);
+                LocalLog.writeLog(formID, String.Format("{0}已填写，等待 {1} 填写", Employee_BLL.getEmployeeDepartment(Session["Employee_ID"].ToString(), Session["Position_Name"].ToString()),ap.Employee_Name), As_Write.FORM_MULTI_EDIT, tempVendorID);
                 
                 //Mail
                 LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, ap.Temp_Vendor_Name, FORM_NAME, "等待填写", DateTime.Now.ToString(), "此表格已由其他部门填写完毕，正在等待当前部门填写，请登陆系统填写表格并确认");

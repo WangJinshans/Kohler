@@ -47,7 +47,7 @@ namespace VendorAssess
                     vendorDesignatedApply.VendorName = tempVendorName;
                     vendorDesignatedApply.Temp_Vendor_ID = tempVendorID;
                     vendorDesignatedApply.Flag = 0;//将表格标志位信息改为初始
-                    vendorDesignatedApply.Factory_Name = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString());
+                    vendorDesignatedApply.Factory_Name = Session["Factory_Name"].ToString();
 
                     //名字只读
                     TextBox1.Text = tempVendorName;//
@@ -344,7 +344,7 @@ namespace VendorAssess
                 As_Vendor_Designated_Apply Vendor_Designated = saveForm(2, "提交表格");
 
                 //对于用户部门，使用弹出对话框选择
-                LocalApproveManager.doApproveWithSelection(Page, formID, FORM_NAME, FORM_TYPE_ID, tempVendorID, tempVendorName, Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString()));
+                LocalApproveManager.doApproveWithSelection(Page, formID, FORM_NAME, FORM_TYPE_ID, tempVendorID, tempVendorName, Session["Factory_Name"].ToString());
             }
             else
             {

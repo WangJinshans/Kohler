@@ -6,8 +6,8 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-    <link rel="stylesheet" href="Script/layui/layui.js" />
     <title></title>
+    <script type="text/javascript" src="Script/layui/layui.js" ></script>
     <%--<base target="_self" />--%> 
 </head>
 <body>

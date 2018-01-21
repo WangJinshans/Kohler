@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
-    <script src="Script/Own/fileUploader.js?v=6"></script>
+    <script src="Script/Own/fileUploader.js?v=9"></script>
     <script>
         window.onload = function () {
             blockBack();
@@ -97,7 +97,7 @@
             typeSelect.selectedIndex = 0;
 
             nameSelect.options.length = 0;
-            nameSelect.options.add(new Option('请选择供应商名称', ''));
+            nameSelect.options.add(new Option('直接选择或搜索选择', ''));
 
             refreshForm();
         }
@@ -108,7 +108,7 @@
             var nameSelect = document.getElementById('name');
 
             nameSelect.options.length = 0;
-            nameSelect.options.add(new Option("请选择供应商名称", ""))
+            nameSelect.options.add(new Option("直接选择或搜索选择", ""))
 
             if (typeSelect.selectedIndex == 0) {
                 return;
@@ -200,14 +200,14 @@
                 </select>
             </div>
             <div class="layui-input-inline">
-                <select id="name" name="quiz3">
-                    <option value="">请选择供应商名称</option>
+                <select id="name" name="quiz3" lay-verify="required" lay-search="">
+                    <option value="">直接选择或搜索选择</option>
                     <option value="name">name</option>
                 </select>
             </div>
         </div>
         <div style="width:1000px;margin:0 auto">
-            <div style="width:500px;float:left">
+            <div style="width:495px;float:left">
                 <fieldset class="layui-elem-field layui-field-title" style=" margin: 50px auto 20px auto;">
                     <legend id="Legend2" runat="server">待填写表格</legend>
                 </fieldset>
@@ -253,7 +253,7 @@
                     </ContentTemplate>
                 </asp:UpdatePanel>
             </div>
-            <div style="width:500px;float:right">
+            <div style="width:495px;float:right">
                 <fieldset id="Legend1" runat="server" class="layui-elem-field layui-field-title" style=" margin: 50px auto 20px auto;">
                     <legend>已提交表格</legend>
                 </fieldset>

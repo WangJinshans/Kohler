@@ -108,7 +108,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             if (File_Transform_BLL.checkFormSubmit(tempVendorID, Request.Form["quiz1"]) && File_Transform_BLL.FormAccessSuccessFul(tempVendorID, Request.Form["quiz1"]) && File_Transform_BLL.checkFileSubmit(tempVendorID, Request.Form["quiz1"]))
             {
                 //如果本工厂已经在使用此供应商
-                if (TempVendor_BLL.checkUsed(tempVendorID, Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString())))
+                if (TempVendor_BLL.checkUsed(tempVendorID, Session["Factory_Name"].ToString()))
                 {
                     LocalScriptManager.CreateScript(Page, String.Format("message('{0}')", "此供应商已经在您所在的工厂中使用"), "vendorIsUsed");
                     return;

@@ -51,7 +51,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     vendorContract.Form_Type_ID = FORM_TYPE_ID;
                     vendorContract.Vendor_Name = tempVendorName;
                     vendorContract.Flag = 0;//将表格标志位信息改为0
-                    vendorContract.Factory_Name = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString());
+                    vendorContract.Factory_Name = Session["Factory_Name"].ToString();
 
 
                     //名字只读

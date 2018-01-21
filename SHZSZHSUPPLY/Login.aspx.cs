@@ -15,6 +15,8 @@ namespace SHZSZHSUPPLY
 {
     public partial class Login : System.Web.UI.Page
     {
+        private List<As_Employee> employees;
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -112,19 +114,50 @@ namespace SHZSZHSUPPLY
 
         private void initVendorAssess(string employeeID)
         {
-            As_Employee employee = Employee_BLL.getEmolyeeById(employeeID);
-            if (true)
+            if (EmployeeList.Visible)
             {
-                Session["Employee_ID"] = employee.Employee_ID;
-                Session["Employee_Name"] = employee.Employee_Name;
-                Session["Position_Name"] = employee.Positon_Name;
-                Session["Factory_Name"] = Employee_BLL.getEmployeeFactory(employee.Employee_ID);//获取厂名
-                Response.Write("<script>parent.location.href='" + "./WebForm1.aspx?name1=" + employee.Employee_Name + "&name2=" + employee.Employee_ID + "'</script>");
+                EmployeeList.Visible = false;
+                List<As_Employee> list = Employee_BLL.getEmolyeeListById(employeeID);
+                string[] selection = EmployeeList.Text.Split('-');
+                As_Employee ae = list
+                    .FirstOrDefault(u => u.Factory_Name == selection[1] && u.Positon_Name == selection[0]);
+                if (ae == null)
+                {
+                    throw new Exception("当前输入的信息不匹配");
+                }
+                Session["Employee_ID"] = ae.Employee_ID;
+                Session["Employee_Name"] = ae.Employee_Name;
+                Session["Position_Name"] = ae.Positon_Name;
+                Session["Department_ID"] = ae.Department_ID;
+                Session["Department_Name"] = ae.Department_Name;
+                Session["Authority_ID"] = ae.Authority_ID;
+                Session["Factory_Name"] = ae.Factory_Name;//获取厂名
+                Response.Write("<script>parent.location.href='" + "./WebForm1.aspx?name1=" + ae.Employee_Name + "&name2=" + ae.Employee_ID + "'</script>");
+                return;;
+            }
+
+            employees = Employee_BLL.getEmolyeeListById(employeeID);
+            if (employees.Count>1)  //如果有多个记录
+            {
+                EmployeeList.DataSource = employees.Select(u=>u.Positon_Name+"-"+u.Factory_Name).ToList();
+                EmployeeList.Visible = true;
+                EmployeeList.DataBind();
+                throw new Exception("请选择需要登陆的角色");
             }
             else
             {
-                //Response.Redirect("index.aspx");
+                EmployeeList.Visible = false;
+                Session["Employee_ID"] = employees[0].Employee_ID;
+                Session["Employee_Name"] = employees[0].Employee_Name;
+                Session["Position_Name"] = employees[0].Positon_Name;
+                Session["Department_ID"] = employees[0].Department_ID;
+                Session["Department_Name"] = employees[0].Department_Name;
+                Session["Authority_ID"] = employees[0].Authority_ID;
+                Session["Factory_Name"] = employees[0].Factory_Name;//获取厂名
+                Response.Write("<script>parent.location.href='" + "./WebForm1.aspx?name1=" + employees[0].Employee_Name + "&name2=" + employees[0].Employee_ID + "'</script>");
             }
+
+            
         }
     }
 }

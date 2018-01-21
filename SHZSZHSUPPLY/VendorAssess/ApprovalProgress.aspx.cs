@@ -88,6 +88,8 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             bindGridData(tempVendorID);
 
+            Session["apTempVendorID"] = tempVendorID;
+
             vendorName.InnerText = TempVendor_BLL.getTempVendorName(tempVendorID);
 
             formName.InnerText = "表格名称";
@@ -247,7 +249,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void btnTransfer_Click1(object sender, EventArgs e)
         {
-            Session["apTempVendorID"] = Request["quiz3"];
+            //Session["apTempVendorID"] = Request["quiz3"];
         }
     }
 }

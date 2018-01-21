@@ -3,6 +3,7 @@ using Model;
 using MODEL;
 using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
+using System.Web;
 using System.Web.UI.WebControls;
 
 namespace SHZSZHSUPPLY.VendorAssess
@@ -33,7 +34,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     Vendor.Form_Type_ID = FORM_TYPE_ID;
                     Vendor.Temp_Vendor_Name = tempVendorID;
                     Vendor.Flag = 0;//将表格标志位信息改为已填写
-                    Vendor.Factory_Name = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString());
+                    Vendor.Factory_Name = HttpContext.Current.Session["Factory_Name"].ToString();
 
                     int n = VendorBlockOrUnBlock_BLL.addVendorBlock(Vendor);
                     if (n == 0)

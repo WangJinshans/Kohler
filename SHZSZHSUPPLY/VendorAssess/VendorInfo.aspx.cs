@@ -95,7 +95,11 @@ namespace AendorAssess
             }
             //给供应商基本信息赋值
             string vendorType = DropDownList1.SelectedValue.Trim();
-            
+            if (vendorType == null || vendorType.Equals(""))
+            {
+                LocalScriptManager.createManagerScript(Page, "messageBox('" + "请选择供应商类型，或刷新页面后重试" + "');", "typeNone");
+            }
+
             //查询供应商类型编号
             string vendorTypeID = FillVendorInfo_BLL.selectVendorTypeId(Promise.Checked,Advance_Charge.Checked,Vendor_Assign.Checked,vendorType);
 
@@ -153,11 +157,11 @@ namespace AendorAssess
             int bindResult = 0;
             if (addType)
             {
-                bindResult = FillVendorInfo_BLL.addMultiTypeVendor(tempVendorID, Promise.Checked, Vendor_Assign.Checked, Advance_Charge.Checked, Purchase_Money.Text.Trim(), Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString()));
+                bindResult = FillVendorInfo_BLL.addMultiTypeVendor(tempVendorID, Promise.Checked, Vendor_Assign.Checked, Advance_Charge.Checked, Purchase_Money.Text.Trim(), Session["Factory_Name"].ToString());
             }
             else
             {
-                bindResult = FillVendorInfo_BLL.addNewVendorFormAndFile(tempVendorID, Promise.Checked, Vendor_Assign.Checked, Advance_Charge.Checked, Purchase_Money.Text.Trim(), Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString()));
+                bindResult = FillVendorInfo_BLL.addNewVendorFormAndFile(tempVendorID, Promise.Checked, Vendor_Assign.Checked, Advance_Charge.Checked, Purchase_Money.Text.Trim(), Session["Factory_Name"].ToString());
             }
 
             //alert
