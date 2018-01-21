@@ -7,7 +7,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
-    <link rel="Stylesheet" href="VendorAssess/Script/jquery-3.2.1.min.js" />
+    <script type="text/javascript" src="VendorAssess/Script/jquery-3.2.1.min.js"></script>
     <style type="text/css">
         .style1 {
             width: 100%;

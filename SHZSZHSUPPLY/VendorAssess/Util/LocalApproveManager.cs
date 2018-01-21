@@ -32,7 +32,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
         public static bool doAddApprove(string formID, string FORM_NAME, string FORM_TYPE_ID, string tempVendorID, int kci=-1)
         {
             string Form_Type_Name = FORM_NAME;
-            string factory = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
+            string factory = HttpContext.Current.Session["Factory_Name"].ToString();
 
             //实例化审批流程
             As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(FORM_TYPE_ID);
@@ -177,7 +177,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             //写入session之后供SelectDepartment页面使用
             HttpContext.Current.Session["AssessflowInfo"] = assess_flow;
             HttpContext.Current.Session["tempVendorID"] = tempVendorID;
-            HttpContext.Current.Session["Factory_Name"] = Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString());
+            //HttpContext.Current.Session["Factory_Name"] = Session["Factory_Name"].ToString()
             HttpContext.Current.Session["form_name"] = FORM_NAME;
             HttpContext.Current.Session["tempVendorName"] = tempVendorName;
 
@@ -254,10 +254,12 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             //银行信息账期是否修改
             //从As_Vendor_Modify_Info中获取是否修改payTermChanged和bankChanged信息
             bool payOrBankChanged = Vendor_Modify_File_BLL.isNeedFinance(tempVendorID, factory);
-            As_Form_AssessFlow assessFlow = new As_Form_AssessFlow();
-            assessFlow.Form_ID = formId;
-            assessFlow.First = "采购部经理";
-            assessFlow.Second = "";
+            As_Form_AssessFlow assessFlow = new As_Form_AssessFlow
+            {
+                Form_ID = formId,
+                First = "采购部经理",
+                Second = ""
+            };
             if (payOrBankChanged)
             {
                 assessFlow.Second = "财务部经理";
@@ -318,14 +320,16 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             }
 
             //提交表
-            As_Form form = new As_Form();
-            form.Form_ID = formId;
-            form.Form_Type_Name = form_Name;
-            form.Form_Type_ID = FormType_BLL.getFormTypeIDByName(form_Name);
-            form.Temp_Vendor_Name = TempVendor_BLL.getTempVendorName(tempVendorID);
-            form.Form_Path = "";
-            form.Temp_Vendor_ID = tempVendorID;
-            form.Factory_Name = factory;
+            As_Form form = new As_Form
+            {
+                Form_ID = formId,
+                Form_Type_Name = form_Name,
+                Form_Type_ID = FormType_BLL.getFormTypeIDByName(form_Name),
+                Temp_Vendor_Name = TempVendor_BLL.getTempVendorName(tempVendorID),
+                Form_Path = "",
+                Temp_Vendor_ID = tempVendorID,
+                Factory_Name = factory
+            };
             int add = AddForm_BLL.addForm(form);
 
             //插入到As_Vendor_Form_Type中
@@ -377,7 +381,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             int result = isFinalApprove(formID, positionName);
 
             //日志参数
-            As_Employee ae = Employee_BLL.getEmolyeeById(HttpContext.Current.Session["Employee_ID"].ToString());
+            As_Employee ae = Employee_BLL.getEmolyeeById(HttpContext.Current.Session["Employee_ID"].ToString(), HttpContext.Current.Session["Factory_Name"].ToString());
 
             //最终  即将进行KCI
             if (result == KCI_FINAL)
@@ -428,27 +432,8 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                     if (AssessFlow_BLL.updateUserDepartmentApprove(formID, positionName) > 0)
                     {
                         ap = Approve_BLL.getApproveTop(formID);
-
-                        LocalLog.writeLog(formID, String.Format("{0}审批已通过，正在等待{1}审批    时间：{2}", ae.Positon_Name + ae.Employee_Name, ap.Position_Name, DateTime.Now), As_Write.APPROVE_SUCCESS, tempVendorID);
-
-                        //Mail
-                        LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), ap.Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批");
-
-                        //提示并拉起返回刷新
-                        LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){document.location.href = document.URL;}"), "toast");
-
-                        //true结果返回后暂时无作用——2017年9月9日13:37:57
-                        return true;
-                    }
-                }
-                else
-                {
-                    //进行签名处理
-                    if (Signature_BLL.setSignature(formID, positionName) && Signature_BLL.setSignatureDate(formID, positionName) != -1)
-                    {
-                        if (AssessFlow_BLL.updateApprove(formID, positionName) > 0)
+                        if (ap != null)
                         {
-                            ap = Approve_BLL.getApproveTop(formID);
                             LocalLog.writeLog(formID, String.Format("{0}审批已通过，正在等待{1}审批    时间：{2}", ae.Positon_Name + ae.Employee_Name, ap.Position_Name, DateTime.Now), As_Write.APPROVE_SUCCESS, tempVendorID);
 
                             //Mail
@@ -459,6 +444,44 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
 
                             //true结果返回后暂时无作用——2017年9月9日13:37:57
                             return true;
+                        }
+                        else
+                        {
+                            LocalLog.writeLog(formID, String.Format("{0}审批已通过，但是查询下一个审批人失败！    时间：{1}", ae.Positon_Name + ae.Employee_Name, DateTime.Now), As_Write.FIND_NEXT_APPROVE_FAIL, tempVendorID);
+
+                            //Mail
+                            //LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), ap.Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批");
+                        }
+                    }
+                }
+                else
+                {
+                    //进行签名处理
+                    if (Signature_BLL.setSignature(formID, positionName) && Signature_BLL.setSignatureDate(formID, positionName) != -1)
+                    {
+                        if (AssessFlow_BLL.updateApprove(formID, positionName) > 0)
+                        {
+                            ap = Approve_BLL.getApproveTop(formID);
+                            if (ap != null)
+                            {
+                                LocalLog.writeLog(formID, String.Format("{0}审批已通过，正在等待{1}审批    时间：{2}", ae.Positon_Name + ae.Employee_Name, ap.Position_Name, DateTime.Now), As_Write.APPROVE_SUCCESS, tempVendorID);
+
+                                //Mail
+                                LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), ap.Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批");
+                                
+                                //提示并拉起返回刷新
+                                LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){document.location.href = document.URL;}"), "toast");
+                                
+                                //true结果返回后暂时无作用——2017年9月9日13:37:57
+                                return true;
+                            }
+                            else
+                            {
+                                LocalLog.writeLog(formID, String.Format("{0}审批已通过，但是查询下一个审批人失败！    时间：{1}", ae.Positon_Name + ae.Employee_Name, DateTime.Now), As_Write.FIND_NEXT_APPROVE_FAIL, tempVendorID);
+
+                                //Mail
+                                //LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), ap.Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批");
+                            }
                         }
                     }
                 }
@@ -583,7 +606,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                 LocalLog.writeLog(formID, String.Format("系统内部审批完成,KCI审批已添加，正在等待KCI审批结果    时间：{0}", DateTime.Now), As_Write.APPROVE_SUCCESS, tempVendorID);
 
                 //邮件通知
-                As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID));
+                As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID), HttpContext.Current.Session["Factory_Name"].ToString());
                 LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "等待审批", DateTime.Now.ToString(), "系统内部审批已完成，正在等待KCI审批结果，请获取KCI审批结果后登录系统更新KCI审批信息");
 
                 //提示，并生成文件，写入系统，返回刷新
@@ -656,7 +679,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                 LocalLog.writeLog(formID, String.Format("系统内部审批完成,表格审批完成    时间：{0}", DateTime.Now), As_Write.APPROVE_SUCCESS, tempVendorID);
 
                 //邮件通知
-                As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID));
+                As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID), HttpContext.Current.Session["Factory_Name"].ToString());
                 LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "审批完成", DateTime.Now.ToString(), "系统内部审批完成,表格审批完成");
 
                 //提示
