@@ -23,7 +23,7 @@ function uploadFile(requestType, tempVendorID, tempVendorName, fileTypeID, needD
             type: 2,
             title: '文件上传',
             maxmin: true,
-            content: './Html_Template/File_Upload_Page.html?v=4',
+            content: './Html_Template/File_Upload_Page.html?v=5',
             area: ['800px', '300px'],
             shadeClose: false,
             success: function (layero, index) {
@@ -123,7 +123,7 @@ function waiting(msg) {
     layui.use(['layer'], function () {
         layer.msg(msg, {
             icon: 16
-            , shade: 0.01
+            , shade: 0.65
             , time: 0
             , shadeClose: true
         });
