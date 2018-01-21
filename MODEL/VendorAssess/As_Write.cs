@@ -16,6 +16,7 @@ namespace Model
         public const string MAIL_CANCELLED = "邮件取消";
         public const string MAIL_SUCCESS = "邮件发送";
         public const string MAIL_ERROR = "邮件错误";
+        public const string FIND_NEXT_APPROVE_FAIL = "查询失败";
 
         private int id;
         private string employee_ID;

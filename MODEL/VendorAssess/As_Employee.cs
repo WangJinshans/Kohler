@@ -120,5 +120,7 @@ namespace Model
                 factory_Name = value;
             }
         }
+
+        public string Authority_ID { get; set; }
     }
 }
