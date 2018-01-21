@@ -52,7 +52,7 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
 
 
             //写出日志
-            As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID));
+            As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID),factory);
             As_Write aw = new As_Write();
             aw.Employee_ID = ae.Employee_ID;
             aw.Form_ID = formID;
@@ -103,7 +103,7 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
 
 
             //写出日志
-            As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID));
+            As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID),factory);
             As_Write aw = new As_Write();
             aw.Employee_ID = ae.Employee_ID;
             aw.Form_ID = formID;
@@ -114,7 +114,7 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             Write_BLL.addWrite(aw);
 
             //Mail
-            ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID));
+            ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID),factory);
             LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "审批失败", DateTime.Now.ToString(), "表格审批被拒绝，原因如下：" + reason + ";请登录系统修改后重新提交审批");
 
             //更新状态为fail(可写可不写，归零后自动清空)
@@ -157,7 +157,7 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             if (i == 1)
             {
                 //Mail
-                As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID));
+                As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID),factory);
                 LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "审批失败", DateTime.Now.ToString(), "表格审批被拒绝，原因如下：" + reason + ";请登录系统修改后重新提交审批");
 
                 //状态归零
