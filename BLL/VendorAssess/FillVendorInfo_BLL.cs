@@ -32,7 +32,7 @@ namespace BLL
         public static int addTempVendor(As_Temp_Vendor Temp_Vendor)
         {
             Temp_Vendor.SH = Temp_Vendor.ZS = Temp_Vendor.ZH = DBNull.Value.ToString();
-            switch (Employee_BLL.getEmployeeFactory(HttpContext.Current.Session["Employee_Id"].ToString()))
+            switch (HttpContext.Current.Session["Factory_Name"].ToString())
             {
                 case "上海科勒":
                     Temp_Vendor.SH = "上海科勒";

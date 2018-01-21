@@ -111,59 +111,62 @@ namespace BLL.VendorAssess
 
         public static string switchFormID(string formID)//未完待续。。。
         {
-            string table = "", tempFormID = formID.Substring(0, formID.IndexOf("_"));
-            //try
-            //{
-            //    table = PageSelect.dcFormToModel[tempFormID];
-            //}
-            //catch (Exception)
-            //{
+            string table = "", tempFormID = formID.Substring(0, formID.LastIndexOf("_"));
+            try
+            {
+                table = PageSelect.dcFormToModel[tempFormID];
+            }
+            catch (Exception)
+            {
+                if (true)
+                {
+                    if (formID.Contains("ContractApproval"))
+                    {
+                        table = "As_Contract_Approval";
+                    }
+                    else if (formID.Contains("VendorExtend"))
+                    {
+                        table = "As_Vendor_Extend";
+                    }
+                    else if (formID.Contains("VendorBlock"))
+                    {
+                        table = "As_Vendor_Block_Or_UnBlock";
+                    }
+                    else if (formID.Contains("VendorCreation"))
+                    {
+                        table = "As_VendorCreation";
+                    }
+                    else if (formID.Contains("VendorDesignated"))
+                    {
+                        table = "As_Vendor_Designated_Apply";
+                    }
+                    else if (formID.Contains("VendorDiscovery"))
+                    {
+                        table = "As_Vendor_Discovery";
+                    }
+                    else if (formID.Contains("BiddingForm"))
+                    {
+                        table = "As_Bidding_Approval_Form";
+                    }
+                    else if (formID.Contains("Selection"))
+                    {
+                        table = "As_Vendor_Selection";
+                    }
+                    else if (formID.Contains("VendorRisk"))
+                    {
+                        table = "As_Vendor_Risk";
+                    }
+                    else if (formID.Contains("PurchaseChanges"))
+                    {
+                        table = "As_Purchase_Changes";
+                    }
+                }
+                else if (formID.Contains("VendorModify"))
+                {
+                    table = "As_VendorModify";
+                }
+            }
 
-            //    throw;
-            //}
-            if (true)
-            {
-                if (formID.Contains("ContractApproval"))
-                {
-                    table = "As_Contract_Approval";
-                }
-                else if (formID.Contains("VendorExtend"))
-                {
-                    table = "As_Vendor_Extend";
-                }
-                else if (formID.Contains("VendorBlock"))
-                {
-                    table = "As_Vendor_Block_Or_UnBlock";
-                }
-                else if (formID.Contains("VendorCreation"))
-                {
-                    table = "As_VendorCreation";
-                }
-                else if (formID.Contains("VendorDesignated"))
-                {
-                    table = "As_Vendor_Designated_Apply";
-                }
-                else if (formID.Contains("VendorDiscovery"))
-                {
-                    table = "As_Vendor_Discovery";
-                }
-                else if (formID.Contains("BiddingForm"))
-                {
-                    table = "As_Bidding_Approval_Form";
-                }
-                else if (formID.Contains("Selection"))
-                {
-                    table = "As_Vendor_Selection";
-                }
-                else if (formID.Contains("VendorRisk"))
-                {
-                    table = "As_Vendor_Risk";
-                }
-            }
-            else if (formID.Contains("VendorModify"))
-            {
-                table = "As_VendorModify";
-            }
             return table;
         }
 

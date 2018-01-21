@@ -40,7 +40,7 @@ namespace DAL.VendorAssess
 
         public static List<string> getFormIDs(string tempVendorID, string factory)
         {
-            string sql = "select Form_ID FROM As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "'";
+            string sql = "select Form_ID FROM As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "' And Form_Type_ID not in ('005','006','007','008','009','010','011','012')";
             List<string> formlist = new List<string>();
             string formid = "";
             DataTable table = new DataTable();
@@ -115,7 +115,7 @@ namespace DAL.VendorAssess
 
         public static bool AccessSuccessFul(string tempVendorID, string factory)
         {
-            string sql = "select * from View_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "' and flag<>4 And Form_Type_Is_Optional='必选'";//4代表已经审批完成
+            string sql = "select * from View_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "' and flag<>4 And Form_Type_Is_Optional='必选' And Form_Type_ID not in ('005','006','007','008','009','010','011','012')";//4代表已经审批完成
             using (SqlDataReader reader = DBHelp.GetReader(sql))
                 if (reader.Read())
                 {

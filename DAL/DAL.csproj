@@ -74,6 +74,7 @@
     <Compile Include="VendorAssess\KCIApproval_DAL.cs" />
     <Compile Include="VendorAssess\MultiEdit_DAL.cs" />
     <Compile Include="VendorAssess\NewForms_DAL.cs" />
+    <Compile Include="VendorAssess\PurchaseChanges_DAL.cs" />
     <Compile Include="VendorAssess\Signature_DAL.cs" />
     <Compile Include="VendorAssess\VendorCheckResult_DAL.cs" />
     <Compile Include="VendorAssess\VendorModify_DAL.cs" />

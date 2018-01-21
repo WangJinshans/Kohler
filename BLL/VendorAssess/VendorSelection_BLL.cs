@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web;
 using MODEL.VendorAssess;
 using DAL.VendorAssess;
 using Model;
@@ -39,7 +40,7 @@ namespace BLL.VendorAssess
 
         public static bool checkDepartment(string currentEmployeeID, As_Edit_Flow edtFlow)
         {
-            string department = Employee_BLL.getEmployeeDepartment(currentEmployeeID);
+            string department = Employee_BLL.getEmployeeDepartment(currentEmployeeID,  HttpContext.Current.Session["Position_Name"].ToString());
             if (department.Equals(edtFlow.Edit_One_Department))
             {
                 return true;

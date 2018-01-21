@@ -27,7 +27,8 @@ namespace BLL.VendorAssess
 
                 string fileTypeName = FormType_BLL.getFormNameByFormID(formID);
                 string factory = AddForm_BLL.getFactoryByFormID(formID);
-                string file = HttpContext.Current.Server.MapPath(File_Path) + File_BLL.generateFileID(tempVendorID, fileTypeName, factory) + ".pdf";
+                string id = File_BLL.generateFileID(tempVendorID, fileTypeName, factory) + ".pdf";
+                string file = HttpContext.Current.Server.MapPath(File_Path) + id;
 
 
                 Process process = new Process();
@@ -46,8 +47,8 @@ namespace BLL.VendorAssess
                 {
                     As_Form form = new As_Form();
                     form.Form_ID = formID;
-                    form.Form_Path = File_Path + File_BLL.generateFileID(tempVendorID, fileTypeName, factory) + ".pdf";
-                    int result = AddForm_BLL.upDateFormPath(formID, file);
+                    form.Form_Path = File_Path + id;
+                    int result = AddForm_BLL.upDateFormPath(formID, form.Form_Path);
                     if (result <= 0)
                     {
                         FileInfo fi = new FileInfo(file);
