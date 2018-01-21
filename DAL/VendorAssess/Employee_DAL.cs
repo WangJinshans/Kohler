@@ -46,12 +46,13 @@ namespace DAL
             }
         }
 
-        public static string getEmployeeDepartment(string currentEmployeeID)
+        public static string getEmployeeDepartment(string currentEmployeeID,string pos)
         {
-            string sql = "select Department_Name from View_Employee_Department where Employee_ID=@Employee_ID";
+            string sql = "select Department_Name from View_Employee_Department where Employee_ID=@Employee_ID And Positon_Name=@Position_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("@Employee_ID",currentEmployeeID)
+                new SqlParameter("@Employee_ID",currentEmployeeID),
+                new SqlParameter("@Position_Name",pos)
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)
@@ -102,12 +103,12 @@ namespace DAL
             return employeeID;
         }
 
-        public static List<string> getAuthority(string employee_ID)
+        public static List<string> getAuthority(string auID)
         {
-            string sql = "select * From As_Authority Where Authority_ID in (Select Authority_ID From As_Employee Where Employee_ID=@Employee_ID)";
+            string sql = "select * From As_Authority Where Authority_ID = @AuID";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("@Employee_ID",employee_ID)
+                new SqlParameter("@AuID",auID)
             };
 
             List<string> list = null;
@@ -129,6 +130,11 @@ namespace DAL
 
         public static string getEmployeeFactory(string currentEmployeeID)
         {
+            if (currentEmployeeID.Equals(HttpContext.Current.Session["Employee_ID"].ToString()))
+            {
+                return HttpContext.Current.Session["Factory_Name"].ToString();
+            }
+
             string sql = "select Factory_Name from View_Employee_Department where Employee_ID=@Employee_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
@@ -188,9 +194,9 @@ namespace DAL
             return null;
         }
 
-        public static As_Employee getEmolyeeById(string employee_ID)
+        public static List<As_Employee> getEmolyeeById(string employee_ID)
         {
-            As_Employee Employee = null;
+            List<As_Employee> employees = new List<As_Employee>();
             string sql = "SELECT * FROM View_Employee_Department WHERE Employee_ID=@employee_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
@@ -199,21 +205,25 @@ namespace DAL
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)
             {
-                Employee = new As_Employee();
                 foreach (DataRow dr in dt.Rows)
                 {
-                    Employee.Employee_ID = Convert.ToString(dr["Employee_ID"]);
-                    Employee.Employee_Name = Convert.ToString(dr["Employee_Name"]);
-                    Employee.Employee_Email = Convert.ToString(dr["Employee_Email"]);
-                    Employee.Department_ID = Convert.ToString(dr["Department_ID"]);
-                    Employee.Department_Name = Convert.ToString(dr["Department_Name"]);
-                    Employee.Positon_Name = Convert.ToString(dr["Positon_Name"]);
-                    Employee.Employee_Password = Convert.ToString(dr["Employee_Password"]);
-                    Employee.Factory_Name = Convert.ToString(dr["Factory_Name"]);
+                    var employee = new As_Employee
+                    {
+                        Employee_ID = Convert.ToString(dr["Employee_ID"]),
+                        Employee_Name = Convert.ToString(dr["Employee_Name"]),
+                        Employee_Email = Convert.ToString(dr["Employee_Email"]),
+                        Department_ID = Convert.ToString(dr["Department_ID"]),
+                        Department_Name = Convert.ToString(dr["Department_Name"]),
+                        Positon_Name = Convert.ToString(dr["Positon_Name"]),
+                        Employee_Password = Convert.ToString(dr["Employee_Password"]),
+                        Factory_Name = Convert.ToString(dr["Factory_Name"]),
+                        Authority_ID = Convert.ToString(dr["Authority_ID"])
+                    };
+                    employees.Add(employee);
                 }
             }
 
-            return Employee;
+            return employees;
         }
     }
 }

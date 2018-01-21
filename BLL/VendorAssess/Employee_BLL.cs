@@ -13,9 +13,9 @@ namespace BLL
 {
     public class Employee_BLL
     {
-        public static As_Employee getEmolyeeById(string employee_ID)
+        public static As_Employee getEmolyeeById(string employee_ID,string factory)
         {
-            return Employee_DAL.getEmolyeeById(employee_ID);
+            return Employee_DAL.getEmolyeeById(employee_ID).FirstOrDefault(u => u.Employee_ID==employee_ID.ToLower()&&u.Factory_Name==factory);
         }
 
         public static IList<As_Employee> selectEmployee(string sql)
@@ -60,24 +60,30 @@ namespace BLL
             return Employee_DAL.viewGetEmployeeName(department);
         }
 
-        public static string getEmployeeDepartment(string currentEmployeeID)
+        public static string getEmployeeDepartment(string currentEmployeeID,string positionName)
         {
-            return Employee_DAL.getEmployeeDepartment(currentEmployeeID);
+            return Employee_DAL.getEmployeeDepartment(currentEmployeeID,positionName);
         }
 
+        /// <summary>
+        /// 弃用
+        /// </summary>
+        /// <param name="currentEmployeeID"></param>
+        /// <returns></returns>
         public static string getEmployeeFactory(string currentEmployeeID)
         {
             return Employee_DAL.getEmployeeFactory(currentEmployeeID);
         }
 
-        public static List<string> getAuthority(string employee_ID)
+        public static List<string> getAuthority(string auid)
         {
-            return Employee_DAL.getAuthority(employee_ID);
+            return Employee_DAL.getAuthority(auid);
         }
 
         public static string findHead(string employeeID)
         {
-            As_Employee ae = Employee_DAL.getEmolyeeById(employeeID);
+            //TODO::动态查找目标，此处暂时取0位置，2018年1月11日10:11:33
+            As_Employee ae = Employee_DAL.getEmolyeeById(employeeID)[0];
             string head = Department_BLL.findHead(ae.Department_ID);
             return head;
         }
@@ -88,7 +94,17 @@ namespace BLL
 
         internal static string getEmployeePositionName(string employeeID)
         {
+            if (employeeID.Equals(HttpContext.Current.Session["Employee_ID"]))
+            {
+                return HttpContext.Current.Session["Position_Name"].ToString();
+            }
+            //TODO::否则需要更多条件才能确定名字
             return Employee_DAL.getEmployeePositionName(employeeID);
+        }
+
+        public static List<As_Employee> getEmolyeeListById(string employeeId)
+        {
+            return Employee_DAL.getEmolyeeById(employeeId);
         }
     }
 }
