@@ -215,8 +215,15 @@ namespace AendorAssess
                 return;
             }
 
-            //跳转
-            pageRedirect(PageSelect.dcEditToShow[commandArgument], commandArgument);
+            try
+            {
+                //跳转
+                pageRedirect(PageSelect.dcEditToShow[commandArgument], commandArgument);
+            }
+            catch (Exception e)
+            {
+                LocalScriptManager.createManagerScript(Page, "closeWaiting();messageConfirmNone('此功能暂时不可用：" + e.Message + "')", "msg");
+            }
         }
 
         /// <summary>

@@ -14,6 +14,11 @@ using WebLearning.BLL;
 
 namespace SHZSZHSUPPLY.VendorAssess.Util
 {
+    public enum AddApproveType
+    {
+        Purchase
+    }
+
     public class LocalApproveManager
     {
         public const int NOT_FINAL = 0;
@@ -29,10 +34,31 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
         /// </summary>
         /// <param name="formID"></param>
         /// <param name="FORM_TYPE_ID"></param>
-        public static bool doAddApprove(string formID, string FORM_NAME, string FORM_TYPE_ID, string tempVendorID, int kci=-1)
+        public static bool doAddApprove(string formID, string FORM_NAME, string FORM_TYPE_ID, string tempVendorID, int kci=-1,object param = null)
         {
             string Form_Type_Name = FORM_NAME;
             string factory = HttpContext.Current.Session["Factory_Name"].ToString();
+
+            //处理自定义审批
+            if (param != null)
+            {
+                List<object> list = param as List<object>;
+                switch ((AddApproveType)list[0])
+                {
+                    case AddApproveType.Purchase:
+                    {
+                        if ((bool) list[1]) //如果大于5% 》=10w
+                        {
+                            FORM_TYPE_ID = "023";
+                        }
+                        else
+                        {
+                            FORM_TYPE_ID = "024";
+                        }
+                    }
+                        break;
+                }
+            }
 
             //实例化审批流程
             As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(FORM_TYPE_ID);
@@ -50,14 +76,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             Form_AssessFlow.Third = assess_flow.Assess_Three_ID;
             Form_AssessFlow.Four = assess_flow.Assess_Four_ID;
             Form_AssessFlow.Five = assess_flow.Assess_Five_ID;
-            if (kci != -1)
-            {
-                Form_AssessFlow.Kci = kci.ToString();
-            }
-            else
-            {
-                Form_AssessFlow.Kci = assess_flow.Assess_Six_ID;
-            }
+            Form_AssessFlow.Kci = kci != -1 ? kci.ToString() : assess_flow.Assess_Six_ID;
             Form_AssessFlow.Temp_Vendor_ID = tempVendorID;
             Form_AssessFlow.Factory_Name = factory;
 

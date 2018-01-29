@@ -153,7 +153,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         }
 
 
-        private void save(int flag, string str)
+        private void save(int flag, string str, bool check = false)
         {
             //读取session
             getSessionInfo();
@@ -244,6 +244,33 @@ namespace SHZSZHSUPPLY.VendorAssess
                 i += 17;
             }
 
+            if (check)
+            {
+                Session["PurchaseChangesRange"] = false;
+                for (int i = 0; i < list.Count; i++)
+                {
+                    item = list[i];
+
+                    if (item.Yearly_Amount == "" && item.Request_Price_VS_Last_PO_Price == "")
+                    {
+                        continue;
+                    }
+                    try
+                    {
+
+                        if (Convert.ToInt64(item.Yearly_Amount) > 100000 &&
+                            Convert.ToSingle(item.Request_Price_VS_Last_PO_Price.Replace("%", "")) > 5)
+                        {
+                            Session["PurchaseChangesRange"] = true;
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        Console.WriteLine(exception.Message);
+                    }
+                }
+            }
+
             int join = PurchaseChanges_BLL.update(asPurchaseChanges, list);
             if (join > 0)
             {
@@ -280,10 +307,23 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// <param name="formId"></param>
         public void approveAssess(string formId)
         {
-            if (LocalApproveManager.doAddApprove(formId, FORM_NAME, FORM_TYPE_ID, tempVendorID))
+            if (LocalApproveManager.doAddApprove(formId, FORM_NAME, FORM_TYPE_ID, tempVendorID,-1,new List<object>() {AddApproveType.Purchase,checkTotal()}) && checkTotal())
             {
-                LocalScriptManager.createManagerScript(this.Page, string.Format("messageConfirm('{0}','{1}')", "提交成功", "EmployeeVendor.aspx"), "submited");
+                LocalScriptManager.createManagerScript(this.Page, string.Format("messageConfirm('{0}','{1}')", "提交成功，请注意此表最终需要kci审批", "EmployeeVendor.aspx"), "submited");
             }
+            else
+            {
+                LocalScriptManager.createManagerScript(this.Page, string.Format("messageConfirm('{0}','{1}')", "提交成功，自动判定为无需kci审批", "EmployeeVendor.aspx"), "submited");
+            }
+        }
+
+        /// <summary>
+        /// 检查更改的金额是否大于5%或者大于10w，是true，否则false
+        /// </summary>
+        /// <returns></returns>
+        private bool checkTotal()
+        {
+            return (bool)Session["PurchaseChangesRange"];
         }
 
         public void Button1_Click(object sender, EventArgs e)//提交按钮
@@ -292,7 +332,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             getSessionInfo();
             if (submit == "yes")
             {
-                save(2, "提交表格");
+                save(2, "提交表格",true);
                 approveAssess(formID);
             }
             else
@@ -310,6 +350,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             Response.Redirect("EmployeeVendor.aspx");
         }
+
 
     }
 }
