@@ -136,6 +136,7 @@
     <Content Include="VendorAssess\Html_Template\TransferComparison.aspx" />
     <Content Include="VendorAssess\Html_Template\TransferOption.html" />
     <Content Include="VendorAssess\Html_Template\VendorModifyInfo.html" />
+    <Content Include="VendorAssess\PurchasePriceApplication.aspx" />
     <Content Include="VendorAssess\PurchasePriceChanges.aspx" />
     <Content Include="VendorAssess\Script\laydate\PageTemplate.aspx" />
     <Content Include="VendorAssess\index.aspx" />
@@ -272,10 +273,13 @@
     <Content Include="VendorAssess\Script\PDF\js\jspdf.debug.js" />
     <Content Include="VendorAssess\Script\PDF\js\main.js" />
     <Content Include="VendorAssess\SelectDepartment.aspx" />
+    <Content Include="VendorAssess\ServiceComponentApplication.aspx" />
     <Content Include="VendorAssess\ShowApproveForm.aspx" />
     <Content Include="VendorAssess\ShowBiddingApprovalForm.aspx" />
     <Content Include="VendorAssess\ShowContractApprovalForm.aspx" />
+    <Content Include="VendorAssess\ShowPurchasePriceApplication.aspx" />
     <Content Include="VendorAssess\ShowPurchasePriceChanges.aspx" />
+    <Content Include="VendorAssess\ShowServiceComponentApplication.aspx" />
     <Content Include="VendorAssess\ShowVendorBlockOrUnBlock.aspx" />
     <Content Include="VendorAssess\ShowVendorCreation.aspx" />
     <Content Include="VendorAssess\ShowVendorDesignatedApply.aspx" />
@@ -647,6 +651,13 @@
     <Compile Include="VendorAssess\Html_Template\TransferComparison.aspx.designer.cs">
       <DependentUpon>TransferComparison.aspx</DependentUpon>
     </Compile>
+    <Compile Include="VendorAssess\PurchasePriceApplication.aspx.cs">
+      <DependentUpon>PurchasePriceApplication.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\PurchasePriceApplication.aspx.designer.cs">
+      <DependentUpon>PurchasePriceApplication.aspx</DependentUpon>
+    </Compile>
     <Compile Include="VendorAssess\PurchasePriceChanges.aspx.cs">
       <DependentUpon>PurchasePriceChanges.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -689,6 +700,13 @@
     <Compile Include="VendorAssess\SelectDepartment.aspx.designer.cs">
       <DependentUpon>SelectDepartment.aspx</DependentUpon>
     </Compile>
+    <Compile Include="VendorAssess\ServiceComponentApplication.aspx.cs">
+      <DependentUpon>ServiceComponentApplication.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\ServiceComponentApplication.aspx.designer.cs">
+      <DependentUpon>ServiceComponentApplication.aspx</DependentUpon>
+    </Compile>
     <Compile Include="VendorAssess\ShowApproveForm.aspx.cs">
       <DependentUpon>ShowApproveForm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -710,12 +728,26 @@
     <Compile Include="VendorAssess\ShowContractApprovalForm.aspx.designer.cs">
       <DependentUpon>ShowContractApprovalForm.aspx</DependentUpon>
     </Compile>
+    <Compile Include="VendorAssess\ShowPurchasePriceApplication.aspx.cs">
+      <DependentUpon>ShowPurchasePriceApplication.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\ShowPurchasePriceApplication.aspx.designer.cs">
+      <DependentUpon>ShowPurchasePriceApplication.aspx</DependentUpon>
+    </Compile>
     <Compile Include="VendorAssess\ShowPurchasePriceChanges.aspx.cs">
       <DependentUpon>ShowPurchasePriceChanges.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="VendorAssess\ShowPurchasePriceChanges.aspx.designer.cs">
       <DependentUpon>ShowPurchasePriceChanges.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorAssess\ShowServiceComponentApplication.aspx.cs">
+      <DependentUpon>ShowServiceComponentApplication.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\ShowServiceComponentApplication.aspx.designer.cs">
+      <DependentUpon>ShowServiceComponentApplication.aspx</DependentUpon>
     </Compile>
     <Compile Include="VendorAssess\ShowVendorBlockOrUnBlock.aspx.cs">
       <DependentUpon>ShowVendorBlockOrUnBlock.aspx</DependentUpon>

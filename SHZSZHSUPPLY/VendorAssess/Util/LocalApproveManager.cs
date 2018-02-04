@@ -65,7 +65,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             string typeName = TempVendor_BLL.getTempVendorType(tempVendorID);
             if (typeName.Contains("非生产") && !typeName.Contains("质量"))//001-018,041,042
             {
-                AssessFlow_BLL.removeQuality(assess_flow);
+                //AssessFlow_BLL.removeQuality(assess_flow);
             }
 
             //真正的审批顺序

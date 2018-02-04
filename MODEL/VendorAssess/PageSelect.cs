@@ -29,6 +29,8 @@ namespace MODEL
             dcFormToModel.Add("VendorRisk", "As_Vendor_Risk");
             dcFormToModel.Add("VendorSelection", "As_Vendor_Selection");
             dcFormToModel.Add("PurchaseChanges", "As_Purchase_Changes");
+            dcFormToModel.Add("PurchasePriceApplication", "As_Vendor_PurchasePriceApplication");
+            dcFormToModel.Add("ServiceComponentApplication", "As_Vendor_ServiceComponentApplication");
         }
 
         private static void initEditToShow()
@@ -57,6 +59,8 @@ namespace MODEL
             dcEditToShow.Add("023", "PurchasePriceChanges.aspx");
             dcEditToShow.Add("024", "PurchasePriceChanges.aspx");
             dcEditToShow.Add("025", "VendorDesignatedApply.aspx");
+            dcEditToShow.Add("026", "PurchasePriceApplication.aspx");
+            dcEditToShow.Add("027", "ServiceComponentApplication.aspx");
         }
     }
 }
