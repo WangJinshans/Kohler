@@ -72,8 +72,12 @@
     <Compile Include="VendorAssess\As_Modify_CheckResult.cs" />
     <Compile Include="VendorAssess\As_New_Forms.cs" />
     <Compile Include="VendorAssess\As_Position.cs" />
+    <Compile Include="VendorAssess\As_PurchasePriceApplication.cs" />
+    <Compile Include="VendorAssess\As_PurchasePriceApplication_Item.cs" />
     <Compile Include="VendorAssess\As_Purchase_Changes.cs" />
     <Compile Include="VendorAssess\As_Purchase_Changes_Item.cs" />
+    <Compile Include="VendorAssess\As_ServiceComponentApplication.cs" />
+    <Compile Include="VendorAssess\As_ServiceComponentApplication_Item.cs" />
     <Compile Include="VendorAssess\As_Temp_Vendor.cs" />
     <Compile Include="VendorAssess\As_VendorType_FileType.cs" />
     <Compile Include="VendorAssess\As_VendorType_FormType.cs" />

@@ -68,6 +68,15 @@ namespace SHZSZHSUPPLY.VendorAssess
                         KCIApproval_BLL.setApprovalFinished(Form_Type_ID, 4, temp_vendor_ID);//整张表的审批完成
                     }
                 }
+                else if (formID.Contains("PurchasePriceApplication"))//采购价格审批表的KCI处理
+                {
+                    KCIApproval_BLL.updateKCIApproval(formID, 1);//KCI审批完成
+                    //TODO::采购价格审批表的KCI签名未处理
+                    
+                    //Signature_BLL.setSignature(formID, "", "Director_Sourcing_KCI");
+                    //Signature_BLL.setSignature(formID, "", "Finance_Director_KCI");
+                    KCIApproval_BLL.setApprovalFinished(Form_Type_ID, 4, temp_vendor_ID);//整张表的审批完成
+                }
                 else if (formID.Contains("VendorExtend"))//供应商扩展表的KCI处理
                 {
                     ApprovalFinished(formID, Form_Type_ID, temp_vendor_ID); //表的审批完成

@@ -347,3 +347,37 @@ function openSignatureSelection(elem,callback) {
         });
     });
 }
+
+function openSignatureSelectio_s(elem, callback) {
+    layui.use(['layer'], function () {
+        var layer = layui.layer;
+        layer.open({
+            type: 2,
+            title: '选择签名',
+            maxmin: true,
+            content: './Html_Template/SignatureSelection.aspx',
+            area: ['500px', '400px'],
+            shadeClose: true,
+            btn: ['确定'],
+            yes: function (index, layero) {
+                var iframeWin = window[layero.find('iframe')[0]['name']];
+                var result = iframeWin.getResult();
+                if (callback != null) {
+                    callback(result);
+                } else {
+                    elem.src = result;
+                    //document.getElementById('ImgExSrc').value = elem.id + ',' + result;
+                    //document.getElementById('btnNewImage').click();
+                    __myDoPostBack('newImageSrc', elem.id + ',' + result);
+                }
+                layer.close(index);
+            },
+            success: function (layero, index) {
+
+            },
+            cancel: function (index, layero) {
+
+            }
+        });
+    });
+}
