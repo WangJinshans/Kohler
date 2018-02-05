@@ -1076,6 +1076,11 @@ namespace BLL.VendorAssess
                     {
                         string fileID = key;
 
+                        if (fileID == "")
+                        {
+                            continue;
+                        }
+
                         //0path,1shared,2typeID,3range,4start,5end,6typeName
                         string[] fileInfo = fileWithPath[key].Split('&');
 
