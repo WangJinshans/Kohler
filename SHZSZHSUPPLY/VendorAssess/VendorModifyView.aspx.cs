@@ -136,7 +136,7 @@ namespace WebLearning.KeLe
             //执行存储过程并初始化一些文件等等
             selectionSure();
 
-            if (!checkType.Checked)//不可见
+            if (checkType.Checked)//不可见
             {
                 //供应商类型更新 新建了类型 直接跳转到VendorEmployee.aspx
                 Response.Redirect("EmployeeVendor.aspx");
@@ -150,7 +150,7 @@ namespace WebLearning.KeLe
             bool partThree = partThreeSwitch.Checked;
             bool partFour = partFourSwitch.Checked;
 
-            if (!faren.Checked)//法人更改 直接跳转新建
+            if (faren.Checked)//法人更改 直接跳转新建
             {
                 Response.Redirect("VendorInfo.aspx");
             }
@@ -163,12 +163,15 @@ namespace WebLearning.KeLe
 
         private void selectionSure()
         {
-
+            if (vendor_Name.Equals(""))
+            {
+                return;
+            }
             string temp_Vendor_Name = vendor_Name;//供应商名称
             string newVendor_Type = "";
             //string oldVendor_Type = DropDownList2.SelectedValue.Trim();//原供应类型
             string oldVendor_Type = vendor_type;
-            if (checkType.Checked)//不可见
+            if (!checkType.Checked)
             {
                 newVendor_Type = oldVendor_Type; //新供应商类型
             }
@@ -180,7 +183,7 @@ namespace WebLearning.KeLe
             bool promise = Promise.Checked;//承诺
             bool advance_charge = Advance_Charge.Checked;//预付款
             bool vendor_Assign = Vendor_Assign.Checked;//指定
-            string factory_Name = Session["Factory_Name"].ToString();
+            string factory_Name = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString());
             int money = 0;
             try
             {
@@ -195,12 +198,17 @@ namespace WebLearning.KeLe
 
 
             //执行存储过程 将新的需要填写的表或提交的文件插入表
-            //供应商类型类型更改后  是否需要填写修改表 一般修改之后本公司都是需要修改的 
-            string newTemp_Vendor_ID = VendorCheckResult_BLL.modify_CheckResult("vendor_Modify_exist", temp_Vendor_Name, factory_Name, newVendor_Type,oldVendor_Type, promise, vendor_Assign, advance_charge, money,Session["Employee_ID"].ToString().Trim());
+
+            //插入到数据库As_Vendor_Type_Modify_Info中，如果最后一个人审批同意之后 执行此存储过程
+            string sqls = "insert into As_Vendor_Type_Modify_Info(Temp_Vendor_ID,Temp_Vendor_Name,Factory_Name,newType,oldType,Promise,Assign,Charge,Money)values('" + tempVendorID + "','" + temp_Vendor_Name + "','" + factory_Name + "','" + newVendor_Type + "','" + oldVendor_Type + "','" + promise + "','" + vendor_Assign + "','" + advance_charge + "','" + money + "')";
+            VendorCheckResult_BLL.addVendorModifyInfo(sqls);
+            
+            //string newTemp_Vendor_ID = VendorCheckResult_BLL.modify_CheckResult("vendor_Modify_exist", temp_Vendor_Name, factory_Name, newVendor_Type,oldVendor_Type, promise, vendor_Assign, advance_charge, money,Session["Employee_ID"].ToString().Trim());
             //进入文件上传界面 上传vendorModify填写表格的必须文件 
 
+
             //获取提示信息
-            ClientScript.RegisterStartupScript(this.GetType(), "my", "<script>popTips('"+ newTemp_Vendor_ID + "','"+factory_Name+"');</script>");
+            //ClientScript.RegisterStartupScript(this.GetType(), "my", "<script>popTips('"+ newTemp_Vendor_ID + "','"+factory_Name+"');</script>");
 
         }
 

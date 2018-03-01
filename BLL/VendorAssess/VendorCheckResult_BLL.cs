@@ -74,5 +74,10 @@ namespace BLL.VendorAssess
         {
             VendorCheckResult_DAL.upDateAll(newTempVendorID,oldTempVendorID, factory);
         }
+
+        public static void addVendorModifyInfo(string sqls)
+        {
+            VendorCheckResult_DAL.addVendorModifyInfo(sqls);
+        }
     }
 }

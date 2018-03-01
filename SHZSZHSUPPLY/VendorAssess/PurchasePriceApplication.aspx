@@ -258,7 +258,7 @@
             <tr>
                 <td colspan="3">Initiator:</td>
                 <td colspan="3"><asp:Image onclick="openSignatureSelectio_s(this,null)" ImageUrl="imageurl" runat="server" ID="image1" AlternateText="请选择图片" /></td>
-                <td colspan="3">Supply Chain Manager(plant):</td>
+                <td colspan="3">Purchasing Manager(plant):</td>
                 <td colspan="3"><asp:Image ImageUrl="imageurl" runat="server" ID="image2" /></td>
             </tr>
             <tr>

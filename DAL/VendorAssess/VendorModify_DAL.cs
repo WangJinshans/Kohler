@@ -51,6 +51,49 @@ namespace DAL.VendorAssess
             return DBHelp.ExecuteCommand(sql, sp);
         }
 
+
+        /// <summary>
+        /// 获取最新的更新  多次更新将会更改原来的status为old
+        /// </summary>
+        /// <param name="temp_Vendor_ID"></param>
+        /// <returns></returns>
+        public static string getModifyInfo(string temp_Vendor_ID)
+        {
+            string[] infos = new string[9];
+            string sql = "select * from As_Vendor_Type_Modify_Info where Temp_Vendor_ID='" + temp_Vendor_ID + "' and Status='new'";
+            DataTable table = DBHelp.GetDataSet(sql);
+            if (table.Rows.Count > 0)
+            {
+                DataRow dr = table.Rows[0];
+                infos[0] = dr["Temp_Vendor_ID"].ToString();
+                infos[1] = dr["Temp_Vendor_Name"].ToString();
+                infos[2] = dr["Factory_Name"].ToString();
+                infos[3] = dr["newType"].ToString();
+                infos[4] = dr["oldType"].ToString();
+                infos[5] = dr["Promise"].ToString();
+                infos[6] = dr["Assign"].ToString();
+                infos[7] = dr["Charge"].ToString();
+                infos[8] = dr["Money"].ToString();
+            }
+            string str = string.Join(",", infos);
+            return str;
+        }
+
+        public static string getFactoryName(string formID)
+        {
+            string sql = "select Factory_Name from As_VendorModify where Form_ID='" + formID + "'";
+            string factory = "";
+            DataTable table = DBHelp.GetDataSet(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    factory = dr["Factory_Name"].ToString();
+                }
+            }
+            return factory;
+        }
+
         public static string getFormID(string tempVendorID, string factory)
         {
             string sql = "select Form_ID from As_VendorModify where Temp_Vendor_ID=@Temp_Vendor_ID AND Factory_Name=@Factory_Name";

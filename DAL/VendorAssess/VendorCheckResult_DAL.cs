@@ -101,6 +101,11 @@ namespace DAL.VendorAssess
                
         }
 
+        public static void addVendorModifyInfo(string sqls)
+        {
+            DBHelp.ExecuteCommand(sqls);
+        }
+
         public static void upDateAll(string newTempVendorID,string oldTempVendorID,string factory)
         {
             string sql = "update As_Approve set Temp_Vendor_ID='" + newTempVendorID + "' where Temp_Vendor_ID='" + oldTempVendorID + "' and Factory_Name='" + factory + "'";

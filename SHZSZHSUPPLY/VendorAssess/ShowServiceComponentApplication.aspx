@@ -301,7 +301,7 @@
                     <td colspan="2">Initiator:</td>
                     <td colspan="3">
                         <asp:Image ImageUrl="imageurl" ID="image1" runat="server" /></td>
-                    <td colspan="2">Supply Chain Manager(Plant):</td>
+                    <td colspan="2">Purchasing Manager(Plant):</td>
                     <td colspan="3">
                         <asp:Image ImageUrl="imageurl" ID="image2" runat="server" /></td>
                 </tr>

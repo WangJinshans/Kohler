@@ -46,31 +46,53 @@
             var localStorage = window.localStorage;
 
             form.on('checkbox(checkboxType)', function (data) {
-                if ((i % 2) == 0) {
-                    document.getElementById("dropDiv").style.display = "block";
+                //if ((i % 2) == 0) {
+                //    document.getElementById("dropDiv").style.display = "block";
+                //    document.getElementById("newTypeLb").style.display = "block";
+                //}
+                //else {
+                //    document.getElementById("dropDiv").style.display = "none";
+                //    document.getElementById("newTypeLb").style.display = "none";
+                //}
+                //i++;
+                var checkTypeSelected=document.getElementById('checkType').checked;
+                if (checkTypeSelected) {
                     document.getElementById("newTypeLb").style.display = "block";
-                }
-                else {
-                    document.getElementById("dropDiv").style.display = "none";
+                    document.getElementById("dropDiv").style.display = "block";
+                } else {
                     document.getElementById("newTypeLb").style.display = "none";
+                    document.getElementById("dropDiv").style.display = "none";
                 }
-                i++;
+
             });
 
 
             form.on('checkbox(switchPartOne)', function (data) {
-                if (document.getElementById("switchLegalPerson").style.display == "block") {
-                    document.getElementById("switchLegalPerson").style.display = "none";
-                    localStorage.setItem("faren", "on");
+
+                var checked = document.getElementById('faren').checked;
+                if (checked) {
                     layer.msg('法人更改,请新建供应商！');
-                    //location.href = "VendorInfo.aspx";
-                }
-                else {
+                    localStorage.setItem("faren", "on");
+                    document.getElementById("switchLegalPerson").style.display = "none";
+                } else {
                     document.getElementById("switchLegalPerson").style.display = "block";
                     faren = "off";
                     layer.msg('法人未更改');
                     localStorage.setItem("faren", "off");
+
                 }
+                //if (document.getElementById("switchLegalPerson").style.display != "block") {
+                //    document.getElementById("switchLegalPerson").style.display = "none";
+                //    localStorage.setItem("faren", "on");
+                //    layer.msg('法人更改,请新建供应商！');
+                //    //location.href = "VendorInfo.aspx";
+                //}
+                //else {
+                //    document.getElementById("switchLegalPerson").style.display = "block";
+                //    faren = "off";
+                //    layer.msg('法人未更改');
+                //    localStorage.setItem("faren", "off");
+                //}
             });
             form.on('checkbox(workRange)', function (data) {
                 var checked = document.getElementById("workRangeSwitch").checked;
@@ -329,22 +351,22 @@
             </div>--%>
 
             <div class="layui-form-item">
-                <label id="labelPartOne" class="layui-form-label" style="width: 230px; text-align: left">法人未更改</label>
+                <label id="labelPartOne" class="layui-form-label" style="width: 230px; text-align: left">法人</label>
                 <div class="layui-input-block">
                     <input type="checkbox"  runat="server" id="faren" name="legalPerson" lay-skin="primary" lay-filter="switchPartOne" title="更改">
                 </div>
             </div>
-            <div id="switchLegalPerson" style="display: none;" class="layui-form-item">
+            <div id="switchLegalPerson" class="layui-form-item">
                 <div class="layui-form-item">
-                    <label class="layui-form-label" style="width: 230px;text-align: left">营业范围是否更改</label>
+                    <label class="layui-form-label" style="width: 230px;text-align: left">营业范围</label>
                     <input id="workRangeSwitch" runat="server" type="checkbox" name="range" style="margin-right: 5px;" lay-skin="primary" lay-filter="workRange" title="更改">
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label" style="width: 230px;text-align: left">股份是否更改</label>
+                    <label class="layui-form-label" style="width: 230px;text-align: left">股份</label>
                     <input id="stockSwitch" runat="server" type="checkbox" style="margin-right: 5px;" name="stocks" lay-skin="primary" lay-filter="stock" title="更改">
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label" style="width: 230px;text-align: left">经营场所是否更改</label>
+                    <label class="layui-form-label" style="width: 230px;text-align: left">经营场所</label>
                     <input id="workPlaceSwitch" runat="server" style="margin-right: 5px;" type="checkbox" name="place" lay-skin="primary" lay-filter="workPlace" title="更改">
                 </div>
             </div>
@@ -352,7 +374,7 @@
 
             <!--供应商地址、电话、传真、邮箱修改是否修改-->
             <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 230px; text-align: left">供应商地址、电话、传真、邮箱修改</label>
+                <label class="layui-form-label" style="width: 230px; text-align: left">供应商地址、电话、传真、邮箱</label>
                 <div class="layui-input-block">
                     <input type="checkbox" runat="server" style="margin-right: 5px;" id="partTwoSwitch" name="namePartTwoSwitch" lay-skin="primary" lay-filter="switchPartTwo" title="更改">
                 </div>
@@ -361,7 +383,7 @@
 
             <!--供应商银行信息是否修改-->
             <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 230px; text-align: left">供应商银行信息是否修改</label>
+                <label class="layui-form-label" style="width: 230px; text-align: left">供应商银行信息</label>
                 <div class="layui-input-block">
                     <input type="checkbox" runat="server" id="partThreeSwitch" style="margin-right: 5px;" name="namePartThreeSwitch" lay-skin="primary" lay-filter="switchPartThree" title="更改">
                 </div>
@@ -369,7 +391,7 @@
 
             <!--供应商账期付款方式修改-->
             <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 230px; text-align: left">供应商账期付款方式是否修改</label>
+                <label class="layui-form-label" style="width: 230px; text-align: left">供应商账期付款方式</label>
                 <div class="layui-input-block">
                     <input type="checkbox" runat="server" id="partFourSwitch" style="margin-right: 5px;" name="namePartFourSwitch" lay-skin="primary" lay-filter="switchPartFour" title="更改">
                 </div>
@@ -377,14 +399,14 @@
 
 
             <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 230px; text-align: left">类型是否改变</label>
+                <label class="layui-form-label" style="width: 230px; text-align: left">类型</label>
                 <div class="layui-input-block">
-                    <input type="checkbox" style="margin-right: 5px;" name="like1[write]" lay-filter="checkboxType" lay-skin="primary" title="不更改" runat="server" id="checkType">
+                    <input type="checkbox" style="margin-right: 5px;" name="like1[write]" lay-filter="checkboxType" lay-skin="primary" title="更改" runat="server" id="checkType" checked>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" id="newTypeLb" style="display: none">新供应商类型</label>
-                <div class="layui-input-block info" id="dropDiv" style="display: none;width:250px;">
+                <label class="layui-form-label" id="newTypeLb">新供应商类型</label>
+                <div class="layui-input-block info" id="dropDiv" style="width:250px;">
                     <asp:DropDownList ID="DropDownList1" runat="server">
                         <asp:ListItem>直接物料常规</asp:ListItem>
                         <asp:ListItem>直接物料危化品</asp:ListItem>

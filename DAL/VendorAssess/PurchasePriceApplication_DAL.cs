@@ -140,7 +140,7 @@ namespace DAL.VendorAssess
                     purchasePrice.Flag = Convert.ToInt32(drs["Flag"].ToString());
                     purchasePrice.Form_Type_ID = drs["Form_Type_ID"].ToString();
                     purchasePrice.Initiator = drs["Initiator"].ToString();
-                    purchasePrice.Supply_Chain_Manager = drs["Supplier_Chain_Leader"].ToString();
+                    purchasePrice.Supply_Chain_Manager = drs["Purchasing_Manager"].ToString();
                     purchasePrice.Finance_Manager = drs["Finance_Leader"].ToString();
                     purchasePrice.GM = drs["General_Manager"].ToString();
                     purchasePrice.Director_Sourcing_KCI = drs["Director_Sourcing_KCI"].ToString();

@@ -99,10 +99,10 @@ namespace DAL.VendorAssess
                     {
                         table = "As_Purchase_Changes";
                     }
-                }
-                else if (formID.Contains("VendorModify"))
-                {
-                    table = "As_VendorModify";
+                    else if (formID.Contains("VendorModify"))
+                    {
+                        table = "As_VendorModify";
+                    }
                 }
             }
 

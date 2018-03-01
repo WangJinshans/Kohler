@@ -2,6 +2,7 @@
 using MODEL.VendorAssess;
 using System.Data;
 using System;
+using System.Web;
 
 namespace BLL.VendorAssess
 {
@@ -95,6 +96,32 @@ namespace BLL.VendorAssess
         internal static string getFormID(string tempVendorID,string factory_Name)
         {
             return VendorModify_DAL.getFormID(tempVendorID, factory_Name);
+        }
+
+        public static void VendorModifyOK(string tempVendorID)
+        {
+            //根据Form_ID取出该表中的所有信息，
+            string info = VendorModify_DAL.getModifyInfo(tempVendorID);
+            string[] array = info.Split(',');
+            if (info != null && info != "")
+            {
+                string temp_Vendor_ID = array[0];
+                string temp_Vendor_Name = array[1];
+                string factory_Name = array[2];
+                string newType = array[3];
+                string oldType = array[4];
+                bool promise = Convert.ToBoolean(array[5]);
+                bool assign = Convert.ToBoolean(array[6]);
+                bool charge = Convert.ToBoolean(array[7]);
+                float money = (float)Convert.ToDouble(array[8]);
+                VendorCheckResult_BLL.modify_CheckResult("vendor_Modify_exist", temp_Vendor_Name, factory_Name, newType, oldType, promise, assign, charge, money, HttpContext.Current.Session["Employee_ID"].ToString());
+            }
+
+        }
+
+        public static string getFactoryName(string formID)
+        {
+            return VendorModify_DAL.getFactoryName(formID);
         }
     }
 }

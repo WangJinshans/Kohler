@@ -123,8 +123,8 @@
 
         }
 
-        function saveAU(a,b,c,d,e) {
-            localStorage.setItem('authority', [ a, b, c, d, e ]);
+        function saveAU(a, b, c, d, e) {
+            localStorage.setItem('authority', [a, b, c, d, e]);
         }
 
         function reshowMenu() {

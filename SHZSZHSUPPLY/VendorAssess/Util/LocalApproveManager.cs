@@ -65,7 +65,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             string typeName = TempVendor_BLL.getTempVendorType(tempVendorID);
             if (typeName.Contains("非生产") && !typeName.Contains("质量"))//001-018,041,042
             {
-                //AssessFlow_BLL.removeQuality(assess_flow);
+                AssessFlow_BLL.removeQuality(assess_flow);
             }
 
             //真正的审批顺序
@@ -429,6 +429,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                     //IsChanging更新为NO 审批完成之后不在可见
                     string factory_Name = AddForm_BLL.getFactoryByFormID(formID);
                     Vendor_Modify_File_BLL.upDataVendorChangingFlag(tempVendorID, factory_Name);
+                    VendorModify_BLL.VendorModifyOK(tempVendorID);
                 }
                 #endregion
 

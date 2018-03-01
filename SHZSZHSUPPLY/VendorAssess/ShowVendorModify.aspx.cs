@@ -19,6 +19,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         private static string positionName = "";
         private static string FORM_TYPE_ID = "";
         private static string tempVendorID = "";
+        private static string factory_name = "";
         /// <summary>
         /// formID怎么得到  通过表审批的formID确定每一张表
         /// 
@@ -103,7 +104,8 @@ namespace SHZSZHSUPPLY.VendorAssess
         public void showfilelist(string FormID)
         {
             As_Form_File Form_File = new As_Form_File();
-            string factory = Session["Factory_Name"].ToString();
+            string factory = VendorModify_BLL.getFactoryName(FormID);
+            //string factory = Session["Factory_Name"].ToString();
             tempVendorID = AddForm_BLL.GetTempVendorID(formID);
             string sql = "select * from As_Vendor_Modify_File where Temp_Vendor_ID='" + tempVendorID + "' and factory_Name='" + factory + "' and Status='new'";
             PagedDataSource objpds = new PagedDataSource();

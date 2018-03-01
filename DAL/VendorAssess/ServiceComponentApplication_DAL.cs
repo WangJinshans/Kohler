@@ -136,7 +136,7 @@ namespace DAL.VendorAssess
                     serviceComponent.Flag = Convert.ToInt32(drs["Flag"].ToString());
                     serviceComponent.Form_Type_ID = drs["Form_Type_ID"].ToString();
                     serviceComponent.Initiator = drs["Initiator"].ToString();
-                    serviceComponent.Supply_Chain_Manager = drs["Supplier_Chain_Leader"].ToString();
+                    serviceComponent.Supply_Chain_Manager = drs["Purchasing_Manager"].ToString();
                     serviceComponent.Finance_Manager = drs["Finance_Leader"].ToString();
                     serviceComponent.GM = drs["General_Manager"].ToString();
                 }
