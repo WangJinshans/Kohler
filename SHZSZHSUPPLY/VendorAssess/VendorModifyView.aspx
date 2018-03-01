@@ -46,15 +46,19 @@
             var localStorage = window.localStorage;
 
             form.on('checkbox(checkboxType)', function (data) {
-                //if ((i % 2) == 0) {
-                //    document.getElementById("dropDiv").style.display = "block";
-                //    document.getElementById("newTypeLb").style.display = "block";
-                //}
-                //else {
-                //    document.getElementById("dropDiv").style.display = "none";
-                //    document.getElementById("newTypeLb").style.display = "none";
-                //}
-                //i++;
+
+                
+                if ((i % 2) == 0) {
+                    document.getElementById("dropDiv").style.display = "block";
+                    document.getElementById("newTypeLb").style.display = "block";
+                }
+                else {
+                    document.getElementById("dropDiv").style.display = "none";
+                    document.getElementById("newTypeLb").style.display = "none";
+                }
+                i++;
+
+
                 var checkTypeSelected=document.getElementById('checkType').checked;
                 if (checkTypeSelected) {
                     document.getElementById("newTypeLb").style.display = "block";
