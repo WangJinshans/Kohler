@@ -136,11 +136,11 @@ namespace WebLearning.KeLe
             //执行存储过程并初始化一些文件等等
             selectionSure();
 
-            if (checkType.Checked)//不可见
-            {
-                //供应商类型更新 新建了类型 直接跳转到VendorEmployee.aspx
-                Response.Redirect("EmployeeVendor.aspx");
-            }
+            //if (checkType.Checked)//不可见
+            //{
+            //    //供应商类型更新 新建了类型 直接跳转到VendorEmployee.aspx
+            //    Response.Redirect("EmployeeVendor.aspx");
+            //}
 
             bool legalPerson = !faren.Checked;
             bool range = workRangeSwitch.Checked;
@@ -193,11 +193,6 @@ namespace WebLearning.KeLe
             {
                 return;
             }
-            //插入到新的表中 保存相应的信息 最后审批完成之后执行一个存储过程
-
-
-
-            //执行存储过程 将新的需要填写的表或提交的文件插入表
 
             //插入到数据库As_Vendor_Type_Modify_Info中，如果最后一个人审批同意之后 执行此存储过程
             string sqls = "insert into As_Vendor_Type_Modify_Info(Temp_Vendor_ID,Temp_Vendor_Name,Factory_Name,newType,oldType,Promise,Assign,Charge,Money)values('" + tempVendorID + "','" + temp_Vendor_Name + "','" + factory_Name + "','" + newVendor_Type + "','" + oldVendor_Type + "','" + promise + "','" + vendor_Assign + "','" + advance_charge + "','" + money + "')";
