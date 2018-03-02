@@ -194,17 +194,30 @@ namespace WebLearning.KeLe
                 return;
             }
 
-            //插入到数据库As_Vendor_Type_Modify_Info中，如果最后一个人审批同意之后 执行此存储过程
-            string sqls = "insert into As_Vendor_Type_Modify_Info(Temp_Vendor_ID,Temp_Vendor_Name,Factory_Name,newType,oldType,Promise,Assign,Charge,Money)values('" + tempVendorID + "','" + temp_Vendor_Name + "','" + factory_Name + "','" + newVendor_Type + "','" + oldVendor_Type + "','" + promise + "','" + vendor_Assign + "','" + advance_charge + "','" + money + "')";
-            VendorCheckResult_BLL.addVendorModifyInfo(sqls);
-            
-            //string newTemp_Vendor_ID = VendorCheckResult_BLL.modify_CheckResult("vendor_Modify_exist", temp_Vendor_Name, factory_Name, newVendor_Type,oldVendor_Type, promise, vendor_Assign, advance_charge, money,Session["Employee_ID"].ToString().Trim());
-            //进入文件上传界面 上传vendorModify填写表格的必须文件 
+
+            bool legalPerson = !faren.Checked;
+            bool range = !workRangeSwitch.Checked;
+            bool stock = !stockSwitch.Checked;
+            bool place = !workPlaceSwitch.Checked;
+            bool partTwo = !partTwoSwitch.Checked;
+            bool partThree = !partThreeSwitch.Checked;
+            bool partFour = !partFourSwitch.Checked;
+            bool myAdvance_charged = Advance_Charge.Checked == advance_Charges.Checked ? true : false;
 
 
-            //获取提示信息
-            //ClientScript.RegisterStartupScript(this.GetType(), "my", "<script>popTips('"+ newTemp_Vendor_ID + "','"+factory_Name+"');</script>");
-
+            //如果法人 营业范围 股份  经营场所 地址电话传真等  银行信息  付款方式 预付款都未改变  那么不需要填写修改表  直接执行修改的存储过程
+            if (legalPerson && range && stock && place && partTwo && partThree && partFour && myAdvance_charged)
+            {
+                string newTemp_Vendor_ID = VendorCheckResult_BLL.modify_CheckResult("vendor_Modify_exist", temp_Vendor_Name, factory_Name, newVendor_Type,oldVendor_Type, promise, vendor_Assign, advance_charge, money,Session["Employee_ID"].ToString().Trim());
+                ClientScript.RegisterStartupScript(this.GetType(), "my", "<script>popTips('"+ newTemp_Vendor_ID + "','"+factory_Name+"');</script>");
+                return;
+            }
+            else
+            {
+                //插入到数据库As_Vendor_Type_Modify_Info中，如果最后一个人审批同意之后 执行此存储过程
+                string sqls = "insert into As_Vendor_Type_Modify_Info(Temp_Vendor_ID,Temp_Vendor_Name,Factory_Name,newType,oldType,Promise,Assign,Charge,Money)values('" + tempVendorID + "','" + temp_Vendor_Name + "','" + factory_Name + "','" + newVendor_Type + "','" + oldVendor_Type + "','" + promise + "','" + vendor_Assign + "','" + advance_charge + "','" + money + "')";
+                VendorCheckResult_BLL.addVendorModifyInfo(sqls);
+            }
         }
 
         protected void Button2_Click(object sender, EventArgs e)
