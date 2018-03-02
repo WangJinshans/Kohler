@@ -45,15 +45,9 @@
         <div>
             <table>
                 <tr>
-                    <td rowspan="2" colspan="2" style="font-size: 50px; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; text-align: center">kolher
-                    </td>
-                    <td colspan="6" style="font-weight: bold; text-align: center">上海科勒有限公司
-                    </td>
-                    <td rowspan="2" colspan="2" style="font-weight: bold; text-align: center;">PR-06-08-0</td>
-                </tr>
-                <tr>
-                    <td colspan="6" style="font-weight: bold; text-align: center">服务零件采购价格申请表
-                    </td>
+                    <td colspan="2" style="font-size: 50px; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; text-align: center">kolher</td>        
+                    <td colspan="6" style="font-weight: bold; font-size:large; text-align: center">服务零件采购价格申请表</td>
+                    <td colspan="2" style="font-weight: bold; text-align: center;">PR-06-08-0</td>
                 </tr>
                 <tr>
                     <td colspan="10" style="text-align: left">Service parts </td>

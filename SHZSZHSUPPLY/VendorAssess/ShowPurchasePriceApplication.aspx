@@ -49,16 +49,11 @@
         <div>
             <table>
                 <tr>
-                    <td rowspan="2" colspan="2" style="font-size: 50px; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; text-align: center">kolher
+                    <td colspan="2" style="font-size: 50px; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; text-align: center">kolher
                     </td>
-                    <td colspan="8" style="font-weight: bold; text-align: center">上海科勒有限公司
+                    <td colspan="8" style="font-weight: bold;font-size:large; text-align: center">采购价格申请表
                     </td>
-                    <td rowspan="2" colspan="2" style="font-weight: bold; text-align: center;">PR-06-06-0
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="8" style="font-weight: bold; text-align: center">采购价格申请表
-                    </td>
+                    <td colspan="2" style="font-weight: bold; text-align: center;">PR-06-06-0</td>
                 </tr>
                 <tr>
                     <td></td>
@@ -93,9 +88,9 @@
                     <td class="celltd">SKU*</td>
                     <td class="celltd">Description描述 *</td>
                     <td class="celltd">Supplier *</td>
-                    <td class="celltd">Unit cost w/o VAT USD　不含税单价*</td>
+                    <td class="celltd">Unit cost w/o VAT不含税单价*</td>
                     <td class="celltd">Unit tooling cost 加工成本*</td>
-                    <td class="celltd">TTL cost USD*</td>
+                    <td class="celltd">TTL cost*</td>
                     <td class="celltd">MOQ  最小订货量*</td>
                     <td class="celltd">Lead time*</td>
                     <td class="celltd">Other Source</td>
@@ -361,9 +356,6 @@
                         <asp:TextBox runat="server" ReadOnly="True" ID="textbox119" TextMode="MultiLine" CssClass="textbox-width" /></td>
                     <td>
                         <asp:TextBox runat="server" ReadOnly="True" ID="textbox120" TextMode="MultiLine" CssClass="textbox-width" /></td>
-                </tr>
-                <tr>
-                    <td colspan="12" style="text-align: center">备注：更换美国科勒供应商，价格更低</td>
                 </tr>
                 <tr>
                     <td></td>

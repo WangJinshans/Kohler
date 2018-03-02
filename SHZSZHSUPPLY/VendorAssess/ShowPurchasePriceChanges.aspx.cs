@@ -44,7 +44,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 TextBox2.Text = asPurchaseChanges.Vendor;
                 TextBox3.Text = asPurchaseChanges.Currency;
                 TextBox4.Text = asPurchaseChanges.Date;
-                Image1.ImageUrl = asPurchaseChanges.User_Department_Manager;
+                Image1.ImageUrl = asPurchaseChanges.Initiator;
                 Image2.ImageUrl = asPurchaseChanges.Purchasing_Manager;
                 Image3.ImageUrl = asPurchaseChanges.Finance_Leader;
                 Image4.ImageUrl = asPurchaseChanges.GM;
