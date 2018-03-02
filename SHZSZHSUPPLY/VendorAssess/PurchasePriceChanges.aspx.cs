@@ -63,6 +63,22 @@ namespace SHZSZHSUPPLY.VendorAssess
                     show();
                 }
             }
+            else
+            {
+                switch (Request["__EVENTTARGET"])
+                {
+                    case "newImageSrc":
+                        string[] url = Request.Form["__EVENTARGUMENT"].ToString().Split(',');
+                        Control control = FindControl(url[0]);
+                        if (control != null)
+                        {
+                            ((Image)control).ImageUrl = url[1];
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         /// <summary>
@@ -104,6 +120,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 TextBox2.Text = asPurchaseChanges.Vendor;
                 TextBox3.Text = asPurchaseChanges.Currency;
                 TextBox4.Text = asPurchaseChanges.Date;
+                Image1.ImageUrl = asPurchaseChanges.Initiator;
                 //Show Page Images
             }
             else
@@ -164,7 +181,8 @@ namespace SHZSZHSUPPLY.VendorAssess
                 Vendor = TextBox2.Text,
                 Currency = TextBox3.Text,
                 Date = TextBox4.Text,
-                Form_ID = formID
+                Form_ID = formID,
+                Initiator = Image1.ImageUrl,//保存申请人的签名
             };
 
             List<As_Purchase_Changes_Item> list = new List<As_Purchase_Changes_Item>();

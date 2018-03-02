@@ -79,7 +79,7 @@
 		</ContentTemplate>
 	</asp:UpdatePanel>	
 	<table style="margin:0 auto;width:100%; border-collapse: collapse;word-break:break-all">
-			<caption style="font-size: xx-large">上海科勒有限公司<br/>采购价格变更申请表</caption>
+			<caption style="font-size: xx-large">采购价格变更申请表</caption>
 			<tr>
 				<td class="none-border-td" colspan="4">Vendor Code <asp:TextBox ReadOnly="true" runat="server" ID="TextBox1"></asp:TextBox></td>
 				<td class="none-border-td" colspan="4">Vendor <asp:TextBox ReadOnly="true" style="width: 70%" runat="server" ID="TextBox2"></asp:TextBox></td>

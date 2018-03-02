@@ -40,7 +40,7 @@
 <body>
 	<form id="form1" runat="server">
 		<table style="margin:0 auto;width:100%; border-collapse: collapse;word-break:break-all">
-			<caption style="font-size: xx-large">上海科勒有限公司<br/>采购价格变更申请表</caption>
+			<caption style="font-size: xx-large">采购价格变更申请表</caption>
 			<thead>
 			<tr>
 				<td class="none-border-td" colspan="4">Vendor Code <asp:TextBox runat="server" ID="TextBox1"></asp:TextBox></td>
@@ -445,7 +445,7 @@
 			<td class="none-border-td"><h3>Initiator:</h3>
 			</td>
 			<td class="none-border-td">
-				<asp:Image runat="server" AlternateText=" " ID="Image1"/></td>
+				<asp:Image runat="server" AlternateText="请选择图片" onclick="openSignatureSelectio_s(this,null)" ID="Image1"/></td>
 			<td class="none-border-td"><h3>Purchasing Manager(Plant):</h3></td>
 			<td class="none-border-td"><asp:Image runat="server" AlternateText=" " ID="Image2"/></td>
 		</tr>
