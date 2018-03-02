@@ -185,7 +185,7 @@
                 document.getElementById("ZH").checked = false;
                 document.getElementById("ZS").checked = false;
                 document.getElementById("vendor_Assign").checked = false;
-                document.getElementById("advance_Charge").checked = false;
+                document.getElementById("advance_Charges").checked = false;
                 document.getElementById("promise").checked = false;
                 if (vendor.SH != "") {
                     document.getElementById("SH").checked = true;
@@ -197,8 +197,8 @@
                     document.getElementById("ZS").checked = true;
                 }
 
-                if (vendor.Advance_Charge != "FALSE") {
-                    document.getElementById("advance_Charge").checked = true;
+                if (vendor.Advance_Charges != "FALSE") {
+                    document.getElementById("advance_Charges").checked = true;
                 }
                 if (vendor.Promise != "FALSE") {
                     document.getElementById("promise").checked = true;
@@ -459,7 +459,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label" style="text-align: left;">供应商选项</label>
                 <input type="checkbox" id="promise" lay-skin="primary" title="承诺" disabled="">
-                <input type="checkbox" id="advance_Charge" lay-skin="primary" title="预付款" disabled="">
+                <input type="checkbox" id="advance_Charges" runat="server" lay-skin="primary" title="预付款" disabled="">
                 <input type="checkbox" id="vendor_Assign" lay-skin="primary" title="指定" disabled="">
             </div>
         </div>
