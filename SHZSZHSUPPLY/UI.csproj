@@ -919,6 +919,7 @@
     <Folder Include="files\" />
     <Folder Include="jsddm.0.25\pic\" />
     <Folder Include="Upload\" />
+    <Folder Include="VendorAssess\TEST\TransferTemp\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Account\Web.config" />
@@ -951,6 +952,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\test.pubxml" />
+    <None Include="Properties\PublishProfiles\wjs_release.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -977,7 +979,6 @@
     <Content Include="VendorAssess\Script\laydate\theme\default\font\iconfont.woff" />
     <Content Include="Site.Master" />
     <Content Include="VendorAssess\ASHX\Database_Handler.ashx" />
-    <Content Include="VendorAssess\TEST\TransferTemp\0yoslos11h323b2tw1xppi3i.pdf" />
     <Content Include="VendorAssess\ASHX\MyAjaxTest.ashx" />
   </ItemGroup>
   <PropertyGroup>

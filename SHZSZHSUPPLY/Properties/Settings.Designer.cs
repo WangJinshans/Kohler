@@ -34,15 +34,6 @@ namespace SHZSZHSUPPLY.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool Mail_Enabled {
-            get {
-                return ((bool)(this["Mail_Enabled"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("~/files/")]
         public string File_UpLoad_Path {
             get {
@@ -88,7 +79,7 @@ namespace SHZSZHSUPPLY.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("F:\\webPDF\\wkhtmltopdf\\bin\\wkhtmltopdf.exe")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\wkhtmltopdf\\bin\\wkhtmltopdf.exe")]
         public string PDF_Tool_Path {
             get {
                 return ((string)(this["PDF_Tool_Path"]));
@@ -110,6 +101,15 @@ namespace SHZSZHSUPPLY.Properties {
         public string File_Relative_Path {
             get {
                 return ((string)(this["File_Relative_Path"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Mail_Enabled {
+            get {
+                return ((bool)(this["Mail_Enabled"]));
             }
         }
     }
