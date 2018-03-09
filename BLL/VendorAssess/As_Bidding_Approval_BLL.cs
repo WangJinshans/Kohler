@@ -71,5 +71,10 @@ namespace BLL.VendorAssess
         {
             return As_Bidding_Approval_DAL.checkVendorBiddingApprovalForm(formID,flag);
         }
+
+        public static string getVendorBiddingFormID(string tempVendorID, string form_Type_ID, string factory_Name, int n)
+        {
+            return As_Bidding_Approval_DAL.getVendorBiddingFormID(tempVendorID, form_Type_ID, factory_Name, n);
+        }
     }
 }

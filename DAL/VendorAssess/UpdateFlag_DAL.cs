@@ -50,8 +50,11 @@ namespace DAL
 
         public static int updateFlagAsApproved(string formTypeID, string tempVendorID, string factoryName)
         {
-            string sql = "UPDATE As_Vendor_FormType SET flag=4 WHERE Form_Type_ID='" + formTypeID + "'AND Temp_Vendor_ID='" + tempVendorID + "' and (Factory_Name='" + factoryName + "' or Factory_Name='ALL')";
-            return DBHelp.ExecuteCommand(sql);
+            string sql = "UPDATE As_Vendor_MutiplyForm SET Fill_Flag=4 WHERE Form_Type_ID='" + formTypeID + "'AND Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factoryName + "'";
+            DBHelp.ExecuteCommand(sql);
+
+            string sqls = "UPDATE As_Vendor_FormType SET flag=4 WHERE Form_Type_ID='" + formTypeID + "'AND Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factoryName + "'";
+            return DBHelp.ExecuteCommand(sqls);
         }
 
         public static int updateReAccessFormStatus(string formID, string tempVendorID)
@@ -66,6 +69,12 @@ namespace DAL
             {
                 return -1;
             }
+        }
+
+        public static int updateFillFlag(string formID)
+        {
+            string sql = "update As_Vendor_MutiplyForm set Fill_Flag=1 where Form_ID='" + formID + "'";
+            return DBHelp.GetScalar(sql);
         }
 
         public static int setFormUnSubmit(string formID)

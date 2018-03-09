@@ -46,6 +46,12 @@ namespace DAL
             return false;
         }
 
+        public static void updateFileStatus(string oldFileID)
+        {
+            string sql = "update As_File set Status='old' where File_ID='" + oldFileID + "'";
+            DBHelp.ExecuteCommand(sql);
+        }
+
         public static string getFileTypeNameByID(string fileTypeID)
         {
             string fileTypeName = "";

@@ -79,7 +79,7 @@ namespace SHZSZHSUPPLY.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\wkhtmltopdf\\bin\\wkhtmltopdf.exe")]
+        [global::System.Configuration.DefaultSettingValueAttribute("F:\\webPDF\\wkhtmltopdf\\bin\\wkhtmltopdf.exe")]
         public string PDF_Tool_Path {
             get {
                 return ((string)(this["PDF_Tool_Path"]));
@@ -106,7 +106,7 @@ namespace SHZSZHSUPPLY.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool Mail_Enabled {
             get {
                 return ((bool)(this["Mail_Enabled"]));

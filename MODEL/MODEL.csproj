@@ -70,6 +70,7 @@
     <Compile Include="VendorAssess\As_KCI_Approval.cs" />
     <Compile Include="VendorAssess\As_Kci_File.cs" />
     <Compile Include="VendorAssess\As_Modify_CheckResult.cs" />
+    <Compile Include="VendorAssess\As_MutipleForm.cs" />
     <Compile Include="VendorAssess\As_New_Forms.cs" />
     <Compile Include="VendorAssess\As_Position.cs" />
     <Compile Include="VendorAssess\As_PurchasePriceApplication.cs" />

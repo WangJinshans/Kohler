@@ -92,7 +92,7 @@ namespace BLL
             return Employee_DAL.getEmployeeeKoNumber(positionName, factory_Name);
         }
 
-        internal static string getEmployeePositionName(string employeeID)
+        public static string getEmployeePositionName(string employeeID)
         {
             if (employeeID.Equals(HttpContext.Current.Session["Employee_ID"]))
             {

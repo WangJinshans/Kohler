@@ -1,4 +1,5 @@
 ﻿using BLL;
+using BLL.VendorAssess;
 using Model;
 using MODEL.VendorAssess;
 using SHZSZHSUPPLY.VendorAssess.Util;
@@ -43,9 +44,94 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
                 case "modifyFileUpload":
                     modifyFileUpload(context);
                     break;
+                case "signleupload":
+                    singleFileUpload(context);
+                    break;
                 default:
                     context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = false, error = "default fail" }));
                     break;
+            }
+        }
+
+        private void singleFileUpload(HttpContext context)
+        {
+            bool isFileUpload = false;
+
+            HttpPostedFile postFile = context.Request.Files["qqfile"];
+            string startTime = context.Request.Params["startTime"];
+            string endTime = context.Request.Params["endTime"];
+            string tempVendorID = context.Request.Params["tempVendorID"];
+            string tempVendorName = context.Request.Params["tempVendorName"];
+            string formID = context.Request.Params["fileTypeID"];//实际传入formID
+            string fileTypeID = "";
+            #region
+            if (formID.Contains("BiddingForm"))
+            {
+                fileTypeID = "012";
+            }
+            else if (formID.Contains("PurchaseChanges"))
+            {
+                fileTypeID = "012";
+            }
+            else if (formID.Contains("PurchasePriceApplication"))
+            {
+                fileTypeID = "012";
+            }
+            else if (formID.Contains("ServiceComponentApplication"))
+            {
+                fileTypeID = "012";
+            }
+            else if (formID.Contains("VendorDesignated"))
+            {
+                fileTypeID = "065";
+            }
+            else if (formID.Contains("ContractApproval"))
+            {
+                fileTypeID = "001";
+            }
+            #endregion         
+            string factoryName = HttpContext.Current.Session["Factory_Name"].ToString();
+            string fileID = tempVendorID + File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(fileTypeID, factoryName);
+            string path = LSetting.File_Path + fileID + ".pdf";
+            postFile.SaveAs(HttpContext.Current.Server.MapPath(path));
+
+
+            //判断该formID是否已经上传了文件 如果上传则为覆盖
+            isFileUpload = VendorSingleFile_BLL.isSingleFileSubmit(formID);
+            if (isFileUpload)
+            {
+                //保留原来的记录方便日后删除
+                string oldFileID = VendorSingleFile_BLL.getOldFileID(formID);
+                if (oldFileID != "")
+                {
+                    //更新Status为 old
+                    File_Type_BLL.updateFileStatus(oldFileID);
+                }
+            }
+
+
+
+            As_File files = new As_File();
+            files.File_Path = path;
+            files.Temp_Vendor_ID = tempVendorID;
+            files.Temp_Vendor_Name = tempVendorName;
+            files.File_ID = fileID;
+            files.File_Name = fileID + ".pdf";
+            files.File_Enable_Time = startTime;
+            files.File_Due_Time = endTime;
+            files.File_Type_ID = fileTypeID;
+            files.Factory_Name = factoryName;
+
+            try
+            {
+                File_BLL.addFile(files);
+                //手动添加文件绑定记录
+                CheckFile_BLL.bindSingleFormFile(fileID, tempVendorID, formID, fileTypeID);
+                context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, message = "数据库写入完毕，文件上传完成" }));
+            }
+            catch
+            {
+                context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, message = "数据库写入失败，文件上传失败" }));
             }
         }
 

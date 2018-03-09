@@ -71,6 +71,11 @@ namespace BLL
             return dc;
         }
 
+        public static string getVendorRiskFormID(string tempVendorID, string formTypeID, string factory, int n)
+        {
+            return VendorRiskAnalysis_DAL.getVendorRiskFormID(tempVendorID, formTypeID, factory, n);
+        }
+
         public static int SubmitOk(string formID)
         {
             return VendorRiskAnalysis_DAL.SubmitOk(formID);

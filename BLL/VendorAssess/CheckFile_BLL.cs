@@ -114,5 +114,26 @@ namespace BLL
             }
             return false;
         }
+
+        /// <summary>
+        /// 绑定单个文件和表格
+        /// </summary>
+        /// <param name="fileID"></param>
+        /// <param name="tempVendorID"></param>
+        /// <param name="formID"></param>
+        /// <returns></returns>
+        public static int bindSingleFormFile(string fileID, string tempVendorID, string formID,string fileTypeID)
+        {
+
+            //进入审批 在show页面查看这份绑定的文件
+            As_Form_File Form_File = new As_Form_File();
+            Form_File.File_ID = fileID;
+            Form_File.Form_ID = formID;
+            Form_File.Temp_Vendor_ID = tempVendorID;
+            int result = FormFile_BLL.addFormFile(Form_File);
+
+            return VendorSingleFile_BLL.updateSingleFileFlag(formID, fileID, fileTypeID);
+        }
+
     }
 }

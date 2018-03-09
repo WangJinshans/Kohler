@@ -87,6 +87,28 @@ namespace DAL.VendorAssess
             }
         }
 
+        public static string getVendorBiddingFormID(string tempVendorID, string form_Type_ID, string factory_Name, int n)
+        {
+            string formID = "";
+            string sql = "select Form_ID from As_Bidding_Approval_Form where Temp_Vendor_ID=@Temp_Vendor_ID and Form_Type_ID=@Form_Type_ID and Factory_Name=@Factory_Name and ID=@ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("Form_Type_ID",form_Type_ID),
+                new SqlParameter("Factory_Name",factory_Name),
+                new SqlParameter("@ID",n),
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    formID = dr["Form_ID"].ToString();
+                }
+            }
+            return formID;
+        }
+
         public static int SubmitOk(string formID)
         {
             int submit = -1;
@@ -104,7 +126,7 @@ namespace DAL.VendorAssess
 
         public static int addVendorBiddingApprovalForm(As_Bidding_Approval vendorApproval)
         {
-            string sql = "insert into As_Bidding_Approval_Form(Temp_Vendor_ID,Flag,Factory_Name,Temp_Vendor_Name,Form_Type_ID,Initiator)values(@Temp_Vendor_ID,@Flag,@Factory_Name,@Temp_Vendor_Name,@Form_Type_ID,@Initiator)";
+            string sql = "insert into As_Bidding_Approval_Form(Temp_Vendor_ID,Flag,Factory_Name,Temp_Vendor_Name,Form_Type_ID,Initiator)values(@Temp_Vendor_ID,@Flag,@Factory_Name,@Temp_Vendor_Name,@Form_Type_ID,@Initiator)select TOP 1 SCOPE_IDENTITY() AS returnName from As_Bidding_Approval_Form";
             SqlParameter[] sp = new SqlParameter[]
             {
                new SqlParameter("@Temp_Vendor_ID",vendorApproval.Temp_Vendor_ID),
@@ -114,7 +136,7 @@ namespace DAL.VendorAssess
                new SqlParameter("@Form_Type_ID",vendorApproval.Form_Type_ID),
                new SqlParameter("@Initiator",vendorApproval.Initiator)
             };
-            return DBHelp.GetScalar(sql, sp);
+            return DBHelp.GetScalarID(sql, sp);
         }
 
         public static int updateVendorBiddingApprovalForm(As_Bidding_Approval vendorApproval)

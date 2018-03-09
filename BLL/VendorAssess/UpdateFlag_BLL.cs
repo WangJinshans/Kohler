@@ -67,5 +67,10 @@ namespace BLL
         {
             return UpdateFlag_DAL.updateReAccessFileStatus(fileID);
         }
+
+        public static int updateFillFlag(string formID)
+        {
+            return UpdateFlag_DAL.updateFillFlag(formID);
+        }
     }
 }

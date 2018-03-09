@@ -55,6 +55,28 @@ namespace DAL
             return submit;
         }
 
+        public static string getVendorContractApprovalFormID(string tempVendorID, string fORM_TYPE_ID, string factory, int n)
+        {
+            string formID = "";
+            string sql = "select Form_ID from As_Contract_Approval where Temp_Vendor_ID=@Temp_Vendor_ID and Form_Type_ID=@Form_Type_ID and Factory_Name=@Factory_Name and ID=@ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("Form_Type_ID",fORM_TYPE_ID),
+                new SqlParameter("Factory_Name",factory),
+                new SqlParameter("@ID",n),
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    formID = dr["Form_ID"].ToString();
+                }
+            }
+            return formID;
+        }
+
         public static bool isKCIOK(string formID)
         {
             string sql = "select * from As_Vendor_FormType where Form_ID='" + formID + "' and flag=4";
@@ -93,7 +115,7 @@ namespace DAL
 
         public static int addContractApproval(As_Contract_Approval vendorContract)//添加表
         {
-            string sql = "insert into As_Contract_Approval(Temp_Vendor_ID,Vendor_Name,Form_Type_ID,Flag,Factory_Name) values(@Temp_Vendor_ID,@Vendor_Name,@Form_Type_ID,@Flag,@Factory_Name) SELECT @@IDENTITY AS returnName";
+            string sql = "insert into As_Contract_Approval(Temp_Vendor_ID,Vendor_Name,Form_Type_ID,Flag,Factory_Name) values(@Temp_Vendor_ID,@Vendor_Name,@Form_Type_ID,@Flag,@Factory_Name) select TOP 1 SCOPE_IDENTITY() AS returnName from As_Contract_Approval";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_ID",vendorContract.Temp_Vendor_ID),
@@ -102,7 +124,7 @@ namespace DAL
                 new SqlParameter("@Flag",vendorContract.Flag),
                 new SqlParameter("@Factory_Name",vendorContract.Factory_Name)
             };
-            return DBHelp.GetScalar(sql, sp);
+            return DBHelp.GetScalarID(sql, sp);
         }
 
         public static int updateContractApproval(As_Contract_Approval vendorContract)

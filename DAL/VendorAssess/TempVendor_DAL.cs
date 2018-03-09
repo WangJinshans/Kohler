@@ -14,16 +14,14 @@ namespace DAL
     {
         public static int addTempVendor(As_Temp_Vendor Temp_Vendor)
         {
-            string sql = "INSERT INTO As_Temp_Vendor(Temp_Vendor_Name,Vendor_Type_ID,Temp_Vendor_ID,Purchase_Amount,SH,ZS,ZH)VALUES(@Temp_Vendor_Name,@Vendor_Type_ID,@Temp_Vendor_ID,@Purchase_Amount,@SH,@ZS,@ZH)";
+            string sql = "INSERT INTO As_Temp_Vendorchange(Temp_Vendor_Name,Vendor_Type_ID,Temp_Vendor_ID,Purchase_Amount,Factory_Name)VALUES(@Temp_Vendor_Name,@Vendor_Type_ID,@Temp_Vendor_ID,@Purchase_Amount,@Factory_Name)";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_Name",Temp_Vendor.Temp_Vendor_Name),
                 new SqlParameter("@Vendor_Type_ID",Temp_Vendor.Vendor_Type_ID),
                 new SqlParameter("@Temp_Vendor_ID",""),
                 new SqlParameter("@Purchase_Amount",Temp_Vendor.Purchase_Amount),
-                new SqlParameter("@SH",Temp_Vendor.SH),
-                new SqlParameter("@ZS",Temp_Vendor.ZS),
-                new SqlParameter("@ZH",Temp_Vendor.ZH)
+                new SqlParameter("@Factory_Name",Temp_Vendor.Factory_Name),
             };
             return DBHelp.GetScalar(sql, sp);
         }
@@ -230,10 +228,26 @@ namespace DAL
             #endregion
         }
 
+        public static bool checkEmployeeAuthority(string employeeID)
+        {
+            string sql = "select Department_ID from As_Employee where Department_ID like '采购部%' and Employee_ID='" + employeeID + "'";
+            using (SqlDataReader reader = DBHelp.GetReader(sql))
+            {
+                if (reader.Read())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
         public static string getTempVendorName(string tempVendorID)
         {
             string tempVendorName = "";
-            string sql = "select Temp_Vendor_Name from As_Temp_Vendor where Temp_Vendor_ID=@Temp_Vendor_ID";
+            string sql = "select top 1 Temp_Vendor_Name from As_Temp_Vendorchange where Temp_Vendor_ID=@Temp_Vendor_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("Temp_Vendor_ID",tempVendorID)
@@ -273,7 +287,7 @@ namespace DAL
         public static string getTempVendorID(string TempVendorName)
         {
             string tempVendorID = "";
-            string sql = "select Temp_Vendor_ID from As_Temp_Vendor where Temp_Vendor_Name=@Temp_Vendor_Name";
+            string sql = "select Temp_Vendor_ID from As_Temp_Vendorchange where Temp_Vendor_Name=@Temp_Vendor_Name";
             //string sql = "select Temp_Vendor_ID from As_Employee_Vendor where Temp_Vendor_Name=@Temp_Vendor_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
@@ -349,13 +363,14 @@ namespace DAL
             return "";
         }
 
-        public static As_Temp_Vendor getTempVendor(string tempVendorID)
+        public static As_Temp_Vendor getTempVendor(string tempVendorID,string factory)
         {
             As_Temp_Vendor tempVendor = null;
-            string sql = "Select * From As_Temp_Vendor Where Temp_Vendor_ID=@Temp_Vendor_ID";
+            string sql = "select * From As_Temp_Vendorchange Where Temp_Vendor_ID=@Temp_Vendor_ID and Factory_Name=@Factory_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("Temp_Vendor_ID",tempVendorID)
+                new SqlParameter("Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("@Factory_Name",factory)
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)
@@ -368,9 +383,7 @@ namespace DAL
                     tempVendor.Normal_Vendor_ID = dr["Normal_Vendor_ID"].ToString();
                     tempVendor.Temp_Vendor_ID = tempVendorID;
                     tempVendor.Purchase_Amount = Convert.ToInt32(dr["Purchase_Amount"]);
-                    tempVendor.SH = dr["SH"].ToString();
-                    tempVendor.ZS = dr["ZS"].ToString();
-                    tempVendor.ZH = dr["ZH"].ToString();
+                    tempVendor.Factory_Name = dr["Factory_Name"].ToString();
                 }
             }
             return tempVendor;

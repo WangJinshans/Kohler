@@ -61,5 +61,10 @@ namespace BLL.VendorAssess
         {
             return VendorSelection_DAL.SubmitOk(formID);
         }
+
+        public static string getVendorSelectionFormID(string tempVendorID, string fORM_TYPE_ID, string factory, int n)
+        {
+            return VendorSelection_DAL.getVendorSelectionFormID(tempVendorID, fORM_TYPE_ID, factory, n);
+        }
     }
 }

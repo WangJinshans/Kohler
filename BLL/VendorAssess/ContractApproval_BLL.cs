@@ -51,5 +51,10 @@ namespace BLL
         {
             return ContractApproval_DAL.isKCIOK(formID);
         }
+
+        public static string getVendorContractApprovalFormID(string tempVendorID, string fORM_TYPE_ID, string factory, int n)
+        {
+            return ContractApproval_DAL.getVendorContractApprovalFormID(tempVendorID, fORM_TYPE_ID, factory, n);
+        }
     }
 }

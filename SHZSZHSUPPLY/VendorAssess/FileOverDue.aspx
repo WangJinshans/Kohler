@@ -233,7 +233,13 @@
             <Columns>
                 <asp:BoundField DataField="Form_ID" HeaderText="表格编号"
                     SortExpression="Form_ID" />
-                <asp:BoundField DataField="Temp_Vendor_ID" HeaderText="供应商"
+                <asp:BoundField DataField="Form_Type_ID" HeaderText="表格类型编号"
+                    sortExpression="Form_Type_ID" />
+                <asp:BoundField DataField="Vendor_Code" HeaderText="供应商编号"
+                    sortExpression="Vendor_Code" />
+                <asp:BoundField DataField="Vendor_Type" HeaderText="供应商类型"
+                    sortExpression="Vendor_Type" />
+                <asp:BoundField DataField="Temp_Vendor_ID" HeaderText="供应商临时编号"
                     SortExpression="Temp_Vendor_ID" />
                 <asp:BoundField DataField="Form_Type_Is_Optional" HeaderText="标志"
                     SortExpression="Form_Type_Is_Optional" />

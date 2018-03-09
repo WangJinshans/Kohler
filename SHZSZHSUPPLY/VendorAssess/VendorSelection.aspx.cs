@@ -23,13 +23,13 @@ namespace SHZSZHSUPPLY.VendorAssess
         private As_Form_EditFlow formEditFlow;
         private List<As_Employee_Form> employeeFormList;
 
-        public string FORM_NAME = "供应商选择表";
+        public static string FORM_NAME = "供应商选择表";
         private static string factory = "";
-        public string FORM_TYPE_ID = "018";
-        private string tempVendorID = "";
-        private string tempVendorName = "";
-        private string formID = "";
-        private string submit = "";
+        public static string FORM_TYPE_ID = "018";
+        private static string tempVendorID = "";
+        private static string tempVendorName = "";
+        private static string formID = "";
+        private static string submit = "";
 
         public const byte APPROVED = 0;
         public const byte C_APPROVAL = 1;
@@ -63,6 +63,16 @@ namespace SHZSZHSUPPLY.VendorAssess
                         //获取formID信息
                         getSessionInfo();
 
+                        formID = VendorSelection_BLL.getVendorSelectionFormID(tempVendorID, FORM_TYPE_ID, factory, n);
+                        //每次添加表格添加到As_Vendor_MutipleForm中 
+                        As_MutipleForm forms = new As_MutipleForm();
+                        forms.Temp_Vendor_ID = tempVendorID;
+                        forms.Temp_Vendor_Name = tempVendorName;
+                        forms.Form_Type_ID = FORM_TYPE_ID;
+                        forms.Form_ID = formID;
+                        forms.Flag = 0;
+                        forms.Factory_Name = factory;
+                        Vendor_MutipleForm_BLL.addVendorMutileForms(forms);
                         //向FormFile表中添加相应的文件、表格绑定信息
                         bindingFormWithFile();
                     }
@@ -135,7 +145,14 @@ namespace SHZSZHSUPPLY.VendorAssess
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
             factory = Session["Factory_Name"].ToString().Trim();
-            formID = VendorSelection_BLL.getFormID(tempVendorID, FORM_TYPE_ID, factory);
+            try
+            {
+                formID = Request.QueryString["Form_ID"].ToString().Trim();
+            }
+            catch
+            {
+                formID = "";
+            }
             submit = Request.QueryString["submit"];
         }
 
@@ -227,7 +244,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         private As_Vendor_Selection saveForm(int flag, string manul)
         {
             //读取session
-            getSessionInfo();
+            //getSessionInfo();
 
             //As_Vendor_Selection
             As_Vendor_Selection vendorSelection = new As_Vendor_Selection();
@@ -335,10 +352,16 @@ namespace SHZSZHSUPPLY.VendorAssess
             Response.Redirect("EmployeeVendor.aspx");
         }
 
+
+        /// <summary>
+        /// 确认按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void Button4_Click(object sender, EventArgs e)
         {
             //session Info
-            getSessionInfo();
+            //getSessionInfo();
 
             saveForm(1, "保存表格");
 

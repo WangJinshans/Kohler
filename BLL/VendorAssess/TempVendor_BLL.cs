@@ -49,6 +49,11 @@ namespace BLL
             return TempVendor_DAL.getTempVendorByVendorCode(temp_Vendor_ID);
         }
 
+        public static As_Temp_Vendor getTempVendor(string tempVendorID, string factory)
+        {
+            return TempVendor_DAL.getTempVendor(tempVendorID, factory);
+        }
+
         /// <summary>
         /// 读取全部厂的信息
         /// </summary>
@@ -103,6 +108,16 @@ namespace BLL
         }
 
         /// <summary>
+        /// 查找该ID是否属于采购部
+        /// </summary>
+        /// <param name="employeeID"></param>
+        /// <returns></returns>
+        public static bool checkEmployeeAuthority(string employeeID)
+        {
+            return TempVendor_DAL.checkEmployeeAuthority(employeeID);
+        }
+
+        /// <summary>
         /// 是否为旧供应商
         /// </summary>
         /// <param name="tempVendorID"></param>
@@ -131,11 +146,6 @@ namespace BLL
                 }
             }
             return temp_Vendor_ID;
-        }
-
-        public static As_Temp_Vendor getTempVendor(string tempVendorID)
-        {
-            return TempVendor_DAL.getTempVendor(tempVendorID);
         }
 
         public static string getNormalCode(string tempVendorID)
@@ -269,6 +279,42 @@ namespace BLL
             }
             return info;
         }
+
+
+        /// <summary>
+        /// 根据factory_Name选出该厂的所有类型的所有供应商
+        /// </summary>
+        /// <param name="factory_Name"></param>
+        /// <returns></returns>
+        public static Dictionary<string, Dictionary<string, string[]>> readVendorInFactory(string factory_Name)
+        {
+            Dictionary<string, Dictionary<string, string[]>> info = new Dictionary<string, Dictionary<string, string[]>>();
+
+            //获取该厂的所有供应商
+            DataTable dt = SelectEmployeeVendor_DAL.readVendorInFactory(factory_Name);
+            foreach (DataRow item in dt.Rows)
+            {
+                if (!info.ContainsKey(item["Factory_Name"].ToString()))
+                {
+                    info.Add(item["Factory_Name"].ToString(), new Dictionary<string, string[]>());
+                }
+                if (!info[item["Factory_Name"].ToString()].ContainsKey(item["Vendor_Type"].ToString()))
+                {
+                    DataRow[] smlDr = dt.Select(String.Format("Factory_Name='{0}' and Vendor_Type='{1}'", item["Factory_Name"].ToString(), item["Vendor_Type"].ToString()));
+                    string[] nm = new string[smlDr.Length * 2];
+                    int t = 0;
+                    for (int i = 0; i < smlDr.Length; i++)
+                    {
+                        nm[t] = smlDr[i]["Temp_Vendor_Name"].ToString();
+                        nm[t + 1] = smlDr[i]["Temp_Vendor_ID"].ToString();
+                        t += 2;
+                    }
+                    info[item["Factory_Name"].ToString()].Add(item["Vendor_Type"].ToString(), nm);
+                }
+            }
+            return info;
+        }
+
 
         /// <summary>
         /// 选择过期供应商

@@ -62,6 +62,7 @@ namespace DAL
                         Vendor_FormType.Form_Type_Name = Convert.ToString(dr["Form_Type_Name"]);
                         Vendor_FormType.Vendor_Type = Convert.ToString(dr["Vendor_Type"]);
                         Vendor_FormType.Submit_Employee = Convert.ToString(dr["Submit_Employee"]);
+                        Vendor_FormType.Form_ID = Convert.ToString(dr["Form_ID"]);
                     }
 
 

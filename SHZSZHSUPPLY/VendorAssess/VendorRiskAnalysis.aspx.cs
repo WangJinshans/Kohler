@@ -1,5 +1,7 @@
 ﻿using BLL;
+using BLL.VendorAssess;
 using Model;
+using MODEL.VendorAssess;
 using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
 using System.Collections.Generic;
@@ -43,7 +45,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     vendorRisk.Supplier = tempVendorName;
                     vendorRisk.Flag = 0;
                     vendorRisk.Factory_Name = Session["Factory_Name"].ToString();
-                    vendorRisk.Annual_Spend = TempVendor_BLL.getTempVendor(tempVendorID).Purchase_Amount.ToString();
+                    vendorRisk.Annual_Spend = TempVendor_BLL.getTempVendor(tempVendorID,factory).Purchase_Amount.ToString();
                     int n = VendorRiskAnalysis_BLL.addVendorRisk(vendorRisk);
                     if (n == 0)
                     {
@@ -54,7 +56,16 @@ namespace SHZSZHSUPPLY.VendorAssess
                     {
                         //获取formID信息
                         getSessionInfo();
-
+                        formID = VendorRiskAnalysis_BLL.getVendorRiskFormID(tempVendorID, FORM_TYPE_ID, factory, n);
+                        //每次添加表格添加到As_Vendor_MutipleForm中 
+                        As_MutipleForm forms = new As_MutipleForm();
+                        forms.Temp_Vendor_ID = tempVendorID;
+                        forms.Temp_Vendor_Name = tempVendorName;
+                        forms.Form_Type_ID = "003";
+                        forms.Form_ID = formID;
+                        forms.Flag = 0;
+                        forms.Factory_Name = factory;
+                        Vendor_MutipleForm_BLL.addVendorMutileForms(forms);
                         //向FormFile表中添加相应的文件、表格绑定信息
                         bindingFormWithFile();
                         showfilelist(formID);
@@ -80,7 +91,14 @@ namespace SHZSZHSUPPLY.VendorAssess
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
             factory = Session["Factory_Name"].ToString().Trim();
-            formID = VendorRiskAnalysis_BLL .getFormID(tempVendorID,FORM_TYPE_ID,factory);
+            try
+            {
+                formID = Request.QueryString["Form_ID"].ToString().Trim();
+            }
+            catch
+            {
+                formID = "";
+            }
             submit = Request.QueryString["submit"];
         }
 

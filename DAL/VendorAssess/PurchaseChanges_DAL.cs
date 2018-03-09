@@ -14,7 +14,7 @@ namespace DAL.VendorAssess
     {
         public static int add(As_Purchase_Changes asPurchaseChanges)
         {
-            string sql = "insert into As_Purchase_Changes(Temp_Vendor_ID,Form_Type_ID,Vendor,Flag,Factory_Name,Form_ID) values(@Temp_Vendor_ID,@Form_Type_ID,@Vendor,@Flag,@Factory_Name,'')";
+            string sql = "insert into As_Purchase_Changes(Temp_Vendor_ID,Form_Type_ID,Vendor,Flag,Factory_Name,Form_ID) values(@Temp_Vendor_ID,@Form_Type_ID,@Vendor,@Flag,@Factory_Name,'')select TOP 1 SCOPE_IDENTITY() AS returnName from As_Purchase_Changes";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_ID",asPurchaseChanges.Temp_Vendor_ID),
@@ -23,7 +23,7 @@ namespace DAL.VendorAssess
                 new SqlParameter("@Factory_Name",asPurchaseChanges.Factory_Name),
                 new SqlParameter("@Vendor",asPurchaseChanges.Vendor),
             };
-            return DBHelp.GetScalar(sql, sp);
+            return DBHelp.GetScalarID(sql, sp);
         }
 
         public static As_Purchase_Changes get(string formId)
@@ -55,6 +55,28 @@ namespace DAL.VendorAssess
                 }
             }
             return asPurchaseChanges;
+        }
+
+        public static string getVendorPurchaseChangesFormID(string tempVendorID, string fORM_TYPE_ID, string factory, int n)
+        {
+            string formID = "";
+            string sql = "select Form_ID from As_Purchase_Changes where Temp_Vendor_ID=@Temp_Vendor_ID and Form_Type_ID=@Form_Type_ID and Factory_Name=@Factory_Name and ID=@ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("Form_Type_ID",fORM_TYPE_ID),
+                new SqlParameter("Factory_Name",factory),
+                new SqlParameter("@ID",n),
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    formID = dr["Form_ID"].ToString();
+                }
+            }
+            return formID;
         }
 
         public static DataTable getItems(string formId)

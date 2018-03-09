@@ -67,7 +67,8 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         private void readVendorInfo()
         {
-            info = TempVendor_BLL.readVendorInfo();
+            //info = TempVendor_BLL.readVendorInfo();
+            info = TempVendor_BLL.readVendorInFactory(Session["Factory_Name"].ToString());
             JavaScriptSerializer jss = new JavaScriptSerializer();
             serializedJson = jss.Serialize(info);
             LocalScriptManager.CreateScript(Page, String.Format("setParams('{0}')", serializedJson), "params");

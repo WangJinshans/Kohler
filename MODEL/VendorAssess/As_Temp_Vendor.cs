@@ -15,6 +15,7 @@ namespace Model
         private int id;
         private double purchase_Amount;
         private string sH, zS, zH;
+        private string factory_Name;
         private string vendor_Type;
         private string vendor_Assign;
         private string advance_Charge;
@@ -303,6 +304,19 @@ namespace Model
             set
             {
                 vendorTypeTwo = value;
+            }
+        }
+
+        public string Factory_Name
+        {
+            get
+            {
+                return factory_Name;
+            }
+
+            set
+            {
+                factory_Name = value;
             }
         }
     }

@@ -1013,9 +1013,9 @@ namespace BLL.VendorAssess
             forms = File_Transform_DAL.getFormIDs(tempVendorID, factory);
             if (forms != null && forms.Count > 0)
             {
-                foreach (string formid in forms)//单个文件的ID在As_Form中查找
+                foreach (string formID in forms)//单个文件的ID在As_Form中查找
                 {
-                    if (File_Transform_DAL.checkFormSubmit(tempVendorID, factory, formid) == false)
+                    if (File_Transform_DAL.checkFormSubmit(tempVendorID, factory, formID) == false)
                     {
                         return false;//没有查到对应的ID的提交记录
                     }

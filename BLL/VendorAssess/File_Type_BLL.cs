@@ -42,5 +42,10 @@ namespace BLL
         {
             return File_Type_DAL.getFileTypeNameByID(fileTypeID);
         }
+
+        public static void updateFileStatus(string oldFileID)
+        {
+            File_Type_DAL.updateFileStatus(oldFileID);
+        }
     }
 }

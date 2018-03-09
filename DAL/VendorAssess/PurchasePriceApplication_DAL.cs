@@ -12,7 +12,7 @@ namespace DAL.VendorAssess
     {
         public static int addVendorPurchasePrice(As_PurchasePriceApplication vendor_PurchasePrice)
         {
-            string sql = "insert into As_Vendor_PurchasePriceApplication(Form_Type_ID,Temp_Vendor_ID,Temp_Vendor_Name,Flag,Factory_Name)values(@Form_Type_ID,@Temp_Vendor_ID,@Temp_Vendor_Name,@Flag,@Factory_Name)";
+            string sql = "insert into As_Vendor_PurchasePriceApplication(Form_Type_ID,Temp_Vendor_ID,Temp_Vendor_Name,Flag,Factory_Name)values(@Form_Type_ID,@Temp_Vendor_ID,@Temp_Vendor_Name,@Flag,@Factory_Name)select TOP 1 SCOPE_IDENTITY() AS returnName from As_Vendor_PurchasePriceApplication";
             SqlParameter[] sp = new SqlParameter[]
             {
                new SqlParameter("@Temp_Vendor_Name",vendor_PurchasePrice.Temp_Vendor_Name),
@@ -21,7 +21,7 @@ namespace DAL.VendorAssess
                new SqlParameter("@Temp_Vendor_ID",vendor_PurchasePrice.Temp_Vendor_ID),
                new SqlParameter("@Factory_Name",vendor_PurchasePrice.Factory_Name)
             };
-            return DBHelp.GetScalar(sql, sp);
+            return DBHelp.GetScalarID(sql, sp);
         }
 
         public static int updateVendorPurchasePrice(As_PurchasePriceApplication purchasePrice)
@@ -73,6 +73,28 @@ namespace DAL.VendorAssess
                 }
             }
             return 1;//正常执行
+        }
+
+        public static string getVendorPurchasePriceFormID(string tempVendorID, string fORM_TYPE_ID, string factory, int n)
+        {
+            string formID = "";
+            string sql = "select Form_ID from As_Vendor_PurchasePriceApplication where Temp_Vendor_ID=@Temp_Vendor_ID and Form_Type_ID=@Form_Type_ID and Factory_Name=@Factory_Name and ID=@ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("Form_Type_ID",fORM_TYPE_ID),
+                new SqlParameter("Factory_Name",factory),
+                new SqlParameter("@ID",n),
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    formID = dr["Form_ID"].ToString();
+                }
+            }
+            return formID;
         }
 
         public static int checkVendorPurchasePrice(string formId)

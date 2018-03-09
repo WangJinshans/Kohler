@@ -40,7 +40,7 @@ namespace DAL.VendorAssess
 
         public static List<string> getFormIDs(string tempVendorID, string factory)
         {
-            string sql = "select Form_ID FROM As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "' And Form_Type_ID not in ('005','006','007','008','009','010','011','012')";
+            string sql = "select Form_ID FROM View_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "' And Form_Type_ID not in ('005','006','007','008','009','010','011','012')";
             List<string> formlist = new List<string>();
             string formid = "";
             DataTable table = new DataTable();
@@ -58,7 +58,6 @@ namespace DAL.VendorAssess
 
         public static bool checkFormSubmit(string tempVendorID, string factory, string formid)
         {
-            // string sql = "select Form_ID from As_Form where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "' and Form_ID='" + formid + "' and Status='new'";
             string sql = "select Form_ID from As_Form where Temp_Vendor_ID='" + tempVendorID + "' and (Factory_Name='" + factory + "' or Factory_Name='ALL') and Form_ID='" + formid + "' and Status='new'";
             using (SqlDataReader reader = DBHelp.GetReader(sql))
                 if (reader.Read())

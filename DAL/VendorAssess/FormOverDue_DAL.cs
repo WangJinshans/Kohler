@@ -6,6 +6,7 @@ using System.Text;
 using MODEL.VendorAssess;
 using System.Data.SqlClient;
 using MODEL;
+using System.Collections;
 
 namespace DAL.VendorAssess
 {
@@ -107,6 +108,30 @@ namespace DAL.VendorAssess
             }
 
             return table;
+        }
+
+        public static List<As_Form_OverDue> listOverDueForms()
+        {
+            string sql = "select * from As_VendorForm_OverDue";
+            As_Form_OverDue formOverDue = null;
+            List<As_Form_OverDue> formList = new List<As_Form_OverDue>();
+            DataTable table = DBHelp.GetDataSet(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    formOverDue = new As_Form_OverDue();
+                    formOverDue.Form_ID = dr["Form_ID"].ToString().Trim();
+                    formOverDue.Form_Type_ID = dr["Form_Type_ID"].ToString();
+                    formOverDue.Factory_Name = dr["Factory_Name"].ToString();
+                    formOverDue.Temp_Vendor_ID = dr["Temp_Vendor_ID"].ToString();
+                    formOverDue.Vendor_Code = dr["Vendor_Code"].ToString().Trim();
+                    formOverDue.Vendor_Type = dr["Vendor_Type"].ToString();
+                    formOverDue.Status = dr["Status"].ToString();
+                    formList.Add(formOverDue);
+                }
+            }
+            return formList;
         }
 
         public static int addOverDueForm(As_Form_OverDue vendor)

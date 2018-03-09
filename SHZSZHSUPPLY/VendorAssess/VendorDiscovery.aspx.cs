@@ -1,20 +1,23 @@
 ﻿using BLL;
+using BLL.VendorAssess;
 using Model;
+using MODEL.VendorAssess;
 using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace AendorAssess
 {
     public partial class VendorDiscovery : System.Web.UI.Page
     {
-        public string FORM_NAME = "供应商调查表";
-        public string FORM_TYPE_ID = "001";
-        private string tempVendorID = "";
-        private string tempVendorName = "";
-        private string factory = "";
-        private string formID = "";
-        private string submit = "";
+        public static string FORM_NAME = "供应商调查表";
+        public static string FORM_TYPE_ID = "001";
+        private static string tempVendorID = "";
+        private static string tempVendorName = "";
+        private static string factory = "";
+        private static string formID = "";
+        private static string submit = "";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -44,10 +47,17 @@ namespace AendorAssess
                     }
                     else
                     {
-                        //获取formID信息
-                        getSessionInfo();
+                        formID = VendorDiscovery_BLL.getVendorDiscoveryFormID(tempVendorID, "001", factory, n);
+                        //每次添加表格添加到As_Vendor_MutipleForm中 
+                        As_MutipleForm forms = new As_MutipleForm();
+                        forms.Temp_Vendor_ID = tempVendorID;
+                        forms.Temp_Vendor_Name = tempVendorName;
+                        forms.Form_Type_ID = "001";
+                        forms.Form_ID = formID;
+                        forms.Flag = 0;
+                        forms.Factory_Name = factory;
+                        Vendor_MutipleForm_BLL.addVendorMutileForms(forms);
 
-                        //向FormFile表中添加相应的文件、表格绑定信息
                         bindingFormWithFile();
                         showfilelist(formID);
                     }
@@ -64,16 +74,12 @@ namespace AendorAssess
                 {
                     case "submitForm":
                         LocalApproveManager.submitForm();
-                        //submitForm();
                         break;
                     default:
                         break;
                 }
             }
-
-
         }
-
 
         /// <summary>
         /// 绑定此表对应的文件信息
@@ -168,20 +174,6 @@ namespace AendorAssess
             showfilelist(formID);
         }
 
-        ///// <summary>
-        ///// 显示审批列表
-        ///// </summary>
-        ///// <param name="FormID"></param>
-        //public void showapproveform(string FormID)
-        //{
-        //    As_Approve approve = new As_Approve();
-        //    string sql = "SELECT * FROM As_Approve WHERE Form_ID='" + FormID + "'";
-        //    PagedDataSource objpds = new PagedDataSource();
-        //    objpds.DataSource = AssessFlow_BLL.listApprove(sql);
-        //    GridView1.DataSource = objpds;
-        //    GridView1.DataBind();
-        //}
-
         /// <summary>
         /// 显示文件列表
         /// </summary>
@@ -198,88 +190,6 @@ namespace AendorAssess
         }
 
         /// <summary>
-        /// 提交表格
-        /// </summary>
-        /// <returns></returns>
-        protected string submitForm()
-        {
-            //读取session
-            getSessionInfo();
-
-            SelectDepartment.doSelect();
-
-            //插入到已提交表
-            As_Form form = new As_Form();
-            form.Form_ID = formID;
-            form.Form_Type_Name = FORM_NAME;
-            form.Form_Type_ID = FORM_TYPE_ID;
-            form.Temp_Vendor_Name = tempVendorName;
-            form.Form_Path = "";
-            form.Temp_Vendor_ID = tempVendorID;
-            form.Factory_Name = factory;
-            int add = AddForm_BLL.addForm(form);
-
-            //一旦提交就把表As_Vendor_FormType字段FLag置1.
-            int updateFlag = UpdateFlag_BLL.updateFlag(FORM_TYPE_ID, tempVendorID);
-
-            Response.Redirect("EmployeeVendor.aspx");
-            return "";
-        }
-
-        /// <summary>
-        /// 网页内部弹出对话框，确定用户部门流程
-        /// </summary>
-        /// <param name="formTypeID"></param>
-        /// <param name="formID"></param>
-        //public void newApproveAccess(string formTypeID,string formID)
-        //{
-        //    //形成参数
-        //    As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(formTypeID);
-
-        //    //写入session之后供SelectDepartment页面使用
-        //    Session["AssessflowInfo"] = assess_flow;
-        //    Session["tempVendorID"] = tempVendorID;
-        //    Session["factory"] = "上海科勒";
-        //    Session["form_name"] = FORM_NAME;
-        //    Session["tempVendorName"] = tempVendorName;
-
-        //    //如果是用户部门
-        //    if (assess_flow.User_Department_Assess == "1")
-        //    {
-        //        LocalScriptManager.CreateScript(Page, "popUp('" + formID + "');", "SHOW");
-        //    }
-        //    else
-        //    {
-        //        //TODO::这里不能这样写，具体参考Creation的写法，这里暂时不改
-        //        Session["tempvendorname"] = tempVendorName;
-        //        Session["Employee_ID"] = Session["Employee_ID"];
-        //        Response.Write("<script>window.alert('提交成功！');window.location.href='/VendorAssess/EmployeeVendor.aspx</script>");
-        //    }
-        //}
-
-        /// <summary>
-        /// 确定审批流程
-        /// </summary>
-        /// <param name="formTypeID"></param>
-        /// <param name="formId"></param>
-        //public void approveaccess(string formId)
-        //{
-        //    As_Assess_Flow assess_flow = new As_Assess_Flow();
-        //    assess_flow = AssessFlow_BLL.getFirstAssessFlow(FORM_TYPE_ID);
-        //    Session["AssessflowInfo"] = assess_flow;
-        //    Session["tempVendorID"] = tempVendorID;
-        //    Session["factory"] = "上海科勒";
-        //    string i = assess_flow.User_Department_Assess;
-        //    if (i == "1")
-        //    {
-        //        string s_url;
-        //        s_url = "SelectDepartment.aspx?formId=" + formId;
-        //        Response.Redirect(s_url);
-        //    }
-        //}
-
-
-        /// <summary>
         /// 保存表格
         /// </summary>
         /// <param name="flag"></param>
@@ -287,9 +197,6 @@ namespace AendorAssess
         /// <returns></returns>
         private As_Vendor_Discovery saveForm(int flag, string manul)
         {
-            //读取session
-            getSessionInfo();
-
             As_Vendor_Discovery Vendor_Discovery = new As_Vendor_Discovery();
             Vendor_Discovery.Form_ID = formID;
             Vendor_Discovery.Form_Type_ID = FORM_TYPE_ID;
@@ -394,27 +301,30 @@ namespace AendorAssess
 
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
-            factory= Session["Factory_Name"].ToString().Trim();
-            formID = VendorDiscovery_BLL.getFormID(tempVendorID,FORM_TYPE_ID,factory);
+            factory = Session["Factory_Name"].ToString().Trim();
+            //formID = VendorDiscovery_BLL.getFormID(tempVendorID,FORM_TYPE_ID,factory);
+            try
+            {
+                formID = Request.QueryString["Form_ID"].ToString().Trim();
+            }
+            catch
+            {
+                formID = "";
+            }
             submit = Request.QueryString["submit"];
         }
 
         public void Button1_Click(object sender, EventArgs e)//提交按钮
         {
-            //重新获取session信息和get信息
-            getSessionInfo();
-            
             if (submit == "yes")
             {
                 //形成参数
                 As_Vendor_Discovery Vendor_Discovery = saveForm(2, "提交表格");
-
                 LocalApproveManager.doApproveWithSelection(Page,formID, FORM_NAME, FORM_TYPE_ID, tempVendorID, tempVendorName, Session["Factory_Name"].ToString());
             }
             else
             {
                 LocalApproveManager.showPendingReason(Page,tempVendorID,true);
-                 //Response.Write("<script>window.alert('无法提交，请等待其他表格审批完毕后再次尝试！')</script>");
             }
         }
 
