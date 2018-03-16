@@ -14,13 +14,16 @@ namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class PurchasePriceApplication : System.Web.UI.Page
     {
-        public string FORM_NAME = "供应商调查表";
-        public string FORM_TYPE_ID = "026";
+        public static string FORM_NAME = "供应商调查表";
+        public static string FORM_TYPE_ID = "026";
         private static string tempVendorID = "";
         private static string tempVendorName = "";
         private static string factory = "";
         private static string formID = "";
-        private string submit = "";
+        private static string submit = "";
+        private static bool singleFileSubmit = false;
+
+
         protected void Page_Load(object sender, EventArgs e)
         {
             image2.Visible = false;
@@ -49,9 +52,20 @@ namespace SHZSZHSUPPLY.VendorAssess
                     }
                     else
                     {
-                        //获取formID信息
-                        getSessionInfo();
+                        formID = PurchasePriceApplication_BLL.getVendorPurchasePriceFormID(tempVendorID, FORM_TYPE_ID, factory, n);
 
+                        //添加单独绑定的文件
+                        VendorSingleFile_BLL.addSingleFile(formID, FORM_TYPE_ID, tempVendorID, tempVendorName, factory, "012");
+
+                        //每次添加表格添加到As_Vendor_MutipleForm中 
+                        As_MutipleForm forms = new As_MutipleForm();
+                        forms.Temp_Vendor_ID = tempVendorID;
+                        forms.Temp_Vendor_Name = tempVendorName;
+                        forms.Form_Type_ID = FORM_TYPE_ID;
+                        forms.Form_ID = formID;
+                        forms.Flag = 0;
+                        forms.Factory_Name = factory;
+                        Vendor_MutipleForm_BLL.addVendorMutileForms(forms);
                         //向FormFile表中添加相应的文件、表格绑定信息
                         bindingFormWithFile();
                         showfilelist(formID);
@@ -290,25 +304,30 @@ namespace SHZSZHSUPPLY.VendorAssess
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
             factory = Session["Factory_Name"].ToString().Trim();
-            formID = PurchasePriceApplication_BLL.getFormID(tempVendorID, FORM_TYPE_ID, factory);
+            try
+            {
+                formID = Request.QueryString["Form_ID"].ToString().Trim();
+            }
+            catch
+            {
+                formID = "";
+            }
             submit = Request.QueryString["submit"];
-            //FORM_TYPE_ID = "026";
-            //FORM_NAME = FormType_BLL.getFormNameByTypeID(FORM_TYPE_ID);
-            //tempVendorID = "TempVendor4071";
-            //tempVendorName = "hgfhff";
-            //factory = "上海科勒";
-            //Session.Add("Factory_Name", factory);
-            //formID = PurchasePriceApplication_BLL.getFormID(tempVendorID, FORM_TYPE_ID, factory);
-            //submit = "yes";
         }
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            getSessionInfo();
+            //getSessionInfo();
+            singleFileSubmit = VendorSingleFile_BLL.isSingleFileSubmit(formID);
+            if (!singleFileSubmit)
+            {
+                LocalScriptManager.createManagerScript(Page, "window.alert('请提交报价单')", "uploadsinglefile");
+                return;
+            }
             if (submit == "yes")
             {
                 //形成参数
-                As_PurchasePriceApplication Vendor_Discovery = saveForm(2, "提交表格");
+                As_PurchasePriceApplication PurchasePrice = saveForm(2, "提交表格");
                 //目测需要KCI审批
                 approveAssess();
             }
@@ -321,7 +340,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         public void approveAssess()
         {
-            getSessionInfo();
+            //getSessionInfo();
 
             if (LocalApproveManager.doAddApprove(formID, FORM_NAME, FORM_TYPE_ID, tempVendorID))
             {
@@ -392,6 +411,12 @@ namespace SHZSZHSUPPLY.VendorAssess
                 Response.Write("<script>window.alert('保存失败！')</script>");
                 return null;
             }
+        }
+
+        protected void Button4_Click(object sender, EventArgs e)
+        {
+            string requestType = "signleupload";
+            ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "signleupload", String.Format("uploadFile('{0}','{1}','{2}','{3}',{4})", requestType, tempVendorID, tempVendorName, formID, "true"), true);
         }
     }
 }

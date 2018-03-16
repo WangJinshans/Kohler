@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections;
+using MODEL.VendorAssess;
 
 namespace BLL
 {
@@ -28,6 +30,17 @@ namespace BLL
         public static IList<As_Vendor_FileType> listVendorFileType(string sql)
         {
             return File_DAL.listVendorFileType(sql);
+        }
+
+
+        /// <summary>
+        /// 获取该供应商的所有填写过但是为提交的表格
+        /// </summary>
+        /// <param name="sqlkeepfill"></param>
+        /// <returns></returns>
+        public static IList<As_MutipleForm> listVendorKeepFillForms(string sqlkeepfill)
+        {
+            return SelectEmployeeVendor_DAL.listVendorKeepFillForms(sqlkeepfill);
         }
     }
 }

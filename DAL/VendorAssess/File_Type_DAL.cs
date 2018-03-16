@@ -46,6 +46,19 @@ namespace DAL
             return false;
         }
 
+        public static void updateFileStatus(string oldFileID)
+        {
+            string sql = "update As_File set Status='old' where File_ID='" + oldFileID + "'";
+            DBHelp.ExecuteCommand(sql);
+        }
+
+        public static void deleteBindSingleFile(string formID, string fileTypeID)
+        {
+            //TODO::As_Form_File删除？
+            string sql = "delete from As_File where Source_From='" + formID + "' and File_Type_ID='" + fileTypeID + "'";
+            DBHelp.ExecuteCommand(sql);
+        }
+
         public static string getFileTypeNameByID(string fileTypeID)
         {
             string fileTypeName = "";

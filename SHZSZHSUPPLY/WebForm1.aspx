@@ -231,10 +231,14 @@
                                 <li><a href="#" target="iFrame1">供应商评估</a></li>
                             </ul>
                         </li>
+                        <li><a href="#">质量检验</a>
+                            <ul>
+                                <li><a href="#" target="iFrame1">质量检验</a></li>
+                            </ul>
+                        </li>
                         <li><a href="#" style="text-align: center">价格走势</a>
                             <ul>
                                 <li><a href="#" target="iFrame1">价格走势</a></li>
-
                             </ul>
                         </li>
                         <li><a href="#" style="text-align: center">报表</a>
@@ -270,12 +274,6 @@
         </div>
         <div style="position: fixed; bottom: 0px; left: 40%; margin: 0 auto; width: 20%; height: 50px">
             <div style="font-size: small; font-family: Arial; text-align: center; border-top: 1; margin-top: 20px">上海科勒 2016年12月</div>
-            <%--<table cellpadding="0" cellspacing="0" align="center" style="width:100%;height:50px;">
-                <tr>
-                    <td style="font-size: small; font-family: Arial; text-align: center; border-top: 1"
-                        class="style2">上海科勒 2016年12月<input id="Hidden1" type="hidden" /></td>
-                </tr>
-            </table>--%>
         </div>
         <script type="text/javascript">
             var iframeids = ["iFrame1"]

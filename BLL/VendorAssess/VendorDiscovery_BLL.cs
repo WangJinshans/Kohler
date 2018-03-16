@@ -61,5 +61,10 @@ namespace BLL
             return VendorDiscovery_DAL.getFormID(tempVendorID,formTypeID, factory);
         }
 
+        public static string getVendorDiscoveryFormID(string tempVendorID, string formTypeID, string factory,int id)
+        {
+            return VendorDiscovery_DAL.getVendorDiscoveryFormID(tempVendorID, formTypeID, factory, id);
+        }
+        
     }
 }

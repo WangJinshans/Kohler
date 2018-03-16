@@ -17,7 +17,7 @@ namespace DAL.VendorAssess
         /// <returns></returns>
         public static int addVendorRisk(As_Vendor_Risk vendorRisk)
         {
-            string sql = "insert into As_Vendor_Risk(Temp_Vendor_ID,Form_Type_ID,Supplier,Flag,Factory_Name,Annual_Spend) values(@Temp_Vendor_ID,@Form_Type_ID,@Supplier,@Flag,@Factory_Name,@Annual_Spend)";
+            string sql = "insert into As_Vendor_Risk(Temp_Vendor_ID,Form_Type_ID,Supplier,Flag,Factory_Name,Annual_Spend) values(@Temp_Vendor_ID,@Form_Type_ID,@Supplier,@Flag,@Factory_Name,@Annual_Spend)select TOP 1 SCOPE_IDENTITY() AS returnName from As_Vendor_Risk";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_ID",vendorRisk.Temp_Vendor_ID),
@@ -27,7 +27,7 @@ namespace DAL.VendorAssess
                 new SqlParameter("@Factory_Name",vendorRisk.Factory_Name),
                 new SqlParameter("@Annual_Spend",vendorRisk.Annual_Spend)
             };
-            return DBHelp.GetScalar(sql, sp);
+            return DBHelp.GetScalarID(sql, sp);
         }
 
         /// <summary>
@@ -56,6 +56,28 @@ namespace DAL.VendorAssess
                 new SqlParameter("@Temp_Vendor_ID",tempVendorID),
                 new SqlParameter("@Form_Type_ID",formTypeID),
                 new SqlParameter("@Factory_Name",factory)
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    formID = dr["Form_ID"].ToString();
+                }
+            }
+            return formID;
+        }
+
+        public static string getVendorRiskFormID(string tempVendorID, string formTypeID, string factory, int id)
+        {
+            string formID = "";
+            string sql = "select Form_ID from As_Vendor_Risk where Temp_Vendor_ID=@Temp_Vendor_ID and Form_Type_ID=@Form_Type_ID and Factory_Name=@Factory_Name and ID=@ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("Form_Type_ID",formTypeID),
+                new SqlParameter("Factory_Name",factory),
+                new SqlParameter("@ID",id),
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)

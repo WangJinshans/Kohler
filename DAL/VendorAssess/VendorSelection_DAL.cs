@@ -76,9 +76,31 @@ namespace DAL.VendorAssess
             return submit;
         }
 
+        public static string getVendorSelectionFormID(string tempVendorID, string fORM_TYPE_ID, string factory, int n)
+        {
+            string formID = "";
+            string sql = "select Form_ID from As_Vendor_Selection where Temp_Vendor_ID=@Temp_Vendor_ID and Form_Type_ID=@Form_Type_ID and Factory_Name=@Factory_Name and ID=@ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("Form_Type_ID",fORM_TYPE_ID),
+                new SqlParameter("Factory_Name",factory),
+                new SqlParameter("@ID",n),
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    formID = dr["Form_ID"].ToString();
+                }
+            }
+            return formID;
+        }
+
         public static int addVendorSelection(As_Vendor_Selection vendor_Selection)
         {
-            string sql = "insert into As_Vendor_Selection(Temp_Vendor_ID,Form_Type_ID,Temp_Vendor_Name,Flag,Factory_Name) values(@Temp_Vendor_ID,@Form_Type_ID,@Temp_Vendor_Name,@Flag,@Factory_Name)";
+            string sql = "insert into As_Vendor_Selection(Temp_Vendor_ID,Form_Type_ID,Temp_Vendor_Name,Flag,Factory_Name) values(@Temp_Vendor_ID,@Form_Type_ID,@Temp_Vendor_Name,@Flag,@Factory_Name)select TOP 1 SCOPE_IDENTITY() AS returnName from As_Vendor_Selection";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_ID",vendor_Selection.Temp_Vendor_ID),
@@ -87,7 +109,7 @@ namespace DAL.VendorAssess
                 new SqlParameter("@Form_Type_ID",vendor_Selection.Form_Type_ID),
                 new SqlParameter("@Factory_Name",vendor_Selection.Factory_Name)
             };
-            return DBHelp.GetScalar(sql, sp);
+            return DBHelp.GetScalarID(sql, sp);
         }
 
         public static As_Vendor_Selection getVendorSelection(string formID)

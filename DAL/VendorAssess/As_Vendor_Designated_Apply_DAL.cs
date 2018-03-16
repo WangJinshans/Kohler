@@ -78,6 +78,28 @@ namespace DAL
             return DBHelp.ExecuteCommand(sql, sp);
         }
 
+        public static string getVendorDesignatedFormID(string tempVendorID, string fORM_TYPE_ID, string factory, int n)
+        {
+            string formID = "";
+            string sql = "select Form_ID from As_Vendor_Designated_Apply where Temp_Vendor_ID=@Temp_Vendor_ID and Form_Type_ID=@Form_Type_ID and Factory_Name=@Factory_Name and ID=@ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("Form_Type_ID",fORM_TYPE_ID),
+                new SqlParameter("Factory_Name",factory),
+                new SqlParameter("@ID",n),
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    formID = dr["Form_ID"].ToString();
+                }
+            }
+            return formID;
+        }
+
         public static int SubmitOk(string formID)
         {
             int submit = -1;
@@ -218,7 +240,7 @@ namespace DAL
 
         public static int addForm(As_Vendor_Designated_Apply vendorDesignatedApply)
         {
-            string sql = "insert into As_Vendor_Designated_Apply (vendorName, Temp_Vendor_ID, Form_Type_ID, Flag,Factory_Name) VALUES (@vendorName, @Temp_Vendor_ID,@Form_Type_ID,@Flag,@Factory_Name)";
+            string sql = "insert into As_Vendor_Designated_Apply (vendorName, Temp_Vendor_ID, Form_Type_ID, Flag,Factory_Name) VALUES (@vendorName, @Temp_Vendor_ID,@Form_Type_ID,@Flag,@Factory_Name)select TOP 1 SCOPE_IDENTITY() AS returnName from As_Vendor_Designated_Apply";
             SqlParameter[] sp = new SqlParameter[]
                 {
                     new SqlParameter("@vendorName",vendorDesignatedApply.VendorName),
@@ -227,7 +249,7 @@ namespace DAL
                     new SqlParameter("@Flag",vendorDesignatedApply.Flag),
                     new SqlParameter("@Factory_Name",vendorDesignatedApply.Factory_Name)
                 };
-            return DBHelp.ExecuteCommand(sql, sp);//ExecuteScalar()方法执行查询返回插入成功的行数
+            return DBHelp.GetScalarID(sql, sp);//ExecuteScalar()方法执行查询返回插入成功的行数
         }
 
         public static int checkVendorDesignatedApply(string formID)//查询是否有表记录,1为存在 0为不存在

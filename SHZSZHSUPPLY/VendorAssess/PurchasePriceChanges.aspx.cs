@@ -14,13 +14,14 @@ namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class PurchasePriceChanges : System.Web.UI.Page
     {
-        public string FORM_NAME = "价格调整审批";
-        public string FORM_TYPE_ID = "023";
+        public static string FORM_NAME = "价格调整审批";
+        public static string FORM_TYPE_ID = "023";
         private static string factory = "";
-        private string tempVendorID = "";
-        private string tempVendorName = "";
-        private string formID = "";
-        private string submit = "";
+        private static string tempVendorID = "";
+        private static string tempVendorName = "";
+        private static string formID = "";
+        private static string submit = "";
+        private static bool singleFileSubmit = false;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -50,8 +51,21 @@ namespace SHZSZHSUPPLY.VendorAssess
                     }
                     else
                     {
-                        //获取formID信息
-                        getSessionInfo();
+                        formID = PurchaseChanges_BLL.getVendorPurchaseChangesFormID(tempVendorID, FORM_TYPE_ID, factory, n);
+
+                        //添加单独绑定的文件
+                        VendorSingleFile_BLL.addSingleFile(formID, FORM_TYPE_ID, tempVendorID, tempVendorName, factory, "012");
+
+
+                        //每次添加表格添加到As_Vendor_MutipleForm中 
+                        As_MutipleForm forms = new As_MutipleForm();
+                        forms.Temp_Vendor_ID = tempVendorID;
+                        forms.Temp_Vendor_Name = tempVendorName;
+                        forms.Form_Type_ID = FORM_TYPE_ID;
+                        forms.Form_ID = formID;
+                        forms.Flag = 0;
+                        forms.Factory_Name = factory;
+                        Vendor_MutipleForm_BLL.addVendorMutileForms(forms);
 
                         //向FormFile表中添加相应的文件、表格绑定信息
                         bindingFormWithFile();
@@ -93,7 +107,15 @@ namespace SHZSZHSUPPLY.VendorAssess
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
             factory = Session["Factory_Name"].ToString().Trim();
-            formID = VendorRiskAnalysis_BLL.getFormID(tempVendorID, FORM_TYPE_ID, factory);
+            try
+            {
+                formID = Request.QueryString["Form_ID"].ToString().Trim();
+            }
+            catch
+            {
+                formID = "";
+            }
+
             submit = Request.QueryString["submit"];
         }
 
@@ -102,7 +124,6 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// </summary>
         public void bindingFormWithFile()
         {
-            getSessionInfo();
             if (CheckFile_BLL.bindFormFile(FORM_TYPE_ID, tempVendorID, formID) == 0)
             {
                 Response.Write("<script>window.alert('表格初始化错误（文件绑定失败）！')</script>");//若没有记录 返回文件不全
@@ -172,9 +193,6 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         private void save(int flag, string str, bool check = false)
         {
-            //读取session
-            getSessionInfo();
-
             As_Purchase_Changes asPurchaseChanges = new As_Purchase_Changes()
             {
                 Vendor_Code = TextBox1.Text,
@@ -346,8 +364,13 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         public void Button1_Click(object sender, EventArgs e)//提交按钮
         {
-            //session
-            getSessionInfo();
+            singleFileSubmit = VendorSingleFile_BLL.isSingleFileSubmit(formID);
+            if (!singleFileSubmit)
+            {
+                LocalScriptManager.createManagerScript(Page, "window.alert('请提交报价单')", "uploadsinglefile");
+                return;
+            }
+
             if (submit == "yes")
             {
                 save(2, "提交表格",true);
@@ -369,6 +392,10 @@ namespace SHZSZHSUPPLY.VendorAssess
             Response.Redirect("EmployeeVendor.aspx");
         }
 
-
+        protected void Button4_Click(object sender, EventArgs e)
+        {
+            string requestType = "signleupload";
+            ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "signleupload", String.Format("uploadFile('{0}','{1}','{2}','{3}',{4})", requestType, tempVendorID, tempVendorName, formID, "true"), true);
+        }
     }
 }

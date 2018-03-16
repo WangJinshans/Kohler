@@ -106,8 +106,10 @@
     <Compile Include="VendorAssess\VendorExtend_BLL.cs" />
     <Compile Include="VendorAssess\VendorRiskAnalysis_BLL.cs" />
     <Compile Include="VendorAssess\VendorSelection_BLL.cs" />
+    <Compile Include="VendorAssess\VendorSingleFile_BLL.cs" />
     <Compile Include="VendorAssess\VendorType_BLL.cs" />
     <Compile Include="VendorAssess\Vendor_Modify_File_BLL.cs" />
+    <Compile Include="VendorAssess\Vendor_MutipleForm_BLL.cs" />
     <Compile Include="VendorAssess\Write_BLL.cs" />
   </ItemGroup>
   <ItemGroup>

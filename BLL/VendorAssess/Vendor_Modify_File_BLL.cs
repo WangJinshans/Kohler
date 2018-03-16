@@ -45,13 +45,13 @@ namespace WebLearning.BLL
         /// </summary>
         /// <param name="vendorCode"></param>
         /// <returns></returns>
-        public static As_Temp_Vendor getTempVendorInfo(string vendorName)
+        public static As_Temp_Vendor getTempVendorInfo(string vendorName,string factory)
         {
             As_Temp_Vendor temp = new As_Temp_Vendor();
             List<string> typeList = new List<string>();
             temp.Temp_Vendor_Name = vendorName;
-            temp.TypeNumber = Vendor_Modify_File_DAL.getTempVendorTypeNumber(vendorName);
-            typeList = Vendor_Modify_File_DAL.getTypeList(vendorName);
+            temp.TypeNumber = Vendor_Modify_File_DAL.getTempVendorTypeNumber(vendorName, factory);
+            typeList = Vendor_Modify_File_DAL.getTypeList(vendorName, factory);
             for (int i = 0; i < typeList.Count; i++)
             {
                 if (typeList[i].Equals("直接物料常规"))
@@ -138,10 +138,10 @@ namespace WebLearning.BLL
         /// </summary>
         /// <param name="vendor_Code"></param>
         /// <returns></returns>
-        public static string isVendorChanging(string vendorCode,string vendorType)
+        public static string isVendorChanging(string vendorCode,string vendorType,string factory_Name)
         {
-            string temp_Vendor_ID=TempVendor_BLL.getTempVendorIDByCodeAndType(vendorCode, vendorType);
-            return Vendor_Modify_File_DAL.isVendorChanging(temp_Vendor_ID);
+            string temp_Vendor_ID = TempVendor_BLL.getTempVendorIDByCodeAndType(vendorCode, vendorType, factory_Name);
+            return Vendor_Modify_File_DAL.isVendorChanging(temp_Vendor_ID, factory_Name);
         }
 
         public static bool isNeedFinance(string temp_vendor_ID, string factory_Name)
@@ -157,6 +157,11 @@ namespace WebLearning.BLL
         public static object getModifyFormID(string temp_vendor_ID)
         {
             return Vendor_Modify_File_DAL.getModifyFormID(temp_vendor_ID);
+        }
+
+        public static bool getAdvanceCharged(string sql,bool advance_charge)
+        {
+            return Vendor_Modify_File_DAL.getAdvanceCharged(sql, advance_charge);
         }
     }
 }

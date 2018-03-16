@@ -39,14 +39,19 @@ namespace BLL
             return TempVendor_DAL.getUsed(tempVendorID, factoryName);
         }
 
-        internal static string getTempVendorIDFixed(string temp_Vendor_Name,string vendor_Type)
+        internal static string getTempVendorIDFixed(string temp_Vendor_Name,string vendor_Type,string factory)
         {
-            return TempVendor_DAL.getTempVendorIDFixed(temp_Vendor_Name, vendor_Type);
+            return TempVendor_DAL.getTempVendorIDFixed(temp_Vendor_Name, vendor_Type,factory);
         }
 
-        public static As_Vendor_Modify_Info getTempVendorByVendorCode(string temp_Vendor_ID)
+        public static As_Vendor_Modify_Info getTempVendorByVendorCode(string temp_Vendor_ID,string factory)
         {
-            return TempVendor_DAL.getTempVendorByVendorCode(temp_Vendor_ID);
+            return TempVendor_DAL.getTempVendorByVendorCode(temp_Vendor_ID,factory);
+        }
+
+        public static As_Temp_Vendor getTempVendor(string tempVendorID, string factory)
+        {
+            return TempVendor_DAL.getTempVendor(tempVendorID, factory);
         }
 
         /// <summary>
@@ -103,6 +108,16 @@ namespace BLL
         }
 
         /// <summary>
+        /// 查找该ID是否属于采购部
+        /// </summary>
+        /// <param name="employeeID"></param>
+        /// <returns></returns>
+        public static bool checkEmployeeAuthority(string employeeID)
+        {
+            return TempVendor_DAL.checkEmployeeAuthority(employeeID);
+        }
+
+        /// <summary>
         /// 是否为旧供应商
         /// </summary>
         /// <param name="tempVendorID"></param>
@@ -118,10 +133,10 @@ namespace BLL
         /// <param name="vendor_Code"></param>
         /// <param name="vendorType"></param>
         /// <returns></returns>
-        public static string getTempVendorIDByCodeAndType(string vendor_Code,string vendorType)
+        public static string getTempVendorIDByCodeAndType(string vendor_Code,string vendorType,string factory_Name)
         {
             string temp_Vendor_ID = "";
-            string sql = "select As_Temp_Vendor.Temp_Vendor_ID from As_Temp_Vendor,As_Vendor_Type where As_Temp_Vendor.Vendor_Type_ID=As_Vendor_Type.Vendor_Type_ID and As_Temp_Vendor.Temp_Vendor_Name='" + vendor_Code + "' and As_Vendor_Type.Vendor_Type='" + vendorType + "'";
+            string sql = "select As_Temp_Vendorchange.Temp_Vendor_ID from As_Temp_Vendorchange,As_Vendor_Type where As_Temp_Vendorchange.Vendor_Type_ID=As_Vendor_Type.Vendor_Type_ID and As_Temp_Vendorchange.Temp_Vendor_Name='" + vendor_Code + "' and As_Vendor_Type.Vendor_Type='" + vendorType + "' and As_Temp_Vendorchange.Factory_Name='" + factory_Name + "'";
             DataTable table = DBHelp.GetDataSet(sql);
             if (table.Rows.Count > 0)
             {
@@ -131,11 +146,6 @@ namespace BLL
                 }
             }
             return temp_Vendor_ID;
-        }
-
-        public static As_Temp_Vendor getTempVendor(string tempVendorID)
-        {
-            return TempVendor_DAL.getTempVendor(tempVendorID);
         }
 
         public static string getNormalCode(string tempVendorID)
@@ -220,7 +230,7 @@ namespace BLL
         public static string getTempVendorType(string tempVendorID)
         {
             string VendorType = "";
-            string sql = "select Vendor_Type from View_Temp_Vendor where Temp_Vendor_ID='" + tempVendorID + "'";
+            string sql = "select distinct Vendor_Type from View_Temp_Vendor where Temp_Vendor_ID='" + tempVendorID + "'";
             DataTable table = new DataTable();
             table = DBHelp.GetDataSet(sql);
             if (table.Rows.Count > 0)
@@ -270,6 +280,42 @@ namespace BLL
             return info;
         }
 
+
+        /// <summary>
+        /// 根据factory_Name选出该厂的所有类型的所有供应商
+        /// </summary>
+        /// <param name="factory_Name"></param>
+        /// <returns></returns>
+        public static Dictionary<string, Dictionary<string, string[]>> readVendorInFactory(string factory_Name)
+        {
+            Dictionary<string, Dictionary<string, string[]>> info = new Dictionary<string, Dictionary<string, string[]>>();
+
+            //获取该厂的所有供应商
+            DataTable dt = SelectEmployeeVendor_DAL.readVendorInFactory(factory_Name);
+            foreach (DataRow item in dt.Rows)
+            {
+                if (!info.ContainsKey(item["Factory_Name"].ToString()))
+                {
+                    info.Add(item["Factory_Name"].ToString(), new Dictionary<string, string[]>());
+                }
+                if (!info[item["Factory_Name"].ToString()].ContainsKey(item["Vendor_Type"].ToString()))
+                {
+                    DataRow[] smlDr = dt.Select(String.Format("Factory_Name='{0}' and Vendor_Type='{1}'", item["Factory_Name"].ToString(), item["Vendor_Type"].ToString()));
+                    string[] nm = new string[smlDr.Length * 2];
+                    int t = 0;
+                    for (int i = 0; i < smlDr.Length; i++)
+                    {
+                        nm[t] = smlDr[i]["Temp_Vendor_Name"].ToString();
+                        nm[t + 1] = smlDr[i]["Temp_Vendor_ID"].ToString();
+                        t += 2;
+                    }
+                    info[item["Factory_Name"].ToString()].Add(item["Vendor_Type"].ToString(), nm);
+                }
+            }
+            return info;
+        }
+
+
         /// <summary>
         /// 选择过期供应商
         /// </summary>
@@ -318,9 +364,9 @@ namespace BLL
             return info;
         }
 
-        internal static bool hasNormalCode(string tempVendorID)
+        public static bool hasNormalCode(string tempVendorID)
         {
-            string sql = "Select Normal_Vendor_ID From As_Temp_Vendor Where Temp_Vendor_ID=@Temp_Vendor_ID and Normal_Vendor_ID is not null";
+            string sql = "Select distinct Normal_Vendor_ID From As_Temp_Vendorchange Where Temp_Vendor_ID=@Temp_Vendor_ID and Normal_Vendor_ID is not null";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_ID",tempVendorID)

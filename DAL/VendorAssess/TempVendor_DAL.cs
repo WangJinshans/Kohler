@@ -14,38 +14,37 @@ namespace DAL
     {
         public static int addTempVendor(As_Temp_Vendor Temp_Vendor)
         {
-            string sql = "INSERT INTO As_Temp_Vendor(Temp_Vendor_Name,Vendor_Type_ID,Temp_Vendor_ID,Purchase_Amount,SH,ZS,ZH)VALUES(@Temp_Vendor_Name,@Vendor_Type_ID,@Temp_Vendor_ID,@Purchase_Amount,@SH,@ZS,@ZH)";
+            string sql = "INSERT INTO As_Temp_Vendorchange(Temp_Vendor_Name,Vendor_Type_ID,Temp_Vendor_ID,Purchase_Amount,Factory_Name)VALUES(@Temp_Vendor_Name,@Vendor_Type_ID,@Temp_Vendor_ID,@Purchase_Amount,@Factory_Name)";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_Name",Temp_Vendor.Temp_Vendor_Name),
                 new SqlParameter("@Vendor_Type_ID",Temp_Vendor.Vendor_Type_ID),
                 new SqlParameter("@Temp_Vendor_ID",""),
                 new SqlParameter("@Purchase_Amount",Temp_Vendor.Purchase_Amount),
-                new SqlParameter("@SH",Temp_Vendor.SH),
-                new SqlParameter("@ZS",Temp_Vendor.ZS),
-                new SqlParameter("@ZH",Temp_Vendor.ZH)
+                new SqlParameter("@Factory_Name",Temp_Vendor.Factory_Name),
             };
             return DBHelp.GetScalar(sql, sp);
         }
 
         public static bool getUsed(string tempVendorID, string factoryName)
         {
-            string sql = "select * From As_Temp_Vendor where Temp_Vendor_ID=@Temp_Vendor_ID";
+            string sql = "select Factory_Name From As_Temp_Vendorchange where Temp_Vendor_ID=@Temp_Vendor_ID and Factory_Name=@Factory_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("@Temp_Vendor_ID",tempVendorID)
+                new SqlParameter("@Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("@Factory_Name",factoryName)
             };
-            DataTable dt = DBHelp.GetDataSet(sql, sp);
-            if (dt.Rows.Count>0)
+            using (SqlDataReader reader = DBHelp.GetReader(sql, sp))
             {
-                if (dt.Rows[0]["SH"].ToString().Equals(factoryName)||
-                    dt.Rows[0]["ZS"].ToString().Equals(factoryName)||
-                    dt.Rows[0]["ZH"].ToString().Equals(factoryName))
+                if (reader.Read())
                 {
                     return true;
                 }
+                else
+                {
+                    return false;
+                }
             }
-            return false;
         }
 
 
@@ -54,14 +53,61 @@ namespace DAL
         /// </summary>
         /// <param name="tempVendorID"></param>
         /// <returns></returns>
-        public static As_Vendor_Modify_Info getTempVendorByVendorCode(string temVendorID)
+        public static As_Vendor_Modify_Info getTempVendorByVendorCode(string temVendorID,string factory)
         {
+            bool sh = false;
+            bool zh = false;
+            bool zs = false;
             As_Vendor_Modify_Info tempVendor = null;
-            string sql = "Select As_Temp_Vendor.Temp_Vendor_Name,As_Temp_Vendor.Vendor_Type_ID,As_Temp_Vendor.Temp_Vendor_ID,As_Temp_Vendor.Normal_Vendor_ID,As_Temp_Vendor.Purchase_Amount,As_Temp_Vendor.SH,As_Temp_Vendor.ZS,As_Temp_Vendor.ZH,As_Vendor_Type.Promise,As_Vendor_Type.Vendor_Type,As_Vendor_Type.Advance_Charge,As_Vendor_Type.Advance_Charge,As_Vendor_Type.Vendor_Assign From As_Temp_Vendor,As_Vendor_Type Where As_Temp_Vendor.Vendor_Type_ID=As_Vendor_Type.Vendor_Type_ID and As_Temp_Vendor.Temp_Vendor_ID=@Temp_Vendor_ID";
+            string sql = "Select As_Temp_Vendorchange.Temp_Vendor_Name,As_Temp_Vendorchange.Vendor_Type_ID,As_Temp_Vendorchange.Temp_Vendor_ID,As_Temp_Vendorchange.Normal_Vendor_ID,As_Temp_Vendorchange.Purchase_Amount,As_Temp_Vendorchange.Factory_Name,As_Vendor_Type.Promise,As_Vendor_Type.Vendor_Type,As_Vendor_Type.Advance_Charge,As_Vendor_Type.Advance_Charge,As_Vendor_Type.Vendor_Assign From As_Temp_Vendorchange,As_Vendor_Type Where As_Temp_Vendorchange.Vendor_Type_ID=As_Vendor_Type.Vendor_Type_ID and As_Temp_Vendorchange.Temp_Vendor_ID=@Temp_Vendor_ID and Factory_Name=@Factory_Name";
+            string sqlsh= "Select As_Temp_Vendorchange.Temp_Vendor_Name,As_Temp_Vendorchange.Vendor_Type_ID,As_Temp_Vendorchange.Temp_Vendor_ID,As_Temp_Vendorchange.Normal_Vendor_ID,As_Temp_Vendorchange.Purchase_Amount,As_Temp_Vendorchange.Factory_Name,As_Vendor_Type.Promise,As_Vendor_Type.Vendor_Type,As_Vendor_Type.Advance_Charge,As_Vendor_Type.Advance_Charge,As_Vendor_Type.Vendor_Assign From As_Temp_Vendorchange,As_Vendor_Type Where As_Temp_Vendorchange.Vendor_Type_ID=As_Vendor_Type.Vendor_Type_ID and As_Temp_Vendorchange.Temp_Vendor_ID=@Temp_Vendor_ID and As_Temp_Vendorchange.Factory_Name='上海科勒'";
+            string sqlzs = "Select As_Temp_Vendorchange.Temp_Vendor_Name,As_Temp_Vendorchange.Vendor_Type_ID,As_Temp_Vendorchange.Temp_Vendor_ID,As_Temp_Vendorchange.Normal_Vendor_ID,As_Temp_Vendorchange.Purchase_Amount,As_Temp_Vendorchange.Factory_Name,As_Vendor_Type.Promise,As_Vendor_Type.Vendor_Type,As_Vendor_Type.Advance_Charge,As_Vendor_Type.Advance_Charge,As_Vendor_Type.Vendor_Assign From As_Temp_Vendorchange,As_Vendor_Type Where As_Temp_Vendorchange.Vendor_Type_ID=As_Vendor_Type.Vendor_Type_ID and As_Temp_Vendorchange.Temp_Vendor_ID=@Temp_Vendor_ID and As_Temp_Vendorchange.Factory_Name='中山科勒'";
+            string sqlzh = "Select As_Temp_Vendorchange.Temp_Vendor_Name,As_Temp_Vendorchange.Vendor_Type_ID,As_Temp_Vendorchange.Temp_Vendor_ID,As_Temp_Vendorchange.Normal_Vendor_ID,As_Temp_Vendorchange.Purchase_Amount,As_Temp_Vendorchange.Factory_Name,As_Vendor_Type.Promise,As_Vendor_Type.Vendor_Type,As_Vendor_Type.Advance_Charge,As_Vendor_Type.Advance_Charge,As_Vendor_Type.Vendor_Assign From As_Temp_Vendorchange,As_Vendor_Type Where As_Temp_Vendorchange.Vendor_Type_ID=As_Vendor_Type.Vendor_Type_ID and As_Temp_Vendorchange.Temp_Vendor_ID=@Temp_Vendor_ID and As_Temp_Vendorchange.Factory_Name='珠海科勒'";
             SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Temp_Vendor_ID",temVendorID),
+                new SqlParameter("@Factory_Name",factory)
+            };
+
+            SqlParameter[] spsh = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_ID",temVendorID)
             };
+
+            SqlParameter[] spzh = new SqlParameter[]
+            {
+                new SqlParameter("@Temp_Vendor_ID",temVendorID)
+            };
+
+            SqlParameter[] spzs = new SqlParameter[]
+            {
+                new SqlParameter("@Temp_Vendor_ID",temVendorID)
+            };
+
+
+            using (SqlDataReader reader = DBHelp.GetReader(sqlsh, spsh))
+            {
+                if (reader.Read())
+                {
+                    sh = true;
+                }
+            }
+            using (SqlDataReader reader = DBHelp.GetReader(sqlzs, spzs))
+            {
+                if (reader.Read())
+                {
+                    zs = true;
+                }
+            }
+            using (SqlDataReader reader = DBHelp.GetReader(sqlzh, spzh))
+            {
+                if (reader.Read())
+                {
+                    zh = true;
+                }
+            }
+
+
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)
             {
@@ -77,11 +123,24 @@ namespace DAL
                     tempVendor.Advance_Charge = dr["Advance_Charge"].ToString();
                     tempVendor.Promise = dr["Promise"].ToString();
                     tempVendor.Vendor_Assign = dr["Vendor_Assign"].ToString();
-                    tempVendor.SH = dr["SH"].ToString();
-                    tempVendor.ZS = dr["ZS"].ToString();
-                    tempVendor.ZH = dr["ZH"].ToString();
+                    tempVendor.SH = "";
+                    tempVendor.ZS = "";
+                    tempVendor.ZH = "";
+                    if (zh)
+                    {
+                        tempVendor.ZH = "珠海科勒";
+                    }
+                    if (sh)
+                    {
+                        tempVendor.ZH = "上海科勒";
+                    }
+                    if (zs)
+                    {
+                        tempVendor.ZH = "中山科勒";
+                    }
                 }
             }
+            
             return tempVendor;
         }
 
@@ -230,10 +289,26 @@ namespace DAL
             #endregion
         }
 
+        public static bool checkEmployeeAuthority(string employeeID)
+        {
+            string sql = "select Positon_Name from As_Employee where Positon_Name like '采购%' and Employee_ID='" + employeeID + "'";
+            using (SqlDataReader reader = DBHelp.GetReader(sql))
+            {
+                if (reader.Read())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
         public static string getTempVendorName(string tempVendorID)
         {
             string tempVendorName = "";
-            string sql = "select Temp_Vendor_Name from As_Temp_Vendor where Temp_Vendor_ID=@Temp_Vendor_ID";
+            string sql = "select top 1 Temp_Vendor_Name from As_Temp_Vendorchange where Temp_Vendor_ID=@Temp_Vendor_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("Temp_Vendor_ID",tempVendorID)
@@ -273,7 +348,7 @@ namespace DAL
         public static string getTempVendorID(string TempVendorName)
         {
             string tempVendorID = "";
-            string sql = "select Temp_Vendor_ID from As_Temp_Vendor where Temp_Vendor_Name=@Temp_Vendor_Name";
+            string sql = "select Temp_Vendor_ID from As_Temp_Vendorchange where Temp_Vendor_Name=@Temp_Vendor_Name";
             //string sql = "select Temp_Vendor_ID from As_Employee_Vendor where Temp_Vendor_Name=@Temp_Vendor_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
@@ -291,10 +366,10 @@ namespace DAL
         }
 
 
-        public static string getTempVendorIDFixed(string TempVendorName,string vendorType)
+        public static string getTempVendorIDFixed(string TempVendorName,string vendorType,string factory)
         {
             string tempVendorID = "";
-            string sql = "select As_Temp_Vendor.Temp_Vendor_ID from As_Temp_Vendor,As_Vendor_Type where As_Temp_Vendor.Vendor_Type_ID=As_Vendor_Type.Vendor_Type_ID and As_Temp_Vendor.Temp_Vendor_Name=@Temp_Vendor_Name and As_Vendor_Type.Vendor_Type='" + vendorType + "'";
+            string sql = "select As_Temp_Vendorchange.Temp_Vendor_ID from As_Temp_Vendorchange,As_Vendor_Type where As_Temp_Vendorchange.Vendor_Type_ID=As_Vendor_Type.Vendor_Type_ID and As_Temp_Vendorchange.Temp_Vendor_Name=@Temp_Vendor_Name and As_Vendor_Type.Vendor_Type='" + vendorType + "' and As_Temp_Vendorchange.Factory_Name='" + factory + "'";
             SqlParameter[] sp = new SqlParameter[]
             {
                  new SqlParameter("Temp_Vendor_Name",TempVendorName)
@@ -336,7 +411,7 @@ namespace DAL
 
         public static string getNormalCode(string tempVendorID)
         {
-            string sql = "select Normal_Vendor_ID from As_Temp_Vendor Where Temp_Vendor_ID=@ID";
+            string sql = "select distinct Normal_Vendor_ID from As_Temp_Vendorchange Where Temp_Vendor_ID=@ID";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@ID",tempVendorID)
@@ -349,13 +424,14 @@ namespace DAL
             return "";
         }
 
-        public static As_Temp_Vendor getTempVendor(string tempVendorID)
+        public static As_Temp_Vendor getTempVendor(string tempVendorID,string factory)
         {
             As_Temp_Vendor tempVendor = null;
-            string sql = "Select * From As_Temp_Vendor Where Temp_Vendor_ID=@Temp_Vendor_ID";
+            string sql = "select * From As_Temp_Vendorchange Where Temp_Vendor_ID=@Temp_Vendor_ID and Factory_Name=@Factory_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("Temp_Vendor_ID",tempVendorID)
+                new SqlParameter("Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("@Factory_Name",factory)
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)
@@ -368,9 +444,7 @@ namespace DAL
                     tempVendor.Normal_Vendor_ID = dr["Normal_Vendor_ID"].ToString();
                     tempVendor.Temp_Vendor_ID = tempVendorID;
                     tempVendor.Purchase_Amount = Convert.ToInt32(dr["Purchase_Amount"]);
-                    tempVendor.SH = dr["SH"].ToString();
-                    tempVendor.ZS = dr["ZS"].ToString();
-                    tempVendor.ZH = dr["ZH"].ToString();
+                    tempVendor.Factory_Name = dr["Factory_Name"].ToString();
                 }
             }
             return tempVendor;

@@ -134,10 +134,11 @@ namespace SHZSZHSUPPLY.VendorAssess
                 string tempvendorname = HttpUtility.HtmlDecode(GridView2.Rows[drv.RowIndex].Cells[2].Text);
                 string formTypeID = e.CommandArgument.ToString();
                 string tempVendorID = TempVendor_BLL.getTempVendorID(tempvendorname);
+                string formID = GridView2.Rows[drv.RowIndex].Cells[3].Text.ToString();
                 Session["tempVendorID"] = tempVendorID;
 
                 //点击不同表格进入到不同界面.
-                Response.Redirect(PageSelect.dcEditToShow[e.CommandArgument.ToString()] + "?type=" + e.CommandArgument.ToString());
+                Response.Redirect(PageSelect.dcEditToShow[e.CommandArgument.ToString()] + "?type=" + e.CommandArgument.ToString() + "&Form_ID=" + formID);
             }
         }
 

@@ -49,9 +49,9 @@ namespace BLL
             return UpdateFlag_DAL.updateFlagWaitKCI(formTypeID, tempVendorID, Employee_DAL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString()));
         }
 
-        public static int updateFlagAsApproved(string formTypeID,string tempVendorID)
+        public static int updateFlagAsApproved(string formID, string formTypeID, string tempVendorID, string factoryName)
         {
-            return UpdateFlag_DAL.updateFlagAsApproved(formTypeID, tempVendorID, Employee_DAL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString()));
+            return UpdateFlag_DAL.updateFlagAsApproved(formID, formTypeID, tempVendorID, factoryName);
         }
         public static int updateReAccessFormStatus(string formID, string tempVendorID)
         {
@@ -66,6 +66,11 @@ namespace BLL
         public static int updateReAccessFileStatus(string fileID)
         {
             return UpdateFlag_DAL.updateReAccessFileStatus(fileID);
+        }
+
+        public static int updateFillFlag(string formID)
+        {
+            return UpdateFlag_DAL.updateFillFlag(formID);
         }
     }
 }

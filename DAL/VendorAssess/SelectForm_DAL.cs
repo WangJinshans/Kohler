@@ -56,6 +56,15 @@ namespace DAL
                     file.File_Type_Name = item["File_Type_Name"].ToString();
                     file.Temp_Vendor_ID = item["Temp_Vendor_ID"].ToString();
                     file.File_ID = item["File_ID"].ToString();
+                    file.Source_From = Convert.ToString(item["Source_From"]);
+
+                    //
+                    //if (file.Source_From != "")
+                    //{
+                    //    //表格  特定表格文件
+                    //    //将File_ID转化为管理系统的File_ID 查询该文件是否存在
+                        
+                    //}
                     list.Add(file);
                 }
             }
@@ -97,7 +106,7 @@ namespace DAL
                     As_File file = new As_File();
                     file.Temp_Vendor_Name = item["Temp_Vendor_Name"].ToString();
                     file.File_Type_Range = item["File_Type_Range"].ToString();
-                    file.File_Type_Name = item["File_Type_Name"].ToString();
+                    file.File_Type_Name = item["FileType_Name"].ToString();
                     file.File_Name = item["File_Name"].ToString();
                     file.File_ID = item["File_ID"].ToString();
                     list.Add(file);

@@ -164,6 +164,16 @@ namespace DAL
             return result;
         }
 
+
+        public static int GetScalarID(string sql, params SqlParameter[] values)
+        {
+            SqlCommand cmd = new SqlCommand(sql, Connection);
+            cmd.Parameters.AddRange(values);
+            int result = Convert.ToInt32(cmd.ExecuteScalar());
+            cmd.Dispose();
+            return result;
+        }
+
         public static SqlDataReader GetReader(string safeSql)
         {
             //SqlCommand cmd = new SqlCommand(safeSql, Connection);

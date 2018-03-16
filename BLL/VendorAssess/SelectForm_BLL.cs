@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using BLL.VenderInfo;
 
 namespace BLL
 {
@@ -31,9 +32,18 @@ namespace BLL
             return SelectForm_DAL.selectManageFile(sql);
         }
 
-        public static IEnumerable selectAssessFile(string sql)
+        public static IEnumerable selectAssessFile(string sql,string normalID,string tempVendorID)
         {
-            return SelectForm_DAL.selectAssessFile(sql);
+            IList<As_File> list = (IList<As_File>)SelectForm_DAL.selectAssessFile(sql);
+            foreach (As_File file in list.ToArray())
+            {
+                if (ItemList_BLL.isFileIDExists((file.File_ID).Replace(tempVendorID, normalID)))
+                {
+                    list.Remove(file);
+                    
+                }
+            }
+            return list;
         }
     }
 }

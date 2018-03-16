@@ -33,6 +33,12 @@ namespace BLL.VenderInfo
             return VenderList_DAL.VenderList_DAL_ListAll();
         }
 
+        public List<string> listAllVendor(string factory)
+        {
+            VenderList_DAL VenderList_DAL = new VenderList_DAL();
+            return VenderList_DAL.listAllVendor(factory);
+        }
+
         public Boolean  VenderList_BLL_Check(string vendercode, string vendertype,string plantname)
         {
             Boolean result = false;

@@ -14,14 +14,14 @@ namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class ShowPurchasePriceApplication : System.Web.UI.Page
     {
-        public string FORM_NAME = "供应商调查表";
-        public string FORM_TYPE_ID = "026";
-        private string positionName = "";
-        private string tempVendorID = "";
-        private string tempVendorName = "";
-        private string factory = "";
-        private string formID = "";
-        private string submit = "";
+        public static string FORM_NAME = "供应商调查表";
+        public static string FORM_TYPE_ID = "026";
+        private static string positionName = "";
+        private static string tempVendorID = "";
+        private static string tempVendorName = "";
+        private static string factory = "";
+        private static string formID = "";
+        private static string submit = "";
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -41,7 +41,11 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         private void showfilelist(string formID)
         {
-            
+            string sql = "select * from View_Form_File where Form_ID='" + formID + "'  and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
+            PagedDataSource objpds = new PagedDataSource();
+            objpds.DataSource = FormFile_BLL.listFile(sql);
+            GridView2.DataSource = objpds;
+            GridView2.DataBind();
         }
 
         private void showVendorPurchasePriceApplication()

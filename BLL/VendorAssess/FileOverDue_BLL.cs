@@ -122,6 +122,11 @@ namespace BLL.VendorAssess
             return formlists;
         }
 
+        public static void upDateStatus(string formID)
+        {
+            FileOverDue_DAL.upDateStatus(formID);
+        }
+
         /// <summary>
         /// 查找是否有正在编辑的表格
         /// </summary>

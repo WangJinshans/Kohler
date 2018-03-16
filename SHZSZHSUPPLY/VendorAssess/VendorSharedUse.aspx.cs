@@ -58,7 +58,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// <param name="tempVendorID"></param>
         private void bindGridData(string tempVendorID)
         {
-            string sql = "Select * From View_File Where Temp_Vendor_ID='" + tempVendorID + "' And Is_Shared='TRUE'";
+            string sql = "Select * From View_Vendor_ShareFile Where Temp_Vendor_ID='" + tempVendorID + "' And Is_Shared='TRUE'";
             PagedDataSource source = new PagedDataSource();
             source.DataSource = SelectForm_BLL.selectFile(sql);
             File_GridView.DataSource = source;

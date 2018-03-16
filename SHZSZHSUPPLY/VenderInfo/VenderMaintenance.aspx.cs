@@ -496,6 +496,7 @@ namespace SHZSZHSUPPLY.VenderInfo
                 file.File_Due_Time = TextBox2.Text;
                 file.Factory_Name = Label12.Text;
                 file.File_Type_ID = fileTypeID;
+                file.Source_From = "";
                 BLL.File_BLL.addFile(file);
 
                 List<ItemCategory_BO> ItemCategory_Must_List = new List<ItemCategory_BO>();

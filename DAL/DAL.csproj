@@ -101,8 +101,10 @@
     <Compile Include="VendorAssess\VendorForm_DAL.cs" />
     <Compile Include="VendorAssess\VendorRiskAnalysis_DAL.cs" />
     <Compile Include="VendorAssess\VendorSelection_DAL.cs" />
+    <Compile Include="VendorAssess\VendorSingleFile_DAL.cs" />
     <Compile Include="VendorAssess\VendorType_DAL.cs" />
     <Compile Include="VendorAssess\Vendor_Modify_File_DAL.cs" />
+    <Compile Include="VendorAssess\Vendor_MutipleForm_DAL.cs" />
     <Compile Include="VendorAssess\Vendor_Risk_Analysis_Notes_DAL.cs" />
     <Compile Include="VendorAssess\Write_DAL.cs" />
   </ItemGroup>

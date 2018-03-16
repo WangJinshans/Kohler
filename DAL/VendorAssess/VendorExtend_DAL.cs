@@ -10,14 +10,14 @@ namespace DAL.VendorAssess
     {
         public static int addVendorExtend(As_Vendor_Extend VendorExtend) //初始化表格赋值表格编号和表格种类编号
         {
-            string sql = "insert into As_Vendor_Extend(Temp_Vendor_Name,Flag,Factory_Name)values(@Temp_Vendor_Name,@Flag,@Factory_Name)";
+            string sql = "insert into As_Vendor_Extend(Temp_Vendor_Name,Flag,Factory_Name)values(@Temp_Vendor_Name,@Flag,@Factory_Name)select TOP 1 SCOPE_IDENTITY() AS returnName from As_Vendor_Extend";
             SqlParameter[] sp = new SqlParameter[]
             {
                new SqlParameter("@Temp_Vendor_Name",VendorExtend.Temp_Vendor_Name),
                new SqlParameter("@Flag",VendorExtend.Flag),
                new SqlParameter("@Factory_Name",VendorExtend.Factory_Name)
             };
-            return DBHelp.GetScalar(sql, sp);
+            return DBHelp.GetScalarID(sql, sp);
 
         }
 
@@ -48,6 +48,28 @@ namespace DAL.VendorAssess
                 new SqlParameter("@Temp_Vendor_Name",VendorExtend.Temp_Vendor_Name)
             };
             return DBHelp.ExecuteCommand(sql, sp);
+        }
+
+        public static string getVendorExtendFormID(string tempVendorID, string fORM_TYPE_ID, string factory, int n)
+        {
+            string formID = "";
+            string sql = "select Form_ID from As_Vendor_Extend where Temp_Vendor_ID=@Temp_Vendor_ID and Form_Type_ID=@Form_Type_ID and Factory_Name=@Factory_Name and ID=@ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("Form_Type_ID",fORM_TYPE_ID),
+                new SqlParameter("Factory_Name",factory),
+                new SqlParameter("@ID",n),
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    formID = dr["Form_ID"].ToString();
+                }
+            }
+            return formID;
         }
 
         public static int SubmitOk(string formID)

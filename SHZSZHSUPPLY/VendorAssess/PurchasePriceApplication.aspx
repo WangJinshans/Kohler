@@ -273,7 +273,9 @@
 	        <asp:Button ID="Button2" runat="server" Text="保存" CssClass="layui-btn layui-btn-normal" OnClientClick="waiting('正在保存')" OnClick="Button2_Click" />
 	        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	        <asp:Button ID="Button3" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Button3_Click" />
-	    </div>
+	        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	        <asp:Button ID="Button4" runat="server" Text="报价单上传" CssClass="layui-btn layui-btn-danger" OnClick="Button4_Click" />
+        </div>
         <%--<asp:UpdatePanel ID="updatePanel" UpdateMode="Conditional" runat="server" ChildrenAsTriggers="false">
             <ContentTemplate>
                 <asp:HiddenField runat="server" ID="ImgExSrc" />

@@ -54,5 +54,10 @@ namespace BLL.VendorAssess
         {
             return PurchasePriceApplication_DAL.getFormID(tempVendorID, formTypeID, factory);
         }
+
+        public static string getVendorPurchasePriceFormID(string tempVendorID, string fORM_TYPE_ID, string factory, int n)
+        {
+            return PurchasePriceApplication_DAL.getVendorPurchasePriceFormID(tempVendorID, fORM_TYPE_ID, factory, n);
+        }
     }
 }

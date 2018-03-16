@@ -23,6 +23,27 @@ namespace DAL.VenderInfo
             return Sqlutil.ExecuteNonQuery(sqlstr, Parm);
         }
 
+        public static bool isFileExists(string file_ID)
+        {
+            string sql = "select Item_Label from itemList where Item_Label='" + file_ID + "'";
+            using (SqlDataReader reader = DBHelp.GetReader(sql))
+            {
+                if (reader.Read())
+                {
+                    return true;
+                }
+            }
+            string sql1 = "select Item_Label from itemList where Source_From='" + file_ID + "'";
+            using (SqlDataReader reader = DBHelp.GetReader(sql1))
+            {
+                if (reader.Read())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public List<ItemList_BO> ItemList_DAL_List(string vendercode)
         {
             Utility.SqlUtil Sqlutil = new Utility.SqlUtil();

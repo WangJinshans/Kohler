@@ -6,18 +6,20 @@ using AendorAssess;
 using SHZSZHSUPPLY.VendorAssess.Util;
 using System.Web.UI;
 using BLL.VendorAssess;
+using MODEL.VendorAssess;
 
 namespace VendorAssess
 {
     public partial class VendorDesignatedApply : System.Web.UI.Page
     {
-        public  string FORM_NAME = "指定供应商申请表";
-        public  string FORM_TYPE_ID = "004";
+        public static string FORM_NAME = "指定供应商申请表";
+        public static string FORM_TYPE_ID = "004";
         private static string factory;
-        private string tempVendorID = "";
-        private string tempVendorName = "";
-        private string formID = "";
-        private string submit = "";
+        private static string tempVendorID = "";
+        private static string tempVendorName = "";
+        private static string formID = "";
+        private static string submit = "";
+        private static bool singleFileSubmit = false;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -28,13 +30,6 @@ namespace VendorAssess
             Image5.Visible = false;
             Image6.Visible = false;
             Image7.Visible = false;
-            //TextBox13.Visible = false;//时间控件隐藏
-            //TextBox14.Visible = false;
-            //TextBox18.Visible = false;
-            //TextBox17.Visible = false;
-            //TextBox21.Visible = false;
-            //TextBox22.Visible = false;
-            //TextBox24.Visible = false;
             if (!IsPostBack)
             {
                 //获取session信息
@@ -50,7 +45,7 @@ namespace VendorAssess
                     vendorDesignatedApply.Factory_Name = Session["Factory_Name"].ToString();
 
                     //名字只读
-                    TextBox1.Text = tempVendorName;//
+                    TextBox1.Text = tempVendorName;
                     TextBox1.ReadOnly = true;
 
                     int n = As_Vendor_Designated_Apply_BLL.addForm(vendorDesignatedApply);
@@ -61,8 +56,20 @@ namespace VendorAssess
                     }
                     else
                     {
-                        //获取formID信息
-                        getSessionInfo();
+                        formID = As_Vendor_Designated_Apply_BLL.getVendorDesignatedFormID(tempVendorID, FORM_TYPE_ID, factory, n);
+
+                        //添加单独绑定的文件
+                        VendorSingleFile_BLL.addSingleFile(formID, FORM_TYPE_ID, tempVendorID, tempVendorName, factory, "065");
+
+                        //每次添加表格添加到As_Vendor_MutipleForm中 
+                        As_MutipleForm forms = new As_MutipleForm();
+                        forms.Temp_Vendor_ID = tempVendorID;
+                        forms.Temp_Vendor_Name = tempVendorName;
+                        forms.Form_Type_ID = FORM_TYPE_ID;
+                        forms.Form_ID = formID;
+                        forms.Flag = 0;
+                        forms.Factory_Name = factory;
+                        Vendor_MutipleForm_BLL.addVendorMutileForms(forms);
 
                         //向FormFile表中添加相应的文件、表格绑定信息
                         bindingFormWithFile();
@@ -105,7 +112,6 @@ namespace VendorAssess
         /// </summary>
         public void bindingFormWithFile()
         {
-            getSessionInfo();
             if (CheckFile_BLL.bindFormFile(FORM_TYPE_ID, tempVendorID, formID) == 0)
             {
                 Response.Write("<script>window.alert('表格初始化错误（文件绑定失败）！')</script>");//若没有记录 返回文件不全
@@ -124,7 +130,14 @@ namespace VendorAssess
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
             factory= Session["Factory_Name"].ToString().Trim();
-            formID = As_Vendor_Designated_Apply_BLL.getFormID(tempVendorID, FORM_TYPE_ID, factory);
+            try
+            {
+                formID = Request.QueryString["Form_ID"].ToString().Trim();
+            }
+            catch
+            {
+                formID = "";
+            }
             submit = Request.QueryString["submit"];
         }
 
@@ -217,7 +230,7 @@ namespace VendorAssess
         protected string submitForm()
         {
             //读取session
-            getSessionInfo();
+            //getSessionInfo();
 
             SelectDepartment.doSelect();
 
@@ -247,9 +260,6 @@ namespace VendorAssess
         /// <returns></returns>
         private As_Vendor_Designated_Apply saveForm(int flag, string manul)
         {
-            //读取session
-            getSessionInfo();
-
             As_Vendor_Designated_Apply Vendor_Designated = new As_Vendor_Designated_Apply();
             Vendor_Designated.Form_id = formID;
             Vendor_Designated.Form_Type_ID = FORM_TYPE_ID;
@@ -264,22 +274,8 @@ namespace VendorAssess
             Vendor_Designated.InitiatorDate = TextBox8.Text.ToString().Trim();
             Vendor_Designated.Applicant = Image8.ImageUrl;
             Vendor_Designated.RequestDeptHead = Image1.ImageUrl;
-            //Vendor_Designated.Applicant = TextBox9.Text.ToString().Trim();
-            //Vendor_Designated.RequestDeptHead = TextBox10.Text.ToString().Trim();
-            //Vendor_Designated.FinManager = TextBox11.Text.ToString().Trim();
             Vendor_Designated.ApplicantDate = TextBox12.Text.ToString().Trim();
             Vendor_Designated.RequestDeptHeadDate = TextBox13.Text.ToString().Trim();
-            //Vendor_Designated.FinManagerDate = TextBox14.Text.ToString().Trim();
-            //Vendor_Designated.PurchasingManager = TextBox15.Text.ToString().Trim();
-            //Vendor_Designated.GM = TextBox16.Text.ToString().Trim();
-            //Vendor_Designated.PurchasingManagerDtae = TextBox17.Text.ToString().Trim();
-            //Vendor_Designated.GMDate1 = TextBox18.Text.ToString().Trim();
-            //Vendor_Designated.Director = TextBox19.Text.ToString().Trim();
-            //Vendor_Designated.SupplyChainDirector = TextBox20.Text.ToString().Trim();
-            //Vendor_Designated.DirectorDtae = TextBox21.Text.ToString().Trim();
-            //Vendor_Designated.SupplyChainDirectorDate = TextBox22.Text.ToString().Trim();
-            //Vendor_Designated.Persident = TextBox23.Text.ToString().Trim();
-            //Vendor_Designated.FinalDate = TextBox24.Text.ToString().Trim();
             Vendor_Designated.Flag = flag;
 
             Vendor_Designated.VendorName1 = TextBox9.Text;
@@ -336,8 +332,12 @@ namespace VendorAssess
 
         public void Button1_Click(object sender, EventArgs e)//提交按钮
         {
-            getSessionInfo();
-            
+            singleFileSubmit = VendorSingleFile_BLL.isSingleFileSubmit(formID);
+            if (!singleFileSubmit)
+            {
+                LocalScriptManager.createManagerScript(Page, "window.alert('请提交指定供应商填写授权文件')", "uploadsinglefile");
+                return;
+            }
             if (submit == "yes")
             {
                 //形成参数
@@ -388,6 +388,13 @@ namespace VendorAssess
                 Image1.ImageUrl = String.Format(Signature_BLL.urlPath, Employee_BLL.findHead(temp[1].Substring(temp[1].LastIndexOf('/')+1).Replace(".png", "")));
                 tableUpdatePanel.Update();
             }
+        }
+
+        protected void Button4_Click(object sender, EventArgs e)
+        {
+            //指定授权不需要有效期
+            string requestType = "signleupload";
+            ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "signleupload", String.Format("uploadFile('{0}','{1}','{2}','{3}',{4})", requestType, tempVendorID, tempVendorName, formID, ""), true);
         }
     }
 }

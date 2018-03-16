@@ -18,7 +18,7 @@ namespace DAL
         /// <returns></returns>
         public static int addVendorDiscovery(As_Vendor_Discovery Vendor_Discovery) //初始化表格赋值表格编号和表格种类编号
         {
-            string sql = "insert into As_Vendor_Discovery(Form_Type_ID,Temp_Vendor_ID,Temp_Vendor_Name,Flag,Factory_Name)values(@Form_Type_ID,@Temp_Vendor_ID,@Temp_Vendor_Name,@Flag,@Factory_Name)";
+            string sql = "insert into As_Vendor_Discovery(Form_Type_ID,Temp_Vendor_ID,Temp_Vendor_Name,Flag,Factory_Name)values(@Form_Type_ID,@Temp_Vendor_ID,@Temp_Vendor_Name,@Flag,@Factory_Name)select TOP 1 SCOPE_IDENTITY() AS returnName from As_Vendor_Discovery"; 
             SqlParameter[] sp = new SqlParameter[]
             {
                new SqlParameter("@Temp_Vendor_Name",Vendor_Discovery.Temp_Vendor_Name),
@@ -27,8 +27,8 @@ namespace DAL
                new SqlParameter("@Temp_Vendor_ID",Vendor_Discovery.Temp_Vendor_ID),
                new SqlParameter("@Factory_Name",Vendor_Discovery.Factory_Name)
             };
-            return DBHelp.GetScalar(sql, sp);
-
+            int result = DBHelp.GetScalarID(sql, sp);
+            return result;
         }
 
         public static int SubmitOk(string formId)
@@ -138,6 +138,28 @@ namespace DAL
                 new SqlParameter("Temp_Vendor_ID",tempVendorID),
                 new SqlParameter("Form_Type_ID",formTypeID),
                 new SqlParameter("Factory_Name",factory),
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    formID = dr["Form_ID"].ToString();
+                }
+            }
+            return formID;
+        }
+
+        public static string getVendorDiscoveryFormID(string tempVendorID, string formTypeID, string factory,int id)
+        {
+            string formID = "";
+            string sql = "select Form_ID from As_Vendor_Discovery where Temp_Vendor_ID=@Temp_Vendor_ID and Form_Type_ID=@Form_Type_ID and Factory_Name=@Factory_Name and ID=@ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("Form_Type_ID",formTypeID),
+                new SqlParameter("Factory_Name",factory),
+                new SqlParameter("@ID",id),
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count > 0)

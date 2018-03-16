@@ -59,6 +59,28 @@ namespace DAL
             return submit;
         }
 
+        public static string getVendorCreationFormID(string tempVendorID, string formTypeID, string factory, int n)
+        {
+            string formID = "";
+            string sql = "select Form_ID from As_VendorCreation where Temp_Vendor_ID=@Temp_Vendor_ID and Form_Type_ID=@Form_Type_ID and Factory_Name=@Factory_Name and ID=@ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("Form_Type_ID",formTypeID),
+                new SqlParameter("Factory_Name",factory),
+                new SqlParameter("@ID",n),
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    formID = dr["Form_ID"].ToString();
+                }
+            }
+            return formID;
+        }
+
         public static string getFormID(string tempVendorID,string formTypeID, string factory)
         {
             string formID = "";
@@ -83,7 +105,7 @@ namespace DAL
 
         public static int addVendorCreation(As_Vendor_Creation vendorCreation)//添加表
         {
-            string sql = "insert into As_VendorCreation(Temp_Vendor_ID,Vendor_Name,Form_Type_ID,Flag,Factory_Name) values(@Temp_Vendor_ID,@Vendor_Name,@Form_Type_ID,@Flag,@Factory_Name) SELECT @@IDENTITY AS returnName";
+            string sql = "insert into As_VendorCreation(Temp_Vendor_ID,Vendor_Name,Form_Type_ID,Flag,Factory_Name) values(@Temp_Vendor_ID,@Vendor_Name,@Form_Type_ID,@Flag,@Factory_Name) select TOP 1 SCOPE_IDENTITY() AS returnName from As_Vendor_Discovery";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_ID",vendorCreation.Temp_Vendor_ID),
@@ -92,7 +114,7 @@ namespace DAL
                 new SqlParameter("@Flag",vendorCreation.Flag),
                 new SqlParameter("@Factory_Name",vendorCreation.Factory_Name)
             };
-            return DBHelp.GetScalar(sql, sp);
+            return DBHelp.GetScalarID(sql, sp);
         }
 
         public static int updateVendorCreation(As_Vendor_Creation vendorCreation)

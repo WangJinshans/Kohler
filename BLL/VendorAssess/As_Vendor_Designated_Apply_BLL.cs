@@ -56,5 +56,10 @@ namespace BLL
             }
             return filePath;
         }
+
+        public static string getVendorDesignatedFormID(string tempVendorID, string fORM_TYPE_ID, string factory, int n)
+        {
+            return As_Vendor_Designated_Apply_DAL.getVendorDesignatedFormID(tempVendorID, fORM_TYPE_ID, factory, n);
+        }
     }
 }

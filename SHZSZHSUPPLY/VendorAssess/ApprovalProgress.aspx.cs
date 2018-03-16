@@ -67,7 +67,8 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         private void readVendorInfo()
         {
-            info = TempVendor_BLL.readVendorInfo();
+            //info = TempVendor_BLL.readVendorInfo();
+            info = TempVendor_BLL.readVendorInFactory(Session["Factory_Name"].ToString());
             JavaScriptSerializer jss = new JavaScriptSerializer();
             serializedJson = jss.Serialize(info);
             LocalScriptManager.CreateScript(Page, String.Format("setParams('{0}')", serializedJson), "params");
@@ -75,12 +76,10 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         private void bindGridData(string tempVendorID)
         {
-            string sql2 = "SELECT * FROM View_Vendor_FormType WHERE Temp_Vendor_ID='" + tempVendorID + "'";
+            string sql2 = "SELECT * FROM View_Vendor_FormType WHERE Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + Session["Factory_Name"].ToString() + "'";
             PagedDataSource objpds2 = new PagedDataSource();
             objpds2.DataSource = SelectForm_BLL.selectAllForm(sql2);
-            //获取数据源
             GridView3.DataSource = objpds2;
-            //绑定数据源
             GridView3.DataBind();
         }
 
@@ -105,7 +104,9 @@ namespace SHZSZHSUPPLY.VendorAssess
             //检查是否可转移
             string factory = Session["Factory_Name"].ToString();
             string employee_ID = Session["Employee_ID"].ToString();
-            if (File_Transform_BLL.checkFormSubmit(tempVendorID, factory) && AddEmployeeVendor_BLL.hasEmployeeID(tempVendorID, employee_ID) && File_Transform_BLL.FormAccessSuccessFul(tempVendorID, factory))
+            //AddEmployeeVendor_BLL.hasEmployeeID(tempVendorID, employee_ID) &&
+            bool ok = File_Transform_BLL.checkNecessaryFormSubmit(tempVendorID, factory);
+            if ( ok && File_Transform_BLL.checkFormSubmit(tempVendorID, factory) &&  File_Transform_BLL.FormAccessSuccessFul(tempVendorID, factory))
             {
                 btnTransfer.Enabled = true;
                 btnTransfer.CssClass = "layui-btn";
@@ -158,7 +159,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             exceptionInfoDetail.InnerHtml = exception;
 
             UpdatePanel.Update();
-            //Random rd = new Random();
+            //sRandom rd = new Random();
             //LocalScriptManager.createManagerScript(Page, String.Format("setFormProgress('{0}')", rd.Next(10, 101)), "setformprogress");
 
         }

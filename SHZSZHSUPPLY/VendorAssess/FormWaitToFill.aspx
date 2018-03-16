@@ -152,6 +152,8 @@
                         SortExpression="Temp_Vendor_ID" Visible="False" />
                     <asp:BoundField DataField="Temp_Vendor_Name" HeaderText="供应商名称"
                         SortExpression="Temp_Vendor_Name" />
+                    <asp:BoundField DataField="Form_ID" HeaderText="表格编号"
+                        SortExpression="Form_ID"/>
                     <asp:BoundField DataField="Form_Type_ID" HeaderText="表格类型编号"
                         SortExpression="Form_Type_ID" Visible="False" />
                     <asp:BoundField DataField="Form_Type_Name" HeaderText="表格名称"

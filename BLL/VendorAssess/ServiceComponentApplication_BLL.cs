@@ -53,5 +53,10 @@ namespace BLL.VendorAssess
         {
             return ServiceComponentApplication_DAL.getFormID(tempVendorID, formTypeID, factory);
         }
+
+        public static string getVendorServiceComponentFormID(string tempVendorID, string fORM_TYPE_ID, string factory, int n)
+        {
+            return ServiceComponentApplication_DAL.getVendorServiceComponentFormID(tempVendorID, fORM_TYPE_ID, factory, n);
+        }
     }
 }

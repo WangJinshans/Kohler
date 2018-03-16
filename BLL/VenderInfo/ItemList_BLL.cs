@@ -31,6 +31,11 @@ namespace BLL.VenderInfo
             return ItemList_DAL.ItemList_DAL_Delete(vendercode, itemlabel);
         }
 
+        internal static bool isFileIDExists(string file_ID)
+        {
+            return ItemList_DAL.isFileExists(file_ID);
+        }
+
         public int ItemList_BLL_UpdateDisable(string vendercode, string plantname,string vendertype)
         {
             ItemList_DAL ItemList_DAL = new ItemList_DAL();

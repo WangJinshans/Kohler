@@ -67,11 +67,35 @@ namespace BLL
             }
         }
 
+        public static bool withOutAccess(string factory, string temp_vendor_ID)
+        {
+            //4代表审批完成
+            string sql = "select flag from As_Vendor_FormType where flag<>4 and Factory_Name='" + factory + "'";
+            using (SqlDataReader reader = DBHelp.GetReader(sql))
+            {
+                if (reader.Read())
+                {
+                    //存在不等于4的代表还有审批
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+
+
         public static bool isOptionalMinimum(int number, string temp_Vendor_ID)
         {
             int min = 100;
             List<int> numbers = new List<int>();
             numbers = FormType_DAL.getOptionalNumbers(temp_Vendor_ID);
+            //全部都已经审批过了 
+            if (numbers == null)
+            {
+                return true;
+            }
             for (int i = 0; i < numbers.Count; i++)
             {
                 if (min > numbers[i])

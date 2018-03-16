@@ -32,9 +32,9 @@ namespace BLL.VendorAssess
         {
             return KCIApproval_DAL.getKCIApproval(position);
         }
-        public static IList<As_KCI_Approval> selectKCIApproval(string sql)//获取所有需要KCI审批的列表
+        public static IList<As_KCI_Approval> selectKCIApproval(string sql,string factory)//获取所有需要KCI审批的列表
         {
-            return KCIApproval_DAL.selectKCIApproval(sql);
+            return KCIApproval_DAL.selectKCIApproval(sql,factory);
         }
 
         public static bool deleteKCIApproval(string formID)

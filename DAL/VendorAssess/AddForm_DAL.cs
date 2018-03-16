@@ -45,6 +45,20 @@ namespace DAL
         {
             return DBHelp.GetDataSet(sql);
         }
+        public static string getFactoryNameByFormID(string formID)
+        {
+            string factory_Name = "";
+            string sql = "select Factory_Name from As_Form where Form_ID='" + formID + "'";
+            DataTable table = DBHelp.GetDataSet(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    factory_Name = dr["Factory_Name"].ToString();
+                }
+            }
+            return factory_Name;
+        }
 
         public static int upDateFormPath(string sql)
         {
@@ -97,7 +111,7 @@ namespace DAL
 
         public static string GetForm_Type_ID(string formID)
         {
-            string sql = "select Form_Type_ID from View_Vendor_FormType where Form_ID='" + formID + "'";
+            string sql = "select Form_Type_ID from As_Vendor_MutiplyForm where Form_ID='" + formID + "'";
             DataTable dt = new DataTable();
             dt = DBHelp.GetDataSet(sql);
             string formid = dt.Rows[0]["Form_Type_ID"].ToString().Trim();

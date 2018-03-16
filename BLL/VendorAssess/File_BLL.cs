@@ -21,10 +21,6 @@ namespace BLL
         {
             return File_DAL.addFile(file);
         }
-        public static IList<As_File> selectFile(string sql)
-        {
-            return File_DAL.selectFile(sql);
-        }
 
         public static int selectFileID(string tempVendorID, string filetypeid)//根据供应商名称与文件类型查询文件的id是否存在
         {
@@ -35,25 +31,7 @@ namespace BLL
         {
             return File_DAL.selectFileid(tempVendorID,filetypeid,Employee_DAL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString()));
         }
-        
-        public static int getLastedFile(string tempVendorID, string filetypeid,string factory_Name)    //返回文件id
-        {
-            List<int> list = new List<int>();
-            int max = -1;
-            list = File_DAL.getLastedFile(tempVendorID, filetypeid, factory_Name);
-            if (list.Count > 0)
-            {
-                foreach (int number in list)
-                {
-                    if (max < number)
-                    {
-                        max = number;//得到最大值 即为最新的文件
-                    }
-                }
-            }
-            return max;
-        }
-
+       
         /// <summary>
         /// 获取文件分类格式
         /// </summary>
@@ -86,31 +64,11 @@ namespace BLL
             return "";
         }
 
-        public static int updateFileID(string tempVendorID, string fileTypeID, string factoryName, string file_ID)
-        {
-            return VendorFile_DAL.updateFileID(tempVendorID, fileTypeID, factoryName, file_ID);
-        }
-
         public static string getFileName(string fileTypeID, string temp_Vendor_ID, string factory_Name)
         {
             return VendorFile_DAL.getFileName(fileTypeID, temp_Vendor_ID, factory_Name);
         }
-        
-        public static string getFilePath(string name,string factory)
-        {
-            string sql = "select File_Path from As_File where [File_Name]='" + name + "' and Factory_Name='" + factory + "'";
-            DataTable table = new DataTable();
-            string path = "";
-            table = File_DAL.getFilePath(sql);
-            if (table.Rows.Count > 0)
-            {
-                foreach (DataRow dr in table.Rows)
-                {
-                    path = dr["File_Path"].ToString().Trim();
-                }
-            }
-            return path;
-        }
+
 
         internal static string getFilePathByID(string fileID)
         {

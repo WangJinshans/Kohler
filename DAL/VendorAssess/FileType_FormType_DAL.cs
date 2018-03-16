@@ -10,10 +10,10 @@ namespace DAL
 {
     public class FileType_FormType_DAL
     {
-        public static IList<As_FileType_FormType> selectFileTypeID(string formtypeid)
+        public static IList<As_FileType_FormType> selectFileTypeID(string formTypeID)
         {
             IList<As_FileType_FormType> list = new List<As_FileType_FormType>();
-            string sql= "select File_Type_ID from As_FileType_FormType where Form_Type_ID='"+formtypeid+"'";
+            string sql= "select File_Type_ID from As_FileType_FormType where Form_Type_ID='"+ formTypeID + "'";
             DataTable dt = DBHelp.GetDataSet(sql);
             if (dt.Rows.Count > 0)
             {

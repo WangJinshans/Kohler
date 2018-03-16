@@ -32,20 +32,7 @@ namespace BLL
         public static int addTempVendor(As_Temp_Vendor Temp_Vendor)
         {
             Temp_Vendor.SH = Temp_Vendor.ZS = Temp_Vendor.ZH = DBNull.Value.ToString();
-            switch (HttpContext.Current.Session["Factory_Name"].ToString())
-            {
-                case "上海科勒":
-                    Temp_Vendor.SH = "上海科勒";
-                    break;
-                case "中山科勒":
-                    Temp_Vendor.ZS = "中山科勒";
-                    break;
-                case "珠海科勒":
-                    Temp_Vendor.ZH = "珠海科勒";
-                    break;
-                default:
-                    break;
-            }
+            Temp_Vendor.Factory_Name = HttpContext.Current.Session["Factory_Name"].ToString();
             return TempVendor_DAL.addTempVendor(Temp_Vendor);
         }
         //添加供应商_表格

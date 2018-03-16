@@ -14,13 +14,14 @@ namespace AendorAssess
 {
     public partial class BiddingApprovalForm : System.Web.UI.Page
     {
-        public  string FORM_NAME = "bidding form比价资料/会议纪要";
-        public  string FORM_TYPE_ID = "002";
-        private string tempVendorID = "";
+        public static string FORM_NAME = "bidding form比价资料/会议纪要";
+        public static string FORM_TYPE_ID = "002";
+        private static string tempVendorID = "";
         private static string factory_Name;
-        private string tempVendorName = "";
-        private string formID = "";
-        private string submit = "";
+        private static string tempVendorName = "";
+        private static string formID = "";
+        private static string submit = "";
+        private static bool singleFileSubmit = false;
 
         /// <summary>
         /// 重新读取session
@@ -34,7 +35,14 @@ namespace AendorAssess
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
             factory_Name = Session["Factory_Name"].ToString().Trim();
-            formID = As_Bidding_Approval_BLL.getFormID(tempVendorID, FORM_TYPE_ID, factory_Name);
+            try
+            {
+                formID = Request.QueryString["Form_ID"].ToString().Trim();
+            }
+            catch
+            {
+                formID = "";
+            }
             submit = Request.QueryString["submit"];
         }
 
@@ -43,6 +51,8 @@ namespace AendorAssess
             Image2.Visible = false;
             Image3.Visible = false;
             Image4.Visible = false;//在非show页面中图片控件不可操作
+
+
 
             if (!IsPostBack)
             {
@@ -68,8 +78,22 @@ namespace AendorAssess
                     }
                     else
                     {
-                        //获取formID信息
-                        getSessionInfo();
+                        formID = As_Bidding_Approval_BLL.getVendorBiddingFormID(tempVendorID, FORM_TYPE_ID, factory_Name, n);
+
+                        //添加单独绑定的文件
+                        VendorSingleFile_BLL.addSingleFile(formID, FORM_TYPE_ID, tempVendorID, tempVendorName, factory_Name, "012");
+
+                        
+                        //每次添加表格添加到As_Vendor_MutipleForm中 
+                        As_MutipleForm forms = new As_MutipleForm();
+                        forms.Temp_Vendor_ID = tempVendorID;
+                        forms.Temp_Vendor_Name = tempVendorName;
+                        forms.Form_Type_ID = FORM_TYPE_ID;
+                        forms.Form_ID = formID;
+                        forms.Flag = 0;
+                        forms.Factory_Name = factory_Name;
+                        Vendor_MutipleForm_BLL.addVendorMutileForms(forms);
+
 
                         //向FormFile表中添加相应的文件、表格绑定信息
                         bindingFormWithFile();
@@ -258,31 +282,6 @@ namespace AendorAssess
             Response.Redirect("EmployeeVendor.aspx");
             return "";
         }
-
-        /// <summary>
-        /// 网页内部弹出对话框，确定用户部门流程
-        /// </summary>
-        /// <param name="formTypeID"></param>
-        /// <param name="formID"></param>
-        //public void newApproveAccess(string formTypeID, string formID)
-        //{
-        //    //形成参数
-        //    As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(formTypeID);
-
-        //    //写入session之后供SelectDepartment页面使用
-        //    Session["AssessflowInfo"] = assess_flow;
-        //    Session["tempVendorID"] = tempVendorID;
-        //    Session["factory"] = "上海科勒";
-        //    Session["form_name"] = FORM_NAME;
-        //    Session["tempVendorName"] = tempVendorName;
-
-        //    //如果是用户部门
-        //    if (assess_flow.User_Department_Assess == "1")
-        //    {
-        //        LocalScriptManager.CreateScript(Page, "popUp('" + formID + "');", "SHOW");
-        //    }
-        //}
-
         /// <summary>
         /// 保存表格
         /// </summary>
@@ -291,9 +290,6 @@ namespace AendorAssess
         /// <returns></returns>
         private As_Bidding_Approval saveForm(int flag, string manul)
         {
-            //读取session
-            getSessionInfo();
-
             As_Bidding_Approval BiddingForm = new As_Bidding_Approval();
             BiddingForm.Form_ID = formID;
             BiddingForm.Form_Type_ID = FORM_TYPE_ID;
@@ -323,11 +319,8 @@ namespace AendorAssess
             BiddingForm.Rank2 = TextBox51.Text.Trim();
             BiddingForm.Rank3 = TextBox52.Text.Trim();
             BiddingForm.Rank_Remark = TextBox53.Text.Trim();
-            //image
             BiddingForm.Initiator = Image1.ImageUrl;
             BiddingForm.User_Department_Manager = Image5.ImageUrl;
-
-            //BiddingForm.Bar_Code = TextBox27.Text.Trim();
             BiddingForm.ProjectList = new List<As_Bidding_Approval_Item>() ;
             for (int i = 19; i <= 48; i+=6)
             {
@@ -366,15 +359,17 @@ namespace AendorAssess
 
         public void Button1_Click(object sender, EventArgs e)//提交按钮
         {
-            //重新获取session信息和get信息
-            getSessionInfo();
+            //检查特定绑定文件是否提交
+            singleFileSubmit = VendorSingleFile_BLL.isSingleFileSubmit(formID);
+            if (!singleFileSubmit)
+            {
+                LocalScriptManager.createManagerScript(Page, "window.alert('请提交报价单')", "uploadsinglefile");
+                return;
+            }
             if (submit == "yes")
             {
                 //形成参数
                 saveForm(2, "提交表格");
-
-                //对于用户部门，使用弹出对话框选择
-                //newApproveAccess(FORM_TYPE_ID, formID);
                 LocalApproveManager.doApproveWithSelection(Page, formID, FORM_NAME, FORM_TYPE_ID, tempVendorID, tempVendorName, Session["Factory_Name"].ToString());
             }
             else
@@ -415,5 +410,10 @@ namespace AendorAssess
             }
         }
 
+        protected void Button4_Click(object sender, EventArgs e)
+        {
+            string requestType = "signleupload";
+            ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "signleupload", String.Format("uploadFile('{0}','{1}','{2}','{3}',{4})", requestType, tempVendorID, tempVendorName, formID, "true"), true);
+        }
     }
 }

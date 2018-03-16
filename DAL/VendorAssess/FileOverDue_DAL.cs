@@ -136,6 +136,12 @@ namespace DAL.VendorAssess
             return false;
         }
 
+        public static void upDateStatus(string formID)
+        {
+            string sql = "update As_VendorForm_OverDue set Status='Hold' where Form_ID='" + formID + "'";
+            DBHelp.ExecuteCommand(sql);
+        }
+
         /// <summary>
         /// 新的方法获取File_ID 和Form_ID
         /// </summary>

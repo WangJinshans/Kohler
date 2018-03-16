@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Collections;
 
 namespace BLL.VendorAssess
 {
@@ -85,6 +86,12 @@ namespace BLL.VendorAssess
             }
             return form;
         }
+
+        public static List<As_Form_OverDue> listOverDueForms(string factory_Name)
+        {
+            return FormOverDue_DAL.listOverDueForms(factory_Name);
+        }
+
         /// <summary>
         /// 根据新的formID查出tempvendorID，formTypeID，factory
         /// 再到历史表中查找是否有记录 若有记录则说明是过期重新审批

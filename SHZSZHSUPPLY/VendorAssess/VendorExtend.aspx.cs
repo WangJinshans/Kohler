@@ -1,6 +1,8 @@
 ﻿using BLL;
+using BLL.VendorAssess;
 using Model;
 using MODEL;
+using MODEL.VendorAssess;
 using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
 using System.Web.UI.WebControls;
@@ -10,13 +12,12 @@ namespace SHZSZHSUPPLY.VendorAssess
     public partial class VendorExtend : System.Web.UI.Page
     {
         public string FORM_NAME = "供应商信息表(扩展)";
-        public string FORM_TYPE_ID = "022";
+        public static string FORM_TYPE_ID = "022";
         private static string factory = "";
-        private string tempVendorID = "";
-        private string tempVendorName = "";
+        private static string tempVendorID = "";
+        private static string tempVendorName = "";
         private string formID = "";
         private string submit = "";
-        private static string language;//判断语言
         
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -45,6 +46,17 @@ namespace SHZSZHSUPPLY.VendorAssess
                     {
                         //获取formID信息
                         getSessionInfo();
+
+                        formID = VendorExtend_BLL.getVendorExtendFormID(tempVendorID, FORM_TYPE_ID, factory, n);
+                        //每次添加表格添加到As_Vendor_MutipleForm中 
+                        As_MutipleForm forms = new As_MutipleForm();
+                        forms.Temp_Vendor_ID = tempVendorID;
+                        forms.Temp_Vendor_Name = tempVendorName;
+                        forms.Form_Type_ID = FORM_TYPE_ID;
+                        forms.Form_ID = formID;
+                        forms.Flag = 0;
+                        forms.Factory_Name = factory;
+                        Vendor_MutipleForm_BLL.addVendorMutileForms(forms);
 
                         //向FormFile表中添加相应的文件、表格绑定信息
                         bindingFormWithFile();
@@ -196,7 +208,14 @@ namespace SHZSZHSUPPLY.VendorAssess
             tempVendorID = Session["tempVendorID"].ToString();
             tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
             factory = Session["Factory_Name"].ToString().Trim();
-            formID = VendorExtend_BLL.getFormID(tempVendorID, FORM_TYPE_ID, factory);
+            try
+            {
+                formID = Request.QueryString["Form_ID"].ToString().Trim();
+            }
+            catch
+            {
+                formID = "";
+            }
             submit = Request.QueryString["submit"];
         }
 

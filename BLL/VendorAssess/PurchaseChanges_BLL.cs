@@ -57,6 +57,11 @@ namespace BLL.VendorAssess
             return list;
         }
 
+        public static string getVendorPurchaseChangesFormID(string tempVendorID, string fORM_TYPE_ID, string factory, int n)
+        {
+            return PurchaseChanges_DAL.getVendorPurchaseChangesFormID(tempVendorID, fORM_TYPE_ID, factory, n);
+        }
+
         public static int update(As_Purchase_Changes asPurchaseChanges, List<As_Purchase_Changes_Item> list)
         {
             return PurchaseChanges_DAL.update(asPurchaseChanges, list);

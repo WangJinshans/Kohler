@@ -13,7 +13,7 @@ namespace MODEL.VendorAssess
         private string normal_Vendor_ID;
         private int id;
         private int purchase_Amount;
-        private string sH, zS, zH;
+        private string zH, zS, sH;
         private string vendor_Type;
         private string vendor_Assign;
         private string advance_Charge;
@@ -98,45 +98,6 @@ namespace MODEL.VendorAssess
             }
         }
 
-        public string SH
-        {
-            get
-            {
-                return sH;
-            }
-
-            set
-            {
-                sH = value;
-            }
-        }
-
-        public string ZS
-        {
-            get
-            {
-                return zS;
-            }
-
-            set
-            {
-                zS = value;
-            }
-        }
-
-        public string ZH
-        {
-            get
-            {
-                return zH;
-            }
-
-            set
-            {
-                zH = value;
-            }
-        }
-
         public string Vendor_Type
         {
             get
@@ -199,6 +160,45 @@ namespace MODEL.VendorAssess
             set
             {
                 isChanging = value;
+            }
+        }
+
+        public string ZH
+        {
+            get
+            {
+                return zH;
+            }
+
+            set
+            {
+                zH = value;
+            }
+        }
+
+        public string ZS
+        {
+            get
+            {
+                return zS;
+            }
+
+            set
+            {
+                zS = value;
+            }
+        }
+
+        public string SH
+        {
+            get
+            {
+                return sH;
+            }
+
+            set
+            {
+                sH = value;
             }
         }
     }

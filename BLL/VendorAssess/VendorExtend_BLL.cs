@@ -44,6 +44,11 @@ namespace BLL
         {
             return VendorExtend_DAL.SubmitOk(formID);
         }
+
+        public static string getVendorExtendFormID(string tempVendorID, string fORM_TYPE_ID, string factory, int n)
+        {
+            return VendorExtend_DAL.getVendorExtendFormID(tempVendorID, fORM_TYPE_ID, factory, n);
+        }
     }
 }
 
