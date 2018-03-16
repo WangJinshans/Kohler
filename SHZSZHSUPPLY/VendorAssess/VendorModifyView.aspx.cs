@@ -33,13 +33,13 @@ namespace WebLearning.KeLe
                 switch (Request["__EVENTTARGET"])
                 {
                     case "getVendorInfo":
-                        getVendorInfo(Request.Form["__EVENTARGUMENT"], vendor_Name);
+                        getVendorInfo(Request.Form["__EVENTARGUMENT"], vendor_Name, Session["Factory_Name"].ToString());
                         break;
                     case "getVendorType":
-                        getVendorTypeInfo(Request.Form["__EVENTARGUMENT"]);
+                        getVendorTypeInfo(Request.Form["__EVENTARGUMENT"], Session["Factory_Name"].ToString());
                         break;
                     case "wait":
-                        flush(Request.Form["__EVENTARGUMENT"]);
+                        flush(Request.Form["__EVENTARGUMENT"], Session["Factory_Name"].ToString());
                         break;
                     case "Selected":
                         selectionSure();
@@ -55,10 +55,10 @@ namespace WebLearning.KeLe
         /// 查询该供应商存在几个类型
         /// </summary>
         /// <param name="vendorCode"></param>
-        private void getVendorTypeInfo(string vendorName)
+        private void getVendorTypeInfo(string vendorName,string factory)
         {
             vendor_Name = vendorName;
-            As_Temp_Vendor temp = Vendor_Modify_File_BLL.getTempVendorInfo(vendor_Name);
+            As_Temp_Vendor temp = Vendor_Modify_File_BLL.getTempVendorInfo(vendor_Name, factory);
             JavaScriptSerializer jss = new JavaScriptSerializer();
             string tempVendorString = jss.Serialize(temp);
             LocalScriptManager.CreateScript(Page, "showVendorTypeInfo('" + tempVendorString + "')", "showTypeInfo");
@@ -88,25 +88,25 @@ namespace WebLearning.KeLe
             }
         }
 
-        private void getVendorInfo(string vendorType,string vendor_Name)
+        private void getVendorInfo(string vendorType,string vendor_Name,string factory)
         {
-            string temp_Vendor_ID = TempVendor_BLL.getTempVendorIDByCodeAndType(vendor_Name, vendorType);
+            string temp_Vendor_ID = TempVendor_BLL.getTempVendorIDByCodeAndType(vendor_Name, vendorType, factory);
             tempVendorID = temp_Vendor_ID;
             Session["tempVendorID"] = temp_Vendor_ID;
-            string isChanging = Vendor_Modify_File_BLL.isVendorChanging(vendor_Name, vendorType);
+            string isChanging = Vendor_Modify_File_BLL.isVendorChanging(vendor_Name, vendorType, factory);
             if (isChanging.Equals("YES"))//正在修改中 即已经建立过修改流程了
             {
                 ClientScript.RegisterStartupScript(this.GetType(), "change", "<script>isChanging('"+ temp_Vendor_ID+"');</script>");
                 return;
             }
             As_Vendor_Modify_Info tempVendor = new As_Vendor_Modify_Info();
-            tempVendor = TempVendor_BLL.getTempVendorByVendorCode(temp_Vendor_ID);
+            tempVendor = TempVendor_BLL.getTempVendorByVendorCode(temp_Vendor_ID,factory);
             JavaScriptSerializer js = new JavaScriptSerializer();
             string jsonString = js.Serialize(tempVendor);
             ClientScript.RegisterStartupScript(this.GetType(), "myscript", "<script>showVendorInfo('"+ jsonString + "');</script>");
 
 
-            List<string> myTypeList = Vendor_Modify_File_DAL.getTypeListByName(vendor_Name);
+            List<string> myTypeList = Vendor_Modify_File_DAL.getTypeListByName(vendor_Name, factory);
             for (int i = 0; i < DropDownList1.Items.Count; i++)
             {
                 if (isExistsType(DropDownList1.Items[i].Value, myTypeList))
@@ -134,7 +134,10 @@ namespace WebLearning.KeLe
         {
 
             //执行存储过程并初始化一些文件等等
-            selectionSure();
+            if (!selectionSure())
+            {
+                return;
+            }
 
             //if (checkType.Checked)//不可见
             //{
@@ -161,11 +164,11 @@ namespace WebLearning.KeLe
             }
         }
 
-        private void selectionSure()
+        private bool selectionSure()
         {
             if (vendor_Name.Equals(""))
             {
-                return;
+                return false;
             }
             string temp_Vendor_Name = vendor_Name;//供应商名称
             string newVendor_Type = "";
@@ -191,7 +194,7 @@ namespace WebLearning.KeLe
             }
             catch
             {
-                return;
+                return false;
             }
 
 
@@ -202,22 +205,31 @@ namespace WebLearning.KeLe
             bool partTwo = !partTwoSwitch.Checked;
             bool partThree = !partThreeSwitch.Checked;
             bool partFour = !partFourSwitch.Checked;
-            bool myAdvance_charged = Advance_Charge.Checked == advance_Charges.Checked ? true : false;
+
+            //或者查询是否预付款
+            bool myAdvance_charged = getAdvanceCharged(tempVendorID, factory_Name, Advance_Charge.Checked);
 
 
             //如果法人 营业范围 股份  经营场所 地址电话传真等  银行信息  付款方式 预付款都未改变  那么不需要填写修改表  直接执行修改的存储过程
             if (legalPerson && range && stock && place && partTwo && partThree && partFour && myAdvance_charged)
             {
-                string newTemp_Vendor_ID = VendorCheckResult_BLL.modify_CheckResult("vendor_Modify_exist", temp_Vendor_Name, factory_Name, newVendor_Type,oldVendor_Type, promise, vendor_Assign, advance_charge, money,Session["Employee_ID"].ToString().Trim());
-                ClientScript.RegisterStartupScript(this.GetType(), "my", "<script>popTips('"+ newTemp_Vendor_ID + "','"+factory_Name+"');</script>");
-                return;
+                VendorCheckResult_BLL.modify_CheckResult("vendor_Modify_exist", temp_Vendor_Name, factory_Name, newVendor_Type,oldVendor_Type, promise, vendor_Assign, advance_charge, money,Session["Employee_ID"].ToString().Trim());
+                ClientScript.RegisterStartupScript(this.GetType(), "my", "<script>popTips('"+ tempVendorID + "','"+factory_Name+"');</script>");
+                return false;
             }
             else
             {
                 //插入到数据库As_Vendor_Type_Modify_Info中，如果最后一个人审批同意之后 执行此存储过程
                 string sqls = "insert into As_Vendor_Type_Modify_Info(Temp_Vendor_ID,Temp_Vendor_Name,Factory_Name,newType,oldType,Promise,Assign,Charge,Money)values('" + tempVendorID + "','" + temp_Vendor_Name + "','" + factory_Name + "','" + newVendor_Type + "','" + oldVendor_Type + "','" + promise + "','" + vendor_Assign + "','" + advance_charge + "','" + money + "')";
                 VendorCheckResult_BLL.addVendorModifyInfo(sqls);
+                return true;
             }
+        }
+
+        private bool getAdvanceCharged(string tempVendorID, string factory_Name,bool advanceChanged)
+        {
+            string sql = "select As_Vendor_Type.Advance_Charge from As_Temp_Vendorchange,As_Vendor_Type where As_Temp_Vendorchange.Vendor_Type_ID=As_Vendor_Type.Vendor_Type_ID and As_Temp_Vendorchange.Temp_Vendor_ID='" + tempVendorID + "' and As_Temp_Vendorchange.Factory_Name='" + factory_Name + "'";
+            return Vendor_Modify_File_BLL.getAdvanceCharged(sql, advanceChanged);
         }
 
         protected void Button2_Click(object sender, EventArgs e)
@@ -225,11 +237,11 @@ namespace WebLearning.KeLe
 
         }
 
-        protected void flush(string vendorName)
+        protected void flush(string vendorName,string factory)
         {
             vendor_Name = vendorName;
             LocalScriptManager.CreateScript(Page, "waiting('正在加载页面')", "wait");
-            List<string> myTypeList = Vendor_Modify_File_DAL.getTypeListByName(vendorName);
+            List<string> myTypeList = Vendor_Modify_File_DAL.getTypeListByName(vendorName, factory);
             for (int i = 0; i < DropDownList1.Items.Count; i++)
             {
                 if (isExistsType(DropDownList1.Items[i].Value, myTypeList))
@@ -269,7 +281,7 @@ namespace WebLearning.KeLe
             Button btn = (Button)sender;
             //初始化选择的供应商类型
             vendor_type = btn.Text.ToString().Trim();
-            getVendorInfo(btn.Text.ToString().Trim(), vendor_Name);
+            getVendorInfo(btn.Text.ToString().Trim(), vendor_Name, Session["Factory_Name"].ToString());
         }
     }
 }

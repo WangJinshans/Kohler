@@ -67,10 +67,10 @@ namespace BLL
             }
         }
 
-        public static bool withOutAccess(string vendorType, string temp_vendor_ID)
+        public static bool withOutAccess(string factory, string temp_vendor_ID)
         {
             //4代表审批完成
-            string sql = "select As_Vendor_FormType.flag from As_Vendor_FormType,As_Vendor_Type where As_Vendor_FormType.Vendor_Type_ID=As_Vendor_Type.Vendor_Type_ID and As_Vendor_FormType.Temp_Vendor_ID='" + temp_vendor_ID + "' and As_Vendor_Type.Vendor_Type_Name='" + vendorType + "' and As_Vendor_FormType.flag<>4";
+            string sql = "select flag from As_Vendor_FormType where flag<>4 and Factory_Name='" + factory + "'";
             using (SqlDataReader reader = DBHelp.GetReader(sql))
             {
                 if (reader.Read())

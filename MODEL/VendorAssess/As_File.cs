@@ -21,6 +21,7 @@ namespace Model
         private string file_Type_Range;
         private string file_Type_Name;
         private string factory_Name;
+        private string source_From;
 
         public string File_ID
         {
@@ -188,6 +189,19 @@ namespace Model
             set
             {
                 factory_Name = value;
+            }
+        }
+
+        public string Source_From
+        {
+            get
+            {
+                return source_From;
+            }
+
+            set
+            {
+                source_From = value;
             }
         }
     }

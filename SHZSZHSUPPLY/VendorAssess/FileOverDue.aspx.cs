@@ -29,13 +29,13 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// <param name="e"></param>
         protected void Page_Load(object sender, EventArgs e)
         {
-            //showVendorOverDue();
+            factory = Session["Factory_Name"].ToString();
             if (!IsPostBack)
             {
-                //readVendorInfo();
                 //权限检查
                 string position = Employee_BLL.getEmployeePositionName(Session["Employee_ID"].ToString());
                 string factory_Name = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString());
+
                 bool isAuthority = false;
                 if (position.Equals("采购部经理") && factory_Name.Equals("上海科勒"))
                 {
@@ -46,12 +46,10 @@ namespace SHZSZHSUPPLY.VendorAssess
                     isAuthority = true;
                 }
 
-
-
                 //有权限操作过期
                 if (isAuthority)
                 {
-                    readOverDueForms();
+                    readOverDueForms(factory);
                 }
 
             }
@@ -63,7 +61,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 switch (Request["__EVENTTARGET"])
                 {
                     case "refreshVendor":
-                        readOverDueForms(/*Request.Form["__EVENTARGUMENT"]*/);
+                        readOverDueForms(factory);
                         break;
                     default:
                         break;
@@ -71,140 +69,17 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
         }
 
-        private void readOverDueForms()
+        private void readOverDueForms(string factory_Name)
         {
             PagedDataSource source = new PagedDataSource();
-            source.DataSource = FormOverDue_BLL.listOverDueForms();
+            source.DataSource = FormOverDue_BLL.listOverDueForms(factory_Name);
             GridView2.DataSource = source;
             GridView2.DataBind();
         }
 
-        private void refreshVendor()
+        private string canSubmit(string factory, string tempVendorID)
         {
-            //showVendorFiles();
-            //showVendorRelatedForms(Session["overdue_tempVendorID"].ToString());
-
-            //显示所有过期的表格 
-        }
-
-        /// <summary>
-        /// 显示该职位需要处理的所有过期文献 
-        /// </summary>
-        /// <param name="tempVendor"></param>
-        /// <param name="factory"></param>
-        private void showVendorFiles()
-        {
-            PagedDataSource source = new PagedDataSource();
-            source.DataSource = FileOverDue_BLL.getOverDueFile();
-            GridView1.DataSource = source;
-            GridView1.DataBind();
-        }
-
-
-        /// <summary>
-        /// 过期的供应商列表
-        /// </summary>
-        private void showVendorOverDue()
-        {
-            PagedDataSource source = new PagedDataSource();
-            source.DataSource = FileOverDue_BLL.getVendorOverDue();
-            GridView3.DataSource = source;
-            GridView3.DataBind();
-        }
-        protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
-        {
-            //只负责文件的上传
-            GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
-            string tempVendorID = GridView1.Rows[drv.RowIndex].Cells[1].Text;
-            string tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
-            string itemCategory = HttpUtility.HtmlDecode(GridView1.Rows[drv.RowIndex].Cells[0].Text);
-            string fileTypeID = File_Type_BLL.selectFileTypeID(GridView1.Rows[drv.RowIndex].Cells[0].Text.ToString().Trim(), tempVendorID);//获取file_Type_ID
-            string requestType = "overDueUpload";
-            if (e.CommandName == "upload")
-            {
-                LocalScriptManager.CreateScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}')", requestType, tempVendorID, tempVendorName, fileTypeID), "upload");
-            }
-        }
-
-        /// <summary>
-        /// redirect
-        /// </summary>
-        /// <param name="commandArgument"></param>
-        /// <param name="tempVendorID"></param>
-        private string switchPage(string formTypeID)
-        {
-            string url = "";
-            switch (formTypeID)
-            {
-                case "001":
-                    url = "VendorDiscovery.aspx";
-                    break;
-                case "002":
-                    url = "BiddingApprovalform.aspx";
-                    break;
-                case "013":
-                    url = "BiddingApprovalform.aspx";
-                    break;
-                case "014":
-                    url = "BiddingApprovalform.aspx";
-                    break;
-                case "015":
-                    url = "BiddingApprovalform.aspx";
-                    break;
-                case "016":
-                    url = "BiddingApprovalform.aspx";
-                    break;
-                case "017":
-                    url = "BiddingApprovalform.aspx";
-                    break;
-                case "003":
-                    url = "VendorRiskAnalysis.aspx";
-                    break;
-                case "004":
-                    url = "VendorDesignatedApply.aspx";
-                    break;
-                case "025":
-                    url = "VendorDesignatedApply.aspx";
-                    break;
-                case "005":
-                    url = "ContractApprovalForm.aspx";
-                    break;
-                case "006":
-                    url = "ContractApprovalForm.aspx";
-                    break;
-                case "007":
-                    url = "ContractApprovalForm.aspx";
-                    break;
-                case "008":
-                    url = "ContractApprovalForm.aspx";
-                    break;
-                case "009":
-                    url = "ContractApprovalForm.aspx";
-                    break;
-                case "010":
-                    url = "ContractApprovalForm.aspx";
-                    break;
-                case "011":
-                    url = "ContractApprovalForm.aspx";
-                    break;
-                case "012":
-                    url = "ContractApprovalForm.aspx";
-                    break;
-                case "018":
-                    url = "VendorSelection.aspx";
-                    break;
-                case "019":
-                    url = "VendorCreation.aspx";
-                    break;
-                default:
-                    break;
-            }
-            return url;
-        }
-
-        private string canSubmit(string vendorType, string tempVendorID)
-        {
-            if (withOutAccess(vendorType, tempVendorID))
+            if (!withOutAccess(factory, tempVendorID))
             {
                 return "yes";
             }
@@ -223,13 +98,19 @@ namespace SHZSZHSUPPLY.VendorAssess
             string form_Type_ID = GridView2.Rows[drv.RowIndex].Cells[1].Text;
             string vendrType = GridView2.Rows[drv.RowIndex].Cells[3].ToString();
             temp_Vendor_ID = GridView2.Rows[drv.RowIndex].Cells[4].Text;
+            Session["tempVendorID"] = temp_Vendor_ID;
             string tempVendorName = TempVendor_BLL.getTempVendorName(temp_Vendor_ID);
 
             string optional = GridView2.Rows[drv.RowIndex].Cells[2].Text;//可选与必选
             string status = GridView2.Rows[drv.RowIndex].Cells[3].Text;//状态标志 
            
             string aimPageName = "";
-            string submit = canSubmit(vendrType, temp_Vendor_ID);//提交的顺序控制
+
+            //过期状态更新
+
+            FileOverDue_BLL.upDateStatus(formID);
+
+            submit = canSubmit(Session["Factory_Name"].ToString(), temp_Vendor_ID);//提交的顺序控制
             if (e.CommandName == "refill")
             {
                 //更改flag 进入页面就会该表就会跳转到待提交表格中去
@@ -254,10 +135,10 @@ namespace SHZSZHSUPPLY.VendorAssess
                     }
                     else
                     {
-                        formID = As_Bidding_Approval_BLL.getVendorBiddingFormID(temp_Vendor_ID, form_Type_ID, factory, n);
+                        formID = As_Bidding_Approval_BLL.getVendorBiddingFormID(temp_Vendor_ID, form_Type_ID, Session["Factory_Name"].ToString(), n);
 
                         //添加单独绑定的文件
-                        VendorSingleFile_BLL.addSingleFile(formID, form_Type_ID, temp_Vendor_ID, tempVendorName, factory);
+                        VendorSingleFile_BLL.addSingleFile(formID, form_Type_ID, temp_Vendor_ID, tempVendorName, Session["Factory_Name"].ToString(), "012");
                         //每次添加表格添加到As_Vendor_MutipleForm中 
                         As_MutipleForm forms = new As_MutipleForm();
                         forms.Temp_Vendor_ID = temp_Vendor_ID;
@@ -265,7 +146,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                         forms.Form_Type_ID = form_Type_ID;
                         forms.Form_ID = formID;
                         forms.Flag = 0;
-                        forms.Factory_Name = factory;
+                        forms.Factory_Name = Session["Factory_Name"].ToString(); ;
                         Vendor_MutipleForm_BLL.addVendorMutileForms(forms);
                         aimPageName = "BiddingApprovalForm.aspx";
                     }
@@ -289,10 +170,10 @@ namespace SHZSZHSUPPLY.VendorAssess
                     }
                     else
                     {
-                        formID = As_Vendor_Designated_Apply_BLL.getVendorDesignatedFormID(temp_Vendor_ID, form_Type_ID, factory, n);
+                        formID = As_Vendor_Designated_Apply_BLL.getVendorDesignatedFormID(temp_Vendor_ID, form_Type_ID, Session["Factory_Name"].ToString(), n);
 
                         //添加单独绑定的文件
-                        VendorSingleFile_BLL.addSingleFile(formID, form_Type_ID, temp_Vendor_ID, tempVendorName, factory);
+                        VendorSingleFile_BLL.addSingleFile(formID, form_Type_ID, temp_Vendor_ID, tempVendorName, Session["Factory_Name"].ToString(), "065");
 
                         //每次添加表格添加到As_Vendor_MutipleForm中 
                         As_MutipleForm forms = new As_MutipleForm();
@@ -301,7 +182,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                         forms.Form_Type_ID = form_Type_ID;
                         forms.Form_ID = formID;
                         forms.Flag = 0;
-                        forms.Factory_Name = factory;
+                        forms.Factory_Name = Session["Factory_Name"].ToString();
                         Vendor_MutipleForm_BLL.addVendorMutileForms(forms);
                         aimPageName = "VendorDesignatedApply.aspx";
                     }
@@ -328,9 +209,9 @@ namespace SHZSZHSUPPLY.VendorAssess
                     }
                     else
                     {
-                        formID = ContractApproval_BLL.getVendorContractApprovalFormID(temp_Vendor_ID, form_Type_ID, factory, n);
+                        formID = ContractApproval_BLL.getVendorContractApprovalFormID(temp_Vendor_ID, form_Type_ID, Session["Factory_Name"].ToString(), n);
 
-                        VendorSingleFile_BLL.addSingleFile(formID, form_Type_ID, temp_Vendor_ID, tempVendorName, factory);
+                        VendorSingleFile_BLL.addSingleFile(formID, form_Type_ID, temp_Vendor_ID, tempVendorName, Session["Factory_Name"].ToString(), "001");
 
                         //每次添加表格添加到As_Vendor_MutipleForm中 
                         As_MutipleForm forms = new As_MutipleForm();
@@ -339,7 +220,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                         forms.Form_Type_ID = form_Type_ID;
                         forms.Form_ID = formID;
                         forms.Flag = 0;
-                        forms.Factory_Name = factory;
+                        forms.Factory_Name = Session["Factory_Name"].ToString();
                         Vendor_MutipleForm_BLL.addVendorMutileForms(forms);
                         aimPageName = "ContractApprovalForm.aspx";
                     }
@@ -348,52 +229,6 @@ namespace SHZSZHSUPPLY.VendorAssess
                 }
             }
         }
-        protected void GridView3_RowCommand(object sender, GridViewCommandEventArgs e)
-        {
-            GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
-            string temp_Vendor_ID = GridView3.Rows[drv.RowIndex].Cells[0].Text;
-            Session["overdue_tempVendorID"] = temp_Vendor_ID;
-            if (e.CommandName == "showDetails")
-            {
-                showVendorFiles();
-                showVendorRelatedForms(temp_Vendor_ID);
-            }
-        }
-
-
-
-
-        private void showVendorRelatedForms(string Temp_Vendor_ID)
-        {
-            factory = Session["Factory_Name"].ToString();
-            //获取该供应商所有应文件过期而需要重新审批的表
-            if (Temp_Vendor_ID != null)//通过VendorID来加载数据库中该供应商的过期文件
-            {                //先获取该供应商所有过期的文件
-                PagedDataSource dataSource = new PagedDataSource();
-                //插入到表过期中
-                IList<As_Form_OverDue> lists = FileOverDue_BLL.getOverDueForm(Temp_Vendor_ID, factory);
-                if (lists == null)
-                {
-                    return;
-                }
-                if (lists.Count > 0)
-                {
-                    foreach (As_Form_OverDue overDue in lists)
-                    {
-                        //FormOverDue_BLL.addOverDueForm(overDue);
-                        if (overDue.Status != "Hold")
-                        {
-                            FormOverDue_BLL.addOverDueForm(overDue);
-                        }
-                    }
-                }
-                dataSource.DataSource = FileOverDue_BLL.getVendorFormOverDue(factory, Temp_Vendor_ID);
-                GridView2.DataSource = dataSource;
-                GridView2.DataBind();
-                Session["tempVendorID"] = Temp_Vendor_ID;
-            }
-        }
-
 
         /// <summary>
         /// 获取此用户所管理的供应商列表
@@ -406,13 +241,9 @@ namespace SHZSZHSUPPLY.VendorAssess
             LocalScriptManager.CreateScript(Page, String.Format("setParams('{0}')", serializedJson), "params");
         }
         //只检查该供应商是否还存在审批
-        private bool withOutAccess(string vendorType, string temp_vendor_ID)
+        private bool withOutAccess(string factory, string temp_vendor_ID)
         {
-            return FormType_BLL.withOutAccess(vendorType, temp_vendor_ID);
-        }
-        private string getFormTypeIDByItemCategory(string itemCategory, string tempVendorID, string factory)
-        {
-            return FileOverDue_BLL.getFormTypeIDByItemCategory(itemCategory, tempVendorID, factory);
+            return FormType_BLL.withOutAccess(factory, temp_vendor_ID);
         }
     }
 }

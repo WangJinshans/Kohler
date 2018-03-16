@@ -24,9 +24,9 @@ namespace BLL
         /// <param name="tempVendorID"></param>
         /// <param name="employee_ID"></param>
         /// <returns></returns>
-        public static bool hasEmployeeID(string tempVendorID ,string employee_ID)
+        public static bool hasEmployeeID(string tempVendorID ,string employee_ID,string factory)
         {
-            DataTable dt = AddEmployeeVendor_DAL.getEmployeeID(tempVendorID);
+            DataTable dt = AddEmployeeVendor_DAL.getEmployeeID(tempVendorID, factory);
             if (dt.Rows.Count>0)
             {
                 foreach (DataRow item in dt.Rows)
@@ -45,9 +45,9 @@ namespace BLL
         /// </summary>
         /// <param name="tempVendorID"></param>
         /// <returns></returns>
-        public static string getEmployeeID(string tempVendorID)
+        public static string getEmployeeID(string tempVendorID,string factory)
         {
-            DataTable dt = AddEmployeeVendor_DAL.getEmployeeID(tempVendorID);
+            DataTable dt = AddEmployeeVendor_DAL.getEmployeeID(tempVendorID, factory);
             if (dt.Rows.Count > 0)
             {
                 foreach (DataRow item in dt.Rows)

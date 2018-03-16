@@ -43,19 +43,26 @@ namespace BLL
         public static string checkFileWithResult(string formTypeID,string tempVendorID)
         {
             string check = "";
+
             IList<As_FileType_FormType> list = FileType_FormType_DAL.selectFileTypeID(formTypeID);
             IList<string> nameList = FileType_FormType_DAL.selectFileTypeName(formTypeID);
+
 
             for (int i = 0; i < list.Count; i++)
             {
                 string filetypeid = list[i].File_Type_ID;
-                int result = File_DAL.selectFileID(tempVendorID, filetypeid, Employee_DAL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString()));//查询是否有记录
+                
+                //查询是否有记录
+                int result = File_DAL.selectFileID(tempVendorID, filetypeid, Employee_DAL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString()));
+
                 if (result == 0)
                 {
                     check += nameList[i];
                     check += "、";
                 }
+
             }
+
             try
             {
                 check = check.Remove(check.Length - 1, 1);
@@ -64,6 +71,7 @@ namespace BLL
             {
                 check = "";
             }
+
             return check;
         }
 
@@ -80,8 +88,8 @@ namespace BLL
             IList<As_FileType_FormType> formFileList = FileType_FormType_BLL.selectFileTypeID(formTypeID);
             for (int i = 0; i < formFileList.Count; i++)
             {
-                string filetypeid = formFileList[i].File_Type_ID;
-                int result = File_BLL.selectFileID(tempVendorID, filetypeid);//查询是否有文件上传记录
+                string fileTypeID = formFileList[i].File_Type_ID;
+                int result = File_BLL.selectFileID(tempVendorID, fileTypeID);//查询是否有文件上传记录
                 if (result == 0)
                 {
                     check = 0;
@@ -90,8 +98,8 @@ namespace BLL
                 else
                 {
                     As_Form_File Form_File = new As_Form_File();
-                    string fileid = File_BLL.selectFileid(tempVendorID, filetypeid);      //查询filed Status='new'
-                    Form_File.File_ID = fileid;
+                    string fileID = File_BLL.selectFileid(tempVendorID, fileTypeID);      //查询filed Status='new'
+                    Form_File.File_ID = fileID;
                     Form_File.Form_ID = formID;
                     Form_File.Temp_Vendor_ID = tempVendorID;
                     check = FormFile_BLL.addFormFile(Form_File);  //若有上传文件记录，则绑定记录    
@@ -122,7 +130,7 @@ namespace BLL
         /// <param name="tempVendorID"></param>
         /// <param name="formID"></param>
         /// <returns></returns>
-        public static int bindSingleFormFile(string fileID, string tempVendorID, string formID,string fileTypeID)
+        public static int bindSingleFormFile(string fileID, string tempVendorID, string formID)
         {
 
             //进入审批 在show页面查看这份绑定的文件
@@ -132,7 +140,7 @@ namespace BLL
             Form_File.Temp_Vendor_ID = tempVendorID;
             int result = FormFile_BLL.addFormFile(Form_File);
 
-            return VendorSingleFile_BLL.updateSingleFileFlag(formID, fileID, fileTypeID);
+            return VendorSingleFile_BLL.updateSingleFileFlag(formID, fileID);
         }
 
     }

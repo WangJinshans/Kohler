@@ -5,6 +5,7 @@ using System.Text;
 using DAL.VenderInfo;
 using System.Data.SqlClient;
 using BO.VenderInfo;
+using System.Data;
 
 namespace DAL.VenderInfo
 {
@@ -32,6 +33,20 @@ namespace DAL.VenderInfo
 
         }
 
+        public List<string> listAllVendor(string factory)
+        {
+            List<string> list = new List<string>();
+            string strsql = "select distinct Vender_Code from View_NormalVendorList where Plant_Name='" + factory + "' order by Vender_Code";
+            DataTable table = DBHelp.GetDataSet(strsql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    list.Add(dr["Vender_Code"].ToString().Trim());
+                }
+            }
+            return list;
+        }
 
         public List<VenderList_BO> VenderList_DAL_ListAll()
         {

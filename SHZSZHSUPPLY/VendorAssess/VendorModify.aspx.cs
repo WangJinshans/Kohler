@@ -13,12 +13,12 @@ namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class VendorModify : System.Web.UI.Page
     {
-        public string FORM_NAME = "供应商信息表(修改)";
-        public string FORM_TYPE_ID = "020";
+        public static string FORM_NAME = "供应商信息表(修改)";
+        public static string FORM_TYPE_ID = "020";
         private static string factory;
         private static string tempVendorID = "";
-        private string tempVendorName = "";
-        private string formID = "";
+        private static string tempVendorName = "";
+        private static string formID = "";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -41,7 +41,6 @@ namespace SHZSZHSUPPLY.VendorAssess
                     vendorModify.Flag = 0;//将表格标志位信息改为0
                     vendorModify.Factory_Name = Session["Factory_Name"].ToString();
 
-                    //名字只读
 
                     int n = VendorModify_BLL.addVendorModification(vendorModify);
                     if (n == 0)
@@ -52,7 +51,6 @@ namespace SHZSZHSUPPLY.VendorAssess
                     else
                     {
                         //获取formID信息
-                        getSessionInfo();
                         //向FormFile表中添加相应的文件、表格绑定信息
                         //bindingFormWithFile();
                         showfilelist(tempVendorID,factory);
@@ -135,7 +133,6 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// <param name="factory_Name"></param>
         private void showfilelist(string temp_Vendor_ID,string factory_Name)
         {
-            getSessionInfo();
             Vendor_Modify_File modify = new Vendor_Modify_File();
             string sql = "select * from As_Vendor_Modify_File where Temp_Vendor_ID='" + temp_Vendor_ID + "' and factory_Name='" + factory + "' and Status='new'";
             PagedDataSource objpds = new PagedDataSource();
@@ -146,9 +143,6 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         private As_Vendor_Modify saveForm(int flag, string manul)
         {
-            //读取session
-            getSessionInfo();
-
             As_Vendor_Modify vendor = new As_Vendor_Modify();
             vendor.Form_ID = formID;
             vendor.Form_Type_ID = FORM_TYPE_ID;
@@ -223,7 +217,6 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            getSessionInfo();
             saveForm(2, "提交表格");
             approveAssess(formID);
             Response.Write("<script>window.alert('提交成功！')</script>");

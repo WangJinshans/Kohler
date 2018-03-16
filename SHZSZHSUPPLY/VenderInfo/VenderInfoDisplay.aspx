@@ -1,248 +1,271 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="VenderInfoDisplay.aspx.cs" Inherits="SHZSZHSUPPLY.VenderInfo.VenderInfoDisplay" EnableSessionState ="True"  %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="VenderInfoDisplay.aspx.cs" Inherits="SHZSZHSUPPLY.VenderInfo.VenderInfoDisplay" EnableSessionState="True" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head id="Head1" runat="server">
+<head runat="server">
     <title></title>
-    <style type="text/css" >
-    .body
-    {
-        width:1000px;
-        height:auto;
-        margin :0 auto;
-    }
-    
-    .style1
-     {
-         width:1000px;
-         height:20px;
-         margin:0;
-               
-     }
-     
-     .leftdiv
-     {
-         width:10px;
-         float:left;
-        
-     }
-     
-     .rightdiv
-     {
-         width:990px;
-         float:right;
-       
-     }
-     
-     .div1
-     {
-         width:300px;
-         float:left;
-     }
-     
-     .div2
-     {
-         width:690px;
-         float:right;
-     }
-     
-   
+    <meta name="renderer" content="webkit" />
+    <link href="../VendorAssess/Script/layui/css/layui.css" rel="stylesheet" />
+    <script src="../VendorAssess/Script/jquery-3.2.1.min.js" type="text/javascript"></script>
+    <script src="../VendorAssess/Script/layui/layui.js" type="text/javascript"></script>
+    <script src="../VendorAssess/Script/Own/fileUploader.js" type="text/javascript"></script>
+    <style type="text/css">
+        .body {
+            width: 1000px;
+            height: auto;
+            margin: 0 auto;
+            text-align: center;
+        }
 
-     
- 
-     
-        </style>
+        .leftdiv {
+            width: 10px;
+            float: left;
+        }
+
+        .rightdiv {
+            width: 990px;
+            float: right;
+        }
+
+        .div1 {
+            width: 300px;
+            float: left;
+        }
+
+        .div2 {
+            width: 690px;
+            float: right;
+        }
+    </style>
+    <script type="text/javascript">
+
+        var tempVendor, factorys;
+        var vendorInfo = {};
+
+        layui.use(['form'], function () {
+            var form = layui.form();
+
+            form.on('select', function (data) {
+                onSelect(data);
+            })
+        });
+
+        function setParameters(factoryName, info) {
+            factorys = factoryName;
+            vendorInfo = info;
+            document.getElementById("FactoryDropDownList").value = factoryName;
+            document.getElementById("FactoryDropDownList").disabled = true;
+            var vendorcoldlists = document.getElementById("VendorCodeDropDownList");
+            var names = JSON.parse(vendorInfo);
+            if (names == null || !names.length > 0) {
+                return;
+            }
+            else {
+                for (var code in names) {
+                    vendorcoldlists.options.add(new Option(names[code], names[code]));
+                }
+            }
+            refreshSelect();
+        }
+
+
+        function refreshSelect() {
+            layui.use(['form'], function () {
+                var form = layui.form();
+                form.render('select');
+            });
+        }
+
+        function onSelect(data) {
+            switch (data.elem.id) {
+                case 'FactoryDropDownList':
+                    onFactoryChanged();
+                    break;
+                case 'VendorCodeDropDownList':
+                    onVendorChanged();
+                    break;
+            }
+        }
+        function onFactoryChanged() {
+            var vendorcoldlist = document.getElementById("VendorCodeDropDownList");
+            vendorcoldlist.options.add(new Option('直接选择或搜索选择', ''));
+        }
+
+        function initVendorCodeList(vendorInfos) {
+            var vendorcoldlista = document.getElementById("VendorCodeDropDownList");
+            var names = JSON.parse(vendorInfos);
+            if (names == null || !names.length > 0) {
+                return;
+            }
+            else {
+                for (var code in names) {
+                    vendorcoldlista.options.add(new Option(names[code], names[code]));
+                }
+            }
+            //refreshSelect();
+        }
+
+
+        function onVendorChanged() {
+            //请求后台
+            var code = document.getElementById("VendorCodeDropDownList").value;
+            __myDoPostBack('getVendorInfo', code);
+            initVendorCodeList();
+        }
+    </script>
 </head>
-<body class ="body" onload ="IFrameResize()" id="document1"   >
-    <form id="form1" runat="server" class ="body" >
-    <div class ="body" >
-   <div class="style1" style=" font-size :medium ; color :White; text-align :center; background-color :#666633"  >供应商信息</div>
- <div class="leftdiv" style="height:25px" ></div>
- <div class="rightdiv" style="height:25px">
- <table cellpadding ="0" cellspacing ="0" class="rightdiv" style="height:25px">
- <tr>
- <td style="width:5% ; font-size :small; font-family :Arial ">工厂:</td>
- <td style="width:10%">
-     <asp:DropDownList ID="DropDownList1" runat="server" style="width:90%" 
-            Enabled="False">
-            <asp:ListItem>上海科勒</asp:ListItem>
-            <asp:ListItem>中山科勒</asp:ListItem>
-            <asp:ListItem>珠海科勒</asp:ListItem>
-            <asp:ListItem>无</asp:ListItem>
-     </asp:DropDownList>
-     </td>
- <td style="width:8% ; font-size :small; font-family :Arial ">供应商代码：</td>
- <td style="width:9%">
-     <asp:DropDownList ID="DropDownList2" runat="server" Width ="80%" 
-         AutoPostBack="True" onselectedindexchanged="DropDownList2_SelectedIndexChanged">
-     </asp:DropDownList>
-     </td>
- <td style="width:8%;font-size :small; font-family :Arial">供应商名称：</td>
- <td style="width:32%; font-size :small; font-family :Arial ">
-     <asp:Label ID="Label1" runat="server" Text="Label" Width ="90%"></asp:Label>
-     </td>
-     <td style=" width :1%; font-size :small">&nbsp;</td>
-        <td style="width:15%">
-            <asp:DropDownList ID="DropDownList3" runat="server" style="width:90%" 
-                Enabled="False" Visible="False">
-            </asp:DropDownList>
-     </td>
+<body class="body" onload="IFrameResize()" id="document1">
+    <form id="form1" class="layui-form body" runat="server">
+        <div class="body">
+            <fieldset class="layui-elem-field layui-elem-title" style="text-align: center; margin-top: 20px; font-size: x-large;">供应商信息</fieldset>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="text-align: center">工厂：</label>
+                    <div class="layui-input-inline">
+                        <select id="FactoryDropDownList" runat="server" style="width: 100px; height: 30px; text-align: center; line-height: 30px;" disabled="disabled">
+                            <option>上海科勒</option>
+                            <option>中山科勒</option>
+                            <option>珠海科勒</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: 90px; text-align: center">供应商代码：</label>
+                    <div class="layui-input-inline">
+                        <select id="VendorCodeDropDownList" runat="server" lay-search="" style="width: 100px; height: 30px; line-height: 30px;"></select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: 90px; text-align: center">供应商名称：</label>
+                    <div class="layui-input-inline">
+                        <label class="layui-form-label" id="vendorName" runat="server" layui-filter="vendor_Name" style="width: 150px;"></label>
+                    </div>
+                </div>
+            </div>
 
- <td style="width:8%">
-     <asp:Button ID="Button1" runat="server" Text="确定" Width="80px" 
-         onclick="Button1_Click1" />
-     </td></tr></table>
- </div>
- <div class="leftdiv" style="height:150px"></div>
- <div class="div1" style ="height:150px; font-size :small ">供应商工厂：</div>
- <div class="div2" style="height:150px">
-    
-    
-    
-        <asp:GridView ID="GridView4" runat="server" AutoGenerateColumns="False" 
-            Width ="690px" CellPadding="4" ForeColor="#333333" GridLines="None">
-            <AlternatingRowStyle BackColor="White" />
-            <Columns>
-                <asp:BoundField DataField="vender_code" HeaderText="供应商代码" >
-                <HeaderStyle Font-Size="Small" HorizontalAlign="Left" />
-                <ItemStyle Font-Size="Small" />
-                </asp:BoundField>
-                <asp:BoundField DataField="vender_name" HeaderText="供应商名称" >
-                <HeaderStyle Font-Size="Small" HorizontalAlign="Left" />
-                <ItemStyle Font-Size="Small" />
-                </asp:BoundField>
-                <asp:BoundField DataField="plant_name" HeaderText="工厂" >
-                <HeaderStyle Font-Size="Small" HorizontalAlign="Left" />
-                <ItemStyle Font-Size="Small" />
-                </asp:BoundField>
-                <asp:BoundField DataField="vender_type" HeaderText="类型">
-                <HeaderStyle Font-Size="Small" HorizontalAlign="Left" />
-                <ItemStyle Font-Size="Small" />
-                </asp:BoundField>
-                <asp:BoundField DataField="vender_state" HeaderText="供应商状态" >
-                <HeaderStyle Font-Size="Small" HorizontalAlign="Left" />
-                <ItemStyle Font-Size="Small" />
-                </asp:BoundField>
-            </Columns>
-            <EditRowStyle BackColor="#2461BF" />
-            <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-            <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-            <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
-            <RowStyle BackColor="#EFF3FB" />
-            <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
-            <SortedAscendingCellStyle BackColor="#F5F7FB" />
-            <SortedAscendingHeaderStyle BackColor="#6D95E1" />
-            <SortedDescendingCellStyle BackColor="#E9EBEF" />
-            <SortedDescendingHeaderStyle BackColor="#4870BE" />
-        </asp:GridView>
-    
-    
-    
-    </div>
- 
-  
-    <div class="rightdiv" style="height:100%"><table cellpadding ="0" cellspacing ="0"><tr><td class="rightdiv1"  style=" font-size :small; height :20px ">已上传文档清单：</td></tr></table></div>
-    <div class="leftdiv" style="height:100%"></div>
-    <div class="rightdiv" style="height:100%">
-        <asp:GridView ID="GridView3" runat="server" AutoGenerateColumns="False" Width ="990px" 
-            CellPadding="4" Font-Size="Small" ForeColor="#333333" GridLines="None" 
-            HorizontalAlign="Left">
-            <AlternatingRowStyle BackColor="White" />
-            <Columns>
-                <asp:BoundField DataField="Vender_Code" HeaderText="供应商代码" >
-                <HeaderStyle HorizontalAlign="Left" />
-                <ItemStyle HorizontalAlign="Left" />
-                </asp:BoundField>
-                <asp:HyperLinkField DataNavigateUrlFields="Item_Path_Absolute" 
-                    DataNavigateUrlFormatString="../ItemListPdf/ItemListPdf.aspx?id={0}" 
-                    DataTextField="Item_Category" HeaderText="文档类型" Target="_blank">
-                <HeaderStyle HorizontalAlign="Left" />
-                </asp:HyperLinkField>
-                <asp:BoundField DataField="Item_Name" HeaderText="文档名称" Visible="False" >
-                <HeaderStyle HorizontalAlign="Left" />
-                <ItemStyle HorizontalAlign="Left" />
-                </asp:BoundField>
-                <asp:BoundField DataField="Item_Path" HeaderText="文档路径" Visible="False" />
-                <asp:BoundField DataField="Item_Plant" HeaderText="文档工厂" >
-                <HeaderStyle HorizontalAlign="Left" />
-                <ItemStyle HorizontalAlign="Left" />
-                </asp:BoundField>
-                <asp:BoundField DataField="Item_State" HeaderText="文档状态" >
-                <HeaderStyle HorizontalAlign="Left" />
-                <ItemStyle HorizontalAlign="Left" />
-                </asp:BoundField>
-                <asp:BoundField DataField="Item_Label" HeaderText="文档条码" >
-                <HeaderStyle HorizontalAlign="Left" />
-                <ItemStyle HorizontalAlign="Left" />
-                </asp:BoundField>
-                <asp:BoundField DataField="Item_Startdate" HeaderText="起始" 
-                    DataFormatString="{0:yyyy/MM/dd}" >
-                <HeaderStyle HorizontalAlign="Left" />
-                <ItemStyle HorizontalAlign="Left" />
-                </asp:BoundField>
-                <asp:BoundField DataField="Item_Enddate" HeaderText="结束" 
-                    DataFormatString="{0:yyyy/MM/dd}" >
-                <HeaderStyle HorizontalAlign="Left" />
-                <ItemStyle HorizontalAlign="Left" />
-                </asp:BoundField>
-                <asp:BoundField DataField="Upload_Date" HeaderText="上传日期" 
-                    DataFormatString="{0:yyyy/MM/dd}" >
-                <HeaderStyle HorizontalAlign="Left" />
-                <ItemStyle HorizontalAlign="Left" />
-                </asp:BoundField>
-                <asp:BoundField DataField="Upload_Person" HeaderText="上传用户" >
-                <HeaderStyle HorizontalAlign="Left" />
-                <ItemStyle HorizontalAlign="Left" />
-                </asp:BoundField>
-                <asp:BoundField DataField="LastEdit_Date" HeaderText="最近编辑日期" Visible="False" />
-                <asp:BoundField DataField="LastEdit_Person" HeaderText="最近编辑用户" 
-                    Visible="False" />
-                <asp:BoundField DataField="item_vendertype" HeaderText="文档供应商" >
-                <HeaderStyle HorizontalAlign="Left" />
-                </asp:BoundField>
-                <asp:BoundField DataField="Item_Comment" HeaderText="备注" Visible="False">
-                <HeaderStyle HorizontalAlign="Left" />
-                <ItemStyle HorizontalAlign="Left" />
-                </asp:BoundField>
-            </Columns>
-            <EditRowStyle BackColor="#2461BF" />
-            <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-            <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-            <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
-            <RowStyle BackColor="#EFF3FB" />
-            <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
-            <SortedAscendingCellStyle BackColor="#F5F7FB" />
-            <SortedAscendingHeaderStyle BackColor="#6D95E1" />
-            <SortedDescendingCellStyle BackColor="#E9EBEF" />
-            <SortedDescendingHeaderStyle BackColor="#4870BE" />
-        </asp:GridView>
-    </div>
+        </div>
+        <div style="width: 1000px; height: auto; margin: 0 auto;">
+            <asp:GridView ID="GridView4" runat="server" AutoGenerateColumns="False"
+                Width="1000px" CellPadding="4" ForeColor="#333333" GridLines="None">
+                <AlternatingRowStyle BackColor="White" />
+                <Columns>
+                    <asp:BoundField DataField="vender_code" HeaderText="供应商代码">
+                        <HeaderStyle HorizontalAlign="Center" />
+                    </asp:BoundField>
+                    <asp:BoundField DataField="vender_name" HeaderText="供应商名称">
+                        <HeaderStyle HorizontalAlign="Center" />
+                    </asp:BoundField>
+                    <asp:BoundField DataField="plant_name" HeaderText="工厂">
+                        <HeaderStyle HorizontalAlign="Center" />
+                    </asp:BoundField>
+                    <asp:BoundField DataField="vender_type" HeaderText="类型">
+                        <HeaderStyle HorizontalAlign="Center" />
+                    </asp:BoundField>
+                    <asp:BoundField DataField="vender_state" HeaderText="供应商状态">
+                        <HeaderStyle HorizontalAlign="Center" />
+                    </asp:BoundField>
+                </Columns>
+                <EditRowStyle BackColor="#2461BF" />
+                <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
+                <RowStyle BackColor="#EFF3FB" />
+                <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
+                <FooterStyle BackColor="#CCCC99" ForeColor="Black" />
+                <SelectedRowStyle BackColor="#CC3333" Font-Bold="True" ForeColor="White" />
 
-  <script type ="text/javascript" >
-      function IFrameResize() {
+                 <FooterStyle BackColor="#FFF" ForeColor="#330099" />
+                 <HeaderStyle BackColor="#4e79a5" Font-Bold="true" ForeColor="White"/>
+                 <PagerStyle BackColor="#FFFFCC" ForeColor="#330099" HorizontalAlign="Center" />
+                 <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="#663399" />
+                 <SortedAscendingCellStyle BackColor="#FEFCEB" />
+                 <SortedAscendingHeaderStyle BackColor="#AF0101" />
+                 <SortedDescendingCellStyle BackColor="#F6F0C0" />
+                 <SortedDescendingHeaderStyle BackColor="#7E0000" />
+            </asp:GridView>
+        </div>
+        <fieldset class="layui-elem-field layui-elem-title" style="text-align: center; margin-top: 20px; font-size: x-large;">已上传文档清单：</fieldset>
+        <div>
+            <asp:GridView ID="GridView3" runat="server" AutoGenerateColumns="False" Width="1000px"
+                CellPadding="4" ForeColor="#333333" GridLines="None"
+                HorizontalAlign="Left">
+                <AlternatingRowStyle BackColor="White" />
+                <Columns>
+                    <asp:BoundField DataField="Vender_Code" HeaderText="供应商代码">
+                        <HeaderStyle HorizontalAlign="Center" />
+                        <ItemStyle HorizontalAlign="Center" />
+                    </asp:BoundField>
+                    <asp:HyperLinkField DataNavigateUrlFields="Item_Path_Absolute"
+                        DataNavigateUrlFormatString="../ItemListPdf/ItemListPdf.aspx?id={0}"
+                        DataTextField="Item_Category" HeaderText="文档类型" Target="_blank">
+                        <HeaderStyle HorizontalAlign="Center" />
+                    </asp:HyperLinkField>
+                    <asp:BoundField DataField="Item_Name" HeaderText="文档名称" Visible="False">
+                        <HeaderStyle HorizontalAlign="Center" />
+                        <ItemStyle HorizontalAlign="Center" />
+                    </asp:BoundField>
+                    <asp:BoundField DataField="Item_Path" HeaderText="文档路径" Visible="False" />
+                    <asp:BoundField DataField="Item_Plant" HeaderText="文档工厂">
+                        <HeaderStyle HorizontalAlign="Center" />
+                        <ItemStyle HorizontalAlign="Center" />
+                    </asp:BoundField>
+                    <asp:BoundField DataField="Item_State" HeaderText="文档状态">
+                        <HeaderStyle HorizontalAlign="Center" />
+                        <ItemStyle HorizontalAlign="Center" />
+                    </asp:BoundField>
+                    <asp:BoundField DataField="Item_Label" HeaderText="文档条码">
+                        <HeaderStyle HorizontalAlign="Center" />
+                        <ItemStyle HorizontalAlign="Center" />
+                    </asp:BoundField>
+                    <asp:BoundField DataField="Item_Startdate" HeaderText="起始"
+                        DataFormatString="{0:yyyy/MM/dd}">
+                        <HeaderStyle HorizontalAlign="Center" />
+                        <ItemStyle HorizontalAlign="Center" />
+                    </asp:BoundField>
+                    <asp:BoundField DataField="Item_Enddate" HeaderText="结束"
+                        DataFormatString="{0:yyyy/MM/dd}">
+                        <HeaderStyle HorizontalAlign="Center" />
+                        <ItemStyle HorizontalAlign="Center" />
+                    </asp:BoundField>
+                    <asp:BoundField DataField="Upload_Date" HeaderText="上传日期"
+                        DataFormatString="{0:yyyy/MM/dd}">
+                        <HeaderStyle HorizontalAlign="Center" />
+                        <ItemStyle HorizontalAlign="Center" />
+                    </asp:BoundField>
+                    <asp:BoundField DataField="Upload_Person" HeaderText="上传用户">
+                        <HeaderStyle HorizontalAlign="Center" />
+                        <ItemStyle HorizontalAlign="Center" />
+                    </asp:BoundField>
+                    <asp:BoundField DataField="LastEdit_Date" HeaderText="最近编辑日期" Visible="False" />
+                    <asp:BoundField DataField="LastEdit_Person" HeaderText="最近编辑用户"
+                        Visible="False" />
+                    <asp:BoundField DataField="item_vendertype" HeaderText="文档供应商">
+                        <HeaderStyle HorizontalAlign="Center" />
+                    </asp:BoundField>
+                    <asp:BoundField DataField="Item_Comment" HeaderText="备注" Visible="False">
+                        <HeaderStyle HorizontalAlign="Center" />
+                        <ItemStyle HorizontalAlign="Center" />
+                    </asp:BoundField>
+                </Columns>
+                <EditRowStyle BackColor="#2461BF" />
+                <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+                <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+                <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
+                <RowStyle BackColor="#EFF3FB" />
+                <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
+                <FooterStyle BackColor="#CCCC99" ForeColor="Black" />
+                <HeaderStyle BackColor="#507CD1" Font-Bold="true" ForeColor="White" />
+                <PagerStyle BackColor="White" ForeColor="Black" HorizontalAlign="Center" />
+                <SelectedRowStyle BackColor="#CC3333" Font-Bold="True" ForeColor="White" />
+            </asp:GridView>
+        </div>
 
-         
-          var obj = parent.document.getElementById("iFrame1");  //取得父页面IFrame对象  
-          //alert(obj.height); //弹出父页面中IFrame中设置的高度
-
-         
-          obj.height = this.document.body.scrollHeight  + "px";  //调整父页面中IFrame的高度为此页面的高度
-
-          
-                
-      }  
-</script>  
-  
-    <asp:ScriptManager ID="ScriptManager1" runat="server">
-    </asp:ScriptManager>
-    </div>
- </form>
-
-  </body>
-
-
-
-
+        <script type="text/javascript">
+            function IFrameResize() {
+                var obj = parent.document.getElementById("iFrame1");  //取得父页面IFrame对象  
+                obj.height = this.document.body.scrollHeight + "px";  //调整父页面中IFrame的高度为此页面的高度
+            }
+        </script>
+        <asp:ScriptManager ID="ScriptManager1" runat="server">
+        </asp:ScriptManager>
+    </form>
+</body>
 </html>

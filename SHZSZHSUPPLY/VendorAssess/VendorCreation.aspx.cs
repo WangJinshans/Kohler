@@ -12,13 +12,13 @@ namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class VendorCreation : System.Web.UI.Page
     {
-        public string FORM_NAME = "供应商信息表(建立)";
-        public string FORM_TYPE_ID = "019";
+        public static string FORM_NAME = "供应商信息表(建立)";
+        public static string FORM_TYPE_ID = "019";
         private static string factory;
         private static string tempVendorID = "";
         private static string tempVendorName = "";
-        private string formID = "";
-        private string submit = "";
+        private static string formID = "";
+        private static string submit = "";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -52,8 +52,6 @@ namespace SHZSZHSUPPLY.VendorAssess
                     }
                     else
                     {
-                        //获取formID信息
-                        getSessionInfo();
                         formID = VendorCreation_BLL.getVendorCreationFormID(tempVendorID, FORM_TYPE_ID, factory, n);
                         //每次添加表格添加到As_Vendor_MutipleForm中 
                         As_MutipleForm forms = new As_MutipleForm();
@@ -168,9 +166,6 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         private As_Vendor_Creation saveForm(int flag, string manul)
         {
-            //读取session
-            getSessionInfo();
-
             As_Vendor_Creation vendor = new As_Vendor_Creation();
             vendor.Form_ID = formID;
             vendor.Form_Type_ID = FORM_TYPE_ID;
@@ -238,8 +233,6 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// <param name="formId"></param>
         public void approveAssess(int kci)
         {
-            getSessionInfo();
-
             if (LocalApproveManager.doAddApprove(formID, FORM_NAME, FORM_TYPE_ID, tempVendorID,kci))
             {
                 LocalScriptManager.createManagerScript(this.Page, string.Format("messageConfirm('{0}','{1}')", "提交成功", "EmployeeVendor.aspx"),"submited");
@@ -248,8 +241,6 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            getSessionInfo();
-            
             if (submit == "yes")
             {
                 saveForm(2, "提交表格");

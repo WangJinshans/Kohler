@@ -52,6 +52,13 @@ namespace DAL
             DBHelp.ExecuteCommand(sql);
         }
 
+        public static void deleteBindSingleFile(string formID, string fileTypeID)
+        {
+            //TODO::As_Form_File删除？
+            string sql = "delete from As_File where Source_From='" + formID + "' and File_Type_ID='" + fileTypeID + "'";
+            DBHelp.ExecuteCommand(sql);
+        }
+
         public static string getFileTypeNameByID(string fileTypeID)
         {
             string fileTypeName = "";

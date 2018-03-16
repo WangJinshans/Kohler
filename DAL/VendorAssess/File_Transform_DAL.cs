@@ -29,7 +29,7 @@ namespace DAL.VendorAssess
 
         public static bool checkFileSubmit(string tempVendorID, string factory,string fileID)
         {
-            string sql = "select [File_ID] from View_File where Temp_Vendor_ID='" + tempVendorID + "' OR Normal_Vendor_ID='"+TempVendor_DAL.getNormalCode(tempVendorID)+"' and Factory_Name in ('" + factory + "','ALL') and [File_ID]='" + fileID + "' and Status='new'";
+            string sql = "select [File_ID] from View_File where Temp_Vendor_ID='" + tempVendorID + "' OR Normal_Vendor_ID='" + TempVendor_DAL.getNormalCode(tempVendorID) + "' and Factory_Name in ('" + factory + "','ALL') and [File_ID]='" + fileID + "' and Status='new'";
             using (SqlDataReader reader = DBHelp.GetReader(sql))
                 if (reader.Read())
                 {
@@ -38,27 +38,28 @@ namespace DAL.VendorAssess
                 return false;
         }
 
+        //不检查合同
         public static List<string> getFormIDs(string tempVendorID, string factory)
         {
             string sql = "select Form_ID FROM View_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "' And Form_Type_ID not in ('005','006','007','008','009','010','011','012')";
             List<string> formlist = new List<string>();
-            string formid = "";
+            string formID = "";
             DataTable table = new DataTable();
             table = DBHelp.GetDataSet(sql);
             if (table.Rows.Count > 0)
             {
                 foreach (DataRow dr in table.Rows)
                 {
-                    formid = dr["Form_ID"].ToString().Trim();
-                    formlist.Add(formid);
+                    formID = dr["Form_ID"].ToString().Trim();
+                    formlist.Add(formID);
                 }
             }
             return formlist;
         }
 
-        public static bool checkFormSubmit(string tempVendorID, string factory, string formid)
+        public static bool checkFormSubmit(string tempVendorID, string factory, string formID)
         {
-            string sql = "select Form_ID from As_Form where Temp_Vendor_ID='" + tempVendorID + "' and (Factory_Name='" + factory + "' or Factory_Name='ALL') and Form_ID='" + formid + "' and Status='new'";
+            string sql = "select Form_Path from As_Form where Temp_Vendor_ID='" + tempVendorID + "' and (Factory_Name='" + factory + "' or Factory_Name='ALL') and Form_ID='" + formID + "'";
             using (SqlDataReader reader = DBHelp.GetReader(sql))
                 if (reader.Read())
                 {
@@ -114,7 +115,7 @@ namespace DAL.VendorAssess
 
         public static bool AccessSuccessFul(string tempVendorID, string factory)
         {
-            string sql = "select * from View_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "' and flag<>4 And Form_Type_Is_Optional='必选' And Form_Type_ID not in ('005','006','007','008','009','010','011','012')";//4代表已经审批完成
+            string sql = "select * from View_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "' and Fill_Flag<>4 And Form_Type_Is_Optional='必选' And Form_Type_ID not in ('005','006','007','008','009','010','011','012')";//4代表已经审批完成
             using (SqlDataReader reader = DBHelp.GetReader(sql))
                 if (reader.Read())
                 {
@@ -125,7 +126,7 @@ namespace DAL.VendorAssess
 
         public static bool insertNormalCode(string normalCode,string tempVendorID)
         {
-            string sql = "update As_Temp_Vendor set Normal_Vendor_ID='" + normalCode + "' where Temp_Vendor_ID='" + tempVendorID + "'";
+            string sql = "update As_Temp_Vendorchange set Normal_Vendor_ID='" + normalCode + "' where Temp_Vendor_ID='" + tempVendorID + "'";
             if (DBHelp.ExecuteCommand(sql) > 0)//无影响返回-1 成功返回影响的行数
             {
                 return true;
@@ -134,6 +135,33 @@ namespace DAL.VendorAssess
             {
                 return false;
             }
+        }
+
+        public static bool checkNecessaryFormSubmit(string tempVendorID, string factory)
+        {
+            string sql = "select flag FROM View_Vendor_FormType_UnFill where Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factory + "' And Form_Type_ID not in ('005','006','007','008','009','010','011','012') and Form_Type_Is_Optional='必选' and flag<>4";
+            using (SqlDataReader reader = DBHelp.GetReader(sql))
+            {
+                if (reader.Read())
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+
+        public static void addNewForms(string tempVendorID, string factory)
+        {
+            SqlCommand cmd = new SqlCommand("normalVendorProcedure", DBHelp.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;//存储过程
+            cmd.Parameters.Add(new SqlParameter("@temp_vendor_id", SqlDbType.NVarChar, 50));
+            cmd.Parameters.Add(new SqlParameter("@factory", SqlDbType.NVarChar, 20));
+            cmd.Parameters["@temp_vendor_id"].Value = tempVendorID;
+            cmd.Parameters["@factory"].Value = factory;
+            cmd.ExecuteNonQuery();
         }
 
         public static List<string> getFiles(string tempVendorID, string factory)

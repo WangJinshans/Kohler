@@ -70,7 +70,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
                         formID = ContractApproval_BLL.getVendorContractApprovalFormID(tempVendorID, FORM_TYPE_ID, factory, n);
 
-                        VendorSingleFile_BLL.addSingleFile(formID, FORM_TYPE_ID, tempVendorID, tempVendorName, factory);
+                        VendorSingleFile_BLL.addSingleFile(formID, FORM_TYPE_ID, tempVendorID, tempVendorName, factory, "001");
 
                         //每次添加表格添加到As_Vendor_MutipleForm中 
                         As_MutipleForm forms = new As_MutipleForm();

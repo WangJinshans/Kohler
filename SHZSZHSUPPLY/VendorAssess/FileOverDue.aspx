@@ -153,80 +153,8 @@
             </div>
         </div>
 
-        <%--
-            GridView1显示所有的供应商  只要存在过期表或者是文件 就显示
-            查看详情  显示GridView2 GridView3 确保没有文件过期，存在表过期依旧能看见过期的表
-            
-            GridView2负责文件表的显示  在绑定数据的时候将所有的文件绑定的Form_ID都插入As_VendorForm_OverDue
-            所有供应商文件过期
-
-            GridView3负责所有的表的重新填写 这样 bidding 和指定供应商如果过期则只会存在一份
-            从As_VendorForm_OverDue中读取数据
-        --%>
-
         <fieldset class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
-            <legend runat="server">过期供应商</legend>
-        </fieldset>
-        <asp:GridView Style="width: 1000px; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView3" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView3_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
-						<AlternatingRowStyle BackColor="White" />
-						<Columns>
-							<asp:BoundField DataField="Temp_Vendor_ID" HeaderText="供应商"
-								SortExpression="Temp_Vendor_ID" />
-                            <asp:BoundField DataField="Factory_Name" HeaderText="厂方"
-								SortExpression="Factory_Name" />
-							<asp:TemplateField>
-								<ItemTemplate>
-									<asp:LinkButton ID="lbtapprovesuccess" runat="server" CommandName="showDetails"
-										CommandArgument='<%# Eval("Temp_Vendor_ID") %>'>详细信息</asp:LinkButton>
-								</ItemTemplate>
-							</asp:TemplateField>
-						</Columns>
-						<EditRowStyle BackColor="#2461BF" />
-                        <FooterStyle BackColor="#507CD1" ForeColor="White" Font-Bold="True" />
-                        <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-                        <PagerStyle ForeColor="White" HorizontalAlign="Center" BackColor="#2461BF" />
-                        <RowStyle BackColor="#EFF3FB" />
-                        <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
-                        <SortedAscendingCellStyle BackColor="#F5F7FB" />
-                        <SortedAscendingHeaderStyle BackColor="#6D95E1" />
-                        <SortedDescendingCellStyle BackColor="#E9EBEF" />
-                        <SortedDescendingHeaderStyle BackColor="#4870BE" />
-					</asp:GridView>
-
-        <fieldset class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
-            <legend runat="server">文件过期</legend>
-        </fieldset>
-        <asp:GridView Style="width: 1000px; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
-            <AlternatingRowStyle BackColor="White" />
-            <Columns>
-                <asp:BoundField DataField="Item_Category" HtmlEncode="false" HeaderText="文件名称"
-                    SortExpression="Item_Category" />
-                <asp:BoundField DataField="Temp_Vendor_ID" HeaderText="供应商临时编码"
-                    SortExpression="Temp_Vendor_ID" />
-                <asp:BoundField DataField="Item_Plant" HeaderText="供应商"
-                    SortExpression="Item_Plant" />
-                <asp:BoundField DataField="Factory_Name" HeaderText="工厂"
-                    SortExpression="Factory_Name" />
-                <asp:TemplateField>
-                    <ItemTemplate>
-                        <asp:LinkButton ID="lbtapprovesuccess" runat="server" CommandName="upload"
-                            CommandArgument='<%# Eval("Item_Category") %>'>重新上传</asp:LinkButton>
-                    </ItemTemplate>
-                </asp:TemplateField>     
-            </Columns>
-            <EditRowStyle BackColor="#2461BF" />
-            <FooterStyle BackColor="#507CD1" ForeColor="White" Font-Bold="True" />
-            <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-            <PagerStyle ForeColor="White" HorizontalAlign="Center" BackColor="#2461BF" />
-            <RowStyle BackColor="#EFF3FB" />
-            <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
-            <SortedAscendingCellStyle BackColor="#F5F7FB" />
-            <SortedAscendingHeaderStyle BackColor="#6D95E1" />
-            <SortedDescendingCellStyle BackColor="#E9EBEF" />
-            <SortedDescendingHeaderStyle BackColor="#4870BE" />
-        </asp:GridView>
-        <fieldset class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
-            <legend runat="server">表格过期</legend>
+            <legend runat="server">过期表格重新填写</legend>
         </fieldset>
         <asp:GridView Style="width: 1000px; margin: 0 auto" class="layui-table" lay-even="" lay-skin="nob" ID="GridView2" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView2_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
             <AlternatingRowStyle BackColor="White" />

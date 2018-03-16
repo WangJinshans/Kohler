@@ -84,7 +84,6 @@ namespace AendorAssess
         /// </summary>
         private void readVendorInfo()
         {
-            //info = TempVendor_BLL.readVendorInfo(Session["Employee_ID"].ToString());
             bool isPurchasingDepartment = TempVendor_BLL.checkEmployeeAuthority(Session["Employee_ID"].ToString());
             if (!isPurchasingDepartment)
             {
@@ -102,28 +101,26 @@ namespace AendorAssess
         /// <param name="tempVendorID"></param>
         private void refreshVendor(string tempVendorID)
         {
+            //session 数据绑定
             string factoryName = Session["Factory_Name"].ToString();
-
-            //绑定session
             Session["tempvendorname"] = TempVendor_BLL.getTempVendorName(tempVendorID);
             Session["tempVendorID"] = tempVendorID;
             temp_Vendor_ID = tempVendorID;
-            As_Vendor_FormType Vendor_Form = new As_Vendor_FormType();
+
+
             //根据供应商类型编号查询所有未填写表格类型
             string sql = "SELECT * FROM View_Vendor_FormType_UnFill WHERE Temp_Vendor_ID='" + tempVendorID + "'and Factory_Name='" + factoryName + "' order by Form_Type_Priority_Number asc";
             PagedDataSource objpds = new PagedDataSource();
             IList<As_Vendor_FormType> gridView2list = new List<As_Vendor_FormType>();
             gridView2list = SelectEmployeeVendor_BLL.listVendorFormType(sql,true);
             objpds.DataSource = gridView2list;
-
-            //获取数据源
             GridView2.DataSource = objpds;
-            //绑定数据源
             GridView2.DataBind();
 
 
             //查询所有等待其他部门填写的表格
-            string sql1 = String.Format("SELECT * FROM View_Vendor_FormType_UnFill WHERE Temp_Vendor_ID='{0}'and flag ='2' and Factory_Name='{1}' order by Form_Type_Priority_Number asc", tempVendorID, factoryName);
+            //string sql1 = String.Format("SELECT * FROM View_Wait_MultiFill WHERE Temp_Vendor_ID='{0}'and flag ='2' and Factory_Name='{1}' order by Form_Type_Priority_Number asc", tempVendorID, factoryName);
+            string sql1 = String.Format("SELECT * FROM View_Wait_MultiFill WHERE Employee_ID='{0}'", Session["Employee_ID"].ToString());
             PagedDataSource objpds1 = new PagedDataSource();
             objpds1.DataSource = SelectForm_BLL.selectForm(sql1);
             if (objpds1.Count > 0)
@@ -138,6 +135,7 @@ namespace AendorAssess
                 GridView1.DataSource = null;
                 GridView1.DataBind();
             }
+
 
             //根据供应商类型编号查询所有已提交表格
             string sql2 = String.Format("SELECT * FROM View_Form_Status WHERE Temp_Vendor_ID='{0}' and Factory_Name='{1}'", tempVendorID, factoryName);
@@ -162,18 +160,17 @@ namespace AendorAssess
             string sql3 = String.Format("SELECT * FROM View_Vendor_FileType WHERE Temp_Vendor_ID='{0}' and Factory_Name='{1}'", tempVendorID, factoryName);
             PagedDataSource objpds3 = new PagedDataSource();
             objpds3.DataSource = SelectEmployeeVendor_BLL.listVendorFileType(sql3);
-            //获取数据源
             GridView4.DataSource = objpds3;
-            //绑定数据源
             GridView4.DataBind();
 
+
+            //查询出该供应商只保存未提交的表格
             string sqlkeepfill = String.Format("SELECT * FROM View_MutipleForm_KeepFill WHERE Temp_Vendor_ID='{0}' and Factory_Name='{1}' and Fill_Flag='{2}'", tempVendorID, factoryName, 0);
             PagedDataSource objpds4 = new PagedDataSource();
             objpds4.DataSource = SelectEmployeeVendor_BLL.listVendorKeepFillForms(sqlkeepfill);
-            //获取数据源
             GridView5.DataSource = objpds4;
-            //绑定数据源
             GridView5.DataBind();
+
 
             //合同签订提示  查询信息表是否审批完成 查询合同审批表是否提交
             //string sql4 = String.Format("select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='{0}' and Factory_Name='{1}' and Form_Type_ID='019' and flag=4", tempVendorID, factory_Name);
@@ -217,7 +214,10 @@ namespace AendorAssess
         /// <param name="tempVendorID"></param>
         private void switchPage(string commandArgument, string tempVendorID)
         {
+            //进行填写前的文件检查 并返回结果
             string result = CheckFile_BLL.checkFileWithResult(commandArgument, tempVendorID);
+
+            //  空 代表与该表绑定的所有文件均已经上传
             if (!result.Equals(""))
             {
                 LocalScriptManager.createManagerScript(Page, "messageConfirmNone('请上传：" + result + "')", "msg");
@@ -226,7 +226,7 @@ namespace AendorAssess
 
             try
             {
-                //跳转
+                //进行页面跳转
                 pageRedirect(PageSelect.dcEditToShow[commandArgument], commandArgument);
             }
             catch (Exception e)
@@ -271,9 +271,7 @@ namespace AendorAssess
             {
                 //获取信息
                 GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
-                //Session["formID"] = GridView3.Rows[drv.RowIndex].Cells[2].Text;
-                //Session["formTypeID"] = e.CommandArgument.ToString();
-                string tempVendorID= GridView5.Rows[drv.RowIndex].Cells[0].Text;
+                string tempVendorID = Session["tempVendorID"].ToString();
                 string formID = GridView5.Rows[drv.RowIndex].Cells[2].Text;
                 //跳转 传入form_ID 和form_Type_ID
                 //Response.Redirect(PageSelect.dcEditToShow[e.CommandArgument.ToString()] + "?type=" + e.CommandArgument.ToString()+"&Form_ID="+ GridView3.Rows[drv.RowIndex].Cells[2].Text+"&submit=yes");
@@ -285,20 +283,35 @@ namespace AendorAssess
             //删除表格
             else if (e.CommandName == "deleteForm")
             {
+                GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
+                string tempVendorID = Session["tempVendorID"].ToString();
+                string formID = GridView5.Rows[drv.RowIndex].Cells[2].Text;
                 Vendor_MutipleForm_BLL.deleteForm(e.CommandArgument.ToString().Trim());
+
+                //包含合同审批表 比价表 指定供应商表 价格表 需要自动删除已经上传的文件
+                if (formID.Contains("VendorDesignated"))
+                {
+                    File_Type_BLL.deleteBindSingleFile(formID, "065");
+                }
+                else if (formID.Contains("BiddingApprovalForm")|| formID.Contains("ServiceComponentApplication")|| formID.Contains("PurchasePriceApplication") || formID.Contains("PurchaseChanges"))
+                {
+                    File_Type_BLL.deleteBindSingleFile(formID, "012");
+                }
+                else if (formID.Contains("ContractApproval"))
+                {
+                    File_Type_BLL.deleteBindSingleFile(formID, "001");
+                }
+
+                string sqlkeepfill = String.Format("SELECT * FROM View_MutipleForm_KeepFill WHERE Temp_Vendor_ID='{0}' and Factory_Name='{1}' and Fill_Flag='{2}'", Session["tempVendorID"].ToString(), Session["Factory_Name"].ToString(), 0);
+                PagedDataSource objpds4 = new PagedDataSource();
+                objpds4.DataSource = SelectEmployeeVendor_BLL.listVendorKeepFillForms(sqlkeepfill);
+                GridView5.DataSource = objpds4;
+                GridView5.DataBind();
             }
         }
 
         private void switchPage(string formTypeID, string tempVendorID, string formID)
         {
-            //第一次检查文件之后不在检查文件
-            //string result = CheckFile_BLL.checkFileWithResult(formTypeID, tempVendorID);
-            //if (!result.Equals(""))
-            //{
-            //    LocalScriptManager.createManagerScript(Page, "messageConfirmNone('请上传：" + result + "')", "msg");
-            //    return;
-            //}
-
             try
             {
                 //跳转
@@ -309,47 +322,6 @@ namespace AendorAssess
                 LocalScriptManager.createManagerScript(Page, "closeWaiting();messageConfirmNone('此功能暂时不可用：" + e.Message + "')", "msg");
             }
         }
-
-        private void pageRedirect(string aimPageName, string formTypeID, string formID)
-        {
-            //得到当前选中的的优先顺序数
-            int type = Convert.ToInt32(formTypeID);
-            int selectedFormPriorityNumber = getSelectedFormPriorityNumber(formTypeID);
-
-            //获取可选与非可选 如果是可选 检查它前面是否有正在审批的  如果是必选直接走
-            //As_Employee_Vendor employeeVendor = AddEmployeeVendor_BLL.getEmployeeVendor(temp_Vendor_ID);
-            //if (employeeVendor.Type.Equals("OLD"))
-            //{
-            //    Response.Redirect(aimPageName + "?submit=yes&type=" + formTypeID);
-            //    return;
-            //}
-
-            string optional = getOptional(selectedFormPriorityNumber);
-            if (optional == "可选")
-            {
-                if (withOutAccess(selectedFormPriorityNumber, Session["tempVendorID"].ToString()) && isOptionalMinimum(selectedFormPriorityNumber, Session["tempVendorID"].ToString()) && isRequiredMinimum(selectedFormPriorityNumber, Session["tempVendorID"].ToString()))
-                {
-                    Response.Redirect(aimPageName + "?submit=yes&type=" + formTypeID + "&Form_ID=" + formID);
-                }
-                else
-                {
-                    Response.Redirect(aimPageName + "?submit=no&type=" + formTypeID + "&Form_ID=" + formID);
-                }
-            }
-            else if (optional == "必选")
-            {
-                if (isMinimum(selectedFormPriorityNumber, Session["tempVendorID"].ToString()))
-                {
-                    Response.Redirect(aimPageName + "?submit=yes&type=" + formTypeID + "&Form_ID=" + formID);
-                }
-                else
-                {
-                    Response.Redirect(aimPageName + "?submit=no&type=" + formTypeID + "&Form_ID=" + formID);
-                }
-            }
-
-        }
-
 
         /// <summary>
         /// 上传文件
@@ -391,7 +363,8 @@ namespace AendorAssess
         }
 
         /// <summary>
-        /// 填写跳转
+        /// 填写跳转 
+        /// 获取可选与非可选 如果是可选 检查它前面是否有正在审批的  如果是必选直接走
         /// </summary>
         /// <param name="aimPageName"></param>
         /// <param name="formTypeID"></param>
@@ -400,17 +373,25 @@ namespace AendorAssess
             //得到当前选中的的优先顺序数
             int type = Convert.ToInt32(formTypeID);
             int selectedFormPriorityNumber = getSelectedFormPriorityNumber(formTypeID);
+            
 
-            //获取可选与非可选 如果是可选 检查它前面是否有正在审批的  如果是必选直接走
+            //老供应商直接跳转 不进行文件检查
+            As_Employee_Vendor employeeVendor = AddEmployeeVendor_BLL.getEmployeeVendor(temp_Vendor_ID);
+            if (employeeVendor.Type.Equals("OLD"))
+            {
+                if (withOutAccess(selectedFormPriorityNumber, Session["tempVendorID"].ToString()))
+                {
+                    Response.Redirect(aimPageName + "?submit=yes&type=" + formTypeID);
+                    return;
+                }
+                else
+                {
+                    Response.Redirect(aimPageName + "?submit=no&type=" + formTypeID);
+                    return;
+                }
+            }
 
-            //TODO::更新As_Temp_Vendorchange里面的新老供应商标识
-            //As_Employee_Vendor employeeVendor = AddEmployeeVendor_BLL.getEmployeeVendor(temp_Vendor_ID);
-            //if (employeeVendor.Type.Equals("OLD"))
-            //{
-            //    Response.Redirect(aimPageName + "?submit=yes&type=" + formTypeID);
-            //    return;
-            //}
-
+            //可选必选结果
             string optional = getOptional(selectedFormPriorityNumber);
             if (optional == "可选")
             {
@@ -422,7 +403,8 @@ namespace AendorAssess
                 {
                     Response.Redirect(aimPageName + "?submit=no&type=" + formTypeID);
                 }
-            }else if (optional == "必选")
+            }
+            else if (optional == "必选")
             {
                 if (isMinimum(selectedFormPriorityNumber, Session["tempVendorID"].ToString()))
                 {
@@ -435,6 +417,58 @@ namespace AendorAssess
             }
 
         }
+
+
+        private void pageRedirect(string aimPageName, string formTypeID, string formID)
+        {
+            //得到当前选中的的优先顺序数
+            int type = Convert.ToInt32(formTypeID);
+            int selectedFormPriorityNumber = getSelectedFormPriorityNumber(formTypeID);
+
+            //老供应商直接跳转 不进行文件检查
+            As_Employee_Vendor employeeVendor = AddEmployeeVendor_BLL.getEmployeeVendor(temp_Vendor_ID);
+            if (employeeVendor.Type.Equals("OLD"))
+            {
+                if (withOutAccess(selectedFormPriorityNumber, Session["tempVendorID"].ToString()))
+                {
+                    Response.Redirect(aimPageName + "?submit=yes&type=" + formTypeID + "&Form_ID=" + formID);
+                    return;
+                }
+                else
+                {
+                    Response.Redirect(aimPageName + "?submit=no&type=" + formTypeID + "&Form_ID=" + formID);
+                    return;
+                }
+            }
+
+            string optional = getOptional(selectedFormPriorityNumber);
+            if (optional == "可选")
+            {
+                if (withOutAccess(selectedFormPriorityNumber, Session["tempVendorID"].ToString()) && isOptionalMinimum(selectedFormPriorityNumber, Session["tempVendorID"].ToString()) && isRequiredMinimum(selectedFormPriorityNumber, Session["tempVendorID"].ToString()))
+                {
+                    Response.Redirect(aimPageName + "?submit=yes&type=" + formTypeID + "&Form_ID=" + formID);
+                }
+                else
+                {
+                    Response.Redirect(aimPageName + "?submit=no&type=" + formTypeID + "&Form_ID=" + formID);
+                }
+            }
+            else if (optional == "必选")
+            {
+                if (isMinimum(selectedFormPriorityNumber, Session["tempVendorID"].ToString()))
+                {
+                    Response.Redirect(aimPageName + "?submit=yes&type=" + formTypeID + "&Form_ID=" + formID);
+                }
+                else
+                {
+                    Response.Redirect(aimPageName + "?submit=no&type=" + formTypeID + "&Form_ID=" + formID);
+                }
+            }
+
+        }
+
+
+
 
         private string getOptional(int selectedFormPriorityNumber)
         {

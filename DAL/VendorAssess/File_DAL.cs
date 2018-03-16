@@ -14,7 +14,7 @@ namespace DAL
     {
         public static int addFile(As_File File)//添加文件
         {
-            string sql = "insert into As_File(File_ID,File_Name,File_Path,File_Enable_Time,File_Due_Time,Temp_Vendor_Name,File_Type_ID,Temp_Vendor_ID,Factory_Name) values(@File_ID,@File_Name,@File_Path,@File_Enable_Time,@File_Due_Time,@Temp_Vendor_Name,@File_Type_ID,@Temp_Vendor_ID,@Factory_Name)";
+            string sql = "insert into As_File(File_ID,File_Name,File_Path,File_Enable_Time,File_Due_Time,Temp_Vendor_Name,File_Type_ID,Temp_Vendor_ID,Factory_Name,Source_From) values(@File_ID,@File_Name,@File_Path,@File_Enable_Time,@File_Due_Time,@Temp_Vendor_Name,@File_Type_ID,@Temp_Vendor_ID,@Factory_Name,@Source_From)";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@File_ID",File.File_ID),
@@ -25,7 +25,8 @@ namespace DAL
                 new SqlParameter("@Temp_Vendor_Name",File.Temp_Vendor_Name),
                 new SqlParameter("@File_Type_ID",File.File_Type_ID),
                 new SqlParameter("@Temp_Vendor_ID",File.Temp_Vendor_ID),
-                new SqlParameter("@Factory_Name",File.Factory_Name)
+                new SqlParameter("@Factory_Name",File.Factory_Name),
+                new SqlParameter("@Source_From",File.Source_From)
             };
             return DBHelp.ExecuteCommand(sql, sp);
         }
@@ -48,27 +49,6 @@ namespace DAL
             return DBHelp.GetScalar(sql, sp);
         }
 
-        public static List<int> getLastedFile(string tempVendorID, string filetypeid,string factory_Name)
-        {
-            List<int> numbers = new List<int>();
-            string sql = "select Number from As_File where File_Type_ID=@File_Type_ID and Temp_Vendor_ID=@Temp_Vendor_ID and Factory_Name in (@Factory_Name,'ALL')";
-            SqlParameter[] sp = new SqlParameter[]
-            {
-                new SqlParameter("@File_Type_ID",filetypeid),
-                new SqlParameter("@Temp_Vendor_ID",tempVendorID),
-                new SqlParameter("@Factory_Name",factory_Name)
-            };
-            DataTable dt = DBHelp.GetDataSet(sql, sp);
-            if (dt.Rows.Count > 0)
-            {
-                foreach (DataRow dr in dt.Rows)
-                {
-                    numbers.Add(Convert.ToInt32(dr["Number"]));
-                }
-            }
-            return numbers;
-        }
-
         internal static string getFileTypeNameByFileID(string fileID)
         {
             string sql = "select As_File_Type.File_Type_Name from As_File,As_File_Type where As_File_Type.File_Type_ID=As_File.File_Type_ID and As_File.[File_ID]='" + fileID + "'";
@@ -84,11 +64,6 @@ namespace DAL
             return fileTypeName;
         }
 
-        public static DataTable getFilePath(string sql)
-        {
-            return DBHelp.GetDataSet(sql);
-        }
-
         /// <summary>
         /// 获取指定id供应商的已上传文件id
         /// </summary>
@@ -100,7 +75,6 @@ namespace DAL
             As_File File = null;
             string sql = "select File_ID from As_File where File_Type_ID=@File_Type_ID and Temp_Vendor_ID=@Temp_Vendor_ID and Factory_Name in (@Factory_Name,'ALL')";
             string sql2 = "select File_ID from View_File where File_Type_ID=@File_Type_ID and Normal_Vendor_ID=@Normal_Vendor_ID and Factory_Name in (@Factory_Name,'ALL')";
-            //string sql = "select File_ID from As_NewFiles_ID where File_Type_ID=@File_Type_ID and Temp_Vendor_ID=@Temp_Vendor_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@File_Type_ID",filetypeid),
@@ -158,23 +132,6 @@ namespace DAL
             return list;
         }
 
-        public static IList<As_File> selectFile(string sql)
-        {
-            IList<As_File> list = new List<As_File>();
-            DataTable dt = DBHelp.GetDataSet(sql);
-            if (dt.Rows.Count > 0)
-            {
-                foreach (DataRow dr in dt.Rows)
-                {
-                    As_File file = new As_File();
-                    file.File_Name = Convert.ToString(dr["File_Name"]);
-                    file.Temp_Vendor_Name = Convert.ToString(dr["Temp_Vendor_Name"]);
-                    list.Add(file);
-                }
-            }
-            return list;
-        }
-
         /// <summary>
         /// 查询是否有此文件，另外如果是复用的状态下，需要使用sql2进行查询
         /// </summary>
@@ -187,7 +144,6 @@ namespace DAL
             int result = 0;
             string sql = "select File_ID from As_File where File_Type_ID=@File_Type_ID and Temp_Vendor_ID=@Temp_Vendor_ID and Factory_Name in (@Factory_Name,'ALL')";
             string sql2 = "select File_ID from View_File where File_Type_ID=@File_Type_ID and Normal_Vendor_ID=@Normal_Vendor_ID and Factory_Name in (@Factory_Name,'ALL')";
-            //string sql = "select File_ID from As_NewFiles_ID where File_Type_ID=@File_Type_ID and Temp_Vendor_ID=@Temp_Vendor_ID";//在As_File中没法仅仅只通过File_Type_ID，Temp_Vendor_ID找到最新的File_ID
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@File_Type_ID",filetypeid),
@@ -210,17 +166,6 @@ namespace DAL
             dt.Dispose();
             dt2.Dispose();
             return result;
-        }
-
-        public static int UpdateFlag(string File_ID, string Temp_Vendor_Name)
-        {
-            string sql = "";
-            SqlParameter[] sp = new SqlParameter[]
-            {
-                new SqlParameter()
-            };
-
-            return DBHelp.GetScalar(sql, sp);
         }
     }
 }

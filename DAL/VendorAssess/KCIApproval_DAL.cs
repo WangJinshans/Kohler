@@ -1,4 +1,5 @@
-﻿using MODEL;
+﻿using DAL;
+using MODEL;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -99,7 +100,7 @@ namespace DAL
                 return null;//返回空
             }
         }
-        public static IList<As_KCI_Approval> selectKCIApproval(string sql)
+        public static IList<As_KCI_Approval> selectKCIApproval(string sql,string factory)
         {
             IList<As_KCI_Approval> list = new List<As_KCI_Approval>();
             DataTable dt = DBHelp.GetDataSet(sql);
@@ -114,7 +115,10 @@ namespace DAL
                     kciApproval.Position_Name = dr["Position_Name"].ToString().Trim();
                     kciApproval.Temp_Vendor_Name = dr["Temp_Vendor_Name"].ToString();
                     kciApproval.Form_Type_Name = dr["Form_Type_Name"].ToString();
-                    list.Add(kciApproval);
+                    if (AddForm_DAL.getFactoryNameByFormID(dr["Form_ID"].ToString().Trim()).Equals(factory))
+                    {
+                        list.Add(kciApproval);
+                    }
                 }
 
             }

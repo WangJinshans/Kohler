@@ -48,11 +48,10 @@ namespace DAL
             return DBHelp.ExecuteCommand(sql);
         }
 
-        public static int updateFlagAsApproved(string formTypeID, string tempVendorID, string factoryName)
+        public static int updateFlagAsApproved(string formID,string formTypeID,string tempVendorID,string factoryName)
         {
-            string sql = "UPDATE As_Vendor_MutiplyForm SET Fill_Flag=4 WHERE Form_Type_ID='" + formTypeID + "'AND Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factoryName + "'";
+            string sql = "UPDATE As_Vendor_MutiplyForm SET Fill_Flag=4 WHERE Form_ID='" + formID + "'";
             DBHelp.ExecuteCommand(sql);
-
             string sqls = "UPDATE As_Vendor_FormType SET flag=4 WHERE Form_Type_ID='" + formTypeID + "'AND Temp_Vendor_ID='" + tempVendorID + "' and Factory_Name='" + factoryName + "'";
             return DBHelp.ExecuteCommand(sqls);
         }

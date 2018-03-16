@@ -26,12 +26,13 @@ namespace DAL
             return DBHelp.GetScalar(sql, sp);
         }
 
-        public static DataTable getEmployeeID(string tempVendorID)
+        public static DataTable getEmployeeID(string tempVendorID,string factory_Name)
         {
-            string sql = "Select Employee_ID from As_Employee_Vendor Where Temp_Vendor_ID=@Temp_Vendor_ID";
+            string sql = "Select Employee_ID from View_Employee_Vendor Where Temp_Vendor_ID=@Temp_Vendor_ID and Factory_Name=@Factory_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("@Temp_Vendor_ID",tempVendorID)
+                new SqlParameter("@Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("@Factory_Name",factory_Name)
             };
             return DBHelp.GetDataSet(sql, sp);
         }

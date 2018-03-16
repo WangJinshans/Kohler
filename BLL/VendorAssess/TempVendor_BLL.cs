@@ -39,14 +39,14 @@ namespace BLL
             return TempVendor_DAL.getUsed(tempVendorID, factoryName);
         }
 
-        internal static string getTempVendorIDFixed(string temp_Vendor_Name,string vendor_Type)
+        internal static string getTempVendorIDFixed(string temp_Vendor_Name,string vendor_Type,string factory)
         {
-            return TempVendor_DAL.getTempVendorIDFixed(temp_Vendor_Name, vendor_Type);
+            return TempVendor_DAL.getTempVendorIDFixed(temp_Vendor_Name, vendor_Type,factory);
         }
 
-        public static As_Vendor_Modify_Info getTempVendorByVendorCode(string temp_Vendor_ID)
+        public static As_Vendor_Modify_Info getTempVendorByVendorCode(string temp_Vendor_ID,string factory)
         {
-            return TempVendor_DAL.getTempVendorByVendorCode(temp_Vendor_ID);
+            return TempVendor_DAL.getTempVendorByVendorCode(temp_Vendor_ID,factory);
         }
 
         public static As_Temp_Vendor getTempVendor(string tempVendorID, string factory)
@@ -133,10 +133,10 @@ namespace BLL
         /// <param name="vendor_Code"></param>
         /// <param name="vendorType"></param>
         /// <returns></returns>
-        public static string getTempVendorIDByCodeAndType(string vendor_Code,string vendorType)
+        public static string getTempVendorIDByCodeAndType(string vendor_Code,string vendorType,string factory_Name)
         {
             string temp_Vendor_ID = "";
-            string sql = "select As_Temp_Vendor.Temp_Vendor_ID from As_Temp_Vendor,As_Vendor_Type where As_Temp_Vendor.Vendor_Type_ID=As_Vendor_Type.Vendor_Type_ID and As_Temp_Vendor.Temp_Vendor_Name='" + vendor_Code + "' and As_Vendor_Type.Vendor_Type='" + vendorType + "'";
+            string sql = "select As_Temp_Vendorchange.Temp_Vendor_ID from As_Temp_Vendorchange,As_Vendor_Type where As_Temp_Vendorchange.Vendor_Type_ID=As_Vendor_Type.Vendor_Type_ID and As_Temp_Vendorchange.Temp_Vendor_Name='" + vendor_Code + "' and As_Vendor_Type.Vendor_Type='" + vendorType + "' and As_Temp_Vendorchange.Factory_Name='" + factory_Name + "'";
             DataTable table = DBHelp.GetDataSet(sql);
             if (table.Rows.Count > 0)
             {
@@ -230,7 +230,7 @@ namespace BLL
         public static string getTempVendorType(string tempVendorID)
         {
             string VendorType = "";
-            string sql = "select Vendor_Type from View_Temp_Vendor where Temp_Vendor_ID='" + tempVendorID + "'";
+            string sql = "select distinct Vendor_Type from View_Temp_Vendor where Temp_Vendor_ID='" + tempVendorID + "'";
             DataTable table = new DataTable();
             table = DBHelp.GetDataSet(sql);
             if (table.Rows.Count > 0)
@@ -364,9 +364,9 @@ namespace BLL
             return info;
         }
 
-        internal static bool hasNormalCode(string tempVendorID)
+        public static bool hasNormalCode(string tempVendorID)
         {
-            string sql = "Select Normal_Vendor_ID From As_Temp_Vendor Where Temp_Vendor_ID=@Temp_Vendor_ID and Normal_Vendor_ID is not null";
+            string sql = "Select distinct Normal_Vendor_ID From As_Temp_Vendorchange Where Temp_Vendor_ID=@Temp_Vendor_ID and Normal_Vendor_ID is not null";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_ID",tempVendorID)

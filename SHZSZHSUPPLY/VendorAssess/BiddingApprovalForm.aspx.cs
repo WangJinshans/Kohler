@@ -81,7 +81,7 @@ namespace AendorAssess
                         formID = As_Bidding_Approval_BLL.getVendorBiddingFormID(tempVendorID, FORM_TYPE_ID, factory_Name, n);
 
                         //添加单独绑定的文件
-                        VendorSingleFile_BLL.addSingleFile(formID, FORM_TYPE_ID, tempVendorID, tempVendorName, factory_Name);
+                        VendorSingleFile_BLL.addSingleFile(formID, FORM_TYPE_ID, tempVendorID, tempVendorName, factory_Name, "012");
 
                         
                         //每次添加表格添加到As_Vendor_MutipleForm中 

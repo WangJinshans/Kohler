@@ -59,7 +59,7 @@ namespace VendorAssess
                         formID = As_Vendor_Designated_Apply_BLL.getVendorDesignatedFormID(tempVendorID, FORM_TYPE_ID, factory, n);
 
                         //添加单独绑定的文件
-                        VendorSingleFile_BLL.addSingleFile(formID, FORM_TYPE_ID, tempVendorID, tempVendorName, factory);
+                        VendorSingleFile_BLL.addSingleFile(formID, FORM_TYPE_ID, tempVendorID, tempVendorName, factory, "065");
 
                         //每次添加表格添加到As_Vendor_MutipleForm中 
                         As_MutipleForm forms = new As_MutipleForm();
@@ -112,7 +112,6 @@ namespace VendorAssess
         /// </summary>
         public void bindingFormWithFile()
         {
-            getSessionInfo();
             if (CheckFile_BLL.bindFormFile(FORM_TYPE_ID, tempVendorID, formID) == 0)
             {
                 Response.Write("<script>window.alert('表格初始化错误（文件绑定失败）！')</script>");//若没有记录 返回文件不全

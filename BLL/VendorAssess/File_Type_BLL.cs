@@ -47,5 +47,10 @@ namespace BLL
         {
             File_Type_DAL.updateFileStatus(oldFileID);
         }
+
+        public static void deleteBindSingleFile(string formID,string fileTypeID)
+        {
+            File_Type_DAL.deleteBindSingleFile(formID,fileTypeID);
+        }
     }
 }

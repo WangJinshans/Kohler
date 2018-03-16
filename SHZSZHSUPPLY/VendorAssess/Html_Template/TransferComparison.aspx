@@ -65,6 +65,16 @@
             });
         });
 
+        function initCheckbox() {
+            $('.checkall').prop("display", "block");
+            $('.checkall').attr("visibility", "visible");
+            layui.use(['form'], function () {
+                var form = layui.form();
+                form.render();
+            });
+        }
+
+
         function checkConfig() {
             var code = document.getElementById('inputNormalCode').value;
             var select = document.getElementById('ckALL').checked ? "all" : "append";
@@ -85,8 +95,8 @@
             });
         }
         function CheckAllThenBlock() {
-            $('.checkall').prop("checked", true);
-            $('.checkall').attr("disabled", "disabled");
+            //$('.checkall').prop("checked", true);
+            //$('.checkall').attr("disabled", "disabled");
             layui.use(['form'], function () {
                 var form = layui.form();
                 form.render();
@@ -98,9 +108,15 @@
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
         <legend>文件对比（管理系统——审批系统）</legend>
     </fieldset>
-
+    
     <form class="layui-form" id="form1" runat="server">
         <asp:ScriptManager runat="server" ID="ScriptManager"></asp:ScriptManager>
+        <script>
+            var prm = Sys.WebForms.PageRequestManager.getInstance();
+            prm.add_endRequest(function () {
+                initCheckbox();
+            });
+        </script>
 
         <div class="comparison-body">
             <div class="left">
@@ -116,21 +132,6 @@
                                 <asp:BoundField DataField="File_Path" HeaderText="Form_Path" SortExpression="Form_Path" />
                                 <asp:BoundField DataField="Temp_Vendor_ID" HeaderText="Temp_Vendor_ID" Visible="false" SortExpression="Temp_Vendor_ID" />
                             </Columns>
-                            <%--<Columns>
-                                <asp:BoundField DataField="id" HeaderText="id" InsertVisible="False" ReadOnly="True" SortExpression="id" />
-                                <asp:BoundField DataField="Vender_Code" HeaderText="Vender_Code" SortExpression="Vender_Code" />
-                                <asp:BoundField DataField="Item_Category" HeaderText="Item_Category" SortExpression="Item_Category" />
-                                <asp:BoundField DataField="Item_Path" HeaderText="Item_Path" SortExpression="Item_Path" />
-                                <asp:BoundField DataField="Item_Plant" HeaderText="Item_Plant" SortExpression="Item_Plant" />
-                                <asp:BoundField DataField="Item_VenderType" HeaderText="Item_VenderType" SortExpression="Item_VenderType" />
-                                <asp:BoundField DataField="Item_State" HeaderText="Item_State" SortExpression="Item_State" />
-                                <asp:BoundField DataField="Item_Label" HeaderText="Item_Label" SortExpression="Item_Label" />
-                                <asp:BoundField DataField="Item_Startdate" HeaderText="Item_Startdate" SortExpression="Item_Startdate" />
-                                <asp:BoundField DataField="Item_Enddate" HeaderText="Item_Enddate" SortExpression="Item_Enddate" />
-                                <asp:BoundField DataField="Upload_Date" HeaderText="Upload_Date" SortExpression="Upload_Date" />
-                                <asp:BoundField DataField="Upload_Person" HeaderText="Upload_Person" SortExpression="Upload_Person" />
-                                <asp:BoundField DataField="Item_Comment" HeaderText="Item_Comment" SortExpression="Item_Comment" />
-                            </Columns>--%>
                             <FooterStyle BackColor="#FFF" ForeColor="#330099" />
                             <%--<HeaderStyle BackColor="#04A5C2" Font-Bold="True" ForeColor="#FEFEFE" />--%>
                             <HeaderStyle BackColor="#3e62a7" Font-Bold="true" ForeColor="White" />
@@ -147,36 +148,46 @@
             </div>
 
             <div class="right">
-                <asp:GridView runat="server" class="layui-table" lay-even="" lay-skin="nob" ID="assessSystemGrid" AutoGenerateColumns="false">
-                    <Columns>
-                        <asp:TemplateField>
-                            <HeaderTemplate>
-                                <input id="assessHeaderCheck" class="checkall" type="checkbox" onclick="CheckAll(this)" runat="server" />
-                            </HeaderTemplate>
-                            <ItemTemplate>
-                                <input id="assessCheck" class="checkall" type="checkbox" runat="server" />
-                                <%--<asp:CheckBox class="checkall" runat="server" ID="assessCheck" />--%>
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                        <asp:BoundField DataField="File_Type_Name" HeaderText="Form_Type_Name" SortExpression="Form_Type_Name" />
-                        <%--<asp:BoundField DataField="Form_Type_ID" HeaderText="Form_Type_ID" SortExpression="Form_Type_ID" />--%>
-                        <%--<asp:BoundField DataField="Temp_Vendor_Name" HeaderText="Temp_Vendor_Name" SortExpression="Temp_Vendor_Name" />--%>
-                        <asp:BoundField DataField="File_Enable_Time" HeaderText="File_Enable_Time" SortExpression="File_Enable_Time" />
-                        <asp:BoundField DataField="File_Due_Time" HeaderText="File_Due_Time" SortExpression="File_Due_Time" />
-                        <asp:BoundField DataField="File_Path" HeaderText="Form_Path" SortExpression="Form_Path" />
-                        <asp:BoundField DataField="Temp_Vendor_ID" HeaderText="Temp_Vendor_ID" Visible="false" SortExpression="Temp_Vendor_ID" />
-                    </Columns>
-                    <FooterStyle BackColor="#FFF" ForeColor="#330099" />
-                    <%--<HeaderStyle BackColor="#04A5C2" Font-Bold="True" ForeColor="#FEFEFE" />--%>
-                    <HeaderStyle BackColor="#3e62a7" Font-Bold="true" ForeColor="White" />
-                    <PagerStyle BackColor="#FFFFCC" ForeColor="#330099" HorizontalAlign="Center" />
-                    <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="#663399" />
-                    <SortedAscendingCellStyle BackColor="#FEFCEB" />
-                    <SortedAscendingHeaderStyle BackColor="#AF0101" />
-                    <SortedDescendingCellStyle BackColor="#F6F0C0" />
-                    <SortedDescendingHeaderStyle BackColor="#7E0000" />
-                </asp:GridView>
-                <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="Data Source=.;Initial Catalog=SKZSZHSUPPLY;Integrated Security=True" ProviderName="System.Data.SqlClient" SelectCommand="select top 20 * from As_Form"></asp:SqlDataSource>
+                <asp:UpdatePanel ID="UpdatePanelRight" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
+                    <ContentTemplate>
+
+                        <asp:GridView runat="server" class="layui-table" lay-even="" lay-skin="nob" ID="assessSystemGrid" AutoGenerateColumns="false">
+                            <Columns>
+                                <asp:TemplateField>
+                                    <HeaderTemplate>
+                                        <input id="assessHeaderCheck" class="checkall" type="checkbox" onclick="CheckAll(this)" runat="server" />
+                                    </HeaderTemplate>
+                                    <ItemTemplate>
+                                        <input id="assessCheck" class="checkall" type="checkbox" runat="server" />
+                                        <%--<asp:CheckBox class="checkall" runat="server" ID="assessCheck" />--%>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:BoundField DataField="File_Type_Name" HeaderText="Form_Type_Name" SortExpression="Form_Type_Name" />
+                                <asp:BoundField DataField="File_Enable_Time" HeaderText="File_Enable_Time" SortExpression="File_Enable_Time" />
+                                <asp:BoundField DataField="File_Due_Time" HeaderText="File_Due_Time" SortExpression="File_Due_Time" />
+                                <asp:BoundField DataField="File_Path" HeaderText="Form_Path" SortExpression="Form_Path">
+                                    <HeaderStyle HorizontalAlign="Center" />
+                                    <ItemStyle HorizontalAlign="Center" />
+                                </asp:BoundField>
+                                <asp:BoundField DataField="Temp_Vendor_ID" HeaderText="Temp_Vendor_ID" Visible="false" SortExpression="Temp_Vendor_ID" />
+                                <asp:BoundField DataField="Source_From" HeaderText="文件来源" SortExpression="Source_From">
+                                    <ItemStyle HorizontalAlign="Center" />
+                                    <HeaderStyle HorizontalAlign="Center" />
+                                </asp:BoundField>
+                            </Columns>
+                            <FooterStyle BackColor="#FFF" ForeColor="#330099" />
+                            <HeaderStyle BackColor="#3e62a7" HorizontalAlign="Center" Font-Bold="true" ForeColor="White" />
+                            <PagerStyle BackColor="#FFFFCC" ForeColor="#330099" HorizontalAlign="Center" />
+                            <RowStyle HorizontalAlign="Center" />
+                            <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="#663399" />
+                            <SortedAscendingCellStyle BackColor="#FEFCEB" />
+                            <SortedAscendingHeaderStyle BackColor="#AF0101" />
+                            <SortedDescendingCellStyle BackColor="#F6F0C0" />
+                            <SortedDescendingHeaderStyle BackColor="#7E0000" />
+                        </asp:GridView>
+                        <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="Data Source=.;Initial Catalog=SKZSZHSUPPLY;Integrated Security=True" ProviderName="System.Data.SqlClient" SelectCommand="select top 20 * from As_Form"></asp:SqlDataSource>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
             </div>
         </div>
         <asp:UpdatePanel runat="server" ID="UpdatePanel" ChildrenAsTriggers="false" UpdateMode="Conditional">

@@ -60,9 +60,6 @@ namespace SHZSZHSUPPLY.VendorAssess
                     }
                     else
                     {
-                        //获取formID信息
-                        getSessionInfo();
-
                         formID = VendorSelection_BLL.getVendorSelectionFormID(tempVendorID, FORM_TYPE_ID, factory, n);
                         //每次添加表格添加到As_Vendor_MutipleForm中 
                         As_MutipleForm forms = new As_MutipleForm();
@@ -121,7 +118,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         private void displayButton()
         {
-            if (CheckFlag_BLL.multiFillFinished(formID,tempVendorID,FORM_TYPE_ID))
+            if (CheckFlag_BLL.multiFillFinished(formID,tempVendorID,FORM_TYPE_ID,Session["Factory_Name"].ToString().Trim()))
             {
                 Button1.Visible = true;
                 Button4.Visible = false;
@@ -212,40 +209,8 @@ namespace SHZSZHSUPPLY.VendorAssess
             LocalScriptManager.CreateScript(Page, "setTotal();", "reCalTotal");
         }
 
-        /// <summary>
-        /// 提交表格
-        /// </summary>
-        /// <returns></returns>
-        protected string submitForm()
-        {
-            //读取session
-            getSessionInfo();
-
-            SelectDepartment.doSelect();
-
-            //插入到已提交表
-            As_Form form = new As_Form();
-            form.Form_ID = formID;
-            form.Form_Type_Name = FORM_NAME;
-            form.Form_Type_ID = FORM_TYPE_ID;
-            form.Temp_Vendor_Name = tempVendorName;
-            form.Form_Path = "";
-            form.Temp_Vendor_ID = tempVendorID;
-            form.Factory_Name = factory;
-            int add = AddForm_BLL.addForm(form);
-
-            //一旦提交就把表As_Vendor_FormType字段FLag置1.
-            int updateFlag = UpdateFlag_BLL.updateFlag(FORM_TYPE_ID, tempVendorID);
-
-            Response.Redirect("EmployeeVendor.aspx");
-            return "";
-        }
-
         private As_Vendor_Selection saveForm(int flag, string manul)
         {
-            //读取session
-            //getSessionInfo();
-
             //As_Vendor_Selection
             As_Vendor_Selection vendorSelection = new As_Vendor_Selection();
             vendorSelection.Form_ID = formID;
@@ -322,9 +287,6 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            //重新获取session信息和get信息
-            getSessionInfo();
-            
             if (submit == "yes")
             {
                 //形成参数
@@ -360,9 +322,6 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// <param name="e"></param>
         protected void Button4_Click(object sender, EventArgs e)
         {
-            //session Info
-            //getSessionInfo();
-
             saveForm(1, "保存表格");
 
             //info
@@ -432,7 +391,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                         UpdateFlag_BLL.updateFlagAsFinish(FORM_TYPE_ID, tempVendorID);
 
                         //写出日志
-                        As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID), HttpContext.Current.Session["Factory_Name"].ToString());
+                        As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID, HttpContext.Current.Session["Factory_Name"].ToString()), HttpContext.Current.Session["Factory_Name"].ToString());
                         LocalLog.writeLog(formID, String.Format("{0}已填写，多人填写完毕",currentDepartment), As_Write.FORM_MULTI_EDIT, tempVendorID);
 
                         //Mail
@@ -460,8 +419,6 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// </summary>
         private void selectResult()
         {
-            getSessionInfo();
-
             string employee_ID = Session["Employee_ID"].ToString();
             string currentDepartment = Employee_BLL.getEmployeeDepartment(employee_ID, Session["Position_Name"].ToString());
 
@@ -544,8 +501,6 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// </summary>
         private void fileUploadResult()
         {
-            getSessionInfo();
-
             bool success = Convert.ToBoolean(Request.Form["__EVENTARGUMENT"]);
             if (success)
             {
@@ -591,7 +546,6 @@ namespace SHZSZHSUPPLY.VendorAssess
         #region OLD
         private void r_d_Yes()
         {
-            getSessionInfo();
             //检查此表的R——D文件是否已经上传，如果没有，打开上传页面，上传文件，执行保存，执行禁止此人编辑
 
             //如果已经有rd文件
@@ -602,9 +556,9 @@ namespace SHZSZHSUPPLY.VendorAssess
             else
             {
                 string requestType = "multiFillUpload";
-                string fileTypeID = "032";
+                //string fileTypeID = "032";
                 LocalScriptManager.createManagerScript(Page, "layerMsg(" + "'请上传文件'" + ")", "rdyes1");
-                LocalScriptManager.createManagerScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}')", requestType, tempVendorID, tempVendorName, fileTypeID), "upload");
+                LocalScriptManager.createManagerScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}')", requestType, tempVendorID, tempVendorName, formID), "upload");
                 EmployeeForm_BLL.changeFillFlag(Session["Employee_ID"].ToString(), formID, 1);
             }
         }
@@ -615,8 +569,6 @@ namespace SHZSZHSUPPLY.VendorAssess
 
             LocalScriptManager.createManagerScript(Page, "layerMsg(" + "'已确认，正在等待其他部门填写该表'" + ")", "rdno1");
             EmployeeForm_BLL.changeFillFlag(Session["Employee_ID"].ToString(), formID, 1);
-
-            getSessionInfo();
             showVendorSelection();
         }
 

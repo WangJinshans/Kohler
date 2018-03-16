@@ -54,7 +54,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                         formID = PurchaseChanges_BLL.getVendorPurchaseChangesFormID(tempVendorID, FORM_TYPE_ID, factory, n);
 
                         //添加单独绑定的文件
-                        VendorSingleFile_BLL.addSingleFile(formID, FORM_TYPE_ID, tempVendorID, tempVendorName, factory);
+                        VendorSingleFile_BLL.addSingleFile(formID, FORM_TYPE_ID, tempVendorID, tempVendorName, factory, "012");
 
 
                         //每次添加表格添加到As_Vendor_MutipleForm中 

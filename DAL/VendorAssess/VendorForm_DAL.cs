@@ -13,15 +13,14 @@ namespace DAL
     {
         public static int addVendorFormType(As_Vendor_FormType Vendor_FormType)
         {
-            string sql = "INSERT INTO As_Vendor_FormType(Temp_Vendor_ID,Form_Type_ID,Temp_Vendor_Name,Form_Type_Name,Factory_Name,Form_ID)VALUES(@Temp_Vendor_ID,@Form_Type_ID,@Temp_Vendor_Name,@Form_Type_Name,@Factory_Name,@Form_ID)";
+            string sql = "INSERT INTO As_Vendor_FormType(Temp_Vendor_ID,Form_Type_ID,Temp_Vendor_Name,Form_Type_Name,Factory_Name)VALUES(@Temp_Vendor_ID,@Form_Type_ID,@Temp_Vendor_Name,@Form_Type_Name,@Factory_Name)";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_ID",Vendor_FormType.Temp_Vendor_ID),
                 new SqlParameter("@Form_Type_ID",Vendor_FormType.Form_Type_ID),
                 new SqlParameter("@Temp_Vendor_Name",Vendor_FormType.Temp_Vendor_Name),
                 new SqlParameter("@Form_Type_Name",Vendor_FormType.Form_Type_Name),
-                new SqlParameter("@Factory_Name",Vendor_FormType.Factory_Name),
-                new SqlParameter("@Form_ID",Vendor_FormType.Form_ID),
+                new SqlParameter("@Factory_Name",Vendor_FormType.Factory_Name)
             };
             return DBHelp.GetScalar(sql, sp);
         }

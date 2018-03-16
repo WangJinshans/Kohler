@@ -31,13 +31,23 @@ namespace BLL.VendorAssess
                 string file = HttpContext.Current.Server.MapPath(File_Path) + id;
 
 
-                Process process = new Process();
+                //Process process = new Process();
+                System.Diagnostics.Process process = new System.Diagnostics.Process();
                 process.StartInfo.FileName = PDF_Tool_Path;
                 process.StartInfo.Arguments = "--zoom 0.8 " + url + " \"" + file + "\"";
                 process.StartInfo.CreateNoWindow = true;
                 process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 process.EnableRaisingEvents = true;
+                process.StartInfo.UseShellExecute = false; // needs to be false in order to redirect output
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.RedirectStandardInput = true;
+
+
                 process.Start();
+
+                //string output = process.StandardOutput.ReadToEnd();
+                //File.WriteAllText(HttpContext.Current.Server.MapPath(File_Path)+"processresult.txt", output);
                 if (!process.WaitForExit(20000)) //20s内必须退出
                 {
                     process.Kill();
@@ -45,6 +55,7 @@ namespace BLL.VendorAssess
                 }
                 else
                 {
+                    process.Close();
                     As_Form form = new As_Form();
                     form.Form_ID = formID;
                     form.Form_Path = File_Path + id;
@@ -60,13 +71,12 @@ namespace BLL.VendorAssess
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                
+                Console.WriteLine(e.Message);
                 throw;
             }
         }
-
         private static void ProcessExited(object sender, EventArgs e)
         {
             

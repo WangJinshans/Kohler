@@ -52,7 +52,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     {
                         formID = ServiceComponentApplication_BLL.getVendorServiceComponentFormID(tempVendorID, FORM_TYPE_ID, factory, n);
 
-                        VendorSingleFile_BLL.addSingleFile(formID, FORM_TYPE_ID, tempVendorID, tempVendorName, factory);
+                        VendorSingleFile_BLL.addSingleFile(formID, FORM_TYPE_ID, tempVendorID, tempVendorName, factory, "012");
 
 
                         //每次添加表格添加到As_Vendor_MutipleForm中 

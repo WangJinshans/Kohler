@@ -9,13 +9,14 @@ namespace DAL.VendorAssess
 {
     public class CheckFlag_DAL
     {
-        public static int checkFormStatus(string tempVendorID, string formType)
+        public static int checkFormStatus(string tempVendorID, string formType,string factory_Name)
         {
-            string sql = "select Flag from As_Vendor_FormType where Temp_Vendor_ID=@Temp_Vendor_ID and Form_Type_ID=@Form_Type_ID";
+            string sql = "select Flag from As_Vendor_FormType where Temp_Vendor_ID=@Temp_Vendor_ID and Form_Type_ID=@Form_Type_ID and Factory_Name=@Factory_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_ID",tempVendorID),
-                new SqlParameter("@Form_Type_ID",formType)
+                new SqlParameter("@Form_Type_ID",formType),
+                new SqlParameter("@Factory_Name",factory_Name)
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
             if (dt.Rows.Count>0)

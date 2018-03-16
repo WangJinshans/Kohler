@@ -273,12 +273,17 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             //银行信息账期是否修改
             //从As_Vendor_Modify_Info中获取是否修改payTermChanged和bankChanged信息
             bool payOrBankChanged = Vendor_Modify_File_BLL.isNeedFinance(tempVendorID, factory);
-            As_Form_AssessFlow assessFlow = new As_Form_AssessFlow
+            As_Form_AssessFlow assessFlow = new As_Form_AssessFlow();
+            assessFlow.Form_ID = formId;
+            if (factory.Equals("珠海科勒"))
             {
-                Form_ID = formId,
-                First = "采购部经理",
-                Second = ""
-            };
+                assessFlow.First = "供应链经理";
+            }
+            else
+            {
+                assessFlow.First = "采购部经理";
+            }
+
             if (payOrBankChanged)
             {
                 assessFlow.Second = "财务部经理";
@@ -610,8 +615,16 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             As_KCI_Approval kciApproval = new As_KCI_Approval();
             kciApproval.Form_ID = formID;
             kciApproval.Temp_Vendor_ID = tempVendorID;
+            if (HttpContext.Current.Session["Factory_Name"].ToString().Equals("珠海科勒"))
+            {
+                kciApproval.Position_Name = "供应链经理";
+            }
+            else
+            {
+                kciApproval.Position_Name = "采购部经理";
+            }
             kciApproval.Flag = 0;
-            kciApproval.Position_Name = "采购部经理";
+            
             kciApproval.Temp_Vendor_Name = TempVendor_BLL.getTempVendorName(tempVendorID);
             kciApproval.Form_Type_Name = FormType_BLL.getFormNameByTypeID(formTypeID);
             int rs3 = KCIApproval_BLL.addKCIApproval(kciApproval);
@@ -623,7 +636,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                 LocalLog.writeLog(formID, String.Format("系统内部审批完成,KCI审批已添加，正在等待KCI审批结果    时间：{0}", DateTime.Now), As_Write.APPROVE_SUCCESS, tempVendorID);
 
                 //邮件通知
-                As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID), HttpContext.Current.Session["Factory_Name"].ToString());
+                As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID, HttpContext.Current.Session["Factory_Name"].ToString()), HttpContext.Current.Session["Factory_Name"].ToString());
                 LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "等待审批", DateTime.Now.ToString(), "系统内部审批已完成，正在等待KCI审批结果，请获取KCI审批结果后登录系统更新KCI审批信息");
 
                 //提示，并生成文件，写入系统，返回刷新
@@ -646,23 +659,15 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
         public static bool doFinalApprove(string formID, string tempVendorID, string formTypeID, string positionName,System.Web.UI.Page page)
         {
             int rs1 = AssessFlow_BLL.updateApprove(formID, positionName);
-            //不在需要更新As_Vendor_FormType中的表格的状态
-            int rs2 = UpdateFlag_BLL.updateFlagAsApproved(formTypeID, tempVendorID);
+            int rs2 = UpdateFlag_BLL.updateFlagAsApproved(formID, formTypeID, tempVendorID, HttpContext.Current.Session["Factory_Name"].ToString());
             int rs3 = 1;//之所以为1 是为了在times=0的时候不会造成任何影响
-            //bool isFormOverDue = false;
-            //isFormOverDue = FormOverDue_BLL.isOverDue(formID);
-            //if (isFormOverDue)//属于过期表   需要把重新审批的表的标签 改成已通过
-            //{
-            //    string oldFormID = FormOverDue_BLL.getOldFormID(formID);//对于已经在重新审批中的表 oldFormID 在As_Vendor_FormType_History一定存在 在过期表中也一定存在
-            //    rs3 = UpdateFlag_BLL.updateReAccessFormStatus(oldFormID, tempVendorID);//成功返回2 失败返回-1
-            //}
             if (rs1 > 0 && rs2 > 0 && rs3 > 0)
             {
                 //日志
                 LocalLog.writeLog(formID, String.Format("系统内部审批完成,表格审批完成    时间：{0}", DateTime.Now), As_Write.APPROVE_SUCCESS, tempVendorID);
 
                 //邮件通知
-                As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID), HttpContext.Current.Session["Factory_Name"].ToString());
+                As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID, HttpContext.Current.Session["Factory_Name"].ToString()), HttpContext.Current.Session["Factory_Name"].ToString());
                 LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "审批完成", DateTime.Now.ToString(), "系统内部审批完成,表格审批完成");
 
                 //提示

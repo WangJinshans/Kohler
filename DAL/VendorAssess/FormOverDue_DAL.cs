@@ -110,9 +110,9 @@ namespace DAL.VendorAssess
             return table;
         }
 
-        public static List<As_Form_OverDue> listOverDueForms()
+        public static List<As_Form_OverDue> listOverDueForms(string factory_Name)
         {
-            string sql = "select * from As_VendorForm_OverDue";
+            string sql = "select * from As_VendorForm_OverDue where Status='Disable' and Factory_Name='" + factory_Name + "'";
             As_Form_OverDue formOverDue = null;
             List<As_Form_OverDue> formList = new List<As_Form_OverDue>();
             DataTable table = DBHelp.GetDataSet(sql);
@@ -128,6 +128,7 @@ namespace DAL.VendorAssess
                     formOverDue.Vendor_Code = dr["Vendor_Code"].ToString().Trim();
                     formOverDue.Vendor_Type = dr["Vendor_Type"].ToString();
                     formOverDue.Status = dr["Status"].ToString();
+                    formOverDue.Form_Type_Is_Optional = dr["Form_Type_Is_Optional"].ToString();
                     formList.Add(formOverDue);
                 }
             }

@@ -15,7 +15,8 @@ namespace BLL
     {
         public static As_Employee getEmolyeeById(string employee_ID,string factory)
         {
-            return Employee_DAL.getEmolyeeById(employee_ID).FirstOrDefault(u => u.Employee_ID==employee_ID.ToLower()&&u.Factory_Name==factory);
+            //return Employee_DAL.getEmolyeeById(employee_ID).FirstOrDefault(u => u.Employee_ID==employee_ID.ToLower()&&u.Factory_Name==factory);
+            return Employee_DAL.getEmolyeeById(employee_ID).FirstOrDefault(u => u.Factory_Name == factory);
         }
 
         public static IList<As_Employee> selectEmployee(string sql)

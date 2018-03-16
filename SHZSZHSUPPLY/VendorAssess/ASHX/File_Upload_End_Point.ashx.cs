@@ -30,10 +30,8 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             switch (context.Request.Params["requestType"])
             {
                 case "fileUpload":
+                    //正常文件上传
                     doFileUpload(context);
-                    break;
-                case "overDueUpload":
-                    overDueUpload(context);
                     break;
                 case "kciUpload":
                     doKCIFileUpload(context);
@@ -63,6 +61,12 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             string tempVendorID = context.Request.Params["tempVendorID"];
             string tempVendorName = context.Request.Params["tempVendorName"];
             string formID = context.Request.Params["fileTypeID"];//实际传入formID
+
+            if (formID == null || formID.Equals(""))
+            {
+                context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, message = "上传过程中出错，请退出本页面之后再进入并重新上传" }));
+                return;
+            }
             string fileTypeID = "";
             #region
             if (formID.Contains("BiddingForm"))
@@ -121,12 +125,12 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             files.File_Due_Time = endTime;
             files.File_Type_ID = fileTypeID;
             files.Factory_Name = factoryName;
-
+            files.Source_From = formID;
             try
             {
                 File_BLL.addFile(files);
                 //手动添加文件绑定记录
-                CheckFile_BLL.bindSingleFormFile(fileID, tempVendorID, formID, fileTypeID);
+                CheckFile_BLL.bindSingleFormFile(fileID, tempVendorID, formID);
                 context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, message = "数据库写入完毕，文件上传完成" }));
             }
             catch
@@ -165,6 +169,7 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             file.File_Due_Time = endTime;
             file.File_Type_ID = fileTypeID;
             file.Factory_Name = factoryName;
+            file.Source_From = "";
             postFile.SaveAs(HttpContext.Current.Server.MapPath(path));
             string file_Type_Name = File_Type_BLL.getFileTypeNameByID(fileTypeID);
             Vendor_Modify_File_BLL.upDataUploadFlag(tempVendorName, factoryName, file_Type_Name);
@@ -242,7 +247,30 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
 
         private void doFileUpload(HttpContext context)
         {
-            As_File file = upload(context,NORMAL_UPLOAD);
+            HttpPostedFile postFile = context.Request.Files["qqfile"];
+            string startTime = context.Request.Params["startTime"];
+            string endTime = context.Request.Params["endTime"];
+
+            string tempVendorID = context.Request.Params["tempVendorID"];
+            string tempVendorName = context.Request.Params["tempVendorName"];
+            string fileTypeID = context.Request.Params["fileTypeID"];
+            string factoryName = HttpContext.Current.Session["Factory_Name"].ToString();
+            string fileInfo = File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(fileTypeID, factoryName);
+            string fileID = tempVendorID + fileInfo;
+            string path = LSetting.File_Path + fileID + ".pdf";
+
+            As_File file = new As_File();
+            file.File_Path = path;
+            file.Temp_Vendor_ID = tempVendorID;
+            file.Temp_Vendor_Name = tempVendorName;
+            file.File_ID = fileID;
+            file.File_Name = fileID + ".pdf";
+            file.File_Enable_Time = startTime;
+            file.File_Due_Time = endTime;
+            file.File_Type_ID = fileTypeID;
+            file.Factory_Name = factoryName;
+            file.Source_From = "";
+            postFile.SaveAs(HttpContext.Current.Server.MapPath(path));
 
             writeResult(context,file);
         }
@@ -256,7 +284,32 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
 
         private void multiFillUpload(HttpContext context)
         {
-            As_File file = upload(context, NORMAL_UPLOAD);
+            HttpPostedFile postFile = context.Request.Files["qqfile"];
+            string startTime = context.Request.Params["startTime"];
+            string endTime = context.Request.Params["endTime"];
+
+            string tempVendorID = context.Request.Params["tempVendorID"];
+            string tempVendorName = context.Request.Params["tempVendorName"];
+            string formID = context.Request.Params["fileTypeID"];
+            string fileTypeID = "032";
+            string factoryName = HttpContext.Current.Session["Factory_Name"].ToString();
+            string fileInfo = File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(fileTypeID, factoryName);
+            string fileID = tempVendorID + fileInfo;
+            string path = LSetting.File_Path + fileID + ".pdf";
+
+            As_File file = new As_File();
+            file.File_Path = path;
+            file.Temp_Vendor_ID = tempVendorID;
+            file.Temp_Vendor_Name = tempVendorName;
+            file.File_ID = fileID;
+            file.File_Name = fileID + ".pdf";
+            file.File_Enable_Time = startTime;
+            file.File_Due_Time = endTime;
+            file.File_Type_ID = fileTypeID;
+            file.Factory_Name = factoryName;
+            file.Source_From = formID;
+
+            postFile.SaveAs(HttpContext.Current.Server.MapPath(path));
 
             writeResult(context, file);
         }
@@ -274,7 +327,8 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
 
             string tempVendorID = context.Request.Params["tempVendorID"];
             string tempVendorName = context.Request.Params["tempVendorName"];
-            string fileTypeID = context.Request.Params["fileTypeID"];
+            string formID = context.Request.Params["fileTypeID"];
+            string fileTypeID = "032";
             string factoryName = HttpContext.Current.Session["Factory_Name"].ToString();
             string fileInfo = File_Type_BLL.getSpec(fileTypeID) + DateTime.Now.ToString("yyyyMMddHHmmss") + File_BLL.getSimpleFactory(fileTypeID,factoryName);
             string fileID = tempVendorID + fileInfo;
@@ -290,6 +344,7 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             file.File_Due_Time = endTime;
             file.File_Type_ID = fileTypeID;
             file.Factory_Name = factoryName;
+            file.Source_From = formID;
 
             postFile.SaveAs(HttpContext.Current.Server.MapPath(path));
             FileInfo fi = new FileInfo(HttpContext.Current.Server.MapPath(path));

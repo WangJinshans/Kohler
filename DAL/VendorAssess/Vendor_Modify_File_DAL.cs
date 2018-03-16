@@ -54,9 +54,9 @@ namespace WebLearning.DAL
         /// </summary>
         /// <param name="vendorCode"></param>
         /// <returns></returns>
-        public static string getTempVendorTypeNumber(string vendorName)
+        public static string getTempVendorTypeNumber(string vendorName,string factory)
         {
-            string sql = "select COUNT(*)as TypeNumber from As_Temp_Vendor where Temp_Vendor_Name='" + vendorName + "'";
+            string sql = "select COUNT(*)as TypeNumber from As_Temp_Vendorchange where Temp_Vendor_Name='" + vendorName + "' and Factory_Name='" + factory + "'";
             string number = "";
             DataTable table = DBHelp.GetDataSet(sql);
             if (table.Rows.Count > 0)
@@ -74,9 +74,9 @@ namespace WebLearning.DAL
         /// </summary>
         /// <param name="vendorCode"></param>
         /// <returns></returns>
-        public static List<string> getTypeList(string vendorName)
+        public static List<string> getTypeList(string vendorName,string factory)
         {
-            string sql = "select distinct Vendor_Type_ID from As_Temp_Vendor where Temp_Vendor_Name='" + vendorName + "'";
+            string sql = "select distinct Vendor_Type_ID from As_Temp_Vendorchange where Temp_Vendor_Name='" + vendorName + "' and Factory_Name='" + factory + "'";
             List<string> typeIDList = new List<string>();
             List<string> typeList = new List<string>();
             string type = "";
@@ -94,7 +94,7 @@ namespace WebLearning.DAL
             {
                 foreach (string vendorTypeID in typeIDList)
                 {
-                    type = getType(vendorTypeID, vendorName);
+                    type = getType(vendorTypeID, vendorName, factory);
                     typeList.Add(type);
                 }
             }
@@ -103,9 +103,9 @@ namespace WebLearning.DAL
 
 
 
-        public static List<string> getTypeListByName(string vendorName)
+        public static List<string> getTypeListByName(string vendorName,string factory)
         {
-            string sql = "select distinct Vendor_Type_ID from As_Temp_Vendor where Temp_Vendor_Name='" + vendorName + "'";
+            string sql = "select distinct Vendor_Type_ID from As_Temp_Vendorchange where Temp_Vendor_Name='" + vendorName + "' and Factory_Name='" + factory + "'";
             List<string> typeIDList = new List<string>();
             List<string> typeList = new List<string>();
             string type = "";
@@ -137,9 +137,9 @@ namespace WebLearning.DAL
         /// <param name="vendorTypeID"></param>
         /// <param name="vendorCode"></param>
         /// <returns></returns>
-        private static string getType(string vendorTypeID, string vendorName)
+        private static string getType(string vendorTypeID, string vendorName,string factory)
         {
-            string sql = "select As_Vendor_Type.Vendor_Type from As_Temp_Vendor,As_Vendor_Type where As_Temp_Vendor.Vendor_Type_ID=As_Vendor_Type.Vendor_Type_ID and As_Temp_Vendor.Temp_Vendor_Name='" + vendorName + "' and As_Temp_Vendor.Vendor_Type_ID='" + vendorTypeID + "'";
+            string sql = "select As_Vendor_Type.Vendor_Type from As_Temp_Vendorchange,As_Vendor_Type where As_Temp_Vendorchange.Vendor_Type_ID=As_Vendor_Type.Vendor_Type_ID and As_Temp_Vendorchange.Temp_Vendor_Name='" + vendorName + "' and As_Temp_Vendorchange.Vendor_Type_ID='" + vendorTypeID + "' and As_Temp_Vendorchange.Temp_Vendor_Name='" + vendorName + "' and As_Temp_Vendorchange.Factory_Name='" + factory + "'";
             DataTable table = DBHelp.GetDataSet(sql);
             string type = "";
             if (table.Rows.Count > 0)
@@ -155,7 +155,7 @@ namespace WebLearning.DAL
 
         private static string getTypeByName(string vendorTypeID, string vendorName)
         {
-            string sql = "select As_Vendor_Type.Vendor_Type from As_Temp_Vendor,As_Vendor_Type where As_Temp_Vendor.Vendor_Type_ID=As_Vendor_Type.Vendor_Type_ID and As_Temp_Vendor.Temp_Vendor_Name='" + vendorName + "' and As_Temp_Vendor.Vendor_Type_ID='" + vendorTypeID + "'";
+            string sql = "select distinct As_Vendor_Type.Vendor_Type from As_Temp_Vendorchange,As_Vendor_Type where As_Temp_Vendorchange.Vendor_Type_ID=As_Vendor_Type.Vendor_Type_ID and As_Temp_Vendorchange.Temp_Vendor_Name='" + vendorName + "' and As_Temp_Vendorchange.Vendor_Type_ID='" + vendorTypeID + "'";
             DataTable table = DBHelp.GetDataSet(sql);
             string type = "";
             if (table.Rows.Count > 0)
@@ -166,6 +166,23 @@ namespace WebLearning.DAL
                 }
             }
             return type;
+        }
+
+        public static bool getAdvanceCharged(string sql,bool charged)
+        {
+            bool ok = false;
+            DataTable table = DBHelp.GetDataSet(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    if (charged == Convert.ToBoolean(dr["Advance_Charge"]))
+                    {
+                        ok = true;
+                    }
+                }
+            }
+            return ok;
         }
 
         public static object getModifyFormID(string temp_vendor_ID)
@@ -261,9 +278,9 @@ namespace WebLearning.DAL
         /// </summary>
         /// <param name="temp_Vendor_ID"></param>
         /// <returns></returns>
-        public static string isVendorChanging(string temp_Vendor_ID)
+        public static string isVendorChanging(string temp_Vendor_ID,string factory_Name)
         {
-            string sql = "select IsChanging from As_Vendor_Modify_Info where Temp_Vendor_ID='" + temp_Vendor_ID + "'";
+            string sql = "select IsChanging from As_Vendor_Modify_Info where Temp_Vendor_ID='" + temp_Vendor_ID + "' and Factory_Name='" + factory_Name + "'";
             DataTable table = new DataTable();
             string ischanging = "";
             table = DBHelp.GetDataSet(sql);

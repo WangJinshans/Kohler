@@ -145,7 +145,7 @@
                 </select>
             </div>
             <div class="layui-input-inline">
-                <select id="name" name="quiz3">
+                <select id="name" name="quiz3" lay-search="">
                     <option value="">请选择供应商名称</option>
                     <option value="name">name</option>
                 </select>

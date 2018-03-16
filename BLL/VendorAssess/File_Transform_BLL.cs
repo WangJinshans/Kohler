@@ -1,4 +1,5 @@
-﻿using DAL.VendorAssess;
+﻿using DAL;
+using DAL.VendorAssess;
 using MODEL.VendorAssess;
 using System;
 using System.Collections.Generic;
@@ -123,6 +124,16 @@ namespace BLL.VendorAssess
                 }
             }
             return CHECK_FAIL;
+        }
+
+        public static bool checkNecessaryFormSubmit(string tempVendorID, string factory)
+        {
+            return File_Transform_DAL.checkNecessaryFormSubmit(tempVendorID, factory);
+        }
+
+        public static void addNewForms(string tempVendorID, string factory)
+        {
+            File_Transform_DAL.addNewForms(tempVendorID, factory);
         }
 
 
@@ -407,7 +418,7 @@ namespace BLL.VendorAssess
             string Upload_Person = Employee_BLL.getEmployeeeKoNumber(positionName, factory);
 
             //TODO::有效期未设置
-            File_Transform_BLL.addVendorFile(vendorCode, Item_Category, Item_Path, Item_Plant, Item_VendorType, Item_State, Item_Label, "", "", Upload_Date, Upload_Person);
+            //File_Transform_BLL.addVendorFile(vendorCode, Item_Category, Item_Path, Item_Plant, Item_VendorType, Item_State, Item_Label, "", "", Upload_Date, Upload_Person);
 
 
         }
@@ -945,7 +956,7 @@ namespace BLL.VendorAssess
             {
                 foreach (string fileid in files)//单个文件的ID在As_File中查找
                 {
-                    if (File_Transform_DAL.checkFileSubmit(tempVendorID, factory, fileid) == false)
+                    if (!File_Transform_DAL.checkFileSubmit(tempVendorID, factory, fileid))
                     {
                         return false;//没有查到对应的ID的提交记录
                     }
@@ -1067,6 +1078,7 @@ namespace BLL.VendorAssess
             string s4 ="";
             string s5 ="";
             string s6 = "";
+            string source_From = "";
             if (fileWithPath.Count > 0)
             {
 
@@ -1081,7 +1093,7 @@ namespace BLL.VendorAssess
                             continue;
                         }
 
-                        //0path,1shared,2typeID,3range,4start,5end,6typeName
+                        //0 path,1 shared,2 typeID,3 range,4 start,5 end,6 typeName
                         string[] fileInfo = fileWithPath[key].Split('&');
 
                         string filePath = HttpContext.Current.Server.MapPath(fileInfo[0]);
@@ -1121,7 +1133,7 @@ namespace BLL.VendorAssess
                                 s4 = newName.Replace(".pdf", "");
                                 s5 = fileInfo[4];
                                 s6 = fileInfo[5];
-
+                                source_From= fileInfo[7];
                                 //预防重复性
                                 if (recordExist(newName.Replace(".pdf", "")))
                                 {
@@ -1129,7 +1141,7 @@ namespace BLL.VendorAssess
                                 }
                                 else
                                 {
-                                    addVendorFile(code, fileInfo[6], @"..\upload\" + newName, Convert.ToBoolean(fileInfo[1]) ? "ALL" : factory, fileInfo[3] == "全部" ? "ALL" : type, "Enable", s4, fileInfo[4], fileInfo[5], DateTime.Now, employeeID);
+                                    addVendorFile(code, fileInfo[6], @"..\upload\" + newName, Convert.ToBoolean(fileInfo[1]) ? "ALL" : factory, fileInfo[3] == "全部" ? "ALL" : type, "Enable", s4, fileInfo[4], fileInfo[5], DateTime.Now, employeeID, source_From);
 
                                 }
                                 break;
@@ -1149,7 +1161,8 @@ namespace BLL.VendorAssess
                                     s4 = newName.Replace(".pdf", "");
                                     s5 = fileInfo[4];
                                     s6 = fileInfo[5];
-                                    addVendorFile(code, fileInfo[6], @"..\upload\" + newName, Convert.ToBoolean(fileInfo[1]) ? "ALL" : factory, fileInfo[3] == "全部" ? "ALL" : type, "Enable", newName.Replace(".pdf", ""), fileInfo[4], fileInfo[5], DateTime.Now, employeeID);
+                                    source_From = fileInfo[7];
+                                    addVendorFile(code, fileInfo[6], @"..\upload\" + newName, Convert.ToBoolean(fileInfo[1]) ? "ALL" : factory, fileInfo[3] == "全部" ? "ALL" : type, "Enable", newName.Replace(".pdf", ""), fileInfo[4], fileInfo[5], DateTime.Now, employeeID, source_From);
                                 }
                                 break;
                             default:
@@ -1198,6 +1211,15 @@ namespace BLL.VendorAssess
         /// <returns></returns>
         public static int addNormalCode(string code,string vendorName)
         {
+            string sqls = "select Vender_Code from venderList where Vender_Code='" + code + "'";
+            using (SqlDataReader reader = DBHelp.GetReader(sqls))
+            {
+                if (reader.Read())
+                {
+                    return 0;
+                }
+            }
+                
             string sql = "insert into venderList(Vender_Code,Vender_Name) values('" + code + "', '" + vendorName + "')";
             try
             {
@@ -1224,9 +1246,9 @@ namespace BLL.VendorAssess
         /// <param name="Upload_Date"></param>
         /// <param name="Upload_Person"></param>
         /// <returns></returns>
-        public static int addVendorFile(string Vender_Code, string Item_Category, string Item_Path, string Item_Plant,string Item_VendorType, string Item_State,string Item_Label,string start,string end,DateTime Upload_Date,string Upload_Person)
+        public static int addVendorFile(string Vender_Code, string Item_Category, string Item_Path, string Item_Plant,string Item_VendorType, string Item_State,string Item_Label,string start,string end,DateTime Upload_Date,string Upload_Person,string sourceFrom)
         {
-            string sql = "insert into itemList(Vender_Code,Item_Category,Item_Path,Item_Plant,Item_VenderType,Item_State,Item_Label,Item_Startdate,Item_Enddate,Upload_Date,Upload_Person) values(@Vender_Code ,@Item_Category,@Item_Path,@Item_Plant,@Item_VenderType,@Item_State,@Item_Label,@Item_Startdate,@Item_Enddate,@Upload_Date,@Upload_Person)";
+            string sql = "insert into itemList(Vender_Code,Item_Category,Item_Path,Item_Plant,Item_VenderType,Item_State,Item_Label,Item_Startdate,Item_Enddate,Upload_Date,Upload_Person,Source_From) values(@Vender_Code ,@Item_Category,@Item_Path,@Item_Plant,@Item_VenderType,@Item_State,@Item_Label,@Item_Startdate,@Item_Enddate,@Upload_Date,@Upload_Person,@Source_From)";
             SqlParameter[] sq = new SqlParameter[]
             {
                 new SqlParameter("@Vender_Code",Vender_Code),
@@ -1239,14 +1261,23 @@ namespace BLL.VendorAssess
                 new SqlParameter("@Item_Startdate",start),
                 new SqlParameter("@Item_Enddate",end),
                 new SqlParameter("@Upload_Date",DateTime.Now),
-                new SqlParameter("@Upload_Person",Upload_Person)
+                new SqlParameter("@Upload_Person",Upload_Person),
+                new SqlParameter("@Source_From",sourceFrom)
             };
             return File_Transform_DAL.addVendorFile(sql, sq);
         }
 
         public static int addVendorPlantInfo(string Vender_Code, string Plant_Name, string Vendor_Type, string Vendor_State)
         {
-            string sql = "delete From venderPlantInfo Where Vender_Code=@Vender_Code;  insert into venderPlantInfo(Vender_Code,Plant_Name,Vender_Type,Vender_State) values(@Vender_Code ,@Plant_Name,@Vender_Type,@Vender_State)";
+            string sqls = "select Vender_Code from venderPlantInfo where Vender_Code='" + Vender_Code + "' and Plant_Name='" + Plant_Name + "' and Vender_Type='" + Vendor_Type + "'";
+            using (SqlDataReader reader = DBHelp.GetReader(sqls))
+            {
+                if (reader.Read())
+                {
+                    return 1;
+                }
+            }
+            string sql = "insert into venderPlantInfo(Vender_Code,Plant_Name,Vender_Type,Vender_State) values(@Vender_Code ,@Plant_Name,@Vender_Type,@Vender_State)";
             SqlParameter[] sq = new SqlParameter[]
             {
                 new SqlParameter("@Vender_Code",Vender_Code),
