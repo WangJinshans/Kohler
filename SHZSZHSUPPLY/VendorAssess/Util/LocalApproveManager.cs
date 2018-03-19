@@ -149,7 +149,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
 
             //TODO::Async
             As_Approve ap = Approve_BLL.getApproveTop(formID);
-            LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批");
+            LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批", formID);
 
             //result
             if (updateFlag > 0 && add > 0)
@@ -247,7 +247,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
 
             //TODO::Async
             As_Approve ap = Approve_BLL.getApproveTop(form.Form_ID);
-            LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, form.Temp_Vendor_ID, TempVendor_BLL.getTempVendorName(form.Temp_Vendor_ID), form.Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批");
+            LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, form.Temp_Vendor_ID, TempVendor_BLL.getTempVendorName(form.Temp_Vendor_ID), form.Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批", form.Form_ID);
 
             LocalScriptManager.CreateScript(SelectDepartment.originPage, "message('提示测试')", "redirectpage1");
 
@@ -378,7 +378,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
 
             //TODO::Async
             As_Approve ap = Approve_BLL.getApproveTop(formId);
-            LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), form_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批");
+            LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), form_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批", formId);
 
             //
 
@@ -462,7 +462,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                             LocalLog.writeLog(formID, String.Format("{0}审批已通过，正在等待{1}审批    时间：{2}", ae.Positon_Name + ae.Employee_Name, ap.Position_Name, DateTime.Now), As_Write.APPROVE_SUCCESS, tempVendorID);
 
                             //Mail
-                            LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), ap.Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批");
+                            LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), ap.Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批", formID);
 
                             //提示并拉起返回刷新
                             LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){document.location.href = document.URL;}"), "toast");
@@ -492,7 +492,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
                                 LocalLog.writeLog(formID, String.Format("{0}审批已通过，正在等待{1}审批    时间：{2}", ae.Positon_Name + ae.Employee_Name, ap.Position_Name, DateTime.Now), As_Write.APPROVE_SUCCESS, tempVendorID);
 
                                 //Mail
-                                LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), ap.Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批");
+                                LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), ap.Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批", formID);
                                 
                                 //提示并拉起返回刷新
                                 LocalScriptManager.CreateScript(page, String.Format("messageFunc('{0}',{1})", "审批成功", "function(){document.location.href = document.URL;}"), "toast");
@@ -637,7 +637,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
 
                 //邮件通知
                 As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID, HttpContext.Current.Session["Factory_Name"].ToString()), HttpContext.Current.Session["Factory_Name"].ToString());
-                LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "等待审批", DateTime.Now.ToString(), "系统内部审批已完成，正在等待KCI审批结果，请获取KCI审批结果后登录系统更新KCI审批信息");
+                LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "等待审批", DateTime.Now.ToString(), "系统内部审批已完成，正在等待KCI审批结果，请获取KCI审批结果后登录系统更新KCI审批信息", formID);
 
                 //提示，并生成文件，写入系统，返回刷新
                 string fileTypeName = FormType_BLL.getFormNameByFormID(formID);
@@ -668,7 +668,7 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
 
                 //邮件通知
                 As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID, HttpContext.Current.Session["Factory_Name"].ToString()), HttpContext.Current.Session["Factory_Name"].ToString());
-                LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "审批完成", DateTime.Now.ToString(), "系统内部审批完成,表格审批完成");
+                LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "审批完成", DateTime.Now.ToString(), "系统内部审批完成,表格审批完成", formID);
 
                 //提示
                 string fileTypeName = FormType_BLL.getFormNameByFormID(formID);
