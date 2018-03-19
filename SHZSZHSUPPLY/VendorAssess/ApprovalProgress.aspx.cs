@@ -23,7 +23,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             if (!IsPostBack)
             {
-                //读取列表
+                //读取供应商列表
                 readVendorInfo();
 
                 //处理get请求
@@ -65,9 +65,12 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
         }
 
+
+        /// <summary>
+        /// 读取供应商列表
+        /// </summary>
         private void readVendorInfo()
         {
-            //info = TempVendor_BLL.readVendorInfo();
             info = TempVendor_BLL.readVendorInFactory(Session["Factory_Name"].ToString());
             JavaScriptSerializer jss = new JavaScriptSerializer();
             serializedJson = jss.Serialize(info);
@@ -99,6 +102,8 @@ namespace SHZSZHSUPPLY.VendorAssess
 
             LocalScriptManager.createManagerScript(Page, String.Format("setVendorName('{0}')", TempVendor_BLL.getTempVendorName(tempVendorID)), "setvendorname");
 
+
+            //设置进度
             //LocalScriptManager.createManagerScript(Page, String.Format("setFormProgress('{0}')", 0), "setformprogress");
 
             //检查是否可转移
@@ -106,13 +111,15 @@ namespace SHZSZHSUPPLY.VendorAssess
             string employee_ID = Session["Employee_ID"].ToString();
             //AddEmployeeVendor_BLL.hasEmployeeID(tempVendorID, employee_ID) &&
             bool ok = File_Transform_BLL.checkNecessaryFormSubmit(tempVendorID, factory);
-            if ( ok && File_Transform_BLL.checkFormSubmit(tempVendorID, factory) &&  File_Transform_BLL.FormAccessSuccessFul(tempVendorID, factory))
+            //当前不存在审批
+            bool noAssess = FormType_BLL.withOutAccess(factory, tempVendorID);
+            if (noAssess && ok && File_Transform_BLL.checkFormSubmit(tempVendorID, factory) &&  File_Transform_BLL.FormAccessSuccessFul(tempVendorID, factory))
             {
                 btnTransfer.Enabled = true;
                 btnTransfer.CssClass = "layui-btn";
                 btnTransfer.ToolTip = "可以开始转移";
             }
-            else if (TempVendor_BLL.isOldVendor(tempVendorID))
+            else if (TempVendor_BLL.isOldVendor(tempVendorID) && noAssess)
             {
                 btnTransfer.Enabled = true;
                 btnTransfer.CssClass = "layui-btn";
@@ -158,9 +165,11 @@ namespace SHZSZHSUPPLY.VendorAssess
             normalInfoDetail.InnerHtml = normal;
             exceptionInfoDetail.InnerHtml = exception;
 
+            vendorName.InnerText = AddForm_BLL.GetVendorName(formID);
+            Random  rd = new Random();
+            LocalScriptManager.createManagerScript(Page, string.Format("setformprogress('{0}')", rd.Next(10, 101)), "setformprogress");
             UpdatePanel.Update();
-            //sRandom rd = new Random();
-            //LocalScriptManager.createManagerScript(Page, String.Format("setFormProgress('{0}')", rd.Next(10, 101)), "setformprogress");
+            
 
         }
 

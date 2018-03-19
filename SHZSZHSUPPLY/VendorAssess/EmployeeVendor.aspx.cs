@@ -267,16 +267,14 @@ namespace AendorAssess
         /// <param name="e"></param>
         protected void GridView5_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            //继续填写
             if (e.CommandName == "keepFilling")
             {
-                //获取信息
                 GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
                 string tempVendorID = Session["tempVendorID"].ToString();
                 string formID = GridView5.Rows[drv.RowIndex].Cells[2].Text;
+                
                 //跳转 传入form_ID 和form_Type_ID
-                //Response.Redirect(PageSelect.dcEditToShow[e.CommandArgument.ToString()] + "?type=" + e.CommandArgument.ToString()+"&Form_ID="+ GridView3.Rows[drv.RowIndex].Cells[2].Text+"&submit=yes");
-
-
                 switchPage(e.CommandArgument.ToString(), tempVendorID, formID);
 
             }
@@ -302,6 +300,7 @@ namespace AendorAssess
                     File_Type_BLL.deleteBindSingleFile(formID, "001");
                 }
 
+                //重新加载待填写的表格
                 string sqlkeepfill = String.Format("SELECT * FROM View_MutipleForm_KeepFill WHERE Temp_Vendor_ID='{0}' and Factory_Name='{1}' and Fill_Flag='{2}'", Session["tempVendorID"].ToString(), Session["Factory_Name"].ToString(), 0);
                 PagedDataSource objpds4 = new PagedDataSource();
                 objpds4.DataSource = SelectEmployeeVendor_BLL.listVendorKeepFillForms(sqlkeepfill);
@@ -324,7 +323,7 @@ namespace AendorAssess
         }
 
         /// <summary>
-        /// 上传文件
+        /// 文件 上传 覆盖 查看
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -338,9 +337,8 @@ namespace AendorAssess
                 string tempVendorName = Session["tempvendorname"].ToString();
                 string fileTypeID = GridView4.Rows[drv.RowIndex].Cells[2].Text;
                 string requestType = "fileUpload";
-
                 ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "upload", String.Format("uploadFile('{0}','{1}','{2}','{3}',{4})", requestType, tempVendorID, tempVendorName, fileTypeID, GridView4.Rows[drv.RowIndex].Cells[5].Text.ToLower()), true);
-                //LocalScriptManager.CreateScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}',{4})", requestType, tempVendorID, tempVendorName, fileTypeID, GridView4.Rows[drv.RowIndex].Cells[5].Text.ToLower()), "upload");
+
             }//覆盖
             else if (e.CommandName == "ReLoad")
             {
@@ -350,15 +348,12 @@ namespace AendorAssess
                 string fileTypeID = GridView4.Rows[drv.RowIndex].Cells[2].Text;
                 string requestType = "fileUpload";
                 ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "upload", String.Format("uploadFile('{0}','{1}','{2}','{3}',{4})", requestType, tempVendorID, tempVendorName, fileTypeID, GridView4.Rows[drv.RowIndex].Cells[5].Text.ToLower()), true);
-                //LocalScriptManager.CreateScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}',{4})", requestType, tempVendorID, tempVendorName, fileTypeID, GridView4.Rows[drv.RowIndex].Cells[5].Text.ToLower()), "upload");
             }//查看
             else if (e.CommandName == "FileDetail")
             {
                 string fileTypeID = e.CommandArgument.ToString();
                 string fileName = File_BLL.getFileName(fileTypeID, Session["tempVendorID"].ToString(), factory_Name);
-
                 ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "showFileDetail", String.Format("<script>window.open('{0}');</script>", LSetting.File_Reltive_Path + fileName), false);
-                //Response.Write(String.Format("<script>window.open('{0}');</script>", LSetting.File_Path + fileName));
             }
         }
 
@@ -370,16 +365,16 @@ namespace AendorAssess
         /// <param name="formTypeID"></param>
         private void pageRedirect(string aimPageName, string formTypeID)
         {
-            //得到当前选中的的优先顺序数
             int type = Convert.ToInt32(formTypeID);
+            //得到当前选中的的优先顺序数
             int selectedFormPriorityNumber = getSelectedFormPriorityNumber(formTypeID);
-            
 
-            //老供应商直接跳转 不进行文件检查
+
+            //老供应商直接跳转 不进行文件检查 只要不存在任何审批就可以提交
             As_Employee_Vendor employeeVendor = AddEmployeeVendor_BLL.getEmployeeVendor(temp_Vendor_ID);
             if (employeeVendor.Type.Equals("OLD"))
             {
-                if (withOutAccess(selectedFormPriorityNumber, Session["tempVendorID"].ToString()))
+                if (withOutAccess(Session["tempVendorID"].ToString()))
                 {
                     Response.Redirect(aimPageName + "?submit=yes&type=" + formTypeID);
                     return;
@@ -419,17 +414,17 @@ namespace AendorAssess
         }
 
 
+
         private void pageRedirect(string aimPageName, string formTypeID, string formID)
         {
-            //得到当前选中的的优先顺序数
             int type = Convert.ToInt32(formTypeID);
             int selectedFormPriorityNumber = getSelectedFormPriorityNumber(formTypeID);
 
-            //老供应商直接跳转 不进行文件检查
+            //老供应商直接跳转 不进行文件检查 只要不存在任何审批就可以提交
             As_Employee_Vendor employeeVendor = AddEmployeeVendor_BLL.getEmployeeVendor(temp_Vendor_ID);
             if (employeeVendor.Type.Equals("OLD"))
             {
-                if (withOutAccess(selectedFormPriorityNumber, Session["tempVendorID"].ToString()))
+                if (withOutAccess(Session["tempVendorID"].ToString()))
                 {
                     Response.Redirect(aimPageName + "?submit=yes&type=" + formTypeID + "&Form_ID=" + formID);
                     return;
@@ -467,17 +462,36 @@ namespace AendorAssess
 
         }
 
-
-
-
+        /// <summary>
+        /// 是否可选
+        /// </summary>
+        /// <param name="selectedFormPriorityNumber"></param>
+        /// <returns></returns>
         private string getOptional(int selectedFormPriorityNumber)
         {
             return FormType_BLL.getOptional(selectedFormPriorityNumber);
         }
 
+
+        /// <summary>
+        /// 新供应商判断是否该表前面的表格存在审批
+        /// </summary>
+        /// <param name="number"></param>
+        /// <param name="temp_vendor_ID"></param>
+        /// <returns></returns>
         private bool withOutAccess(int number, string temp_vendor_ID)
         {
-            return FormType_BLL.withOutAccess(number, temp_vendor_ID);
+            return FormType_BLL.accessFinishedBeforePriority(number, temp_vendor_ID);
+        }
+
+        /// <summary>
+        /// 老供应商不需要判断表格前面是否有审批  只需要判断全局 是否存在审批
+        /// </summary>
+        /// <param name="temp_vendor_ID"></param>
+        /// <returns></returns>
+        private bool withOutAccess(string temp_vendor_ID)
+        {
+            return FormType_BLL.withOutAccess(temp_vendor_ID);
         }
 
         /// <summary>
@@ -522,14 +536,15 @@ namespace AendorAssess
         {
             string tempVendorID = Session["tempVendorID"].ToString();
             string factoryName = Session["Factory_Name"].ToString();
+            
             //根据供应商类型编号查询所有待上传文件
             string sql3 = String.Format("SELECT * FROM View_Vendor_FileType WHERE Temp_Vendor_ID='{0}' and Factory_Name='{1}'", tempVendorID, factoryName);
+
             PagedDataSource objpds3 = new PagedDataSource();
             objpds3.DataSource = SelectEmployeeVendor_BLL.listVendorFileType(sql3);
-            //获取数据源
             GridView4.DataSource = objpds3;
-            //绑定数据源
             GridView4.DataBind();
+
             updatePanel.Update();
         }
     }

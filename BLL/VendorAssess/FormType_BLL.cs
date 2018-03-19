@@ -52,11 +52,14 @@ namespace BLL
             return FormType_DAL.getOptional(formID);
         }
 
-        public static bool withOutAccess(int number, string temp_vendor_ID)
+        /// <summary>
+        /// 判断某家供应商当前是否存在表格在审批
+        /// </summary>
+        /// <param name="temp_vendor_ID"></param>
+        /// <returns></returns>
+        public static bool withOutAccess(string temp_vendor_ID)
         {
-            //判断是否有正在审批的表  优先级高于number的表
-            List<int> numbers = new List<int>();
-            bool ok = FormType_DAL.getAccessPriorityNumber(temp_vendor_ID);
+            bool ok = FormType_DAL.withOutAccess(temp_vendor_ID);
             if (ok)
             {
                 return true;
@@ -67,10 +70,24 @@ namespace BLL
             }
         }
 
+        public static bool accessFinishedBeforePriority(int number, string temp_vendor_ID)
+        {
+            //判断是否有正在审批的表  优先级高于number的表
+            List<int> numbers = new List<int>();
+            bool ok = FormType_DAL.getAccessPriorityNumber(number, temp_vendor_ID);
+            if (ok)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public static bool withOutAccess(string factory, string temp_vendor_ID)
         {
             //4代表审批完成
-            string sql = "select flag from As_Vendor_FormType where flag<>4 and Factory_Name='" + factory + "'";
+            string sql = "select flag from As_Vendor_FormType where flag<>4 and flag<>0 and Factory_Name='" + factory + "' and Temp_Vendor_ID='" + temp_vendor_ID + "'";
             using (SqlDataReader reader = DBHelp.GetReader(sql))
             {
                 if (reader.Read())

@@ -291,8 +291,17 @@ namespace SHZSZHSUPPLY.VendorAssess
 
             //参数
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
-            string formid = GridView2.Rows[drv.RowIndex].Cells[0].Text;
+            string fileID = GridView2.Rows[drv.RowIndex].Cells[1].Text.ToString().Trim();//获取fileID
             string selectPositionName = GridView2.Rows[drv.RowIndex].Cells[1].Text;
+
+            if (e.CommandName == "view")
+            {
+                string filePath = LSetting.File_Reltive_Path + fileID + ".pdf";
+                if (filePath != "")
+                {
+                    ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>viewFile('" + filePath + "');</script>");
+                }
+            }
         }
     }
 }
