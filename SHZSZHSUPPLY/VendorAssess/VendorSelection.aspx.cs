@@ -395,7 +395,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                         LocalLog.writeLog(formID, String.Format("{0}已填写，多人填写完毕",currentDepartment), As_Write.FORM_MULTI_EDIT, tempVendorID);
 
                         //Mail
-                        LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FORM_NAME, "填写完毕", DateTime.Now.ToString(), "此表格已填写完毕，请登陆系统后提交审批");
+                        LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FORM_NAME, "填写完毕", DateTime.Now.ToString(), "此表格已填写完毕，请登陆系统后提交审批", formID);
                     }
                     else
                     {
@@ -405,7 +405,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                         LocalLog.writeLog(formID, String.Format("{0}已填写，等待 {1} 填写",currentDepartment, ap.Employee_Name), As_Write.FORM_MULTI_EDIT, tempVendorID);
 
                         //Mail
-                        LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, ap.Temp_Vendor_Name, FORM_NAME, "等待填写", DateTime.Now.ToString(), "此表格已由其他部门填写完毕，正在等待当前部门填写，请登陆系统填写表格并确认");
+                        LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, ap.Temp_Vendor_Name, FORM_NAME, "等待填写", DateTime.Now.ToString(), "此表格已由其他部门填写完毕，正在等待当前部门填写，请登陆系统填写表格并确认", formID);
                     }
 
                     LocalScriptManager.createManagerScript(Page, "layerMsgFunc('已确认',function(){window.location.href='FormWaitToFill.aspx';})", "otherCFM");
@@ -513,7 +513,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 LocalLog.writeLog(formID, String.Format("{0}已填写，等待 {1} 填写", Employee_BLL.getEmployeeDepartment(Session["Employee_ID"].ToString(), Session["Position_Name"].ToString()),ap.Employee_Name), As_Write.FORM_MULTI_EDIT, tempVendorID);
                 
                 //Mail
-                LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, ap.Temp_Vendor_Name, FORM_NAME, "等待填写", DateTime.Now.ToString(), "此表格已由其他部门填写完毕，正在等待当前部门填写，请登陆系统填写表格并确认");
+                LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, ap.Temp_Vendor_Name, FORM_NAME, "等待填写", DateTime.Now.ToString(), "此表格已由其他部门填写完毕，正在等待当前部门填写，请登陆系统填写表格并确认", formID);
 
                 //跳转
                 Response.Redirect("EmployeeVendor.aspx");

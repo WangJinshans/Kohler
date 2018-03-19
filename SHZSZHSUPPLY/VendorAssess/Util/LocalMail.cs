@@ -22,11 +22,11 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
         /// <param name="status"></param>
         /// <param name="lastTime"></param>
         /// <param name="other"></param>
-        public static void flowToast(string aimEmail, string name, string factory, string tempVendorID, string tempVendorName, string formTypeName, string status, string lastTime, string other)
+        public static void flowToast(string aimEmail, string name, string factory, string tempVendorID, string tempVendorName, string formTypeName, string status, string lastTime, string other,string formID)
         {
             if (LSetting.Mail_Enabled)
             {
-                Mail.flowToast(aimEmail, name, factory, tempVendorID, tempVendorName, formTypeName, status, lastTime, other);
+                Mail.flowToast(aimEmail, name, factory, tempVendorID, tempVendorName, formTypeName, status, lastTime, other, formID);
             }
         }
 
@@ -42,11 +42,11 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
         /// <param name="status"></param>
         /// <param name="lastTime"></param>
         /// <param name="other"></param>
-        public static void backToast(string aimEmail, string name, string factory, string tempVendorID, string tempVendorName, string formTypeName, string status, string lastTime, string other)
+        public static void backToast(string aimEmail, string name, string factory, string tempVendorID, string tempVendorName, string formTypeName, string status, string lastTime, string other,string formID)
         {
             if (LSetting.Mail_Enabled)
             {
-                Mail.backToast(aimEmail, name, factory, tempVendorID, tempVendorName, formTypeName, status, lastTime, other);
+                Mail.backToast(aimEmail, name, factory, tempVendorID, tempVendorName, formTypeName, status, lastTime, other, formID);
             }
         }
     }

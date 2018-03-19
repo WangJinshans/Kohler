@@ -146,7 +146,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
             //TODO::Async
             As_Approve ap = Approve_BLL.getApproveTop(form.Form_ID);
-            LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, form.Temp_Vendor_ID, TempVendor_BLL.getTempVendorName(form.Temp_Vendor_ID), form.Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批");
+            LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, form.Temp_Vendor_ID, TempVendor_BLL.getTempVendorName(form.Temp_Vendor_ID), form.Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批", form.Form_ID);
 
             Response.Redirect("EmployeeVendor.aspx");
             return "";
@@ -179,7 +179,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
             //TODO::Async
             As_Approve ap = Approve_BLL.getApproveTop(form.Form_ID);
-            LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, form.Temp_Vendor_ID, TempVendor_BLL.getTempVendorName(form.Temp_Vendor_ID), form.Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批");
+            LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, form.Temp_Vendor_ID, TempVendor_BLL.getTempVendorName(form.Temp_Vendor_ID), form.Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批", form.Form_ID);
 
             Response.Redirect("EmployeeVendor.aspx");
             return "";

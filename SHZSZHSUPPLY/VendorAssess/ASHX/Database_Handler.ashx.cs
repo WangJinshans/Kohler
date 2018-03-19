@@ -63,7 +63,7 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             Write_BLL.addWrite(aw);
 
             //Mail
-            LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "审批失败", DateTime.Now.ToString(), "表格审批被拒绝，原因如下：" + reason + ";请登录系统修改后重新提交审批");
+            LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "审批失败", DateTime.Now.ToString(), "表格审批被拒绝，原因如下：" + reason + ";请登录系统修改后重新提交审批", formID);
 
             //更新状态为fail(可写可不写，归零后自动清空)
             int i = AssessFlow_BLL.updateApproveFail(formID, position);
@@ -115,7 +115,7 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
 
             //Mail
             ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID,factory),factory);
-            LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "审批失败", DateTime.Now.ToString(), "表格审批被拒绝，原因如下：" + reason + ";请登录系统修改后重新提交审批");
+            LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "审批失败", DateTime.Now.ToString(), "表格审批被拒绝，原因如下：" + reason + ";请登录系统修改后重新提交审批", formID);
 
             //更新状态为fail(可写可不写，归零后自动清空)
             int i = AssessFlow_BLL.updateApproveFail(formID, position);
@@ -158,7 +158,7 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             {
                 //Mail
                 As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID,factory),factory);
-                LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "审批失败", DateTime.Now.ToString(), "表格审批被拒绝，原因如下：" + reason + ";请登录系统修改后重新提交审批");
+                LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FormType_BLL.getFormNameByTypeID(formTypeID), "审批失败", DateTime.Now.ToString(), "表格审批被拒绝，原因如下：" + reason + ";请登录系统修改后重新提交审批", formID);
 
                 //状态归零
                 //Approve_BLL.resetForm(formID, formTypeID, tempVendorID);

@@ -13,7 +13,7 @@ namespace BLL.VendorAssess
 {
     public class Mail
     {
-        public static void flowToast(string aimEmail, string name, string factory, string tempVendorID, string tempVendorName, string formTypeName, string status, string lastTime, string other)
+        public static void flowToast(string aimEmail, string name, string factory, string tempVendorID, string tempVendorName, string formTypeName, string status, string lastTime, string other,string formID)
         {
             SmtpClient Smtp = null;
             MailMessage MailMessage = null;
@@ -51,7 +51,7 @@ namespace BLL.VendorAssess
             Smtp.Timeout = 30000;
             Smtp.SendCompleted += Smtp_SendCompleted;
 
-            string formID = FormType_BLL.getFormID(tempVendorID, formTypeName);
+            //string formID = FormType_BLL.getFormID(tempVendorID, formTypeName);
             Tuple<SmtpClient,MailMessage, string, string,string,string> tuple = Tuple.Create(Smtp,MailMessage,HttpContext.Current.Session["Employee_ID"].ToString(), other+"目标："+aimEmail, tempVendorID,formID);
             ThreadPool.QueueUserWorkItem(new WaitCallback(ThreadProc), tuple);
         }
@@ -82,7 +82,7 @@ namespace BLL.VendorAssess
             }
         }
 
-        public static void backToast(string aimEmail, string name, string factory, string tempVendorID, string tempVendorName, string formTypeName, string status, string lastTime, string other)
+        public static void backToast(string aimEmail, string name, string factory, string tempVendorID, string tempVendorName, string formTypeName, string status, string lastTime, string other,string formID)
         {
             string path = HttpContext.Current.Server.MapPath("~/VendorAssess/Html_Template/Mail_Template.html");
             StreamReader sr = new StreamReader(path);
@@ -117,7 +117,7 @@ namespace BLL.VendorAssess
             Smtp.Timeout = 30000;
             Smtp.SendCompleted += Smtp_SendCompleted;
 
-            string formID = FormType_BLL.getFormID(tempVendorID, formTypeName);
+            //string formID = FormType_BLL.getFormID(tempVendorID, formTypeName);
             Tuple<SmtpClient, MailMessage, string, string, string,string> tuple = Tuple.Create(Smtp, MailMessage, HttpContext.Current.Session["Employee_ID"].ToString(), other + "目标：" + aimEmail, tempVendorID,formID);
             ThreadPool.QueueUserWorkItem(new WaitCallback(ThreadProc), tuple);
         }
