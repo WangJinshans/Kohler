@@ -407,7 +407,7 @@
                         <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
                             <AlternatingRowStyle BackColor="White" />
                             <Columns>
-                                <asp:BoundField DataField="Form_ID" HeaderText="表格编号"
+                                <asp:BoundField DataField="Form_ID" HeaderText="表格编号" ItemStyle-Width="400px"
                                     SortExpression="Form_ID" />
                                 <asp:BoundField DataField="Position_Name" HeaderText="职位名称"
                                     SortExpression="Position_Name" />
@@ -449,7 +449,9 @@
                                 <asp:BoundField DataField="File_Type_Name" HeaderText="文件名称"
                                     SortExpression="File_Type_Name" />
                                 <asp:BoundField DataField="File_ID" HeaderText="文件编号"
-                                    SortExpression="File_ID" />
+                                    SortExpression="File_ID">
+                                    <ItemStyle Width="400px" />
+                                    </asp:BoundField >
 
                                 <asp:TemplateField>
                                     <ItemTemplate>

@@ -1039,6 +1039,13 @@ namespace BLL.VendorAssess
             return true;
         }
 
+
+        /// <summary>
+        /// 转移的条件   必选表审批完毕  当前没有表格正在审批
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <param name="factory"></param>
+        /// <returns></returns>
         public static bool FormAccessSuccessFul(string tempVendorID, string factory)
         {
             return File_Transform_DAL.AccessSuccessFul(tempVendorID, factory);

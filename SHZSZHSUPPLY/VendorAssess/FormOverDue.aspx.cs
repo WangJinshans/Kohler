@@ -180,7 +180,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         private bool withOutAccess(int number, string temp_vendor_ID)
         {
-            return FormType_BLL.withOutAccess(number, temp_vendor_ID);
+            return FormType_BLL.withOutAccess(temp_vendor_ID);
         }
         private bool isOptionalMinimum(int number, string temp_Vendor_ID)
         {
