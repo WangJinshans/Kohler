@@ -52,25 +52,12 @@
             window.open(filePath);
         }
     </script>
-    <%--<script>
-        function __myDoPostBack(eventTarget, eventArgument) {
-            var theForm = document.forms['form1'];
-            if (!theForm) {
-                theForm = document.form1;
-            }
-            if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
-                theForm.__EVENTTARGET.value = eventTarget;
-                theForm.__EVENTARGUMENT.value = eventArgument;
-                theForm.submit();
-            }
-        }
-    </script>--%>
     <script>
-        function popUp(formid, result) {
+        function popUp(formid, result, kci) {
             layui.use(['layer'], function () {
                 layer.open({
                     title: '请选择审批部门',
-                    content: 'SelectDepartment.aspx?formid=' + formid + "&kci=" + "1",
+                    content: 'SelectDepartment.aspx?formid=' + formid + "&kci=" + kci,
                     type: 2,
                     area: ['750px', '400px'],
                     shade: 0.3,
@@ -114,18 +101,38 @@
     </script>
     <script>
         function messageBox(msg, formid) {
-            layer.use(['layer'], function () {
+            layui.use(['layer'], function () {
                 layer.open({
                     title: '提示信息',
                     content: '' + msg,
                     btn: ['是', '否'],
                     btn1: function (index, layero) {
                         layer.close('index');
-                        popUp(formid, "yes")//调用popUp函数在
+                        //popUp(formid, "yes")//调用popUp函数在
+                        iskci();
                     },
                     btn2: function (index, layero) {
-                        popUp(formid, "no")//调用popUp函数在
+                        //popUp(formid, "no")//调用popUp函数在
+                        iskci();
                         layer.close('index');
+                    }
+                })
+            });
+        }
+
+        function iskci(formid, result) {
+            layui.use(['layer'], function () {
+                layer.open({
+                    title: '是否需要KCI？'
+                    , content: ''
+                    , btn: ['是', '否']
+                    , btn1: function (index, layero) {
+                        layer.close('index');
+                        popUp(formid, "yes","1")//调用popUp函数在
+                    },
+                    btn2: function (index, layero) {
+                        layer.close('index');
+                        popUp(formid, "yes", "0")//调用popUp函数在
                     }
                 })
             });

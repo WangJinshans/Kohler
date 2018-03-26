@@ -114,6 +114,9 @@ namespace AendorAssess
                     case "submitForm":
                         LocalApproveManager.submitForm();
                         break;
+                    case "startSelection":
+                        LocalApproveManager.doApproveWithSelection(Page, formID, FORM_NAME, FORM_TYPE_ID, tempVendorID, tempVendorName, Session["Factory_Name"].ToString());
+                        break;
                     default:
                         break;
                 }
@@ -347,7 +350,7 @@ namespace AendorAssess
                 Write_BLL.addWrite(write);
                 if (flag == 1)
                 {
-                    LocalScriptManager.createManagerScript(Page, "window.alert('保存成功！')", "save");
+                    //LocalScriptManager.createManagerScript(Page, "window.alert('保存成功！')", "save");
                 }
                 return BiddingForm;
             }
@@ -370,7 +373,9 @@ namespace AendorAssess
             {
                 //形成参数
                 saveForm(2, "提交表格");
-                LocalApproveManager.doApproveWithSelection(Page, formID, FORM_NAME, FORM_TYPE_ID, tempVendorID, tempVendorName, Session["Factory_Name"].ToString());
+                LocalScriptManager.CreateScript(Page, "iskci();", "KCIseslection");
+                //System.Web.UI.ScriptManager.RegisterStartupScript(updatePanel, Page.GetType(), "KCIseslection", "myskci();", true);
+                //LocalApproveManager.doApproveWithSelection(Page, formID, FORM_NAME, FORM_TYPE_ID, tempVendorID, tempVendorName, Session["Factory_Name"].ToString());
             }
             else
             {

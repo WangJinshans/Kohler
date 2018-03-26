@@ -12,12 +12,33 @@
     <script src="Script/layui/layui.js"></script>
     <script src="Script/Own/fileUploader.js?v=9"></script>
     <script>
+
+        function iskci() {
+            layui.use(['layer'], function () {
+                layer.open({
+                    title: '是否需要KCI？'
+                    , content: ''
+                    , btn: ['是', '否']
+                    , yes: function (index, layero) {
+                        layer.closeAll();
+                        localStorage.setItem("kci", "1");
+                        __myDoPostBack('startSelection', '');
+                    },
+                    btn2: function (index, layero) {
+                        layer.close('index');
+                        localStorage.setItem("kci", "0");
+                        __myDoPostBack('startSelection', '');
+                    }
+                })
+            });
+        }
+
         //弹出框  
         function popUp(formid) {
             layui.use(['layer'], function () {
                 layer.open({
                     title: '请选择审批部门',
-                    content: 'SelectDepartment.aspx?formid=' + formid,
+                    content: 'SelectDepartment.aspx?formid=' + formid+"&kci="+localStorage.getItem("kci"),
                     type: 2,
                     area: ['750px', '400px'],
                     shade: 0.3,
@@ -370,7 +391,7 @@
             </table>
         </div>
         <asp:ScriptManager ID="scriptManager" runat="server"></asp:ScriptManager>
-        <asp:UpdatePanel ID="updatePanel" UpdateMode="Conditional" runat="server" ChildrenAsTriggers="false">
+        <asp:UpdatePanel ID="updatePanel" UpdateMode="Conditional" runat="server" ChildrenAsTriggers="true">
             <ContentTemplate>
                 <asp:HiddenField runat="server" ID="ImgExSrc" />
                 <asp:Button runat="server" ID="btnNewImage" style="display:none" OnClick="btnNewImage_Click" />
@@ -384,6 +405,9 @@
                 <asp:Button ID="Button4" runat="server" Text="报价单上传" CssClass="layui-btn layui-btn-danger" OnClick="Button4_Click" />
                 </div>
             </ContentTemplate>
+            <Triggers>
+                <asp:PostBackTrigger ControlID="Button1" />
+            </Triggers>
         </asp:UpdatePanel>
         <div style="float: left; display: none">
             <table>

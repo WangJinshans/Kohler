@@ -439,6 +439,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             if (submit == "yes")
             {
                 saveForm(2, "提交表格");
+                //LocalScriptManager.CreateScript(Page, "isKCI();", "KCI");
                 newApproveAccess(FORM_TYPE_ID, formID);
             }
             else
@@ -802,7 +803,8 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
             else if (assess_flow.User_Department_Assess == "1")
             {
-                LocalScriptManager.createManagerScript(Page, "popUp('" + formID + "','yes');", "SHOW");
+                LocalScriptManager.createManagerScript(Page, "iskci('" + formID + "','yes');", "SHOW");
+                //LocalScriptManager.createManagerScript(Page, "popUp('" + formID + "','yes');", "SHOW");
             }
             else
             {

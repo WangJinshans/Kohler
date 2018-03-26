@@ -14,7 +14,7 @@ namespace AendorAssess
 {
     public partial class EmployeeVendor : BasePage
     {
-        private static string temp_Vendor_ID;//可能因为得不到值  所以加了static
+        private static string temp_Vendor_ID;
         private static string factory_Name;
         private static IList<As_Vendor_FormType> list = new List<As_Vendor_FormType>();
 
@@ -366,6 +366,8 @@ namespace AendorAssess
         private void pageRedirect(string aimPageName, string formTypeID)
         {
             int type = Convert.ToInt32(formTypeID);
+            
+
             //得到当前选中的的优先顺序数
             int selectedFormPriorityNumber = getSelectedFormPriorityNumber(formTypeID);
 
@@ -385,6 +387,7 @@ namespace AendorAssess
                     return;
                 }
             }
+
 
             //可选必选结果
             string optional = getOptional(selectedFormPriorityNumber);

@@ -51,7 +51,6 @@ namespace AendorAssess
             As_Assess_Flow assess_flow = Session["AssessflowInfo"] as As_Assess_Flow;
             assess_flows = assess_flow;
             string kci= Request.QueryString["kci"];
-            //string kci = Request.QueryString["ss"]; null
             Form_AssessFlow.Form_ID= Request.QueryString["formid"];
             Form_AssessFlow.First = positionName;
             Form_AssessFlow.Second = assess_flow.Assess_Two_ID;
@@ -61,6 +60,10 @@ namespace AendorAssess
             if (kci == "1")//kci判断是否需要更改
             {
                 Form_AssessFlow.Kci = "1";
+            }
+            else if (kci == "0")
+            {
+                Form_AssessFlow.Kci = "0";
             }
             else if (kci == null)
             {
