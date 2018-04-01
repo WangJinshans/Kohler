@@ -246,14 +246,7 @@ namespace AendorAssess
         /// <param name="FormID"></param>
         public void showfilelist(string FormID)//当Form_ID改变之后 不需要动  只需要获取更新后的Form_ID即可
         {
-            return; //取消填写页面的绑定文件展示 2017年9月22日09:45:21
-            As_Form_File Form_File = new As_Form_File();
-            //string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
-            string sql = "select * from As_Form_File where Form_ID='" + FormID + "'  and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
-            PagedDataSource objpds = new PagedDataSource();
-            objpds.DataSource = FormFile_BLL.listFile(sql);
-            GridView2.DataSource = objpds;
-            GridView2.DataBind();
+
         }
 
         /// <summary>
@@ -350,7 +343,7 @@ namespace AendorAssess
                 Write_BLL.addWrite(write);
                 if (flag == 1)
                 {
-                    //LocalScriptManager.createManagerScript(Page, "window.alert('保存成功！')", "save");
+                    LocalScriptManager.createManagerScript(Page, "window.alert('保存成功！')", "save");
                 }
                 return BiddingForm;
             }

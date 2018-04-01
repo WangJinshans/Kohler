@@ -11,11 +11,19 @@ namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class KCI : System.Web.UI.Page
     {
-        private string position_Name;
+        private static string position_Name;
+        private static string formID;
+
+        private static string Form_Type_ID;
+        private static string temp_vendor_ID;
+
+
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             if (!IsPostBack)
             {
+
                 string sql = "";
                 position_Name = Session["Position_Name"].ToString().Trim();
                 if (position_Name.Equals("采购部经理"))//限制只有采购才有权限进入此页面
@@ -26,7 +34,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     GridView1.DataSource = objpds;
                     GridView1.DataBind();
                 }
-                else if(position_Name.Equals("供应链经理"))
+                else if (position_Name.Equals("供应链经理"))
                 {
                     sql = "select * from As_KCI_Approval where Position_Name='" + "供应链经理" + "' and Flag='0'";
                     PagedDataSource objpds = new PagedDataSource();
@@ -34,18 +42,44 @@ namespace SHZSZHSUPPLY.VendorAssess
                     GridView1.DataSource = objpds;
                     GridView1.DataBind();
                 }
-                
+            }
+            else
+            {
+                switch (Request["__EVENTTARGET"])
+                {
+                    case "operation":
+                        kciAssessStart(Request.Form["__EVENTARGUMENT"].ToString());
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            string formID = e.CommandArgument.ToString().Trim();
-            //获取Form_Type_ID
-            string Form_Type_ID = AddForm_BLL.GetForm_Type_ID(formID);
+            formID = e.CommandArgument.ToString().Trim();
+            Form_Type_ID = AddForm_BLL.GetForm_Type_ID(formID);
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
-            string temp_vendor_ID = GridView1.Rows[drv.RowIndex].Cells[1].Text.ToString().Trim();
-            if (e.CommandName == "success")//确认通过了KCI审批
+            temp_vendor_ID = GridView1.Rows[drv.RowIndex].Cells[1].Text.ToString().Trim();
+
+            string requestType = "kciUpload";
+            string fileTypeID = formID;//TODO::暂时为form_ID
+            string tempVendorName = TempVendor_BLL.getTempVendorName(temp_vendor_ID);
+            LocalScriptManager.CreateScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}')", requestType, temp_vendor_ID, tempVendorName, fileTypeID), "upload");
+
+            //localstore 保存操作
+            LocalScriptManager.CreateScript(Page, String.Format("setOperation('{0}')", e.CommandName.ToString()));
+        }
+
+        /// <summary>
+        /// 开始KCI审批  operation 代表 不同操作 同意或者拒绝
+        /// </summary>
+        /// <param name="operation"></param>
+        /// <returns></returns>
+        private bool kciAssessStart(string operation)
+        {
+            if (operation.Equals("success"))//确认通过了KCI审批
             {
                 if (formID.Contains("BiddingForm"))//比价表的KCI处理 有权限的动态签名问题在同意的时候修改
                 {
@@ -82,10 +116,6 @@ namespace SHZSZHSUPPLY.VendorAssess
                 else if (formID.Contains("PurchasePriceApplication"))//采购价格审批表的KCI处理
                 {
                     KCIApproval_BLL.updateKCIApproval(formID, 1);//KCI审批完成
-                    //TODO::采购价格审批表的KCI签名未处理
-
-                    //Signature_BLL.setSignature(formID, "", "Director_Sourcing_KCI");
-                    //Signature_BLL.setSignature(formID, "", "Finance_Director_KCI");
                     KCIApproval_BLL.setApprovalFinished(Form_Type_ID, 4, temp_vendor_ID);//整张表的审批完成
                 }
                 else if (formID.Contains("VendorExtend"))//供应商扩展表的KCI处理
@@ -106,13 +136,13 @@ namespace SHZSZHSUPPLY.VendorAssess
                 }
                 else if (formID.Contains("Selection"))
                 {
-                    ApprovalFinished(formID,Form_Type_ID ,temp_vendor_ID);
+                    ApprovalFinished(formID, Form_Type_ID, temp_vendor_ID);
                 }
                 ////写出日志
-                LocalLog.writeLog(formID, String.Format("KCI审批成功    时间{0}",DateTime.Now.ToString()), As_Write.APPROVE_SUCCESS, temp_vendor_ID);
+                LocalLog.writeLog(formID, String.Format("KCI审批成功    时间{0}", DateTime.Now.ToString()), As_Write.APPROVE_SUCCESS, temp_vendor_ID);
 
             }
-            else if (e.CommandName == "fail")//KCI审批不过
+            else if (operation.Equals("fail"))//KCI审批不过
             {
                 //流程回滚
                 string tableName = Signature_BLL.switchFormID(formID);
@@ -127,10 +157,8 @@ namespace SHZSZHSUPPLY.VendorAssess
                     Response.Write("<script>messageConfirmNone('KCI拒绝失败！数据库响应错误！');</script>");
                 }
             }
-            string requestType = "kciUpload";
-            string fileTypeID = formID;//TODO::暂时为form_ID
-            string tempVendorName = TempVendor_BLL.getTempVendorName(temp_vendor_ID);
-            LocalScriptManager.CreateScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}')", requestType, temp_vendor_ID, tempVendorName, fileTypeID), "upload");
+            LocalScriptManager.CreateScript(Page, "reloadPage()", "reLoad");
+            return true;
         }
 
 

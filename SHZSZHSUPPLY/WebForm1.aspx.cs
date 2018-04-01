@@ -62,10 +62,5 @@ namespace SHZSZHSUPPLY
             BLL.Utility.SqlUtil Sqlutil = new BLL.Utility.SqlUtil();
             Sqlutil.Sqlclose();
         }
-
-
-
-
-
     }
 }

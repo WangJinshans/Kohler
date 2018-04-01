@@ -12,7 +12,18 @@
     <script src="Script/Own/fileUploader.js?v=9"></script>
     <script>
         function fireRefresh() {
+            __myDoPostBack("operation", getOperation());
+        }
+        //刷新页面
+        function reloadPage() {
             window.location.href = document.URL;
+        }
+        //操作参数存储
+        function setOperation(operation) {
+            localStorage.setItem("operation", operation);
+        }
+        function getOperation() {
+            return localStorage.getItem("operation");
         }
     </script>
 </head>
