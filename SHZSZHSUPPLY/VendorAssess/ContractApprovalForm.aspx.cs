@@ -853,5 +853,13 @@ namespace SHZSZHSUPPLY.VendorAssess
             string requestType = "signleupload";
             ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "signleupload", String.Format("uploadFile('{0}','{1}','{2}','{3}',{4})", requestType, tempVendorID, tempVendorName, formID, "true"), true);
         }
+
+        protected void Button5_Click(object sender, EventArgs e)
+        {
+            string fileID = "";
+            fileID = Vendor_MutipleForm_BLL.getSingleFileID(formID);
+            string formPath = "../files/" + fileID + ".pdf";
+            LocalScriptManager.createManagerScript(Page, "viewFile('" + formPath + "')", "view");
+        }
     }
 }

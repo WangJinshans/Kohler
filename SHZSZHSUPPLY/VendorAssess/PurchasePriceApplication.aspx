@@ -11,6 +11,12 @@
 	<script src="Script/jquery-3.2.1.min.js"></script>
 	<script src="Script/layui/layui.js"></script>
 	<script src="Script/Own/fileUploader.js"></script>
+
+    <script>
+        function viewFile(path) {
+            window.open(path);
+        }
+    </script>
     <style>
         td {
             border:solid #000000;
@@ -275,6 +281,8 @@
 	        <asp:Button ID="Button3" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Button3_Click" />
 	        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	        <asp:Button ID="Button4" runat="server" Text="报价单上传" CssClass="layui-btn layui-btn-danger" OnClick="Button4_Click" />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	        <asp:Button ID="Button5" runat="server" Text="查看报价单" CssClass="layui-btn" OnClick="Button5_Click" />
         </div>
         <%--<asp:UpdatePanel ID="updatePanel" UpdateMode="Conditional" runat="server" ChildrenAsTriggers="false">
             <ContentTemplate>

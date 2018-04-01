@@ -575,6 +575,8 @@
 		        <asp:Button ID="Button3" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Button3_Click" />
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		        <asp:Button ID="Button4" runat="server" Text="合同上传" CssClass="layui-btn layui-btn-danger" OnClick="Button4_Click" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		        <asp:Button ID="Button5" runat="server" Text="查看合同" CssClass="layui-btn" OnClick="Button5_Click" />
                 </div>
             </ContentTemplate>
         </asp:UpdatePanel>

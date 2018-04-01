@@ -5,6 +5,7 @@ using System.Text;
 using MODEL.VendorAssess;
 using System.Data.SqlClient;
 using MODEL;
+using System.Data;
 
 namespace DAL.VendorAssess
 {
@@ -25,6 +26,25 @@ namespace DAL.VendorAssess
             DBHelp.ExecuteCommand(sql);
             sql = "delete from As_Vendor_MutiplyForm where Form_ID='" + formID + "'";
             DBHelp.ExecuteCommand(sql);
+        }
+
+        public static string getSingleFileID(string formID)
+        {
+            string singleFileID = "";
+            string sql = "select File_ID from As_Form_Single_File where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",formID)
+            };
+            DataTable table = DBHelp.GetDataSet(sql, sp);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    singleFileID = dr["File_ID"].ToString();
+                }
+            }
+            return singleFileID;
         }
     }
 }

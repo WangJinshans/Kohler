@@ -1,6 +1,7 @@
 ﻿using BLL;
 using BLL.VendorAssess;
 using Model;
+using MODEL;
 using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
 using System.Collections.Generic;
@@ -102,10 +103,6 @@ namespace SHZSZHSUPPLY.VendorAssess
 
             LocalScriptManager.createManagerScript(Page, String.Format("setVendorName('{0}')", TempVendor_BLL.getTempVendorName(tempVendorID)), "setvendorname");
 
-
-            //设置进度
-            //LocalScriptManager.createManagerScript(Page, String.Format("setFormProgress('{0}')", 0), "setformprogress");
-
             //检查是否可转移
             string factory = Session["Factory_Name"].ToString();
             string employee_ID = Session["Employee_ID"].ToString();
@@ -155,6 +152,27 @@ namespace SHZSZHSUPPLY.VendorAssess
                 formName.InnerText = HttpUtility.HtmlDecode(GridView3.Rows[drv.RowIndex].Cells[1].Text);
                 showDetail(e.CommandArgument.ToString());
             }
+            else if (e.CommandName.Equals("showForm"))
+            {
+                string formID = e.CommandArgument.ToString();
+                showForm(formID);
+            }
+        }
+
+
+        /// <summary>
+        /// 查看具体表格具体信息
+        /// </summary>
+        /// <param name="formID"></param>
+        private void showForm(string formID)
+        {
+            string formTypeID = AddForm_BLL.GetForm_Type_ID(formID);
+            if (formTypeID == "")
+            {
+                return;
+            }
+            Session["FormID"] = formID;
+            Response.Redirect("Show" + PageSelect.dcEditToShow[formTypeID] + "?type=" + formTypeID);
         }
 
         private void showDetail(string formID)

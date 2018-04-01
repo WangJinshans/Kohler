@@ -337,6 +337,11 @@
                         <asp:BoundField DataField="Form_Type_Name" HeaderText="表格名称"
                             SortExpression="Form_Type_Name" />
                         <asp:BoundField DataField="Form_ID" HeaderText="表格编号" SortExpression="Form_ID" />
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:LinkButton CommandName="showForm" runat="server" CommandArgument='<%#Eval("Form_ID") %>'  HeaderText="查看表格" SortExpression="Form_ID" OnClientClick="waiting('正在加载')" >查看表格</asp:LinkButton>
+                            </ItemTemplate>
+                        </asp:TemplateField>
                         <asp:BoundField DataField="DepotSummary" HeaderText="DepotSummary"
                             SortExpression="DepotSummary" Visible="False" />
                         <asp:TemplateField>
@@ -371,13 +376,6 @@
                             </p>
                         </div>
                     </div>
-                </div>
-
-                <fieldset class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
-                    <legend>直观进度</legend>
-                </fieldset>
-                <div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="formProgress" style="width: 1000px; margin: 0 auto 20px auto">
-                    <div class="layui-progress-bar" lay-percent="0%"></div>
                 </div>
 
                 <div style="width: 500px; margin: 50px auto 30px auto; text-align: center">

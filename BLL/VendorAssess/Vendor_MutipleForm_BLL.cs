@@ -22,5 +22,10 @@ namespace BLL.VendorAssess
         {
             Vendor_MutipleForm_DAL.deleteForm(formID);
         }
+
+        public static string getSingleFileID(string formID)
+        {
+            return Vendor_MutipleForm_DAL.getSingleFileID(formID);
+        }
     }
 }
