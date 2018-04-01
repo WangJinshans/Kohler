@@ -13,22 +13,37 @@
     <script src="Script/Own/fileUploader.js?v=9"></script>
     <script>
 
-        function iskci() {
+        function errorMoneyTip() {
+            layui.use(['layer'], function () {
+
+                layer.open({
+                    title: '',
+                    content: '请输入正确的金额!',
+                    btn: ['确定'],
+                    yes: function () {
+                        layer.closeAll();
+                    }
+
+                })
+
+            })
+        }
+
+        function iskci(iskci,content) {
             layui.use(['layer'], function () {
                 layer.open({
-                    title: '是否需要KCI？'
-                    , content: ''
-                    , btn: ['是', '否']
+                    title: ''
+                    , content: content
+                    , btn: ['确定']
                     , yes: function (index, layero) {
                         layer.closeAll();
-                        localStorage.setItem("kci", "1");
+                        if (iskci) {
+                            localStorage.setItem("kci", "1");
+                        } else {
+                            localStorage.setItem("kci", "0");
+                        }
                         __myDoPostBack('startSelection', '');
                     },
-                    btn2: function (index, layero) {
-                        layer.close('index');
-                        localStorage.setItem("kci", "0");
-                        __myDoPostBack('startSelection', '');
-                    }
                 })
             });
         }

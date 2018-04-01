@@ -98,42 +98,42 @@
                 document.getElementById("CheckBox4").checked = false;
             }
         }
-    </script>
-    <script>
-        function messageBox(msg, formid) {
+        //非承诺性 是否标准合同询问框
+        function messageBox(content, formid,iskci) {
             layui.use(['layer'], function () {
                 layer.open({
                     title: '提示信息',
-                    content: '' + msg,
+                    content: '' + content,
                     btn: ['是', '否'],
                     btn1: function (index, layero) {
                         layer.close('index');
-                        //popUp(formid, "yes")//调用popUp函数在
-                        iskci();
+                        iskci(formid, "yes", iskci);//标准合同
                     },
                     btn2: function (index, layero) {
-                        //popUp(formid, "no")//调用popUp函数在
-                        iskci();
                         layer.close('index');
+                        iskci(formid, "no", iskci);//非标准合同
                     }
                 })
             });
         }
 
-        function iskci(formid, result) {
+        //自动判断是否KCI的提示框
+        function iskci(formid, iskci,content) {
             layui.use(['layer'], function () {
                 layer.open({
-                    title: '是否需要KCI？'
-                    , content: ''
-                    , btn: ['是', '否']
+                    title: ''
+                    , content: content
+                    , btn: ['确认']
                     , btn1: function (index, layero) {
                         layer.close('index');
-                        popUp(formid, "yes","1")//调用popUp函数在
+                        if (iskci) {
+                            popUp(formid, "yes", "1");
+                        } else {
+                            popUp(formid, "yes", "0");
+                        }
+                       
                     },
-                    btn2: function (index, layero) {
-                        layer.close('index');
-                        popUp(formid, "yes", "0")//调用popUp函数在
-                    }
+                    
                 })
             });
         }
@@ -233,7 +233,7 @@
                     </td>
                     <td colspan="3" style="border-collapse:collapse;border-top:0;border-bottom:0;border-right:0;">Contract Annual Amount:</td>
                     <td colspan="3" rowspan="2" style="border-collapse:collapse;border-top:0;border-left:0;">
-                        <asp:TextBox TextMode="MultiLine"  runat="server" CssClass="auto-style1" ID="Textbox6" onchange="initMoney()" Height="48px" />
+                        <asp:TextBox TextMode="MultiLine"  runat="server" CssClass="auto-style1" ID="Textbox6" Height="48px" />
                     </td>
                     <td colspan="2" rowspan="3" style="border-bottom:0;border-right:0;border-top:0;">Existing vendor: <br>现有供应商 * </td>
                     <td colspan="1" rowspan="2" style="border-style:none;text-align:center">

@@ -244,40 +244,11 @@ namespace AendorAssess
         /// 显示文件列表
         /// </summary>
         /// <param name="FormID"></param>
-        public void showfilelist(string FormID)//当Form_ID改变之后 不需要动  只需要获取更新后的Form_ID即可
+        public void showfilelist(string FormID)//
         {
 
         }
 
-        /// <summary>
-        /// 提交表格
-        /// </summary>
-        /// <returns></returns>
-        protected string submitForm()
-        {
-            //读取session
-            getSessionInfo();
-
-            SelectDepartment.doSelect();
-
-            //插入到已提交表
-            As_Form form = new As_Form();
-            form.Form_ID = formID;
-            form.Form_Type_Name = FORM_NAME;
-            form.Form_Type_ID = FORM_TYPE_ID;
-            form.Temp_Vendor_Name = tempVendorName;
-            form.Form_Path = "";
-            form.Temp_Vendor_ID = tempVendorID;
-            form.Factory_Name = factory_Name;
-            int add = AddForm_BLL.addForm(form);
-
-            //一旦提交就把表As_Vendor_FormType字段FLag置1.
-            int updateFlag = UpdateFlag_BLL.updateFlag(FORM_TYPE_ID, tempVendorID);
-
-
-            Response.Redirect("EmployeeVendor.aspx");
-            return "";
-        }
         /// <summary>
         /// 保存表格
         /// </summary>
@@ -366,15 +337,37 @@ namespace AendorAssess
             {
                 //形成参数
                 saveForm(2, "提交表格");
-                LocalScriptManager.CreateScript(Page, "iskci();", "KCIseslection");
-                //System.Web.UI.ScriptManager.RegisterStartupScript(updatePanel, Page.GetType(), "KCIseslection", "myskci();", true);
-                //LocalApproveManager.doApproveWithSelection(Page, formID, FORM_NAME, FORM_TYPE_ID, tempVendorID, tempVendorName, Session["Factory_Name"].ToString());
+                bool iskci = false;
+                try
+                {
+                    iskci = isKciByMoney();
+                    string content = "由于金额小于100万，系统已经自动识别为不需要KCI审批";
+                    if (iskci)
+                    {
+                        content = "由于金额大于100万，系统已经自动识别为需要KCI审批";
+                    }
+                    LocalScriptManager.CreateScript(Page, String.Format("iskci('{0}','{1}');", iskci,content), "KCIseslection");
+                }
+                catch
+                {
+                    LocalScriptManager.CreateScript(Page, "errorMoneyTip();", "errorMoneyTip");
+                }
             }
             else
             {
                 LocalApproveManager.showPendingReason(Page,tempVendorID,true);
                // Response.Write("<script>window.alert('无法提交，请等待其他表格审批完毕后再次尝试！')</script>");
             }
+        }
+
+        private bool isKciByMoney()
+        {
+            int money = Convert.ToInt32(TextBox4.Text.ToString());
+            if (!(money < 100))
+            {
+                return true;
+            }
+            return false;
         }
 
         protected void Button2_Click(object sender, EventArgs e)
