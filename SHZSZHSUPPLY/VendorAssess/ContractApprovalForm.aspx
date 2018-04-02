@@ -126,7 +126,7 @@
                     , btn: ['确认']
                     , btn1: function (index, layero) {
                         layer.close('index');
-                        if (iskci) {
+                        if (iskci=="True") {
                             popUp(formid, "yes", "1");
                         } else {
                             popUp(formid, "yes", "0");

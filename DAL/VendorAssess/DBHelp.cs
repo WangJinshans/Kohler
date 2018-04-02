@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DAL.VendorAssess;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -15,8 +16,7 @@ namespace DAL
         {
             get
             {
-                string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["connectionstring"].ToString();
-
+                string connectionString = DataEncrypt.Decrypt(System.Configuration.ConfigurationManager.ConnectionStrings["connectionstring"].ToString());
                 if (connection == null)
                 {
                     connection = new SqlConnection(connectionString);
@@ -207,13 +207,16 @@ namespace DAL
 
         public static DataTable GetDataSet(string safeSql)
         {
-            DataSet ds = new DataSet();
+            //DataSet ds = new DataSet();
+            DataTable table = new DataTable();
             SqlCommand cmd = new SqlCommand(safeSql, Connection);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
-            da.Fill(ds);
+            //da.Fill(ds);
+            da.Fill(table);
             da.Dispose();
             cmd.Dispose();
-            return ds.Tables[0];
+            //return ds.Tables[0];
+            return table;
         }
 
         public static DataTable GetDataSet(string sql, params SqlParameter[] values)

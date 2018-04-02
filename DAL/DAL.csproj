@@ -64,6 +64,7 @@
     <Compile Include="VendorAssess\As_Vendor_Designated_Apply_DAL.cs" />
     <Compile Include="VendorAssess\CheckFlag_DAL.cs" />
     <Compile Include="VendorAssess\ContractApproval_DAL.cs" />
+    <Compile Include="VendorAssess\DataEncrypt.cs" />
     <Compile Include="VendorAssess\Department_DAL.cs" />
     <Compile Include="VendorAssess\EditFlow_DAL.cs" />
     <Compile Include="VendorAssess\EmployeeForm_DAL.cs" />

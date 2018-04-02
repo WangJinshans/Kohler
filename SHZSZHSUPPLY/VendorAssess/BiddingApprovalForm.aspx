@@ -41,7 +41,7 @@
                     , btn: ['确定']
                     , yes: function (index, layero) {
                         layer.closeAll();
-                        if (iskci) {
+                        if (iskci=="True") {
                             localStorage.setItem("kci", "1");
                         } else {
                             localStorage.setItem("kci", "0");
