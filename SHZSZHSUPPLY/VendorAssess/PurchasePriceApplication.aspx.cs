@@ -111,6 +111,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 if (purchasePrice.PurchasePriceItem != null && purchasePrice.PurchasePriceItem.Count > 0)
                 {
+                    textbox121.Text = purchasePrice.ReMark;
                     #region
                     for (int i = 0; i < purchasePrice.PurchasePriceItem.Count; i++)
                     {
@@ -389,6 +390,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             purchasePrice.Temp_Vendor_Name = tempVendorName;
             purchasePrice.Flag = flag;
             purchasePrice.Initiator = image1.ImageUrl;
+            purchasePrice.ReMark = textbox121.Text;
             int join = PurchasePriceApplication_BLL.updateVendorPurchasePriceApplication(purchasePrice);
             if (join > 0)
             {

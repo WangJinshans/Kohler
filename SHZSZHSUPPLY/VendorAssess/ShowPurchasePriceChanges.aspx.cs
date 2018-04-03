@@ -49,6 +49,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 Image3.ImageUrl = asPurchaseChanges.Finance_Leader;
                 Image4.ImageUrl = asPurchaseChanges.GM;
                 Image5.ImageUrl = asPurchaseChanges.Associated_Director_Sourcin;
+                TextBox331.Text = asPurchaseChanges.Remark;
                 //Show Page Images
             }
             else

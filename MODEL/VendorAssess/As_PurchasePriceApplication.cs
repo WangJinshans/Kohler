@@ -20,6 +20,7 @@ namespace MODEL.VendorAssess
         private string gM;
         private string director_Sourcing_KCI;
         private string finance_Director_KCI;
+        private string reMark;
         private List<As_PurchasePriceApplication_Item> purchasePriceItem;
 
         public string Form_ID
@@ -201,6 +202,19 @@ namespace MODEL.VendorAssess
             set
             {
                 finance_Director_KCI = value;
+            }
+        }
+
+        public string ReMark
+        {
+            get
+            {
+                return reMark;
+            }
+
+            set
+            {
+                reMark = value;
             }
         }
     }

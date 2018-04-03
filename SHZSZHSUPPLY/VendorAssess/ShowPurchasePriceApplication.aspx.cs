@@ -56,6 +56,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 if (purchasePrice.PurchasePriceItem != null && purchasePrice.PurchasePriceItem.Count > 0)
                 {
+                    textbox121.Text = purchasePrice.ReMark;
                     #region
                     for (int i = 0; i < purchasePrice.PurchasePriceItem.Count; i++)
                     {

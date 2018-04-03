@@ -56,6 +56,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 if (serviceComponent.ComponentApplicationItem != null && serviceComponent.ComponentApplicationItem.Count > 0)
                 {
+                    textbox101.Text = serviceComponent.Remark;
                     #region
                     for (int i = 0; i < serviceComponent.ComponentApplicationItem.Count; i++)
                     {

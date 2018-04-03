@@ -234,18 +234,8 @@
                 <td><asp:TextBox runat="server" ID="textbox120" TextMode="MultiLine" CssClass="textbox-width"/></td>
             </tr>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>备注：</td>
+                <td colspan="11" ><asp:TextBox runat="server" ID="textbox121" TextMode="MultiLine" CssClass="textbox-width"/></td>
             </tr>
             <tr>
                 <td colspan="3">Initiator:</td>

@@ -109,6 +109,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 if (serviceComponent.ComponentApplicationItem != null && serviceComponent.ComponentApplicationItem.Count > 0)
                 {
+                    textbox101.Text = serviceComponent.Remark;
                     #region
                     for (int i = 0; i < serviceComponent.ComponentApplicationItem.Count; i++)
                     {
@@ -358,6 +359,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             serviceComponent.Temp_Vendor_Name = tempVendorName;
             serviceComponent.Flag = flag;
             serviceComponent.Initiator = image1.ImageUrl;
+            serviceComponent.Remark = textbox101.Text;
             int join = ServiceComponentApplication_BLL.updateVendorServiceComponent(serviceComponent);
             if (join > 0)
             {

@@ -476,6 +476,10 @@
 			<tfoot><tr><td class="none-border-td" colspan="10">All price are RMB w/o Vat</td></tr></tfoot>
 		</table>
 	
+        <div>
+            <p>备注：</p>
+            <asp:TextBox TextMode="MultiLine" ReadOnly="true" runat="server" ID="TextBox331"></asp:TextBox>
+        </div>
 
 	<table style="margin-top: 30px; border-collapse: separate; border-spacing: 0px 10px">
 		<tr>

@@ -23,6 +23,7 @@
         public string Currency { get; set; }
         public string Date { get; set; }
 
+        public string Remark { get; set; }
 
     }
 }

@@ -18,6 +18,7 @@ namespace MODEL.VendorAssess
         private string finance_Manager;
         private string gM;
         private int flag;
+        private string remark;
 
         public List<As_ServiceComponentApplication_Item> ComponentApplicationItem
         {
@@ -159,6 +160,19 @@ namespace MODEL.VendorAssess
             set
             {
                 flag = value;
+            }
+        }
+
+        public string Remark
+        {
+            get
+            {
+                return remark;
+            }
+
+            set
+            {
+                remark = value;
             }
         }
     }
