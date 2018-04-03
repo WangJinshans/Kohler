@@ -289,7 +289,8 @@
                         <asp:TextBox runat="server" ReadOnly="True" ID="textbox100" TextMode="MultiLine" CssClass="textbox-width" /></td>
                 </tr>
                 <tr>
-                    <td colspan="10"></td>
+                    <td >备注：</td>
+                    <td colspan="9"><asp:TextBox runat="server" ID="textbox101" ReadOnly="true" TextMode="MultiLine" CssClass="textbox-width" /></td>
                 </tr>
                 <tr>
                     <td colspan="2">Initiator:</td>

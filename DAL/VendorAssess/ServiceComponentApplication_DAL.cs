@@ -37,10 +37,11 @@ namespace DAL.VendorAssess
                 DBHelp.ExecuteCommand(del_sql, sq);
             }
 
-            string sql1 = "UPDATE As_Vendor_ServiceComponentApplication SET Initiator=@Initiator WHERE Form_ID=@Form_ID";
+            string sql1 = "UPDATE As_Vendor_ServiceComponentApplication SET Initiator=@Initiator,Remark=@Remark WHERE Form_ID=@Form_ID";
             SqlParameter[] up_spp = new SqlParameter[]
             {
                 new SqlParameter("@Initiator", vendor_ServiceComponent.Initiator),
+                new SqlParameter("@Remark",vendor_ServiceComponent.Remark),
                 new SqlParameter("@Form_ID",vendor_ServiceComponent.Form_ID)
             };
             DBHelp.ExecuteCommand(sql1, up_spp);
@@ -161,6 +162,7 @@ namespace DAL.VendorAssess
                     serviceComponent.Supply_Chain_Manager = drs["Purchasing_Manager"].ToString();
                     serviceComponent.Finance_Manager = drs["Finance_Leader"].ToString();
                     serviceComponent.GM = drs["General_Manager"].ToString();
+                    serviceComponent.Remark = drs["Remark"].ToString();
                 }
             }
             DataTable table_item = DBHelp.GetDataSet(sql1,sp1);

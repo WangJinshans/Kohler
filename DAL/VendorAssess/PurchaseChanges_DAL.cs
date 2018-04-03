@@ -52,6 +52,7 @@ namespace DAL.VendorAssess
                     asPurchaseChanges.Vendor_Code = Convert.ToString(dr["Vendor_Code"]);
                     asPurchaseChanges.Currency = Convert.ToString(dr["Currency"]);
                     asPurchaseChanges.Initiator = Convert.ToString(dr["Initiator"]);
+                    asPurchaseChanges.Remark= Convert.ToString(dr["Remark"]);
                 }
             }
             return asPurchaseChanges;
@@ -88,7 +89,7 @@ namespace DAL.VendorAssess
 
         public static int update(As_Purchase_Changes asPurchaseChanges, List<As_Purchase_Changes_Item> list)
         {
-            string sql = "UPDATE As_Purchase_Changes SET Vendor=@Vendor,Vendor_Code=@Vendor_Code,Currency=@Currency,Date=@Date,Submit=@Submit,Flag=@Flag,Initiator=@Initiator WHERE Form_ID=@Form_ID";
+            string sql = "UPDATE As_Purchase_Changes SET Vendor=@Vendor,Vendor_Code=@Vendor_Code,Currency=@Currency,Date=@Date,Submit=@Submit,Flag=@Flag,Initiator=@Initiator,Remark=@Remark WHERE Form_ID=@Form_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Form_ID",asPurchaseChanges.Form_ID), 
@@ -99,6 +100,7 @@ namespace DAL.VendorAssess
                 new SqlParameter("@Vendor_Code",asPurchaseChanges.Vendor_Code), 
                 new SqlParameter("@Vendor",asPurchaseChanges.Vendor),
                 new SqlParameter("@Initiator",asPurchaseChanges.Initiator),
+                new SqlParameter("@Remark",asPurchaseChanges.Remark)
             };
             int result = DBHelp.ExecuteCommand(sql, sp);
             int resudlt = DBHelp.ExecuteCommand("Delete From As_Purchase_Changes_Item Where Form_ID='" +asPurchaseChanges.Form_ID + "'");

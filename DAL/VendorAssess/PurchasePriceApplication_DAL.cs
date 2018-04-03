@@ -29,11 +29,12 @@ namespace DAL.VendorAssess
             string sql = "insert into As_Vendor_PurchasePriceApplication_Item(NO,SKU,Description,Supplier,USD_Cost,Tooling_Cost,TTL_Cost,MOQ,Lead_time,Other_Source,Order_Share,Now_Price,Form_ID)values(@NO,@SKU,@Description,@Supplier,@USD_Cost,@Tooling_Cost,@TTL_Cost,@MOQ,@Lead_time,@Other_Source,@Order_Share,@Now_Price,@Form_ID)";
             string del_sql = "delete from As_Vendor_PurchasePriceApplication_Item where Form_ID=@Form_ID";
 
-            string sql1 = "UPDATE As_Vendor_PurchasePriceApplication SET Initiator=@Initiator WHERE Form_ID=@Form_ID";
+            string sql1 = "UPDATE As_Vendor_PurchasePriceApplication SET Initiator=@Initiator,Remark=@Remark WHERE Form_ID=@Form_ID";
             SqlParameter[] up_spp = new SqlParameter[]
             {
                 new SqlParameter("@Initiator", purchasePrice.Initiator),
-                new SqlParameter("@Form_ID",purchasePrice.Form_ID)
+                new SqlParameter("@Form_ID",purchasePrice.Form_ID),
+                new SqlParameter("@Remark",purchasePrice.ReMark)
             };
             DBHelp.ExecuteCommand(sql1, up_spp);
 
@@ -167,6 +168,7 @@ namespace DAL.VendorAssess
                     purchasePrice.GM = drs["General_Manager"].ToString();
                     purchasePrice.Director_Sourcing_KCI = drs["Director_Sourcing_KCI"].ToString();
                     purchasePrice.Finance_Director_KCI = drs["Finance_Director_KCI"].ToString();
+                    purchasePrice.ReMark = drs["ReMark"].ToString();
                 }
             }
             DataTable table_item = DBHelp.GetDataSet(sql1, sp1);

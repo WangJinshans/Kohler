@@ -142,6 +142,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 TextBox3.Text = asPurchaseChanges.Currency;
                 TextBox4.Text = asPurchaseChanges.Date;
                 Image1.ImageUrl = asPurchaseChanges.Initiator;
+                TextBox331.Text = asPurchaseChanges.Remark;
                 //Show Page Images
             }
             else
@@ -306,7 +307,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     }
                 }
             }
-
+            asPurchaseChanges.Remark = TextBox331.Text;
             int join = PurchaseChanges_BLL.update(asPurchaseChanges, list);
             if (join > 0)
             {
