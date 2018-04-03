@@ -120,21 +120,21 @@ namespace AendorAssess
 
             //查询所有等待其他部门填写的表格
             //string sql1 = String.Format("SELECT * FROM View_Wait_MultiFill WHERE Temp_Vendor_ID='{0}'and flag ='2' and Factory_Name='{1}' order by Form_Type_Priority_Number asc", tempVendorID, factoryName);
-            string sql1 = String.Format("SELECT * FROM View_Wait_MultiFill WHERE Employee_ID='{0}'", Session["Employee_ID"].ToString());
-            PagedDataSource objpds1 = new PagedDataSource();
-            objpds1.DataSource = SelectForm_BLL.selectForm(sql1);
-            if (objpds1.Count > 0)
-            {
-                Legend3.Visible = true;
-                GridView1.DataSource = objpds1;
-                GridView1.DataBind();
-            }
-            else
-            {
-                Legend3.Visible = false;
-                GridView1.DataSource = null;
-                GridView1.DataBind();
-            }
+            //string sql1 = String.Format("SELECT * FROM View_Wait_MultiFill WHERE Employee_ID='{0}'", Session["Employee_ID"].ToString());
+            //PagedDataSource objpds1 = new PagedDataSource();
+            //objpds1.DataSource = SelectForm_BLL.selectForm(sql1);
+            //if (objpds1.Count > 0)
+            //{
+            //    Legend3.Visible = true;
+            //    GridView1.DataSource = objpds1;
+            //    GridView1.DataBind();
+            //}
+            //else
+            //{
+            //    Legend3.Visible = false;
+            //    GridView1.DataSource = null;
+            //    GridView1.DataBind();
+            //}
 
 
             //根据供应商类型编号查询所有已提交表格

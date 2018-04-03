@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="QualityDetection\MyExcelSheet.cs" />
     <Compile Include="VenderInfo\ItemCategory_Model.cs" />
     <Compile Include="VenderInfo\ItemList_Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
