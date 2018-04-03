@@ -52,25 +52,12 @@
             window.open(filePath);
         }
     </script>
-    <%--<script>
-        function __myDoPostBack(eventTarget, eventArgument) {
-            var theForm = document.forms['form1'];
-            if (!theForm) {
-                theForm = document.form1;
-            }
-            if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
-                theForm.__EVENTTARGET.value = eventTarget;
-                theForm.__EVENTARGUMENT.value = eventArgument;
-                theForm.submit();
-            }
-        }
-    </script>--%>
     <script>
-        function popUp(formid, result) {
+        function popUp(formid, result, kci) {
             layui.use(['layer'], function () {
                 layer.open({
                     title: '请选择审批部门',
-                    content: 'SelectDepartment.aspx?formid=' + formid + "&kci=" + "1",
+                    content: 'SelectDepartment.aspx?formid=' + formid + "&kci=" + kci,
                     type: 2,
                     area: ['750px', '400px'],
                     shade: 0.3,
@@ -111,22 +98,42 @@
                 document.getElementById("CheckBox4").checked = false;
             }
         }
-    </script>
-    <script>
-        function messageBox(msg, formid) {
-            layer.use(['layer'], function () {
+        //非承诺性 是否标准合同询问框
+        function messageBox(content, formid,iskci) {
+            layui.use(['layer'], function () {
                 layer.open({
                     title: '提示信息',
-                    content: '' + msg,
+                    content: '' + content,
                     btn: ['是', '否'],
                     btn1: function (index, layero) {
                         layer.close('index');
-                        popUp(formid, "yes")//调用popUp函数在
+                        iskci(formid, "yes", iskci);//标准合同
                     },
                     btn2: function (index, layero) {
-                        popUp(formid, "no")//调用popUp函数在
                         layer.close('index');
+                        iskci(formid, "no", iskci);//非标准合同
                     }
+                })
+            });
+        }
+
+        //自动判断是否KCI的提示框
+        function iskci(formid, iskci,content) {
+            layui.use(['layer'], function () {
+                layer.open({
+                    title: ''
+                    , content: content
+                    , btn: ['确认']
+                    , btn1: function (index, layero) {
+                        layer.close('index');
+                        if (iskci=="True") {
+                            popUp(formid, "yes", "1");
+                        } else {
+                            popUp(formid, "yes", "0");
+                        }
+                       
+                    },
+                    
                 })
             });
         }
@@ -226,7 +233,7 @@
                     </td>
                     <td colspan="3" style="border-collapse:collapse;border-top:0;border-bottom:0;border-right:0;">Contract Annual Amount:</td>
                     <td colspan="3" rowspan="2" style="border-collapse:collapse;border-top:0;border-left:0;">
-                        <asp:TextBox TextMode="MultiLine"  runat="server" CssClass="auto-style1" ID="Textbox6" onchange="initMoney()" Height="48px" />
+                        <asp:TextBox TextMode="MultiLine"  runat="server" CssClass="auto-style1" ID="Textbox6" Height="48px" />
                     </td>
                     <td colspan="2" rowspan="3" style="border-bottom:0;border-right:0;border-top:0;">Existing vendor: <br>现有供应商 * </td>
                     <td colspan="1" rowspan="2" style="border-style:none;text-align:center">
@@ -568,6 +575,8 @@
 		        <asp:Button ID="Button3" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Button3_Click" />
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		        <asp:Button ID="Button4" runat="server" Text="合同上传" CssClass="layui-btn layui-btn-danger" OnClick="Button4_Click" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		        <asp:Button ID="Button5" runat="server" Text="查看合同" CssClass="layui-btn" OnClick="Button5_Click" />
                 </div>
             </ContentTemplate>
         </asp:UpdatePanel>

@@ -342,7 +342,7 @@
                     <SortedDescendingHeaderStyle BackColor="#7E0000" />
                 </asp:GridView>
             </div>
-            <div>
+            <%--<div>
                 <fieldset runat="server" id="Legend3" class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
                     <legend>等待其他部门填写的表格</legend>
                 </fieldset>
@@ -373,7 +373,6 @@
 
                     </Columns>
                     <FooterStyle BackColor="#FFF" ForeColor="#330099" />
-                    <%--<HeaderStyle BackColor="#04A5C2" Font-Bold="True" ForeColor="#FEFEFE" />--%>
                     <HeaderStyle BackColor="#507CD1" Font-Bold="true" ForeColor="White" />
                     <PagerStyle BackColor="#FFFFCC" ForeColor="#330099" HorizontalAlign="Center" />
                     <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="#663399" />
@@ -382,7 +381,7 @@
                     <SortedDescendingCellStyle BackColor="#F6F0C0" />
                     <SortedDescendingHeaderStyle BackColor="#7E0000" />
                 </asp:GridView>
-            </div>
+            </div>--%>
             
             <div>
                 <fieldset class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">

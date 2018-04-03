@@ -192,14 +192,6 @@
                 <td bgcolor="#324143">
 
                     <ul id="jsddm">
-                        <li><a href="#" style="text-align: center; display: none">供应商管理</a>
-                            <ul>
-                                <li><a href="VenderInfo/VenderCreate.aspx" target="iFrame1">供应商信息创建 </a></li>
-                                <li><a href="VenderInfo/VenderMaintenance.aspx" target="iFrame1">供应商信息编辑</a></li>
-                                <li><a href="VenderInfo/VenderInfoDisplay.aspx" target="iFrame1">供应商信息查看</a></li>
-                                <li><a href="VenderInfo/SharedItemMA.aspx" target="iFrame1">供应商变更及文档删除</a></li>
-                            </ul>
-                        </li>
 
                         <li><a href="#" onclick="reshowMenu()">供应商审批</a>
                             <ul>
@@ -252,7 +244,6 @@
                             <ul>
                                 <li><a href="#" target="iFrame1">文档类型管理</a></li>
                                 <li><a href="#" target="iFrame1">用户权限分配</a></li>
-
                             </ul>
                         </li>
                         <li style="border-right: 1px solid white;"><a href="Login.aspx" style="text-align: center">退出</a>
@@ -266,25 +257,28 @@
             <table class="style6" cellpadding="0" cellspacing="0" align="center">
                 <tr>
                     <td>
-                        <iframe name="iFrame1" class="iFrame1" marginwidth="0" frameborder="0" id="iFrame1" scrolling="yes"
-                            runat="server"></iframe>
+                        <iframe name="iFrame1" class="iFrame1" marginwidth="0" frameborder="0" id="iFrame1" scrolling="yes" runat="server"></iframe>
                     </td>
                 </tr>
             </table>
         </div>
         <div style="position: fixed; bottom: 0px; left: 40%; margin: 0 auto; width: 20%; height: 50px">
-            <div style="font-size: small; font-family: Arial; text-align: center; border-top: 1; margin-top: 20px">上海科勒 2016年12月</div>
+            <div style="font-size: small; font-family: Arial; text-align: center; border-top: 1px; margin-top: 20px">上海科勒 2016年12月</div>
         </div>
         <script type="text/javascript">
-            var iframeids = ["iFrame1"]
-            var iframehide = "yes"
+            var iframeids = ["iFrame1"];
+            var iframehide = "yes";
             function dyniframesize() {
-                var dyniframe = new Array()
+                var dyniframe = new Array();
                 for (i = 0; i < iframeids.length; i++) {
                     if (document.getElementById) {
+
                         dyniframe[dyniframe.length] = document.getElementById(iframeids[i]);
+
                         if (dyniframe[i] && !window.opera) {
-                            dyniframe[i].style.display = "block"
+
+                            dyniframe[i].style.display = "block";
+
                             if (dyniframe[i].contentDocument && dyniframe[i].contentDocument.body.offsetHeight)
                                 dyniframe[i].height = dyniframe[i].contentDocument.body.offsetHeight;
                             else if (dyniframe[i].Document && dyniframe[i].Document.body.scrollHeight)
@@ -299,15 +293,15 @@
             }
 
             if (window.addEventListener)
-                window.addEventListener("load", dyniframesize, false)
+                window.addEventListener("load", dyniframesize, false);
             else if (window.attachEvent)
-                window.attachEvent("onload", dyniframesize)
+                window.attachEvent("onload", dyniframesize);
             else
-                window.onload = dyniframesize
+                window.onload = dyniframesize;
 
 
 
-    </script>
+        </script>
 
 
         <script language="javaScript" type="text/javascript" src="jsddm.0.25/jquery.min.js"></script>
@@ -334,17 +328,12 @@
                     closetimer = null;
                 }
             }
-
             $(document).ready(function () {
                 $('#jsddm > li').bind('mouseover', jsddm_open);
                 $('#jsddm > li').bind('mouseout', jsddm_timer);
             });
-
             document.onclick = jsddm_close;
-
-
-
-     </script>
+        </script>
 
     </form>
 </body>

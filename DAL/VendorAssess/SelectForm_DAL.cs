@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using System.Data.SqlClient;
 
 namespace DAL
 {
@@ -34,8 +35,57 @@ namespace DAL
                     }
                     list.Add(form);
                 }
+                foreach (As_Form forms in list)
+                {
+                    if (forms.Assess_Status.Equals("finished"))
+                    {
+                        if (isRealFinished(forms.Form_ID).Equals("false"))//存在记录但是并未完成
+                        {
+                            forms.Assess_Status = "0";
+                        }
+                    }
+                }
             }
             return list;
+        }
+
+        /// <summary>
+        /// 在VendorEmployee页面中已提交表格审批完成的提示 
+        /// 查询的是View_Top_Detail中的Assess_Flag，没有考虑到KCI的情况 此方法用于确认是否真正完成审批
+        /// none 老供应商  false  未完成审批  true 完成审批
+        /// </summary>
+        /// <param name="form_ID"></param>
+        /// <returns></returns>
+        private static string isRealFinished(string form_ID)
+        {
+            string sql = "select Fill_Flag from As_Vendor_MutiplyForm where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",form_ID)
+            };
+            try
+            {
+                DataTable table = DBHelp.GetDataSet(sql, sp);
+                if (table.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in table.Rows)
+                    {
+                        if (Convert.ToInt32(dr["Fill_Flag"].ToString()) == 4)
+                        {
+                            return "true";
+                        }
+                        else
+                        {
+                            return "false";
+                        }
+                    }
+                }
+                return "none";
+            }
+            catch
+            {
+                return "none";//老供应商 As_Vendor_MutiplyForm不存在记录
+            }
         }
 
         public static IEnumerable selectAssessFile(string sql)

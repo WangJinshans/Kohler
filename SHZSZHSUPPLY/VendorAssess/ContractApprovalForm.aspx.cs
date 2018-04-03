@@ -439,6 +439,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             if (submit == "yes")
             {
                 saveForm(2, "提交表格");
+                //LocalScriptManager.CreateScript(Page, "isKCI();", "KCI");
                 newApproveAccess(FORM_TYPE_ID, formID);
             }
             else
@@ -784,8 +785,17 @@ namespace SHZSZHSUPPLY.VendorAssess
             //写入session之后供SelectDepartment页面使用
             Session["AssessflowInfo"] = assess_flow;
             Session["tempVendorID"] = tempVendorID;
-            //Session["Factory_Name"] = Session["Factory_Name"];
             Session["form_name"] = FORM_NAME;
+
+            //金额判断KCI
+            bool iskci = isKciByMoney();
+
+            string content = "由于金额小于100万，系统已经自动识别为不需要KCI审批";
+
+            if (iskci)
+            {
+                content = "由于金额大于100万，系统已经自动识别为需要KCI审批";
+            }
 
             //通过tempvendorID判断是否是非承诺性供应商 如果是则后面点击否的时候需要KCI进行审批 否则不需要
             string promise = VendorType_BLL.selectVendorPromise(tempVendorID);//获取promise
@@ -793,7 +803,8 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 if (assess_flow.User_Department_Assess == "1")
                 {
-                    LocalScriptManager.createManagerScript(Page, "messageBox('" + "是否是标准合同？" + "','" + formID + "');", "StandardConstract");
+                    //LocalScriptManager.createManagerScript(Page, "messageBox('" + "是否是标准合同？" + "','" + formID + "');", "StandardConstract");
+                    LocalScriptManager.createManagerScript(Page, String.Format("messageBox('{0}','{1}','{2}');", "是否是标准合同？", formID, content), "StandardConstract");
                 }
                 else//非承诺性且非用户部门   暂时没有此类情况 不做处理
                 {
@@ -802,15 +813,25 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
             else if (assess_flow.User_Department_Assess == "1")
             {
-                LocalScriptManager.createManagerScript(Page, "popUp('" + formID + "','yes');", "SHOW");
+                //LocalScriptManager.createManagerScript(Page, "iskci('" + formID + "','yes','');", "SHOW");
+                LocalScriptManager.createManagerScript(Page, String.Format("iskci('{0}','{1}','{2}');", formID, iskci, content), "SHOW");
             }
             else
             {
-                //TODO::这里不能这样写，具体参考Creation的写法，这里暂时不改
                 Session["tempvendorname"] = tempVendorName;
                 Session["Employee_ID"] = Session["Employee_ID"];
                 Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx</script>");
             }
+        }
+
+        private bool isKciByMoney()
+        {
+            int money = Convert.ToInt32(Textbox6.Text.ToString());
+            if (!(money < 100))
+            {
+                return true;
+            }
+            return false;
         }
 
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -831,6 +852,14 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             string requestType = "signleupload";
             ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "signleupload", String.Format("uploadFile('{0}','{1}','{2}','{3}',{4})", requestType, tempVendorID, tempVendorName, formID, "true"), true);
+        }
+
+        protected void Button5_Click(object sender, EventArgs e)
+        {
+            string fileID = "";
+            fileID = Vendor_MutipleForm_BLL.getSingleFileID(formID);
+            string formPath = "../files/" + fileID + ".pdf";
+            LocalScriptManager.createManagerScript(Page, "viewFile('" + formPath + "')", "view");
         }
     }
 }

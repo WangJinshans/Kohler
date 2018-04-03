@@ -92,9 +92,9 @@ namespace DAL
         public static string selectVendorPromise(string tempVendorID)
         {
             string promise = null;
-            string sql = "Select Promise FROM As_Vendor_Type,As_Temp_Vendor WHERE "
-                + "As_Temp_Vendor.Vendor_Type_ID=As_Vendor_Type.Vendor_Type_ID "
-                + "and As_Temp_Vendor.Temp_Vendor_ID=@Temp_Vendor_ID";
+            string sql = "Select Promise FROM As_Vendor_Type,As_Temp_Vendorchange WHERE "
+                + "As_Temp_Vendorchange.Vendor_Type_ID=As_Vendor_Type.Vendor_Type_ID "
+                + "and As_Temp_Vendorchange.Temp_Vendor_ID=@Temp_Vendor_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Temp_Vendor_ID",tempVendorID)

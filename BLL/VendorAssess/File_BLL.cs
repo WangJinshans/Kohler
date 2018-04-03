@@ -107,5 +107,20 @@ namespace BLL
             }
             return fileID;
         }
+
+        public static string getFilePath(string fileID)
+        {
+            string sql = "select File_Path from As_File where File_ID='" + fileID + "'";
+            DataTable table = DBHelp.GetDataSet(sql);
+            string filePath = "";
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    filePath = dr["File_Path"].ToString();
+                }
+            }
+            return filePath;
+        }
     }
 }

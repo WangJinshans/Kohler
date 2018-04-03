@@ -13,9 +13,9 @@ using Model;
 using System.IO;
 
 namespace SHZSZHSUPPLY.VenderInfo
-  
+
 {
-    public partial class VenderMaintenance : System.Web.UI.Page  
+    public partial class VenderMaintenance : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -27,20 +27,20 @@ namespace SHZSZHSUPPLY.VenderInfo
             }
 
             if (IsPostBack == false)
-            {   
-                SystemAdmin_BLL SystemAdmin_BLL=new SystemAdmin_BLL ();
+            {
+                SystemAdmin_BLL SystemAdmin_BLL = new SystemAdmin_BLL();
 
 
 
-                if (Session["plantname"].ToString () == "无" ) 
+                if (Session["plantname"].ToString() == "无")
                 {
-                   DropDownList1.Enabled = false;
-                   Label1.Enabled  = false;
-                   Button1.Enabled = false;
+                    DropDownList1.Enabled = false;
+                    Label1.Enabled = false;
+                    Button1.Enabled = false;
                 }
 
                 DropDownList3.SelectedValue = Session["plantname"].ToString();
-               
+
 
                 if (Session.Count > 0)
                 {
@@ -50,22 +50,12 @@ namespace SHZSZHSUPPLY.VenderInfo
                         if (key == "vendercodeExist")
                         {
                             DropDownList1.SelectedValue = Session["vendercodeExist"].ToString();
-                           
-
-
                         }
-
-                 
 
                         if (key == "vendertypeExist")
                         {
-                           
                             DropDownList2.SelectedValue = Session["vendertypeExist"].ToString();
-
-
                         }
-
-
                     }
 
                     Session.Remove("vendercodeExist");
@@ -95,21 +85,14 @@ namespace SHZSZHSUPPLY.VenderInfo
                     DropDownList2.DataTextField = "vender_type";
                     DropDownList2.DataBind();
                 }
-                
-                
-                
-                
-                
-                
+
+
                 VenderList_BLL VenderList_BLL = new VenderList_BLL();
                 List<VenderList_BO> VenderList_BO_List = new List<VenderList_BO>();
 
-          
-            
 
+                VenderList_BO_List = VenderList_BLL.VenderList_BLL_List(DropDownList1.SelectedValue);
 
-                VenderList_BO_List = VenderList_BLL.VenderList_BLL_List(DropDownList1.SelectedValue );
-               
                 if (VenderList_BO_List.Count > 0)
                 {
                     Label1.Text = VenderList_BO_List[0].Vender_Name;
@@ -129,9 +112,9 @@ namespace SHZSZHSUPPLY.VenderInfo
         {
             VenderList_BLL VenderList_BLL = new VenderList_BLL();
 
-    
-          
-      
+
+
+
 
             if (DropDownList1.Text.Length == 0)
             {
@@ -141,22 +124,22 @@ namespace SHZSZHSUPPLY.VenderInfo
 
 
             List<VenderList_BO> VenderList = new List<VenderList_BO>();
-            VenderList = VenderList_BLL.VenderList_BLL_List(DropDownList1.Text  );
+            VenderList = VenderList_BLL.VenderList_BLL_List(DropDownList1.Text);
             if (VenderList.Count > 0)
             {
-                Label1 .Text  = VenderList[0].Vender_Name;
+                Label1.Text = VenderList[0].Vender_Name;
             }
 
             List<VenderPlantList_BO> VenderPlantList_List = new List<VenderPlantList_BO>();
             VenderPlantList_BLL VenderPlantList_BLL = new VenderPlantList_BLL();
-            VenderPlantList_List = VenderPlantList_BLL.VenderPlantList_BLL_List(DropDownList1.SelectedValue,DropDownList3 .SelectedValue,DropDownList2 .SelectedValue  );
+            VenderPlantList_List = VenderPlantList_BLL.VenderPlantList_BLL_List(DropDownList1.SelectedValue, DropDownList3.SelectedValue, DropDownList2.SelectedValue);
             GridView1.DataSource = VenderPlantList_List;
             GridView1.DataBind();
 
 
             List<ItemCategory_BO> ItemCategory_ALL_List = new List<ItemCategory_BO>();
             ItemCategoryVendertype_BLL ItemCategory_BLL = new ItemCategoryVendertype_BLL();
-            ItemCategory_ALL_List = ItemCategory_BLL.ItemCategory_BLL_ListAll(DropDownList2 .Text );
+            ItemCategory_ALL_List = ItemCategory_BLL.ItemCategory_BLL_ListAll(DropDownList2.Text);
             if (ItemCategory_ALL_List.Count > 0)
             {
                 for (int i = 0; i < ItemCategory_ALL_List.Count; i++)
@@ -166,11 +149,6 @@ namespace SHZSZHSUPPLY.VenderInfo
                     {
                         ItemCategory_ALL_List.RemoveAt(i);
                     }
-                    //简单的删除需要审批的文件
-                    //if (ItemCategory_BLL.ItemCategory_BLL_isOptional(ItemCategory_ALL_List[i].Item_Category))
-                    //{
-                    //    ItemCategory_ALL_List.RemoveAt(i);
-                    //}
                 }
             }
             DropDownList4.DataSource = ItemCategory_ALL_List;
@@ -188,7 +166,7 @@ namespace SHZSZHSUPPLY.VenderInfo
                     Label3.Text = itemcategory.Item_Valid.ToString();
                     Label29.Text = itemcategory.Item_VenderType_All.ToString();
 
-                    if (Label3.Text.ToUpper () == "False".ToUpper ())
+                    if (Label3.Text.ToUpper() == "False".ToUpper())
                     {
                         Image1.ID = "temp1";
                         Image2.ID = "temp2";
@@ -196,7 +174,7 @@ namespace SHZSZHSUPPLY.VenderInfo
 
                     Label4.Text = itemcategory.Item_Label.ToString();
                     Label6.Text = itemcategory.Item_Notify.ToString();
-                    Label7.Text = "提前"+itemcategory.Item_Notify_Day_Before.ToString() + "天";
+                    Label7.Text = "提前" + itemcategory.Item_Notify_Day_Before.ToString() + "天";
                     Label8.Text = "提前" + itemcategory.Item_Notify_Day_Before_First.ToString() + "天";
                     Label9.Text = "提前" + itemcategory.Item_Notify_Day_Before_Second.ToString() + "天";
                     Label10.Text = "提前" + itemcategory.Item_Notify_Day_Before_Third.ToString() + "天";
@@ -206,13 +184,13 @@ namespace SHZSZHSUPPLY.VenderInfo
                     Label15.Text = Session["usernum"].ToString();
                     Label27.Text = DropDownList2.Text;
 
-                    if (Label11.Text.ToUpper () == "True".ToUpper ())
+                    if (Label11.Text.ToUpper() == "True".ToUpper())
 
                     { Label12.Text = "ALL"; }
 
                     else { Label12.Text = Label13.Text; }
 
-                    if (Label29.Text.ToUpper () == "True".ToUpper ())
+                    if (Label29.Text.ToUpper() == "True".ToUpper())
                     {
                         Label28.Text = "ALL";
                     }
@@ -223,7 +201,7 @@ namespace SHZSZHSUPPLY.VenderInfo
                     }
 
 
-                    if (Label4.Text.ToUpper () == "True".ToUpper ())
+                    if (Label4.Text.ToUpper() == "True".ToUpper())
                     {
                         switch (Label12.Text)
                         {
@@ -263,10 +241,10 @@ namespace SHZSZHSUPPLY.VenderInfo
 
             }
 
-           
+
 
             List<ItemCategory_BO> ItemCategory_Must_List = new List<ItemCategory_BO>();
-            ItemCategory_Must_List = ItemCategory_BLL.ItemCategory_BLL_List(DropDownList1 .Text , DropDownList3 .Text,DropDownList2 .Text  );
+            ItemCategory_Must_List = ItemCategory_BLL.ItemCategory_BLL_List(DropDownList1.Text, DropDownList3.Text, DropDownList2.Text);
 
 
             GridView4.DataSource = ItemCategory_Must_List;
@@ -275,14 +253,14 @@ namespace SHZSZHSUPPLY.VenderInfo
 
 
             ItemList_BLL ItemList_BLL = new ItemList_BLL();
-           List< ItemList_BO> ItemList_BO = new List<ItemList_BO>();
-           ItemList_BO = ItemList_BLL.ItemList_BLL_List_Plant(DropDownList1.Text, DropDownList3.Text,DropDownList2 .Text );
+            List<ItemList_BO> ItemList_BO = new List<ItemList_BO>();
+            ItemList_BO = ItemList_BLL.ItemList_BLL_List_Plant(DropDownList1.Text, DropDownList3.Text, DropDownList2.Text);
             GridView2.DataSource = ItemList_BO;
             GridView2.DataBind();
 
         }
 
-       
+
 
         protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -293,7 +271,7 @@ namespace SHZSZHSUPPLY.VenderInfo
             List<VenderType_BO> VenderType_BO_List = new List<VenderType_BO>();
             VenderType_BLL VenderType_BLL = new VenderType_BLL();
 
-            VenderType_BO_List = VenderType_BLL.VenderType_List_VendercodePlantname_BLL(DropDownList1.Text,DropDownList3 .Text );
+            VenderType_BO_List = VenderType_BLL.VenderType_List_VendercodePlantname_BLL(DropDownList1.Text, DropDownList3.Text);
 
             DropDownList2.DataSource = VenderType_BO_List;
             DropDownList2.DataTextField = "vender_type";
@@ -310,7 +288,7 @@ namespace SHZSZHSUPPLY.VenderInfo
 
             ItemCategoryVendertype_BLL ItemCategory_BLL = new ItemCategoryVendertype_BLL();
             List<ItemCategory_BO> ItemCategory_ALL_List = new List<ItemCategory_BO>();
-            ItemCategory_ALL_List = ItemCategory_BLL.ItemCategory_BLL_ListAll(Label27.Text );
+            ItemCategory_ALL_List = ItemCategory_BLL.ItemCategory_BLL_ListAll(Label27.Text);
 
             DateTime dt = DateTime.Now;
 
@@ -324,7 +302,7 @@ namespace SHZSZHSUPPLY.VenderInfo
                     Label3.Text = itemcategory.Item_Valid.ToString();
                     Label29.Text = itemcategory.Item_VenderType_All.ToString();
 
-                    if (Label3.Text.ToUpper () == "False".ToUpper ())
+                    if (Label3.Text.ToUpper() == "False".ToUpper())
                     {
                         Image1.ID = "temp1";
                         Image2.ID = "temp2";
@@ -338,19 +316,19 @@ namespace SHZSZHSUPPLY.VenderInfo
                     Label10.Text = "提前" + itemcategory.Item_Notify_Day_Before_Third.ToString() + "天";
                     Label11.Text = itemcategory.Item_Plant_All.ToString();
 
-                    if (Label11.Text.ToUpper () == "True".ToUpper ())
+                    if (Label11.Text.ToUpper() == "True".ToUpper())
 
                     { Label12.Text = "ALL"; }
 
                     else { Label12.Text = Label13.Text; }
 
-                    if (Label29.Text.ToUpper () == "True".ToUpper ())
-                    { Label28.Text ="ALL";}
+                    if (Label29.Text.ToUpper() == "True".ToUpper())
+                    { Label28.Text = "ALL"; }
                     else
                     { Label28.Text = Label27.Text; }
 
 
-                    if (Label4.Text.ToUpper () == "True".ToUpper ())
+                    if (Label4.Text.ToUpper() == "True".ToUpper())
                     {
                         switch (Label12.Text)
                         {
@@ -405,14 +383,14 @@ namespace SHZSZHSUPPLY.VenderInfo
                 return;
             }
 
-            if (Label3.Text.ToUpper () == "True".ToUpper () && (TextBox1.Text.Length == 0 || TextBox2.Text.Length == 0))
+            if (Label3.Text.ToUpper() == "True".ToUpper() && (TextBox1.Text.Length == 0 || TextBox2.Text.Length == 0))
             {
                 string msg = "没有选择有效时间";
                 ErrorMsg_BLL.WebMessage(this.Page, msg);
                 return;
             }
 
-            if (Label3.Text.ToUpper () == "True".ToUpper ())
+            if (Label3.Text.ToUpper() == "True".ToUpper())
             {
                 if (DateTime.Parse(TextBox2.Text) <= DateTime.Parse(TextBox1.Text))
                 {
@@ -457,21 +435,21 @@ namespace SHZSZHSUPPLY.VenderInfo
                 string pathxiangdui = "..\\upload" + "\\" + newfilename + ".pdf";
                 FileUpload1.SaveAs(path);
 
-                
-              
+
+
                 OperationLog_BLL OperationLog_BLL = new OperationLog_BLL();
                 ItemList_BLL ItemList_BLL = new ItemList_BLL();
 
                 if (TextBox1.Text.Length == 0 && TextBox2.Text.Length == 0)
                 {
-                    ItemList_BLL.ItemList_BLL_Insert(Label14.Text, DropDownList4.SelectedValue, pathxiangdui, Label12.Text,Label28.Text , "Enable", Label5.Text, DateTime.Parse("1900-01-01"), DateTime.Parse("1900-01-01"), dt, Label15.Text, TextBox3.Text);
+                    ItemList_BLL.ItemList_BLL_Insert(Label14.Text, DropDownList4.SelectedValue, pathxiangdui, Label12.Text, Label28.Text, "Enable", Label5.Text, DateTime.Parse("1900-01-01"), DateTime.Parse("1900-01-01"), dt, Label15.Text, TextBox3.Text);
                     OperationLog_BLL.ItemOperationLog_BLL_Insert(Label5.Text, "Upload", Label15.Text);
                 }
 
                 else
                 {
-                    ItemList_BLL.ItemList_BLL_Insert(Label14.Text, DropDownList4.SelectedValue, pathxiangdui, Label12.Text, Label28.Text ,"Enable", Label5.Text, DateTime.Parse(TextBox1.Text), DateTime.Parse(TextBox2.Text), dt, Label15.Text, TextBox3.Text);
-                    
+                    ItemList_BLL.ItemList_BLL_Insert(Label14.Text, DropDownList4.SelectedValue, pathxiangdui, Label12.Text, Label28.Text, "Enable", Label5.Text, DateTime.Parse(TextBox1.Text), DateTime.Parse(TextBox2.Text), dt, Label15.Text, TextBox3.Text);
+
                     OperationLog_BLL.ItemOperationLog_BLL_Insert(Label5.Text, "Upload", Label15.Text);
                 }
 
@@ -500,10 +478,10 @@ namespace SHZSZHSUPPLY.VenderInfo
                 BLL.File_BLL.addFile(file);
 
                 List<ItemCategory_BO> ItemCategory_Must_List = new List<ItemCategory_BO>();
-               
 
-                ItemCategory_Must_List = ItemCategory_BLL.ItemCategory_BLL_List(Label14.Text, Label13.Text,Label27.Text );
-               
+
+                ItemCategory_Must_List = ItemCategory_BLL.ItemCategory_BLL_List(Label14.Text, Label13.Text, Label27.Text);
+
 
                 GridView4.DataSource = ItemCategory_Must_List;
                 GridView4.DataBind();
@@ -515,27 +493,27 @@ namespace SHZSZHSUPPLY.VenderInfo
 
                 VenderPlantList_BLL VenderPlantList_BLL = new VenderPlantList_BLL();
 
-                if (VenderPlantList_BLL.VenderPlantList_BLL_Update(Label14.Text, Label13.Text,Label27.Text ) ==1)
+                if (VenderPlantList_BLL.VenderPlantList_BLL_Update(Label14.Text, Label13.Text, Label27.Text) == 1)
                 {
-                    string msg = "供应商" + Label14.Text + "工厂" + Label13.Text+"供应商类型"+Label27.Text  + "已ENABLE";
+                    string msg = "供应商" + Label14.Text + "工厂" + Label13.Text + "供应商类型" + Label27.Text + "已ENABLE";
                     ErrorMsg_BLL.WebMessage(this.Page, msg);
 
                     OperationLog_BLL.VenderOperationLog_BLL_Insert(Label14.Text, Label27.Text, Label13.Text, "Enable", Label15.Text);
 
                     List<VenderPlantList_BO> VenderPlantList_List = new List<VenderPlantList_BO>();
-                    VenderPlantList_List = VenderPlantList_BLL.VenderPlantList_BLL_List(DropDownList1.SelectedValue, DropDownList3.SelectedValue,DropDownList2 .Text );
-               
+                    VenderPlantList_List = VenderPlantList_BLL.VenderPlantList_BLL_List(DropDownList1.SelectedValue, DropDownList3.SelectedValue, DropDownList2.Text);
+
 
                     List<VenderList_BO> VenderList_BO = new List<VenderList_BO>();
                     VenderList_BLL VenderList_BLL = new VenderList_BLL();
                     VenderList_BO = VenderList_BLL.VenderList_BLL_List(Label14.Text);
 
                     SendMail_BLL SendMail_BLL = new SendMail_BLL();
-                    SendMail_BLL.SendMail_BLL_Plant(Label13.Text, Label14.Text, VenderList_BO[0].Vender_Name, GridView1 .Rows [0].Cells [3].Text ,GridView1 .Rows[0].Cells [4].Text ,"Enable",Label15.Text ,"文档上传完毕");
+                    SendMail_BLL.SendMail_BLL_Plant(Label13.Text, Label14.Text, VenderList_BO[0].Vender_Name, GridView1.Rows[0].Cells[3].Text, GridView1.Rows[0].Cells[4].Text, "Enable", Label15.Text, "文档上传完毕");
                     GridView1.DataSource = VenderPlantList_List;
                     GridView1.DataBind();
 
-                   
+
                 }
 
 
@@ -551,11 +529,11 @@ namespace SHZSZHSUPPLY.VenderInfo
 
 
 
-           
+
             List<ItemCategory_BO> ItemCategory_ALL_List = new List<ItemCategory_BO>();
             ItemCategory_ALL_List = ItemCategory_BLL.ItemCategory_BLL_ListAll(Label27.Text);
 
-         
+
 
             foreach (ItemCategory_BO itemcategory in ItemCategory_ALL_List)
             {
@@ -646,17 +624,17 @@ namespace SHZSZHSUPPLY.VenderInfo
             SendMail_BLL SendMail_BLL = new SendMail_BLL();
             SystemAdmin_BLL SystemAdmin_BLL = new SystemAdmin_BLL();
 
-          
 
-           
 
-            if (GridView2.Rows[i].Cells[3].Text == "ALL" )
+
+
+            if (GridView2.Rows[i].Cells[3].Text == "ALL")
             {
-             System.Web.UI.ScriptManager.RegisterStartupScript(UpdatePanel1, this.GetType(), "GridView2_RowDeleting", "alert('不能删除工厂共享文档')", true);
-                
+                System.Web.UI.ScriptManager.RegisterStartupScript(UpdatePanel1, this.GetType(), "GridView2_RowDeleting", "alert('不能删除工厂共享文档')", true);
+
             }
 
-            else if (GridView2.Rows[i].Cells[11].Text == "ALL" )
+            else if (GridView2.Rows[i].Cells[11].Text == "ALL")
             {
 
                 System.Web.UI.ScriptManager.RegisterStartupScript(UpdatePanel1, this.GetType(), "", "alert('不能删除供应商类型共享文档')", true);
@@ -664,9 +642,9 @@ namespace SHZSZHSUPPLY.VenderInfo
 
             else
             {
-                
-            
-                
+
+
+
                 OperationLog_BLL Operation_BLL = new OperationLog_BLL();
                 ItemList_BLL ItemList_BLL = new ItemList_BLL();
 
@@ -678,98 +656,86 @@ namespace SHZSZHSUPPLY.VenderInfo
                     if (ItemList.Vender_Code == GridView2.Rows[e.RowIndex].Cells[0].Text && ItemList.Item_Label == GridView2.Rows[e.RowIndex].Cells[5].Text)
                     {
                         string pathjuedui = Server.MapPath(ItemList.Item_Path);
-                        System.IO.File.Delete(pathjuedui );
-                        HyperLink value = (HyperLink)GridView2.Rows[e.RowIndex ].Cells[1].Controls[0];
-
-                      
-                            SendMail_BLL.Sendmail_BLL_Item(GridView2.Rows[e.RowIndex].Cells[0].Text, value.Text, GridView2.Rows[e.RowIndex].Cells[3].Text, GridView2.Rows[e.RowIndex].Cells[11].Text, GridView2.Rows[e.RowIndex].Cells[4].Text, GridView2.Rows[e.RowIndex].Cells[5].Text, GridView2.Rows[e.RowIndex].Cells[6].Text, GridView2.Rows[e.RowIndex].Cells[7].Text, GridView2.Rows[e.RowIndex].Cells[9].Text, GridView2.Rows[e.RowIndex].Cells[8].Text, "文档删除", Label15.Text);
-
-                        
+                        System.IO.File.Delete(pathjuedui);
+                        HyperLink value = (HyperLink)GridView2.Rows[e.RowIndex].Cells[1].Controls[0];
+                        SendMail_BLL.Sendmail_BLL_Item(GridView2.Rows[e.RowIndex].Cells[0].Text, value.Text, GridView2.Rows[e.RowIndex].Cells[3].Text, GridView2.Rows[e.RowIndex].Cells[11].Text, GridView2.Rows[e.RowIndex].Cells[4].Text, GridView2.Rows[e.RowIndex].Cells[5].Text, GridView2.Rows[e.RowIndex].Cells[6].Text, GridView2.Rows[e.RowIndex].Cells[7].Text, GridView2.Rows[e.RowIndex].Cells[9].Text, GridView2.Rows[e.RowIndex].Cells[8].Text, "文档删除", Label15.Text);
                     }
                 }
 
 
-                if (ItemList_BLL.ItemList_BLL_Delete(Label14.Text, GridView2.Rows[e.RowIndex].Cells[5].Text) > 0 && Operation_BLL .ItemOperationLog_BLL_Insert (GridView2 .Rows[e.RowIndex ].Cells [5].Text ,"Delete",Label15.Text )>0)
+                if (ItemList_BLL.ItemList_BLL_Delete(Label14.Text, GridView2.Rows[e.RowIndex].Cells[5].Text) > 0 && Operation_BLL.ItemOperationLog_BLL_Insert(GridView2.Rows[e.RowIndex].Cells[5].Text, "Delete", Label15.Text) > 0)
                 {
-
-
                     ItemCategoryVendertype_BLL ItemCategory_BLL = new ItemCategoryVendertype_BLL();
-                    
 
                     List<ItemCategory_BO> ItemCategory_Must_List = new List<ItemCategory_BO>();
-                    ItemCategory_Must_List = ItemCategory_BLL.ItemCategory_BLL_List(DropDownList1.Text, DropDownList3.Text,DropDownList2 .Text );
+                    ItemCategory_Must_List = ItemCategory_BLL.ItemCategory_BLL_List(DropDownList1.Text, DropDownList3.Text, DropDownList2.Text);
                     GridView4.DataSource = ItemCategory_Must_List;
                     GridView4.DataBind();
 
-
-
                     List<ItemList_BO> ItemList_BO_List = new List<ItemList_BO>();
-       
 
-                 
-                    ItemList_BO_List = ItemList_BLL.ItemList_BLL_List_Plant(Label14.Text,Label13 .Text,Label27.Text  );
-                                 
+                    ItemList_BO_List = ItemList_BLL.ItemList_BLL_List_Plant(Label14.Text, Label13.Text, Label27.Text);
 
                     GridView2.DataSource = ItemList_BO_List;
                     GridView2.DataBind();
 
                     VenderPlantList_BLL VenderPlantList_BLL = new VenderPlantList_BLL();
 
-                 
-                        if (VenderPlantList_BLL.VenderPlantList_BLL_Update(Label14.Text, Label13.Text,Label27.Text ) == 2)
-                        {
-                            string msg = "供应商" + Label14.Text + "工厂" + Label13.Text +"供应商类型"+Label27.Text + "已HOLD";
-                            System.Web.UI.ScriptManager.RegisterStartupScript(UpdatePanel1, this.GetType(), "", "alert('" + msg + "')", true);
 
-                            Operation_BLL.VenderOperationLog_BLL_Insert(Label14.Text, Label27.Text, Label13.Text, "Hold", Label15.Text);
+                    if (VenderPlantList_BLL.VenderPlantList_BLL_Update(Label14.Text, Label13.Text, Label27.Text) == 2)
+                    {
+                        string msg = "供应商" + Label14.Text + "工厂" + Label13.Text + "供应商类型" + Label27.Text + "已HOLD";
+                        System.Web.UI.ScriptManager.RegisterStartupScript(UpdatePanel1, this.GetType(), "", "alert('" + msg + "')", true);
 
-                            List<VenderPlantList_BO> VenderPlantList_List = new List<VenderPlantList_BO>();
+                        Operation_BLL.VenderOperationLog_BLL_Insert(Label14.Text, Label27.Text, Label13.Text, "Hold", Label15.Text);
 
-                            VenderPlantList_List = VenderPlantList_BLL.VenderPlantList_BLL_List(Label14.Text, Label13.Text,Label27.Text );
+                        List<VenderPlantList_BO> VenderPlantList_List = new List<VenderPlantList_BO>();
 
-
-
-                            List<VenderList_BO> VenderList_BO = new List<VenderList_BO>();
-                            VenderList_BLL VenderList_BLL = new VenderList_BLL();
-                            VenderList_BO = VenderList_BLL.VenderList_BLL_List(Label14.Text);
+                        VenderPlantList_List = VenderPlantList_BLL.VenderPlantList_BLL_List(Label14.Text, Label13.Text, Label27.Text);
 
 
-                            SendMail_BLL.SendMail_BLL_Plant(Label13.Text, Label14.Text, VenderList_BO[0].Vender_Name, GridView1 .Rows [0].Cells [3].Text ,GridView1.Rows[0].Cells[4].Text, "Hold", Label15.Text, "文档删除");
-                            GridView1.DataSource = VenderPlantList_List;
-                            GridView1.DataBind();
 
-                        }
-                    
-              
+                        List<VenderList_BO> VenderList_BO = new List<VenderList_BO>();
+                        VenderList_BLL VenderList_BLL = new VenderList_BLL();
+                        VenderList_BO = VenderList_BLL.VenderList_BLL_List(Label14.Text);
+
+
+                        SendMail_BLL.SendMail_BLL_Plant(Label13.Text, Label14.Text, VenderList_BO[0].Vender_Name, GridView1.Rows[0].Cells[3].Text, GridView1.Rows[0].Cells[4].Text, "Hold", Label15.Text, "文档删除");
+                        GridView1.DataSource = VenderPlantList_List;
+                        GridView1.DataBind();
+
+                    }
+
+
 
 
                 }
-                                
+
 
             }
-       
+
 
         }
 
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-           int i=Convert .ToInt32 ( e.CommandArgument .ToString () ) ;
-                        
+            int i = Convert.ToInt32(e.CommandArgument.ToString());
 
-           string vendercode = GridView1.Rows[i].Cells[0].Text;
-           string plantname = GridView1.Rows[i].Cells[2].Text;
-           string vendertype = GridView1.Rows[i].Cells[3].Text;
 
-            if (e.CommandName == "Enable" && GridView1 .Rows [i].Cells [3].Text  !="Enable")
+            string vendercode = GridView1.Rows[i].Cells[0].Text;
+            string plantname = GridView1.Rows[i].Cells[2].Text;
+            string vendertype = GridView1.Rows[i].Cells[3].Text;
+
+            if (e.CommandName == "Enable" && GridView1.Rows[i].Cells[3].Text != "Enable")
             {
                 VenderPlantList_BLL VenderPlantList_BLL = new VenderPlantList_BLL();
                 OperationLog_BLL OperationLog_BLL = new OperationLog_BLL();
-                if (VenderPlantList_BLL.VenderPlantList_BLL_Update(vendercode, plantname,vendertype) ==1 && OperationLog_BLL .VenderOperationLog_BLL_Insert (vendercode,vendertype ,plantname ,"Enable",Label15.Text )>0 )
+                if (VenderPlantList_BLL.VenderPlantList_BLL_Update(vendercode, plantname, vendertype) == 1 && OperationLog_BLL.VenderOperationLog_BLL_Insert(vendercode, vendertype, plantname, "Enable", Label15.Text) > 0)
                 {
                     List<VenderPlantList_BO> VenderPlantList_List = new List<VenderPlantList_BO>();
 
-                    VenderPlantList_List = VenderPlantList_BLL.VenderPlantList_BLL_List(DropDownList1.SelectedValue, DropDownList3.SelectedValue,DropDownList2 .SelectedValue );
-                   
+                    VenderPlantList_List = VenderPlantList_BLL.VenderPlantList_BLL_List(DropDownList1.SelectedValue, DropDownList3.SelectedValue, DropDownList2.SelectedValue);
+
 
 
                     List<VenderList_BO> VenderList_BO = new List<VenderList_BO>();
@@ -777,16 +743,16 @@ namespace SHZSZHSUPPLY.VenderInfo
                     VenderList_BO = VenderList_BLL.VenderList_BLL_List(Label14.Text);
 
                     SendMail_BLL SendMail_BLL = new SendMail_BLL();
-                    SendMail_BLL.SendMail_BLL_Plant(Label13.Text, Label14.Text, VenderList_BO[0].Vender_Name,GridView1 .Rows [0].Cells [3].Text , GridView1 .Rows [0].Cells [4].Text ,"Enable",Label15.Text ,"供应商状态变更");
+                    SendMail_BLL.SendMail_BLL_Plant(Label13.Text, Label14.Text, VenderList_BO[0].Vender_Name, GridView1.Rows[0].Cells[3].Text, GridView1.Rows[0].Cells[4].Text, "Enable", Label15.Text, "供应商状态变更");
                     GridView1.DataSource = VenderPlantList_List;
                     GridView1.DataBind();
                 }
 
                 else
                 {
-                    
+
                     System.Web.UI.ScriptManager.RegisterStartupScript(UpdatePanel3, this.GetType(), "GridView1_RowCommand", "alert('必传文档没有上传,不能启用供应商')", true);
-                   
+
                     return;
                 }
             }
@@ -795,24 +761,24 @@ namespace SHZSZHSUPPLY.VenderInfo
             {
                 VenderPlantList_BLL VenderPlantList_BLL = new VenderPlantList_BLL();
                 OperationLog_BLL OperationLog_BLL = new OperationLog_BLL();
-                if (VenderPlantList_BLL.VenderPlantList_BLL_UpdateDisable(vendercode, plantname,vendertype) > 0 && OperationLog_BLL .VenderOperationLog_BLL_Insert (vendercode,vendertype,plantname,"Disable",Label15.Text )>0)
+                if (VenderPlantList_BLL.VenderPlantList_BLL_UpdateDisable(vendercode, plantname, vendertype) > 0 && OperationLog_BLL.VenderOperationLog_BLL_Insert(vendercode, vendertype, plantname, "Disable", Label15.Text) > 0)
                 {
                     List<VenderPlantList_BO> VenderPlantList_List = new List<VenderPlantList_BO>();
 
-                    VenderPlantList_List = VenderPlantList_BLL.VenderPlantList_BLL_List(DropDownList1.SelectedValue, DropDownList3.SelectedValue,DropDownList2 .SelectedValue );
-                   
+                    VenderPlantList_List = VenderPlantList_BLL.VenderPlantList_BLL_List(DropDownList1.SelectedValue, DropDownList3.SelectedValue, DropDownList2.SelectedValue);
+
 
 
                     ItemList_BLL ItemList_BLL = new ItemList_BLL();
                     List<ItemList_BO> ItemList_BO = new List<ItemList_BO>();
-                    ItemList_BO = ItemList_BLL.ItemList_BLL_List_Plant(Label14.Text,Label13.Text,Label27.Text  );
+                    ItemList_BO = ItemList_BLL.ItemList_BLL_List_Plant(Label14.Text, Label13.Text, Label27.Text);
                     GridView2.DataSource = ItemList_BO;
                     GridView2.DataBind();
 
 
                     ItemCategoryVendertype_BLL ItemCategory_BLL = new ItemCategoryVendertype_BLL();
                     List<ItemCategory_BO> ItemCategory_Must_List = new List<ItemCategory_BO>();
-                    ItemCategory_Must_List = ItemCategory_BLL.ItemCategory_BLL_List(Label14.Text, Label13.Text,Label27.Text );
+                    ItemCategory_Must_List = ItemCategory_BLL.ItemCategory_BLL_List(Label14.Text, Label13.Text, Label27.Text);
 
 
                     GridView4.DataSource = ItemCategory_Must_List;
@@ -820,10 +786,10 @@ namespace SHZSZHSUPPLY.VenderInfo
 
                     List<VenderList_BO> VenderList_BO = new List<VenderList_BO>();
                     VenderList_BLL VenderList_BLL = new VenderList_BLL();
-                    VenderList_BO = VenderList_BLL.VenderList_BLL_List(Label14.Text );
+                    VenderList_BO = VenderList_BLL.VenderList_BLL_List(Label14.Text);
 
                     SendMail_BLL SendMail_BLL = new SendMail_BLL();
-                    SendMail_BLL.SendMail_BLL_Plant(Label13.Text, Label14.Text, VenderList_BO[0].Vender_Name, GridView1 .Rows [0].Cells [3].Text ,GridView1 .Rows [0].Cells [4].Text ,"Disable",Label15.Text ,"供应商状态变更");
+                    SendMail_BLL.SendMail_BLL_Plant(Label13.Text, Label14.Text, VenderList_BO[0].Vender_Name, GridView1.Rows[0].Cells[3].Text, GridView1.Rows[0].Cells[4].Text, "Disable", Label15.Text, "供应商状态变更");
                     GridView1.DataSource = VenderPlantList_List;
                     GridView1.DataBind();
 
@@ -840,21 +806,21 @@ namespace SHZSZHSUPPLY.VenderInfo
             if (e.CommandName == "Hold" && GridView1.Rows[i].Cells[3].Text != "Hold")
             {
                 VenderPlantList_BLL VenderPlantList_BLL = new VenderPlantList_BLL();
-                OperationLog_BLL Operation_BLL=new OperationLog_BLL ();
-                if (VenderPlantList_BLL.VenderPlantList_BLL_UpdateHold(vendercode, plantname,vendertype ) > 0 && Operation_BLL .VenderOperationLog_BLL_Insert (vendercode,vendertype,plantname,"Hold",Label15.Text )>0 )
+                OperationLog_BLL Operation_BLL = new OperationLog_BLL();
+                if (VenderPlantList_BLL.VenderPlantList_BLL_UpdateHold(vendercode, plantname, vendertype) > 0 && Operation_BLL.VenderOperationLog_BLL_Insert(vendercode, vendertype, plantname, "Hold", Label15.Text) > 0)
                 {
                     List<VenderPlantList_BO> VenderPlantList_List = new List<VenderPlantList_BO>();
 
-                    VenderPlantList_List = VenderPlantList_BLL.VenderPlantList_BLL_List(DropDownList1.SelectedValue, DropDownList3.SelectedValue,DropDownList2 .SelectedValue );
-                   
+                    VenderPlantList_List = VenderPlantList_BLL.VenderPlantList_BLL_List(DropDownList1.SelectedValue, DropDownList3.SelectedValue, DropDownList2.SelectedValue);
+
 
 
                     List<VenderList_BO> VenderList_BO = new List<VenderList_BO>();
                     VenderList_BLL VenderList_BLL = new VenderList_BLL();
-                    VenderList_BO = VenderList_BLL.VenderList_BLL_List(Label14.Text );
+                    VenderList_BO = VenderList_BLL.VenderList_BLL_List(Label14.Text);
 
                     SendMail_BLL SendMail_BLL = new SendMail_BLL();
-                    SendMail_BLL.SendMail_BLL_Plant(Label13.Text, Label14.Text, VenderList_BO[0].Vender_Name, GridView1.Rows [0].Cells [3].Text ,GridView1 .Rows [0].Cells [4].Text ,"Hold",Label15 .Text ,"供应商状态变更");
+                    SendMail_BLL.SendMail_BLL_Plant(Label13.Text, Label14.Text, VenderList_BO[0].Vender_Name, GridView1.Rows[0].Cells[3].Text, GridView1.Rows[0].Cells[4].Text, "Hold", Label15.Text, "供应商状态变更");
                     GridView1.DataSource = VenderPlantList_List;
                     GridView1.DataBind();
 
@@ -870,41 +836,27 @@ namespace SHZSZHSUPPLY.VenderInfo
 
         protected void Edit(object sender, EventArgs e)
         {
-           using (GridViewRow row = (GridViewRow)((LinkButton)sender).Parent.Parent)
+            using (GridViewRow row = (GridViewRow)((LinkButton)sender).Parent.Parent)
             {
-               
-                 Label17.Text  = row.Cells[0].Text;
 
-                 HyperLink value = (HyperLink)row.Cells[1].Controls[0];
-               Label19.Text  = value.Text ;
-              Label21.Text  = row.Cells[3].Text;
-              TextBox4 .Text   =row.Cells[6].Text;
-              TextBox5 .Text  = row.Cells[7].Text;
-              Label26.Text = row.Cells[5].Text;
+                Label17.Text = row.Cells[0].Text;
 
-               if (row.Cells [6].Text.Length  <10 ||row.Cells [7].Text.Length <10)
-               {
-                   return;
-               }
-              ModalPopupExtender1.Show();
-             
+                HyperLink value = (HyperLink)row.Cells[1].Controls[0];
+                Label19.Text = value.Text;
+                Label21.Text = row.Cells[3].Text;
+                TextBox4.Text = row.Cells[6].Text;
+                TextBox5.Text = row.Cells[7].Text;
+                Label26.Text = row.Cells[5].Text;
+
+                if (row.Cells[6].Text.Length < 10 || row.Cells[7].Text.Length < 10)
+                {
+                    return;
+                }
+                ModalPopupExtender1.Show();
+
             }
 
-            
         }
-
-       // protected void Button4_Click(object sender, EventArgs e)
-       // {
-
-            //ItemList_BLL ItemList_BLL = new ItemList_BLL();
-           // ItemList_BLL.ItemList_BLL_UpdateValidity(Label26.Text, "Enable", DateTime.Parse(TextBox4.Text), DateTime.Parse(TextBox5.Text));
-           
-            //List<ItemList_BO> ItemList_BO = new List<ItemList_BO>();
-           // ItemList_BO = ItemList_BLL.ItemList_BLL_List(Label14.Text);
-           // GridView2.DataSource = ItemList_BO;
-            //GridView2.DataBind();
-
-        //}
 
 
         protected void Save(object sender, EventArgs e)
@@ -922,13 +874,13 @@ namespace SHZSZHSUPPLY.VenderInfo
                 OperationLog_BLL.ItemOperationLog_BLL_Insert(Label26.Text, "Edit", Label15.Text);
 
                 List<ItemList_BO> ItemList_BO = new List<ItemList_BO>();
-                ItemList_BO = ItemList_BLL.ItemList_BLL_List_Plant(Label14.Text,Label13 .Text,Label27.Text  );
+                ItemList_BO = ItemList_BLL.ItemList_BLL_List_Plant(Label14.Text, Label13.Text, Label27.Text);
                 GridView2.DataSource = ItemList_BO;
                 GridView2.DataBind();
 
 
                 ItemCategoryVendertype_BLL ItemCategoryVendertype_BLL = new ItemCategoryVendertype_BLL();
-                List <ItemCategory_BO> ItemCategory_BO=new List<ItemCategory_BO>();
+                List<ItemCategory_BO> ItemCategory_BO = new List<ItemCategory_BO>();
                 ItemCategory_BO = ItemCategoryVendertype_BLL.ItemCategory_BLL_List(Label14.Text, Label13.Text, Label27.Text);
 
                 GridView4.DataSource = ItemCategory_BO;
@@ -943,7 +895,7 @@ namespace SHZSZHSUPPLY.VenderInfo
                 else
                 {
 
-                    if (VenderPlantList_BLL.VenderPlantList_BLL_Update(Label14.Text, Label13.Text, Label27.Text) == 1 && OperationLog_BLL .VenderOperationLog_BLL_Insert (Label14.Text ,Label27.Text ,Label13.Text ,"Enable",Label15.Text )>0)
+                    if (VenderPlantList_BLL.VenderPlantList_BLL_Update(Label14.Text, Label13.Text, Label27.Text) == 1 && OperationLog_BLL.VenderOperationLog_BLL_Insert(Label14.Text, Label27.Text, Label13.Text, "Enable", Label15.Text) > 0)
                     {
                         string msg = "供应商" + Label14.Text + "工厂" + Label13.Text + "供应商类型" + Label27.Text + "已Enable";
                         System.Web.UI.ScriptManager.RegisterStartupScript(UpdatePanel1, this.GetType(), "", "alert('" + msg + "')", true);
@@ -960,7 +912,7 @@ namespace SHZSZHSUPPLY.VenderInfo
                         VenderList_BO = VenderList_BLL.VenderList_BLL_List(Label14.Text);
 
                         SendMail_BLL SendMail_BLL = new SendMail_BLL();
-                        SendMail_BLL.SendMail_BLL_Plant(Label13.Text, Label14.Text, VenderList_BO[0].Vender_Name,GridView1.Rows [0].Cells [3].Text  , GridView1.Rows[0].Cells[4].Text, "Enable", Label15.Text, "文档删除");
+                        SendMail_BLL.SendMail_BLL_Plant(Label13.Text, Label14.Text, VenderList_BO[0].Vender_Name, GridView1.Rows[0].Cells[3].Text, GridView1.Rows[0].Cells[4].Text, "Enable", Label15.Text, "文档删除");
                         GridView1.DataSource = VenderPlantList_List;
                         GridView1.DataBind();
                     }
@@ -968,18 +920,7 @@ namespace SHZSZHSUPPLY.VenderInfo
 
 
             }
-          
+
         }
-
-     
-
-       
-
-      
-
-       
-
-       
-       
     }
 }

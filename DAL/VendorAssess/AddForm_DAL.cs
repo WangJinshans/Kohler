@@ -111,11 +111,18 @@ namespace DAL
 
         public static string GetForm_Type_ID(string formID)
         {
-            string sql = "select Form_Type_ID from As_Vendor_MutiplyForm where Form_ID='" + formID + "'";
-            DataTable dt = new DataTable();
-            dt = DBHelp.GetDataSet(sql);
-            string formid = dt.Rows[0]["Form_Type_ID"].ToString().Trim();
-            return formid;
+            try
+            {
+                string sql = "select Form_Type_ID from As_Form where Form_ID='" + formID + "'";
+                DataTable dt = new DataTable();
+                dt = DBHelp.GetDataSet(sql);
+                string formTypeID = dt.Rows[0]["Form_Type_ID"].ToString().Trim();
+                return formTypeID;
+            }
+            catch
+            {
+                return "";
+            }
         }
     }
 }
