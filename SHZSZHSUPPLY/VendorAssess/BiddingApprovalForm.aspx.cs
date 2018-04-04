@@ -117,6 +117,9 @@ namespace AendorAssess
                     case "startSelection":
                         LocalApproveManager.doApproveWithSelection(Page, formID, FORM_NAME, FORM_TYPE_ID, tempVendorID, tempVendorName, Session["Factory_Name"].ToString());
                         break;
+                    case "isPromised":
+                        startJudgeMoney(Request["__EVENTARGUMENT"].ToString());//判断金额
+                        break;
                     default:
                         break;
                 }
@@ -134,6 +137,38 @@ namespace AendorAssess
             }
         }
 
+        private void startJudgeMoney(string promise)
+        {
+            bool iskci = false;
+            string amount = "150";
+            string content = "由于金额小于150万，系统已经自动识别为不需要KCI审批";
+            if (promise.Equals("no"))
+            {
+                amount = "150";
+            }
+            else
+            {
+                amount = "60";
+            }
+            try
+            {
+                iskci = isKciByMoney(promise);
+                
+                if (iskci)
+                {
+                    content = "由于金额大于"+amount+"万，系统已经自动识别为需要KCI审批";
+                }
+                else
+                {
+                    content = "由于金额小于" + amount + "万，系统已经自动识别为不需要KCI审批";
+                }
+                LocalScriptManager.CreateScript(Page, String.Format("iskci('{0}','{1}');", iskci, content), "KCIseslection");
+            }
+            catch
+            {
+                LocalScriptManager.CreateScript(Page, "errorMoneyTip();", "errorMoneyTip");
+            }
+        }
 
         /// <summary>
         /// 显示表格
@@ -337,21 +372,11 @@ namespace AendorAssess
             {
                 //形成参数
                 saveForm(2, "提交表格");
-                bool iskci = false;
-                try
-                {
-                    iskci = isKciByMoney();
-                    string content = "由于金额小于100万，系统已经自动识别为不需要KCI审批";
-                    if (iskci)
-                    {
-                        content = "由于金额大于100万，系统已经自动识别为需要KCI审批";
-                    }
-                    LocalScriptManager.CreateScript(Page, String.Format("iskci('{0}','{1}');", iskci,content), "KCIseslection");
-                }
-                catch
-                {
-                    LocalScriptManager.CreateScript(Page, "errorMoneyTip();", "errorMoneyTip");
-                }
+
+                //弹出是否承诺性供应商询问框
+                LocalScriptManager.CreateScript(Page, "isPromise();", "isPromiseTip");
+
+                
             }
             else
             {
@@ -360,14 +385,26 @@ namespace AendorAssess
             }
         }
 
-        private bool isKciByMoney()
+        private bool isKciByMoney(string promise)
         {
-            int money = Convert.ToInt32(TextBox4.Text.ToString());
-            if (!(money < 100))
+            double money = Convert.ToDouble(TextBox4.Text.ToString());
+            if (promise.Equals("no"))
             {
-                return true;
+                if (!(money < 1500000))//元
+                {
+                    return true;
+                }
+                return false;
             }
-            return false;
+            else
+            {
+                if (!(money < 600000))//元
+                {
+                    return true;
+                }
+                return false;
+            }
+            
         }
 
         protected void Button2_Click(object sender, EventArgs e)
