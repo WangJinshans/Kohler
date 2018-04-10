@@ -28,7 +28,8 @@
 			});
 		});
 
- <script>
+	</script>
+    <script>
         //防止页面后退  
         history.pushState(null, null, document.URL);
         window.addEventListener('popstate', function () {
@@ -53,26 +54,11 @@
             }
         };
     </script>
-	</script>
 	<script>
 		function viewFile(filePath) {
 			window.open(filePath);
 		}
 	</script>
-	<%--<script type="text/javascript">
-
-		function __myDoPostBack(eventTarget, eventArgument) {
-			var theForm = document.forms['form2'];
-			if (!theForm) {
-				theForm = document.form1;
-			}
-			if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
-				theForm.__EVENTTARGET.value = eventTarget;
-				theForm.__EVENTARGUMENT.value = eventArgument;
-				theForm.submit();
-			}
-		}
-	</script>--%>
 	<style type="text/css">
 		table.gridtable {
 			font-family: verdana,arial,sans-serif;

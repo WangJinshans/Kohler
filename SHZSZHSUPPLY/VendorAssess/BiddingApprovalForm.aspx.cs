@@ -23,6 +23,8 @@ namespace AendorAssess
         private static string submit = "";
         private static bool singleFileSubmit = false;
 
+        private static string isPromise = "";
+
         /// <summary>
         /// 重新读取session
         /// </summary>
@@ -112,10 +114,11 @@ namespace AendorAssess
                 switch (Request["__EVENTTARGET"])
                 {
                     case "submitForm":
-                        LocalApproveManager.submitForm();
+                        LocalApproveManager.submitForm(FORM_TYPE_ID);
                         break;
                     case "startSelection":
-                        LocalApproveManager.doApproveWithSelection(Page, formID, FORM_NAME, FORM_TYPE_ID, tempVendorID, tempVendorName, Session["Factory_Name"].ToString());
+                        string realTypeID = getRealFormTypeID();
+                        LocalApproveManager.doApproveWithSelection(Page, formID, FORM_NAME, realTypeID, tempVendorID, tempVendorName, Session["Factory_Name"].ToString());
                         break;
                     case "isPromised":
                         startJudgeMoney(Request["__EVENTARGUMENT"].ToString());//判断金额
@@ -137,8 +140,21 @@ namespace AendorAssess
             }
         }
 
+
+        private string getRealFormTypeID()
+        {
+            //获取表类型
+            double money = Convert.ToDouble(TextBox4.Text.ToString());
+
+            //表格类型编号
+            return As_Bidding_Approval_BLL.getRealFlag(money, isPromise);
+        }
+
+
         private void startJudgeMoney(string promise)
         {
+            isPromise = promise;
+            //KCI
             bool iskci = false;
             string amount = "150";
             string content = "由于金额小于150万，系统已经自动识别为不需要KCI审批";

@@ -76,5 +76,48 @@ namespace BLL.VendorAssess
         {
             return As_Bidding_Approval_DAL.getVendorBiddingFormID(tempVendorID, form_Type_ID, factory_Name, n);
         }
+
+
+        /// <summary>
+        /// 获取真正的formTypeID
+        /// </summary>
+        /// <param name="money"></param>
+        /// <param name="factory"></param>
+        /// <returns></returns>
+        public static string getRealFlag(double money, string promise)
+        {
+            money /= 10000;
+            string fileTypeName = As_Bidding_Approval_DAL.getFileTypeName(money, promise);
+
+            if (fileTypeName == "")
+            {
+                if (promise.Equals("no"))
+                {
+                    if (money < 150 && money > 0)
+                    {
+                        fileTypeName = "bidding form比价资料/会议纪要(非承诺<=RMB1.5M)";
+                    }
+                    else if (money > 150)
+                    {
+                        fileTypeName = "bidding form比价资料/ 会议纪要(非承诺 > RMB3M)";
+                    }
+                }
+                else
+                {
+                    if (money > 0 && money < 60)
+                    {
+                        fileTypeName = "bidding form比价资料/会议纪要(承诺<=0.6M)";
+                    }
+                    else if (money > 150)
+                    {
+                        fileTypeName = "bidding form比价资料/ 会议纪要(承诺 > RMB1.5M)";
+                    }
+                }
+            }
+
+            string formTypeID = As_Bidding_Approval_DAL.getFormTypeID(fileTypeName);
+
+            return formTypeID;
+        }
     }
 }

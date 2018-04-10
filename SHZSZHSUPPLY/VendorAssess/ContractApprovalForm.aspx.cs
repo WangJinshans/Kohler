@@ -24,8 +24,10 @@ namespace SHZSZHSUPPLY.VendorAssess
         private static string tempVendorName = "";
         private static string formID = "";
         private static string submit = "";
-        private static string bar_Code = "PR-05-17-3";
+        private string bar_Code = "PR-05-17-3";
         private static bool singleFileSubmit = false;
+
+        private static string isPromise = "";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -124,6 +126,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         private bool startJudgeMoney(string promise)
         {
+            isPromise = promise;
             bool iskci = false;
             string amount = "150";
             string content = "由于金额小于150万，系统已经自动识别为不需要KCI审批";
@@ -147,6 +150,10 @@ namespace SHZSZHSUPPLY.VendorAssess
                 {
                     content = "由于金额小于" + amount + "万，系统已经自动识别为不需要KCI审批";
                 }
+
+                //获取新的实例
+                newApproveAccess(FORM_TYPE_ID, formID);
+
                 LocalScriptManager.createManagerScript(Page, String.Format("iskci('{0}','{1}','{2}');",formID, iskci, content), "KCIseslection");
                 return true;
             }
@@ -159,9 +166,6 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected string StandardContractSubmitForm()
         {
-            //读取session
-            //getSessionInfo();
-
             SelectDepartment.doSelect();
 
             //一旦提交就把表As_Vendor_FormType字段FLag置1.
@@ -192,8 +196,6 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected string nonStandardContractSubmitForm()//非标准合同的回掉函数
         {
-            //读取session
-            //getSessionInfo();
 
             SelectDepartment.doSelect();
             
@@ -478,7 +480,6 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 saveForm(2, "提交表格");
                 LocalScriptManager.createManagerScript(Page, "isPromise();", "isPromiseTip");
-                newApproveAccess(FORM_TYPE_ID, formID);
             }
             else
             {
@@ -817,8 +818,13 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         public void newApproveAccess(string formTypeID, string formID)
         {
-            //形成参数
-            As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(formTypeID);
+            //获取表类型
+            double money = Convert.ToDouble(Textbox6.Text.ToString());
+
+            //表格类型编号
+            string assessformTypeID = ContractApproval_BLL.getRealFlag(money, isPromise);
+
+            As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(assessformTypeID);
 
             //写入session之后供SelectDepartment页面使用
             Session["AssessflowInfo"] = assess_flow;
@@ -826,35 +832,6 @@ namespace SHZSZHSUPPLY.VendorAssess
             Session["form_name"] = FORM_NAME;
             Session["tempvendorname"] = tempVendorName;
             Session["Employee_ID"] = Session["Employee_ID"];
-            //Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx</script>");
-            
-            //startJudgeMoney(promise);
-
-            //通过tempvendorID判断是否是非承诺性供应商 如果是则后面点击否的时候需要KCI进行审批 否则不需要
-            //string promise = VendorType_BLL.selectVendorPromise(tempVendorID);//获取promise
-            //if (promise == "0")//非承诺性且是用户部门 走kci
-            //{
-            //    if (assess_flow.User_Department_Assess == "1")
-            //    {
-            //        //LocalScriptManager.createManagerScript(Page, "messageBox('" + "是否是标准合同？" + "','" + formID + "');", "StandardConstract");
-            //        LocalScriptManager.createManagerScript(Page, String.Format("messageBox('{0}','{1}','{2}');", "是否是标准合同？", formID, content), "StandardConstract");
-            //    }
-            //    else//非承诺性且非用户部门   暂时没有此类情况 不做处理
-            //    {
-
-            //    }
-            //}
-            //if (assess_flow.User_Department_Assess == "1")
-            //{
-            //    //LocalScriptManager.createManagerScript(Page, "iskci('" + formID + "','yes','');", "SHOW");
-            //    //LocalScriptManager.createManagerScript(Page, String.Format("iskci('{0}','{1}','{2}');", formID, iskci, content), "SHOW");
-            //}
-            //else
-            //{
-            //    Session["tempvendorname"] = tempVendorName;
-            //    Session["Employee_ID"] = Session["Employee_ID"];
-            //    Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx</script>");
-            //}
         }
 
         private bool isKciByMoney(string promise)

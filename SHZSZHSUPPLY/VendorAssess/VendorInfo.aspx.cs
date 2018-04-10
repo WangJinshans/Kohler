@@ -19,6 +19,8 @@ namespace AendorAssess
                 Response.Redirect("~/login.aspx");
             }
 
+            
+
             if (!IsPostBack)
             {
 
@@ -93,6 +95,15 @@ namespace AendorAssess
             {
                 return;
             }
+            //权限鉴定  采购限定
+            bool isPurchasingDepartment = TempVendor_BLL.checkEmployeeAuthority(Session["Employee_ID"].ToString());
+            if (!isPurchasingDepartment)
+            {
+
+                LocalScriptManager.createManagerScript(Page, "authorityError()", "authorityError");
+                return;
+            }
+
             //给供应商基本信息赋值
             string vendorType = DropDownList1.SelectedValue.Trim();
             if (vendorType == null || vendorType.Equals(""))
@@ -139,11 +150,14 @@ namespace AendorAssess
             Temp_Vendor.Temp_Vendor_Name = Temp_Vendor_Name.Text.Trim();
             Temp_Vendor.Vendor_Type_ID = vendorTypeID;
             Temp_Vendor.Purchase_Amount = Math.Round(Convert.ToDouble(Purchase_Money.Text), 3); //3位小数
-            Temp_Vendor.Normal_Vendor_ID = TempVendor_BLL.getNormalCode(TempVendor_BLL.getTempVendorID(Temp_Vendor.Temp_Vendor_Name));
+            //Temp_Vendor.Normal_Vendor_ID = TempVendor_BLL.getNormalCode(TempVendor_BLL.getTempVendorID(Temp_Vendor.Temp_Vendor_Name));
+            Temp_Vendor.Normal_Vendor_ID = TempVendor_BLL.getNormalCode_MultiType(Temp_Vendor.Temp_Vendor_Name);
             int joinTempVendor = FillVendorInfo_BLL.addTempVendor(Temp_Vendor);
 
-            //获取临时供应商编号
-            string tempVendorID = TempVendor_BLL.getTempVendorID(Temp_Vendor.Temp_Vendor_Name);
+            //获取临时供应商编号 多类型需要供应商类型ID
+            //string tempVendorID = TempVendor_BLL.getTempVendorID(Temp_Vendor.Temp_Vendor_Name);
+            string tempVendorID = TempVendor_BLL.getTempVendorID_MultiType(Temp_Vendor.Temp_Vendor_Name, Temp_Vendor.Vendor_Type_ID);
+
 
             //添加提交审批信息（员工-供应商表）
             As_Employee_Vendor Employee_Vendor = new As_Employee_Vendor();

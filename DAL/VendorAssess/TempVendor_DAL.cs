@@ -144,6 +144,49 @@ namespace DAL
             return tempVendor;
         }
 
+        public static string getTempVendorID_MultiType(string tempVendorName,string vendorTypeID)
+        {
+            string tempVendorID = "";
+            string sql = "select Temp_Vendor_ID from As_Temp_Vendorchange where Temp_Vendor_Name=@Temp_Vendor_Name and Vendor_Type_ID=@VendorTypeID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                 new SqlParameter("Temp_Vendor_Name",tempVendorName),
+                 new SqlParameter("@VendorTypeID",vendorTypeID)
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    tempVendorID = Convert.ToString(dr["Temp_Vendor_ID"]);
+                }
+            }
+            return tempVendorID;
+        }
+
+        public static string getNormalCode_MultiType(string v)
+        {
+            string sql = "select distinct Normal_Vendor_ID From As_Temp_Vendorchange Where Temp_Vendor_Name=@Temp_Vendor_Name";
+            string result = "";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Temp_Vendor_Name",v)
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    result = Convert.ToString(dr["Normal_Vendor_ID"]);
+                }
+            }
+            if (result.Equals(""))
+            {
+                return "";
+            }
+            return result;
+        }
+
         public static void deleteVendorType(string oldTempVendorID,string factory_Name)
         {
             bool sh = false;
@@ -589,7 +632,7 @@ namespace DAL
 
         public static bool vendorNameExist(string name)
         {
-            string sql = "Select count(*) From As_Temp_Vendor Where Temp_Vendor_Name=@Name";
+            string sql = "Select count(*) From As_Temp_Vendorchange Where Temp_Vendor_Name=@Name";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Name",name)

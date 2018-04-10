@@ -56,5 +56,33 @@ namespace BLL
         {
             return ContractApproval_DAL.getVendorContractApprovalFormID(tempVendorID, fORM_TYPE_ID, factory, n);
         }
+
+        public static string getRealFlag(double money, string isPromise)
+        {
+            money /= 10000;
+            string fileTypeName = ContractApproval_DAL.getFileTypeName(money, isPromise);
+
+            if (fileTypeName == "")
+            {
+                if (isPromise.Equals("no"))
+                {
+                    if (money > 0 && money < 300)
+                    {
+                        fileTypeName = "合同审批表(非承诺<=RMB3M)";
+                    }
+                }
+                else
+                {
+                    if (money > 1500)
+                    {
+                        fileTypeName = "合同审批表(承诺RMB>15M)";
+                    }
+                }
+            }
+
+            string formTypeID = ContractApproval_DAL.getFormTypeID(fileTypeName);
+
+            return formTypeID;
+        }
     }
 }

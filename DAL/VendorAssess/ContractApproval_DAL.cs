@@ -77,6 +77,53 @@ namespace DAL
             return formID;
         }
 
+        public static string getFormTypeID(string fileTypeName)
+        {
+            string formTypeID = "";
+            string sql = "select Form_Type_ID from As_Form_Type where Form_Type_Name=@Form_Type_Name";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_Type_Name",fileTypeName)
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    formTypeID = dr["Form_Type_ID"].ToString();
+                }
+            }
+            return formTypeID;
+        }
+
+        public static string getFileTypeName(double money, string promise)
+        {
+            string sql = "";
+            if (promise.Equals("yes"))
+            {
+                sql = "select File_Type_Name from As_File_Type where File_Type_Name like '合同审批表_承诺%' and (File_Type_Name not like '合同审批表_非承诺%') and Min_Money<@money and Max_Money>@money";
+            }
+            else
+            {
+                sql = "select File_Type_Name from As_File_Type where File_Type_Name like '合同审批表_非承诺%' and Min_Money<@money and Max_Money>@money";
+            }
+
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@money",money)
+            };
+            string fileTypeName = "";
+            DataTable table = DBHelp.GetDataSet(sql, sp);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    fileTypeName = dr["File_Type_Name"].ToString();
+                }
+            }
+            return fileTypeName;
+        }
+
         public static bool isKCIOK(string formID)
         {
             string sql = "select * from As_Vendor_FormType where Form_ID='" + formID + "' and flag=4";

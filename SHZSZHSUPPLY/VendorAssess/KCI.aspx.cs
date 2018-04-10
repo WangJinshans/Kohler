@@ -85,11 +85,11 @@ namespace SHZSZHSUPPLY.VendorAssess
                 {
                     KCIApproval_BLL.updateKCIApproval(formID, 1);//KCI审批完成
                     KCIApproval_BLL.setApprovalFinished(Form_Type_ID, 4, temp_vendor_ID);//整张表的审批完成
-                    if (isFormOverDue(formID))//过期重申表
-                    {
-                        string oldFormID = FormOverDue_BLL.getOldFormID(formID);//对于已经在重新审批中的表 oldFormID 在As_Vendor_FormType_History一定存在 在过期表中也一定存在
-                        UpdateFlag_BLL.updateReAccessFormStatus(oldFormID, temp_vendor_ID);//成功返回2 失败返回-1
-                    }
+                    //if (isFormOverDue(formID))//过期重申表
+                    //{
+                    //    string oldFormID = FormOverDue_BLL.getOldFormID(formID);//对于已经在重新审批中的表 oldFormID 在As_Vendor_FormType_History一定存在 在过期表中也一定存在
+                    //    UpdateFlag_BLL.updateReAccessFormStatus(oldFormID, temp_vendor_ID);//成功返回2 失败返回-1
+                    //}
                 }
                 else if (formID.Contains("ContractApproval"))//合同审批表的KCI处理
                 {

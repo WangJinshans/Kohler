@@ -31,7 +31,6 @@ namespace BLL
         //添加临时供应商
         public static int addTempVendor(As_Temp_Vendor Temp_Vendor)
         {
-            Temp_Vendor.SH = Temp_Vendor.ZS = Temp_Vendor.ZH = DBNull.Value.ToString();
             Temp_Vendor.Factory_Name = HttpContext.Current.Session["Factory_Name"].ToString();
             return TempVendor_DAL.addTempVendor(Temp_Vendor);
         }

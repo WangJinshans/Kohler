@@ -127,6 +127,22 @@ namespace BLL
             return TempVendor_DAL.isOldVendor(tempVendorID);
         }
 
+
+        /// <summary>
+        /// 新建多类型供应商的时候 根据供应商名称查询是否已经存在有VendorCode 如果不存在那么返回 ""
+        /// </summary>
+        /// <param name="vendorName"></param>
+        /// <returns></returns>
+        public static string getNormalCode_MultiType(string vendorName)
+        {
+            return TempVendor_DAL.getNormalCode_MultiType(vendorName);
+        }
+
+        public static string getTempVendorID_MultiType(string tempVendorName,string vendorTypeID)
+        {
+            return TempVendor_DAL.getTempVendorID_MultiType(tempVendorName, vendorTypeID);
+        }
+
         /// <summary>
         /// 由于一个供应商只有一个VendorCode 但是一个类型对应了一个Temp_Vendor_ID,vendor_Type_ID + VnedorCode 能找到对应的临时供应商 
         /// </summary>

@@ -116,6 +116,7 @@
         .n1, .n2, .n3, .n4, .n5 {
             display: none;
         }
+
     </style>
 
     <script type="text/javascript">
@@ -220,12 +221,12 @@
                         </li>
                         <li><a href="#" style="text-align: center">供应商评估</a>
                             <ul>
-                                <li><a href="#" target="iFrame1">供应商评估</a></li>
+                                <li><a href="javascript:void(0)" target="iFrame1">供应商评估</a></li>
                             </ul>
                         </li>
-                        <li><a href="#">质量检验</a>
+                        <li><a href="javascript:void(0)">质量检验</a>
                             <ul>
-                                <li><a href="#" target="iFrame1">质量检验</a></li>
+                                <li><a href="javascript:void(0)" id="zhiliang" target="iFrame1">质量检验</a></li>
                             </ul>
                         </li>
                         <li><a href="#" style="text-align: center">价格走势</a>
