@@ -46,6 +46,13 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// </summary>
         private void readVendorInfo()
         {
+            bool isPurchasingDepartment = TempVendor_BLL.checkEmployeeAuthority(Session["Employee_ID"].ToString());
+            if (!isPurchasingDepartment)
+            {
+
+                LocalScriptManager.createManagerScript(Page, "authorityError()", "authorityError");
+                return;
+            }
             info = TempVendor_BLL.readVendorInfo();
             JavaScriptSerializer jss = new JavaScriptSerializer();
             serializedJson = jss.Serialize(info);
