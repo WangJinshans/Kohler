@@ -91,6 +91,9 @@
             showAllText();
             hideShowOtherElements();
         }
+        function viewFile(filePath) {
+            window.open(filePath);
+        }
     </script>
 </head>
 <body>
@@ -100,6 +103,7 @@
             <ContentTemplate>
                 <div class="layui-form-item" style="width: 1000px; margin: 0 auto">
                     <a onclick="goBack()" class="layui-btn layui-btn layui-btn-small" style="float: left; margin-right: 100px">返回</a>
+                    <asp:Button CssClass="layui-btn" Text="查看KCI" ID="getKCIResult" runat="server" Visible="false" OnClick="getKCIResult_Click" Style="float: right;" />
                     <asp:Button CssClass="layui-btn layui-btn-normal" Text="PDF" ID="btnPDF" runat="server" OnClientClick="requestToPdfAshx('--zoom 0.7 ')" Style="float: right;" />
                 </div>
             </ContentTemplate>
@@ -621,6 +625,12 @@
                 <td colspan="3" style="border-bottom: 0; border-top: 0;"></td>
                 <td colspan="3" style="border-bottom: 0; border-top: 0;"></td>
             </tr>
+            <tr>
+                <td colspan="18">
+                    <asp:TextBox runat="server" Width="600" BorderStyle="None" Style="color:red;font-size:20px;text-align:center" ReadOnly="true" ID="approveState" />
+                </td>
+            </tr>
+            
         </table>
         <table class="gridtable" style="margin: auto;margin-bottom:50px; width: 1000px; border-collapse: collapse;">
             <tr>

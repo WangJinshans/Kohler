@@ -1,4 +1,5 @@
 using BLL;
+using BLL.VendorAssess;
 using Model;
 using MODEL;
 using SHZSZHSUPPLY.VendorAssess.Util;
@@ -9,10 +10,10 @@ namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class ShowContractApprovalForm : System.Web.UI.Page
     {
-        private string formID = "";
-        private string positionName = "";
-        private string FORM_TYPE_ID = "";
-        private string tempVendorID = "";
+        private static string positionName = "";
+        private static string FORM_TYPE_ID = "";
+        private static string formID = "";
+        private static string tempVendorID = "";
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -141,6 +142,17 @@ namespace SHZSZHSUPPLY.VendorAssess
                 Image6.Visible = false;
                 Image7.Visible = false;
                 Image8.Visible = false;
+            }
+
+            //KCI完成后显示   文本提示linda已经签名
+            if (KCIApproval_BLL.isKCIApproveFinished(formID))
+            {
+                approveState.Text = "Linda已完成审批";
+                getKCIResult.Visible = true;
+            }
+            else
+            {
+                getKCIResult.Visible = false;
             }
 
         }
@@ -390,6 +402,18 @@ namespace SHZSZHSUPPLY.VendorAssess
                 }
             }
         }
+
+        protected void getKCIResult_Click(object sender, EventArgs e)
+        {
+            string fileID = KCIApproval_BLL.getKCIApprovalFileID(formID);//获取fileID
+            string filePath = LSetting.File_Reltive_Path + fileID + ".pdf";
+            if (filePath != "")
+            {
+                LocalScriptManager.createManagerScript(Page, "viewFile('" + filePath + "')", "save");
+            }
+        }
+
+
         protected void tips()
         {
             bool ok = ContractApproval_BLL.isKCIOK(formID);

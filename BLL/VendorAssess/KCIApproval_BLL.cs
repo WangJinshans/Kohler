@@ -28,6 +28,11 @@ namespace BLL.VendorAssess
             return KCIApproval_DAL.setApprovalFinished(Form_ID, approval, Temp_Vendor_ID,Employee_DAL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString()));
         }
 
+        public static bool isKCIApproveFinished(string formID)
+        {
+            return KCIApproval_DAL.isKCIApproveFinished(formID);
+        }
+
         public static As_KCI_Approval getKCIApproval(string position)
         {
             return KCIApproval_DAL.getKCIApproval(position);
@@ -40,6 +45,16 @@ namespace BLL.VendorAssess
         public static bool deleteKCIApproval(string formID)
         {
             return KCIApproval_DAL.deleteKCIApproval(formID);
+        }
+
+        /// <summary>
+        /// 获取KCI文件路径  相对
+        /// </summary>
+        /// <param name="formID"></param>
+        /// <returns></returns>
+        public static string getKCIApprovalFileID(string formID)
+        {
+            return KCIApproval_DAL.getKCIApprovalFileID(formID);
         }
     }
 }

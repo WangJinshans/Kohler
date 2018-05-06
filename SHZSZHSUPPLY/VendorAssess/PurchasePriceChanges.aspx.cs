@@ -295,8 +295,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     try
                     {
 
-                        if (Convert.ToInt64(item.Yearly_Amount) > 100000 &&
-                            Convert.ToSingle(item.Request_Price_VS_Last_PO_Price.Replace("%", "")) > 5)
+                        if (Convert.ToInt64(item.Yearly_Amount) > 100000 && Convert.ToSingle(item.Request_Price_VS_Last_PO_Price.Replace("%", "")) > 5)
                         {
                             Session["PurchaseChangesRange"] = true;
                         }

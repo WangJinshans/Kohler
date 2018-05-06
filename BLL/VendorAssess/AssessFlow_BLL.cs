@@ -11,6 +11,11 @@ namespace BLL
 {
     public class AssessFlow_BLL
     {
+        /// <summary>
+        /// 根据formTypeID获取该厂的该表的实例流程
+        /// </summary>
+        /// <param name="formtypeid"></param>
+        /// <returns></returns>
         public static As_Assess_Flow getFirstAssessFlow(string formtypeid)
         {
             return AssessFlow_DAL.getFirstAssessFlow(formtypeid);

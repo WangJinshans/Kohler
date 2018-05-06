@@ -454,7 +454,7 @@ namespace DAL
 
         public static string getNormalCode(string tempVendorID)
         {
-            string sql = "select distinct Normal_Vendor_ID from As_Temp_Vendorchange Where Temp_Vendor_ID=@ID";
+            string sql = "select distinct Normal_Vendor_ID from As_Temp_Vendorchange Where Temp_Vendor_ID=@ID and Normal_Vendor_ID is not null";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@ID",tempVendorID)

@@ -31,6 +31,15 @@ namespace SHZSZHSUPPLY.VendorAssess {
         protected global::System.Web.UI.ScriptManager ScriptManager;
         
         /// <summary>
+        /// getKCIResult 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button getKCIResult;
+        
+        /// <summary>
         /// btnPDF 控件。
         /// </summary>
         /// <remarks>
@@ -1127,6 +1136,15 @@ namespace SHZSZHSUPPLY.VendorAssess {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox CheckBox35;
+        
+        /// <summary>
+        /// approveState 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox approveState;
         
         /// <summary>
         /// GridView1 控件。

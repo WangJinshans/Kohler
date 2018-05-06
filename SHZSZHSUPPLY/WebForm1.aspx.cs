@@ -18,14 +18,6 @@ namespace SHZSZHSUPPLY
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            //if (Session["usernum"] == null)
-            //{
-
-            //    Response.Redirect("../Login.aspx");
-            //    return;
-            //}
-
-
             if (!IsPostBack)
             {
                 Label2.Text = Request.QueryString["name1"];
@@ -47,8 +39,29 @@ namespace SHZSZHSUPPLY
             }
             else
             {
-
+                switch (Request["__EVENTTARGET"])
+                {
+                    case "clearUID":
+                        clearUser();
+                        break;
+                    default:
+                        break;
+                }
             }
+        }
+
+        private void clearUser()
+        {
+            Session["Employee_ID"] = "";
+            Session["Employee_Name"] = "";
+            Session["Position_Name"] = "";
+            Session["Department_ID"] = "";
+            Session["Department_Name"] = "";
+            Session["Authority_ID"] = "";
+            Session["Factory_Name"] = "";
+            Session["usernum"] = "";
+            Session["plantname"] = "";
+            Response.Redirect("Login.aspx");
         }
 
         private void InitializeComponent()

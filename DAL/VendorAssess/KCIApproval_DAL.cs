@@ -35,6 +35,45 @@ namespace DAL
             return DBHelp.ExecuteCommand(sql, sp);
         }
 
+        public static bool isKCIApproveFinished(string formID)
+        {
+            string sql = "select Form_ID from As_KCI_Approval where Form_ID=@Form_ID and Flag=1";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",formID)
+            };
+            using (SqlDataReader reader = DBHelp.GetReader(sql,sp))
+            {
+                if (reader.Read())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public static string getKCIApprovalFileID(string formID)
+        {
+            string sql = "select File_ID from As_KCI_File where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",formID)
+            };
+            string filePath = "";
+            DataTable table = DBHelp.GetDataSet(sql,sp);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    filePath = dr["File_ID"].ToString();
+                }
+            }
+            return filePath;
+        }
+
         public static bool deleteKCIApproval(string formID)
         {
             string sql = "delete from As_KCI_Approval where Form_ID=@Form_ID";
