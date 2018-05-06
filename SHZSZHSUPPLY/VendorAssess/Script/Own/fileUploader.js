@@ -381,3 +381,16 @@ function openSignatureSelectio_s(elem, callback) {
         });
     });
 }
+
+function isPromise() {
+    layui.use(['layer'], function () {
+        layer.confirm('是否承诺性供应商？', {
+            btn: ['是', '否'],
+            yes: function (index, layero) {
+                __myDoPostBack('isPromised', 'yes');
+            }, btn2: function (index, layero) {
+                __myDoPostBack('isPromised', 'no');
+            }
+        });
+    })
+}

@@ -10,6 +10,7 @@ using BLL.UserInfo;
 using DAL.UserInfo;
 using Model;
 using BLL;
+using SHZSZHSUPPLY.VendorAssess.Util;
 
 namespace SHZSZHSUPPLY
 {
@@ -89,6 +90,12 @@ namespace SHZSZHSUPPLY
                     //初始化审批系统，并跳转
                     try
                     {
+                        string uid = Convert.ToString(Session["Employee_ID"]);
+                        if (uid != "" && !uid.Equals(TextBox1.Text.Trim().ToLower()))
+                        {
+                            LocalScriptManager.CreateScript(Page, String.Format("setSession('{0}')", TextBox1.Text.Trim().ToLower()), "sessionValues");
+                        }
+
                         initVendorAssess(TextBox1.Text.Trim().ToLower());
                     }
                     catch (Exception error)
@@ -132,7 +139,8 @@ namespace SHZSZHSUPPLY
                 Session["Department_Name"] = ae.Department_Name;
                 Session["Authority_ID"] = ae.Authority_ID;
                 Session["Factory_Name"] = ae.Factory_Name;//获取厂名
-                Response.Write("<script>parent.location.href='" + "./WebForm1.aspx?name1=" + ae.Employee_Name + "&name2=" + ae.Employee_ID + "'</script>");
+                //Response.Write("<script>parent.location.href='" + "./WebForm1.aspx?name1=" + ae.Employee_Name + "&name2=" + ae.Employee_ID + "'</script>");
+                LocalScriptManager.CreateScript(Page, String.Format("redirecturl('{0}','{1}')", ae.Employee_Name, ae.Employee_ID), "redirecturl");
                 return;;
             }
 
@@ -154,7 +162,8 @@ namespace SHZSZHSUPPLY
                 Session["Department_Name"] = employees[0].Department_Name;
                 Session["Authority_ID"] = employees[0].Authority_ID;
                 Session["Factory_Name"] = employees[0].Factory_Name;//获取厂名
-                Response.Write("<script>parent.location.href='" + "./WebForm1.aspx?name1=" + employees[0].Employee_Name + "&name2=" + employees[0].Employee_ID + "'</script>");
+                //Response.Write("<script>parent.location.href='" + "./WebForm1.aspx?name1=" + employees[0].Employee_Name + "&name2=" + employees[0].Employee_ID + "'</script>");
+                LocalScriptManager.CreateScript(Page, String.Format("redirecturl('{0}','{1}')", employees[0].Employee_Name, employees[0].Employee_ID), "redirecturl");
             }
 
             

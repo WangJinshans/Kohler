@@ -182,8 +182,9 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             SelectDepartment.paramInfo = dc;
             SelectDepartment.originPage = page;
 
-            //形成参数
+            //根据表格类型ID获取具体审批实例
             As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(FORM_TYPE_ID);
+
             string typeName = TempVendor_BLL.getTempVendorType(tempVendorID);
             if (typeName.Contains("非生产") && !typeName.Contains("质量"))//001-018,041,042
             {
@@ -256,6 +257,47 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             return true;
         }
 
+        /// <summary>
+        /// 比价表提交
+        /// </summary>
+        /// <returns></returns>
+        internal static bool submitForm(string formTypeID)
+        {
+            //读取session
+            //getSessionInfo();
+
+            SelectDepartment.doSelect();
+            Dictionary<string, string> dc = SelectDepartment.paramInfo;
+
+            //插入到已提交表
+            As_Form form = new As_Form();
+            form.Form_ID = dc["FormID"];
+            form.Form_Type_Name = dc["FormName"];
+            form.Form_Type_ID = formTypeID;
+            form.Temp_Vendor_Name = dc["TempVendorName"];
+            form.Form_Path = "";
+            form.Temp_Vendor_ID = dc["TempVendorID"];
+            form.Factory_Name = dc["Factory"];
+            int add = AddForm_BLL.addForm(form);
+
+            //一旦提交就把表As_Vendor_FormType字段FLag置1.
+            int updateFlag = UpdateFlag_BLL.updateFlag(formTypeID, dc["TempVendorID"]);
+
+            UpdateFlag_BLL.updateFillFlag(dc["FormID"]);
+
+            //写入日志
+            LocalLog.writeLog(form.Form_ID, String.Format("表格提交成功，等待{0}审批    时间：{1}", SelectDepartment.Form_AssessFlow.First, DateTime.Now), As_Write.FORM_EDIT, form.Temp_Vendor_ID);
+
+            //TODO::Async
+            As_Approve ap = Approve_BLL.getApproveTop(form.Form_ID);
+            LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, form.Temp_Vendor_ID, TempVendor_BLL.getTempVendorName(form.Temp_Vendor_ID), form.Form_Type_Name, "等待审批", DateTime.Now.ToString(), "表格已提交，请登陆系统进行审批", form.Form_ID);
+
+            LocalScriptManager.CreateScript(SelectDepartment.originPage, "message('提示测试')", "redirectpage1");
+
+            //LocalScriptManager.CreateScript(SelectDepartment.originPage, String.Format("messageFunc('{0}', {1})","表格已成功提交", "function () {window.location.href='~/VendorAssess/EmployeeVendor.aspx;}"), "redirectpage");
+            HttpContext.Current.Response.Redirect("EmployeeVendor.aspx");
+            return true;
+        }
 
 
         /// <summary>

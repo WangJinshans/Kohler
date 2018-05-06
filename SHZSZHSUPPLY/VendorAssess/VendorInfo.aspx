@@ -37,7 +37,22 @@
                 layer.msg(msg);
             })
         }
-
+        function authorityError() {
+            layui.use('layer', function () {
+                var layer = layui.layer;
+                layer.open({
+                    title:''
+                    , content: '<div style="padding: 20px 100px;">你没有权限新建供应商</div>'
+                    , btn: '确定'
+                    , type:1
+                    , btnAlign: 'c' //按钮居中
+                    , shade: 0 //不显示遮罩
+                    , yes: function () {
+                        layer.closeAll();
+                    }
+                });
+            })
+        }
         function openConfirmDialog() {
             layui.use(['layer'], function () {
                 layer.confirm('此供应商已经存在，是否为此供应商添加当前选择的供应商类型?', { icon: 3, title: '提示' }, function (index) {

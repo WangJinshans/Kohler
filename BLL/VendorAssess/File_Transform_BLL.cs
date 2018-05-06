@@ -154,10 +154,6 @@ namespace BLL.VendorAssess
             {
                 normalCode = TempVendor_BLL.getNormalCode(tempVendorID);
             }
-            //if (mode.Equals(ALL_MODE))
-            //{
-            //    File_Transform_DAL.deleteALL(normalCode);
-            //}
             string rs1 = copyFile(dc, tempVendorID, destPath, normalCode, factory, employeeID);
             if (rs1 != "")
             {

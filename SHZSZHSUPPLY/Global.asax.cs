@@ -47,7 +47,7 @@ namespace SHZSZHSUPPLY
         void Session_Start(object sender, EventArgs e)
         {
             // 在新会话启动时运行的代码
-
+            Console.WriteLine("new Session..........................");
         }
 
         void Session_End(object sender, EventArgs e)

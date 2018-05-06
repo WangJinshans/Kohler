@@ -11,7 +11,31 @@
 	<script src="Script/jquery-3.2.1.min.js"></script>
 	<script src="Script/layui/layui.js"></script>
 	<script src="Script/Own/fileUploader.js"></script>
-
+     <script>
+        //防止页面后退  
+        history.pushState(null, null, document.URL);
+        window.addEventListener('popstate', function () {
+            history.pushState(null, null, document.URL);
+        });
+        // 浏览器回退禁止  
+        function noBack() {
+            // 历史记录栈中记录页数  
+            var numberOfEntries = window.history.length;
+            if (window.history && window.history.pushState) {
+                $(window).on('popstate', function () {
+                    // 当点击浏览器的 后退和前进按钮 时才会被触发，  
+                    window.history.pushState('forward', null, '');
+                    window.history.forward(1);
+                });
+            }
+            // 新弹出页对应  
+            if (numberOfEntries != 1) {
+                // 页面间跳转用  
+                window.history.pushState('forward', null, '');
+                window.history.forward(1);
+            }
+        };
+    </script>
     <script>
         function viewFile(path) {
             window.open(path);

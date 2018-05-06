@@ -1,5 +1,6 @@
 ﻿using BLL;
 using BLL.VendorAssess;
+using Model;
 using MODEL;
 using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
@@ -46,6 +47,13 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// </summary>
         private void readVendorInfo()
         {
+            bool isPurchasingDepartment = TempVendor_BLL.checkEmployeeAuthority(Session["Employee_ID"].ToString());
+            if (!isPurchasingDepartment)
+            {
+
+                LocalScriptManager.createManagerScript(Page, "authorityError()", "authorityError");
+                return;
+            }
             info = TempVendor_BLL.readVendorInfo();
             JavaScriptSerializer jss = new JavaScriptSerializer();
             serializedJson = jss.Serialize(info);
@@ -103,6 +111,32 @@ namespace SHZSZHSUPPLY.VendorAssess
             string factory = Session["Factory_Name"].ToString();
             string employee_ID = Session["Employee_ID"].ToString();
             string tempVendorID = Request.Form["quiz3"];
+
+
+            //老供应商需要可以直接复用   添加到As_Vendor_Plantinfo等等里面去
+            As_Employee_Vendor employeeVendor = AddEmployeeVendor_BLL.getEmployeeVendor(tempVendorID);
+            if (employeeVendor.Type.Equals("OLD"))
+            {
+
+                if (TempVendor_BLL.checkUsed(tempVendorID, Session["Factory_Name"].ToString()))
+                {
+                    LocalScriptManager.CreateScript(Page, String.Format("message('{0}')", "此供应商已经在您所在的工厂中使用"), "vendorIsUsed");
+                    return;
+                }
+                else //供应商复用
+                {
+                    if (TempVendor_BLL.vendorSharedUse(tempVendorID, Request.Form["quiz1"], factory, employee_ID))
+                    {
+                        LocalScriptManager.CreateScript(Page, String.Format("messageFunc('{0}', {1})", "供应商信息复制成功，即将转至文件管理界面", "function(){window.location.href='./EmployeeVendor.aspx'}"), "successReUse");
+                    }
+                    else
+                    {
+                        LocalScriptManager.CreateScript(Page, "message('复用失败')", "failReUse");
+                    }
+                }
+
+                return;
+            }
 
             //检查是否已经完成审批
             if (File_Transform_BLL.checkFormSubmit(tempVendorID, Request.Form["quiz1"]) && File_Transform_BLL.FormAccessSuccessFul(tempVendorID, Request.Form["quiz1"]) && File_Transform_BLL.checkFileSubmit(tempVendorID, Request.Form["quiz1"]))

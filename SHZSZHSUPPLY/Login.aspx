@@ -58,6 +58,19 @@
         function QusEmployee(parameters) {
             
         }
+
+
+        function setSession() {
+            alert("请退出另一个账户！");
+            location.href = "Login.aspx";
+        }
+        function setuid(uid) {
+            localStorage.setItem("uid", uid);
+        }
+        function redirecturl(name, uid) {
+            setuid(uid);
+            parent.location.href = '../WebForm1.aspx?name1=' + name + '&name2=' + uid;
+        }
     </script>
 </head>
 <body   style ="margin:0">

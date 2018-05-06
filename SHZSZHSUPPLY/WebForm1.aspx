@@ -8,6 +8,7 @@
 <head runat="server">
     <title></title>
     <script type="text/javascript" src="VendorAssess/Script/jquery-3.2.1.min.js"></script>
+    <script src="VendorAssess/Script/Own/fileUploader.js"></script>
     <style type="text/css">
         .style1 {
             width: 100%;
@@ -116,13 +117,16 @@
         .n1, .n2, .n3, .n4, .n5 {
             display: none;
         }
+
     </style>
 
     <script type="text/javascript">
         window.onload = function () {
 
         }
-
+        function clearUID() {
+            __myDoPostBack('clearUID','');
+        }
         function saveAU(a, b, c, d, e) {
             localStorage.setItem('authority', [a, b, c, d, e]);
         }
@@ -220,12 +224,12 @@
                         </li>
                         <li><a href="#" style="text-align: center">供应商评估</a>
                             <ul>
-                                <li><a href="#" target="iFrame1">供应商评估</a></li>
+                                <li><a href="javascript:void(0)" target="iFrame1">供应商评估</a></li>
                             </ul>
                         </li>
-                        <li><a href="#">质量检验</a>
+                        <li><a href="javascript:void(0)">质量检验</a>
                             <ul>
-                                <li><a href="#" target="iFrame1">质量检验</a></li>
+                                <li><a href="javascript:void(0)" id="zhiliang" target="iFrame1">质量检验</a></li>
                             </ul>
                         </li>
                         <li><a href="#" style="text-align: center">价格走势</a>
@@ -243,10 +247,11 @@
                         <li style="border-right: 1px solid white;"><a href="#" style="text-align: center">系统管理</a>
                             <ul>
                                 <li><a href="#" target="iFrame1">文档类型管理</a></li>
-                                <li><a href="#" target="iFrame1">用户权限分配</a></li>
+                                <li><a href="#" target="iFrame1">人事变更</a></li>
+                                <li><a href="javascript:void(0)" target="iFrame1">用户权限分配</a></li>
                             </ul>
                         </li>
-                        <li style="border-right: 1px solid white;"><a href="Login.aspx" style="text-align: center">退出</a>
+                        <li style="border-right: 1px solid white;"><a href="#" onclick="clearUID()" style="text-align: center">退出</a>
                         </li>
                     </ul>
                 </td>

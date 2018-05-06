@@ -202,8 +202,8 @@ namespace DAL
                     vendorCreation.Email_Address_One = item["Email_Address_One"].ToString().Trim();
                     vendorCreation.Email_Address_Two = item["Email_Address_Two"].ToString().Trim();
                     vendorCreation.Tax_Identification_Number = item["Tax_Identification_Number"].ToString().Trim();
-                    vendorCreation.Payment_Method = item["Payment_Term"].ToString().Trim();
-                    vendorCreation.Payment_Term = item["Payment_Method"].ToString().Trim();
+                    vendorCreation.Payment_Method = item["Payment_Method"].ToString().Trim(); 
+                    vendorCreation.Payment_Term = item["Payment_Term"].ToString().Trim();
                     vendorCreation.Bank_Code = item["Bank_Code"].ToString().Trim();
                     vendorCreation.Bank_Name = item["Bank_Name"].ToString().Trim();
                     vendorCreation.Bank_Country = item["Bank_Country"].ToString().Trim();

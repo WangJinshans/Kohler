@@ -69,7 +69,12 @@ namespace BLL
                 return false;
             }
         }
-
+        /// <summary>
+        /// getAccessPriorityNumber 内部引入了 厂
+        /// </summary>
+        /// <param name="number"></param>
+        /// <param name="temp_vendor_ID"></param>
+        /// <returns></returns>
         public static bool accessFinishedBeforePriority(int number, string temp_vendor_ID)
         {
             //判断是否有正在审批的表  优先级高于number的表

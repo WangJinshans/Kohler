@@ -50,9 +50,12 @@ namespace SHZSZHSUPPLY.VendorAssess
                     }
                     else
                     {
-                        //获取formID信息
+                        //获取formID信息上海标准件公司沪西销售部
                         //向FormFile表中添加相应的文件、表格绑定信息
                         //bindingFormWithFile();
+
+                        formID = VendorModify_BLL.getVendorModifyFormID(tempVendorID, "020", factory, n);
+
                         showfilelist(tempVendorID,factory);
                     }
 
@@ -207,9 +210,9 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// </summary>
         /// <param name="formTypeID"></param>
         /// <param name="formId"></param>
-        public void approveAssess(string formId)
+        public void approveAssess(string formID)
         {
-            if (LocalApproveManager.AddModifyAssess(formId, FORM_NAME, FORM_TYPE_ID, tempVendorID,factory))
+            if (LocalApproveManager.AddModifyAssess(formID, FORM_NAME, FORM_TYPE_ID, tempVendorID,factory))
             {
                 Response.Write("<script>window.alert('提交成功！您可能还有一些文件需要更新');window.location.href='/VendorAssess/VendorModifyInfo.aspx?ID="+tempVendorID+"&Factory="+factory+"';</script>");
             }

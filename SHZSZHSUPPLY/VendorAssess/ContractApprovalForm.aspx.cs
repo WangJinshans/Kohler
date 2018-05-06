@@ -24,8 +24,10 @@ namespace SHZSZHSUPPLY.VendorAssess
         private static string tempVendorName = "";
         private static string formID = "";
         private static string submit = "";
-        private static string bar_Code = "PR-05-17-3";
+        private string bar_Code = "PR-05-17-3";
         private static bool singleFileSubmit = false;
+
+        private static string isPromise = "";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -104,6 +106,9 @@ namespace SHZSZHSUPPLY.VendorAssess
                     case "nonSubmitForm":
                         nonStandardContractSubmitForm();
                         break;
+                    case "isPromised":
+                        startJudgeMoney(Request["__EVENTARGUMENT"].ToString());//判断金额
+                        break;
                     default:
                         break;
                 }
@@ -119,11 +124,48 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
         }
 
+        private bool startJudgeMoney(string promise)
+        {
+            isPromise = promise;
+            bool iskci = false;
+            string amount = "150";
+            string content = "由于金额小于150万，系统已经自动识别为不需要KCI审批";
+            if (promise.Equals("no"))
+            {
+                amount = "150";
+            }
+            else
+            {
+                amount = "60";
+            }
+            try
+            {
+                iskci = isKciByMoney(promise);
+
+                if (iskci)
+                {
+                    content = "由于金额大于" + amount + "万，系统已经自动识别为需要KCI审批";
+                }
+                else
+                {
+                    content = "由于金额小于" + amount + "万，系统已经自动识别为不需要KCI审批";
+                }
+
+                //获取新的实例
+                newApproveAccess(FORM_TYPE_ID, formID);
+
+                LocalScriptManager.createManagerScript(Page, String.Format("iskci('{0}','{1}','{2}');",formID, iskci, content), "KCIseslection");
+                return true;
+            }
+            catch
+            {
+                LocalScriptManager.createManagerScript(Page, "errorMoneyTip();", "errorMoneyTip");
+                return false;
+            }
+        }
+
         protected string StandardContractSubmitForm()
         {
-            //读取session
-            //getSessionInfo();
-
             SelectDepartment.doSelect();
 
             //一旦提交就把表As_Vendor_FormType字段FLag置1.
@@ -154,8 +196,6 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected string nonStandardContractSubmitForm()//非标准合同的回掉函数
         {
-            //读取session
-            //getSessionInfo();
 
             SelectDepartment.doSelect();
             
@@ -439,8 +479,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             if (submit == "yes")
             {
                 saveForm(2, "提交表格");
-                //LocalScriptManager.CreateScript(Page, "isKCI();", "KCI");
-                newApproveAccess(FORM_TYPE_ID, formID);
+                LocalScriptManager.createManagerScript(Page, "isPromise();", "isPromiseTip");
             }
             else
             {
@@ -779,59 +818,42 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         public void newApproveAccess(string formTypeID, string formID)
         {
-            //形成参数
-            As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(formTypeID);
+            //获取表类型
+            double money = Convert.ToDouble(Textbox6.Text.ToString());
+
+            //表格类型编号
+            string assessformTypeID = ContractApproval_BLL.getRealFlag(money, isPromise);
+
+            As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(assessformTypeID);
 
             //写入session之后供SelectDepartment页面使用
             Session["AssessflowInfo"] = assess_flow;
             Session["tempVendorID"] = tempVendorID;
             Session["form_name"] = FORM_NAME;
+            Session["tempvendorname"] = tempVendorName;
+            Session["Employee_ID"] = Session["Employee_ID"];
+        }
 
-            //金额判断KCI
-            bool iskci = isKciByMoney();
-
-            string content = "由于金额小于100万，系统已经自动识别为不需要KCI审批";
-
-            if (iskci)
+        private bool isKciByMoney(string promise)
+        {
+            double money = Convert.ToDouble(Textbox6.Text.ToString());
+            if (promise.Equals("no"))
             {
-                content = "由于金额大于100万，系统已经自动识别为需要KCI审批";
-            }
-
-            //通过tempvendorID判断是否是非承诺性供应商 如果是则后面点击否的时候需要KCI进行审批 否则不需要
-            string promise = VendorType_BLL.selectVendorPromise(tempVendorID);//获取promise
-            if (promise == "0")//非承诺性且是用户部门 走kci
-            {
-                if (assess_flow.User_Department_Assess == "1")
+                if (!(money < 3000000))//元
                 {
-                    //LocalScriptManager.createManagerScript(Page, "messageBox('" + "是否是标准合同？" + "','" + formID + "');", "StandardConstract");
-                    LocalScriptManager.createManagerScript(Page, String.Format("messageBox('{0}','{1}','{2}');", "是否是标准合同？", formID, content), "StandardConstract");
+                    return true;
                 }
-                else//非承诺性且非用户部门   暂时没有此类情况 不做处理
-                {
-
-                }
-            }
-            else if (assess_flow.User_Department_Assess == "1")
-            {
-                //LocalScriptManager.createManagerScript(Page, "iskci('" + formID + "','yes','');", "SHOW");
-                LocalScriptManager.createManagerScript(Page, String.Format("iskci('{0}','{1}','{2}');", formID, iskci, content), "SHOW");
+                return false;
             }
             else
             {
-                Session["tempvendorname"] = tempVendorName;
-                Session["Employee_ID"] = Session["Employee_ID"];
-                Response.Write("<script>window.alert('提交成功！');window.location.href='EmployeeVendor.aspx</script>");
+                if (!(money < 1500000))//元
+                {
+                    return true;
+                }
+                return false;
             }
-        }
 
-        private bool isKciByMoney()
-        {
-            int money = Convert.ToInt32(Textbox6.Text.ToString());
-            if (!(money < 100))
-            {
-                return true;
-            }
-            return false;
         }
 
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)

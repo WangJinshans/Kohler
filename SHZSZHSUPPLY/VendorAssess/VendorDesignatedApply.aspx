@@ -19,45 +19,31 @@
             });
         });
     </script>
-    <%--<script>
-		function __myDoPostBack(eventTarget, eventArgument) {
-			var theForm = document.forms['form1'];
-			if (!theForm) {
-				theForm = document.form1;
-			}
-			if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
-				theForm.__EVENTTARGET.value = eventTarget;
-				theForm.__EVENTARGUMENT.value = eventArgument;
-				theForm.submit();
-			}
-		}
-	</script>--%>
-    <%--<script>
-		function popUp(formid) {
-			layer.open({
-				title: '请选择审批部门',
-				content: 'SelectDepartment.aspx?formid=' + formid,
-				type: 2,
-				area: ['750px', '400px'],
-				shade: 0.3,
-				shadeClose: false, //点击遮罩关闭
-				btn: ['确定'],
-				yes: function (index, layero) {
-					__myDoPostBack('submitForm', '');
-					layer.close(index);
-				},
-				cancel: function (index, layero) {
-					if (confirm('确定要关闭么')) { //只有当点击confirm框的确定时，该层才会关闭
-						layer.close(index)
-					}
-					return false;
-				},
-				success: function (layero, index) {
-					console.log(layero, index);
-				}
-			});
-		}
-	</script>--%>
+     <script>
+        //防止页面后退  
+        history.pushState(null, null, document.URL);
+        window.addEventListener('popstate', function () {
+            history.pushState(null, null, document.URL);
+        });
+        // 浏览器回退禁止  
+        function noBack() {
+            // 历史记录栈中记录页数  
+            var numberOfEntries = window.history.length;
+            if (window.history && window.history.pushState) {
+                $(window).on('popstate', function () {
+                    // 当点击浏览器的 后退和前进按钮 时才会被触发，  
+                    window.history.pushState('forward', null, '');
+                    window.history.forward(1);
+                });
+            }
+            // 新弹出页对应  
+            if (numberOfEntries != 1) {
+                // 页面间跳转用  
+                window.history.pushState('forward', null, '');
+                window.history.forward(1);
+            }
+        };
+    </script>
     <script>
         function viewFile(filePath) {
             window.open(filePath);

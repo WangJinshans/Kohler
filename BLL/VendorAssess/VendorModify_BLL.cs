@@ -58,6 +58,11 @@ namespace BLL.VendorAssess
             return VendorModify_DAL.getVendorModification(formID);
         }
 
+        public static string getVendorModifyFormID(string tempVendorID, string v, string factory, int n)
+        {
+            return VendorModify_DAL.getVendorModification(tempVendorID, v, factory, n);
+        }
+
         /// <summary>
         /// 获取指定修改表的Form_ID
         /// </summary>

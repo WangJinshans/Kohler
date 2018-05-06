@@ -54,6 +54,23 @@
             })
         }
 
+        function authorityError() {
+            layui.use('form', function () {
+                var layer = layui.layer;
+                layer.open({
+                    title: ''
+                    , content: '<div style="padding: 20px 100px;">你没有权限复用供应商</div>'
+                    , btn: '确定'
+                    , type: 1
+                    , btnAlign: 'c' //按钮居中
+                    , shade: 0 //不显示遮罩
+                    , yes: function () {
+                        layer.closeAll();
+                    }
+                });
+            })
+        }
+
         function refreshForm() {
             layui.use(['form'], function () {
                 var form = layui.form();

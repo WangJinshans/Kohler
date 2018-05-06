@@ -16,8 +16,8 @@ namespace DAL
         {
             get
             {
-                //string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["connectionstring"].ToString();
-                string connectionString = DataEncrypt.Decrypt(System.Configuration.ConfigurationManager.ConnectionStrings["connectionstring"].ToString());
+                string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["connectionstring"].ToString();
+                //string connectionString = DataEncrypt.Decrypt(System.Configuration.ConfigurationManager.ConnectionStrings["connectionstring"].ToString());
                 if (connection == null)
                 {
                     connection = new SqlConnection(connectionString);

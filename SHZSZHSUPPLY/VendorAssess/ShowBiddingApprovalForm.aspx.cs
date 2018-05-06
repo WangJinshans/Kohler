@@ -15,10 +15,10 @@ namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class ShowBiddingApprovalForm : System.Web.UI.Page
     {
-        private string formID = "";
-        private string positionName = "";
-        private string FORM_TYPE_ID = "";
-        private string tempVendorID = "";
+        private static string formID = "";
+        private static string positionName = "";
+        private static string FORM_TYPE_ID = "";
+        private static string tempVendorID = "";
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -138,6 +138,18 @@ namespace SHZSZHSUPPLY.VendorAssess
                     TextBox48.Text = biddingForm.ProjectList[4].Remark;
                 }
             }
+
+            //KCI完成后显示   文本提示linda已经签名
+            if (KCIApproval_BLL.isKCIApproveFinished(formID))
+            {
+                approveState.Text = "Linda已完成审批";
+                getKCIResult.Visible = true;
+            }
+            else
+            {
+                getKCIResult.Visible = false;
+            }
+
             //展示附件
             showfilelist(formID);
             showapproveform(formID);
@@ -247,5 +259,14 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
         }
 
+        protected void getKCIResult_Click(object sender, EventArgs e)
+        {
+            string fileID = KCIApproval_BLL.getKCIApprovalFileID(formID);//获取fileID
+            string filePath = LSetting.File_Reltive_Path + fileID + ".pdf";
+            if (filePath != "")
+            {
+                LocalScriptManager.createManagerScript(Page, "viewFile('" + filePath + "')", "save");
+            }
+        }
     }
 }

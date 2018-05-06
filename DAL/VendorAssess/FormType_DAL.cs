@@ -208,7 +208,7 @@ namespace DAL
 
         public static bool getAccessPriorityNumber(int number,string temp_Vendor_ID)
         {
-            string sql = "select Form_Type_Priority_Number from As_Form_Type,As_Vendor_FormType where As_Form_Type.Form_Type_ID=As_Vendor_FormType.Form_Type_ID and As_Vendor_FormType.flag <> '4' and As_Vendor_FormType.flag <> '0' and As_Vendor_FormType.Temp_Vendor_ID='" + temp_Vendor_ID + "' and Factory_Name='" + Employee_DAL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString()) + "' and As_Form_Type.Form_Type_Priority_Number<>" + number + "";
+            string sql = "select Form_Type_Priority_Number from As_Form_Type,As_Vendor_FormType where As_Form_Type.Form_Type_ID=As_Vendor_FormType.Form_Type_ID and As_Vendor_FormType.flag <> '4' and As_Vendor_FormType.flag <> '0' and As_Vendor_FormType.Temp_Vendor_ID='" + temp_Vendor_ID + "' and Factory_Name='" + Employee_DAL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString()) + "' and As_Form_Type.Form_Type_Priority_Number<=" + number + "";
             DataTable dt = DBHelp.GetDataSet(sql);
             if (dt.Rows.Count > 0)
             {
