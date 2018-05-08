@@ -343,6 +343,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             //getSessionInfo();
 
+            //在该方法中获取通过session获取了Factory_Name
             if (LocalApproveManager.doAddApprove(formID, FORM_NAME, FORM_TYPE_ID, tempVendorID))
             {
                 LocalScriptManager.createManagerScript(this.Page, string.Format("messageConfirm('{0}','{1}')", "提交成功", "EmployeeVendor.aspx"), "submited");

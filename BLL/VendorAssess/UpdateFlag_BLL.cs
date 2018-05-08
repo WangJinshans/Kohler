@@ -49,6 +49,15 @@ namespace BLL
             return UpdateFlag_DAL.updateFlagWaitKCI(formTypeID, tempVendorID, Employee_DAL.getEmployeeFactory(HttpContext.Current.Session["Employee_ID"].ToString()));
         }
 
+        /// <summary>
+        /// As_Vendor_Mutiply表中的Fill_Flag以及As_Vendor_FormType中的flag字段更新为4
+        /// 标志该表审批完成，该类表审批完成
+        /// </summary>
+        /// <param name="formID"></param>
+        /// <param name="formTypeID"></param>
+        /// <param name="tempVendorID"></param>
+        /// <param name="factoryName"></param>
+        /// <returns></returns>
         public static int updateFlagAsApproved(string formID, string formTypeID, string tempVendorID, string factoryName)
         {
             return UpdateFlag_DAL.updateFlagAsApproved(formID, formTypeID, tempVendorID, factoryName);
