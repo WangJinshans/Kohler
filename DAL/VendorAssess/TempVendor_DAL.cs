@@ -132,11 +132,11 @@ namespace DAL
                     }
                     if (sh)
                     {
-                        tempVendor.ZH = "上海科勒";
+                        tempVendor.SH = "上海科勒";
                     }
                     if (zs)
                     {
-                        tempVendor.ZH = "中山科勒";
+                        tempVendor.ZS = "中山科勒";
                     }
                 }
             }

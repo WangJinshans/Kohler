@@ -14,6 +14,17 @@ namespace BLL
         {
             return Form_File_DAL.listFile(sql);
         }
+
+
+        /// <summary>
+        /// 合同审批表中绑定的比价表
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public static IList<As_Form_File> listformFile(string sql)
+        {
+            return Form_File_DAL.listformFile(sql);
+        }
         public static IList<string> listFileID(string Temp_Vendor_ID,string Form_ID)
         {
             IList<string> filelist = new List<string>();

@@ -77,12 +77,31 @@ namespace BLL
                     {
                         fileTypeName = "合同审批表(承诺RMB>15M)";
                     }
+                    else
+                    {
+                        fileTypeName = "合同审批表(承诺<=RMB1.5M)";
+                    }
                 }
             }
 
             string formTypeID = ContractApproval_DAL.getFormTypeID(fileTypeName);
 
             return formTypeID;
+        }
+
+        public static void setBiddingBandOK(string formID)
+        {
+            ContractApproval_DAL.setBiddingBandOK(formID);
+        }
+
+        /// <summary>
+        /// 判断是否已经绑定过
+        /// </summary>
+        /// <param name="formID"></param>
+        /// <returns></returns>
+        public static bool isBiddingBandOK(string formID)
+        {
+           return ContractApproval_DAL.isBiddingBandOK(formID);
         }
     }
 }

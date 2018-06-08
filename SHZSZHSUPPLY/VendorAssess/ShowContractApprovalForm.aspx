@@ -8,7 +8,7 @@
     <title></title>
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
-    <script src="Script/Own/fileUploader.js?v=9"></script>
+    <script src="Script/Own/fileUploader.js?v=10"></script>
     <script src="Script/My97DatePicker/WdatePicker.js"></script>
     <script src="Script/PDF/js/html2canvas.js"></script>
     <script src="Script/PDF/js/jspdf.debug.js"></script>
@@ -45,7 +45,7 @@
             margin-left: auto;
         }
 
-        table.gridtable {
+            table.gridtable {
                 font-family: verdana,arial,sans-serif;
                 font-size: 11px;
                 color: #333333;
@@ -69,6 +69,7 @@
                     border-color: #666666;
                     background-color: #ffffff;
                 }
+
         .auto-style1 {
             border-style: none;
             border-color: inherit;
@@ -627,12 +628,12 @@
             </tr>
             <tr>
                 <td colspan="18">
-                    <asp:TextBox runat="server" Width="600" BorderStyle="None" Style="color:red;font-size:20px;text-align:center" ReadOnly="true" ID="approveState" />
+                    <asp:TextBox runat="server" Width="600" BorderStyle="None" Style="color: red; font-size: 20px; text-align: center" ReadOnly="true" ID="approveState" />
                 </td>
             </tr>
-            
+
         </table>
-        <table class="gridtable" style="margin: auto;margin-bottom:50px; width: 1000px; border-collapse: collapse;">
+        <table class="gridtable" style="margin: auto; margin-bottom: 50px; width: 1000px; border-collapse: collapse;">
             <tr>
                 <td>
                     <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">

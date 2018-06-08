@@ -17,6 +17,7 @@ function getRootPath() {
 
 //上传文件
 function uploadFile(requestType, tempVendorID, tempVendorName, fileTypeID, needDate, callback) {
+    localStorage.removeItem("uploadResult");
     layui.use(['form', 'layer'], function () {
         var layer = layui.layer;
         layer.open({
@@ -31,6 +32,7 @@ function uploadFile(requestType, tempVendorID, tempVendorName, fileTypeID, needD
                 iframeWin.setOwnParams(requestType, tempVendorID, tempVendorName, fileTypeID, needDate);
             },
             cancel: function (index, layero) {
+                localStorage.removeItem('uploadResult')
                 var iframeWin = window[layero.find('iframe')[0]['name']];
                 uploadFileResult = iframeWin.getUploadResult();
                 if (callback != null) {
@@ -392,5 +394,12 @@ function isPromise() {
                 __myDoPostBack('isPromised', 'no');
             }
         });
+    })
+}
+
+//页面初始化
+function initTextarea() {
+    $('textarea').each(function () {
+        this.style.height = this.scrollTop + this.scrollHeight + "px";
     })
 }

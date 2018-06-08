@@ -84,9 +84,9 @@ namespace BLL.VendorAssess
 
         /// <summary>
         /// 为前台生成PDF预览到临时文件夹
-        /// </summary>
+        /// </summary>string options= "--zoom 0.8 --run-sript "+ "javascript:($(function(){ initTextarea();})) --javascript-delay 1000"
         /// <returns></returns>
-        public static bool showPDF(string url, string sessionID, string filePath, string PDF_Tool_Path, EventHandler eventHandler,string options= "--zoom 0.8 ")
+        public static bool showPDF(string url, string sessionID, string filePath, string PDF_Tool_Path, EventHandler eventHandler,string options= "--zoom 0.8")
         {
             try
             {

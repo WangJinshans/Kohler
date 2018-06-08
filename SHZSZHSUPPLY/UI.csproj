@@ -132,6 +132,7 @@
     <Content Include="VendorAssess\FileUpload.aspx" />
     <Content Include="VendorAssess\FormOverDue.aspx" />
     <Content Include="VendorAssess\Html_Template\Approve_Reason.html" />
+    <Content Include="VendorAssess\Html_Template\Biddingformlists.aspx" />
     <Content Include="VendorAssess\Html_Template\Html_Test_Page.html" />
     <Content Include="VendorAssess\EmployeeVendor.aspx" />
     <Content Include="VendorAssess\FormWaitToFill.aspx" />
@@ -518,6 +519,14 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="VendorAssess\Html_Template\Biddingformlists.aspx.cs">
+      <DependentUpon>Biddingformlists.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorAssess\Html_Template\Biddingformlists.aspx.designer.cs">
+      <DependentUpon>Biddingformlists.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorAssess\Util\SessionInfo.cs" />
     <Compile Include="VendorQualityDetection\Utils\LocalExcelReadingUtil.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>

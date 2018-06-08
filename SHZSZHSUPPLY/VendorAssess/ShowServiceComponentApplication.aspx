@@ -10,7 +10,7 @@
     <script type="text/javascript" src="Script/My97DatePicker/WdatePicker.js"></script>
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
-    <script src="Script/Own/fileUploader.js"></script>
+    <script src="Script/Own/fileUploader.js?v=10"></script>
     <style>
         td {
             border: solid #000000;
@@ -37,6 +37,8 @@
         .textbox-width {
             height: 100%;
             width: 100%;
+            border-style:none;
+            overflow: hidden;
         }
     </style>
 </head>

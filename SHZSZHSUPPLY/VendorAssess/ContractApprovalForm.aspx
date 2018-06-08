@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
     <script src="Script/jquery-3.2.1.min.js"></script>  
 	<script src="Script/layui/layui.js"></script>  
-    <script src="Script/Own/fileUploader.js?v=9"></script>
+    <script src="Script/Own/fileUploader.js?v=10"></script>
     <script src="Script/My97DatePicker/WdatePicker.js"></script>
     
     <script>
@@ -98,6 +98,34 @@
                             __myDoPostBack('nonSubmitForm', '');//回掉非标准合同函数
                             layer.closeAll();
                         }
+                    },
+                    cancel: function (index, layero) {
+                        if (confirm('确定要关闭么')) { //只有当点击confirm框的确定时，该层才会关闭
+                            layer.closeAll();
+                        }
+                        return false;
+                    },
+                    success: function (layero, index) {
+                        console.log(layero, index);
+                    }
+                });
+            });
+        }
+
+
+
+        function showform(formID) {
+            layui.use(['layer'], function () {
+                layer.open({
+                    title: '请选择需要绑定的文件',
+                    content: 'Html_Template/Biddingformlists.aspx?formID=' + formID,
+                    type: 2,
+                    area: ['750px', '400px'],
+                    shade: 0.3,
+                    shadeClose: false, //点击遮罩关闭
+                    btn: ['确定'],
+                    yes: function (index, layero) {
+                        __myDoPostBack('', '');//回掉非标准合同函数
                     },
                     cancel: function (index, layero) {
                         if (confirm('确定要关闭么')) { //只有当点击confirm框的确定时，该层才会关闭
@@ -603,6 +631,8 @@
 		        <asp:Button ID="Button4" runat="server" Text="合同上传" CssClass="layui-btn layui-btn-danger" OnClick="Button4_Click" />
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		        <asp:Button ID="Button5" runat="server" Text="查看合同" CssClass="layui-btn" OnClick="Button5_Click" />
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		        <asp:Button ID="Button6" runat="server" Text="添加bidding" CssClass="layui-btn" OnClick="Button6_Click" />
                 </div>
             </ContentTemplate>
         </asp:UpdatePanel>
@@ -633,6 +663,10 @@
 				<SortedDescendingHeaderStyle BackColor="#6F8DAE" />
 			</asp:GridView>
     </form>
-    
+     <script>
+        $('textarea').bind('input', function () {
+            this.style.height = this.scrollTop + this.scrollHeight + "px";
+        })
+    </script>
 </body>
 </html>

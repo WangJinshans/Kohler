@@ -220,6 +220,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     hideImage(purchasePrice.Finance_Director_KCI, image6);
                 }
             }
+            LocalScriptManager.CreateScript(Page, "initTextarea()", "initTextbox");
             showfilelist(formID);
             showapproveform(formID);
         }
@@ -317,6 +318,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 formID = Request.QueryString["outPutID"];
                 FORM_TYPE_ID = Request.QueryString["type"];
+                LocalScriptManager.CreateScript(Page, "initTextarea()", "initTextboxs");
             }
             else
             {

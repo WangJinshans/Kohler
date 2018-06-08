@@ -39,6 +39,7 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
 
         /// <summary>
         /// 向前端发送临时pdf编号，如果是新的请求则重新生成后再发送
+        /// options += "--zoom 0.8 --run-sript " + "javascript:($(function(){ initTextarea();})) --javascript-delay 1000";
         /// </summary>
         private void outPutPDF(HttpContext context)
         {
@@ -56,18 +57,19 @@ namespace SHZSZHSUPPLY.VendorAssess.ASHX
             {
                 vRoot = "/";
             }
-            bool result = PDF_BLL.showPDF(url, sessionID, filePath, Properties.Settings.Default.PDF_Tool_Path,(sender,e)=> {
+            bool result = PDF_BLL.showPDF(url, sessionID, filePath, Properties.Settings.Default.PDF_Tool_Path, (sender, e) => {
                 if (((Process)sender).ExitCode == 0 || ((Process)sender).ExitCode == 1)
                 {
                     //context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, message = context.Request.UrlReferrer.OriginalString.ToString().Replace(context.Request.UrlReferrer.PathAndQuery, Properties.Settings.Default.Transfer_Temp_Path.Remove(0, 1) + sessionID + ".pdf")}));
-                    context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, message = context.Request.Url.ToString().Replace(context.Request.Url.AbsolutePath, vRoot.Replace("\\","")+Properties.Settings.Default.Transfer_Temp_Path.Remove(0, 1) + sessionID + ".pdf") }));
+                    context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = true, message = context.Request.Url.ToString().Replace(context.Request.Url.AbsolutePath, vRoot.Replace("\\", "") + Properties.Settings.Default.Transfer_Temp_Path.Remove(0, 1) + sessionID + ".pdf") }));
                 }
                 else
                 {
-                    context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = false, message = "PDF生成失败,错误代码："+ ((Process)sender).ExitCode }));
+                    context.Response.Write(new JavaScriptSerializer().Serialize(new Msg() { success = false, message = "PDF生成失败,错误代码：" + ((Process)sender).ExitCode }));
                 }
-            },options.Equals("")? "--zoom 0.8 " : options);
+            }, options.Equals("") ? "--zoom 0.8 " : options);
         }
+
 
 
         /// <summary>

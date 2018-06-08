@@ -11,31 +11,27 @@ namespace AendorAssess
 {
     public partial class VendorDiscovery : System.Web.UI.Page
     {
-        public static string FORM_NAME = "供应商调查表";
-        public static string FORM_TYPE_ID = "001";
-        private static string tempVendorID = "";
-        private static string tempVendorName = "";
-        private static string factory = "";
-        private static string formID = "";
-        private static string submit = "";
 
         protected void Page_Load(object sender, EventArgs e)
         {
             Image1.Visible = false;
             Image2.Visible = false;
             Image3.Visible = false;
+
+            LocalScriptManager.CreateScript(Page, "initTextarea()", "initTextbox");
+
             if (!IsPostBack)
             {
                 //获取session信息
                 getSessionInfo();
 
-                int check = VendorDiscovery_BLL.checkVendorDiscovery(formID);//检查是否存在这张表
+                int check = VendorDiscovery_BLL.checkVendorDiscovery(Convert.ToString(ViewState["form_ID"]));//检查是否存在这张表
                 if (check == 0)//数据库中不存在这张表，则自动初始化
                 {
                     As_Vendor_Discovery Vendor_Discovery = new As_Vendor_Discovery();
                     Vendor_Discovery.Form_Type_ID = "001";
-                    Vendor_Discovery.Temp_Vendor_Name = tempVendorName;
-                    Vendor_Discovery.Temp_Vendor_ID = tempVendorID;
+                    Vendor_Discovery.Temp_Vendor_Name = Convert.ToString(ViewState["tempVendorName"]);
+                    Vendor_Discovery.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
                     Vendor_Discovery.Flag = 0;//将表格标志位信息改为已填写
                     Vendor_Discovery.Factory_Name = Session["Factory_Name"].ToString();
 
@@ -47,19 +43,20 @@ namespace AendorAssess
                     }
                     else
                     {
-                        formID = VendorDiscovery_BLL.getVendorDiscoveryFormID(tempVendorID, "001", factory, n);
+                        string formID = VendorDiscovery_BLL.getVendorDiscoveryFormID(Convert.ToString(ViewState["tempVendorID"]), "001", Session["Factory_Name"].ToString().Trim(), n);
+                        ViewState.Add("form_ID", formID);
                         //每次添加表格添加到As_Vendor_MutipleForm中 
                         As_MutipleForm forms = new As_MutipleForm();
-                        forms.Temp_Vendor_ID = tempVendorID;
-                        forms.Temp_Vendor_Name = tempVendorName;
+                        forms.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
+                        forms.Temp_Vendor_Name = Convert.ToString(ViewState["tempVendorName"]);
                         forms.Form_Type_ID = "001";
-                        forms.Form_ID = formID;
+                        forms.Form_ID = Convert.ToString(ViewState["form_ID"]);
                         forms.Flag = 0;
-                        forms.Factory_Name = factory;
+                        forms.Factory_Name = Session["Factory_Name"].ToString().Trim();
                         Vendor_MutipleForm_BLL.addVendorMutileForms(forms);
 
                         bindingFormWithFile();
-                        showfilelist(formID);
+                        showfilelist(Convert.ToString(ViewState["form_ID"]));
                     }
                 }
                 else
@@ -86,7 +83,7 @@ namespace AendorAssess
         /// </summary>
         public void bindingFormWithFile()
         {
-            if (CheckFile_BLL.bindFormFile(FORM_TYPE_ID,tempVendorID,formID) == 0)
+            if (CheckFile_BLL.bindFormFile(Convert.ToString(ViewState["formTypeID"]), Convert.ToString(ViewState["tempVendorID"]), Convert.ToString(ViewState["form_ID"])) == 0)
             {
                 Response.Write("<script>window.alert('表格初始化错误（文件绑定失败）！')</script>");//若没有记录 返回文件不全
             }
@@ -98,7 +95,7 @@ namespace AendorAssess
         private void showVendorDiscovery()
         {
             As_Vendor_Discovery Vendor_Discovery = new As_Vendor_Discovery();
-            Vendor_Discovery = VendorDiscovery_BLL.checkFlag(formID);
+            Vendor_Discovery = VendorDiscovery_BLL.checkFlag(Convert.ToString(ViewState["form_ID"]));
             if (Vendor_Discovery!=null)
             {
                 TextBox1.Text = Vendor_Discovery.File_Time;
@@ -171,7 +168,7 @@ namespace AendorAssess
             //showapproveform(formID);
 
             //展示附件
-            showfilelist(formID);
+            showfilelist(Convert.ToString(ViewState["form_ID"]));
         }
 
         /// <summary>
@@ -180,13 +177,13 @@ namespace AendorAssess
         /// <param name="FormID"></param>
         public void showfilelist(string FormID)
         {
-            return;
-            As_Form_File Form_File = new As_Form_File();
-            string sql = "select * from As_Form_File where Form_ID='" + FormID + "'  and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
-            PagedDataSource objpds = new PagedDataSource();
-            objpds.DataSource = FormFile_BLL.listFile(sql);
-            GridView2.DataSource = objpds;
-            GridView2.DataBind();
+            //return;
+            //As_Form_File Form_File = new As_Form_File();
+            //string sql = "select * from As_Form_File where Form_ID='" + FormID + "'  and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
+            //PagedDataSource objpds = new PagedDataSource();
+            //objpds.DataSource = FormFile_BLL.listFile(sql);
+            //GridView2.DataSource = objpds;
+            //GridView2.DataBind();
         }
 
         /// <summary>
@@ -198,8 +195,8 @@ namespace AendorAssess
         private As_Vendor_Discovery saveForm(int flag, string manul)
         {
             As_Vendor_Discovery Vendor_Discovery = new As_Vendor_Discovery();
-            Vendor_Discovery.Form_ID = formID;
-            Vendor_Discovery.Form_Type_ID = FORM_TYPE_ID;
+            Vendor_Discovery.Form_ID = Convert.ToString(ViewState["form_ID"]);
+            Vendor_Discovery.Form_Type_ID = Convert.ToString(ViewState["formTypeID"]);
             Vendor_Discovery.File_Time = Convert.ToString(TextBox1.Text.Trim());
             Vendor_Discovery.Temp_Vendor_Name = TextBox2.Text.Trim();
             Vendor_Discovery.Legal_Person = Convert.ToString(TextBox3.Text.Trim());
@@ -275,7 +272,7 @@ namespace AendorAssess
                 write.Form_ID = Vendor_Discovery.Form_ID;
                 write.Form_Fill_Time = DateTime.Now.ToString();
                 write.Manul = manul;
-                write.Temp_Vendor_ID = tempVendorID;
+                write.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
                 Write_BLL.addWrite(write);
                 if (flag == 1)
                 {
@@ -295,36 +292,38 @@ namespace AendorAssess
         /// </summary>
         private void getSessionInfo()
         {
-            //初始化常量（伪）
-            FORM_TYPE_ID = Request.QueryString["type"];
-            FORM_NAME = FormType_BLL.getFormNameByTypeID(FORM_TYPE_ID);
+            //保存状态
+            ViewState.Add("formTypeID", Request.QueryString["type"]);
+            ViewState.Add("formName", FormType_BLL.getFormNameByTypeID(ViewState["formTypeID"].ToString()));
+            ViewState.Add("tempVendorID", Session["tempVendorID"].ToString());
+            ViewState.Add("tempVendorName", TempVendor_BLL.getTempVendorName(ViewState["tempVendorID"].ToString()));
+            ViewState.Add("factoryName", Session["Factory_Name"].ToString().Trim());
+            ViewState.Add("submit", Request.QueryString["submit"]);
+            ViewState.Add("singleFileSubmit", "false");
 
-            tempVendorID = Session["tempVendorID"].ToString();
-            tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
-            factory = Session["Factory_Name"].ToString().Trim();
-            //formID = VendorDiscovery_BLL.getFormID(tempVendorID,FORM_TYPE_ID,factory);
+            //处理form_ID
             try
             {
-                formID = Request.QueryString["Form_ID"].ToString().Trim();
+                ViewState.Add("form_ID", Request.QueryString["Form_ID"].ToString().Trim());
             }
             catch
             {
-                formID = "";
+                ViewState.Add("form_ID", "");
             }
-            submit = Request.QueryString["submit"];
+
         }
 
         public void Button1_Click(object sender, EventArgs e)//提交按钮
         {
-            if (submit == "yes")
+            if (Convert.ToString(ViewState["submit"]).Equals("yes"))
             {
                 //形成参数
                 As_Vendor_Discovery Vendor_Discovery = saveForm(2, "提交表格");
-                LocalApproveManager.doApproveWithSelection(Page,formID, FORM_NAME, FORM_TYPE_ID, tempVendorID, tempVendorName, Session["Factory_Name"].ToString());
+                LocalApproveManager.doApproveWithSelection(Page,Convert.ToString(ViewState["form_ID"]), Convert.ToString(ViewState["formName"]), Convert.ToString(ViewState["formTypeID"]), Convert.ToString(ViewState["tempVendorID"]), Convert.ToString(ViewState["tempVendorName"]), Session["Factory_Name"].ToString());
             }
             else
             {
-                LocalApproveManager.showPendingReason(Page,tempVendorID,true);
+                LocalApproveManager.showPendingReason(Page, Convert.ToString(ViewState["tempVendorID"]),true);
             }
         }
 

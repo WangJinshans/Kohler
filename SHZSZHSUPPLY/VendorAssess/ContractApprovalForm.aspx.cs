@@ -17,16 +17,6 @@ namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class ContractApprovalForm : System.Web.UI.Page
     {
-        public static string FORM_NAME = "合同审批表";
-        public static string FORM_TYPE_ID = "008";
-        private static string factory = "";
-        private static string tempVendorID = "";
-        private static string tempVendorName = "";
-        private static string formID = "";
-        private static string submit = "";
-        private string bar_Code = "PR-05-17-3";
-        private static bool singleFileSubmit = false;
-
         private static string isPromise = "";
 
         protected void Page_Load(object sender, EventArgs e)
@@ -44,17 +34,21 @@ namespace SHZSZHSUPPLY.VendorAssess
             Image6.Visible = false;
             Image7.Visible = false;
             Image8.Visible = false;
+
+
+            LocalScriptManager.CreateScript(Page, "initTextarea()", "initTextbox");
+
             if (!IsPostBack)
             {
                 //获取session信息
                 getSessionInfo();
-                int check = ContractApproval_BLL.checkContractApproval(formID);
+                int check = ContractApproval_BLL.checkContractApproval(Convert.ToString(ViewState["form_ID"]));
                 if (check == 0)
                 {
                     As_Contract_Approval vendorContract = new As_Contract_Approval();
-                    vendorContract.Temp_Vendor_ID = tempVendorID;
-                    vendorContract.Form_Type_ID = FORM_TYPE_ID;
-                    vendorContract.Vendor_Name = tempVendorName;
+                    vendorContract.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
+                    vendorContract.Form_Type_ID = Convert.ToString(ViewState["formTypeID"]);
+                    vendorContract.Vendor_Name = Convert.ToString(ViewState["tempVendorName"]);
                     vendorContract.Flag = 0;//将表格标志位信息改为0
                     vendorContract.Factory_Name = Session["Factory_Name"].ToString();
 
@@ -70,18 +64,23 @@ namespace SHZSZHSUPPLY.VendorAssess
                     else
                     {
 
-                        formID = ContractApproval_BLL.getVendorContractApprovalFormID(tempVendorID, FORM_TYPE_ID, factory, n);
+                        string formID = ContractApproval_BLL.getVendorContractApprovalFormID(Convert.ToString(ViewState["tempVendorID"]), Convert.ToString(ViewState["formTypeID"]), Session["Factory_Name"].ToString().Trim(), n);
+                        ViewState.Add("form_ID", formID);
 
-                        VendorSingleFile_BLL.addSingleFile(formID, FORM_TYPE_ID, tempVendorID, tempVendorName, factory, "001");
+                        //绑定文件   信用调查  授权书  报价单         比价表 指定供应商  选择表（直接）
+                        VendorSingleFile_BLL.addSingleFile(formID, Convert.ToString(ViewState["formTypeID"]), Convert.ToString(ViewState["tempVendorID"]), Convert.ToString(ViewState["tempVendorName"]), Session["Factory_Name"].ToString().Trim(), "001");
+
+                        //绑定信用调查 授权书 （老供应商没有检查文件是否上传 以前上传的文件在管理系统中）
+                        //新供应商测试文件绑定成功（文件检测必须要上传，表格添加绑定 则必须填写表格先）
 
                         //每次添加表格添加到As_Vendor_MutipleForm中 
                         As_MutipleForm forms = new As_MutipleForm();
-                        forms.Temp_Vendor_ID = tempVendorID;
-                        forms.Temp_Vendor_Name = tempVendorName;
-                        forms.Form_Type_ID = FORM_TYPE_ID;
+                        forms.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
+                        forms.Temp_Vendor_Name = Convert.ToString(ViewState["tempVendorName"]);
+                        forms.Form_Type_ID = Convert.ToString(ViewState["formTypeID"]);
                         forms.Form_ID = formID;
                         forms.Flag = 0;
-                        forms.Factory_Name = factory;
+                        forms.Factory_Name = Session["Factory_Name"].ToString().Trim();
                         Vendor_MutipleForm_BLL.addVendorMutileForms(forms);
 
                         //向FormFile表中添加相应的文件、表格绑定信息
@@ -118,7 +117,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         private void bindingFormWithFile()
         {
-            if (CheckFile_BLL.bindFormFile(FORM_TYPE_ID, tempVendorID, formID) == 0)
+            if (CheckFile_BLL.bindFormFile(Convert.ToString(ViewState["formTypeID"]), Convert.ToString(ViewState["tempVendorID"]), Convert.ToString(ViewState["form_ID"])) == 0)
             {
                 Response.Write("<script>window.alert('表格初始化错误（文件绑定失败）！')</script>");//若没有记录 返回文件不全
             }
@@ -126,7 +125,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         private bool startJudgeMoney(string promise)
         {
-            isPromise = promise;
+            ViewState.Add("isPromise", promise);
             bool iskci = false;
             string amount = "150";
             string content = "由于金额小于150万，系统已经自动识别为不需要KCI审批";
@@ -152,9 +151,9 @@ namespace SHZSZHSUPPLY.VendorAssess
                 }
 
                 //获取新的实例
-                newApproveAccess(FORM_TYPE_ID, formID);
+                newApproveAccess(Convert.ToString(ViewState["formTypeID"]), Convert.ToString(ViewState["form_ID"]));
 
-                LocalScriptManager.createManagerScript(Page, String.Format("iskci('{0}','{1}','{2}');",formID, iskci, content), "KCIseslection");
+                LocalScriptManager.createManagerScript(Page, String.Format("iskci('{0}','{1}','{2}');", Convert.ToString(ViewState["form_ID"]), iskci, content), "KCIseslection");
                 return true;
             }
             catch
@@ -169,18 +168,18 @@ namespace SHZSZHSUPPLY.VendorAssess
             SelectDepartment.doSelect();
 
             //一旦提交就把表As_Vendor_FormType字段FLag置1.
-            int updateFlag = UpdateFlag_BLL.updateFlag(FORM_TYPE_ID, tempVendorID);
-            UpdateFlag_BLL.updateFillFlag(formID);
+            int updateFlag = UpdateFlag_BLL.updateFlag(Convert.ToString(ViewState["formTypeID"]), Convert.ToString(ViewState["tempVendorID"]));
+            UpdateFlag_BLL.updateFillFlag(Convert.ToString(ViewState["form_ID"]));
             //插入到已提交表
             As_Form form = new As_Form();
-            form.Form_ID = formID;
-            form.Form_Type_Name = FORM_NAME;
-            form.Form_Type_ID = FORM_TYPE_ID;
-            form.Temp_Vendor_Name = tempVendorName;
+            form.Form_ID = Convert.ToString(ViewState["form_ID"]);
+            form.Form_Type_Name = Convert.ToString(ViewState["formName"]);
+            form.Form_Type_ID = Convert.ToString(ViewState["formTypeID"]);
+            form.Temp_Vendor_Name = Convert.ToString(ViewState["tempVendorName"]);
             form.Form_Path = "";
-            form.Factory_Name = factory;
-            form.Temp_Vendor_ID = tempVendorID;
-            form.Factory_Name = factory;
+            form.Factory_Name = Session["Factory_Name"].ToString().Trim();
+            form.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
+
             int add = AddForm_BLL.addForm(form);
 
             //写入日志
@@ -200,19 +199,19 @@ namespace SHZSZHSUPPLY.VendorAssess
             SelectDepartment.doSelect();
             
             //将该表的标准合同置为yes
-            UpdateFlag_BLL.updateNonStandardConstractFlag(formID);
+            UpdateFlag_BLL.updateNonStandardConstractFlag(Convert.ToString(ViewState["form_ID"]));
             //插入到已提交表
             As_Form form = new As_Form();
-            form.Form_ID = formID;
-            form.Form_Type_Name = FORM_NAME;
-            form.Form_Type_ID = FORM_TYPE_ID;
-            form.Temp_Vendor_Name = tempVendorName;
+            form.Form_ID = Convert.ToString(ViewState["form_ID"]);
+            form.Form_Type_Name = Convert.ToString(ViewState["formName"]);
+            form.Form_Type_ID = Convert.ToString(ViewState["formTypeID"]);
+            form.Temp_Vendor_Name = Convert.ToString(ViewState["tempVendorName"]);
             form.Form_Path = "";
-            form.Temp_Vendor_ID = tempVendorID;
-            form.Factory_Name = factory;
+            form.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
+            form.Factory_Name = Session["Factory_Name"].ToString().Trim();
             int add = AddForm_BLL.addForm(form);
             //一旦提交就把表As_Vendor_FormType字段FLag置1.
-            int updateFlag = UpdateFlag_BLL.updateFlag(FORM_TYPE_ID, tempVendorID);
+            int updateFlag = UpdateFlag_BLL.updateFlag(Convert.ToString(ViewState["formTypeID"]), Convert.ToString(ViewState["tempVendorID"]));
             
             //写入日志
             LocalLog.writeLog(form.Form_ID, String.Format("表格提交成功，等待{0}审批    时间：{1}", SelectDepartment.Form_AssessFlow.First, DateTime.Now), As_Write.FORM_EDIT, form.Temp_Vendor_ID);
@@ -227,7 +226,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         
         private void showConstractApproval()
         {
-            As_Contract_Approval contractApproval = ContractApproval_BLL.getContractApproval(formID);
+            As_Contract_Approval contractApproval = ContractApproval_BLL.getContractApproval(Convert.ToString(ViewState["form_ID"]));
             if (contractApproval != null)
             {
                 Textbox1.Text = contractApproval.Ref_No;
@@ -311,7 +310,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 checkBoxInit(contractApproval);
 
             }
-            showfilelist(formID);
+            showfilelist(Convert.ToString(ViewState["form_ID"]));
         }
 
 
@@ -445,21 +444,23 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         private void getSessionInfo()
         {
-            //初始化常量（伪）
-            FORM_TYPE_ID = Request.QueryString["type"];
-            FORM_NAME = FormType_BLL.getFormNameByTypeID(FORM_TYPE_ID);
-
-            tempVendorID = Session["tempVendorID"].ToString();
-            tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
-            factory = Session["Factory_Name"].ToString().Trim();
-            submit = Request.QueryString["submit"];
+            //保存状态
+            ViewState.Add("formTypeID", Request.QueryString["type"]);
+            ViewState.Add("formName", FormType_BLL.getFormNameByTypeID(ViewState["formTypeID"].ToString()));
+            ViewState.Add("tempVendorID", Session["tempVendorID"].ToString());
+            ViewState.Add("tempVendorName", TempVendor_BLL.getTempVendorName(ViewState["tempVendorID"].ToString()));
+            ViewState.Add("factoryName", Session["Factory_Name"].ToString().Trim());
+            ViewState.Add("submit", Request.QueryString["submit"]);
+            ViewState.Add("singleFileSubmit", "false");
+            
+            //处理form_ID
             try
             {
-                formID = Request.QueryString["Form_ID"].ToString().Trim();
+                ViewState.Add("form_ID", Request.QueryString["Form_ID"].ToString().Trim());
             }
             catch
             {
-                formID = "";
+                ViewState.Add("form_ID", "");
             }
         }
 
@@ -470,20 +471,20 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            singleFileSubmit = VendorSingleFile_BLL.isSingleFileSubmit(formID);
+            bool singleFileSubmit = VendorSingleFile_BLL.isSingleFileSubmit(Convert.ToString(ViewState["form_ID"]).Trim());
             if (!singleFileSubmit)
             {
                 LocalScriptManager.createManagerScript(Page, "window.alert('请提交合同')", "uploadsinglefile");
                 return;
             }
-            if (submit == "yes")
+            if (Convert.ToString(ViewState["submit"]).Equals("yes"))
             {
                 saveForm(2, "提交表格");
                 LocalScriptManager.createManagerScript(Page, "isPromise();", "isPromiseTip");
             }
             else
             {
-                LocalApproveManager.showPendingReason(Page,tempVendorID,true);
+                LocalApproveManager.showPendingReason(Page, Convert.ToString(ViewState["tempVendorID"]), true);
                 //Response.Write("<script>window.alert('无法提交！')</script>");
             }
         }
@@ -496,13 +497,13 @@ namespace SHZSZHSUPPLY.VendorAssess
         private void showfilelist(string FormID)
         {
             return;
-            As_Form_File Form_File = new As_Form_File();
-            //string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
-            string sql = "select * from View_Form_File where Form_ID='" + FormID + "'  and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
-            PagedDataSource objpds = new PagedDataSource();
-            objpds.DataSource = FormFile_BLL.listFile(sql);
-            GridView1.DataSource = objpds;
-            GridView1.DataBind();
+            //As_Form_File Form_File = new As_Form_File();
+            ////string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
+            //string sql = "select * from View_Form_File where Form_ID='" + FormID + "'  and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
+            //PagedDataSource objpds = new PagedDataSource();
+            //objpds.DataSource = FormFile_BLL.listFile(sql);
+            //GridView1.DataSource = objpds;
+            //GridView1.DataBind();
         }
 
         private As_Contract_Approval saveForm(int flag, string manul)
@@ -515,10 +516,10 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
                 As_Write write = new As_Write();//将填写信息记录
                 write.Employee_ID = Session["Employee_ID"].ToString();
-                write.Form_ID = formID;
+                write.Form_ID = Convert.ToString(ViewState["form_ID"]);
                 write.Form_Fill_Time = DateTime.Now.ToString();
                 write.Manul = manul;
-                write.Temp_Vendor_ID = tempVendorID;
+                write.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
                 Write_BLL.addWrite(write);
                 if (flag == 1)
                 {
@@ -536,7 +537,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             As_Contract_Approval contractApproval = new As_Contract_Approval();
             contractApproval.Bar_Code = "PR-05-17-3";
-            contractApproval.Form_ID = formID;
+            contractApproval.Form_ID = Convert.ToString(ViewState["form_ID"]);
             contractApproval.Ref_No = Textbox1.Text;
             contractApproval.Sourcing_Specialist = Textbox2.Text;
             contractApproval.User_Dept = Textbox3.Text;
@@ -813,6 +814,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 contractApproval.EHS = "1";
                 
             }
+            LocalScriptManager.CreateScript(Page, "initTextarea()", "initTextbox");
             return contractApproval;
         }
 
@@ -822,15 +824,15 @@ namespace SHZSZHSUPPLY.VendorAssess
             double money = Convert.ToDouble(Textbox6.Text.ToString());
 
             //表格类型编号
-            string assessformTypeID = ContractApproval_BLL.getRealFlag(money, isPromise);
+            string assessformTypeID = ContractApproval_BLL.getRealFlag(money, Convert.ToString(ViewState["isPromise"]));
 
             As_Assess_Flow assess_flow = AssessFlow_BLL.getFirstAssessFlow(assessformTypeID);
 
             //写入session之后供SelectDepartment页面使用
             Session["AssessflowInfo"] = assess_flow;
-            Session["tempVendorID"] = tempVendorID;
-            Session["form_name"] = FORM_NAME;
-            Session["tempvendorname"] = tempVendorName;
+            Session["tempVendorID"] = Convert.ToString(ViewState["tempVendorID"]);
+            Session["form_name"] = Convert.ToString(ViewState["formName"]);
+            Session["tempvendorname"] = Convert.ToString(ViewState["tempVendorName"]);
             Session["Employee_ID"] = Session["Employee_ID"];
         }
 
@@ -873,15 +875,27 @@ namespace SHZSZHSUPPLY.VendorAssess
         protected void Button4_Click(object sender, EventArgs e)
         {
             string requestType = "signleupload";
-            ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "signleupload", String.Format("uploadFile('{0}','{1}','{2}','{3}',{4})", requestType, tempVendorID, tempVendorName, formID, "true"), true);
+            ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "signleupload", String.Format("uploadFile('{0}','{1}','{2}','{3}',{4})", requestType, Convert.ToString(ViewState["tempVendorID"]), Convert.ToString(ViewState["tempVendorName"]), Convert.ToString(ViewState["form_ID"]), "true"), true);
         }
 
         protected void Button5_Click(object sender, EventArgs e)
         {
             string fileID = "";
-            fileID = Vendor_MutipleForm_BLL.getSingleFileID(formID);
+            fileID = Vendor_MutipleForm_BLL.getSingleFileID(Convert.ToString(ViewState["form_ID"]));
             string formPath = "../files/" + fileID + ".pdf";
             LocalScriptManager.createManagerScript(Page, "viewFile('" + formPath + "')", "view");
+        }
+
+
+        /// <summary>
+        /// 手动绑定biding
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void Button6_Click(object sender, EventArgs e)
+        {
+            LocalScriptManager.createManagerScript(Page, String.Format("showform('{0}')", Convert.ToString(ViewState["form_ID"])), "showforms");
+
         }
     }
 }

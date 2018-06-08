@@ -212,6 +212,26 @@
             }
         }
 
+        function showOperationTip() {
+            layui.use('form', function () {
+                var form = layui.form
+                , layer = layui.layer;
+
+                layer.open({
+                    title: ['操作说明','color:red;text-alain:ccenter;font-size:18px;font-weight:700'],
+                    content: '操作说明，先输入供应商名称，点击查询，选择该供应商的类型(有的供应商只有一个类型，也需要手动选择)，之后右侧显示为当前系统记录的供应商信息<br>包括使用厂，类型，年采购额，名称，承诺性，预付款，指定等，并且无法选择，左边为操作项，类型更改默认选择，不需更改类型则需要手动取消类型更改，指定，预付款，承诺性的更改无默认，选择不更改就必须和右侧一致！金额框一定需要填写，不更改金额则需要填写与右侧一样的金额，如果法人 营业范围 股份  经营场所 地址电话传真等  银行信息  付款方式 预付款都未改变 不需要填写修改表  否则需要填写修改表进行审批，审批完成后系统自动更改',
+                    type: 1,
+                    area: ['600px', '400px'],
+                    shade: 0.3,
+                    shadeClose: false, //点击遮罩关闭
+                    btn: ['确定'],
+                    yes: function (index, layero) {
+                        layer.close(index);
+                    },
+                });
+            });
+        }
+
         //获取类型信息
         function showVendorTypeInfo(tempVendorString) {
             document.getElementById("vendorTypeSelection").style.display = "block";
@@ -332,14 +352,6 @@
                     <asp:Button ID="type6" CssClass="layui-btn" Text="非生产性质量部有标准的物料" Visible="false" runat="server" OnClientClick="waiting('正在加载页面')" OnClick="types1_Click" />
                 </div>
             </div>
-<%--            <div class="layui-form-item">
-                <label class="layui-form-label">原供应商类型</label>
-                <div class="layui-input-block info">
-                    <asp:DropDownList ID="DropDownList2" CssClass="info" runat="server">
-                        <asp:ListItem></asp:ListItem>
-                    </asp:DropDownList>
-                </div>
-            </div>--%>
 
             <div class="layui-form-item">
                 <label id="labelPartOne" class="layui-form-label" style="width: 230px; text-align: left">法人</label>
@@ -429,7 +441,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">供应商名称</label>
                 <div class="layui-input-block">
-                    <label id="vendorName" class="layui-form-label"></label>
+                    <label id="vendorName" class="layui-form-label" style="width:300px;"></label>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -449,12 +461,12 @@
             <div class="layui-form-item">
                 <label class="layui-form-label" style="text-align: left;">供应商类型</label>
                 <div class="layui-input-block">
-                    <label id="vendorType" class="layui-form-label"></label>
+                    <label id="vendorType" class="layui-form-label" style="width:300px;"></label>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label" style="text-align: left;">年采购金额</label>
-                <label id="purchaseMoney" class="layui-form-label"></label>
+                <label id="purchaseMoney" class="layui-form-label" style="width:300px;"></label>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label" style="text-align: left;">供应商选项</label>
@@ -465,9 +477,10 @@
         </div>
         </div>
 
-        <div style="width:500px;margin:0 auto">
+        <div style="width:500px;margin:0 auto;">
             <asp:Button CssClass="layui-btn btnTop" ID="Button1" runat="server" Text="提交" OnClientClick="return submitCheck();" OnClick="Button1_Click" />
             <asp:Button CssClass="layui-btn layui-btn-primary btnTop" ID="Button2" runat="server" Text="返回" OnClick="Button2_Click" />
+            <asp:Button CssClass="layui-btn layui-btn-primary btnTop" ID="Button3" runat="server" Text="操作教程" OnClick="Button3_Click" />
         </div>
     </form>
 </body>

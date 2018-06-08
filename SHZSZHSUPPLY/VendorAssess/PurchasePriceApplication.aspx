@@ -10,7 +10,7 @@
 	<script type="text/javascript" src="Script/My97DatePicker/WdatePicker.js"></script>
 	<script src="Script/jquery-3.2.1.min.js"></script>
 	<script src="Script/layui/layui.js"></script>
-	<script src="Script/Own/fileUploader.js"></script>
+	<script src="Script/Own/fileUploader.js?v=10"></script>
      <script>
         //防止页面后退  
         history.pushState(null, null, document.URL);
@@ -40,12 +40,19 @@
         function viewFile(path) {
             window.open(path);
         }
+
+        //function initTextarea() {
+        //    $('textarea').each(function () {
+        //        this.style.height = this.scrollTop + this.scrollHeight + "px";
+        //    })
+        //}
+        
     </script>
     <style>
         td {
             border:solid #000000;
             border-width:1px 1px 1px 1px;
-            height:10px;
+            height:auto;
             padding:5px 0px;
             font-size:small;
         }
@@ -62,7 +69,13 @@
             height: 10px;
         }
         .textbox-width {
-            height:100%; width:100%;
+            width:100%;
+            display:block;
+            overflow:hidden;
+        }
+        textarea {
+            width:100%;
+            border-style:none;
         }
     </style>
 </head>
@@ -118,7 +131,7 @@
                 <td class="celltd">现在价格</td>
             </tr>
             <tr>
-                <td><asp:TextBox runat="server" ID="textbox1" TextMode="MultiLine" CssClass="textbox-width"/></td>
+                <td><asp:TextBox runat="server" ID="textbox1" TextMode="MultiLine" CssClass="textbox-width" onkeyup="set(this)"/></td>
                 <td><asp:TextBox runat="server" ID="textbox2" TextMode="MultiLine" CssClass="textbox-width"/></td>
                 <td><asp:TextBox runat="server" ID="textbox3" TextMode="MultiLine" CssClass="textbox-width"/></td>
                 <td><asp:TextBox runat="server" ID="textbox4" TextMode="MultiLine" CssClass="textbox-width"/></td>
@@ -313,5 +326,11 @@
         </asp:UpdatePanel>--%>
     </div>
     </form>
+
+    <script>
+        $('textarea').bind('input', function () {
+            this.style.height = this.scrollTop + this.scrollHeight + "px";
+        })
+    </script>
 </body>
 </html>

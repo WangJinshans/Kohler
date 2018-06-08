@@ -14,13 +14,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class VendorRiskAnalysis : System.Web.UI.Page
     {
-        public static string FORM_NAME = "供应商风险分析表";
-        public static string FORM_TYPE_ID = "003";
-        private static string factory = "";
-        private static string tempVendorID = "";
-        private static string tempVendorName = "";
-        private static string formID = "";
-        private static string submit = "";
+
         public const byte LOW = 0;
         public const byte MEDIUM = 1;
         public const byte HIGH = 2;
@@ -29,23 +23,27 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(!IsPostBack)
+
+
+            LocalScriptManager.CreateScript(Page, "initTextarea()", "initTextbox");
+
+            if (!IsPostBack)
             {
                 //获取session信息
                 getSessionInfo();
 
                 
                 //检查表格是否已经存在
-                int check = VendorRiskAnalysis_BLL.checkVendorRiskAnalysis(formID);
+                int check = VendorRiskAnalysis_BLL.checkVendorRiskAnalysis(Convert.ToString(ViewState["form_ID"]));
                 if (check == 0)
                 {
                     As_Vendor_Risk vendorRisk = new As_Vendor_Risk();
-                    vendorRisk.Temp_Vendor_ID = tempVendorID;
-                    vendorRisk.Form_Type_ID = FORM_TYPE_ID;
-                    vendorRisk.Supplier = tempVendorName;
+                    vendorRisk.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
+                    vendorRisk.Form_Type_ID = Convert.ToString(ViewState["formTypeID"]);
+                    vendorRisk.Supplier = Convert.ToString(ViewState["tempVendorName"]);
                     vendorRisk.Flag = 0;
                     vendorRisk.Factory_Name = Session["Factory_Name"].ToString();
-                    vendorRisk.Annual_Spend = TempVendor_BLL.getTempVendor(tempVendorID,factory).Purchase_Amount.ToString();
+                    vendorRisk.Annual_Spend = TempVendor_BLL.getTempVendor(Convert.ToString(ViewState["tempVendorID"]), Session["Factory_Name"].ToString()).Purchase_Amount.ToString();
                     int n = VendorRiskAnalysis_BLL.addVendorRisk(vendorRisk);
                     if (n == 0)
                     {
@@ -54,15 +52,16 @@ namespace SHZSZHSUPPLY.VendorAssess
                     }
                     else
                     {
-                        formID = VendorRiskAnalysis_BLL.getVendorRiskFormID(tempVendorID, FORM_TYPE_ID, factory, n);
+                        string formID = VendorRiskAnalysis_BLL.getVendorRiskFormID(Convert.ToString(ViewState["tempVendorID"]), Convert.ToString(ViewState["formTypeID"]), Session["Factory_Name"].ToString(), n);
+                        ViewState.Add("form_ID", formID);
                         //每次添加表格添加到As_Vendor_MutipleForm中 
                         As_MutipleForm forms = new As_MutipleForm();
-                        forms.Temp_Vendor_ID = tempVendorID;
-                        forms.Temp_Vendor_Name = tempVendorName;
+                        forms.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
+                        forms.Temp_Vendor_Name = Convert.ToString(ViewState["tempVendorName"]);
                         forms.Form_Type_ID = "003";
                         forms.Form_ID = formID;
                         forms.Flag = 0;
-                        forms.Factory_Name = factory;
+                        forms.Factory_Name = Session["Factory_Name"].ToString();
                         Vendor_MutipleForm_BLL.addVendorMutileForms(forms);
                         //向FormFile表中添加相应的文件、表格绑定信息
                         bindingFormWithFile();
@@ -82,22 +81,24 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// </summary>
         private void getSessionInfo()
         {
-            //初始化常量（伪）
-            FORM_TYPE_ID = Request.QueryString["type"];
-            FORM_NAME = FormType_BLL.getFormNameByTypeID(FORM_TYPE_ID);
+            //保存状态
+            ViewState.Add("formTypeID", Request.QueryString["type"]);
+            ViewState.Add("formName", FormType_BLL.getFormNameByTypeID(ViewState["formTypeID"].ToString()));
+            ViewState.Add("tempVendorID", Session["tempVendorID"].ToString());
+            ViewState.Add("tempVendorName", TempVendor_BLL.getTempVendorName(ViewState["tempVendorID"].ToString()));
+            ViewState.Add("factoryName", Session["Factory_Name"].ToString().Trim());
+            ViewState.Add("submit", Request.QueryString["submit"]);
+            ViewState.Add("singleFileSubmit", "false");
 
-            tempVendorID = Session["tempVendorID"].ToString();
-            tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
-            factory = Session["Factory_Name"].ToString().Trim();
             try
             {
-                formID = Request.QueryString["Form_ID"].ToString().Trim();
+                ViewState.Add("form_ID", Request.QueryString["Form_ID"].ToString().Trim());
             }
             catch
             {
-                formID = "";
+                ViewState.Add("form_ID", "");
             }
-            submit = Request.QueryString["submit"];
+
         }
 
         /// <summary>
@@ -105,7 +106,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// </summary>
         public void bindingFormWithFile()
         {
-            if (CheckFile_BLL.bindFormFile(FORM_TYPE_ID, tempVendorID, formID) == 0)
+            if (CheckFile_BLL.bindFormFile(Convert.ToString(ViewState["formTypeID"]), Convert.ToString(ViewState["tempVendorID"]), Convert.ToString(ViewState["form_ID"])) == 0)
             {
                 Response.Write("<script>window.alert('表格初始化错误（文件绑定失败）！')</script>");//若没有记录 返回文件不全
             }
@@ -116,8 +117,8 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// </summary>
         private void showVendorRiskAnalysis()
         {
-            As_Vendor_Risk vendorRisk = VendorRiskAnalysis_BLL.checkFlag(formID);
-            Dictionary<string, string> notes = VendorRiskAnalysis_BLL.checkNotes(formID);
+            As_Vendor_Risk vendorRisk = VendorRiskAnalysis_BLL.checkFlag(Convert.ToString(ViewState["form_ID"]));
+            Dictionary<string, string> notes = VendorRiskAnalysis_BLL.checkNotes(Convert.ToString(ViewState["form_ID"]));
             if (vendorRisk != null)
             {
                 txbProduct.Text = vendorRisk.Product;
@@ -180,7 +181,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 }
             }
             //展示附件
-            showfilelist(formID);
+            showfilelist(Convert.ToString(ViewState["form_ID"]));
         }
 
         /// <summary>
@@ -189,13 +190,13 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// <param name="FormID"></param>
         private void showfilelist(string FormID)
         {
-            return;
-            As_Form_File Form_File = new As_Form_File();
-            string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and [File_ID] in (select [File_ID] from As_Vendor_FileType where Temp_Vendor_ID='" + tempVendorID + "') and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
-            PagedDataSource objpds = new PagedDataSource();
-            objpds.DataSource = FormFile_BLL.listFile(sql);
-            GridView2.DataSource = objpds;
-            GridView2.DataBind();
+            //return;
+            //As_Form_File Form_File = new As_Form_File();
+            //string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and [File_ID] in (select [File_ID] from As_Vendor_FileType where Temp_Vendor_ID='" + tempVendorID + "') and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
+            //PagedDataSource objpds = new PagedDataSource();
+            //objpds.DataSource = FormFile_BLL.listFile(sql);
+            //GridView2.DataSource = objpds;
+            //GridView2.DataBind();
         }
 
         /// <summary>
@@ -208,9 +209,9 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             //读取session
             As_Vendor_Risk vendorRisk = new As_Vendor_Risk();
-            vendorRisk.Form_ID = formID;
-            vendorRisk.Form_Type_ID = FORM_TYPE_ID;
-            vendorRisk.Temp_Vendor_ID = tempVendorID;
+            vendorRisk.Form_ID = Convert.ToString(ViewState["form_ID"]);
+            vendorRisk.Form_Type_ID = Convert.ToString(ViewState["formTypeID"]);
+            vendorRisk.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
             vendorRisk.Product = txbProduct.Text.Trim();
             vendorRisk.Supplier = txbVendor.Text.Trim();
             vendorRisk.Part_No = txbPartNo.Text.Trim();
@@ -274,7 +275,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     As_Vendor_Risk_Notes notes = new As_Vendor_Risk_Notes();
                     notes.Notes = ((TextBox)item).Text;
                     notes.Property_Name = item.ID;
-                    notes.Form_ID = formID;
+                    notes.Form_ID = Convert.ToString(ViewState["form_ID"]);
                     list.Add(notes);
                 }
             }
@@ -288,7 +289,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 write.Form_ID = vendorRisk.Form_ID;
                 write.Form_Fill_Time = DateTime.Now.ToString();
                 write.Manul = manul;
-                write.Temp_Vendor_ID = tempVendorID;
+                write.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
                 Write_BLL.addWrite(write);
                 if (flag == 1)
                 {
@@ -310,7 +311,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// <param name="formId"></param>
         public void approveAssess(string formId)
         {
-            if (LocalApproveManager.doAddApprove(formId, FORM_NAME, FORM_TYPE_ID, tempVendorID))
+            if (LocalApproveManager.doAddApprove(formId, Convert.ToString(ViewState["formName"]), Convert.ToString(ViewState["formTypeID"]), Convert.ToString(ViewState["tempVendorID"])))
             {
                 LocalScriptManager.createManagerScript(this.Page, string.Format("messageConfirm('{0}','{1}')", "提交成功", "EmployeeVendor.aspx"),"submited");
                 //Response.Write("<script>window.alert('提交成功！');window.location.href='/VendorAssess/EmployeeVendor.aspx</script>");
@@ -320,14 +321,14 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         public void Button1_Click(object sender, EventArgs e)//提交按钮
         {
-            if (submit == "yes")
+            if (Convert.ToString(ViewState["submit"]).Equals("yes"))
             {
                 saveForm(2, "提交表格");
-                approveAssess(formID);
+                approveAssess(Convert.ToString(ViewState["form_ID"]));
             }
             else
             {
-                LocalApproveManager.showPendingReason(Page,tempVendorID,true);
+                LocalApproveManager.showPendingReason(Page, Convert.ToString(ViewState["tempVendorID"]), true);
             }
         }
 

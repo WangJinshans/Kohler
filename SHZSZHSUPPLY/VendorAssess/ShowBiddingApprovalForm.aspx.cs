@@ -150,6 +150,9 @@ namespace SHZSZHSUPPLY.VendorAssess
                 getKCIResult.Visible = false;
             }
 
+
+            LocalScriptManager.CreateScript(Page, "initTextarea()", "initTextbox");
+
             //展示附件
             showfilelist(formID);
             showapproveform(formID);

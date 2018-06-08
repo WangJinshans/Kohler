@@ -35,6 +35,7 @@ namespace VendorAssess
         private void showThisForm()
         {
             InitWholeForm();
+            LocalScriptManager.CreateScript(Page, "initTextarea()", "initTextbox");
             showapproveform(formID);
             showfilelist(formID);
         }

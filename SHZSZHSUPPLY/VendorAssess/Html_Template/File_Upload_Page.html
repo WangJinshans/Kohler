@@ -286,6 +286,7 @@
                 },
                 onComplete: function (id, fileName, responseJSON) {
                     resultJSON = responseJSON;
+                    localStorage.removeItem('uploadResult');
                     localStorage.setItem('uploadResult', JSON.stringify(resultJSON));
                     showMsg(responseJSON['message']);
                     closePage();
