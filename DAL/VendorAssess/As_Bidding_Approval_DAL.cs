@@ -376,7 +376,8 @@ namespace DAL.VendorAssess
                     Vendor_Approval.Reason_One = Convert.ToString(dr["Reason_One"]);
                     Vendor_Approval.Reason_Two = Convert.ToString(dr["Reason_Two"]);
                     Vendor_Approval.Initiator = Convert.ToString(dr["Initiator"]);
-                    Vendor_Approval.Supplier_Chain_Leader = Convert.ToString(dr["Purchasing_Manager"]);
+                    Vendor_Approval.Purchasing_Manager = Convert.ToString(dr["Purchasing_Manager"]);
+                    Vendor_Approval.Supplier_Chain_Leader = Convert.ToString(dr["Supplier_Chain_Leader"]);
                     Vendor_Approval.Finance_Leader = Convert.ToString(dr["Finance_Leader"]);
                     Vendor_Approval.Business_Leader = Convert.ToString(dr["General_Manager"]);
                     Vendor_Approval.Form_ID = Convert.ToString(dr["Form_ID"]);

@@ -441,6 +441,7 @@
     <Content Include="VendorAssess\VendorSelection.aspx" />
     <Content Include="VendorAssess\VendorSharedUse.aspx" />
     <Content Include="VendorAssess\VendorModifyInfo.aspx" />
+    <Content Include="VendorQualityDetection\SurveyReport.aspx" />
     <Content Include="WebForm1.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -527,6 +528,13 @@
       <DependentUpon>Biddingformlists.aspx</DependentUpon>
     </Compile>
     <Compile Include="VendorAssess\Util\SessionInfo.cs" />
+    <Compile Include="VendorQualityDetection\SurveyReport.aspx.cs">
+      <DependentUpon>SurveyReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorQualityDetection\SurveyReport.aspx.designer.cs">
+      <DependentUpon>SurveyReport.aspx</DependentUpon>
+    </Compile>
     <Compile Include="VendorQualityDetection\Utils\LocalExcelReadingUtil.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
@@ -935,6 +943,9 @@
     <Folder Include="jsddm.0.25\pic\" />
     <Folder Include="Upload\" />
     <Folder Include="VendorAssess\TEST\TransferTemp\" />
+    <Folder Include="VendorQualityDetection\ASHX\" />
+    <Folder Include="VendorQualityDetection\Html\" />
+    <Folder Include="VendorQualityDetection\Scripts\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Account\Web.config" />

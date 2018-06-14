@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="QualityDetection\MyExcelSheet.cs" />
+    <Compile Include="QualityDetection\QT_Material_Inspection_Item.cs" />
     <Compile Include="VenderInfo\ItemCategory_Model.cs" />
     <Compile Include="VenderInfo\ItemList_Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

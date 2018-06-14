@@ -229,7 +229,7 @@
                         </li>
                         <li><a href="javascript:void(0)">质量检验</a>
                             <ul>
-                                <li><a href="javascript:void(0)" id="zhiliang" target="iFrame1">质量检验</a></li>
+                                <li><a href="VendorQualityDetection/SurveyReport.aspx" id="zhiliang" target="iFrame1">质量检验</a></li>
                             </ul>
                         </li>
                         <li><a href="#" style="text-align: center">价格走势</a>

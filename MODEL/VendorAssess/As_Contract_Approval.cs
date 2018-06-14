@@ -165,6 +165,8 @@ namespace MODEL
         private string general_Manager_Signature;
         private string general_Manager_Date;
 
+        private string supplier_Chain_Leader;
+
         private string factory_Name;
 
         public string Form_ID
@@ -1789,6 +1791,19 @@ namespace MODEL
             set
             {
                 factory_Name = value;
+            }
+        }
+
+        public string Supplier_Chain_Leader
+        {
+            get
+            {
+                return supplier_Chain_Leader;
+            }
+
+            set
+            {
+                supplier_Chain_Leader = value;
             }
         }
     }

@@ -126,6 +126,8 @@ namespace SHZSZHSUPPLY.VendorAssess
                 hideImage(contractApproval.SC_Leader_Signature, Image2);
                 hideImage(contractApproval.Finance_Leader_Signature, Image3);
                 hideImage(contractApproval.General_Manager_Signature, Image4);
+                hideImage(contractApproval.Supplier_Chain_Leader, Image9);
+
                 Textbox75.Text = contractApproval.SourcingSpecialist_Date;
                 Textbox79.Text = contractApproval.User_Dept_Head_Date;
                 Textbox83.Text = contractApproval.SC_Leader_Date;
@@ -145,16 +147,16 @@ namespace SHZSZHSUPPLY.VendorAssess
                 Image8.Visible = false;
             }
 
-            //KCI完成后显示   文本提示linda已经签名
-            if (KCIApproval_BLL.isKCIApproveFinished(formID))
-            {
-                approveState.Text = "Linda已完成审批";
-                getKCIResult.Visible = true;
-            }
-            else
-            {
-                getKCIResult.Visible = false;
-            }
+            ////KCI完成后显示   文本提示linda已经签名
+            //if (KCIApproval_BLL.isKCIApproveFinished(formID))
+            //{
+            //    approveState.Text = "Linda已完成审批";
+            //    getKCIResult.Visible = true;
+            //}
+            //else
+            //{
+            //    getKCIResult.Visible = false;
+            //}
 
 
             LocalScriptManager.CreateScript(Page, "initTextarea()", "initTextbox");

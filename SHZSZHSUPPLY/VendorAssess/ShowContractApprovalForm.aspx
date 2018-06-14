@@ -628,7 +628,8 @@
             </tr>
             <tr>
                 <td colspan="18">
-                    <asp:TextBox runat="server" Width="600" BorderStyle="None" Style="color: red; font-size: 20px; text-align: center" ReadOnly="true" ID="approveState" />
+                    <asp:Image ID="Image9" runat="server"/>
+                    <%--<asp:TextBox runat="server" Width="600" BorderStyle="None" Style="color: red; font-size: 20px; text-align: center" ReadOnly="true" ID="approveState" />--%>
                 </td>
             </tr>
 

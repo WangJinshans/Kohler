@@ -360,7 +360,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="6"><asp:TextBox runat="server" Width="600" BorderStyle="None" Style="color:red;font-size:20px;text-align:center" ReadOnly="true" ID="approveState" /></td>
+                   <td colspan="6"><asp:Image ID="Image6" runat="server" /></td>
+                   <%-- <td colspan="6"><asp:TextBox runat="server" Width="600" BorderStyle="None" Style="color:red;font-size:20px;text-align:center" ReadOnly="true" ID="approveState" /></td>--%>
                 </tr>
             </table>
         </div>

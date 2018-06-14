@@ -559,6 +559,7 @@ namespace DAL
                     vendorContract.Standard_Contract = item["Standard_Contract"].ToString().Trim();
                     vendorContract.Temp_Vendor_ID = item["Temp_Vendor_ID"].ToString().Trim();
                     vendorContract.Factory_Name = item["Factory_Name"].ToString().Trim();
+                    vendorContract.Supplier_Chain_Leader = item["Supplier_Chain_Leader"].ToString().Trim();
                 }
                 return vendorContract;
             }
