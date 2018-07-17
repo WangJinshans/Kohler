@@ -164,6 +164,38 @@ namespace DAL.VendorAssess
             cmd.ExecuteNonQuery();
         }
 
+        //public static void upDateVendorState(string factory, string tempVendorID)
+        //{
+        //    string sql = "select Employee_ID from View_Employee_Vendor where Temp_Vendor_ID=@Temp_Vendor_ID and Factory_Name=@Factory_Name";
+        //    SqlParameter[] sp = new SqlParameter[]
+        //    {
+        //        new SqlParameter("@Temp_Vendor_ID",tempVendorID),
+        //        new SqlParameter("@Factory_Name",factory)
+        //    };
+        //    DataTable table = DBHelp.GetDataSet(sql, sp);
+        //    string sour_employee = "";
+        //    if (table.Rows.Count > 0)
+        //    {
+        //        foreach (DataRow dr in table.Rows)
+        //        {
+        //            sour_employee = Convert.ToString(dr["Employee_ID"]);
+        //        }
+        //    }
+        //    if (sour_employee.Equals(""))
+        //    {
+        //        return;
+        //    }
+
+        //    string sqls = "update As_Employee_Vendor set [Type]='OLD' where Employee_ID=@Employee_ID and Temp_Vendor_ID=@Temp_Vendor_ID";
+        //    SqlParameter[] sps = new SqlParameter[]
+        //    {
+        //        new SqlParameter("@Employee_ID",sour_employee),
+        //        new SqlParameter("@Temp_Vendor_ID",tempVendorID)
+        //    };
+        //    DBHelp.ExecuteCommand(sqls, sps);
+
+        //}
+
         public static List<string> getFiles(string tempVendorID, string factory)
         {
             List<string> fileIDlist = new List<string>();

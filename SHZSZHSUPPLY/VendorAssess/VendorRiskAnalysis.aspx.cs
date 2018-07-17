@@ -43,7 +43,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     vendorRisk.Supplier = Convert.ToString(ViewState["tempVendorName"]);
                     vendorRisk.Flag = 0;
                     vendorRisk.Factory_Name = Session["Factory_Name"].ToString();
-                    vendorRisk.Annual_Spend = TempVendor_BLL.getTempVendor(Convert.ToString(ViewState["tempVendorID"]), Session["Factory_Name"].ToString()).Purchase_Amount.ToString();
+                    //vendorRisk.Annual_Spend = TempVendor_BLL.getTempVendor(Convert.ToString(ViewState["tempVendorID"]), Session["Factory_Name"].ToString()).Purchase_Amount.ToString();
                     int n = VendorRiskAnalysis_BLL.addVendorRisk(vendorRisk);
                     if (n == 0)
                     {

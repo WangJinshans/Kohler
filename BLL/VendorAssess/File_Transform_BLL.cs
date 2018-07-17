@@ -162,6 +162,11 @@ namespace BLL.VendorAssess
             return rs0 + rs1;
         }
 
+        //public static void upDateVendorState(string employee_ID, string factory, string tempVendorID)
+        //{
+        //    File_Transform_DAL.upDateVendorState(employee_ID, factory, tempVendorID);
+        //}
+
         /// <summary>
         /// 过期表重新审批后的文件转移
         /// </summary>

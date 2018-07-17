@@ -228,7 +228,7 @@
 			<td >Where Used: 用在何处*</td>
 			<td ><asp:TextBox TextMode="MultiLine" ID="txbWhereUsed" style="text-align:center" runat="server" BorderStyle="None" Width="100%" Height="100%"></asp:TextBox></td>
 			<td class="td-label-style">Annual Spend:年开支*(￥人民币-万元)</td>
-			<td ><asp:TextBox TextMode="MultiLine" runat="server" ReadOnly="true" ID="TextBox2" Width="100%" Height="100%" BorderStyle="None" style="text-align:center">0</asp:TextBox></td>
+			<td ><asp:TextBox TextMode="MultiLine" runat="server" ID="TextBox2" Width="100%" Height="100%" BorderStyle="None" style="text-align:center">0</asp:TextBox></td>
 		</tr>
 		<tr>
 			<td ></td>
