@@ -13,6 +13,11 @@ namespace BLL.VendorAssess
             VendorSingleFile_DAL.addSingleFile(formID, formTypeID, tempVendorID, tempVendorName, factroy_Name, fileTypeID);
         }
 
+        public static void bindSelectedFile(string formID, string formTypeID, string tempVendorID, string tempVendorName, string factroy_Name, string fileTypeID)
+        {
+            //VendorSingleFile_DAL.addSingleFile(formID, formTypeID, tempVendorID, tempVendorName, factroy_Name, fileTypeID);
+        }
+
         public static bool isSingleFileSubmit(string formID)
         {
             return VendorSingleFile_DAL.isSingleFileSubmit(formID);

@@ -6,6 +6,7 @@ using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -14,38 +15,28 @@ namespace AendorAssess
 {
     public partial class BiddingApprovalForm : System.Web.UI.Page
     {
-        public static string FORM_NAME = "bidding form比价资料/会议纪要";
-        public static string FORM_TYPE_ID = "002";
-        private static string tempVendorID = "";
-        private static string factory_Name;
-        private static string tempVendorName = "";
-        private static string formID = "";
-        private static string submit = "";
-        private static bool singleFileSubmit = false;
-
-        private static string isPromise = "";
-
         /// <summary>
-        /// 重新读取session
+        /// 保存当前页面的全局信息
         /// </summary>
         private void getSessionInfo()
-        {
-            //初始化常量（伪）
-            FORM_TYPE_ID = Request.QueryString["type"];
-            FORM_NAME = FormType_BLL.getFormNameByTypeID(FORM_TYPE_ID);
+        {            
+            //保存状态
+            ViewState.Add("formTypeID", Request.QueryString["type"]);
+            ViewState.Add("formName", FormType_BLL.getFormNameByTypeID(ViewState["formTypeID"].ToString()));
+            ViewState.Add("tempVendorID", Session["tempVendorID"].ToString());
+            ViewState.Add("tempVendorName", TempVendor_BLL.getTempVendorName(ViewState["tempVendorID"].ToString()));
+            ViewState.Add("factoryName", Session["Factory_Name"].ToString().Trim());
+            ViewState.Add("submit", Request.QueryString["submit"]);
+            ViewState.Add("singleFileSubmit", "false");
 
-            tempVendorID = Session["tempVendorID"].ToString();
-            tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
-            factory_Name = Session["Factory_Name"].ToString().Trim();
             try
             {
-                formID = Request.QueryString["Form_ID"].ToString().Trim();
+                ViewState.Add("form_ID", Request.QueryString["Form_ID"].ToString().Trim());
             }
             catch
             {
-                formID = "";
+                ViewState.Add("form_ID", "");
             }
-            submit = Request.QueryString["submit"];
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -54,20 +45,20 @@ namespace AendorAssess
             Image3.Visible = false;
             Image4.Visible = false;//在非show页面中图片控件不可操作
 
-
+            LocalScriptManager.CreateScript(Page, "initTextarea()", "initTextbox");
 
             if (!IsPostBack)
             {
                 //获取session信息
                 getSessionInfo();
-
+                string formID = Convert.ToString(ViewState["form_ID"]);
                 int check = As_Bidding_Approval_BLL.checkBiddingForm(formID);//检查是否存在这张表
                 if (check == 0)//数据库中不存在这张表，则自动初始化
                 {
                     As_Bidding_Approval biddingApproval = new As_Bidding_Approval();
-                    biddingApproval.Form_Type_ID = FORM_TYPE_ID;
-                    biddingApproval.Temp_Vendor_Name = tempVendorName;
-                    biddingApproval.Temp_Vendor_ID = tempVendorID;
+                    biddingApproval.Form_Type_ID = Convert.ToString(ViewState["formTypeID"]);
+                    biddingApproval.Temp_Vendor_Name = Convert.ToString(ViewState["tempVendorName"]);
+                    biddingApproval.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
                     biddingApproval.Initiator = String.Format(Signature_BLL.urlPath, Session["Employee_ID"]);
                     biddingApproval.Flag = 0;//将表格标志位信息改为已填写
                     biddingApproval.Factory_Name = Session["Factory_Name"].ToString();
@@ -80,32 +71,32 @@ namespace AendorAssess
                     }
                     else
                     {
-                        formID = As_Bidding_Approval_BLL.getVendorBiddingFormID(tempVendorID, FORM_TYPE_ID, factory_Name, n);
-
+                        formID = As_Bidding_Approval_BLL.getVendorBiddingFormID(Convert.ToString(ViewState["tempVendorID"]), Convert.ToString(ViewState["formTypeID"]), Session["Factory_Name"].ToString(), n);
+                        ViewState.Add("form_ID", formID);
                         //添加单独绑定的文件
-                        VendorSingleFile_BLL.addSingleFile(formID, FORM_TYPE_ID, tempVendorID, tempVendorName, factory_Name, "012");
+                        VendorSingleFile_BLL.addSingleFile(formID, Convert.ToString(ViewState["formTypeID"]), Convert.ToString(ViewState["tempVendorID"]), Convert.ToString(ViewState["tempVendorName"]), Session["Factory_Name"].ToString(), "012");
 
                         
                         //每次添加表格添加到As_Vendor_MutipleForm中 
                         As_MutipleForm forms = new As_MutipleForm();
-                        forms.Temp_Vendor_ID = tempVendorID;
-                        forms.Temp_Vendor_Name = tempVendorName;
-                        forms.Form_Type_ID = FORM_TYPE_ID;
+                        forms.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
+                        forms.Temp_Vendor_Name = Convert.ToString(ViewState["tempVendorName"]);
+                        forms.Form_Type_ID = Convert.ToString(ViewState["formTypeID"]);
                         forms.Form_ID = formID;
                         forms.Flag = 0;
-                        forms.Factory_Name = factory_Name;
+                        forms.Factory_Name = Session["Factory_Name"].ToString();
                         Vendor_MutipleForm_BLL.addVendorMutileForms(forms);
 
 
                         //向FormFile表中添加相应的文件、表格绑定信息
                         bindingFormWithFile();
                         showfilelist(formID);
-                        showBiddingForm();
+                        showBiddingForm(formID);
                     }
                 }
                 else
                 {
-                    showBiddingForm();
+                    showBiddingForm(formID);
                 }
             }
             else
@@ -114,11 +105,11 @@ namespace AendorAssess
                 switch (Request["__EVENTTARGET"])
                 {
                     case "submitForm":
-                        LocalApproveManager.submitForm(FORM_TYPE_ID);
+                        LocalApproveManager.submitForm(Convert.ToString(ViewState["formTypeID"]));
                         break;
                     case "startSelection":
                         string realTypeID = getRealFormTypeID();
-                        LocalApproveManager.doApproveWithSelection(Page, formID, FORM_NAME, realTypeID, tempVendorID, tempVendorName, Session["Factory_Name"].ToString());
+                        LocalApproveManager.doApproveWithSelection(Page, Convert.ToString(ViewState["form_ID"]), ViewState["formName"].ToString(), realTypeID, ViewState["tempVendorID"].ToString(), ViewState["tempVendorName"].ToString(), Session["Factory_Name"].ToString());
                         break;
                     case "isPromised":
                         startJudgeMoney(Request["__EVENTARGUMENT"].ToString());//判断金额
@@ -134,7 +125,7 @@ namespace AendorAssess
         /// </summary>
         public void bindingFormWithFile()
         {
-            if (CheckFile_BLL.bindFormFile(FORM_TYPE_ID, tempVendorID, formID) == 0)
+            if (CheckFile_BLL.bindFormFile(Convert.ToString(ViewState["formTypeID"]), Convert.ToString(ViewState["tempVendorID"]), Convert.ToString(ViewState["form_ID"])) == 0)
             {
                 Response.Write("<script>window.alert('表格初始化错误（文件绑定失败）！')</script>");//若没有记录 返回文件不全
             }
@@ -147,13 +138,13 @@ namespace AendorAssess
             double money = Convert.ToDouble(TextBox4.Text.ToString());
 
             //表格类型编号
-            return As_Bidding_Approval_BLL.getRealFlag(money, isPromise);
+            return As_Bidding_Approval_BLL.getRealFlag(money, Convert.ToString(ViewState["isPromise"]));
         }
 
 
         private void startJudgeMoney(string promise)
         {
-            isPromise = promise;
+            ViewState.Add("isPromise", promise);
             //KCI
             bool iskci = false;
             string amount = "150";
@@ -189,7 +180,7 @@ namespace AendorAssess
         /// <summary>
         /// 显示表格
         /// </summary>
-        private void showBiddingForm()
+        private void showBiddingForm(string formID)
         {
             As_Bidding_Approval biddingForm = As_Bidding_Approval_BLL.getBiddingForm(formID);
             if (biddingForm != null)
@@ -309,10 +300,10 @@ namespace AendorAssess
         private As_Bidding_Approval saveForm(int flag, string manul)
         {
             As_Bidding_Approval BiddingForm = new As_Bidding_Approval();
-            BiddingForm.Form_ID = formID;
-            BiddingForm.Form_Type_ID = FORM_TYPE_ID;
-            BiddingForm.Temp_Vendor_ID = tempVendorID;
-            BiddingForm.Temp_Vendor_Name = tempVendorName;
+            BiddingForm.Form_ID = Convert.ToString(ViewState["form_ID"]);
+            BiddingForm.Form_Type_ID = Convert.ToString(ViewState["formTypeID"]);
+            BiddingForm.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
+            BiddingForm.Temp_Vendor_Name = Convert.ToString(ViewState["tempVendorName"]);
             BiddingForm.Flag = flag;                       //更改表格的标志位
             BiddingForm.Serial_No = TextBox1.Text.Trim();
             BiddingForm.Date = TextBox2.Text.Trim();
@@ -349,7 +340,7 @@ namespace AendorAssess
                 item.Price2 = (FindControl("TextBox" + (i + 3)) as TextBox).Text.Trim();
                 item.Price3 = (FindControl("TextBox" + (i + 4)) as TextBox).Text.Trim();
                 item.Remark = (FindControl("TextBox" + (i + 5)) as TextBox).Text.Trim();
-                item.Form_ID = formID;
+                item.Form_ID = Convert.ToString(ViewState["form_ID"]);
                 BiddingForm.ProjectList.Add(item);
             }
 
@@ -361,7 +352,7 @@ namespace AendorAssess
                 write.Form_ID = BiddingForm.Form_ID;
                 write.Form_Fill_Time = DateTime.Now.ToString();
                 write.Manul = manul;
-                write.Temp_Vendor_ID = tempVendorID;
+                write.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
                 Write_BLL.addWrite(write);
                 if (flag == 1)
                 {
@@ -378,13 +369,14 @@ namespace AendorAssess
         public void Button1_Click(object sender, EventArgs e)//提交按钮
         {
             //检查特定绑定文件是否提交
-            singleFileSubmit = VendorSingleFile_BLL.isSingleFileSubmit(formID);
+            bool singleFileSubmit = Convert.ToBoolean(ViewState["singleFileSubmit"]);
+            singleFileSubmit = VendorSingleFile_BLL.isSingleFileSubmit(Convert.ToString(ViewState["form_ID"]));
             if (!singleFileSubmit)
             {
                 LocalScriptManager.createManagerScript(Page, "window.alert('请提交报价单')", "uploadsinglefile");
                 return;
             }
-            if (submit == "yes")
+            if (Convert.ToString(ViewState["submit"]) == "yes")
             {
                 //形成参数
                 saveForm(2, "提交表格");
@@ -396,7 +388,7 @@ namespace AendorAssess
             }
             else
             {
-                LocalApproveManager.showPendingReason(Page,tempVendorID,true);
+                LocalApproveManager.showPendingReason(Page, Convert.ToString(ViewState["tempVendorID"]),true);
                // Response.Write("<script>window.alert('无法提交，请等待其他表格审批完毕后再次尝试！')</script>");
             }
         }
@@ -457,13 +449,13 @@ namespace AendorAssess
         protected void Button4_Click(object sender, EventArgs e)
         {
             string requestType = "signleupload";
-            ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "signleupload", String.Format("uploadFile('{0}','{1}','{2}','{3}',{4})", requestType, tempVendorID, tempVendorName, formID, "true"), true);
+            ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "signleupload", String.Format("uploadFile('{0}','{1}','{2}','{3}',{4})", requestType, Convert.ToString(ViewState["tempVendorID"]), Convert.ToString(ViewState["tempVendorName"]), Convert.ToString(ViewState["form_ID"]), "true"), true);
         }
 
         protected void Button5_Click(object sender, EventArgs e)
         {
             string fileID = "";
-            fileID = Vendor_MutipleForm_BLL.getSingleFileID(formID);
+            fileID = Vendor_MutipleForm_BLL.getSingleFileID(Convert.ToString(ViewState["form_ID"]));
             string formPath = "../files/" + fileID + ".pdf";
             LocalScriptManager.createManagerScript(Page, "viewFile('" + formPath + "')", "view");
         }

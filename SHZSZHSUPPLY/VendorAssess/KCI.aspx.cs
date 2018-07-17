@@ -84,7 +84,8 @@ namespace SHZSZHSUPPLY.VendorAssess
                 if (formID.Contains("BiddingForm"))//比价表的KCI处理 有权限的动态签名问题在同意的时候修改
                 {
                     KCIApproval_BLL.updateKCIApproval(formID, 1);//KCI审批完成
-                    KCIApproval_BLL.setApprovalFinished(Form_Type_ID, 4, temp_vendor_ID);//整张表的审批完成
+                    //KCIApproval_BLL.setApprovalFinished(Form_Type_ID, 4, temp_vendor_ID);//整张表的审批完成
+                    UpdateFlag_BLL.updateFlagAsApproved(formID, Form_Type_ID, temp_vendor_ID, Session["Factory_Name"].ToString().Trim());
                     //if (isFormOverDue(formID))//过期重申表
                     //{
                     //    string oldFormID = FormOverDue_BLL.getOldFormID(formID);//对于已经在重新审批中的表 oldFormID 在As_Vendor_FormType_History一定存在 在过期表中也一定存在
@@ -116,7 +117,8 @@ namespace SHZSZHSUPPLY.VendorAssess
                 else if (formID.Contains("PurchasePriceApplication"))//采购价格审批表的KCI处理
                 {
                     KCIApproval_BLL.updateKCIApproval(formID, 1);//KCI审批完成
-                    KCIApproval_BLL.setApprovalFinished(Form_Type_ID, 4, temp_vendor_ID);//整张表的审批完成
+                    //KCIApproval_BLL.setApprovalFinished(Form_Type_ID, 4, temp_vendor_ID);//整张表的审批完成
+                    UpdateFlag_BLL.updateFlagAsApproved(formID, Form_Type_ID, temp_vendor_ID, Session["Factory_Name"].ToString().Trim());
                 }
                 else if (formID.Contains("VendorExtend"))//供应商扩展表的KCI处理
                 {

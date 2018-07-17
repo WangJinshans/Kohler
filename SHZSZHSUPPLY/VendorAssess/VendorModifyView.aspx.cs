@@ -234,7 +234,7 @@ namespace WebLearning.KeLe
 
         protected void Button2_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         protected void flush(string vendorName,string factory)
@@ -282,6 +282,11 @@ namespace WebLearning.KeLe
             //初始化选择的供应商类型
             vendor_type = btn.Text.ToString().Trim();
             getVendorInfo(btn.Text.ToString().Trim(), vendor_Name, Session["Factory_Name"].ToString());
+        }
+
+        protected void Button3_Click(object sender, EventArgs e)
+        {
+            LocalScriptManager.CreateScript(Page, "showOperationTip()", "opeartiontip");
         }
     }
 }

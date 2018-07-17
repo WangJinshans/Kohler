@@ -107,6 +107,13 @@ namespace BLL
             return info;
         }
 
+
+        //正式供应商调用 通过Vendor_Code获取供应商名称
+        public static string getVendorNameByCode(string vendor_Code)
+        {
+            return TempVendor_DAL.getVendorNameByCode(vendor_Code);
+        }
+
         /// <summary>
         /// 查找该ID是否属于采购部
         /// </summary>

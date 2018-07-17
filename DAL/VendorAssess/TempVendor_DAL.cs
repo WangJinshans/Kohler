@@ -132,16 +132,35 @@ namespace DAL
                     }
                     if (sh)
                     {
-                        tempVendor.ZH = "上海科勒";
+                        tempVendor.SH = "上海科勒";
                     }
                     if (zs)
                     {
-                        tempVendor.ZH = "中山科勒";
+                        tempVendor.ZS = "中山科勒";
                     }
                 }
             }
             
             return tempVendor;
+        }
+
+        public static string getVendorNameByCode(string vendor_Code)
+        {
+            string tempVendorName = "";
+            string sql = "select distinct Temp_Vendor_Name from As_Temp_Vendorchange where Normal_Vendor_ID=@Normal_Vendor_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                 new SqlParameter("@Normal_Vendor_ID",vendor_Code)
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    tempVendorName = Convert.ToString(dr["Temp_Vendor_Name"]);
+                }
+            }
+            return tempVendorName;
         }
 
         public static string getTempVendorID_MultiType(string tempVendorName,string vendorTypeID)

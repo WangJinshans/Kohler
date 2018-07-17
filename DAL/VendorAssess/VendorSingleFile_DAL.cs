@@ -48,7 +48,7 @@ namespace DAL.VendorAssess
 
         public static bool isSingleFileSubmit(string formID)
         {
-            string sql = "select File_ID from As_Form_Single_File where Form_ID='" + formID + "' and Flag=1";
+            string sql = "select [File_ID] from As_Form_Single_File where Form_ID='" + formID + "' and Flag=1";
             using (SqlDataReader reader = DBHelp.GetReader(sql))
             {
                 if (reader.Read())

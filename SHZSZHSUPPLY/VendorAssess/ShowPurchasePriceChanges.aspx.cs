@@ -95,6 +95,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
                 }
             }
+            LocalScriptManager.CreateScript(Page, "initTextarea()", "initTextbox");
             showapproveform(formID);
             showfilelist(formID);
         }

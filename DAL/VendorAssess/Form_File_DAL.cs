@@ -52,6 +52,31 @@ namespace DAL
             return list;
         }
 
+
+        /// <summary>
+        /// 合同审批表中绑定的比价表
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public static IList<As_Form_File> listformFile(string sql)
+        {
+            IList<As_Form_File> list = new List<As_Form_File>();
+            DataTable dt = DBHelp.GetDataSet(sql);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    As_Form_File Form_File = new As_Form_File();
+                    Form_File.Form_ID = Convert.ToString(dr["Form_ID"]);
+                    Form_File.File_ID = Convert.ToString(dr["File_ID"]);
+                    Form_File.File_Type_Name = "比价表";
+                    Form_File.Temp_Vendor_ID = Convert.ToString(dr["Temp_Vendor_ID"]);
+                    list.Add(Form_File);
+                }
+            }
+            return list;
+        }
+
         public static int checkFormFile(string formID, string fileType)
         {
             string sql = "select * from View_Form_File where Form_ID=@Form_ID and File_Type_ID=@File_Type_ID";

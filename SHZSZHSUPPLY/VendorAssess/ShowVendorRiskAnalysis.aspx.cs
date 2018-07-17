@@ -25,6 +25,9 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// <param name="e"></param>
         protected void Page_Load(object sender, EventArgs e)
         {
+
+
+
             if (!IsPostBack)
             {
                 //重新获取session
@@ -126,6 +129,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                     }
                 }
             }
+            LocalScriptManager.CreateScript(Page, "initTextarea()", "initTextbox");
             showapproveform(formID);
             showfilelist(formID);
         }

@@ -46,6 +46,17 @@
     <Compile Include="ItemNotifyInfo\ItemNotify_BLL.cs" />
     <Compile Include="LDAP\LdapAuthentication.cs" />
     <Compile Include="PlantInfo\PlantInfo_BLL.cs" />
+    <Compile Include="QualityDetection\InspectionList_BLL.cs" />
+    <Compile Include="QualityDetection\InspectionPlan_BLL.cs" />
+    <Compile Include="QualityDetection\Inspection_Item_BLL.cs" />
+    <Compile Include="QualityDetection\Inspection_Records_BLL.cs" />
+    <Compile Include="QualityDetection\LabInspectionList_BLL.cs" />
+    <Compile Include="QualityDetection\Material_Inspection_Item_BLL.cs.cs" />
+    <Compile Include="QualityDetection\MBR_BLL.cs" />
+    <Compile Include="QualityDetection\ReInspection_BLL.cs" />
+    <Compile Include="QualityDetection\SelectLab_BLL.cs" />
+    <Compile Include="QualityDetection\StockInfo_BLL.cs" />
+    <Compile Include="QualityDetection\SurveyReport_BLL.cs" />
     <Compile Include="SendMail\SendMail_BLL.cs" />
     <Compile Include="SystemAdmin\SystemAdmin_BLL.cs" />
     <Compile Include="UserInfo\UserInfo_BLL.cs" />

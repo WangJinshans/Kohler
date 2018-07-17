@@ -24,6 +24,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
             if (!IsPostBack)
             {
                 //重新获取session
@@ -114,6 +115,8 @@ namespace SHZSZHSUPPLY.VendorAssess
             //重新计算Total
             LocalScriptManager.CreateScript(Page, "setTotal()", "reCalTotal");
 
+
+            LocalScriptManager.CreateScript(Page, "initTextarea()", "initTextbox");
             //展示附件
             showfilelist(formID);
             showapproveform(formID);

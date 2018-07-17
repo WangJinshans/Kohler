@@ -33,6 +33,11 @@ namespace BLL.VendorAssess
             return As_Bidding_Approval_DAL.updateVendorBiddingApprovalForm(vendorApproval);
         }
 
+        public static List<SelectionForm> listApprovedZhidingform(string tempVendorID, string factory_Name)
+        {
+            return As_Bidding_Approval_DAL.listApprovedZhidingform(tempVendorID, factory_Name);
+        }
+
         public static string getFormID(string tempVendorID,string Form_Type_ID, string factory)
         {
             return As_Bidding_Approval_DAL.getFormID(tempVendorID, Form_Type_ID, factory);
@@ -50,6 +55,11 @@ namespace BLL.VendorAssess
         public static int SubmitOk(string formID)
         {
             return As_Bidding_Approval_DAL.SubmitOk(formID);
+        }
+
+        public static List<SelectionForm> listApprovedSelectionform(string tempVendorID, string factory_Name)
+        {
+            return As_Bidding_Approval_DAL.listApprovedSelectionform(tempVendorID, factory_Name);
         }
 
         public static string getFilePath(string fileID)
@@ -77,6 +87,11 @@ namespace BLL.VendorAssess
             return As_Bidding_Approval_DAL.getVendorBiddingFormID(tempVendorID, form_Type_ID, factory_Name, n);
         }
 
+
+        public static List<SelectionForm> listApprovedBiddingform(string tempVendorID, string factory_Name)
+        {
+            return As_Bidding_Approval_DAL.listApprovedBiddingform(tempVendorID, factory_Name);
+        }
 
         /// <summary>
         /// 获取真正的formTypeID

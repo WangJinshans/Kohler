@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="Script/layui/css/layui.css" />
     <script src="Script/jquery-3.2.1.min.js"></script>
     <script src="Script/layui/layui.js"></script>
-    <script src="Script/Own/fileUploader.js?v=9"></script>
+    <script src="Script/Own/fileUploader.js?v=10"></script>
 	<script type="text/javascript" src="Script/My97DatePicker/WdatePicker.js" ></script>
     <script>
         function viewFile(filePath) {
@@ -228,7 +228,7 @@
 			<td >Where Used: 用在何处*</td>
 			<td ><asp:TextBox TextMode="MultiLine" ID="txbWhereUsed" style="text-align:center" runat="server" BorderStyle="None" Width="100%" Height="100%"></asp:TextBox></td>
 			<td class="td-label-style">Annual Spend:年开支*(￥人民币-万元)</td>
-			<td ><asp:TextBox TextMode="MultiLine" runat="server" ReadOnly="true" ID="TextBox2" Width="100%" Height="100%" BorderStyle="None" style="text-align:center">0</asp:TextBox></td>
+			<td ><asp:TextBox TextMode="MultiLine" runat="server" ID="TextBox2" Width="100%" Height="100%" BorderStyle="None" style="text-align:center">0</asp:TextBox></td>
 		</tr>
 		<tr>
 			<td ></td>
@@ -631,7 +631,11 @@
 		</table>
 	</div>
 	</form>
-
+     <script>
+        $('textarea').bind('input', function () {
+            this.style.height = this.scrollTop + this.scrollHeight + "px";
+        })
+    </script>
 </body>
 
 </html>

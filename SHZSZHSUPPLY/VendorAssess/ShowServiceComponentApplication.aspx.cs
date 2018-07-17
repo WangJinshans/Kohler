@@ -198,6 +198,10 @@ namespace SHZSZHSUPPLY.VendorAssess
                     hideImage(serviceComponent.GM, image4);
                 }
             }
+
+
+            LocalScriptManager.CreateScript(Page, "initTextarea()", "initTextbox"); 
+
             showfilelist(formID);
             showapproveform(formID);
         }

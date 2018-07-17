@@ -4,6 +4,7 @@ using Model;
 using MODEL;
 using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
+using System.Collections.Generic;
 using System.Web.UI.WebControls;
 
 namespace SHZSZHSUPPLY.VendorAssess
@@ -125,6 +126,8 @@ namespace SHZSZHSUPPLY.VendorAssess
                 hideImage(contractApproval.SC_Leader_Signature, Image2);
                 hideImage(contractApproval.Finance_Leader_Signature, Image3);
                 hideImage(contractApproval.General_Manager_Signature, Image4);
+                hideImage(contractApproval.Supplier_Chain_Leader, Image9);
+
                 Textbox75.Text = contractApproval.SourcingSpecialist_Date;
                 Textbox79.Text = contractApproval.User_Dept_Head_Date;
                 Textbox83.Text = contractApproval.SC_Leader_Date;
@@ -144,17 +147,19 @@ namespace SHZSZHSUPPLY.VendorAssess
                 Image8.Visible = false;
             }
 
-            //KCI完成后显示   文本提示linda已经签名
-            if (KCIApproval_BLL.isKCIApproveFinished(formID))
-            {
-                approveState.Text = "Linda已完成审批";
-                getKCIResult.Visible = true;
-            }
-            else
-            {
-                getKCIResult.Visible = false;
-            }
+            ////KCI完成后显示   文本提示linda已经签名
+            //if (KCIApproval_BLL.isKCIApproveFinished(formID))
+            //{
+            //    approveState.Text = "Linda已完成审批";
+            //    getKCIResult.Visible = true;
+            //}
+            //else
+            //{
+            //    getKCIResult.Visible = false;
+            //}
 
+
+            LocalScriptManager.CreateScript(Page, "initTextarea()", "initTextbox");
         }
         
         private void getSessionInfo()
@@ -327,11 +332,24 @@ namespace SHZSZHSUPPLY.VendorAssess
         public void showfilelist(string FormID)
         {
             As_Form_File Form_File = new As_Form_File();
-            //string sql = "select * from As_Form_File where Form_ID='" + FormID + "' and Status='new'";
+            IList<As_Form_File> data_list = new List<As_Form_File>();
             string tempVendorID = AddForm_BLL.GetTempVendorID(formID);
             string sql = "select * from View_Form_File where Form_ID='" + FormID + "'  and Form_ID in (select Form_ID from As_Vendor_FormType where Temp_Vendor_ID='" + tempVendorID + "')";
             PagedDataSource objpds = new PagedDataSource();
-            objpds.DataSource = FormFile_BLL.listFile(sql);
+            data_list = FormFile_BLL.listFile(sql);
+
+
+            //绑定比价表
+            As_Form_File form_file = new As_Form_File();
+            sql = "select * from As_Form_File where Form_ID='" + FormID + "' and File_ID like '%BJZL%'";
+            
+
+            foreach (As_Form_File formfile in FormFile_BLL.listformFile(sql))
+            {
+                data_list.Add(formfile);
+            }
+
+            objpds.DataSource = data_list;
             GridView2.DataSource = objpds;
             GridView2.DataBind();
         }
@@ -422,5 +440,20 @@ namespace SHZSZHSUPPLY.VendorAssess
                 this.Lable1.Text = "KCI审批已通过！";
             }
         }
+
+        //protected void GridView3_RowCommand(object sender, GridViewCommandEventArgs e)
+        //{
+        //    //比价表的绑定 以及其他绑定表的查看
+        //    GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
+        //    string fileID = GridView3.Rows[drv.RowIndex].Cells[1].Text.ToString().Trim();//获取fileID
+        //    if (e.CommandName == "view")
+        //    {
+        //        string filePath = LSetting.File_Reltive_Path + fileID + ".pdf";
+        //        if (filePath != "")
+        //        {
+        //            ClientScript.RegisterStartupScript(ClientScript.GetType(), "myscript", "<script>viewFile('" + filePath + "');</script>");
+        //        }
+        //    }
+        //}
     }
 }

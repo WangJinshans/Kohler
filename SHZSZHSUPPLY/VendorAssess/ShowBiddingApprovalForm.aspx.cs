@@ -80,12 +80,12 @@ namespace SHZSZHSUPPLY.VendorAssess
                 TextBox53.Text = biddingForm.Rank_Remark;
                 //TODO::image
 
-                hideImage(biddingForm.Supplier_Chain_Leader, Image2);
+                hideImage(biddingForm.Purchasing_Manager, Image2);
                 hideImage(biddingForm.Initiator, Image1);
                 hideImage(biddingForm.Business_Leader, Image4);
                 hideImage(biddingForm.Finance_Leader, Image3);
                 hideImage(biddingForm.User_Department_Manager, Image5);
-
+                hideImage(biddingForm.Supplier_Chain_Leader, Image6);
                 int[] arr = { 0, 0, 0, 0, 0 };
                 for (int i = 0; i < biddingForm.ProjectList.Count; i++)
                 {
@@ -142,13 +142,16 @@ namespace SHZSZHSUPPLY.VendorAssess
             //KCI完成后显示   文本提示linda已经签名
             if (KCIApproval_BLL.isKCIApproveFinished(formID))
             {
-                approveState.Text = "Linda已完成审批";
-                getKCIResult.Visible = true;
+                //approveState.Text = "Linda已完成审批";
+                //getKCIResult.Visible = true;
             }
             else
             {
-                getKCIResult.Visible = false;
+                //getKCIResult.Visible = false;
             }
+
+
+            LocalScriptManager.CreateScript(Page, "initTextarea()", "initTextbox");
 
             //展示附件
             showfilelist(formID);

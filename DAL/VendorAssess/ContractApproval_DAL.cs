@@ -96,6 +96,37 @@ namespace DAL
             return formTypeID;
         }
 
+        public static void setBiddingBandOK(string formID)
+        {
+            string sql = "update As_Contract_Approval set isBiddingBand=1 where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",formID)
+            };
+            DBHelp.ExecuteCommand(sql, sp);
+        }
+
+        public static bool isBiddingBandOK(string formID)
+        {
+            string sql = "select Form_ID from As_Contract_Approval where isBiddingBand=1 and Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",formID)
+            };
+            using (SqlDataReader reader = DBHelp.GetReader(sql, sp))
+            {
+                if (reader.Read())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+
         public static string getFileTypeName(double money, string promise)
         {
             string sql = "";
@@ -528,6 +559,7 @@ namespace DAL
                     vendorContract.Standard_Contract = item["Standard_Contract"].ToString().Trim();
                     vendorContract.Temp_Vendor_ID = item["Temp_Vendor_ID"].ToString().Trim();
                     vendorContract.Factory_Name = item["Factory_Name"].ToString().Trim();
+                    vendorContract.Supplier_Chain_Leader = item["Supplier_Chain_Leader"].ToString().Trim();
                 }
                 return vendorContract;
             }

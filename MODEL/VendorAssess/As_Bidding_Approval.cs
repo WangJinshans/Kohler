@@ -30,6 +30,7 @@ namespace MODEL.VendorAssess
         private string supplier_Chain_Leader;
         private string finance_Leader;
         private string business_Leader;
+        private string purchasing_Manager;
         private int flag;
         private string form_ID;
         private string temp_Vendor_ID;
@@ -433,5 +434,18 @@ namespace MODEL.VendorAssess
         public string Rank2 { get; set; }
         public string Rank3 { get; set; }
         public string Rank_Remark { get; set; }
+
+        public string Purchasing_Manager
+        {
+            get
+            {
+                return purchasing_Manager;
+            }
+
+            set
+            {
+                purchasing_Manager = value;
+            }
+        }
     }
 }

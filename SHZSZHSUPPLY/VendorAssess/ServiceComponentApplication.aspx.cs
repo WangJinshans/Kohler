@@ -14,15 +14,6 @@ namespace SHZSZHSUPPLY.VendorAssess
 {
     public partial class ServiceComponentApplication : System.Web.UI.Page
     {
-        public static string FORM_NAME = "供应商调查表";
-        public static string FORM_TYPE_ID = "027";
-        private static string tempVendorID = "";
-        private static string tempVendorName = "";
-        private static string factory = "";
-        private static string formID = "";
-        private static string submit = "";
-        private static bool singleFileSubmit = false;
-
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -32,15 +23,15 @@ namespace SHZSZHSUPPLY.VendorAssess
             if (!IsPostBack)
             {
                 getSessionInfo();
-                int check = ServiceComponentApplication_BLL.checkVendorServiceComponent(formID);//检查是否存在这张表
+                int check = ServiceComponentApplication_BLL.checkVendorServiceComponent(Convert.ToString(ViewState["form_ID"]));//检查是否存在这张表
                 if (check == 0)//数据库中不存在这张表，则自动初始化
                 {
                     As_ServiceComponentApplication serviceComponent = new As_ServiceComponentApplication();
-                    serviceComponent.Form_Type_ID = FORM_TYPE_ID;
-                    serviceComponent.Temp_Vendor_Name = tempVendorName;
-                    serviceComponent.Temp_Vendor_ID = tempVendorID;
+                    serviceComponent.Form_Type_ID = Convert.ToString(ViewState["formTypeID"]);
+                    serviceComponent.Temp_Vendor_Name = Convert.ToString(ViewState["tempVendorName"]);
+                    serviceComponent.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
                     serviceComponent.Flag = 0;//将表格标志位信息改为已填写
-                    serviceComponent.Factory_Name = factory;
+                    serviceComponent.Factory_Name = Session["Factory_Name"].ToString().Trim();
 
                     int n = ServiceComponentApplication_BLL.addVendorServiceComponent(serviceComponent);
                     if (n == 0)
@@ -50,19 +41,19 @@ namespace SHZSZHSUPPLY.VendorAssess
                     }
                     else
                     {
-                        formID = ServiceComponentApplication_BLL.getVendorServiceComponentFormID(tempVendorID, FORM_TYPE_ID, factory, n);
-
-                        VendorSingleFile_BLL.addSingleFile(formID, FORM_TYPE_ID, tempVendorID, tempVendorName, factory, "012");
+                        string formID = ServiceComponentApplication_BLL.getVendorServiceComponentFormID(Convert.ToString(ViewState["tempVendorID"]), Convert.ToString(ViewState["formTypeID"]), Session["Factory_Name"].ToString().Trim(), n);
+                        ViewState.Add("form_ID", formID);
+                        VendorSingleFile_BLL.addSingleFile(formID, Convert.ToString(ViewState["fo"]), Convert.ToString(ViewState["tempVendorID"]), Convert.ToString(ViewState["tempVendorName"]), Session["Factory_Name"].ToString().Trim(), "012");
 
 
                         //每次添加表格添加到As_Vendor_MutipleForm中 
                         As_MutipleForm forms = new As_MutipleForm();
-                        forms.Temp_Vendor_ID = tempVendorID;
-                        forms.Temp_Vendor_Name = tempVendorName;
-                        forms.Form_Type_ID = FORM_TYPE_ID;
+                        forms.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
+                        forms.Temp_Vendor_Name = Convert.ToString(ViewState["tempVendorName"]);
+                        forms.Form_Type_ID = Convert.ToString(ViewState["formTypeID"]);
                         forms.Form_ID = formID;
                         forms.Flag = 0;
-                        forms.Factory_Name = factory;
+                        forms.Factory_Name = Session["Factory_Name"].ToString().Trim();
                         Vendor_MutipleForm_BLL.addVendorMutileForms(forms);
                         //向FormFile表中添加相应的文件、表格绑定信息
                         bindingFormWithFile();
@@ -104,7 +95,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         private void showVendorServiceComponentApplication()
         {
             As_ServiceComponentApplication serviceComponent = new As_ServiceComponentApplication();
-            serviceComponent = ServiceComponentApplication_BLL.checkFlag(formID);
+            serviceComponent = ServiceComponentApplication_BLL.checkFlag(Convert.ToString(ViewState["form_ID"]));
             if (serviceComponent != null)
             {
                 if (serviceComponent.ComponentApplicationItem != null && serviceComponent.ComponentApplicationItem.Count > 0)
@@ -251,7 +242,9 @@ namespace SHZSZHSUPPLY.VendorAssess
                     hideImage(serviceComponent.GM, image4);
                 }
             }
-            showfilelist(formID);
+
+            LocalScriptManager.CreateScript(Page, "initTextarea()", "initTextbox");
+            showfilelist(Convert.ToString(ViewState["form_ID"]));
         }
 
 
@@ -276,31 +269,35 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         private void getSessionInfo()
         {
-            FORM_TYPE_ID = Request.QueryString["type"];
-            FORM_NAME = FormType_BLL.getFormNameByTypeID(FORM_TYPE_ID);
-            tempVendorID = Session["tempVendorID"].ToString();
-            tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
-            factory = Session["Factory_Name"].ToString().Trim();
+            //保存状态
+            ViewState.Add("formTypeID", Request.QueryString["type"]);
+            ViewState.Add("formName", FormType_BLL.getFormNameByTypeID(ViewState["formTypeID"].ToString()));
+            ViewState.Add("tempVendorID", Session["tempVendorID"].ToString());
+            ViewState.Add("tempVendorName", TempVendor_BLL.getTempVendorName(ViewState["tempVendorID"].ToString()));
+            ViewState.Add("factoryName", Session["Factory_Name"].ToString().Trim());
+            ViewState.Add("submit", Request.QueryString["submit"]);
+            ViewState.Add("singleFileSubmit", "false");
+
+            //处理form_ID
             try
             {
-                formID = Request.QueryString["Form_ID"].ToString().Trim();
+                ViewState.Add("form_ID", Request.QueryString["Form_ID"].ToString().Trim());
             }
             catch
             {
-                formID = "";
+                ViewState.Add("form_ID", "");
             }
-            submit = Request.QueryString["submit"];
         }
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            singleFileSubmit = VendorSingleFile_BLL.isSingleFileSubmit(formID);
+            bool singleFileSubmit = VendorSingleFile_BLL.isSingleFileSubmit(Convert.ToString(ViewState["form_ID"]));
             if (!singleFileSubmit)
             {
                 LocalScriptManager.createManagerScript(Page, "window.alert('请提交报价单')", "uploadsinglefile");
                 return;
             }
-            if (submit == "yes")
+            if (Convert.ToString(ViewState["submit"]).Equals("yes"))
             {
                 //形成参数
                 As_ServiceComponentApplication serviceComponent = saveForm(2, "提交表格");
@@ -308,13 +305,13 @@ namespace SHZSZHSUPPLY.VendorAssess
             }
             else
             {
-                LocalApproveManager.showPendingReason(Page, tempVendorID, true);
+                LocalApproveManager.showPendingReason(Page, Convert.ToString(ViewState["tempVendorID"]), true);
             }
         }
 
         public void approveAssess()
         {
-            if (LocalApproveManager.doAddApprove(formID, FORM_NAME, FORM_TYPE_ID, tempVendorID))
+            if (LocalApproveManager.doAddApprove(Convert.ToString(ViewState["form_ID"]), Convert.ToString(ViewState["formName"]), Convert.ToString(ViewState["formTypeID"]), Convert.ToString(ViewState["tempVendorID"])))
             {
                 LocalScriptManager.createManagerScript(this.Page, string.Format("messageConfirm('{0}','{1}')", "提交成功", "EmployeeVendor.aspx"), "submited");
             }
@@ -339,7 +336,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             for (int i = 0; i < 10; i++)
             {
                 item = new As_ServiceComponentApplication_Item();
-                item.Form_ID = formID;
+                item.Form_ID = Convert.ToString(ViewState["form_ID"]);
                 item.Item_No = (FindControl("textbox" + (i * 10 + 1)) as TextBox).Text.ToString();
                 item.Description = (FindControl("textbox" + (i * 10 + 2)) as TextBox).Text.ToString();
                 item.Sku_Number = (FindControl("textbox" + (i * 10 + 3)) as TextBox).Text.ToString();
@@ -352,11 +349,11 @@ namespace SHZSZHSUPPLY.VendorAssess
                 item.Lead_Time = (FindControl("textbox" + (i * 10 + 10)) as TextBox).Text.ToString();
                 serviceComponent.ComponentApplicationItem.Add(item);
             }
-            serviceComponent.Form_Type_ID = FORM_TYPE_ID;
-            serviceComponent.Form_ID = formID;
-            serviceComponent.Factory_Name = factory;
-            serviceComponent.Temp_Vendor_ID = tempVendorID;
-            serviceComponent.Temp_Vendor_Name = tempVendorName;
+            serviceComponent.Form_Type_ID = Convert.ToString(ViewState["formTypeID"]);
+            serviceComponent.Form_ID = Convert.ToString(ViewState["form_ID"]);
+            serviceComponent.Factory_Name = Session["Factory_Name"].ToString().Trim();
+            serviceComponent.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
+            serviceComponent.Temp_Vendor_Name = Convert.ToString(ViewState["tempVendorName"]);
             serviceComponent.Flag = flag;
             serviceComponent.Initiator = image1.ImageUrl;
             serviceComponent.Remark = textbox101.Text;
@@ -368,7 +365,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 write.Form_ID = serviceComponent.Form_ID;
                 write.Form_Fill_Time = DateTime.Now.ToString();
                 write.Manul = manul;
-                write.Temp_Vendor_ID = tempVendorID;
+                write.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
                 Write_BLL.addWrite(write);
                 if (flag == 1)
                 {
@@ -386,13 +383,13 @@ namespace SHZSZHSUPPLY.VendorAssess
         protected void Button4_Click(object sender, EventArgs e)
         {
             string requestType = "signleupload";
-            ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "signleupload", String.Format("uploadFile('{0}','{1}','{2}','{3}',{4})", requestType, tempVendorID, tempVendorName, formID, "true"), true);
+            ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "signleupload", String.Format("uploadFile('{0}','{1}','{2}','{3}',{4})", requestType, Convert.ToString(ViewState["tempVendorID"]), Convert.ToString(ViewState["tempVendorName"]), Convert.ToString(ViewState["form_ID"]), "true"), true);
         }
 
         protected void Button5_Click(object sender, EventArgs e)
         {
             string fileID = "";
-            fileID = Vendor_MutipleForm_BLL.getSingleFileID(formID);
+            fileID = Vendor_MutipleForm_BLL.getSingleFileID(Convert.ToString(ViewState["form_ID"]));
             string formPath = "../files/" + fileID + ".pdf";
             LocalScriptManager.createManagerScript(Page, "viewFile('" + formPath + "')", "view");
         }

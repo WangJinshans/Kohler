@@ -40,7 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="QualityDetection\MyExcelSheet.cs" />
+    <Compile Include="QualityDetection\ConsignmentInspection.cs" />
+    <Compile Include="QualityDetection\InspectionPlanResult.cs" />
+    <Compile Include="QualityDetection\MBR_Item.cs" />
+    <Compile Include="QualityDetection\QT_Inspection_Item.cs" />
+    <Compile Include="QualityDetection\QT_Material_Inspection_Item.cs" />
+    <Compile Include="QualityDetection\QT_Survey.cs" />
+    <Compile Include="QualityDetection\StockInfo.cs" />
     <Compile Include="VenderInfo\ItemCategory_Model.cs" />
     <Compile Include="VenderInfo\ItemList_Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -102,6 +108,7 @@
     <Compile Include="VendorAssess\As_Write.cs" />
     <Compile Include="VendorAssess\As_Bidding_Approval_Item.cs" />
     <Compile Include="VendorAssess\PageSelect.cs" />
+    <Compile Include="VendorAssess\SelectionForm.cs" />
     <Compile Include="VendorAssess\VendorModifyDetail.cs" />
     <Compile Include="VendorAssess\Vendor_Modify_File.cs" />
   </ItemGroup>

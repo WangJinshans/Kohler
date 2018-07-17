@@ -23,13 +23,6 @@ namespace SHZSZHSUPPLY.VendorAssess
         private As_Form_EditFlow formEditFlow;
         private List<As_Employee_Form> employeeFormList;
 
-        public static string FORM_NAME = "供应商选择表";
-        private static string factory = "";
-        public static string FORM_TYPE_ID = "018";
-        private static string tempVendorID = "";
-        private static string tempVendorName = "";
-        private static string formID = "";
-        private static string submit = "";
 
         public const byte APPROVED = 0;
         public const byte C_APPROVAL = 1;
@@ -37,18 +30,22 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
+
+            LocalScriptManager.CreateScript(Page, "initTextarea()", "initTextbox");
+
             if (!IsPostBack)
             {
                 //获取session信息
                 getSessionInfo();
-                
-                int check = VendorSelection_BLL.checkVendorSelection(formID);
+
+                int check = VendorSelection_BLL.checkVendorSelection(Convert.ToString(ViewState["form_ID"]));
                 if (check == 0)//数据库中不存在这张表，则自动初始化
                 {
                     As_Vendor_Selection Vendor_Selection = new As_Vendor_Selection();
-                    Vendor_Selection.Form_Type_ID = FORM_TYPE_ID;
-                    Vendor_Selection.Temp_Vendor_Name = tempVendorName;
-                    Vendor_Selection.Temp_Vendor_ID = tempVendorID;
+                    Vendor_Selection.Form_Type_ID = Convert.ToString(ViewState["formTypeID"]);
+                    Vendor_Selection.Temp_Vendor_Name = Convert.ToString(ViewState["tempVendorName"]);
+                    Vendor_Selection.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
                     Vendor_Selection.Flag = 0;//将表格标志位信息改为已填写
                     Vendor_Selection.Factory_Name = Session["Factory_Name"].ToString();
 
@@ -60,15 +57,18 @@ namespace SHZSZHSUPPLY.VendorAssess
                     }
                     else
                     {
-                        formID = VendorSelection_BLL.getVendorSelectionFormID(tempVendorID, FORM_TYPE_ID, factory, n);
+                        string formID = VendorSelection_BLL.getVendorSelectionFormID(Convert.ToString(ViewState["tempVendorID"]), Convert.ToString(ViewState["formTypeID"]), Session["Factory_Name"].ToString(), n);
+
+                        ViewState.Add("form_ID", formID);
+                        
                         //每次添加表格添加到As_Vendor_MutipleForm中 
                         As_MutipleForm forms = new As_MutipleForm();
-                        forms.Temp_Vendor_ID = tempVendorID;
-                        forms.Temp_Vendor_Name = tempVendorName;
-                        forms.Form_Type_ID = FORM_TYPE_ID;
+                        forms.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
+                        forms.Temp_Vendor_Name = Convert.ToString(ViewState["tempVendorName"]);
+                        forms.Form_Type_ID = Convert.ToString(ViewState["formTypeID"]);
                         forms.Form_ID = formID;
                         forms.Flag = 0;
-                        forms.Factory_Name = factory;
+                        forms.Factory_Name = Session["Factory_Name"].ToString();
                         Vendor_MutipleForm_BLL.addVendorMutileForms(forms);
                         //向FormFile表中添加相应的文件、表格绑定信息
                         bindingFormWithFile();
@@ -118,7 +118,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         private void displayButton()
         {
-            if (CheckFlag_BLL.multiFillFinished(formID,tempVendorID,FORM_TYPE_ID,Session["Factory_Name"].ToString().Trim()))
+            if (CheckFlag_BLL.multiFillFinished(Convert.ToString(ViewState["form_ID"]), Convert.ToString(ViewState["tempVendorID"]), Convert.ToString(ViewState["formTypeID"]), Session["Factory_Name"].ToString().Trim()))
             {
                 Button1.Visible = true;
                 Button4.Visible = false;
@@ -135,22 +135,24 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// </summary>
         private void getSessionInfo()
         {
-            //初始化常量（伪）
-            FORM_TYPE_ID = Request.QueryString["type"];
-            FORM_NAME = FormType_BLL.getFormNameByTypeID(FORM_TYPE_ID);
+            //保存状态
+            ViewState.Add("formTypeID", Request.QueryString["type"]);
+            ViewState.Add("formName", FormType_BLL.getFormNameByTypeID(ViewState["formTypeID"].ToString()));
+            ViewState.Add("tempVendorID", Session["tempVendorID"].ToString());
+            ViewState.Add("tempVendorName", TempVendor_BLL.getTempVendorName(ViewState["tempVendorID"].ToString()));
+            ViewState.Add("factoryName", Session["Factory_Name"].ToString().Trim());
+            ViewState.Add("submit", Request.QueryString["submit"]);
+            ViewState.Add("singleFileSubmit", "false");
 
-            tempVendorID = Session["tempVendorID"].ToString();
-            tempVendorName = TempVendor_BLL.getTempVendorName(tempVendorID);
-            factory = Session["Factory_Name"].ToString().Trim();
+            //处理form_ID
             try
             {
-                formID = Request.QueryString["Form_ID"].ToString().Trim();
+                ViewState.Add("form_ID", Request.QueryString["Form_ID"].ToString().Trim());
             }
             catch
             {
-                formID = "";
+                ViewState.Add("form_ID", "");
             }
-            submit = Request.QueryString["submit"];
         }
 
         /// <summary>
@@ -158,7 +160,7 @@ namespace SHZSZHSUPPLY.VendorAssess
         /// </summary>
         public void bindingFormWithFile()
         {
-            if (CheckFile_BLL.bindFormFile(FORM_TYPE_ID, tempVendorID, formID) == 0)
+            if (CheckFile_BLL.bindFormFile(Convert.ToString(ViewState["formTypeID"]), Convert.ToString(ViewState["tempVendorID"]), Convert.ToString(ViewState["form_ID"])) == 0)
             {
                 Response.Write("<script>window.alert('表格初始化错误（文件绑定失败）！')</script>");//若没有记录 返回文件不全
             }
@@ -172,10 +174,10 @@ namespace SHZSZHSUPPLY.VendorAssess
             string[] strArray = { "one", "two", "three", "four", "five" };
 
             //初始化表格数据源
-            As_Vendor_Selection vendorSelection = VendorSelection_BLL.checkFlag(formID);
+            As_Vendor_Selection vendorSelection = VendorSelection_BLL.checkFlag(Convert.ToString(ViewState["form_ID"]));
 
             //初始化supplier数据源
-            suppliers = VendorSelectionSupplier_BLL.checkSupplier(formID);
+            suppliers = VendorSelectionSupplier_BLL.checkSupplier(Convert.ToString(ViewState["form_ID"]));
 
             //更新页面数据
             if (vendorSelection!= null)
@@ -213,13 +215,13 @@ namespace SHZSZHSUPPLY.VendorAssess
         {
             //As_Vendor_Selection
             As_Vendor_Selection vendorSelection = new As_Vendor_Selection();
-            vendorSelection.Form_ID = formID;
+            vendorSelection.Form_ID = Convert.ToString(ViewState["form_ID"]);
             vendorSelection.Ref_No = txbRef.Text.Trim();
             vendorSelection.Date = txbDate.Text.Trim();
             vendorSelection.Flag = flag;
-            vendorSelection.Form_Type_ID = FORM_TYPE_ID;
-            vendorSelection.Temp_Vendor_ID = tempVendorID;
-            vendorSelection.Temp_Vendor_Name = tempVendorName;
+            vendorSelection.Form_Type_ID = Convert.ToString(ViewState["formTypeID"]);
+            vendorSelection.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
+            vendorSelection.Temp_Vendor_Name = Convert.ToString(ViewState["tempVendorName"]);
             vendorSelection.Supplier_One_ID = txbOne.Text.Trim();
             vendorSelection.Supplier_Two_ID = txbTwo.Text.Trim();
             vendorSelection.Supplier_Three_ID = txbThree.Text.Trim();
@@ -256,7 +258,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 supplier.Quality_Comments = getSelected(new[] { (RadioButton)Controls[3].FindControl("RadioButton" + (t + 3)), (RadioButton)Controls[3].FindControl("RadioButton" + (t + 4)), (RadioButton)Controls[3].FindControl("RadioButton" + (t + 5)) });
                 supplier.R_D_Comments = getSelected(new[] { (RadioButton)Controls[3].FindControl("RadioButton" + (t + 6)), (RadioButton)Controls[3].FindControl("RadioButton" + (t + 7)), (RadioButton)Controls[3].FindControl("RadioButton" + (t + 8)) });
                 supplier.Price_Comments = getSelected(new[] { (RadioButton)Controls[3].FindControl("RadioButton" + (t + 9)), (RadioButton)Controls[3].FindControl("RadioButton" + (t + 10)), (RadioButton)Controls[3].FindControl("RadioButton" + (t + 11)) });
-                supplier.Form_ID = formID;
+                supplier.Form_ID = Convert.ToString(ViewState["form_ID"]);
                 supplier.Supplier_Pos = i.ToString();
                 list.Add(supplier);
             }
@@ -270,7 +272,7 @@ namespace SHZSZHSUPPLY.VendorAssess
                 write.Form_ID = vendorSelection.Form_ID;
                 write.Form_Fill_Time = DateTime.Now.ToString();
                 write.Manul = manul;
-                write.Temp_Vendor_ID = tempVendorID;
+                write.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
                 Write_BLL.addWrite(write);
                 if (flag == 1)
                 {
@@ -287,17 +289,17 @@ namespace SHZSZHSUPPLY.VendorAssess
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            if (submit == "yes")
+            if (Convert.ToString(ViewState["submit"]).Equals("yes"))
             {
                 //形成参数
                 As_Vendor_Selection Vendor_Selection = saveForm(2, "提交表格");
 
                 //对于用户部门，使用弹出对话框选择
-                LocalApproveManager.doApproveWithSelection(Page, formID, FORM_NAME, FORM_TYPE_ID, tempVendorID, tempVendorName,Session["Factory_Name"].ToString());
+                LocalApproveManager.doApproveWithSelection(Page, Convert.ToString(ViewState["form_ID"]), Convert.ToString(ViewState["formName"]), Convert.ToString(ViewState["formTypeID"]), Convert.ToString(ViewState["tempVendorID"]), Convert.ToString(ViewState["tempVendorName"]), Session["Factory_Name"].ToString());
             }
             else
             {
-                LocalApproveManager.showPendingReason(Page, tempVendorID, true);
+                LocalApproveManager.showPendingReason(Page, Convert.ToString(ViewState["tempVendorID"]), true);
             }
         }
 
@@ -326,11 +328,11 @@ namespace SHZSZHSUPPLY.VendorAssess
 
             //info
             string currentDepartment = Employee_BLL.getEmployeeDepartment(Session["Employee_ID"].ToString(), Session["Position_Name"].ToString());
-            As_Edit_Flow edtFlow = EditFlow_BLL.getEditFlow(FORM_TYPE_ID);
+            As_Edit_Flow edtFlow = EditFlow_BLL.getEditFlow(Convert.ToString(ViewState["formTypeID"]));
             List<string> departments = new List<string>() { edtFlow.Edit_One_Department, edtFlow.Edit_Two_Department, edtFlow.Edit_Three_Department };
 
             //check, if multiForm record not exist
-            if (EditFlow_BLL.checkFormEditFlow(formID) <= 0)
+            if (EditFlow_BLL.checkFormEditFlow(Convert.ToString(ViewState["form_ID"])) <= 0)
             {
                 departments.RemoveAll(delegate (string item)
                 {
@@ -367,8 +369,8 @@ namespace SHZSZHSUPPLY.VendorAssess
                 if (VendorSelection_BLL.checkDepartment(Session["Employee_ID"].ToString(), edtFlow))
                 {
                     //saveForm(1, "保存表格");//注意032为fileTypeID
-                    bool has_R_D_File = VendorSelection_BLL.checkRDFile(formID, "032");
-                    LocalScriptManager.createManagerScript(Page, "R_D_Confirm("+has_R_D_File.ToString().ToLower()+",'"+tempVendorID+"','"+tempVendorName+"')", "rdcfm");
+                    bool has_R_D_File = VendorSelection_BLL.checkRDFile(Convert.ToString(ViewState["form_ID"]), "032");
+                    LocalScriptManager.createManagerScript(Page, "R_D_Confirm("+has_R_D_File.ToString().ToLower()+",'"+ Convert.ToString(ViewState["tempVendorID"]) + "','"+ Convert.ToString(ViewState["tempVendorName"]) + "')", "rdcfm");
                 }
                 else
                 {
@@ -381,31 +383,31 @@ namespace SHZSZHSUPPLY.VendorAssess
                         return false;
                     });
                     //saveForm(1, "保存表格");
-                    EmployeeForm_BLL.changeFillFlag(Session["Employee_ID"].ToString(), formID, 1);
-                    UpdateFlag_BLL.updateFlagAsHold(FORM_TYPE_ID, tempVendorID);
+                    EmployeeForm_BLL.changeFillFlag(Session["Employee_ID"].ToString(), Convert.ToString(ViewState["form_ID"]), 1);
+                    UpdateFlag_BLL.updateFlagAsHold(Convert.ToString(ViewState["formTypeID"]), Convert.ToString(ViewState["tempVendorID"]));
 
                     //如果是最后一个填写人，更改表格状态为填写完成状态
                     if (currentDepartment.Equals(departments[departments.Count - 1]))
                     {
-                        UpdateFlag_BLL.updateEditFlowFlag(formID, tempVendorID);
-                        UpdateFlag_BLL.updateFlagAsFinish(FORM_TYPE_ID, tempVendorID);
+                        UpdateFlag_BLL.updateEditFlowFlag(Convert.ToString(ViewState["form_ID"]), Convert.ToString(ViewState["tempVendorID"]));
+                        UpdateFlag_BLL.updateFlagAsFinish(Convert.ToString(ViewState["formTypeID"]), Convert.ToString(ViewState["tempVendorID"]));
 
                         //写出日志
-                        As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(tempVendorID, HttpContext.Current.Session["Factory_Name"].ToString()), HttpContext.Current.Session["Factory_Name"].ToString());
-                        LocalLog.writeLog(formID, String.Format("{0}已填写，多人填写完毕",currentDepartment), As_Write.FORM_MULTI_EDIT, tempVendorID);
+                        As_Employee ae = Employee_BLL.getEmolyeeById(AddEmployeeVendor_BLL.getEmployeeID(Convert.ToString(ViewState["tempVendorID"]), HttpContext.Current.Session["Factory_Name"].ToString()), HttpContext.Current.Session["Factory_Name"].ToString());
+                        LocalLog.writeLog(Convert.ToString(ViewState["form_ID"]), String.Format("{0}已填写，多人填写完毕",currentDepartment), As_Write.FORM_MULTI_EDIT, Convert.ToString(ViewState["tempVendorID"]));
 
                         //Mail
-                        LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, tempVendorID, TempVendor_BLL.getTempVendorName(tempVendorID), FORM_NAME, "填写完毕", DateTime.Now.ToString(), "此表格已填写完毕，请登陆系统后提交审批", formID);
+                        LocalMail.backToast(ae.Employee_Email, ae.Employee_Name, ae.Factory_Name, Convert.ToString(ViewState["tempVendorID"]), TempVendor_BLL.getTempVendorName(Convert.ToString(ViewState["tempVendorID"])), Convert.ToString(ViewState["formName"]), "填写完毕", DateTime.Now.ToString(), "此表格已填写完毕，请登陆系统后提交审批", Convert.ToString(ViewState["form_ID"]));
                     }
                     else
                     {
-                        As_Approve ap = MultiEdit_BLL.getMultiEditTop(formID);
+                        As_Approve ap = MultiEdit_BLL.getMultiEditTop(Convert.ToString(ViewState["form_ID"]));
 
                         //写出日志
-                        LocalLog.writeLog(formID, String.Format("{0}已填写，等待 {1} 填写",currentDepartment, ap.Employee_Name), As_Write.FORM_MULTI_EDIT, tempVendorID);
+                        LocalLog.writeLog(Convert.ToString(ViewState["form_ID"]), String.Format("{0}已填写，等待 {1} 填写",currentDepartment, ap.Employee_Name), As_Write.FORM_MULTI_EDIT, Convert.ToString(ViewState["tempVendorID"]));
 
                         //Mail
-                        LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, ap.Temp_Vendor_Name, FORM_NAME, "等待填写", DateTime.Now.ToString(), "此表格已由其他部门填写完毕，正在等待当前部门填写，请登陆系统填写表格并确认", formID);
+                        LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, Convert.ToString(ViewState["tempVendorID"]), ap.Temp_Vendor_Name, Convert.ToString(ViewState["formName"]), "等待填写", DateTime.Now.ToString(), "此表格已由其他部门填写完毕，正在等待当前部门填写，请登陆系统填写表格并确认", Convert.ToString(ViewState["form_ID"]));
                     }
 
                     LocalScriptManager.createManagerScript(Page, "layerMsgFunc('已确认',function(){window.location.href='FormWaitToFill.aspx';})", "otherCFM");
@@ -424,7 +426,7 @@ namespace SHZSZHSUPPLY.VendorAssess
 
             //根据选择的list，初始化formeditflow，employeeformlist
             JavaScriptSerializer jss = new JavaScriptSerializer();
-            As_Edit_Flow editFlow = EditFlow_BLL.getEditFlow(FORM_TYPE_ID);
+            As_Edit_Flow editFlow = EditFlow_BLL.getEditFlow(Convert.ToString(ViewState["formTypeID"]));
 
             formEditFlow = new As_Form_EditFlow();
             Dictionary<string,string> dc = jss.Deserialize<Dictionary<string, string>>(Request.Form["__EVENTARGUMENT"]);
@@ -462,30 +464,30 @@ namespace SHZSZHSUPPLY.VendorAssess
             {
             }
 
-            formEditFlow.Form_ID = formID;
+            formEditFlow.Form_ID = Convert.ToString(ViewState["form_ID"]);
             formEditFlow.Multi_Edit = editFlow.Multi_Edit;
-            formEditFlow.Temp_Vendor_ID = tempVendorID;
+            formEditFlow.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
             formEditFlow.Factory_Name = Session["Factory_Name"].ToString(); 
 
             employeeFormList = new List<As_Employee_Form>();
             if (currentDepartment.Equals(editFlow.Edit_One_Department))
             {
                 As_Employee_Form aef = new As_Employee_Form();
-                aef.Form_ID = formID;
-                aef.Form_Type_Name = FORM_NAME;
+                aef.Form_ID = Convert.ToString(ViewState["form_ID"]);
+                aef.Form_Type_Name = Convert.ToString(ViewState["formName"]);
                 aef.Fill_Flag = 0;
                 aef.Employee_ID = employee_ID;
-                aef.Temp_Vendor_ID = tempVendorID;
+                aef.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
                 employeeFormList.Add(aef);
             }
             foreach (KeyValuePair<string,string> item in dc)
             {
                 As_Employee_Form aef = new As_Employee_Form();
-                aef.Form_ID = formID;
-                aef.Form_Type_Name = FORM_NAME;
+                aef.Form_ID = Convert.ToString(ViewState["form_ID"]);
+                aef.Form_Type_Name = Convert.ToString(ViewState["formName"]);
                 aef.Fill_Flag = 0;
                 aef.Employee_ID = item.Value;
-                aef.Temp_Vendor_ID = tempVendorID;
+                aef.Temp_Vendor_ID = Convert.ToString(ViewState["tempVendorID"]);
                 employeeFormList.Add(aef);
             }
 
@@ -504,16 +506,16 @@ namespace SHZSZHSUPPLY.VendorAssess
             bool success = Convert.ToBoolean(Request.Form["__EVENTARGUMENT"]);
             if (success)
             {
-                EmployeeForm_BLL.changeFillFlag(Session["Employee_ID"].ToString(), formID, 1);
-                UpdateFlag_BLL.updateFlagAsHold(FORM_TYPE_ID, tempVendorID);
+                EmployeeForm_BLL.changeFillFlag(Session["Employee_ID"].ToString(), Convert.ToString(ViewState["form_ID"]), 1);
+                UpdateFlag_BLL.updateFlagAsHold(Convert.ToString(ViewState["formTypeID"]), Convert.ToString(ViewState["tempVendorID"]));
 
-                As_Approve ap = MultiEdit_BLL.getMultiEditTop(formID);
+                As_Approve ap = MultiEdit_BLL.getMultiEditTop(Convert.ToString(ViewState["form_ID"]));
 
                 //Log
-                LocalLog.writeLog(formID, String.Format("{0}已填写，等待 {1} 填写", Employee_BLL.getEmployeeDepartment(Session["Employee_ID"].ToString(), Session["Position_Name"].ToString()),ap.Employee_Name), As_Write.FORM_MULTI_EDIT, tempVendorID);
+                LocalLog.writeLog(Convert.ToString(ViewState["form_ID"]), String.Format("{0}已填写，等待 {1} 填写", Employee_BLL.getEmployeeDepartment(Session["Employee_ID"].ToString(), Session["Position_Name"].ToString()),ap.Employee_Name), As_Write.FORM_MULTI_EDIT, Convert.ToString(ViewState["tempVendorID"]));
                 
                 //Mail
-                LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, tempVendorID, ap.Temp_Vendor_Name, FORM_NAME, "等待填写", DateTime.Now.ToString(), "此表格已由其他部门填写完毕，正在等待当前部门填写，请登陆系统填写表格并确认", formID);
+                LocalMail.flowToast(ap.Email, ap.Employee_Name, ap.Factory_Name, Convert.ToString(ViewState["tempVendorID"]), ap.Temp_Vendor_Name, Convert.ToString(ViewState["formName"]), "等待填写", DateTime.Now.ToString(), "此表格已由其他部门填写完毕，正在等待当前部门填写，请登陆系统填写表格并确认", Convert.ToString(ViewState["form_ID"]));
 
                 //跳转
                 Response.Redirect("EmployeeVendor.aspx");
@@ -549,7 +551,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             //检查此表的R——D文件是否已经上传，如果没有，打开上传页面，上传文件，执行保存，执行禁止此人编辑
 
             //如果已经有rd文件
-            if (VendorSelection_BLL.checkRDFile(formID, "032"))
+            if (VendorSelection_BLL.checkRDFile(Convert.ToString(ViewState["form_ID"]), "032"))
             {
 
             }
@@ -558,8 +560,8 @@ namespace SHZSZHSUPPLY.VendorAssess
                 string requestType = "multiFillUpload";
                 //string fileTypeID = "032";
                 LocalScriptManager.createManagerScript(Page, "layerMsg(" + "'请上传文件'" + ")", "rdyes1");
-                LocalScriptManager.createManagerScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}')", requestType, tempVendorID, tempVendorName, formID), "upload");
-                EmployeeForm_BLL.changeFillFlag(Session["Employee_ID"].ToString(), formID, 1);
+                LocalScriptManager.createManagerScript(Page, String.Format("uploadFile('{0}','{1}','{2}','{3}')", requestType, Convert.ToString(ViewState["tempVendorID"]), Convert.ToString(ViewState["tempVendorName"]), Convert.ToString(ViewState["form_ID"])), "upload");
+                EmployeeForm_BLL.changeFillFlag(Session["Employee_ID"].ToString(), Convert.ToString(ViewState["form_ID"]), 1);
             }
         }
 
@@ -568,7 +570,7 @@ namespace SHZSZHSUPPLY.VendorAssess
             //保存表格，禁止此人编辑，直到所有部门均填写完毕后，开放提交
 
             LocalScriptManager.createManagerScript(Page, "layerMsg(" + "'已确认，正在等待其他部门填写该表'" + ")", "rdno1");
-            EmployeeForm_BLL.changeFillFlag(Session["Employee_ID"].ToString(), formID, 1);
+            EmployeeForm_BLL.changeFillFlag(Session["Employee_ID"].ToString(), Convert.ToString(ViewState["form_ID"]), 1);
             showVendorSelection();
         }
 

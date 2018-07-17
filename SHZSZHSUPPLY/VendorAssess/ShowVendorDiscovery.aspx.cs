@@ -115,6 +115,10 @@ namespace SHZSZHSUPPLY.VendorAssess
                 Image2.Visible = false;
                 Image3.Visible = false;
             }
+
+
+            LocalScriptManager.CreateScript(Page, "initTextarea()", "initTextbox");
+
             showapproveform(formID);
             showfilelist(formID);
 

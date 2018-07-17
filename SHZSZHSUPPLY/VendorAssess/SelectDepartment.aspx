@@ -23,6 +23,7 @@
                 <asp:BoundField DataField="Employee_Name" HeaderText="Employee_Name" SortExpression="Employee_Name" />
                 <asp:BoundField DataField="Positon_Name" HeaderText="Positon_Name" SortExpression="Positon_Name" />
                 <asp:BoundField DataField="Employee_Email" HeaderText="Employee_Email" SortExpression="Employee_Email" />
+                <asp:BoundField DataField="Positon_Name" HeaderText="Employee_Email" SortExpression="Employee_Email" />
                 <asp:ButtonField ButtonType="Button" CommandName="Select" HeaderText="选择" ShowHeader="True" Text="选择" />
             </Columns>
             <FooterStyle BackColor="White" ForeColor="#333333" />

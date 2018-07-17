@@ -87,6 +87,9 @@ namespace SHZSZHSUPPLY.VendorAssess
                 hideImage(vendor.Accounting_Dept, Image4);
                 hideImage(vendor.Chief_Inspector, Image5);
             }
+
+            LocalScriptManager.CreateScript(Page, "initTextarea()", "initTextbox");
+
             showapproveform(formID);
             showfilelist(formID);
         }

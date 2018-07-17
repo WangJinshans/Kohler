@@ -48,6 +48,29 @@ namespace DAL.VendorAssess
             return VendorApproval.Flag;
         }
 
+        public static List<SelectionForm> listApprovedZhidingform(string tempVendorID, string factory_Name)
+        {
+            string sql = "select As_Form.Form_Path from As_Vendor_MutiplyForm,As_Form where Fill_Flag=4 and As_Vendor_MutiplyForm.Form_ID=As_Form.Form_ID and As_Vendor_MutiplyForm.Temp_Vendor_ID=@Temp_Vendor_ID AND As_Vendor_MutiplyForm.Factory_Name=@Factory_Name and As_Vendor_MutiplyForm.Form_ID like 'VendorDesignated%'";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("@Factory_Name",factory_Name)
+            };
+            List<SelectionForm> lists = new List<SelectionForm>();
+            SelectionForm form = null;
+            DataTable table = DBHelp.GetDataSet(sql, sp);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    form = new SelectionForm();
+                    form.Form_Path = dr["Form_Path"].ToString();
+                    lists.Add(form);
+                }
+            }
+            return lists;
+        }
+
         public static string getFormID(string tempVendorID,string Form_Type_ID, string factory)
         {
             string formID = "";
@@ -69,6 +92,29 @@ namespace DAL.VendorAssess
             return formID;
         }
 
+        public static List<SelectionForm> listApprovedSelectionform(string tempVendorID, string factory_Name)
+        {
+            string sql = "select As_Form.Form_Path from As_Vendor_MutiplyForm,As_Form where Fill_Flag=4 and As_Vendor_MutiplyForm.Form_ID=As_Form.Form_ID and As_Vendor_MutiplyForm.Temp_Vendor_ID=@Temp_Vendor_ID AND As_Vendor_MutiplyForm.Factory_Name=@Factory_Name and As_Vendor_MutiplyForm.Form_ID like 'VendorSelection%'";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("@Factory_Name",factory_Name)
+            };
+            List<SelectionForm> lists = new List<SelectionForm>();
+            SelectionForm form = null;
+            DataTable table = DBHelp.GetDataSet(sql, sp);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    form = new SelectionForm();
+                    form.Form_Path = dr["Form_Path"].ToString();
+                    lists.Add(form);
+                }
+            }
+            return lists;
+        }
+
         public static bool checkVendorBiddingApprovalForm(string formID, int flag)
         {
             string sql = "select * from As_Bidding_Approval_Form where Form_ID=@Form_ID and flag=@Flag";
@@ -85,6 +131,35 @@ namespace DAL.VendorAssess
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// 获取所有审批完成的比价表 可供选择
+        /// </summary>
+        /// <param name="tempVendorID"></param>
+        /// <param name="factory_Name"></param>
+        /// <returns></returns>
+        public static List<SelectionForm> listApprovedBiddingform(string tempVendorID, string factory_Name)
+        {
+            string sql = "select As_Form.Form_Path from As_Vendor_MutiplyForm,As_Form where Fill_Flag=4 and As_Vendor_MutiplyForm.Form_ID=As_Form.Form_ID and As_Vendor_MutiplyForm.Temp_Vendor_ID=@Temp_Vendor_ID AND As_Vendor_MutiplyForm.Factory_Name=@Factory_Name and As_Vendor_MutiplyForm.Form_ID like 'BiddingForm%'";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Temp_Vendor_ID",tempVendorID),
+                new SqlParameter("@Factory_Name",factory_Name)
+            };
+            List<SelectionForm> lists = new List<SelectionForm>();
+            SelectionForm form = null;
+            DataTable table = DBHelp.GetDataSet(sql, sp);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    form = new SelectionForm();
+                    form.Form_Path = dr["Form_Path"].ToString();
+                    lists.Add(form);
+                }
+            }
+            return lists;
         }
 
         /// <summary>
@@ -301,7 +376,8 @@ namespace DAL.VendorAssess
                     Vendor_Approval.Reason_One = Convert.ToString(dr["Reason_One"]);
                     Vendor_Approval.Reason_Two = Convert.ToString(dr["Reason_Two"]);
                     Vendor_Approval.Initiator = Convert.ToString(dr["Initiator"]);
-                    Vendor_Approval.Supplier_Chain_Leader = Convert.ToString(dr["Purchasing_Manager"]);
+                    Vendor_Approval.Purchasing_Manager = Convert.ToString(dr["Purchasing_Manager"]);
+                    Vendor_Approval.Supplier_Chain_Leader = Convert.ToString(dr["Supplier_Chain_Leader"]);
                     Vendor_Approval.Finance_Leader = Convert.ToString(dr["Finance_Leader"]);
                     Vendor_Approval.Business_Leader = Convert.ToString(dr["General_Manager"]);
                     Vendor_Approval.Form_ID = Convert.ToString(dr["Form_ID"]);
