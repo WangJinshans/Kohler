@@ -16,7 +16,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
         protected void add_record_Click(object sender, EventArgs e)
         {
             //插入到数据库中
-
+            int a =0;
         }
     }
 }
