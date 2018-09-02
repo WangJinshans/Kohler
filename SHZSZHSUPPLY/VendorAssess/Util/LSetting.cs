@@ -14,6 +14,13 @@ namespace SHZSZHSUPPLY.VendorAssess.Util
             }
         }
 
+        public static string SMTP_Address {
+            get
+            {
+                return Properties.Settings.Default.SMTP_Address;
+            }
+        }
+
         public static string File_Path
         {
             get
