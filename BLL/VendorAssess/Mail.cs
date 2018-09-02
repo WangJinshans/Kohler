@@ -46,8 +46,9 @@ namespace BLL.VendorAssess
             MailMessage.Body = mailtext;
             MailMessage.IsBodyHtml = true;
 
-            Smtp = new SmtpClient();
-            Smtp.Host = "apaccasarray.kohlerco.com";
+            Smtp = new SmtpClient(); //apaccasarray.kohlerco.com
+
+            Smtp.Host = "10.20.67.10";
             Smtp.Timeout = 30000;
             Smtp.SendCompleted += Smtp_SendCompleted;
 
@@ -113,7 +114,7 @@ namespace BLL.VendorAssess
             MailMessage.IsBodyHtml = true;
 
             SmtpClient Smtp = new SmtpClient();
-            Smtp.Host = "apaccasarray.kohlerco.com";
+            Smtp.Host = "10.20.67.10";
             Smtp.Timeout = 30000;
             Smtp.SendCompleted += Smtp_SendCompleted;
 
@@ -136,6 +137,7 @@ namespace BLL.VendorAssess
             }
             else
             {
+                Console.WriteLine(e.Error.Message);
                 Write_BLL.writeLog(args[2], args[3], ("邮件发送失败内容：" + args[1]), As_Write.MAIL_ERROR, args[0]);
             }
         }
