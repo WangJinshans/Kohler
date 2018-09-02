@@ -26,6 +26,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -441,11 +442,13 @@
     <Content Include="VendorAssess\VendorSelection.aspx" />
     <Content Include="VendorAssess\VendorSharedUse.aspx" />
     <Content Include="VendorAssess\VendorModifyInfo.aspx" />
+    <Content Include="VendorQualityDetection\InspectionItemIorD.aspx" />
     <Content Include="VendorQualityDetection\InspectionList.aspx" />
     <Content Include="VendorQualityDetection\LabInspectionList.aspx" />
     <Content Include="VendorQualityDetection\LoadInfo.aspx" />
     <Content Include="VendorQualityDetection\MBRList.aspx" />
     <Content Include="VendorQualityDetection\QualityClerkOperateList.aspx" />
+    <Content Include="VendorQualityDetection\SCAR.aspx" />
     <Content Include="VendorQualityDetection\Scripts\commonUtil.js" />
     <Content Include="VendorQualityDetection\Scripts\fine-uploader\continue.gif" />
     <Content Include="VendorQualityDetection\Scripts\fine-uploader\dnd.js" />
@@ -476,6 +479,7 @@
     <Content Include="VendorQualityDetection\SelectLab.aspx" />
     <Content Include="VendorQualityDetection\ShowSurveyReport.aspx" />
     <Content Include="VendorQualityDetection\SurveyReport.aspx" />
+    <Content Include="VendorQualityDetection\ThirdPartySubmit.aspx" />
     <Content Include="WebForm1.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -565,6 +569,13 @@
     <Compile Include="VendorQualityDetection\ASHX\LoadFileData.ashx.cs">
       <DependentUpon>LoadFileData.ashx</DependentUpon>
     </Compile>
+    <Compile Include="VendorQualityDetection\InspectionItemIorD.aspx.cs">
+      <DependentUpon>InspectionItemIorD.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorQualityDetection\InspectionItemIorD.aspx.designer.cs">
+      <DependentUpon>InspectionItemIorD.aspx</DependentUpon>
+    </Compile>
     <Compile Include="VendorQualityDetection\InspectionList.aspx.cs">
       <DependentUpon>InspectionList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -600,6 +611,13 @@
     <Compile Include="VendorQualityDetection\QualityClerkOperateList.aspx.designer.cs">
       <DependentUpon>QualityClerkOperateList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="VendorQualityDetection\SCAR.aspx.cs">
+      <DependentUpon>SCAR.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorQualityDetection\SCAR.aspx.designer.cs">
+      <DependentUpon>SCAR.aspx</DependentUpon>
+    </Compile>
     <Compile Include="VendorQualityDetection\SelectLab.aspx.cs">
       <DependentUpon>SelectLab.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -620,6 +638,13 @@
     </Compile>
     <Compile Include="VendorQualityDetection\SurveyReport.aspx.designer.cs">
       <DependentUpon>SurveyReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorQualityDetection\ThirdPartySubmit.aspx.cs">
+      <DependentUpon>ThirdPartySubmit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorQualityDetection\ThirdPartySubmit.aspx.designer.cs">
+      <DependentUpon>ThirdPartySubmit.aspx</DependentUpon>
     </Compile>
     <Compile Include="VendorQualityDetection\Utils\LocalExcelReadingUtil.cs" />
     <Compile Include="Site.Master.cs">

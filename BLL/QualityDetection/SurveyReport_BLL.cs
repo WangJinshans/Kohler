@@ -204,5 +204,45 @@ namespace BLL.QualityDetection
         {
             SurveyReport_DAL.updateSurveyStatus(form_ID);
         }
+
+
+
+        /// <summary>
+        /// 修改检测项
+        /// </summary>
+        /// <param name="SKU"></param>
+        /// <param name="Item"></param>
+        /// <param name="Standard"></param>
+        /// <param name="IS_First"></param>
+        /// <returns></returns>
+        public static void updateInspectionItem(string SKU,string Item,string Standard,string IS_First)
+        {
+            SurveyReport_DAL.updateInspectionItem(SKU, Item, Standard,IS_First);
+        }
+
+        public static void alterInspectionItem(string SKU, string Item, string Standard)
+        {
+            SurveyReport_DAL.alterInspectionItem(SKU, Item, Standard);
+        }
+
+        public static int addNewInspectionItem(string SKU, string Item, string Standard, string IS_First)
+        {
+            return SurveyReport_DAL.addNewInspectionItem(SKU,Item,Standard,IS_First);
+        }
+
+        public static void deleteInspectionItem(string SKU,string Item)
+        {
+             SurveyReport_DAL.deleteInspectionItem(SKU, Item);
+        }
+
+        public static bool isNewInspectionItem(string SKU)
+        {
+            return SurveyReport_DAL.isNewSKU(SKU);
+        }
+
+        public static bool haveInspectionItem(string SKU,string Item)
+        {
+            return SurveyReport_DAL.haveInsectionItem(SKU, Item);
+        }
     }
 }
