@@ -131,11 +131,11 @@ namespace SHZSZHSUPPLY.VendorAssess
             string content = "由于金额小于150万，系统已经自动识别为不需要KCI审批";
             if (promise.Equals("no"))
             {
-                amount = "150";
+                amount = "300";
             }
             else
             {
-                amount = "60";
+                amount = "150";
             }
             try
             {
