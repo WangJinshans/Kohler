@@ -143,20 +143,7 @@ namespace DAL.QualityDetection
             return DBHelp.ExecuteCommand(sql, sp);
         }
 
-        public static DataTable getInsectionItems(string SKU)
-        {
-            string sql = "select * from QT_Material_Inspection_Item where SKU=@SKU";
-            SqlParameter[] sp = new SqlParameter[]
-            {
-                new SqlParameter("@SKU",SKU)
-            };
-            DataTable table = DBHelp.GetDataSet(sql, sp);
-            if (table.Rows.Count > 0)
-            {
-                return table;
-            }
-            return null;
-        }
+        
 
         public static void addInspectionValue(string form_ID, string item, string standard, string result, string judgement)
         {
@@ -325,6 +312,93 @@ namespace DAL.QualityDetection
                     return false;
                 }
             }
+        }
+        /// <summary>
+        /// 添加项目  
+        /// </summary>
+        /// <returns></returns>
+        public static int addNewInspectionItem(string SKU,string Item,string Standard,string IS_First)
+        {
+            string sql = "insert into QT_Material_Inspection_Item(SKU,Item,Standard,IS_First) values (@SKU,@Item,@Standard,@IS_First)";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter ("@SKU",SKU),
+                new SqlParameter ("@Item",Item),
+                new SqlParameter ("@Standard",Standard),
+                new SqlParameter ("@IS_First",IS_First)
+
+            };
+            return DBHelp.ExecuteCommand(sql,sp);
+        }
+
+        public static void updateInspectionItem(string SKU,string Item,string Standard,string IS_First)
+        {
+            string sql = "update QT_Material_Inspection_Item set Item=@Item,Standard=@Standard,IS_First=@IS_First where SKU=@SKU";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@SKU",SKU),
+                new SqlParameter("@Item",Item),
+                new SqlParameter("@Standard",Standard),
+                new SqlParameter("@IS_First",IS_First)
+            };
+            DBHelp.ExecuteCommand(sql, sp);
+
+        }
+
+        public static void deleteInspectionItem(string SKU,string Item)
+        {
+            string sql = "delete from QT_Material_Inspection_Item where SKU=@SKU and Item=@Item";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@SKU",SKU),
+                new SqlParameter("@Item",Item)
+
+            };
+            DBHelp.ExecuteCommand(sql, sp);
+        }
+
+        public static DataTable getInsectionItems(string SKU)
+        {
+            string sql = "select * from QT_Material_Inspection_Item where SKU=@SKU";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@SKU",SKU)
+            };
+            DataTable table = DBHelp.GetDataSet(sql, sp);
+            if (table.Rows.Count > 0)
+            {
+                return table;
+            }
+            return null;
+        }
+
+        public static bool haveInsectionItem(string SKU, string Item)
+        {
+            string sql = "select * from QT_Material_Inspection_Item where SKU=@SKU and Item=@Item";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@SKU",SKU),
+                new SqlParameter("@Item",Item)
+
+            };
+            DataTable dt = DBHelp.GetDataSet(sql, sp);
+            if(dt.Rows.Count > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+        public static void alterInspectionItem(string SKU, string Item, string Standard)
+        {
+            string sql = "update QT_Material_Inspection_Item set Standard=@Standard where SKU=@SKU and Item=@Item";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@SKU",SKU),
+                new SqlParameter("@Item",Item),
+                new SqlParameter("@Standard",Standard)
+            };
+            DBHelp.ExecuteCommand(sql, sp);
+
         }
     }
 }
