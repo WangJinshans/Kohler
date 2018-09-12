@@ -53,6 +53,7 @@
     <Compile Include="QualityDetection\Material_Inspection_Item_DAL.cs" />
     <Compile Include="QualityDetection\MBR_DAL.cs" />
     <Compile Include="QualityDetection\ReInspection_DAL.cs" />
+    <Compile Include="QualityDetection\RequisitionForTest_DAL.cs" />
     <Compile Include="QualityDetection\SCAR_DAL.cs" />
     <Compile Include="QualityDetection\SelectLab_DAL.cs" />
     <Compile Include="QualityDetection\StockInfo_DAL.cs" />

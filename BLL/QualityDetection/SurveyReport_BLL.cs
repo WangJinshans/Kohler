@@ -244,5 +244,10 @@ namespace BLL.QualityDetection
         {
             return SurveyReport_DAL.haveInsectionItem(SKU, Item);
         }
+
+        public static DataTable getSKUList()
+        {
+            return SurveyReport_DAL.getSKUList();
+        }
     }
 }
