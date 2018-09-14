@@ -103,7 +103,6 @@
         <fieldset class="layui-elem-field layui-field-title" style="width: 950px; margin: 50px auto 20px auto;">
             <legend style="text-align: center;" runat="server">进货列表</legend>
         </fieldset>
-        <asp:Button Text="确认导入" ID="add_record" OnClick="add_record_Click" OnClientClick="" runat="server" />
         <script>
             function showMsg(message) {
                 layui.use(['layer'], function () {

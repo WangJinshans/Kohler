@@ -231,10 +231,12 @@
                             <ul>
                                 <!--从文件中导入今日信息  先显示出文件中的信息，然后再提示 是否导入   -->
                                 <li><a href="VendorQualityDetection/LoadInfo.aspx" id="loadinfomation" target="iFrame1">信息导入</a></li>
+                                <li><a href="VendorQualityDetection/MBRAppliy.aspx" id="mbrapply" target="iFrame1">MBR申请</a></li>
                                 <li><a href="VendorQualityDetection/MBRList.aspx" id="newInspection" target="iFrame1">MRB裁定</a></li>
                                 <li><a href="VendorQualityDetection/InspectionList.aspx" id="unCkeckList" target="iFrame1">待检列表</a></li>
                                 <li><a href="VendorQualityDetection/QualityClerkOperateList.aspx" id="zhiliang" target="iFrame1">委托检验--文员</a></li>
                                 <li><a href="VendorQualityDetection/LabInspectionList.aspx" id="weituo" target="iFrame1">委托检验--实验室</a></li>
+                                <li><a href="VendorQualityDetection/InspectionItemIorD.aspx" id="engineer" target="iFrame1">工程师</a></li>
                             </ul>
                         </li>
                         <li><a href="#" style="text-align: center">价格走势</a>

@@ -4,6 +4,7 @@ using MODEL.QualityDetection;
 using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -28,6 +29,9 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 getSessionInfo();
                 initSurveryReport();
                 showReport();
+
+                //绩效评估部分的免检
+
             }
             else
             {
@@ -39,10 +43,23 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                     case "MBR_Change":
                         MBR_Change();
                         break;
+                    case "check_noneed":
+                        //免检
+                        noCheck();
+                        break;
                     default:
                         break;
                 }
             }
+        }
+
+
+        /// <summary>
+        /// 暂时免检 直接入库   接收数量为收到
+        /// </summary>
+        private void noCheck()
+        {
+            //
         }
 
         /// <summary>
@@ -76,16 +93,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 //设置display 为block
                 LocalScriptManager.CreateScript(Page, "showMRB()", "showMRB");
             }
-            //显示MRB的申请按钮
-            string position_Name = Employee_BLL.getEmployeePositionName(Session["Employee_ID"].ToString());
-            if (position_Name.Contains("质量部文员"))
-            {
-                //检验员 隐藏 复检 按钮
-                if (!SurveyReport_BLL.isReInspection(form_ID))
-                {
-                    MRB_Application.Visible = false;
-                }
-            }
+
         }
 
         private void MBR_Change()
@@ -107,7 +115,14 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
         private void initSurveryReport()
         {
             //根据物料编号 确定需要的检测项
-            Repeater1.DataSource = SurveyReport_BLL.getInsectionItems(Convert.ToString(ViewState["sku"]));
+            DataTable source= SurveyReport_BLL.getInsectionItems(Convert.ToString(ViewState["sku"]));
+            if (source == null)
+            {
+
+                Repeater1.DataSource = source;
+                Repeater1.DataBind();
+            }
+            Repeater1.DataSource = source;
             Repeater1.DataBind();
 
 
@@ -284,21 +299,63 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
         /// <summary>
         /// 完成检验  判断该报告是否是属于合格 只有合格的报告 检验员 以及质量部文员才有权利直接提交
         /// 
-        /// 质量部文员在判断不合格之后 需要进行复检申请 依旧不合格则需要进行MRB申请
+        /// 质量部文员在判断不合格之后 需要进行复检申请
         /// 
-        /// 检验员判断不合格之后 需要进行MRB申请
+        /// 检验员判断不合格之后 进入退货队列 默认时间 申请复检则从该队列中删除该项
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void submitReport_Click(object sender, EventArgs e)
         {
             string position_Name = Employee_BLL.getEmployeePositionName(Session["Employee_ID"].ToString());
-
             string form_ID = Convert.ToString(ViewState["form_ID"]);
-            //判断该报告是否是属于合格 只有合格的报告 检验员 以及质量部文员才有权利直接提交
 
-            //保存数据  
-            if (qualified_list.SelectedValue.Equals("合格"))
+            //不合格 能不能不复检
+
+            //第一次检验不合格 MBR已经出结果了 也可以提交
+            if (MBR_BLL.isMBRNeeded(form_ID) && MBR_BLL.isMBRFinished(form_ID))//需要MRB 并且 MRB已经完成
+            {
+                //获取MBR的结论 退货 挑选全检需要统计接收与拒收
+                string mbrResult = MBR_BLL.getMBRResult(form_ID);
+                if (mbrResult.Equals("挑选全检"))
+                {
+                    StockInfo info = new StockInfo();
+
+                    info.Add_Time = DateTime.Now.ToString();
+                    info.Source_From = Convert.ToString(ViewState["form_ID"]);
+
+                    if (SurveyReport_BLL.isReInspection(Convert.ToString(ViewState["form_ID"])))
+                    {
+                        info.Status = "复检";
+                    }
+                    else
+                    {
+                        info.Status = "";
+                    }
+                    //备注 暂时为空
+                    info.Remark = "";
+                    info.Batch_No = Convert.ToString(ViewState["batch_No"]);
+
+                    //接收 拒收
+                    info.RJ = "";
+                    info.RC = "";
+
+                    //插入到进货信息库
+                    StockInfo_BLL.addStockInfo(info);
+                    SurveyReport_BLL.updateSurveyStatus(form_ID, "完成");
+                }
+                else if (mbrResult.Equals("退货"))
+                {
+                    //
+                }
+                
+            }
+
+            //是否合格 
+            bool isQualified = false;
+
+            //合格
+            if (isQualified)
             {
                 //更新报告的检验完成 QT_Inspection_List
                 SurveyReport_BLL.setFinished(Convert.ToString(ViewState["form_ID"]));
@@ -318,10 +375,11 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 {
                     info.Status = "";
                 }
+
                 //备注 暂时为空
                 info.Remark = "";
                 info.Batch_No = Convert.ToString(ViewState["batch_No"]);
-                
+
                 //接收 拒收
                 info.RJ = "";
                 info.RC = "";
@@ -330,50 +388,38 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 StockInfo_BLL.addStockInfo(info);
 
                 //更新检验状态
-                SurveyReport_BLL.updateSurveyStatus(form_ID);
+                SurveyReport_BLL.updateSurveyStatus(form_ID, "完成");
 
                 LocalScriptManager.CreateScript(Page, String.Format("addStock('{0}','{1}')", "进货信息储存成功 完成检验", position_Name), "addStock");
             }
-            else if (MBR_BLL.isMBRNeeded(form_ID) && MBR_BLL.isMBRFinished(form_ID))//需要MRB 并且 MRB已经完成
-            {
-                //第一次检验不合格 MBR已经出结果了 也可以提交
-
-                
-            }
             else
             {
-                //提示 在检验报告不合格的情况下 请申请MRB
-                if (position_Name.Equals("质量部文员"))
+                //暂时完成检验  如果在退货队列中不申请MBR的话 默认时间后就自动完成
+
+                //如果是实验室检验，是否需要申请复检
+                //如果是检验员检验，不合格直接放到退货队列
+                if (ReInspection_BLL.isReInspectionNeeded(form_ID))
                 {
-                    //如果是复检表 那么 需要申请MRB  如果不是 则需要复检
-                    if (SurveyReport_BLL.isReInspection(Convert.ToString(ViewState["form_ID"])))
-                    {
-                        LocalScriptManager.CreateScript(Page, String.Format("MRBtip('{0}')", "在复检报告不合格的情况下 请申请MRB"), "MRBtip");
-                    }
-                    else
-                    {
-                        LocalScriptManager.CreateScript(Page, String.Format("MRBtip('{0}')", "在检验报告不合格的情况下 请申请复检"), "MRBtip");
-                    }
+                    //提示 是否需要复检 
                 }
                 else
                 {
-                    LocalScriptManager.CreateScript(Page, String.Format("MRBtip('{0}')", "在检验报告不合格的情况下 请申请MRB"), "MRBtip");
+                    QT_Goods_Returned goods = new QT_Goods_Returned();
+                    goods.Batch_No = Convert.ToString(ViewState["batch_No"]);
+                    goods.Form_ID = form_ID;
+                    goods.Reject = "";
+                    goods.Total = "";
+                    goods.Vendor_Code = "";
+                    goods.Reason = "";
+                    goods.Scar_ID = "";
+                    goods.Factory_Name = Session["Factory_Name"].ToString();
+                    goods.Status = "退货";
+                    //插入到退货表中
+                    GoodsReturned_BLL.addGoodReturned(goods);
+
+                    SurveyReport_BLL.updateSurveyStatus(form_ID, "完成");
                 }
             }
-        }
-
-
-
-        /// <summary>
-        /// 申请MBR 即 第一次检验不合格 并回退
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void MRB_Application_Click(object sender, EventArgs e)
-        {
-            string position_Name = Employee_BLL.getEmployeePositionName(Session["Employee_ID"].ToString());
-            MBR_BLL.startMBR(Convert.ToString(ViewState["form_ID"]), Convert.ToString(ViewState["kci"]));
-            LocalScriptManager.CreateScript(Page, String.Format("MRBfinish('{0}','{1}')", "已经成功申请MRB", position_Name), "MRBfinish");
         }
 
 
@@ -384,10 +430,8 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
         /// <param name="e"></param>
         protected void reInspection_Click(object sender, EventArgs e)
         {
+
             //判断是否 不合格 只有在不合格的情况下才能复检
-
-            //判断是否已经复检了 如果
-
             string position_Name = Employee_BLL.getEmployeePositionName(Session["Employee_ID"].ToString());
             if(position_Name.Equals("质量部文员"))
             {
@@ -422,40 +466,11 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
                 //更改实验室检验的Status 并标识Remark 为复检
 
-
                 LocalScriptManager.CreateScript(Page, String.Format("reInspectionTips('{0}')", "复检申请成功 静待结果"), "reInspectionTips");
             }
             //回退
         }
 
-
-
-
-
-        #region dropdownList的选择事件
-
-        /// <summary>
-        /// 错误类型
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void unqualified_list_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void qualified_list_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (qualified_list.SelectedValue.Equals("合格"))
-            {
-                LocalScriptManager.CreateScript(Page, "InspectionResultQualified()", "Qualified");
-            }
-            else
-            {
-                LocalScriptManager.CreateScript(Page, "InspectionResultUnQualified()", "UnQualified");
-            }
-        }
-        #endregion
         protected void addItem_Click(object sender, EventArgs e)
         {
             save();

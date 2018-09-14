@@ -10,13 +10,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            
-        }
-
-        protected void add_record_Click(object sender, EventArgs e)
-        {
-            //插入到数据库中
-            int a =0;
+            // HTTP 连接超时60s 响应超时30s 
         }
     }
 }

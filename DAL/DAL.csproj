@@ -45,6 +45,7 @@
     <Compile Include="ItemNotifyInfo\ItemNotify_DAL.cs" />
     <Compile Include="PlantInfo\PlantInfo_DAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QualityDetection\GoodsReturned_DAL.cs" />
     <Compile Include="QualityDetection\InspectionList_DAL.cs" />
     <Compile Include="QualityDetection\InspectionPlan_DAL.cs" />
     <Compile Include="QualityDetection\Inspection_Item_DAL.cs" />

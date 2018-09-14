@@ -22,7 +22,53 @@ namespace DAL.QualityDetection
             DBHelp.ExecuteCommand(sql, sp);
         }
 
+        public static List<QT_Goods_Returned> getGoodReturnedList(string factory_Name,string status)
+        {
+            string sql = "select * from QT_Goods_Returned where Factory_Name=@Factory_Name and Status=@Status";
+            QT_Goods_Returned good = null;
+            List<QT_Goods_Returned> list = new List<QT_Goods_Returned>();
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Factory_Name",factory_Name),
+                new SqlParameter("@Status",status)
+            };
+            DataTable table = DBHelp.GetDataSet(sql, sp);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    good = new QT_Goods_Returned();
+                    good.Status = Convert.ToString(dr["Status"]);
+                    good.Scar_ID= Convert.ToString(dr["Scar_ID"]);
+                    good.Vendor_Code = Convert.ToString(dr["Vendor_Code"]);
+                    good.Total = Convert.ToString(dr["Total"]);
+                    good.Reject = Convert.ToString(dr["Reject"]);
+                    good.Reason = Convert.ToString(dr["Reason"]);
+                    good.Form_ID = Convert.ToString(dr["Form_ID"]);
+                    list.Add(good);
+                }
+            }
+            return list;
+        }
 
+        public static string getMBRResult(string form_ID)
+        {
+            string result = "";
+            string sql = "select Result from QT_MBR_Results where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",form_ID)
+            };
+            DataTable table = DBHelp.GetDataSet(sql, sp);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    result = Convert.ToString(dr["Result"]);
+                }
+            }
+            return result;
+        }
 
         public static int updateMBRState(string form_ID, string state)
         {

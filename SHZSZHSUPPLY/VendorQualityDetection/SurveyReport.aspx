@@ -85,7 +85,15 @@
             var qu = document.getElementById("qualified");
             mytd.style.display = "table-cell";
             mytd1.style.display = "table-cell";
-            qu.colSpan = '6';
+            qu.colSpan = '5';
+        }
+        function judge() {
+            var qualitify = document.getElementById('qualified_list');
+            if (qualitify.selectedIndex == 0) {
+                InspectionResultQualified();
+            } else {
+                InspectionResultUnQualified();
+            }
         }
 
         //MBR 结论 非挑选全检
@@ -264,11 +272,11 @@
                 <tr>
                     <td colspan="1">不良明细</td>
                     <td colspan="3">
-                        <asp:TextBox runat="server" ID="appearance_detail" />
+                        <asp:TextBox runat="server" BorderStyle="None" ID="appearance_detail" />
                     </td>
                     <td colspan="1">不良明细</td>
                     <td colspan="3">
-                        <asp:TextBox runat="server" ID="suitability_detail" />
+                        <asp:TextBox runat="server" BorderStyle="None" ID="suitability_detail" />
                     </td>
                 </tr>
                 <asp:Repeater ID="Repeater1" OnItemDataBound="Repeater1_ItemDataBound" runat="server">
@@ -286,10 +294,10 @@
                             <td colspan="2"><%# Eval("Item") %></td>
                             <td colspan="2"><%# Eval("Standard") %></td>
                             <td colspan="4">
-                                <input type="text" name="surveyItem" />
+                                <input type="text" style="border:none" name="surveyItem" />
                             </td>
                             <td colspan="1">
-                                <input type="text" name="itemJudgement" />
+                                <input type="text" style="border:none" name="itemJudgement" />
                             </td>
                         </tr>
                     </ItemTemplate>
@@ -297,16 +305,21 @@
                 <tr>
                     <td colspan="3" rowspan="2">检验结论:</td>
                     <td colspan="7" id="qualified" rowspan="2">
-                        <asp:DropDownList ID="qualified_list" OnSelectedIndexChanged="qualified_list_SelectedIndexChanged" AutoPostBack="true" runat="server">
-                            <asp:ListItem Text="合格" />
+                        <%--<asp:DropDownList ID="qualified_list" OnSelectedIndexChanged="qualified_list_SelectedIndexChanged" AutoPostBack="true" runat="server">
+                            <asp:ListItem Text="" />
                             <asp:ListItem Text="不合格" />
-                        </asp:DropDownList>
+                        </asp:DropDownList>--%>
+
+                        <select id="qualified_list" onchange="judge()">
+                            <option value="合格">合格</option>
+                            <option value="不合格">不合格</option>
+                        </select>
                     </td>
                     <td colspan="1" id="unqualified_type" style="display: none;" rowspan="1">不合格类型</td>
                 </tr>
                 <tr>
                     <td colspan="1" id="unqualified_list_td" style="display: none;" rowspan="1">
-                        <asp:DropDownList ID="unqualified_list" OnSelectedIndexChanged="unqualified_list_SelectedIndexChanged" AutoPostBack="true" runat="server">
+                        <%--<asp:DropDownList ID="unqualified_list" OnSelectedIndexChanged="unqualified_list_SelectedIndexChanged" AutoPostBack="true" runat="server">
                             <asp:ListItem Text="1001" />
                             <asp:ListItem Text="1002" />
                             <asp:ListItem Text="2001" />
@@ -317,7 +330,19 @@
                             <asp:ListItem Text="5001" />
                             <asp:ListItem Text="5002" />
                             <asp:ListItem Text="6001" />
-                        </asp:DropDownList>
+                        </asp:DropDownList>--%>
+                        <select>
+                            <option value="1001">1001</option>
+                            <option value="1002">1002</option>
+                            <option value="2001">2001</option>
+                            <option value="2002">2002</option>
+                            <option value="3001">3001</option>
+                            <option value="4001">4001</option>
+                            <option value="4002">4002</option>
+                            <option value="5001">5001</option>
+                            <option value="5002">5002</option>
+                            <option value="6001">6001</option>
+                        </select>
                     </td>
                 </tr>
                 <tr>
@@ -340,12 +365,10 @@
             <div style="text-align: center;">
                 <asp:Button Text="添加检验项" CssClass="layui-btn" ID="addItem" OnClick="addItem_Click" OnClientClick="addItems()" runat="server" />
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                <asp:Button ID="MRB_Application" runat="server" Text="申请MBR" CssClass="layui-btn" OnClick="MRB_Application_Click" />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
                 <asp:Button ID="reInspection" runat="server" Text="开始复检" CssClass="layui-btn" OnClick="reInspection_Click" />
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
                 <asp:Button ID="submitReport" runat="server" Text="完成检验" CssClass="layui-btn" OnClick="submitReport_Click" />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
 		        <asp:Button ID="saveReport" runat="server" Text="保存" CssClass="layui-btn layui-btn-normal" OnClick="saveReport_Click" />
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		        <asp:Button ID="Back" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Back_Click" />

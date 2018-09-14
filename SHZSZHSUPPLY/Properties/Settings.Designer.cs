@@ -106,10 +106,19 @@ namespace SHZSZHSUPPLY.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool Mail_Enabled {
             get {
                 return ((bool)(this["Mail_Enabled"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10.20.67.10")]
+        public string SMTP_Address {
+            get {
+                return ((string)(this["SMTP_Address"]));
             }
         }
     }
