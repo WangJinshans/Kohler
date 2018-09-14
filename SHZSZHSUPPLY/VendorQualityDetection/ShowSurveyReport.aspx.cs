@@ -107,7 +107,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
                 //设置MBR的结论 
 
-                //发送邮件 通知检验员 或者 质量部文员
+                //发送邮件 通知检验员 或者 质量部文员 去InspectionList.aspx中完成调查报告的提交
 
                 //结束操作
                 return;
@@ -151,19 +151,19 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 quilty_manager.Enabled = false;
                 final_select.Enabled = false;
             }
-            else if (position_Name.Equals("生产部经理"))//采购经理
+            else if (position_Name.Equals("生产部经理"))//生产部经理
             {
 
             }
-            else if (position_Name.Equals("市场部经理"))//采购经理
+            else if (position_Name.Equals("市场部经理"))//市场部经理
             {
 
             }
-            else if (position_Name.Equals("项目部经理"))//采购经理
+            else if (position_Name.Equals("项目部经理"))//项目部经理
             {
 
             }
-            else if (position_Name.Equals("质量部经理"))//采购经理
+            else if (position_Name.Equals("质量部经理"))//质量部经理
             {
                 purchase_manager.Enabled = false;
                 logistics_manager.Enabled = false;

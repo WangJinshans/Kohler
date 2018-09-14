@@ -14,10 +14,12 @@ namespace DAL.QualityDetection
         {
             List<QT_Inspection_Item> list = new List<QT_Inspection_Item>();
             QT_Inspection_Item item = null;
-            string sql = sql = "select * from View_QT_Inspection_List where Go='YES' and (Employee_ID=@Employee_ID or Employee_ID is null)";
-            SqlParameter[] sp = new SqlParameter[] 
+            string factory_Name = Employee_DAL.getEmployeeFactory(employee_ID);
+            string sql = sql = "select * from View_QT_Inspection_List where Go='YES' and (Employee_ID=@Employee_ID or Employee_ID is null) and Factory_Name=@Factory_Name and Status<>'完成'";
+            SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("@Employee_ID",employee_ID)
+                new SqlParameter("@Employee_ID",employee_ID),
+                new SqlParameter("@Factory_Name",factory_Name)
             };
             DataTable table = DBHelp.GetDataSet(sql, sp);
             if (table.Rows.Count > 0)
@@ -48,10 +50,12 @@ namespace DAL.QualityDetection
         {
             List<QT_Inspection_Item> list = new List<QT_Inspection_Item>();
             QT_Inspection_Item item = null;
-            string sql = sql = "select * from View_QT_Inspection_List where Go='NO' and (Employee_ID=@Employee_ID or Employee_ID is null)";
+            string factory_Name = Employee_DAL.getEmployeeFactory(employee_ID);
+            string sql = sql = "select * from View_QT_Inspection_List where Go='NO' and (Employee_ID=@Employee_ID or Employee_ID is null) and Factory_Name=@Factory_Name and Status<>'完成'";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("@Employee_ID",employee_ID)
+                new SqlParameter("@Employee_ID",employee_ID),
+                new SqlParameter("@Factory_Name",factory_Name)
             };
             DataTable table = DBHelp.GetDataSet(sql, sp);
             if (table.Rows.Count > 0)
@@ -76,6 +80,50 @@ namespace DAL.QualityDetection
                 }
             }
             return list;
+        }
+
+        public static bool addInspection(QT_Inspection_Item item)
+        {
+            string sql = "insert into QT_Inspection_List(Batch_No,SKU,Product_Describes,Detection_Count,Status,Factory_Name,Add_Time,Import_KO)values(@Batch_No,@SKU,@Product_Describes,@Detection_Count,@Status,@Factory_Name,@Add_Time,@Import_KO)";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Batch_No",item.Batch_No),
+                new SqlParameter("@SKU",item.SKU),
+                new SqlParameter("@Product_Describes",item.Product_Describes),
+                new SqlParameter("@Detection_Count",item.Detection_Count),
+                new SqlParameter("@Status",item.Status),
+                new SqlParameter("@Factory_Name",item.Factory_Name),
+                new SqlParameter("@Add_Time",item.Add_Time),
+                new SqlParameter("@Import_KO",item.Import_KO)
+            };
+            if (DBHelp.ExecuteCommand(sql, sp) > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool hasSKU(string sKU)
+        {
+            string sql = "select SKU from QT_Component_List where SKU=@SKU";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@SKU",sKU)
+            };
+            using (SqlDataReader reader = DBHelp.GetReader(sql, sp))
+            {
+                if (reader.Read())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
     }
 }

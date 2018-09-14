@@ -51,6 +51,27 @@ namespace DAL.QualityDetection
             }
         }
 
+        public static bool isReInspectionNeeded(string form_ID)
+        {
+            string sql = "select Form_ID from QT_Inspection_List where Form_ID=@Form_ID and Go='YES'";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",form_ID)
+            };
+            using (SqlDataReader reader = DBHelp.GetReader(sql, sp))
+            {
+                //Go 为 YES 检验员检验
+                if (reader.Read())
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+
         public static string getReInspectionSurveyFormID(string batch_No, int n)
         {
             string sql = "select Form_ID from QT_Survey where Batch_No=@Batch_No and ID=@ID";

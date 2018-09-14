@@ -20,6 +20,11 @@ namespace BLL.QualityDetection
             MBR_DAL.startMBR(form_ID, KCI);
         }
 
+        public static List<QT_Goods_Returned> getGoodReturnedList(string factory_Name,string status)
+        {
+            return MBR_DAL.getGoodReturnedList(factory_Name, status);
+        }
+
         /// <summary>
         /// 根据form_ID 判断每一份需要MBR的报告 各个经理是否达成一致 KCI的区分已经在数据库中区分
         /// </summary>
@@ -51,6 +56,16 @@ namespace BLL.QualityDetection
         public static int setMBRResult(string form_ID, string result)
         {
             return MBR_DAL.setMBRResult(form_ID, result);
+        }
+
+        /// <summary>
+        /// 获取MBR的结果
+        /// </summary>
+        /// <param name="form_ID"></param>
+        /// <returns></returns>
+        public static string getMBRResult(string form_ID)
+        {
+            return MBR_DAL.getMBRResult(form_ID);
         }
 
         /// <summary>

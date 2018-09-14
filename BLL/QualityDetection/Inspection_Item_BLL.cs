@@ -15,7 +15,7 @@ namespace BLL.QualityDetection
     public class Inspection_Item_BLL
     {
         /// <summary>
-        /// 获取指定type的所有item
+        /// 获取指定type的所有item   需要区分厂
         /// 0 ------>所有的item
         /// 1 ------>已经处理过的item
         /// 2 ------>未处理的item
@@ -51,6 +51,27 @@ namespace BLL.QualityDetection
                 new SqlParameter("@Import_KO",item.Import_KO)
             };
             DBHelp.ExecuteCommand(sql, sp);
+        }
+
+
+        /// <summary>
+        /// 维护零件清单 查看是否已经存在该SKU了
+        /// </summary>
+        /// <param name="sKU"></param>
+        /// <returns></returns>
+        public static bool hasSKU(string sKU)
+        {
+            return Inspection_Item_DAL.hasSKU(sKU);
+        }
+
+        /// <summary>
+        /// 添加到待检列表里面 数据不全暂时 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public static bool addInspection(QT_Inspection_Item item)
+        {
+            return Inspection_Item_DAL.addInspection(item);
         }
     }
 }

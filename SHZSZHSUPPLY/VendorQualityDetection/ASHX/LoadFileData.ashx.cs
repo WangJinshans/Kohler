@@ -1,4 +1,5 @@
-﻿using MODEL.QualityDetection;
+﻿using BLL.QualityDetection;
+using MODEL.QualityDetection;
 using SHZSZHSUPPLY.QualityDetection.Utils;
 using System;
 using System.Collections.Generic;
@@ -7,18 +8,20 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Script.Serialization;
+using System.Web.SessionState;
 
 namespace SHZSZHSUPPLY.VendorQualityDetection.ASHX
 {
     /// <summary>
     /// LoadFileData 的摘要说明
     /// </summary>
-    public class LoadFileData : IHttpHandler
+    public class LoadFileData : IHttpHandler, IReadOnlySessionState
     {
 
         public void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "text/plain";
+
 
             //保存每天的导入信息  需要知道每一批数据是什么时候导入的 属于那一份导入文件
 
@@ -34,9 +37,19 @@ namespace SHZSZHSUPPLY.VendorQualityDetection.ASHX
                 {
                     item = new QT_Inspection_Item();
 
+                    //补全即可
                     item.Batch_No = Convert.ToString(dr["Purchase order"]);
-                    item.Import_KO= Convert.ToString(dr["User Name"]);
-                    item.Detection_Count = Convert.ToString(dr[""]);
+                    item.Product_Describes = Convert.ToString(dr["Material Description"]);
+                    item.SKU = Convert.ToString(dr["Material（SKU）"]);
+                    item.Vendor_Code = Convert.ToString(dr["Vendor_Code"]);
+                    item.Detection_Count = Convert.ToString(dr["Quantity(数量)"]);
+
+                    item.Status = "待检";
+                    item.Factory_Name = Convert.ToString(context.Session["Factory_Name"]);
+                    item.Add_Time = Convert.ToString(DateTime.Now.ToString());
+
+                    item.Import_KO = Convert.ToString(dr["User Name"]);
+                    Inspection_Item_BLL.addInspection(item);
                 }
             }
 

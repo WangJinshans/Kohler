@@ -76,5 +76,6 @@ namespace BLL.QualityDetection
         {
             return InspectionList_DAL.updateFormID(batch_no, form_ID);
         }
+
     }
 }

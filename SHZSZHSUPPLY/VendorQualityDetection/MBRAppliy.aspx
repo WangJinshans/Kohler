@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="InspectionList.aspx.cs" Inherits="SHZSZHSUPPLY.VendorQualityDetection.InspectionList" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="MBRAppliy.aspx.cs" Inherits="SHZSZHSUPPLY.VendorQualityDetection.MBRAppliy" %>
 
 <!DOCTYPE html>
 
@@ -10,62 +10,12 @@
     <script src="../VendorAssess/Script/jquery-3.2.1.min.js"></script>
     <script src="../VendorAssess/Script/layui/layui.js"></script>
     <script src="../VendorAssess/Script/Own/fileUploader.js"></script>
-    <script src="../Scripts/common/commonUtils.js"></script>
-    <style>
-        body {
-            padding: 0px;
-            margin: 0px;
-        }
-        td {
-            width:100px;
-        }
-    </style>
-    <script>
-        //选择实验室
-        function wt(batch_No) {
-            layui.use('form', function () {
-                var form = layui.form
-                , layer = layui.layer;
-                layer.open({
-                    title: ['请选择实验室', 'text-align:center;'],
-                    type: 2,
-                    area:['800px','300px'],
-                    content: 'SelectLab.aspx'
-                    , btn: ['确定','取消']
-                    , yes: function () {
-                        __myDoPostBack('WT', batch_No);
-                    }
-                    , btn1:function(){
-                        layer.closeAll();
-                    }
-                    , cancle: function () {
-                        layer.closeAll();
-                    }
-                })
-            });
-        }
-
-        function QTtip(msg) {
-            layui.use('form', function () {
-                var form = layui.form
-                , layer = layui.layer;
-                layer.msg(msg, {
-                    time: 3000
-                }, function () {
-                    __myDoPostBack('fresh', '');
-                });
-            });
-        }
-        function refresh() {
-            __myDoPostBack('fresh', '');
-        }
-    </script>
 </head>
 <body>
     <form id="form1" runat="server">
         <div>
             <fieldset class="layui-elem-field layui-field-title" style="width: 1000px; margin: 50px auto 20px auto;">
-                <legend style="text-align: center;" runat="server">待检清单</legend>
+                <legend style="text-align: center;" runat="server">MBR申请列表</legend>
             </fieldset>
             <asp:GridView ID="GridView1" Style="width: 1000px; margin: 0 auto; margin-bottom: 50px;" class="layui-table" lay-even="" lay-skin="nob" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
                 <AlternatingRowStyle BackColor="White" />
@@ -74,6 +24,8 @@
                         SortExpression="Batch_No" />
                     <asp:BoundField DataField="SKU" HeaderText="SKU"
                         SortExpression="SKU" />
+                    <asp:BoundField DataField="Form_ID" HeaderText="Form_ID"
+                        SortExpression="Form_ID" />
                     <asp:BoundField DataField="Product_Name" HeaderText="物料"
                         SortExpression="Product_Name" />
                     <asp:BoundField DataField="Product_Describes" HeaderText="描述"
@@ -88,14 +40,8 @@
                         SortExpression="Status" />
                     <asp:TemplateField>
                         <ItemTemplate>
-                            <asp:LinkButton ID="lbgo" runat="server" CommandName="go">
-                                去检验</asp:LinkButton>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:TemplateField>
-                        <ItemTemplate>
-                            <asp:LinkButton ID="lbto" runat="server" CommandName="to">
-                                委托检验</asp:LinkButton>
+                            <asp:LinkButton ID="MBRstart" runat="server" CommandName="startMBR">
+                                申请MBR</asp:LinkButton>
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>
@@ -110,9 +56,5 @@
             </asp:GridView>
         </div>
     </form>
-
-    <script>
-
-    </script>
 </body>
 </html>
