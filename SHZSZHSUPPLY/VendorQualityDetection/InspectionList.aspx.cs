@@ -21,10 +21,22 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             {
                 return;
             }
+
+            //判断是否有新的sku 进入 弹窗提示是否需要维护该sku
             if (!IsPostBack)
             {
-                GridView1.DataSource = Inspection_Item_BLL.getInspecctorItems(0, Session["Employee_ID"].ToString());
+                List<QT_Inspection_Item> list = Inspection_Item_BLL.getInspecctorItems(0, Session["Employee_ID"].ToString());
+                GridView1.DataSource = list;
                 GridView1.DataBind();
+
+                //检查是否有新的SKU
+                List<string> result = hasNewSKU(list);
+                if (result.Count > 0)
+                {
+                    //提示维护零件
+                    LocalScriptManager.CreateScript(Page, String.Format("maintainSKU('{0}')", result.ToArray().ToString()), "");
+                }
+
             }
             else
             {
@@ -40,6 +52,19 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                         break;
                 }
             }
+        }
+
+        private List<string> hasNewSKU(List<QT_Inspection_Item> list)
+        {
+            List<string> result = new List<string>();
+            foreach (QT_Inspection_Item item in list)
+            {
+                if (!Inspection_Item_BLL.hasSKU(item.SKU))
+                {
+                    result.Add(item.SKU);
+                }
+            }
+            return result;
         }
 
         private void fresh()
@@ -115,8 +140,11 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 isLocked = InspectionList_BLL.isLocked(batch_no);
                 if (!isLocked.Equals(""))//已经锁定 提示后自动刷新一次
                 {
-                    LocalScriptManager.CreateScript(Page, String.Format("QTtip('{0}')", "有同事正在操作该批次"), "locktip");
-                    return;
+                    if (!isLocked.Equals(Session["Employee_ID"].ToString()))
+                    {
+                        LocalScriptManager.CreateScript(Page, String.Format("QTtip('{0}')", "有同事正在操作该批次"), "locktip");
+                        return;
+                    }
                 }
                 else
                 {

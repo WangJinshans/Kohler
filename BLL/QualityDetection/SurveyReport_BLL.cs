@@ -77,6 +77,11 @@ namespace BLL.QualityDetection
             return loose;
         }
 
+        public static string getReportBatchNo(string form_ID)
+        {
+            return SurveyReport_DAL.getReportBatchNo(form_ID);
+        }
+
 
         /// <summary>
         /// 查询该表是否属于KCI 
@@ -87,9 +92,6 @@ namespace BLL.QualityDetection
         {
             return SurveyReport_DAL.isKCINeeded(form_ID);
         }
-
-
-
 
         /// <summary>
         /// 获取数据库中对应Form_ID的指定职位的 结果 
@@ -200,9 +202,9 @@ namespace BLL.QualityDetection
         /// 更新该报告的状态
         /// </summary>
         /// <param name="form_ID"></param>
-        public static void updateSurveyStatus(string form_ID)
+        public static void updateSurveyStatus(string form_ID, string status)
         {
-            SurveyReport_DAL.updateSurveyStatus(form_ID);
+            SurveyReport_DAL.updateSurveyStatus(form_ID, status);
         }
 
 

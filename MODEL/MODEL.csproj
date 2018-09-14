@@ -43,6 +43,7 @@
     <Compile Include="QualityDetection\ConsignmentInspection.cs" />
     <Compile Include="QualityDetection\InspectionPlanResult.cs" />
     <Compile Include="QualityDetection\MBR_Item.cs" />
+    <Compile Include="QualityDetection\QT_Goods_Returned.cs" />
     <Compile Include="QualityDetection\QT_Inspection_Item.cs" />
     <Compile Include="QualityDetection\QT_Material_Inspection_Item.cs" />
     <Compile Include="QualityDetection\QT_SCAR.cs" />

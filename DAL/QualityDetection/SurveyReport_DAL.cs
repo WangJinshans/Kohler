@@ -84,6 +84,26 @@ namespace DAL.QualityDetection
             return false;
         }
 
+        public static string getReportBatchNo(string form_ID)
+        {
+            string sql = "select Batch_No from QT_Inspection_List where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",form_ID)
+            };
+
+            DataTable table = DBHelp.GetDataSet(sql, sp);
+            string batch_NO = "";
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    batch_NO = Convert.ToString(dr["Batch_No"]);
+                }
+            }
+            return batch_NO;
+        }
+
         public static bool isKCINeeded(string form_ID)
         {
             string sql = "select Form_ID from View_QT_Inspection_List where Form_ID=@Form_ID and MBR_Distinction='YES'";
@@ -176,11 +196,12 @@ namespace DAL.QualityDetection
             DBHelp.ExecuteCommand(sql, sp);
         }
 
-        public static void updateSurveyStatus(string form_ID)
+        public static void updateSurveyStatus(string form_ID,string status)
         {
-            string sql = "update QT_Survey set Status='完成' where Form_ID@Form_ID";
+            string sql = "update QT_Survey set Status=@Status where Form_ID=@Form_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
+                new SqlParameter("@Status",status),
                 new SqlParameter("@Form_ID",form_ID)
             };
             DBHelp.ExecuteCommand(sql, sp);
@@ -275,7 +296,7 @@ namespace DAL.QualityDetection
 
         public static void setFinished(string form_ID)
         {
-            string sql = "update QT_MBR_Results set Status='YES' where Form_ID=@Form_ID";
+            string sql = "update QT_Inspection_List set Status='完成' where Form_ID=@Form_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Form_ID",form_ID)

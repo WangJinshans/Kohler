@@ -113,6 +113,7 @@
     <Content Include="pic\system.png" />
     <Content Include="pic\system_current.png" />
     <Content Include="pic\unfinished.png" />
+    <Content Include="Scripts\common\commonUtils.js" />
     <Content Include="Styles\Site.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
@@ -446,6 +447,7 @@
     <Content Include="VendorQualityDetection\InspectionList.aspx" />
     <Content Include="VendorQualityDetection\LabInspectionList.aspx" />
     <Content Include="VendorQualityDetection\LoadInfo.aspx" />
+    <Content Include="VendorQualityDetection\MBRAppliy.aspx" />
     <Content Include="VendorQualityDetection\MBRList.aspx" />
     <Content Include="VendorQualityDetection\QualityClerkOperateList.aspx" />
     <Content Include="VendorQualityDetection\SCAR.aspx" />
@@ -596,6 +598,13 @@
     </Compile>
     <Compile Include="VendorQualityDetection\LoadInfo.aspx.designer.cs">
       <DependentUpon>LoadInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorQualityDetection\MBRAppliy.aspx.cs">
+      <DependentUpon>MBRAppliy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorQualityDetection\MBRAppliy.aspx.designer.cs">
+      <DependentUpon>MBRAppliy.aspx</DependentUpon>
     </Compile>
     <Compile Include="VendorQualityDetection\MBRList.aspx.cs">
       <DependentUpon>MBRList.aspx</DependentUpon>

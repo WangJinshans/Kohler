@@ -40,5 +40,16 @@ namespace BLL.QualityDetection
         {
             return ReInspection_DAL.isReInspection(form_ID);
         }
+
+
+        /// <summary>
+        /// 查询是否需要复检 
+        /// </summary>
+        /// <param name="form_ID"></param>
+        /// <returns></returns>
+        public static bool isReInspectionNeeded(string form_ID)
+        {
+            return ReInspection_DAL.isReInspectionNeeded(form_ID);
+        }
     }
 }
