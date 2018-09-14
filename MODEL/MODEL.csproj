@@ -45,6 +45,7 @@
     <Compile Include="QualityDetection\MBR_Item.cs" />
     <Compile Include="QualityDetection\QT_Inspection_Item.cs" />
     <Compile Include="QualityDetection\QT_Material_Inspection_Item.cs" />
+    <Compile Include="QualityDetection\QT_RequisitionForTest.cs" />
     <Compile Include="QualityDetection\QT_SCAR.cs" />
     <Compile Include="QualityDetection\QT_SCAR_Permanent_Corrective_Actions.cs" />
     <Compile Include="QualityDetection\QT_SCAR_Prevent_Recurrence.cs" />
