@@ -5,6 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Language" content="zh-CN"/>
 	<title></title>
 	<script src="../VendorAssess/Script/jquery-3.2.1.min.js"></script>
 	<script src="../VendorAssess/Script/layui/layui.js"></script>
@@ -124,17 +125,24 @@
 			}
 		}
 
+		function itemChange() {
+			__myDoPostBack('DropDownList1', '');
+		}
 
 	</script>
 </head>
 <body>
-	<form id="form1" class="layui-form" runat="server">
+	
+	<form id="form1" runat="server">
+		
 		<div class="layui-form-item" style="width: 80%; margin: 0 auto;">
-
+			<fieldset class="layui-field-title layui-elem-field" style="margin: 50px auto 20px auto;">
+				<legend id="Legend1" runat="server">SKU选择：</legend>
+			</fieldset>
 			<label class="layui-form-label" style="width: 200px">请选择SKU：</label>
-			<asp:DropDownList lay-verify="required" lay-search="" ID="DropDownList1" runat="server" AutoPostBack="True" AppendDataBoundItems="True">
+			
+			<asp:DropDownList lay-verify="required" lay-search="" ID="DropDownList1" AutoPostBack="true" runat="server"  Height="40px" onchange="itemChange();" Width="137px" >
 			</asp:DropDownList>
-
 		</div>
 		<div class="layui-form-item" style="width: 80%; margin: 0 auto;">
 
@@ -143,7 +151,7 @@
 				<legend id="Inspection" runat="server">检测项：</legend>
 			</fieldset>
 			<asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true"></asp:ScriptManager>
-			<asp:UpdatePanel ID="UpdatePanel1" UpdateMode="Conditional" runat="server" ChildrenAsTriggers="false">
+			<asp:UpdatePanel ID="UpdatePanel1" UpdateMode="Conditional" runat="server" >
 				<ContentTemplate>
 					<asp:GridView Style="margin: 0 auto; width: 50%" class="layui-table" lay-even="" lay-skin="nob" ID="GridView1" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4">
 						<Columns>
@@ -173,10 +181,19 @@
 						<SortedDescendingCellStyle BackColor="#F6F0C0" />
 						<SortedDescendingHeaderStyle BackColor="#7E0000" />
 					</asp:GridView>
+					
 				</ContentTemplate>
-
+				<Triggers>
+                    <asp:AsyncPostBackTrigger ControlID="Button1" 
+                    EventName="Click" />
+					<asp:AsyncPostBackTrigger ControlID="Button2" 
+                    EventName="Click" />
+					<asp:AsyncPostBackTrigger ControlID="Button3" 
+                    EventName="Click" />
+                </Triggers>
 			</asp:UpdatePanel>
 		</div>
+		
 		<div class="layui-form" style="width: 80%; margin: 0 auto;">
 			<fieldset class="layui-field-title layui-elem-field" style="margin: 50px auto 20px auto;">
 				<legend id="Legend2" runat="server">修改检测项：</legend>

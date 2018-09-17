@@ -29,9 +29,9 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 if(check == false)
                 {
                     QT_SCAR newSCAR = new QT_SCAR();
-                    newSCAR.Factory = "上海科勒";
-                    newSCAR.Batch_No = "111111";
-                    newSCAR.Vendor_Code = "2221313";
+                    newSCAR.Factory = Session["Factory_Name"].ToString();
+                    newSCAR.Batch_No = Request.QueryString["batch_no"];
+                    newSCAR.Vendor_Code = Request.QueryString["vendor_code"];
                     newSCAR.Flag = 0;           //表示未填写
 
                     int n = SCAR_BLL.addSCAR(newSCAR);
@@ -42,7 +42,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                     }
                     else
                     {
-                        string formID =  SCAR_BLL.getSCARFormID("2221313","上海科勒","111111");
+                        string formID =  SCAR_BLL.getSCARFormID(newSCAR);
                         ViewState.Add("form_ID", formID);
                     }
                 }
@@ -225,9 +225,6 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             QT_SCAR newSCAR = new QT_SCAR();
             newSCAR = getSCAR();
             newSCAR.Form_ID = Convert.ToString(ViewState["form_ID"]);
-            newSCAR.Factory = "上海科勒";
-            newSCAR.Batch_No = "111111";
-            newSCAR.Vendor_Code = "2221313";
             newSCAR.Flag = flag;
             SCAR_BLL.updateSCAR(newSCAR);
             

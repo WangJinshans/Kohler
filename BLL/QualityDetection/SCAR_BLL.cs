@@ -25,9 +25,9 @@ namespace BLL.QualityDetection
             return SCAR_DAL.addSCAR(qtSCAR);
         }
 
-        public static string getSCARFormID(string Vendor_Code, string Factory, string Batch_No)
+        public static string getSCARFormID(QT_SCAR SCAR)
         {
-            return SCAR_DAL.getSCARFormID(Vendor_Code, Factory, Batch_No);
+            return SCAR_DAL.getSCARFormID(SCAR);
         }
 
         public static void updateSCAR(QT_SCAR qtSCAR)
