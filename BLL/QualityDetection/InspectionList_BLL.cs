@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Data;
 
 namespace BLL.QualityDetection
 {
@@ -77,5 +78,24 @@ namespace BLL.QualityDetection
             return InspectionList_DAL.updateFormID(batch_no, form_ID);
         }
 
-    }
+
+
+		/// <summary>
+		///按照添加时间来进行数据的查询
+		/// </summary>
+		/// <param name="addtime"></param>
+		/// <returns></returns>
+		public static DataTable selectListItem(string addtime)          
+		{
+			return InspectionList_DAL.selectListItem(addtime);
+		}
+
+		public static void selectListItem1(string addtime)
+		{
+			InspectionList_DAL.selectListItem2(addtime);
+		}
+
+		
+
+	}
 }
