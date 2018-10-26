@@ -482,6 +482,7 @@
     <Content Include="VendorQualityDetection\Scripts\fine-uploader\templates\simple-thumbnails.html" />
     <Content Include="VendorQualityDetection\Scripts\fine-uploader\trash.gif" />
     <Content Include="VendorQualityDetection\SelectLab.aspx" />
+    <Content Include="VendorQualityDetection\ShowInspectionList.aspx" />
     <Content Include="VendorQualityDetection\ShowSurveyReport.aspx" />
     <Content Include="VendorQualityDetection\SurveyReport.aspx" />
     <Content Include="VendorQualityDetection\ThirdPartySubmit.aspx" />
@@ -643,6 +644,13 @@
     </Compile>
     <Compile Include="VendorQualityDetection\SelectLab.aspx.designer.cs">
       <DependentUpon>SelectLab.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorQualityDetection\ShowInspectionList.aspx.cs">
+      <DependentUpon>ShowInspectionList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorQualityDetection\ShowInspectionList.aspx.designer.cs">
+      <DependentUpon>ShowInspectionList.aspx</DependentUpon>
     </Compile>
     <Compile Include="VendorQualityDetection\ShowSurveyReport.aspx.cs">
       <DependentUpon>ShowSurveyReport.aspx</DependentUpon>

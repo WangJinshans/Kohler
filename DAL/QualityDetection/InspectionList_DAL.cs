@@ -56,6 +56,7 @@ namespace DAL.QualityDetection
             return DBHelp.ExecuteCommand(sql, sp);
         }
 
+
         public static int updateChargeMan(string batch_no, string clerk)
         {
             string sql = "update QT_Inspection_List set Employee_ID=@Employee_ID where Batch_No=@Batch_No";
@@ -67,4 +68,33 @@ namespace DAL.QualityDetection
             return DBHelp.ExecuteCommand(sql, sp);
         }
     }
+		public static DataTable selectListItem(string addtime)
+		{
+			string sql = "select distinct a.Product_Describes,b.Temp_Vendor_Name,a.[Go],a.[To],a.Form_ID,a.Status,a.Add_Time "+
+							"from QT_Inspection_List a,As_Temp_Vendorchange b " +
+							"where a.Vendor_Code = b.Normal_Vendor_ID and a.Add_Time like @Add_Time";
+			SqlParameter[] sp = new SqlParameter[]
+			{
+				new SqlParameter("@Add_Time",addtime+"%"),
+			};
+		
+			return DBHelp.GetDataSet(sql, sp);
+		}
+
+		public static void selectListItem2(string addtime)
+		{
+			string sql = "select distinct a.Product_Describes,b.Temp_Vendor_Name,a.[Go],a.[To],a.Form_ID,a.Status,a.Add_Time " +
+							"from QT_Inspection_List a,As_Temp_Vendorchange b " +
+							"where a.Vendor_Code = b.Normal_Vendor_ID and a.Add_Time like @Add_Time";
+			SqlParameter[] sp = new SqlParameter[]
+			{
+				new SqlParameter("@Add_Time",addtime+"%"),
+			};
+
+			 DBHelp.ExecuteCommand(sql, sp);
+		}
+
+
+	}
+
 }

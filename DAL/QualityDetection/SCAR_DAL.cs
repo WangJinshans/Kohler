@@ -11,15 +11,15 @@ namespace DAL.QualityDetection
     public class SCAR_DAL
     {
  
-        public static string getSCARFormID(string Vendor_Code,string Factory,string Batch_No)
+        public static string getSCARFormID(QT_SCAR SCAR)
         {
             string formID = "";
             string sql = "select Form_ID from QT_SCAR where Factory = @Factory and Batch_No = @Batch_No and Vendor_Code = @Vendor_Code  ";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("Factory",Factory),
-                new SqlParameter("Batch_No", Batch_No),
-                new SqlParameter("Vendor_Code",Vendor_Code)
+                new SqlParameter("Factory",SCAR.Factory),
+                new SqlParameter("Batch_No", SCAR.Batch_No),
+                new SqlParameter("Vendor_Code",SCAR.Vendor_Code)
                
             };
             DataTable tb = DBHelp.GetDataSet(sql, sp);

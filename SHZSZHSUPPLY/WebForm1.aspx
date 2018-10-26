@@ -237,6 +237,7 @@
                                 <li><a href="VendorQualityDetection/QualityClerkOperateList.aspx" id="zhiliang" target="iFrame1">委托检验--文员</a></li>
                                 <li><a href="VendorQualityDetection/LabInspectionList.aspx" id="weituo" target="iFrame1">委托检验--实验室</a></li>
                                 <li><a href="VendorQualityDetection/InspectionItemIorD.aspx" id="engineer" target="iFrame1">工程师</a></li>
+								<li><a href="VendorQualityDetection/ShowInspectionList.aspx" id="show" target="iFrame1">工程师</a></li>
                             </ul>
                         </li>
                         <li><a href="#" style="text-align: center">价格走势</a>

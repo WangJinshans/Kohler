@@ -221,6 +221,15 @@
             thisWindow.style.height = this.document.body.scrollHeight + 180 + "px";//调整页面
             showAllText();
         }
+		}
+
+		function initializeData() {
+
+			var batch_no = document.getElementById("TextBox1").value;
+			var vendor_code = document.getElementById("TextBox4").value;
+			location.href = "SCAR.aspx?batch_no=" + batch_no + "&vendor_code=" + vendor_code;
+
+		}
     </script>
 </head>
 <body>
@@ -245,6 +254,7 @@
                 </tr>
                 <tr>
                     <td colspan="1">链接:</td>
+
                     <td colspan="8"><a id="map" runat="server">图纸连接</a>
                         <label onclick="initMap()">图纸连接</label>
                     </td>
@@ -343,7 +353,7 @@
                 </asp:Repeater>
                 <tr>
                     <td colspan="3" rowspan="2">检验结论:</td>
-                    <td colspan="7" id="qualified" rowspan="2">
+                    <td colspan="6" id="qualified" rowspan="2">
                         <%--<asp:DropDownList ID="qualified_list" OnSelectedIndexChanged="qualified_list_SelectedIndexChanged" AutoPostBack="true" runat="server">
                             <asp:ListItem Text="" />
                             <asp:ListItem Text="不合格" />
@@ -393,6 +403,7 @@
                 <tr id="mbr_part" style="display:none;">
                     <td rowspan="2">按MRB结论处置结果</td>
                     <td colspan="5" id="mbr_list_td" rowspan="2">
+
                         <asp:Label Text="" ID="mbr_result" runat="server" />
                     </td>
                     <td colspan="3" id="receive_lable" style="display: none;">接收数量</td>
