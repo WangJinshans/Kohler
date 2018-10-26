@@ -21,10 +21,26 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             if (!IsPostBack)
             {
                 getInspectionData();
+                getSKUList();
             }
             else
             {
-                getInspectionData();
+                
+                switch (Request["__EVENTTARGET"])
+                {
+					case "Button1":
+						{
+							Button1_Click();
+							break;
+						}
+                    case "Button2":
+                        {
+                            Button2_Click();   
+                            break;
+                        }
+                    default:
+                        break;
+                }
             }
 
             SKU_List.DataSource = Material_Inspection_Item_BLL.getSKUList();
@@ -40,7 +56,17 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             GridView1.DataBind();
         }
 
-        protected void Button1_Click(object sender, EventArgs e)
+        private void getSKUList()
+        {
+            DataTable SKUList;
+            SKUList = SurveyReport_BLL.getSKUList();
+            DropDownList1.Items.Clear();
+            DropDownList1.DataSource = SKUList.DefaultView;
+            DropDownList1.DataBind();
+
+        }
+
+        protected void Button1_Click()
         {
             string sku = Convert.ToString(ViewState["SKU"]);
             string item = TextBox1.Text.ToString().Trim();
@@ -59,12 +85,13 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             UpdatePanel1.Update();
         }
 
-        protected void Button2_Click(object sender, EventArgs e)
+        protected void Button2_Click()
         {
 
             string sku = Convert.ToString(ViewState["SKU"]);
             string item = TextBox1.Text.ToString().Trim();
             string standard = TextBox2.Text.ToString().Trim();
+            
             if (standard == "请输入标准" || standard == "")
             {
                 SurveyReport_BLL.deleteInspectionItem(sku, item);

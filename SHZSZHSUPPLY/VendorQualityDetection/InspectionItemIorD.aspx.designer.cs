@@ -22,7 +22,9 @@ namespace SHZSZHSUPPLY.VendorQualityDetection {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
+
         /// SKU_List 控件。
+  
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。

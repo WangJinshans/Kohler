@@ -452,6 +452,7 @@
     <Content Include="VendorQualityDetection\MBRAppliy.aspx" />
     <Content Include="VendorQualityDetection\MBRList.aspx" />
     <Content Include="VendorQualityDetection\QualityClerkOperateList.aspx" />
+    <Content Include="VendorQualityDetection\RequisitionForTest.aspx" />
     <Content Include="VendorQualityDetection\SCAR.aspx" />
     <Content Include="VendorQualityDetection\Scripts\commonUtil.js" />
     <Content Include="VendorQualityDetection\Scripts\fine-uploader\continue.gif" />
@@ -621,6 +622,13 @@
     </Compile>
     <Compile Include="VendorQualityDetection\QualityClerkOperateList.aspx.designer.cs">
       <DependentUpon>QualityClerkOperateList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorQualityDetection\RequisitionForTest.aspx.cs">
+      <DependentUpon>RequisitionForTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorQualityDetection\RequisitionForTest.aspx.designer.cs">
+      <DependentUpon>RequisitionForTest.aspx</DependentUpon>
     </Compile>
     <Compile Include="VendorQualityDetection\SCAR.aspx.cs">
       <DependentUpon>SCAR.aspx</DependentUpon>

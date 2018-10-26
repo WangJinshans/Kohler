@@ -276,7 +276,6 @@ namespace BLL.QualityDetection
             return SurveyReport_DAL.haveInsectionItem(SKU, Item);
         }
 
-
         public static string getAddPermission(string form_ID)
         {
             return SurveyReport_DAL.getAddPermission(form_ID);
@@ -290,6 +289,10 @@ namespace BLL.QualityDetection
         public static void updateAddPermission(string form_ID, string newFormID)
         {
             SurveyReport_DAL.updateAddPermission(form_ID, newFormID);
+        }
+        public static DataTable getSKUList()
+        {
+            return SurveyReport_DAL.getSKUList();
         }
     }
 }

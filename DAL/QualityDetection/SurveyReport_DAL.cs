@@ -566,5 +566,16 @@ namespace DAL.QualityDetection
             DBHelp.ExecuteCommand(sql, sp);
 
         }
+
+        public static DataTable getSKUList()
+        {
+            string sql = "select distinct SKU from QT_Material_Inspection_Item";
+            DataTable table = DBHelp.GetDataSet(sql);
+            if (table.Rows.Count > 0)
+            {
+                return table;
+            }
+            return null;
+        }
     }
 }
