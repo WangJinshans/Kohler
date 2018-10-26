@@ -128,7 +128,11 @@
 		function itemChange() {
 			__myDoPostBack('DropDownList1', '');
 		}
-
+		window.onload = function () {
+		    var thisWindow = parent.document.getElementById('iFrame1');
+		    thisWindow.style.height = this.document.body.scrollHeight + 150 + "px";//调整页面
+		    showAllText();
+		}
 	</script>
 </head>
 <body>
@@ -211,7 +215,7 @@
 		</div>
 		<div style="text-align: center">
 
-			<asp:Button ID="Button4" runat="server" Text="返回" class="layui-btn layui-btn-warm layui-btn-big" OnClick="Back_Click" />
+			<asp:Button ID="Button4" runat="server" Text="返回" class="layui-btn layui-btn-warm layui-btn-big" OnClick="Button4_Click" />
 		</div>
 	</form>
 
