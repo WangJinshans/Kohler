@@ -21,7 +21,7 @@ namespace SHZSZHSUPPLY.QualityDetection.Utils
         {
             string strConn = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + path + ";Extended Properties=Excel 12.0;";
             DataSet ds = new DataSet();
-            OleDbDataAdapter oada = new OleDbDataAdapter("select top 1 * from [Sheet1$]", strConn);
+            OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", strConn);
             oada.Fill(ds,"table");
             return ds;
         }

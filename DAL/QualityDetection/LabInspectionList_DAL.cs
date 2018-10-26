@@ -23,7 +23,7 @@ namespace DAL.QualityDetection
             {
                 labName = "铸铁";
             }
-            string sql = "select * from QT_ConsignmentInspection where Lab_Name=@Lab_Name and Factory_Name=@Factory_Name";
+            string sql = "select * from QT_ConsignmentInspection where Lab_Name=@Lab_Name and Factory_Name=@Factory_Name and Status<>'已完成'";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Lab_Name",labName),
@@ -53,19 +53,34 @@ namespace DAL.QualityDetection
             return list;
         }
 
-        public static int updateStatus(string batch_no)
+        public static int updateStatus(string batch_no,string status)
         {
-            string sql = "update QT_ConsignmentInspection set Status='已完成' where Batch_No=@Batch_No";
+            string sql = "update QT_ConsignmentInspection set Status=@Status where Batch_No=@Batch_No";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("@Batch_No",batch_no)
+                new SqlParameter("@Batch_No",batch_no),
+                new SqlParameter("@Status",status)
             };
             return DBHelp.ExecuteCommand(sql, sp);
         }
 
+        public static int updateStatus(string batch_no, string status,string remark)
+        {
+            string sql = "update QT_ConsignmentInspection set Remark=@Remark,Status=@Status where Batch_No=@Batch_No";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Batch_No",batch_no),
+                new SqlParameter("@Remark",remark),
+                new SqlParameter("@Status",status)
+
+            };
+            return DBHelp.ExecuteCommand(sql, sp);
+        }
+
+
         public static int addConsignmentInspection(ConsignmentInspection inspection)
         {
-            string sql = "insert into QT_ConsignmentInspection(Batch_No,Consignment_KO,SKU,Product_Name,Vendor_Name,Amount,Arrave_Time,Factory_Name)values(@Batch_No,@Consignment_KO,@SKU,@Product_Name,@Vendor_Name,@Amount,@Arrave_Time,@Factory_Name)";
+            string sql = "insert into QT_ConsignmentInspection(Batch_No,Consignment_KO,SKU,Product_Name,Vendor_Name,Amount,Arrave_Time,Lab_Name,Factory_Name)values(@Batch_No,@Consignment_KO,@SKU,@Product_Name,@Vendor_Name,@Amount,@Arrave_Time,@Lab_Name,@Factory_Name)";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Batch_No",inspection.Batch_No),

@@ -10,6 +10,7 @@
     <script src="../VendorAssess/Script/jquery-3.2.1.min.js"></script>
     <script src="../VendorAssess/Script/layui/layui.js"></script>
     <script src="../VendorAssess/Script/Own/fileUploader.js"></script>
+    <script src="../Scripts/common/commonUtils.js"></script>
 </head>
 <body>
     <form id="form1" runat="server">

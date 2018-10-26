@@ -27,3 +27,22 @@ function reInspectionTips(msg) {
         });
     });
 }
+
+
+function mytips(msg) {
+    layui.use('form', function () {
+        var layer = layui.layer;
+        layer.msg(msg);
+    });
+}
+
+function mytips_then_back(msg, url) {
+    layui.use('form', function () {
+        var layer = layui.layer;
+        layer.msg(msg, {
+            time: 3000
+        }, function () {
+            location.href = url;
+        })
+    })
+}

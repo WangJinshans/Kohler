@@ -49,6 +49,15 @@ namespace SHZSZHSUPPLY.VendorQualityDetection {
         protected global::System.Web.UI.WebControls.Label lb_broken;
         
         /// <summary>
+        /// map 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor map;
+        
+        /// <summary>
         /// TextBox2 控件。
         /// </summary>
         /// <remarks>
@@ -103,6 +112,15 @@ namespace SHZSZHSUPPLY.VendorQualityDetection {
         protected global::System.Web.UI.WebControls.TextBox TextBox7;
         
         /// <summary>
+        /// lb_region 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lb_region;
+        
+        /// <summary>
         /// appearance_amount 控件。
         /// </summary>
         /// <remarks>
@@ -118,7 +136,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection {
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label appearance_bad;
+        protected global::System.Web.UI.WebControls.TextBox appearance_bad;
         
         /// <summary>
         /// suitability_amount 控件。
@@ -136,7 +154,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection {
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label suitability_bad;
+        protected global::System.Web.UI.WebControls.TextBox suitability_bad;
         
         /// <summary>
         /// appearance_detail 控件。
@@ -166,6 +184,33 @@ namespace SHZSZHSUPPLY.VendorQualityDetection {
         protected global::System.Web.UI.WebControls.Repeater Repeater1;
         
         /// <summary>
+        /// qualified_list 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlSelect qualified_list;
+        
+        /// <summary>
+        /// unqualified_type_list 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlSelect unqualified_type_list;
+        
+        /// <summary>
+        /// remark 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox remark;
+        
+        /// <summary>
         /// mbr_result 控件。
         /// </summary>
         /// <remarks>
@@ -173,6 +218,24 @@ namespace SHZSZHSUPPLY.VendorQualityDetection {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label mbr_result;
+        
+        /// <summary>
+        /// rcm 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox rcm;
+        
+        /// <summary>
+        /// rjm 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox rjm;
         
         /// <summary>
         /// addItem 控件。

@@ -443,6 +443,8 @@
     <Content Include="VendorAssess\VendorSelection.aspx" />
     <Content Include="VendorAssess\VendorSharedUse.aspx" />
     <Content Include="VendorAssess\VendorModifyInfo.aspx" />
+    <Content Include="VendorQualityDetection\Html\itemAdd.html" />
+    <Content Include="VendorQualityDetection\Html\Mail_Template.html" />
     <Content Include="VendorQualityDetection\InspectionItemIorD.aspx" />
     <Content Include="VendorQualityDetection\InspectionList.aspx" />
     <Content Include="VendorQualityDetection\LabInspectionList.aspx" />
@@ -1063,7 +1065,6 @@
     <Folder Include="jsddm.0.25\pic\" />
     <Folder Include="Upload\" />
     <Folder Include="VendorAssess\TEST\TransferTemp\" />
-    <Folder Include="VendorQualityDetection\Html\" />
     <Folder Include="VendorQualityDetection\upload\" />
   </ItemGroup>
   <ItemGroup>

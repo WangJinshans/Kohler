@@ -1,5 +1,7 @@
 ﻿using BLL;
 using BLL.QualityDetection;
+using MODEL.QualityDetection;
+using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,14 +19,223 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             if (!IsPostBack)
             {
                 getSessionInfo();
+                //获取该报告
+                initSurvey();
             }
             else
-            {
+            {  
 
             }
         }
 
+        private void initSurvey()
+        {
+            string form_ID = Convert.ToString(ViewState["form_ID"]);
 
+            Repeater1.DataSource = SurveyReport_BLL.getInspectionAndDatas(form_ID);
+            Repeater1.DataBind();
+
+            QT_Survey survey = SurveyReport_BLL.getSurveyReport(form_ID);
+
+            lb_batch.Text = survey.Batch_No;
+            lb_product_name.Text = survey.Product_Name;
+            lb_sku.Text = survey.SKU;
+            lb_vendor_code.Text = survey.Vendor_Code;
+            lb_purachseNo.Text = survey.Purchase_No;
+            lb_amount.Text = survey.Amount;
+            lb_arrivetime.Text = survey.Arrave_Time;
+            lb_region.Text = "泰国";
+
+            lb_result.Text = survey.Result;
+            lb_unqualifiedType.Text = survey.Un_Inspection_Type;
+            lb_rc.Text = survey.RC;
+            lb_rj.Text = survey.RJ;
+
+            lb_suitability_amount.Text = survey.Suitability_Amount;
+            lb_suitability_bad.Text = survey.Suitability_Bad;
+            lb_suitability_detail.Text = survey.Suitability_Details;
+
+            lb_surface_amount.Text = survey.Sureface_Amount;
+            lb_surface_bad.Text = survey.Sureface_Bad;
+            lb_surface_detail.Text = survey.Sureface_Details;
+
+            lb_remark.Text = survey.Remark;
+
+
+            //初始化其他MBR的裁定结果
+            MBRSingleChoice choice = MBR_BLL.getEveryOneChoice(form_ID);
+
+            if (choice != null)
+            {
+                if (choice.Purchase_Manager != "")
+                {
+                    if (choice.Purchase_Manager.Equals("0"))
+                    {
+                        purchase_manager.Text = "退货";
+                    }
+                    else if (choice.Purchase_Manager.Equals("1"))
+                    {
+                        purchase_manager.Text = "让步接收";
+                    }
+                    else if (choice.Purchase_Manager.Equals("2"))
+                    {
+                        purchase_manager.Text = "返工";
+                    }
+                    else if (choice.Purchase_Manager.Equals("3"))
+                    {
+                        purchase_manager.Text = "挑选全检";
+                    }
+                }
+
+                if (choice.Logistics_Manager != "")
+                {
+                    if (choice.Logistics_Manager.Equals("0"))
+                    {
+                        logistics_manager.Text = "退货";
+                    }
+                    else if (choice.Logistics_Manager.Equals("1"))
+                    {
+                        logistics_manager.Text = "让步接收";
+                    }
+                    else if (choice.Logistics_Manager.Equals("2"))
+                    {
+                        logistics_manager.Text = "返工";
+                    }
+                    else if (choice.Logistics_Manager.Equals("3"))
+                    {
+                        logistics_manager.Text = "挑选全检";
+                    }
+                }
+
+
+                if (choice.Product_Manager != "")
+                {
+                    if (choice.Product_Manager.Equals("0"))
+                    {
+                        product_manager.Text = "退货";
+                    }
+                    else if (choice.Product_Manager.Equals("1"))
+                    {
+                        product_manager.Text = "让步接收";
+                    }
+                    else if (choice.Product_Manager.Equals("2"))
+                    {
+                        product_manager.Text = "返工";
+                    }
+                    else if (choice.Product_Manager.Equals("3"))
+                    {
+                        product_manager.Text = "挑选全检";
+                    }
+                }
+
+
+                if (choice.Market_Manager != "")
+                {
+                    if (choice.Market_Manager.Equals("0"))
+                    {
+                        market_manager.Text = "退货";
+                    }
+                    else if (choice.Market_Manager.Equals("1"))
+                    {
+                        market_manager.Text = "让步接收";
+                    }
+                    else if (choice.Market_Manager.Equals("2"))
+                    {
+                        market_manager.Text = "返工";
+                    }
+                    else if (choice.Market_Manager.Equals("3"))
+                    {
+                        market_manager.Text = "挑选全检";
+                    }
+                }
+
+
+                if (choice.Project_Manager != "")
+                {
+                    if (choice.Project_Manager.Equals("0"))
+                    {
+                        project_manager.Text = "退货";
+                    }
+                    else if (choice.Project_Manager.Equals("1"))
+                    {
+                        project_manager.Text = "让步接收";
+                    }
+                    else if (choice.Project_Manager.Equals("2"))
+                    {
+                        project_manager.Text = "返工";
+                    }
+                    else if (choice.Project_Manager.Equals("3"))
+                    {
+                        project_manager.Text = "挑选全检";
+                    }
+                }
+
+
+                if (choice.Quiltty_Manager != "")
+                {
+                    if (choice.Quiltty_Manager.Equals("0"))
+                    {
+                        quilty_manager.Text = "退货";
+                    }
+                    else if (choice.Quiltty_Manager.Equals("1"))
+                    {
+                        quilty_manager.Text = "让步接收";
+                    }
+                    else if (choice.Quiltty_Manager.Equals("2"))
+                    {
+                        quilty_manager.Text = "返工";
+                    }
+                    else if (choice.Quiltty_Manager.Equals("3"))
+                    {
+                        quilty_manager.Text = "挑选全检";
+                    }
+                }
+
+
+                if (choice.General_Manager != "")
+                {
+                    if (choice.General_Manager.Equals("0"))
+                    {
+                        final_select.Text = "退货";
+                    }
+                    else if (choice.General_Manager.Equals("1"))
+                    {
+                        final_select.Text = "让步接收";
+                    }
+                    else if (choice.General_Manager.Equals("2"))
+                    {
+                        final_select.Text = "返工";
+                    }
+                    else if (choice.General_Manager.Equals("3"))
+                    {
+                        final_select.Text = "挑选全检";
+                    }
+                }
+
+
+                if (choice.Chief_Manager != "")
+                {
+                    if (choice.Product_Manager.Equals("0"))
+                    {
+                        final_select.Text = "退货";
+                    }
+                    else if (choice.Product_Manager.Equals("1"))
+                    {
+                        final_select.Text = "让步接收";
+                    }
+                    else if (choice.Product_Manager.Equals("2"))
+                    {
+                        final_select.Text = "返工";
+                    }
+                    else if (choice.Product_Manager.Equals("3"))
+                    {
+                        final_select.Text = "挑选全检";
+                    }
+                }
+
+            }
+
+        }
 
         private void getSessionInfo()
         {
@@ -50,7 +261,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             string form_ID = Convert.ToString(ViewState["form_ID"]);
             string choice = "";
 
-            if (position_Name.Equals("采购部经理"))//采购经理
+            if (position_Name.Equals("采购部经理")|| position_Name.Equals("供应链经理"))//采购经理
             {
                 choice = Convert.ToString(purchase_manager.SelectedIndex);
             }
@@ -92,7 +303,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 MBR_BLL.setMBRResult(form_ID, result);
 
                 //显示MBR 结论
-                mbr_result.Text = result;
+                lb_mbr_result.Text = result;
 
                 makeChoice(choice, Employee_BLL.getEmployeePositionName(Session["Employee_ID"].ToString()), form_ID);
 
@@ -103,8 +314,6 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             //判断是否意见已经统一
             if (MBR_BLL.isMeetAgrement(Convert.ToString(ViewState["form_ID"])))
             {
-                //设置报告完成
-
                 //设置MBR的结论 
 
                 //发送邮件 通知检验员 或者 质量部文员 去InspectionList.aspx中完成调查报告的提交
@@ -114,6 +323,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             }
 
             //提示 操作成功  返回刷新
+            LocalScriptManager.CreateScript(Page, String.Format("mytips_the_back('{0}','{1}')", "操作成功", "MBRList.aspx"), "back");
         }
 
         /// <summary>
@@ -133,7 +343,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 quilty_manager.Enabled = false;
                 final_select.Enabled = false;
             }
-            else if (position_Name.Equals("采购部经理"))//采购经理
+            else if (position_Name.Equals("采购部经理")|| position_Name.Equals("供应链经理"))//采购经理
             {
                 logistics_manager.Enabled = false;
                 product_manager.Enabled = false;
@@ -153,15 +363,30 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             }
             else if (position_Name.Equals("生产部经理"))//生产部经理
             {
-
+                purchase_manager.Enabled = false;
+                logistics_manager.Enabled = false;
+                market_manager.Enabled = false;
+                project_manager.Enabled = false;
+                quilty_manager.Enabled = false;
+                final_select.Enabled = false;
             }
             else if (position_Name.Equals("市场部经理"))//市场部经理
             {
-
+                purchase_manager.Enabled = false;
+                logistics_manager.Enabled = false;
+                product_manager.Enabled = false;
+                project_manager.Enabled = false;
+                quilty_manager.Enabled = false;
+                final_select.Enabled = false;
             }
             else if (position_Name.Equals("项目部经理"))//项目部经理
             {
-
+                purchase_manager.Enabled = false;
+                logistics_manager.Enabled = false;
+                product_manager.Enabled = false;
+                market_manager.Enabled = false;
+                quilty_manager.Enabled = false;
+                final_select.Enabled = false;
             }
             else if (position_Name.Equals("质量部经理"))//质量部经理
             {
@@ -231,7 +456,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             string result = final_select.SelectedValue;
 
             //显示MBR 结论
-            mbr_result.Text = result;
+            lb_mbr_result.Text = result;
         }
 
         private void makeChoice(string choice,string position_Name,string form_ID)
@@ -241,6 +466,17 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
         protected void Repeater1_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
+
+        }
+
+        protected void final_select_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string result = Convert.ToString(final_select.SelectedIndex);
+
+            //显示MBR 结论
+            lb_mbr_result.Text = final_select.SelectedValue;
+
+            MBR_BLL.setMBRResult(Convert.ToString(ViewState["form_ID"]), result);
 
         }
     }

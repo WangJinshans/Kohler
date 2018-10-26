@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+	<meta charset="utf-8" />
+    <script src="../../VendorAssess/Script/jquery-3.2.1.min.js"></script>
+    <script src="../../VendorAssess/Script/layui/layui.js"></script>
+    <link href="../../VendorAssess/Script/layui/css/layui.css" rel="stylesheet" />
+    <script src="../../VendorAssess/Script/Own/fileUploader.js"></script>
+    <script>
+        function close_myself() {
+
+        }
+    </script>
+</head>
+<body>
+    <form class="layui-form" id="form1">
+        <div class="layui-form-item">
+            <label style="width:100px;" class="layui-form-label">请输入检验项目</label>
+            <div class="layui-input-block">
+                <input id="inspectionItem" style="width:300px;" name="title" class="layui-input" type="text" placeholder="请输入检验项目" autocomplete="off" lay-verify="title">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label style="width:100px;" class="layui-form-label">请输入检验标准</label>
+            <div class="layui-input-block">
+                <input id="inspectionStandard" name="username" style="width:300px;" class="layui-input" type="text" placeholder="请输入检验标准" autocomplete="off" lay-verify="required">
+            </div>
+        </div>
+
+    </form>
+</body>
+</html>

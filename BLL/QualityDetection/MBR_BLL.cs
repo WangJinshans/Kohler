@@ -68,6 +68,11 @@ namespace BLL.QualityDetection
             return MBR_DAL.getMBRResult(form_ID);
         }
 
+        public static MBRSingleChoice getEveryOneChoice(string form_ID)
+        {
+            return MBR_DAL.getEveryOneChoice(form_ID);
+        }
+
         /// <summary>
         /// 查询是否需要MBR
         /// </summary>

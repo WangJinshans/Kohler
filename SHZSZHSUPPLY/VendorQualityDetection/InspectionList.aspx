@@ -59,6 +59,11 @@
         function refresh() {
             __myDoPostBack('fresh', '');
         }
+
+
+        window.onload = function () {
+            showAllText();
+        }
     </script>
 </head>
 <body>

@@ -43,7 +43,7 @@ namespace BLL.QualityDetection
 
 
         /// <summary>
-        /// 查询是否需要复检 
+        /// 查询是否需要复检 属于委托检验
         /// </summary>
         /// <param name="form_ID"></param>
         /// <returns></returns>

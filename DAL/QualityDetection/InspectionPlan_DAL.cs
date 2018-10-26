@@ -12,7 +12,7 @@ namespace DAL.QualityDetection
     {
         public static string getSampleCode(string classLeval, string amount)
         {
-            string sql = "select Sample_Code from QT_Amount_Leval where Class_Leval=@Class_Leval and Min_Count<@Min_Count and Max_Count>@Max_Count";
+            string sql = "select Sample_Code from QT_Amount_Leval where Class_Leval=@Class_Leval and Min_Count<=@Min_Count and Max_Count>=@Max_Count";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Class_Leval",classLeval),

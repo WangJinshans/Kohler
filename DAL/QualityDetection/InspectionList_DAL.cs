@@ -55,5 +55,16 @@ namespace DAL.QualityDetection
             };
             return DBHelp.ExecuteCommand(sql, sp);
         }
+
+        public static int updateChargeMan(string batch_no, string clerk)
+        {
+            string sql = "update QT_Inspection_List set Employee_ID=@Employee_ID where Batch_No=@Batch_No";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Employee_ID",clerk),
+                new SqlParameter("@Batch_No",batch_no)
+            };
+            return DBHelp.ExecuteCommand(sql, sp);
+        }
     }
 }

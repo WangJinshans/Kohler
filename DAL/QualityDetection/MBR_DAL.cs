@@ -51,6 +51,32 @@ namespace DAL.QualityDetection
             return list;
         }
 
+        public static MBRSingleChoice getEveryOneChoice(string form_ID)
+        {
+            MBRSingleChoice choice = new MBRSingleChoice();
+            string sql = "select * from QT_MBR_Results where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",form_ID)
+            };
+            DataTable table = DBHelp.GetDataSet(sql, sp);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    choice.Purchase_Manager = Convert.ToString(dr["Purchase_Manager"]);
+                    choice.Logistics_Manager = Convert.ToString(dr["Logistics_Manager"]);
+                    choice.Product_Manager = Convert.ToString(dr["Product_Manager"]);
+                    choice.Market_Manager = Convert.ToString(dr["Market_Manager"]);
+                    choice.Project_Manager = Convert.ToString(dr["Project_Manager"]);
+                    choice.Quiltty_Manager = Convert.ToString(dr["Quiltty_Manager"]);
+                    choice.General_Manager = Convert.ToString(dr["General_Manager"]);
+                    choice.Chief_Manager = Convert.ToString(dr["Chief_Manager"]);
+                }
+            }
+            return choice;
+        }
+
         public static string getMBRResult(string form_ID)
         {
             string result = "";
@@ -67,6 +93,24 @@ namespace DAL.QualityDetection
                     result = Convert.ToString(dr["Result"]);
                 }
             }
+
+            if (result == "0")
+            {
+                result = "让步接收";
+            }
+            else if (result == "1")
+            {
+                result = "让步接收";
+            }
+            else if (result == "2")
+            {
+                result = "返工";
+            }
+            else
+            {
+                result = "挑选全检";
+            }
+
             return result;
         }
 

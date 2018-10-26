@@ -10,6 +10,7 @@
     <script src="../VendorAssess/Script/layui/layui.js"></script>
     <link href="../VendorAssess/Script/layui/css/layui.css" rel="stylesheet" />
     <script src="../VendorAssess/Script/Own/fileUploader.js"></script>
+    <script src="Scripts/commonUtil.js?v=1"></script>
     <style type="text/css">
         * {
             padding: 0px;
@@ -117,6 +118,14 @@
         function mrb_change() {
             __myDoPostBack("MBR_Change","")
         }
+
+
+        window.onload = function () {
+            var thisWindow = parent.document.getElementById('iFrame1');
+            thisWindow.style.height = this.document.body.scrollHeight + 150 + "px";//调整页面
+            showAllText();
+            console.log("iframe reformed");
+        }
     </script>
 </head>
 <body>
@@ -131,7 +140,8 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <asp:TextBox TextMode="MultiLine" BorderStyle="None" runat="server" ID="TextBox1" /></td>
+                        <asp:Label Text="text" ID="lb_batch" runat="server" />
+                    </td>
                     <td colspan="2">型式(破坏)检验</td>
                     <td colspan="1">NA</td>
                 </tr>
@@ -143,25 +153,34 @@
                 <tr>
                     <td colspan="1">物料名称</td>
                     <td colspan="2">
-                        <asp:TextBox TextMode="MultiLine" BorderStyle="None" runat="server" ID="TextBox2" /></td>
+                        <asp:Label Text="text" ID="lb_product_name" runat="server" />
+                    </td>
                     <td colspan="1">物料编号</td>
                     <td colspan="2">
-                        <asp:TextBox TextMode="MultiLine" BorderStyle="None" runat="server" ID="TextBox3" /></td>
+                        <asp:Label Text="text" ID="lb_sku" runat="server" />
+                    </td>
                     <td colspan="1">供应商名</td>
                     <td colspan="2">
-                        <asp:TextBox TextMode="MultiLine" BorderStyle="None" runat="server" ID="TextBox4" /></td>
+                        <asp:Label Text="text" ID="lb_vendor_code" runat="server" /> 
+                    </td>
                     <td colspan="1">Region market</td>
                 </tr>
                 <tr>
                     <td colspan="1">订单货号</td>
                     <td colspan="2">
-                        <asp:TextBox TextMode="MultiLine" BorderStyle="None" runat="server" ID="TextBox5" /></td>
+                        <asp:Label Text="text" ID="lb_purachseNo" runat="server" />
+                    </td>
                     <td colspan="1">数量/重量</td>
                     <td colspan="2">
-                        <asp:TextBox TextMode="MultiLine" BorderStyle="None" runat="server" ID="TextBox6" /></td>
+                        <asp:Label Text="text" ID="lb_amount" runat="server" />
+                    </td>
                     <td colspan="1">到货日期</td>
-                    <td colspan="2"></td>
-                    <td colspan="1">泰国</td>
+                    <td colspan="2">
+                        <asp:Label Text="text" ID="lb_arrivetime" runat="server" />
+                    </td>
+                    <td colspan="1">
+                        <asp:Label Text="text" ID="lb_region" runat="server" />
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="1">检验类型:</td>
@@ -179,20 +198,32 @@
                 <tr>
                     <td colspan="1" rowspan="2">表面质量检验</td>
                     <td colspan="1">检验数量:</td>
-                    <td colspan="1">xxxxxxx</td>
+                    <td colspan="1">
+                        <asp:Label Text="text" ID="lb_surface_amount" runat="server" />
+                    </td>
                     <td colspan="1">检出不良数:</td>
-                    <td colspan="1">xxxxxxx</td>
+                    <td colspan="1">
+                        <asp:Label Text="text" ID="lb_surface_bad" runat="server" />
+                    </td>
                     <td colspan="1" rowspan="2">适配性检验记录</td>
                     <td colspan="1">检验数量:</td>
-                    <td colspan="1">xxxxxxx</td>
+                    <td colspan="1">
+                        <asp:Label Text="text" ID="lb_suitability_amount" runat="server" />
+                    </td>
                     <td colspan="1">检出不良数:</td>
-                    <td colspan="1">xxxxxxx</td>
+                    <td colspan="1">
+                        <asp:Label Text="text" ID="lb_suitability_bad" runat="server" />
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="1">不良明细</td>
-                    <td colspan="3"></td>
+                    <td colspan="3">
+                        <asp:Label Text="text" ID="lb_surface_detail" runat="server" />
+                    </td>
                     <td colspan="1">不良明细</td>
-                    <td colspan="3"></td>
+                    <td colspan="3">
+                        <asp:Label Text="text" ID="lb_suitability_detail" runat="server" />
+                    </td>
                 </tr>
                 <asp:Repeater ID="Repeater1" OnItemDataBound="Repeater1_ItemDataBound" runat="server">
                     <HeaderTemplate>
@@ -208,26 +239,28 @@
                         <tr>
                             <td colspan="2"><%# Eval("Item") %></td>
                             <td colspan="2"><%# Eval("Standard") %></td>
-                            <td colspan="4">NNG</td>
-                            <td colspan="1">NG</td>
+                            <td colspan="4"><%# Eval("Result") %></td>
+                            <td colspan="1"><%# Eval("Judgement") %></td>
                         </tr>
                     </ItemTemplate>
                 </asp:Repeater>
                 <tr>
                     <td colspan="3" rowspan="2">检验结论:</td>
                     <td colspan="7" id="qualified" rowspan="2">
-                        <asp:Label Text="text" runat="server" />
+                        <asp:Label Text="text" ID="lb_result" runat="server" />
                     </td>
                     <td colspan="1" id="unqualified_type" style="display: none;" rowspan="1">不合格类型</td>
                 </tr>
                 <tr>
                     <td colspan="1" id="unqualified_list_td" style="display: none;" rowspan="1">
-                        <asp:Label Text="text" runat="server" />
+                        <asp:Label Text="text" ID="lb_unqualifiedType" runat="server" />
                     </td>
                 </tr>
                 <tr>
                     <td>备注:</td>
-                    <td colspan="9"></td>
+                    <td colspan="9">
+                        <asp:Label Text="text" ID="lb_remark" runat="server" />
+                    </td>
                 </tr>
                 <tr>
                     <td rowspan="2">按MRB结论处置结果</td>
@@ -235,11 +268,15 @@
                         <asp:Label Text="text" ID="mbr_list" runat="server" />
                     </td>
                     <td colspan="1" id="receive_lable" style="display: none;">接收数量</td>
-                    <td colspan="1" id="receive_text" style="display: none;"></td>
+                    <td colspan="1" id="receive_text" style="display: none;">
+                        <asp:Label Text="text" ID="lb_rc" runat="server" />
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="1" id="reject_lable" style="display: none;">拒收数量</td>
-                    <td colspan="1" id="reject_text" style="display: none;"></td>
+                    <td colspan="1" id="reject_text" style="display: none;">
+                        <asp:Label Text="text" ID="lb_rj" runat="server" />
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="10" style="font-size: 20px; font-weight: 800;">MBR意见</td>
@@ -326,7 +363,7 @@
                 <tr>
                     <td colspan="2" style="font-size: 20px; font-weight: 700;">MBR结论</td>
                     <td colspan="8">
-                        <asp:Label Text="" ID="mbr_result" runat="server" /></td>
+                        <asp:Label Text="" ID="lb_mbr_result" runat="server" /></td>
                 </tr>
             </table>
             <div style="text-align: center;">

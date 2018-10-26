@@ -29,7 +29,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 if(check == false)
                 {
                     QT_SCAR newSCAR = new QT_SCAR();
-                    newSCAR.Factory = "上海科勒";
+                    newSCAR.Factory = Convert.ToString(Session["Factory_Name"]);
                     newSCAR.Batch_No = "111111";
                     newSCAR.Vendor_Code = "2221313";
                     newSCAR.Flag = 0;           //表示未填写

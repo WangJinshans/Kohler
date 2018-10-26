@@ -5,6 +5,7 @@ using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -19,7 +20,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-          
+
             //需要MRB的检验报告 在MRB完成后 需要显示 MRB的结论部分
             //不需要 MRB的检验报告 不需要显示
             //最开始 进入的时候也不需要显示 
@@ -29,7 +30,15 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 getSessionInfo();
                 initSurveryReport();
                 showReport();
+                showInspectionValues(Convert.ToString(ViewState["form_ID"]));
+                if (Session["Factory_Name"].Equals("上海科勒"))
+                {
+                    map.HRef = "I:\\ShanghaiKohlerManagementSystem-All-needed\\system\\daily maintenance\\drawings link.htm";
+                }
+                else
+                {
 
+                }
                 //绩效评估部分的免检
 
             }
@@ -47,10 +56,35 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                         //免检
                         noCheck();
                         break;
+                    case "addItem":
+                        //添加检验项目 并且刷新 重新加载检验项
+                        addInspectionItem(Request.Form["__EVENTARGUMENT"]);
+                        break;
                     default:
                         break;
                 }
             }
+        }
+
+        private void showInspectionValues(string form_ID)
+        {
+            DataTable table = SurveyReport_BLL.showInspectionResults(form_ID);
+            List<InspectionResult> list = new List<InspectionResult>();
+            InspectionResult result = null;
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    result = new InspectionResult();
+                    result.Result = Convert.ToString(dr["Result"]);
+                    result.Judgement = Convert.ToString(dr["Judgement"]);
+                    list.Add(result);
+                }
+            }
+
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            string serializedJson = jss.Serialize(list);
+            LocalScriptManager.CreateScript(Page, String.Format("showInspectionResults('{0}')", serializedJson), "showResults");
         }
 
 
@@ -85,13 +119,17 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
         /// 默认该部分 display为 none
         /// 需要MBR 并且 MBR已经完成的 display为block
         /// </summary>
-        private void showMRBpart()
+        private void showMRBpart(string form_ID)
         {
-            string form_ID = Convert.ToString(ViewState["form_ID"]);
+
             if (MBR_BLL.isMBRNeeded(form_ID) && MBR_BLL.isMBRFinished(form_ID))
             {
-                //设置display 为block
-                LocalScriptManager.CreateScript(Page, "showMRB()", "showMRB");
+
+                //获取结论
+                string result = MBR_BLL.getMBRResult(form_ID);
+
+                //显示
+                LocalScriptManager.CreateScript(Page, String.Format("showMRB('{0}')", result), "showMRB");
             }
 
         }
@@ -115,7 +153,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
         private void initSurveryReport()
         {
             //根据物料编号 确定需要的检测项
-            DataTable source= SurveyReport_BLL.getInsectionItems(Convert.ToString(ViewState["sku"]));
+            DataTable source = SurveyReport_BLL.getInsectionItems(Convert.ToString(ViewState["sku"]));
             if (source == null)
             {
 
@@ -130,12 +168,38 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             TextBox2.Text = Convert.ToString(ViewState["product_Name"]);
             TextBox3.Text = Convert.ToString(ViewState["sku"]);
             TextBox4.Text = Convert.ToString(ViewState["vendor_Code"]);
+
             TextBox5.Text = Convert.ToString(ViewState["batch_No"]);
+
             TextBox6.Text = Convert.ToString(ViewState["Amount"]);
 
+            //Text 补全
+            string form_ID = Convert.ToString(ViewState["form_ID"]);
 
-            showMRBpart();
+            showMRBpart(form_ID);
             showReInspectionButton();
+
+            //如果该SKU不是第一次检验  则直接添加权限为false
+            if (Material_Inspection_Item_BLL.IsOld(Convert.ToString(ViewState["sku"])))
+            {
+                addItem.Visible = false;
+                SurveyReport_BLL.setAddPermission("false", form_ID);
+            }
+
+            //添加检验项按钮可见性
+            string permission = SurveyReport_BLL.getAddPermission(Convert.ToString(ViewState["form_ID"]));
+            if (permission.Equals("false"))
+            {
+                addItem.Visible = false;
+            }
+            else
+            {
+                //第一次的提示
+                LocalScriptManager.CreateScript(Page, String.Format("MRBtip('{0}')", "由于是第一次检验该物料，请先添加检验项目，第一次保存之后不可添加！"), "AddInspectionTip");
+            }
+            //图纸链接初始化
+            //LocalScriptManager.CreateScript(Page, String.Format("initMap('{0}')", Session["Factory_Name"].ToString()), "maps");
+            
         }
 
 
@@ -156,18 +220,25 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 //更新QT_Inspection_List绑定的form_ID
                 InspectionList_BLL.updateFormID(Convert.ToString(ViewState["batch_No"]), formID);
             }
-            //显示各个Item
-            InspectionPlanResult plan = makePlans(Convert.ToString(ViewState["vendor_Code"]), Convert.ToString(ViewState["batch_No"]), Convert.ToString(ViewState["sku"]), Convert.ToString(ViewState["Amount"]));
+
+
+            //表面检验
+            InspectionPlanResult plan = makePlans(0, Convert.ToString(ViewState["vendor_Code"]), Convert.ToString(ViewState["batch_No"]), Convert.ToString(ViewState["sku"]), Convert.ToString(ViewState["Amount"]));
             if (plan != null)//计划成功产出
             {
                 appearance_amount.Text = plan.Sample_Amount;
             }
-
+            //适配性检验
+            InspectionPlanResult plans = makePlans(0, Convert.ToString(ViewState["vendor_Code"]), Convert.ToString(ViewState["batch_No"]), Convert.ToString(ViewState["sku"]), Convert.ToString(ViewState["Amount"]));
+            if (plan != null)//计划成功产出
+            {
+                suitability_amount.Text = plans.Sample_Amount;
+            }
         }
 
         private void getSessionInfo()
         {
-            ViewState["sku"]= Request.QueryString["sku"].ToString();
+            ViewState["sku"] = Request.QueryString["sku"].ToString();
             ViewState["batch_No"] = Request.QueryString["batch_No"].ToString();
             ViewState["vendor_Code"] = Request.QueryString["vendor_Code"].ToString();
             ViewState["Amount"] = Request.QueryString["Amount"].ToString();
@@ -190,11 +261,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
         protected void Repeater1_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            //if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
-            //{
-            //    TextBox textbox = (TextBox)e.Item.FindControl("loop_text");
-            //    textbox.Text = "";
-            //}
+
         }
 
 
@@ -204,19 +271,61 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
         private void save()
         {
             string values = Convert.ToString(ViewState["itemValue"]);
-            string sku= Convert.ToString(ViewState["sku"]);
+            string sku = Convert.ToString(ViewState["sku"]);
             string form_ID = Convert.ToString(ViewState["form_ID"]);
 
             //保存到数据库
-            SurveyReport_BLL.addInspectionValue(sku, form_ID, values);
+            SurveyReport_BLL.saveInspectionValue(sku, form_ID, values);
 
             QT_Survey survey = new QT_Survey();
             survey.Form_ID = form_ID;
             survey.SKU = sku;
-            //survey.Sureface_Amount=
 
-            //保存其他地方
+            //检验数量
+            survey.Sureface_Amount = appearance_amount.Text;
+            survey.Suitability_Amount = suitability_amount.Text;
+            survey.Sureface_Bad = appearance_bad.Text;
+            survey.Suitability_Bad = suitability_bad.Text;
+            survey.Sureface_Details = appearance_detail.Text;
+            survey.Suitability_Details = suitability_detail.Text;
+
+            //备注
+            survey.Remark = remark.Text;
+
+            //结果
+            survey.Result = qualified_list.SelectedIndex.ToString();
+            //是否合格
+            survey.Un_Inspection_Type = unqualified_type_list.SelectedIndex.ToString();
+
+            //检验最终接收拒收数量
+            survey.RC = rcm.Text;
+            survey.RJ = rjm.Text;
+
+            survey.PPAP_Result = lb_ppap.Text;
+            survey.Broken_Detection_Result = lb_broken.Text;
+            survey.SKU = sku;
+            survey.Batch_No = Convert.ToString(ViewState["batch_No"]);
+            survey.Product_Name = Convert.ToString(ViewState["product_Name"]);
+            survey.Vendor_Code= Convert.ToString(ViewState["vendor_Code"]);
+
+            survey.Purchase_No = TextBox5.Text;
+            survey.Arrave_Time = TextBox7.Text;
+            survey.Amount = TextBox6.Text;
+            survey.Region_Market = Convert.ToString(lb_region.Text);
+
+
+            //保存该表其他地方
             SurveyReport_BLL.updateSurvey(survey);
+
+
+            //让质量部文员以及检验员失去添加功能
+            SurveyReport_BLL.setAddPermission("false", form_ID);
+
+            //提示 保存成功
+
+            LocalScriptManager.CreateScript(Page, String.Format("mytips('{0}')", "保存成功"), "saveTip");
+
+            showInspectionValues(Convert.ToString(ViewState["form_ID"]));
         }
 
 
@@ -224,7 +333,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
         /// <summary>
         /// 生成抽样检查计划 
         /// </summary>
-        private InspectionPlanResult makePlans(string vendor_Code,string batch_No,string SKU,string amount)
+        private InspectionPlanResult makePlans(int inspetionType, string vendor_Code, string batch_No, string SKU, string amount)
         {
             //获取检验方式 加严 放宽  正常
             int result = SurveyReport_BLL.getInspectionMethod(vendor_Code, SKU);
@@ -233,7 +342,16 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             string aql = Material_Inspection_Item_BLL.getAQL(SKU);
 
             //检验水平
-            string class_Leval = Material_Inspection_Item_BLL.getClassLeval(SKU);
+            string class_Leval = "";
+            if (inspetionType == 0)
+            {
+                class_Leval = Material_Inspection_Item_BLL.getSurfaceClassLeval(SKU);
+            }
+            else
+            {
+                class_Leval = Material_Inspection_Item_BLL.getSuitabilityClassLeval(SKU);
+            }
+            
 
             //获取计划
             InspectionPlanResult plan = getInspectionPlan(class_Leval, amount, aql, result);
@@ -250,7 +368,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
         /// <param name="amount"></param>
         /// <param name="aql"></param>
         /// <param name="inspection_Leval">加严 正常 放宽 </param>
-        private InspectionPlanResult getInspectionPlan(string class_Leval, string amount, string aql,int inspection_Leval)
+        private InspectionPlanResult getInspectionPlan(string class_Leval, string amount, string aql, int inspection_Leval)
         {
             InspectionPlanResult plan = new InspectionPlanResult();
             string sample_Code = InspectionPlan_BLL.getSampleCode(class_Leval, amount);
@@ -310,55 +428,118 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             string position_Name = Employee_BLL.getEmployeePositionName(Session["Employee_ID"].ToString());
             string form_ID = Convert.ToString(ViewState["form_ID"]);
 
-            //不合格 能不能不复检
+            //委托检验不合格必须要复检 不合格直接进行MBR
 
             //第一次检验不合格 MBR已经出结果了 也可以提交
-            if (MBR_BLL.isMBRNeeded(form_ID) && MBR_BLL.isMBRFinished(form_ID))//需要MRB 并且 MRB已经完成
+            if (MBR_BLL.isMBRNeeded(form_ID))//需要MRB 并且 MRB已经完成
             {
-                //获取MBR的结论 退货 挑选全检需要统计接收与拒收
-                string mbrResult = MBR_BLL.getMBRResult(form_ID);
-                if (mbrResult.Equals("挑选全检"))
+                int flag = 0;//0 进货信息库  1 退货信息库
+                if (MBR_BLL.isMBRFinished(form_ID))
                 {
-                    StockInfo info = new StockInfo();
-
-                    info.Add_Time = DateTime.Now.ToString();
-                    info.Source_From = Convert.ToString(ViewState["form_ID"]);
-
-                    if (SurveyReport_BLL.isReInspection(Convert.ToString(ViewState["form_ID"])))
+                    //获取MBR的结论 
+                    //退货     接收为零
+                    //挑选全检 需要统计接收与拒收
+                    //返工     暂定全部接收 拒收为零
+                    //让步接收 全部接收 拒收为零
+                    StockInfo info = null;
+                    string mbrResult = MBR_BLL.getMBRResult(form_ID);
+                    if (mbrResult.Equals("挑选全检"))
                     {
-                        info.Status = "复检";
+                        info = new StockInfo();
+
+                        info.Add_Time = DateTime.Now.ToString();
+                        info.Source_From = Convert.ToString(ViewState["form_ID"]);
+
+                        if (SurveyReport_BLL.isReInspection(Convert.ToString(ViewState["form_ID"])))
+                        {
+                            info.Status = "复检";
+                        }
+                        else
+                        {
+                            info.Status = "";
+                        }
+                        //备注 暂时为空
+                        info.Remark = remark.Text;
+                        info.Batch_No = Convert.ToString(ViewState["batch_No"]);
+
+                        //接收 拒收
+                        info.RJ = rjm.Text;
+                        info.RC = rcm.Text;
+
+
                     }
-                    else
+                    else if (mbrResult.Equals("让步接收") || mbrResult.Equals("返工"))
                     {
-                        info.Status = "";
+                        ////全部接收 拒收为0
+                        //if (Convert.ToString(rcm.Text).Trim().Equals(""))
+                        //{
+                        //    //提示没有填写 接收数量信息
+                        //    LocalScriptManager.CreateScript(Page, String.Format("mytips('{0}')", "请正确填写接收以及拒收数量"), "dataTip");
+                        //    return;
+                        //}
+                        info = new StockInfo();
+                        info.RJ = "";
+                        info.RC = Convert.ToString(ViewState["Amount"]);
+                        info.Batch_No = Convert.ToString(ViewState["batch_No"]);
+                        info.Remark = "";
+                        info.Source_From = form_ID;
+                        if (SurveyReport_BLL.isReInspection(Convert.ToString(ViewState["form_ID"])))
+                        {
+                            info.Status = "复检";
+                        }
+                        else
+                        {
+                            info.Status = "";
+                        }
+                        info.Add_Time = DateTime.Now.ToString();
                     }
-                    //备注 暂时为空
-                    info.Remark = "";
-                    info.Batch_No = Convert.ToString(ViewState["batch_No"]);
+                    else if (mbrResult.Equals("退货"))
+                    {
+                        //接收为零 加入到退货信息列表中
+                        flag = 1;
 
-                    //接收 拒收
-                    info.RJ = "";
-                    info.RC = "";
+                        //插入到退货信息表中
+                        QT_Goods_Returned goods = new QT_Goods_Returned();
+                        goods.Batch_No= Convert.ToString(ViewState["batch_No"]);
+                        goods.Form_ID = form_ID;
+                        goods.Factory_Name = Convert.ToString(Session["Factory_Name"]);
+                        goods.Vendor_Code= Convert.ToString(ViewState["Vendor_Code"]);
+                        goods.Total = Convert.ToString(ViewState["Amount"]);
+                        goods.Reason = remark.Text;
+                        
+                        //全部拒收
+                        goods.Reject = Convert.ToString(ViewState["Amount"]);
+                        
+                        //SCARE_ID 暂时无法获取
+                        goods.Scar_ID = "";
 
-                    //插入到进货信息库
-                    StockInfo_BLL.addStockInfo(info);
-                    SurveyReport_BLL.updateSurveyStatus(form_ID, "完成");
+                        GoodsReturned_BLL.addGoodReturned(goods);
+                    }
+
+                    if (flag == 0)
+                    {
+                        //插入到进货信息库
+                        StockInfo_BLL.addStockInfo(info);
+                        SurveyReport_BLL.updateSurveyStatus(form_ID, "完成");
+                        SurveyReport_BLL.setFinished(form_ID);
+                        LocalScriptManager.CreateScript(Page, String.Format("mytips_then_back('{0}','{1}')", "检验完成", "InspectionList.aspx"), "operateFinished");
+                    }
                 }
-                else if (mbrResult.Equals("退货"))
+                else
                 {
-                    //
+                    //MBR未出结果  请等待
+                    LocalScriptManager.CreateScript(Page, String.Format("mytips('{0}')", "请等待MRB的裁定结果"), "waitMRBResultTip");
                 }
-                
+                return;
             }
 
             //是否合格 
             bool isQualified = false;
-
+            isQualified = Convert.ToString(qualified_list.SelectedIndex).Equals("0") ? true : false;
+            
             //合格
             if (isQualified)
             {
-                //更新报告的检验完成 QT_Inspection_List
-                SurveyReport_BLL.setFinished(Convert.ToString(ViewState["form_ID"]));
 
                 // 如果 接收  接收数量  拒收数量  接收的 入库 并记录
 
@@ -377,15 +558,26 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 }
 
                 //备注 暂时为空
-                info.Remark = "";
+                info.Remark = remark.Text;
                 info.Batch_No = Convert.ToString(ViewState["batch_No"]);
 
                 //接收 拒收
-                info.RJ = "";
-                info.RC = "";
+                info.RJ = Convert.ToString(ViewState["Amount"]);
+                if (appearance_bad.Text.Equals(""))
+                {
+                    appearance_bad.Text = "0";
+                }
+                if (suitability_bad.Text.Equals(""))
+                {
+                    suitability_bad.Text = "0";
+                }
+                info.RC = Convert.ToString(Convert.ToInt32(appearance_bad.Text) + Convert.ToInt32(suitability_bad.Text));
 
                 //插入到进货信息库
                 StockInfo_BLL.addStockInfo(info);
+
+                //更新报告的检验完成 QT_Inspection_List
+                SurveyReport_BLL.setFinished(Convert.ToString(ViewState["form_ID"]));
 
                 //更新检验状态
                 SurveyReport_BLL.updateSurveyStatus(form_ID, "完成");
@@ -394,30 +586,39 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             }
             else
             {
-                //暂时完成检验  如果在退货队列中不申请MBR的话 默认时间后就自动完成
+                //暂时完成检验  进入MBR队列 默认时间后就自动 退货
 
-                //如果是实验室检验，是否需要申请复检
-                //如果是检验员检验，不合格直接放到退货队列
-                if (ReInspection_BLL.isReInspectionNeeded(form_ID))
+                //如果是实验室检验，需要申请复检
+
+                //如果是检验员检验，不合格直接申请MBR
+                //如果是委托检验的复检，不合格直接MBR
+
+                int mbr_flag = 1;//需要MBR
+                
+                //属于复检（第二次） 不合格 开始MBR 属于委托检验
+                if (ReInspection_BLL.isReInspection(form_ID))
                 {
-                    //提示 是否需要复检 
+                    mbr_flag = 1;
                 }
                 else
                 {
-                    QT_Goods_Returned goods = new QT_Goods_Returned();
-                    goods.Batch_No = Convert.ToString(ViewState["batch_No"]);
-                    goods.Form_ID = form_ID;
-                    goods.Reject = "";
-                    goods.Total = "";
-                    goods.Vendor_Code = "";
-                    goods.Reason = "";
-                    goods.Scar_ID = "";
-                    goods.Factory_Name = Session["Factory_Name"].ToString();
-                    goods.Status = "退货";
-                    //插入到退货表中
-                    GoodsReturned_BLL.addGoodReturned(goods);
+                    //是否属于委托检验 
+                    if (ReInspection_BLL.isReInspectionNeeded(form_ID))
+                    {
+                        //提示 需要复检 请点击复检按钮进行申请 
+                        LocalScriptManager.CreateScript(Page, String.Format("mytips('{0}')", "请申请复检"), "reInspectionTip");
+                        return;
+                    }
+                }
+                if (mbr_flag == 1)
+                {
+                    //进入MBR 队列  默认时间到后就直接退货
+                    //开始MBR 
+                    MBR_BLL.startMBR(form_ID, Convert.ToString(ViewState["kci"]));
 
-                    SurveyReport_BLL.updateSurveyStatus(form_ID, "完成");
+                    //申请成功
+                    LocalScriptManager.CreateScript(Page, String.Format("mytips('{0}')", "已经自动申请MRB"), "MRBTip");
+
                 }
             }
         }
@@ -433,7 +634,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
             //判断是否 不合格 只有在不合格的情况下才能复检
             string position_Name = Employee_BLL.getEmployeePositionName(Session["Employee_ID"].ToString());
-            if(position_Name.Equals("质量部文员"))
+            if (position_Name.Equals("质量部文员"))
             {
                 //开始复检申请 
                 startReInspection();
@@ -446,6 +647,8 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
         /// </summary>
         private void startReInspection()
         {
+            //复检时需要将原来的表的 检验项目添加的权限复制过来
+
             //ViewState暂不可用  原因不详
 
             //string form_ID = Convert.ToString(ViewState["form_ID"]);
@@ -454,6 +657,10 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             //先生成一个新的表
             int n = ReInspection_BLL.addReInspectionServeyReport(Convert.ToString(ViewState["batch_No"]));
             string newFormID = ReInspection_BLL.getReInspectionSurveyFormID(Convert.ToString(ViewState["batch_No"]), n);
+
+            //更新检验员等的添加权限
+            SurveyReport_BLL.updateAddPermission(form_ID, newFormID);
+
             //插入到复检表
             ReInspection_BLL.addReInspection(newFormID, form_ID, batch_No);
 
@@ -465,15 +672,31 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 //发送邮件 通知实验室
 
                 //更改实验室检验的Status 并标识Remark 为复检
+                LabInspectionList_BLL.updateStatus(batch_No, "未完成", "复检");
+
 
                 LocalScriptManager.CreateScript(Page, String.Format("reInspectionTips('{0}')", "复检申请成功 静待结果"), "reInspectionTips");
             }
             //回退
         }
 
+        /// <summary>
+        /// 弹窗 弹出添加 检验项 以及 检验标准
+        /// </summary>
+        /// <param name="princple">item 与 standard连接</param>
+        private void addInspectionItem(string princple)
+        {
+            string[] data = princple.Split(',');
+            string item = data[0];
+            string standard = data[1];
+            SurveyReport_BLL.addNewInspectionItem(Convert.ToString(ViewState["sku"]), item, standard, "YES");
+            initSurveryReport();
+        }
+
+
         protected void addItem_Click(object sender, EventArgs e)
         {
-            save();
+            LocalScriptManager.CreateScript(Page, "addNewInspectionItem()", "addNewInspectionItem");
         }
     }
 }
