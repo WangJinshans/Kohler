@@ -25,6 +25,16 @@ namespace BLL.QualityDetection
             SurveyReport_DAL.setInspectResult(onePointFive, twoPointFive, batch_No);
         }
 
+        public static DataTable getInspectionAndDatas(string form_ID)
+        {
+            return SurveyReport_DAL.getInspectionAndDatas(form_ID);
+        }
+
+        public static QT_Survey getSurveyReport(string form_ID)
+        {
+            return SurveyReport_DAL.getSurveyReport(form_ID);
+        }
+
         /// <summary>
         /// 获取检验方式 加严 放宽  正常
         /// </summary>
@@ -58,6 +68,16 @@ namespace BLL.QualityDetection
                     return NORMAL_INSPECTION;
                 }
             }
+        }
+
+        /// <summary>
+        /// 获取检验结果
+        /// </summary>
+        /// <param name="form_ID"></param>
+        /// <returns></returns>
+        public static DataTable showInspectionResults(string form_ID)
+        {
+            return SurveyReport_DAL.showInspectionResults(form_ID);
         }
 
         private static bool beStrict(string vendor_Code)
@@ -171,13 +191,16 @@ namespace BLL.QualityDetection
             return SurveyReport_DAL.getInsectionItems(sku);
         }
 
-        public static void addInspectionValue(string sku, string form_ID, string values)
+        public static void saveInspectionValue(string sku, string form_ID, string values)
         {
             string[] itmeValue = values.Split(',');
             //通过SKU获取 Item  以及  Standard
             DataTable table = SurveyReport_DAL.getInsectionItems(sku);
             if (table.Rows.Count > 0)
             {
+                //先删除所有
+                SurveyReport_DAL.deleteAllInspectionValue(form_ID);
+
                 foreach (DataRow dr in table.Rows)
                 {
                     int index = table.Rows.IndexOf(dr);
@@ -242,11 +265,31 @@ namespace BLL.QualityDetection
             return SurveyReport_DAL.isNewSKU(SKU);
         }
 
+        public static void setAddPermission(string permission,string form_ID)
+        {
+            SurveyReport_DAL.setAddPermission(permission, form_ID);
+        }
+
+
         public static bool haveInspectionItem(string SKU,string Item)
         {
             return SurveyReport_DAL.haveInsectionItem(SKU, Item);
         }
 
+        public static string getAddPermission(string form_ID)
+        {
+            return SurveyReport_DAL.getAddPermission(form_ID);
+        }
+
+        /// <summary>
+        /// 复检更新form_ID的时候 复制添加权限
+        /// </summary>
+        /// <param name="form_ID"></param>
+        /// <param name="newFormID"></param>
+        public static void updateAddPermission(string form_ID, string newFormID)
+        {
+            SurveyReport_DAL.updateAddPermission(form_ID, newFormID);
+        }
         public static DataTable getSKUList()
         {
             return SurveyReport_DAL.getSKUList();

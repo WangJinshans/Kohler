@@ -23,6 +23,77 @@ namespace DAL.QualityDetection
             DBHelp.ExecuteCommand(sql, sp);
         }
 
+        public static DataTable getInspectionAndDatas(string form_ID)
+        {
+            string sql = "select * from QT_Survey_Item where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",form_ID)
+            };
+
+            return DBHelp.GetDataSet(sql, sp);
+        }
+
+
+        /// <summary>
+        /// 获取该报告的所有内容
+        /// </summary>
+        /// <param name="form_ID"></param>
+        /// <returns></returns>
+        public static QT_Survey getSurveyReport(string form_ID)
+        {
+            string sql = "select * from QT_Survey where Form_ID=@Form_ID";
+            QT_Survey survey = null;
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",form_ID)
+            };
+
+            DataTable table = DBHelp.GetDataSet(sql, sp);
+
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    survey = new QT_Survey();
+                    survey.Sureface_Amount = Convert.ToString(dr["Sureface_Amount"]);
+                    survey.Sureface_Bad = Convert.ToString(dr["Sureface_Bad"]);
+                    survey.Sureface_Details = Convert.ToString(dr["Sureface_Details"]);
+                    survey.Suitability_Amount = Convert.ToString(dr["Suitability_Amount"]);
+                    survey.Suitability_Bad = Convert.ToString(dr["Suitability_Bad"]);
+                    survey.Suitability_Details = Convert.ToString(dr["Suitability_Details"]);
+                    survey.Remark = Convert.ToString(dr["Remark"]);
+                    survey.Result = Convert.ToString(dr["Result"]);
+                    survey.RC = Convert.ToString(dr["RC"]);
+                    survey.RJ = Convert.ToString(dr["RJ"]);
+                    survey.Un_Inspection_Type = Convert.ToString(dr["Un_Inspection_Type"]);
+                    survey.PPAP_Result = Convert.ToString(dr["PPAP_Result"]);
+                    survey.Broken_Detection_Result = Convert.ToString(dr["Broken_Detection_Result"]);
+                    survey.SKU = Convert.ToString(dr["SKU"]);
+                    survey.Batch_No = Convert.ToString(dr["Batch_No"]);
+                    survey.Product_Name = Convert.ToString(dr["Product_Name"]);
+                    survey.Vendor_Code = Convert.ToString(dr["Vendor_Code"]);
+                    survey.Purchase_No = Convert.ToString(dr["Purchase_No"]);
+                    survey.Arrave_Time = Convert.ToString(dr["Arrave_Time"]);
+                    survey.Amount = Convert.ToString(dr["Amount"]);
+                    survey.Region_Market = Convert.ToString(dr["Region_Market"]);
+                    survey.Form_ID = Convert.ToString(dr["Form_ID"]);
+                }
+            }
+            return survey;
+        }
+
+        public static DataTable showInspectionResults(string form_ID)
+        {
+            string sql = "select * from View_QT_InspectionResults where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",form_ID)
+            };
+
+            return DBHelp.GetDataSet(sql, sp);
+        }
+
 
         #region 检验标准
         /// <summary>
@@ -163,14 +234,14 @@ namespace DAL.QualityDetection
             return DBHelp.ExecuteCommand(sql, sp);
         }
 
-        
+
 
         public static void addInspectionValue(string form_ID, string item, string standard, string result, string judgement)
         {
             string sql = "insert into QT_Survey_Item(Form_ID,Item,Standard,Result,Judgement)values(@Form_ID,@Item,@Standard,@Result,@Judgement)";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("@FormID",form_ID),
+                new SqlParameter("@Form_ID",form_ID),
                 new SqlParameter("@Item",item),
                 new SqlParameter("@Standard",standard),
                 new SqlParameter("@Result",result),
@@ -179,9 +250,21 @@ namespace DAL.QualityDetection
             DBHelp.ExecuteCommand(sql, sp);
         }
 
+        public static void deleteAllInspectionValue(string form_ID)
+        {
+
+            string del = "delete from QT_Survey_Item where Form_ID=@Form_ID";
+            SqlParameter[] delsp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",form_ID)
+            };
+            DBHelp.ExecuteCommand(del, delsp);
+        }
+
+
         public static void updateSurvey(QT_Survey survey)
         {
-            string sql = "update QT_Survey set Sureface_Amount=@Sureface_Amount,Sureface_Bad=@Sureface_Bad,@Sureface_Details=Sureface_Details,Suitability_Amount=@Suitability_Amount,Suitability_Bad@Suitability_Bad,Suitability_Details=@Suitability_Details,Remark=@Remark where Form_ID@Form_ID";
+            string sql = "update QT_Survey set Sureface_Amount=@Sureface_Amount,Sureface_Bad=@Sureface_Bad,@Sureface_Details=Sureface_Details,Suitability_Amount=@Suitability_Amount,Suitability_Bad=@Suitability_Bad,Suitability_Details=@Suitability_Details,Remark=@Remark,Result=@Result,RC=@RC,RJ=@RJ,Un_Inspection_Type=@Un_Inspection_Type,PPAP_Result=@PPAP_Result,Broken_Detection_Result=@Broken_Detection_Result,SKU=@SKU,Batch_No=@Batch_No,Product_Name=@Product_Name,Vendor_Code=@Vendor_Code,Purchase_No=@Purchase_No,Arrave_Time=@Arrave_Time,Amount=@Amount,Region_Market=@Region_Market where Form_ID=@Form_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Sureface_Amount",survey.Sureface_Amount),
@@ -191,12 +274,29 @@ namespace DAL.QualityDetection
                 new SqlParameter("@Suitability_Bad",survey.Suitability_Bad),
                 new SqlParameter("@Suitability_Details",survey.Suitability_Details),
                 new SqlParameter("@Remark",survey.Remark),
-                new SqlParameter("@Form_ID",survey.Form_ID)
+                new SqlParameter("@Result",survey.Result),
+                new SqlParameter("@RC",survey.RC),
+                new SqlParameter("@RJ",survey.RJ),
+                new SqlParameter("@Un_Inspection_Type",survey.Un_Inspection_Type),
+
+                new SqlParameter("@PPAP_Result",survey.PPAP_Result),
+                new SqlParameter("@Broken_Detection_Result",survey.Broken_Detection_Result),
+                new SqlParameter("@SKU",survey.SKU),
+                new SqlParameter("@Batch_No",survey.Batch_No),
+                new SqlParameter("@Product_Name",survey.Product_Name),
+                new SqlParameter("@Vendor_Code",survey.Vendor_Code),
+
+                new SqlParameter("@Purchase_No",survey.Purchase_No),
+                new SqlParameter("@Arrave_Time",survey.Arrave_Time),
+                new SqlParameter("@Amount",survey.Amount),
+                new SqlParameter("@Region_Market",survey.Region_Market),
+
+                new SqlParameter("@Form_ID",survey.Form_ID),
             };
             DBHelp.ExecuteCommand(sql, sp);
         }
 
-        public static void updateSurveyStatus(string form_ID,string status)
+        public static void updateSurveyStatus(string form_ID, string status)
         {
             string sql = "update QT_Survey set Status=@Status where Form_ID=@Form_ID";
             SqlParameter[] sp = new SqlParameter[]
@@ -205,6 +305,51 @@ namespace DAL.QualityDetection
                 new SqlParameter("@Form_ID",form_ID)
             };
             DBHelp.ExecuteCommand(sql, sp);
+        }
+
+        public static void setAddPermission(string permission, string form_ID)
+        {
+            string sql = "update QT_Survey set Add_Permission=@Add_Permission where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Add_Permission",permission),
+                new SqlParameter("@Form_ID",form_ID)
+            };
+            DBHelp.ExecuteCommand(sql, sp);
+        }
+
+        public static string getAddPermission(string form_ID)
+        {
+            string sql = "select Add_Permission from QT_Survey where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",form_ID)
+            };
+            DataTable table = DBHelp.GetDataSet(sql, sp);
+            string permission = "";
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    permission = Convert.ToString(dr["Add_Permission"]);
+                }
+            }
+            return permission;
+        }
+
+        public static void updateAddPermission(string form_ID, string newFormID)
+        {
+            string permission = getAddPermission(form_ID);
+            if (permission != "")
+            {
+                string sql = "update QT_Survey set Add_Permission=@Add_Permission where Form_ID=@Form_ID";
+                SqlParameter[] sp = new SqlParameter[]
+                {
+                    new SqlParameter("@Add_Permission",permission),
+                    new SqlParameter("@Form_ID",newFormID)
+                };
+                DBHelp.ExecuteCommand(sql, sp);
+            }
         }
 
 
@@ -304,7 +449,7 @@ namespace DAL.QualityDetection
             DBHelp.ExecuteCommand(sql, sp);
         }
 
-       
+
         #endregion
 
 
@@ -338,7 +483,7 @@ namespace DAL.QualityDetection
         /// 添加项目  
         /// </summary>
         /// <returns></returns>
-        public static int addNewInspectionItem(string SKU,string Item,string Standard,string IS_First)
+        public static int addNewInspectionItem(string SKU, string Item, string Standard, string IS_First)
         {
             string sql = "insert into QT_Material_Inspection_Item(SKU,Item,Standard,IS_First) values (@SKU,@Item,@Standard,@IS_First)";
             SqlParameter[] sp = new SqlParameter[]
@@ -349,10 +494,10 @@ namespace DAL.QualityDetection
                 new SqlParameter ("@IS_First",IS_First)
 
             };
-            return DBHelp.ExecuteCommand(sql,sp);
+            return DBHelp.ExecuteCommand(sql, sp);
         }
 
-        public static void updateInspectionItem(string SKU,string Item,string Standard,string IS_First)
+        public static void updateInspectionItem(string SKU, string Item, string Standard, string IS_First)
         {
             string sql = "update QT_Material_Inspection_Item set Item=@Item,Standard=@Standard,IS_First=@IS_First where SKU=@SKU";
             SqlParameter[] sp = new SqlParameter[]
@@ -366,7 +511,7 @@ namespace DAL.QualityDetection
 
         }
 
-        public static void deleteInspectionItem(string SKU,string Item)
+        public static void deleteInspectionItem(string SKU, string Item)
         {
             string sql = "delete from QT_Material_Inspection_Item where SKU=@SKU and Item=@Item";
             SqlParameter[] sp = new SqlParameter[]
@@ -403,7 +548,7 @@ namespace DAL.QualityDetection
 
             };
             DataTable dt = DBHelp.GetDataSet(sql, sp);
-            if(dt.Rows.Count > 0)
+            if (dt.Rows.Count > 0)
             {
                 return true;
             }

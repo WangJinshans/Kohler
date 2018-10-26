@@ -1,10 +1,7 @@
 ﻿using BLL;
 using BLL.QualityDetection;
+using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace SHZSZHSUPPLY.VendorQualityDetection
@@ -13,13 +10,13 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+
             //委托检验单列表
             string position_Name = Employee_BLL.getEmployeePositionName(Session["Employee_ID"].ToString());
             //仅仅实验室主管 可用 
             string factory_Name = Employee_BLL.getEmployeeFactory(Session["Employee_ID"].ToString());
             if (position_Name.Equals("亚克力实验室主管"))
             {
-                //
                 //区分实验室 不同实验室
                 GridView1.DataSource = LabInspectionList_BLL.getConsignmentInspectionList(1, factory_Name);
                 GridView1.DataBind();
@@ -39,9 +36,11 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
             if (e.CommandName == "done")
             {
-                LabInspectionList_BLL.updateStatus(batch_no);
-                
-                //是否需要发送邮件
+                LabInspectionList_BLL.updateStatus(batch_no, "已完成");
+
+                //发送邮件 到 质量部文员 进行通知
+
+                LocalScriptManager.CreateScript(Page, String.Format("mytips('{0}')", "操作成功"), "labInspectionDone");
             }
         }
     }

@@ -47,7 +47,7 @@ namespace DAL
                     cmd.Dispose();
                     return result;
                 }
-                catch
+                catch (Exception e)
                 {
                     cmd.Dispose();
                     return 0;

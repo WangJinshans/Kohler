@@ -20,3 +20,11 @@
         })
     });
 }
+
+
+function mytips(msg) {
+    layui.use('form', function () {
+        var layer = layui.layer;
+        layer.msg(msg);
+    });
+}

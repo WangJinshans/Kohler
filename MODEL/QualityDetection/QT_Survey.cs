@@ -27,7 +27,12 @@ namespace MODEL.QualityDetection
         private string suitability_Amount;
         private string suitability_Bad;
         private string suitability_Details;
+
+        private string rJ;//拒收
+        private string rC;//接收
+
         private string result;
+        private string un_Inspection_Type;//不合格类型
         private string remark;
 
         public string Batch_No
@@ -313,6 +318,45 @@ namespace MODEL.QualityDetection
             set
             {
                 remark = value;
+            }
+        }
+
+        public string Un_Inspection_Type
+        {
+            get
+            {
+                return un_Inspection_Type;
+            }
+
+            set
+            {
+                un_Inspection_Type = value;
+            }
+        }
+
+        public string RJ
+        {
+            get
+            {
+                return rJ;
+            }
+
+            set
+            {
+                rJ = value;
+            }
+        }
+
+        public string RC
+        {
+            get
+            {
+                return rC;
+            }
+
+            set
+            {
+                rC = value;
             }
         }
     }

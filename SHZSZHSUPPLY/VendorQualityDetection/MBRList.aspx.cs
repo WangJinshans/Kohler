@@ -18,7 +18,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             //职位
             string position_Name = Employee_BLL.getEmployeePositionName(Session["Employee_ID"].ToString());
 
-            if (position_Name.Equals("采购部经理") || position_Name.Equals("物流部经理") || position_Name.Equals("生产部经理") || position_Name.Equals("质量部经理") || position_Name.Equals("市场部经理") || position_Name.Equals("工程部经理"))
+            if (position_Name.Equals("供应链经理") || position_Name.Equals("采购部经理") || position_Name.Equals("物流部经理") || position_Name.Equals("生产部经理") || position_Name.Equals("质量部经理") || position_Name.Equals("市场部经理") || position_Name.Equals("项目部经理"))
             {
                 //MBR裁定 职位筛选 并且刷新
                 GridView1.DataSource = MBR_BLL.getMBRList(position_Name, "YES");
