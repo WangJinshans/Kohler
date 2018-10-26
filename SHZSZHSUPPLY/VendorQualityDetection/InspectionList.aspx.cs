@@ -4,9 +4,6 @@ using MODEL.QualityDetection;
 using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace SHZSZHSUPPLY.VendorQualityDetection
@@ -82,6 +79,10 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             bool ok = false;
             ok = InspectionList_BLL.startWT(batch_No, Session["Employee_ID"].ToString(), Session["Type"].ToString());
 
+            //更新处理人的ID  将原来检验员的划分到质量部文员
+
+            InspectionList_BLL.updateChargeMan(batch_No, "clerk");
+
 
             //生成委托检验书 并发送给选择的实验  type区分实验室
 
@@ -89,11 +90,11 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             ConsignmentInspection inspection = new ConsignmentInspection();
             if (Session["Type"].ToString().Contains("铸铁"))
             {
-                inspection.Lab_Name = "铸铁实验室";
+                inspection.Lab_Name = "铸铁";
             }
             else
             {
-                inspection.Lab_Name = "亚克力实验室";
+                inspection.Lab_Name = "亚克力";
             }
 
             inspection.Batch_No = batch_No;
@@ -159,7 +160,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             else if (e.CommandName == "to")
             {
                 //委托检验
-                LocalScriptManager.CreateScript(Page, String.Format("wt({0})", batch_no), "weituo");
+                LocalScriptManager.CreateScript(Page, String.Format("wt('{0}')", batch_no), "weituo");
             }
         }
     }

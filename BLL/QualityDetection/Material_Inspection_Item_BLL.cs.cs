@@ -20,15 +20,35 @@ namespace BLL.QualityDetection
             return Material_Inspection_Item_DAL.setOld(SKU);
         }
 
+        public static bool IsOld(string SKU)
+        {
+            return Material_Inspection_Item_DAL.IsOld(SKU);
+        }
+
+        public static List<string> getSKUList()
+        {
+            return Material_Inspection_Item_DAL.getSKUList();
+        }
+
 
         /// <summary>
-        /// 获取当前物料的检验水平 一般 OR 特殊 
+        /// 表面检验 
         /// </summary>
         /// <param name="SKU"></param>
         /// <returns></returns>
-        public static string getClassLeval(string SKU)
+        public static string getSurfaceClassLeval(string SKU)
         {
-            return Material_Inspection_Item_DAL.getClassLeval(SKU);
+            return Material_Inspection_Item_DAL.getSurfaceClassLeval(SKU);
+        }
+
+        /// <summary>
+        /// 适配性检验
+        /// </summary>
+        /// <param name="SKU"></param>
+        /// <returns></returns>
+        public static string getSuitabilityClassLeval(string SKU)
+        {
+            return Material_Inspection_Item_DAL.getSuitabilityClassLeval(SKU);
         }
 
         /// <summary>

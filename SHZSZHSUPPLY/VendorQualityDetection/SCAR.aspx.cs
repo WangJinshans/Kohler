@@ -32,6 +32,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                     newSCAR.Factory = Session["Factory_Name"].ToString();
                     newSCAR.Batch_No = Request.QueryString["batch_no"];
                     newSCAR.Vendor_Code = Request.QueryString["vendor_code"];
+
                     newSCAR.Flag = 0;           //表示未填写
 
                     int n = SCAR_BLL.addSCAR(newSCAR);

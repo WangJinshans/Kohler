@@ -1,13 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Data;            
-using System.Data.SqlClient;  
-using System.Configuration;
-using Model;
+using System.Data;
 using BLL.QualityDetection;
 
 namespace SHZSZHSUPPLY.VendorQualityDetection
@@ -64,6 +56,19 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
 						default:
 							break;
+						}
+                    case "Button2":
+                        {
+                            Button2_Click();   
+                            break;
+                        }
+                    default:
+                        break;
+                }
+            }
+
+            SKU_List.DataSource = Material_Inspection_Item_BLL.getSKUList();
+            SKU_List.DataBind();
 					}
 				}
 				
@@ -103,30 +108,38 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             string sku = Convert.ToString(ViewState["SKU"]);
             string item = TextBox1.Text.ToString().Trim();
             string standard = TextBox2.Text.ToString().Trim();
-            SurveyReport_BLL.addNewInspectionItem(sku,item,standard,"YES");
+            SurveyReport_BLL.addNewInspectionItem(sku, item, standard, "YES");
             if (SurveyReport_BLL.haveInspectionItem(sku, item))
             {
                 Response.Write("<script>window.alert('添加成功')</script>");
-                
+
             }
             else
             {
                 Response.Write("<script>window.alert('添加失败')</script>");
-               
+
             }
-             
+            UpdatePanel1.Update();
         }
 
         protected void Button2_Click()
         {
-            
+
             string sku = Convert.ToString(ViewState["SKU"]);
             string item = TextBox1.Text.ToString().Trim();
             string standard = TextBox2.Text.ToString().Trim();
-            SurveyReport_BLL.deleteInspectionItem(sku, item);
-            Response.Write("<script>window.alert('删除成功')</script>");
-
             
+            if (standard == "请输入标准" || standard == "")
+            {
+                SurveyReport_BLL.deleteInspectionItem(sku, item);
+                Response.Write("<script>window.alert('删除成功')</script>");
+
+            }
+            else
+            {
+                Response.Write("<script>window.alert('删除不需要填写标准')</script>");
+            }
+            UpdatePanel1.Update();
         }
 
         protected void Button3_Click(object sender, EventArgs e)
@@ -134,7 +147,9 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             string sku = Convert.ToString(ViewState["SKU"]);
             string item = TextBox1.Text.ToString().Trim();
             string standard = TextBox2.Text.ToString().Trim();
-            SurveyReport_BLL.alterInspectionItem(sku,item,standard);
+
+            SurveyReport_BLL.alterInspectionItem(sku, item, standard);
+            UpdatePanel1.Update();
             
         }
 

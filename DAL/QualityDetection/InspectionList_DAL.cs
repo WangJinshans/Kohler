@@ -56,6 +56,18 @@ namespace DAL.QualityDetection
             return DBHelp.ExecuteCommand(sql, sp);
         }
 
+
+        public static int updateChargeMan(string batch_no, string clerk)
+        {
+            string sql = "update QT_Inspection_List set Employee_ID=@Employee_ID where Batch_No=@Batch_No";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Employee_ID",clerk),
+                new SqlParameter("@Batch_No",batch_no)
+            };
+            return DBHelp.ExecuteCommand(sql, sp);
+        }
+    }
 		public static DataTable selectListItem(string addtime)
 		{
 			string sql = "select distinct a.Product_Describes,b.Temp_Vendor_Name,a.[Go],a.[To],a.Form_ID,a.Status,a.Add_Time "+
@@ -84,4 +96,5 @@ namespace DAL.QualityDetection
 
 
 	}
+
 }

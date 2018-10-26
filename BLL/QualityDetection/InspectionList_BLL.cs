@@ -78,6 +78,11 @@ namespace BLL.QualityDetection
             return InspectionList_DAL.updateFormID(batch_no, form_ID);
         }
 
+        public static int updateChargeMan(string batch_no,string clerk)
+        {
+            return InspectionList_DAL.updateChargeMan(batch_no, clerk);
+        }
+    }
 
 
 		/// <summary>

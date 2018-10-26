@@ -20,9 +20,14 @@ namespace BLL.QualityDetection
             return LabInspectionList_DAL.addConsignmentInspection(inspection);
         }
 
-        public static int updateStatus(string batch_no)
+        public static int updateStatus(string batch_no,string status)
         {
-            return LabInspectionList_DAL.updateStatus(batch_no);
+            return LabInspectionList_DAL.updateStatus(batch_no, status);
         }
+        public static int updateStatus(string batch_no, string status, string remark)
+        {
+            return LabInspectionList_DAL.updateStatus(batch_no, status, remark);
+        }
+
     }
 }

@@ -15,7 +15,7 @@ namespace DAL.QualityDetection
             List<QT_Inspection_Item> list = new List<QT_Inspection_Item>();
             QT_Inspection_Item item = null;
             string factory_Name = Employee_DAL.getEmployeeFactory(employee_ID);
-            string sql = sql = "select * from View_QT_Inspection_List where Go='YES' and (Employee_ID=@Employee_ID or Employee_ID is null) and Factory_Name=@Factory_Name and Status<>'完成'";
+            string sql = sql = "select * from View_QT_Inspection_List where Go='YES' and (Employee_ID=@Employee_ID or Employee_ID='' or Employee_ID is NULL) and Factory_Name=@Factory_Name and Status<>'完成'";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Employee_ID",employee_ID),

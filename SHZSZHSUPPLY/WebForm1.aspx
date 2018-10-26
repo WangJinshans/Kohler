@@ -282,6 +282,7 @@
             var iframeids = ["iFrame1"];
             var iframehide = "yes";
             function dyniframesize() {
+
                 var dyniframe = new Array();
                 for (i = 0; i < iframeids.length; i++) {
                     if (document.getElementById) {

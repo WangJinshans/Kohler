@@ -20,9 +20,9 @@ namespace DAL.QualityDetection
             return DBHelp.ExecuteCommand(sql, sp);
         }
 
-        public static string getClassLeval(string SKU)
+        public static string getSuitabilityClassLeval(string SKU)
         {
-            string sql = "select Class_Leval from QT_Component_List where SKU=@SKU";
+            string sql = "select Suitability_Inspection from QT_Component_List where SKU=@SKU";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@SKU",SKU)
@@ -33,11 +33,69 @@ namespace DAL.QualityDetection
             {
                 foreach (DataRow dr in table.Rows)
                 {
-                    class_leval = Convert.ToString(dr["Class_Leval"]);
+                    class_leval = Convert.ToString(dr["Suitability_Inspection"]);
                 }
             }
             return class_leval;
         }
+
+        public static bool IsOld(string sKU)
+        {
+            string sql = "select distinct SKU from QT_Material_Inspection_Item where SKU=@SKU AND IS_First='NO'";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@SKU",sKU)
+            };
+
+            using (SqlDataReader reader = DBHelp.GetReader(sql, sp))
+            {
+                if (reader.Read())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public static List<string> getSKUList()
+        {
+            string sql = "select distinct SKU from QT_Material_Inspection_Item";
+            List<string> sku_list = new List<string>();
+            DataTable table = DBHelp.GetDataSet(sql);
+            string sku = "";
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    sku = Convert.ToString(dr["SKU"]);
+                    sku_list.Add(sku);
+                }
+            }
+            return sku_list;
+        }
+
+        public static string getSurfaceClassLeval(string SKU)
+        {
+            string sql = "select Surface_Inspection from QT_Component_List where SKU=@SKU";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@SKU",SKU)
+            };
+            string class_leval = "";
+            DataTable table = DBHelp.GetDataSet(sql, sp);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    class_leval = Convert.ToString(dr["Surface_Inspection"]);
+                }
+            }
+            return class_leval;
+        }
+
 
         public static string getAQL(string SKU)
         {
