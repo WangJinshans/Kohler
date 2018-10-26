@@ -82,7 +82,6 @@ namespace BLL.QualityDetection
         {
             return InspectionList_DAL.updateChargeMan(batch_no, clerk);
         }
-    }
 
 
 		/// <summary>

@@ -9,7 +9,7 @@ namespace DAL.QualityDetection
 {
     public class InspectionList_DAL
     {
-        public static int LockItem(string batch_no,string employee_ID)
+        public static int LockItem(string batch_no, string employee_ID)
         {
             string sql = "update QT_Inspection_List set Employee_ID=@Employee_ID where Batch_No=@Batch_No";
             SqlParameter[] sp = new SqlParameter[]
@@ -45,7 +45,7 @@ namespace DAL.QualityDetection
             return "";
         }
 
-        public static int updateFormID(string batch_no,string form_ID)
+        public static int updateFormID(string batch_no, string form_ID)
         {
             string sql = "update QT_Inspection_List set Form_ID=@Form_ID where Batch_No=@Batch_No";
             SqlParameter[] sp = new SqlParameter[]
@@ -67,34 +67,30 @@ namespace DAL.QualityDetection
             };
             return DBHelp.ExecuteCommand(sql, sp);
         }
+        public static DataTable selectListItem(string addtime)
+        {
+            string sql = "select distinct a.Product_Describes,b.Temp_Vendor_Name,a.[Go],a.[To],a.Form_ID,a.Status,a.Add_Time " +
+                            "from QT_Inspection_List a,As_Temp_Vendorchange b " +
+                            "where a.Vendor_Code = b.Normal_Vendor_ID and a.Add_Time like @Add_Time";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Add_Time",addtime+"%"),
+            };
+
+            return DBHelp.GetDataSet(sql, sp);
+        }
+
+        public static void selectListItem2(string addtime)
+        {
+            string sql = "select distinct a.Product_Describes,b.Temp_Vendor_Name,a.[Go],a.[To],a.Form_ID,a.Status,a.Add_Time " +
+                            "from QT_Inspection_List a,As_Temp_Vendorchange b " +
+                            "where a.Vendor_Code = b.Normal_Vendor_ID and a.Add_Time like @Add_Time";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Add_Time",addtime+"%"),
+            };
+
+            DBHelp.ExecuteCommand(sql, sp);
+        }
     }
-		public static DataTable selectListItem(string addtime)
-		{
-			string sql = "select distinct a.Product_Describes,b.Temp_Vendor_Name,a.[Go],a.[To],a.Form_ID,a.Status,a.Add_Time "+
-							"from QT_Inspection_List a,As_Temp_Vendorchange b " +
-							"where a.Vendor_Code = b.Normal_Vendor_ID and a.Add_Time like @Add_Time";
-			SqlParameter[] sp = new SqlParameter[]
-			{
-				new SqlParameter("@Add_Time",addtime+"%"),
-			};
-		
-			return DBHelp.GetDataSet(sql, sp);
-		}
-
-		public static void selectListItem2(string addtime)
-		{
-			string sql = "select distinct a.Product_Describes,b.Temp_Vendor_Name,a.[Go],a.[To],a.Form_ID,a.Status,a.Add_Time " +
-							"from QT_Inspection_List a,As_Temp_Vendorchange b " +
-							"where a.Vendor_Code = b.Normal_Vendor_ID and a.Add_Time like @Add_Time";
-			SqlParameter[] sp = new SqlParameter[]
-			{
-				new SqlParameter("@Add_Time",addtime+"%"),
-			};
-
-			 DBHelp.ExecuteCommand(sql, sp);
-		}
-
-
-	}
-
 }

@@ -1,6 +1,7 @@
 ﻿using DAL.QualityDetection;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 
@@ -29,7 +30,10 @@ namespace BLL.QualityDetection
         {
             return Material_Inspection_Item_DAL.getSKUList();
         }
-
+        public static DataTable getSKUTable(string sku)
+        {
+            return Material_Inspection_Item_DAL.getSKUTable(sku);
+        }
 
         /// <summary>
         /// 表面检验 

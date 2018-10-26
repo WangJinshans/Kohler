@@ -221,7 +221,6 @@
             thisWindow.style.height = this.document.body.scrollHeight + 180 + "px";//调整页面
             showAllText();
         }
-		}
 
 		function initializeData() {
 
