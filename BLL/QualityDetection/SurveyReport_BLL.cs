@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Web.UI.WebControls;
 
 namespace BLL.QualityDetection
 {
@@ -243,6 +244,11 @@ namespace BLL.QualityDetection
         public static void updateInspectionItem(string SKU,string Item,string Standard,string IS_First)
         {
             SurveyReport_DAL.updateInspectionItem(SKU, Item, Standard,IS_First);
+        }
+
+        public static string getReMark(string formID)
+        {
+            return SurveyReport_DAL.getReMark(formID);
         }
 
         public static void alterInspectionItem(string SKU, string Item, string Standard)

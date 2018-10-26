@@ -47,6 +47,28 @@ namespace DAL
             }
         }
 
+        public static List<string> getVendorTypeByCode(string vendor_Code, string factory)
+        {
+            string sql = "select distinct Vendor_Type from Normal_Vendor_ID=@Normal_Vendor_ID AND Factory_Name=@Factory_Name";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Normal_Vendor_ID",vendor_Code),
+                new SqlParameter("@Factory_Name",factory)
+            };
+
+            List<string> list = new List<string>();
+            DataTable table = DBHelp.GetDataSet(sql, sp);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    list.Add(Convert.ToString(dr["Vendor_Type"]));
+                }
+            }
+
+            return list;
+        }
+
 
         /// <summary>
         /// 获取该供应商的详细信息

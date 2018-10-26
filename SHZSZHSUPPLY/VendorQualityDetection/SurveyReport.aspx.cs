@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Web.Script.Serialization;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace SHZSZHSUPPLY.VendorQualityDetection
@@ -49,9 +48,6 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
                 switch (Request.Form["__EVENTTARGET"])
                 {
-                    case "MBR_Change":
-                        MBR_Change();
-                        break;
                     case "check_noneed":
                         //免检
                         noCheck();
@@ -134,18 +130,6 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
         }
 
-        private void MBR_Change()
-        {
-            if (mbr_result.Text.Equals("挑选全检"))
-            {
-                LocalScriptManager.CreateScript(Page, "checkAll()", "checkAll");
-            }
-            else
-            {
-                LocalScriptManager.CreateScript(Page, "notCheckAll()", "notCheckAll");
-            }
-        }
-
 
         /// <summary>
         /// 初始化整个页面
@@ -221,6 +205,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 InspectionList_BLL.updateFormID(Convert.ToString(ViewState["batch_No"]), formID);
             }
 
+            remark.Text = SurveyReport_BLL.getReMark(formID);
 
             //表面检验
             InspectionPlanResult plan = makePlans(0, Convert.ToString(ViewState["vendor_Code"]), Convert.ToString(ViewState["batch_No"]), Convert.ToString(ViewState["sku"]), Convert.ToString(ViewState["Amount"]));
@@ -320,7 +305,11 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
             //让质量部文员以及检验员失去添加功能
             SurveyReport_BLL.setAddPermission("false", form_ID);
-
+            //更新检验
+            if (Material_Inspection_Item_BLL.IsOld(Convert.ToString(ViewState["sku"])))
+            {
+                Material_Inspection_Item_BLL.setOld(form_ID);
+            }
             //提示 保存成功
 
             LocalScriptManager.CreateScript(Page, String.Format("mytips('{0}')", "保存成功"), "saveTip");
@@ -513,7 +502,26 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                         //SCARE_ID 暂时无法获取
                         goods.Scar_ID = "";
 
+
                         GoodsReturned_BLL.addGoodReturned(goods);
+
+
+                        //判断是否触发scar
+                        if (SCAR_BLL.isSCARQuilifited(Convert.ToString(ViewState["Vendor_Code"]), Convert.ToString(Session["Factory_Name"])) != 0)
+                        {
+                            //触发Scar
+                            QT_SCAR newSCAR = new QT_SCAR();
+                            newSCAR.Factory = Session["Factory_Name"].ToString();
+                            newSCAR.Batch_No = Request.QueryString["batch_no"];
+                            newSCAR.Vendor_Code = Request.QueryString["vendor_code"];
+
+                            newSCAR.Flag = 0;
+
+                            SCAR_BLL.addSCAR(newSCAR);
+
+                        }
+
+
                     }
 
                     if (flag == 0)

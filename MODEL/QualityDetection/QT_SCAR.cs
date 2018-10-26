@@ -63,6 +63,8 @@ namespace MODEL.QualityDetection
         private string environment_Pro;
         private string measure_Pro;
 
+        private string reason;
+
         public string V_E_Approved_by
         {
             get
@@ -729,8 +731,18 @@ namespace MODEL.QualityDetection
                 verification_of_Effectiveness = value;
             }
         }
-       
 
+        public string Reason
+        {
+            get
+            {
+                return reason;
+            }
 
+            set
+            {
+                reason = value;
+            }
+        }
     }
 }

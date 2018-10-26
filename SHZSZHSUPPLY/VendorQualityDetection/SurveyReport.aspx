@@ -87,9 +87,6 @@
             }
         }
        
-        function mrb_change() {
-            __myDoPostBack("MBR_Change","")
-        }
         function MRBtip(msg) {
             layui.use('form', function () {
                 var form = layui.form

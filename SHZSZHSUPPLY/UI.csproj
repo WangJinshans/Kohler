@@ -443,6 +443,7 @@
     <Content Include="VendorAssess\VendorSelection.aspx" />
     <Content Include="VendorAssess\VendorSharedUse.aspx" />
     <Content Include="VendorAssess\VendorModifyInfo.aspx" />
+    <Content Include="VendorQualityDetection\ApplyInspection.aspx" />
     <Content Include="VendorQualityDetection\Html\itemAdd.html" />
     <Content Include="VendorQualityDetection\Html\Mail_Template.html" />
     <Content Include="VendorQualityDetection\InspectionItemIorD.aspx" />
@@ -454,6 +455,7 @@
     <Content Include="VendorQualityDetection\QualityClerkOperateList.aspx" />
     <Content Include="VendorQualityDetection\RequisitionForTest.aspx" />
     <Content Include="VendorQualityDetection\SCAR.aspx" />
+    <Content Include="VendorQualityDetection\ScareList.aspx" />
     <Content Include="VendorQualityDetection\Scripts\commonUtil.js" />
     <Content Include="VendorQualityDetection\Scripts\fine-uploader\continue.gif" />
     <Content Include="VendorQualityDetection\Scripts\fine-uploader\dnd.js" />
@@ -572,6 +574,13 @@
       <DependentUpon>Biddingformlists.aspx</DependentUpon>
     </Compile>
     <Compile Include="VendorAssess\Util\SessionInfo.cs" />
+    <Compile Include="VendorQualityDetection\ApplyInspection.aspx.cs">
+      <DependentUpon>ApplyInspection.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorQualityDetection\ApplyInspection.aspx.designer.cs">
+      <DependentUpon>ApplyInspection.aspx</DependentUpon>
+    </Compile>
     <Compile Include="VendorQualityDetection\ASHX\LoadFileData.ashx.cs">
       <DependentUpon>LoadFileData.ashx</DependentUpon>
     </Compile>
@@ -637,6 +646,13 @@
     </Compile>
     <Compile Include="VendorQualityDetection\SCAR.aspx.designer.cs">
       <DependentUpon>SCAR.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorQualityDetection\ScareList.aspx.cs">
+      <DependentUpon>ScareList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorQualityDetection\ScareList.aspx.designer.cs">
+      <DependentUpon>ScareList.aspx</DependentUpon>
     </Compile>
     <Compile Include="VendorQualityDetection\SelectLab.aspx.cs">
       <DependentUpon>SelectLab.aspx</DependentUpon>

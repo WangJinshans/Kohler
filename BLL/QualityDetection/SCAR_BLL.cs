@@ -35,6 +35,28 @@ namespace BLL.QualityDetection
             SCAR_DAL.updateSCAR(qtSCAR);
         }
 
-        
+        /// <summary>
+        /// 返回值决定哪一个不过
+        /// </summary>
+        /// <param name="vendor_Code"></param>
+        /// <param name="factory"></param>
+        /// <returns></returns>
+        public static int isSCARQuilifited(string vendor_Code,string factory)
+        {
+            return SCAR_DAL.isSCARQuilifited(vendor_Code, factory);
+        }
+
+
+        /// <summary>
+        /// 判断是否已经存在Scar
+        /// </summary>
+        /// <param name="batch_No"></param>
+        /// <param name="vendorCode"></param>
+        /// <returns></returns>
+        public static bool haveSCAR(string batch_No, string vendorCode)
+        {
+            return SCAR_DAL.haveSCAR(batch_No, vendorCode);
+        }
+
     }
 }
