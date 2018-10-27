@@ -33,6 +33,81 @@ namespace DAL.QualityDetection
             return formID;
         }
 
+        public static int isSCARQuilifited(string vendor_Code, string factory)
+        {
+            List<string> type = TempVendor_DAL.getVendorTypeByCode(vendor_Code, factory);
+            if (type.Contains("直接物料常规"))
+            {
+                //直接物料连续二批出现不合格 1
+                if (constantly(vendor_Code, 1, factory))
+                {
+                    return 1;
+                }
+            }
+            else if (type.Contains("非生产性常规"))
+            {
+                //非生产性物料连续三批出现不合格 2
+                if (constantly(vendor_Code, 2, factory))
+                {
+                    return 2;
+                }
+            }
+
+            return 0;//不满足
+        }
+
+        /// <summary>
+        /// 查询连续几次 需要减去1 因为 本次 自带一次
+        /// </summary>
+        /// <param name="vendor_Code"></param>
+        /// <param name="times"></param>
+        /// <param name="factory_Name"></param>
+        /// <returns></returns>
+        public static bool constantly(string vendor_Code,int times,string factory_Name)
+        {
+            string sql = "select top @Times Result from View_QT_InspectionWithResult where Vendor_Code=@Vendor_Code and Factory_Name=@Factory_Name";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Times",times),
+                new SqlParameter("@Vendor_Code",vendor_Code),
+                new SqlParameter("@Factory_Name",factory_Name)
+            };
+            DataTable table = DBHelp.GetDataSet(sql, sp);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    if (Convert.ToInt32(dr["Result"]) != 3)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+
+        public static bool haveSCAR(string batch_No, string vendorCode)
+        {
+            string sql = "select Form_ID from QT_SCAR where Batch_No=@Batch_No and Vendor_Code=@Vednor_Code";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Batch_No",batch_No),
+                new SqlParameter("@Vendor_Code",vendorCode)
+            };
+            using (SqlDataReader reader = DBHelp.GetReader(sql, sp))
+            {
+                if (reader.Read())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
         public static string getFormIDbyBatch_No(string Batch_No)
         {
             string formID="";

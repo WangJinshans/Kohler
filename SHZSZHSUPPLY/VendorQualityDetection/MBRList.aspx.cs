@@ -1,10 +1,6 @@
 ﻿using BLL;
 using BLL.QualityDetection;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace SHZSZHSUPPLY.VendorQualityDetection

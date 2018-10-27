@@ -213,6 +213,25 @@ namespace DAL.QualityDetection
             }
         }
 
+        public static string getReMark(string formID)
+        {
+            string sql = "select Remark from QT_Survey where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",formID)
+            };
+            DataTable table = DBHelp.GetDataSet(sql, sp);
+            string remark = "";
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    remark = Convert.ToString(dr["Remark"]);
+                }
+            }
+            return remark;
+        }
+
         public static int addServeyReport(string batch_No)
         {
             string sql = "insert into QT_Survey(Batch_No)values(@Batch_No)";

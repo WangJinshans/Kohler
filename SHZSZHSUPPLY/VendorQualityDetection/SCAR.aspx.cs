@@ -1,15 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
-using BLL;
 using BLL.QualityDetection;
-using Model;
-using MODEL;
 using MODEL.QualityDetection;
-using SHZSZHSUPPLY.VendorAssess.Util;
 
 namespace SHZSZHSUPPLY.VendorQualityDetection
 {
@@ -24,7 +17,8 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
             if (!IsPostBack)
             {
-                
+
+                getSessionInfo();
                 bool check = SCAR_BLL.checkSCAR(Convert.ToString(ViewState["form_ID"]));    //有待修改
                 if(check == false)
                 {
@@ -33,7 +27,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                     newSCAR.Batch_No = Request.QueryString["batch_no"];
                     newSCAR.Vendor_Code = Request.QueryString["vendor_code"];
 
-                    newSCAR.Flag = 0;           //表示未填写
+                    newSCAR.Flag = 0;
 
                     int n = SCAR_BLL.addSCAR(newSCAR);
                     if (n == 0)
@@ -51,10 +45,18 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             }
 
         }
+
+        private void getSessionInfo()
+        {
+            //获取Form_ID
+            ViewState.Add("form_ID", Request.QueryString["form_ID"]);
+        }
+
         protected void Back_Click(object sender, EventArgs e)
         {
 
         }
+
         protected void Submit(object sender,EventArgs e)
         {
             saveForm(2);                //表示填写完成
