@@ -27,7 +27,7 @@ namespace BLL.QualityDetection
 
 
         /// <summary>
-        /// copy检验 并设置检验为未完成 退货检验 
+        /// copy检验 并设置检验为未完成 退货检验  并且不复制form_ID 等进入报告中生成一个新的form_ID  并且更新到待检列表中
         /// </summary>
         /// <param name="batch_No"></param>
         public static void copyInspection(string batch_No)

@@ -219,6 +219,10 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             {
                 suitability_amount.Text = plans.Sample_Amount;
             }
+
+
+            //检验类型初始化 inspection_Type
+
         }
 
         private void getSessionInfo()
@@ -229,6 +233,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             ViewState["Amount"] = Request.QueryString["Amount"].ToString();
             ViewState["product_Name"] = Request.QueryString["product_Name"].ToString();
             ViewState["time"] = Request.QueryString["time"].ToString();
+            ViewState["inspection_Type"] = Request.QueryString["inspection_Type"].ToString();
 
             // 区别是否 KCI
             ViewState["kci"] = Request.QueryString["kci"].ToString();
@@ -416,6 +421,24 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
         {
             string position_Name = Employee_BLL.getEmployeePositionName(Session["Employee_ID"].ToString());
             string form_ID = Convert.ToString(ViewState["form_ID"]);
+
+            string inspection_Type = Convert.ToString(ViewState["inspection_Type"]);
+
+            //判断是否是退货检验
+            if (inspection_Type.Equals("tuihuo"))
+            {
+                bool tuihuo = false;
+                tuihuo = Convert.ToString(qualified_list.SelectedIndex).Equals("0") ? true : false;
+
+                if (!tuihuo)//不合格
+                {
+                    //插入到退货信息中
+                }
+                else
+                {
+                    //合格不需要退货  ？  
+                }
+            }
 
             //委托检验不合格必须要复检 不合格直接进行MBR
 

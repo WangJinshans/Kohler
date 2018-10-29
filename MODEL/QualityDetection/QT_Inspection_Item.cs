@@ -21,6 +21,8 @@ namespace MODEL.QualityDetection
         private string factory_Name;//厂名
         private string add_Time;//时间
         private string import_KO;//导入人的KO号码
+        private string inspection_Type;
+
 
         public string Batch_No
         {
@@ -202,6 +204,19 @@ namespace MODEL.QualityDetection
             set
             {
                 import_KO = value;
+            }
+        }
+
+        public string Inspection_Type
+        {
+            get
+            {
+                return inspection_Type;
+            }
+
+            set
+            {
+                inspection_Type = value;
             }
         }
     }

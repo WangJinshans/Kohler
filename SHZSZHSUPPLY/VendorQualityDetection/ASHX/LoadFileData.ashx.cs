@@ -49,7 +49,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection.ASHX
                     item.Add_Time = Convert.ToString(DateTime.Now.ToString());
 
                     item.Import_KO = Convert.ToString(dr["User Name"]);
-
+                    
                     Inspection_Item_BLL.addInspection(item);
                 }
             }
