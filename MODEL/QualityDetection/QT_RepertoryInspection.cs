@@ -13,6 +13,8 @@ namespace MODEL.QualityDetection
         private string take_Out;//取出数量
         private string unit;//单位
         private string bad;//有问题数量
+        private string vendor_Code;
+        private string sKU;
 
         public string Batch_No
         {
@@ -90,6 +92,32 @@ namespace MODEL.QualityDetection
             set
             {
                 bad = value;
+            }
+        }
+
+        public string Vendor_Code
+        {
+            get
+            {
+                return vendor_Code;
+            }
+
+            set
+            {
+                vendor_Code = value;
+            }
+        }
+
+        public string SKU
+        {
+            get
+            {
+                return sKU;
+            }
+
+            set
+            {
+                sKU = value;
             }
         }
     }

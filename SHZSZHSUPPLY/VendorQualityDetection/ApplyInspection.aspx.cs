@@ -67,6 +67,8 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             }
             inspection.Type = "车间";
 
+            inspection.SKU = SKU.SelectedValue;
+            inspection.Vendor_Code = InspectionList_BLL.getVendorCode(batchNo.Text);
             //添加对象
             ViewState.Add("Batch_No", inspection.Batch_No);
             RepertoryInspection_BLL.addRepertoryInspection(inspection);

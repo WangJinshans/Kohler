@@ -2,10 +2,6 @@
 using MODEL.QualityDetection;
 using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace SHZSZHSUPPLY.VendorQualityDetection
@@ -57,7 +53,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 int n = SCAR_BLL.addSCAR(newSCAR);
                 if (n == 0)
                 {
-                    Response.Write("<script>window.alert('表格初始化错误（新建插入失败）！')</script>");
+                    Response.Write("<script>window.alert('表格初始化错误!')</script>");
                     return;
                 }
                 string formID = SCAR_BLL.getSCARFormID(newSCAR);

@@ -80,6 +80,31 @@ namespace DAL.QualityDetection
             return DBHelp.GetDataSet(sql, sp);
         }
 
+        public static string getVendorCode(string batch_No)
+        {
+            string sql = "select distinct Vendor_Code from QT_Inspection_List where Batch_NO=@Batch_No";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Batch_NO",batch_No)
+            };
+            DataTable table = DBHelp.GetDataSet(sql, sp);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    if (Convert.ToString(dr["Vendor_Code"]).Equals(""))
+                    {
+                        return "";
+                    }
+                    else
+                    {
+                        return Convert.ToString(dr["Vendor_Code"]);
+                    }
+                }
+            }
+            return "";
+        }
+
         public static void selectListItem2(string addtime)
         {
             string sql = "select distinct a.Product_Describes,b.Temp_Vendor_Name,a.[Go],a.[To],a.Form_ID,a.Status,a.Add_Time " +

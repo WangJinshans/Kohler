@@ -488,7 +488,6 @@
     <Content Include="VendorQualityDetection\ShowInspectionList.aspx" />
     <Content Include="VendorQualityDetection\ShowSurveyReport.aspx" />
     <Content Include="VendorQualityDetection\SurveyReport.aspx" />
-    <Content Include="VendorQualityDetection\ThirdPartySubmit.aspx" />
     <Content Include="WebForm1.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -689,13 +688,6 @@
     </Compile>
     <Compile Include="VendorQualityDetection\SurveyReport.aspx.designer.cs">
       <DependentUpon>SurveyReport.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="VendorQualityDetection\ThirdPartySubmit.aspx.cs">
-      <DependentUpon>ThirdPartySubmit.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="VendorQualityDetection\ThirdPartySubmit.aspx.designer.cs">
-      <DependentUpon>ThirdPartySubmit.aspx</DependentUpon>
     </Compile>
     <Compile Include="VendorQualityDetection\Utils\LocalExcelReadingUtil.cs" />
     <Compile Include="Site.Master.cs">

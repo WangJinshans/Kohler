@@ -18,7 +18,7 @@ namespace DAL.QualityDetection
         /// <returns></returns>
         public static int addRepertoryInspection(QT_RepertoryInspection inspection)
         {
-            string sql = "insert into QT_RepertoryInspection(Batch_No,Status,Type,Take_Out,Unit,Bad)values(@Batch_No,@Status,@Type,@Take_Out,@Unit,@Bad)";
+            string sql = "insert into QT_RepertoryInspection(Batch_No,Status,Type,Take_Out,Unit,Bad,Vendor_Code,SKU)values(@Batch_No,@Status,@Type,@Take_Out,@Unit,@Bad,@Vendor_Code,@SKU)";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Batch_No",inspection.Batch_No),
@@ -26,8 +26,9 @@ namespace DAL.QualityDetection
                 new SqlParameter("@Type",inspection.Type),
                 new SqlParameter("@Take_Out",inspection.Take_Out),
                 new SqlParameter("@Unit",inspection.Unit),
-                new SqlParameter("@Bad",inspection.Bad)
-
+                new SqlParameter("@Bad",inspection.Bad),
+                new SqlParameter("@Vendor_Code",inspection.Vendor_Code),
+                new SqlParameter("@SKU",inspection.SKU)
             };
 
             return DBHelp.ExecuteCommand(sql, sp);
@@ -35,7 +36,7 @@ namespace DAL.QualityDetection
 
         public static DataTable getRepertoryInspection()
         {
-            string sql = "select * QT_RepertoryInspection where Status='NO'";
+            string sql = "select * from QT_RepertoryInspection where Status='NO'";
             return DBHelp.GetDataSet(sql);
         }
 
