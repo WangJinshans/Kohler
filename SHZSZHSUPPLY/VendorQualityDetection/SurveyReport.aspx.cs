@@ -459,13 +459,6 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                     }
                     else if (mbrResult.Equals("让步接收") || mbrResult.Equals("返工"))
                     {
-                        ////全部接收 拒收为0
-                        //if (Convert.ToString(rcm.Text).Trim().Equals(""))
-                        //{
-                        //    //提示没有填写 接收数量信息
-                        //    LocalScriptManager.CreateScript(Page, String.Format("mytips('{0}')", "请正确填写接收以及拒收数量"), "dataTip");
-                        //    return;
-                        //}
                         info = new StockInfo();
                         info.RJ = "";
                         info.RC = Convert.ToString(ViewState["Amount"]);

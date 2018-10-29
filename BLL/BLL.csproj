@@ -55,6 +55,7 @@
     <Compile Include="QualityDetection\Material_Inspection_Item_BLL.cs.cs" />
     <Compile Include="QualityDetection\MBR_BLL.cs" />
     <Compile Include="QualityDetection\ReInspection_BLL.cs" />
+    <Compile Include="QualityDetection\RepertoryInspection_BLL.cs" />
     <Compile Include="QualityDetection\RequisitionForTest_BLL.cs" />
     <Compile Include="QualityDetection\SCAR_BLL.cs" />
     <Compile Include="QualityDetection\SelectLab_BLL.cs" />
