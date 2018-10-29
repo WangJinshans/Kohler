@@ -6,6 +6,10 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
+    <script src="../VendorAssess/Script/jquery-3.2.1.min.js"></script>
+	<script src="../VendorAssess/Script/layui/layui.js"></script>
+	<link href="../VendorAssess/Script/layui/css/layui.css" rel="stylesheet" />
+	<script src="../VendorAssess/Script/Own/fileUploader.js"></script>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -19,13 +23,23 @@
 
 
 
-            车间报验 填写数量 检验员检验  生成报告   仓库报验  仓库看到不合格报告  移库到不合格
+            
 
             车间报验之后 决定是否需要重新检验（只能重新检验一次 不用多次检验）    单位是个  或者  千克 或着sheng
 
             --%>
+           
 
-        
+        <%--输入  SKU  以及  检验批--%>
+        <asp:DropDownList runat="server" ID="SKU" >
+
+        </asp:DropDownList>
+        <asp:TextBox runat="server" ID="batchNo" />
+        <asp:RadioButton ID="ge" Text="件/个" runat="server" Checked="true" GroupName="radio" />
+        <asp:RadioButton ID="kg" Text="千克/升" runat="server" GroupName="radio" />
+        <asp:TextBox runat="server" ID="takeout" TextMode="MultiLine" />
+        <asp:TextBox runat="server" ID="amount" TextMode="MultiLine" />
+        <asp:Button Text="text" ID="apply" OnClick="apply_Click" runat="server" />
     </div>
     </form>
 </body>
