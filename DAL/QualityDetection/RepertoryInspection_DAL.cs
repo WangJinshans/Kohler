@@ -51,7 +51,7 @@ namespace DAL.QualityDetection
 
         public static void copyInspection(string batch_No)
         {
-            string sql = "insert into QT_Inspection_List(select Batch_No,SKU,Product_Name,Product_Describes,Vendor_Code,Detection_Count,Remark,Go,[To],Form_ID,Status,Factory_Name,Add_Time,Employee_ID,Import_KO,Re_Inspection,Inspetion_Type from QT_Inspection_List where Batch_No=@Batch_No) select TOP 1 SCOPE_IDENTITY() AS returnName from QT_Inspection_List";
+            string sql = "insert into QT_Inspection_List(select Batch_No,SKU,Product_Name,Product_Describes,Vendor_Code,Detection_Count,Remark,Go,[To],Status,Factory_Name,Add_Time,Employee_ID,Import_KO,Re_Inspection,Inspetion_Type from QT_Inspection_List where Batch_No=@Batch_No) select TOP 1 SCOPE_IDENTITY() AS returnName from QT_Inspection_List";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Batch_No",batch_No)

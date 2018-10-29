@@ -123,6 +123,9 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             string vendor_Code = GridView1.Rows[drv.RowIndex].Cells[4].Text;
             string detection_Count = GridView1.Rows[drv.RowIndex].Cells[5].Text;
 
+            //检验类型
+            string inspection_Type= GridView1.Rows[drv.RowIndex].Cells[7].Text;
+
             ViewState["sku"] = sku;
             ViewState["product_name"] = product_name;
             ViewState["vendor_Code"] = vendor_Code;
@@ -155,7 +158,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 }
 
                 //跳转到报告中
-                Response.Redirect("SurveyReport.aspx?batch_No=" + batch_no + "&sku=" + sku + "&product_Name=" + product_name + "&vendor_Code=" + vendor_Code + "&Amount=" + detection_Count + "&time=" + DateTime.Now.ToString() + "&form_ID=" + form_ID + "&kci=" + kci);
+                Response.Redirect("SurveyReport.aspx?batch_No=" + batch_no + "&sku=" + sku + "&product_Name=" + product_name + "&vendor_Code=" + vendor_Code + "&Amount=" + detection_Count + "&time=" + DateTime.Now.ToString() + "&form_ID=" + form_ID + "&kci=" + kci+ "&inspection_Type=" + inspection_Type);
             }
             else if (e.CommandName == "to")
             {

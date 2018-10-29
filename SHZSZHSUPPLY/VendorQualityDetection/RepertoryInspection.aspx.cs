@@ -25,6 +25,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             if (e.CommandName.Equals("sure"))
             {
                 RepertoryInspection_BLL.checkRepertoryInspection(batch_No);
+                //退货检验会生成一个新的 form_ID
                 RepertoryInspection_BLL.copyInspection(batch_No);
                 LocalScriptManager.CreateScript(Page, String.Format("mytips('{0}')", "退货检验确认成功"), "goodReturnTip");
             }

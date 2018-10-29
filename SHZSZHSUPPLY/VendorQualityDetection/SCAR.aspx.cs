@@ -17,29 +17,11 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
             if (!IsPostBack)
             {
-
                 getSessionInfo();
                 bool check = SCAR_BLL.checkSCAR(Convert.ToString(ViewState["form_ID"]));    //有待修改
-                if(check == false)
+                if (check == false)
                 {
-                    QT_SCAR newSCAR = new QT_SCAR();
-                    newSCAR.Factory = Session["Factory_Name"].ToString();
-                    newSCAR.Batch_No = Request.QueryString["batch_no"];
-                    newSCAR.Vendor_Code = Request.QueryString["vendor_code"];
-
-                    newSCAR.Flag = 0;
-
-                    int n = SCAR_BLL.addSCAR(newSCAR);
-                    if (n == 0)
-                    {
-                        Response.Write("<script>window.alert('表格初始化错误（新建插入失败）！')</script>");
-                        return;
-                    }
-                    else
-                    {
-                        string formID =  SCAR_BLL.getSCARFormID(newSCAR);
-                        ViewState.Add("form_ID", formID);
-                    }
+                    Response.Write("<script>window.alert('表格初始化错误!')</script>");
                 }
 
             }
@@ -52,14 +34,19 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             ViewState.Add("form_ID", Request.QueryString["form_ID"]);
         }
 
+        /// <summary>
+        /// 返回上一个页面
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void Back_Click(object sender, EventArgs e)
         {
-
+            Response.Redirect(Request.UrlReferrer.ToString());
         }
 
-        protected void Submit(object sender,EventArgs e)
+        protected void Submit(object sender, EventArgs e)
         {
-            saveForm(2);                //表示填写完成
+            saveForm(2);//表示填写完成
             Response.Write("<script>window.alert('已写入数据库！')</script>");
         }
 
@@ -84,23 +71,23 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             newSCAR.Customer = TextBox7.Text.ToString().Trim();
             newSCAR.Customer_satisfaction_degree = TextBox84.Text.ToString().Trim();
             newSCAR.Date_Raised = TextBox6.Text.ToString().Trim();
-            
+
             newSCAR.Define_and_Verify_Root_Causes = TextBox36.Text.ToString().Trim();
             newSCAR.Deverlop_Team_Member = TextBox16.Text.ToString().Trim();
             newSCAR.Due_Date = TextBox13.Text.ToString().Trim();
-            
+
             newSCAR.IQC_Team_Member = TextBox87.Text.ToString().Trim();
-            
+
             newSCAR.Memo = TextBox85.Text.ToString().Trim();
             newSCAR.Occurred_Qty = TextBox5.Text.ToString().Trim();
             newSCAR.Occurred_Site = TextBox3.Text.ToString().Trim();
             newSCAR.Occurred_Time = TextBox4.Text.ToString().Trim();
             newSCAR.Part_Name = TextBox11.Text.ToString().Trim();
             newSCAR.Part_Number = TextBox8.Text.ToString().Trim();
-           
+
             newSCAR.Prepared_by2 = TextBox19.Text.ToString().Trim();
             newSCAR.Prepared_by4 = TextBox37.Text.ToString().Trim();
-            
+
             newSCAR.Problem_Description = TextBox18.Text.ToString().Trim();
             newSCAR.Produce_Team_Member = TextBox15.Text.ToString().Trim();
             newSCAR.Project_Team_Member = TextBox68.Text.ToString().Trim();
@@ -117,7 +104,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             newSCAR.Prevent_Recurrence = new List<QT_SCAR_Prevent_Recurrence>();
             newSCAR.Verification_of_Effectiveness = new List<QT_SCAR_Verification_of_Effectiveness>();
 
-            for(int i = 22,j=1; i <= 33 && j<=4; i += 3 , j++)
+            for (int i = 22, j = 1; i <= 33 && j <= 4; i += 3, j++)
             {
                 if ((FindControl("TextBox" + i) as TextBox).Text.ToString() == "") { break; }
                 else
@@ -164,15 +151,16 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
             for (int i = 70, j = 13; i <= 81 && j <= 16; i += 3, j++)
             {
-                if((FindControl("TextBox" + i) as TextBox).Text.ToString() == "") { break; }
-                else { 
-                QT_SCAR_Verification_of_Effectiveness item = new QT_SCAR_Verification_of_Effectiveness();
-                item.Verification_of_Effectiveness_No= (FindControl("Label" + j) as Label).Text.ToString();
-                item.Verification_of_Effectiveness_Content = (FindControl("TextBox" + i) as TextBox).Text.ToString();
-                item.Verifier = (FindControl("TextBox" + (i + 1)) as TextBox).Text.ToString();
-                item.Date = (FindControl("TextBox" + (i + 2)) as TextBox).Text.ToString();
-                item.Form_ID = Convert.ToString(ViewState["form_ID"]);
-                newSCAR.Verification_of_Effectiveness.Add(item);
+                if ((FindControl("TextBox" + i) as TextBox).Text.ToString() == "") { break; }
+                else
+                {
+                    QT_SCAR_Verification_of_Effectiveness item = new QT_SCAR_Verification_of_Effectiveness();
+                    item.Verification_of_Effectiveness_No = (FindControl("Label" + j) as Label).Text.ToString();
+                    item.Verification_of_Effectiveness_Content = (FindControl("TextBox" + i) as TextBox).Text.ToString();
+                    item.Verifier = (FindControl("TextBox" + (i + 1)) as TextBox).Text.ToString();
+                    item.Date = (FindControl("TextBox" + (i + 2)) as TextBox).Text.ToString();
+                    item.Form_ID = Convert.ToString(ViewState["form_ID"]);
+                    newSCAR.Verification_of_Effectiveness.Add(item);
                 }
             }
             newSCAR.Person_Pro = "null";
@@ -212,7 +200,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             if (CheckBox17.Checked == true) { newSCAR.Environment_Pro += CheckBox17.Text.ToString().Trim(); }
             if (CheckBox23.Checked == true) { newSCAR.Environment_Pro += CheckBox23.Text.ToString().Trim(); }
 
-            if (CheckBox1.Checked == true)  { newSCAR.Measure_Pro += CheckBox1.Text.ToString().Trim(); }
+            if (CheckBox1.Checked == true) { newSCAR.Measure_Pro += CheckBox1.Text.ToString().Trim(); }
             if (CheckBox11.Checked == true) { newSCAR.Measure_Pro += CheckBox11.Text.ToString().Trim(); }
             if (CheckBox18.Checked == true) { newSCAR.Measure_Pro += CheckBox18.Text.ToString().Trim(); }
             if (CheckBox24.Checked == true) { newSCAR.Measure_Pro += CheckBox24.Text.ToString().Trim(); }
@@ -222,7 +210,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
         }
 
-        
+
         private QT_SCAR saveForm(int flag)
         {
             QT_SCAR newSCAR = new QT_SCAR();
@@ -230,15 +218,11 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             newSCAR.Form_ID = Convert.ToString(ViewState["form_ID"]);
             newSCAR.Flag = flag;
             SCAR_BLL.updateSCAR(newSCAR);
-            
+
             return newSCAR;
-            
+
 
         }
 
-        
-        
-
-        
     }
 }
