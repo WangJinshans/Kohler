@@ -49,7 +49,7 @@ namespace DAL
 
         public static List<string> getVendorTypeByCode(string vendor_Code, string factory)
         {
-            string sql = "select distinct Vendor_Type from Normal_Vendor_ID=@Normal_Vendor_ID AND Factory_Name=@Factory_Name";
+            string sql = "select distinct Vendor_Type from View_Temp_Vendor where Normal_Vendor_ID=@Normal_Vendor_ID AND Factory_Name=@Factory_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Normal_Vendor_ID",vendor_Code),

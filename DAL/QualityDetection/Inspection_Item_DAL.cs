@@ -40,6 +40,7 @@ namespace DAL.QualityDetection
                     item.Status = dr["Status"].ToString();
                     item.Factory_Name = dr["Factory_Name"].ToString();
                     item.Add_Time = dr["Add_Time"].ToString();
+                    item.Inspection_Type = dr["Inspetion_Type"].ToString();
                     list.Add(item);
                 }
             }
@@ -76,6 +77,7 @@ namespace DAL.QualityDetection
                     item.Status = dr["Status"].ToString();
                     item.Factory_Name = dr["Factory_Name"].ToString();
                     item.Add_Time = dr["Add_Time"].ToString();
+                    item.Inspection_Type = dr["Inspetion_Type"].ToString();
                     list.Add(item);
                 }
             }

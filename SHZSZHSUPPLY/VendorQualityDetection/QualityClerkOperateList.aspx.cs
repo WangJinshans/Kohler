@@ -42,7 +42,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             string product_name = GridView1.Rows[drv.RowIndex].Cells[2].Text;
             string vendor_Code = GridView1.Rows[drv.RowIndex].Cells[4].Text;
             string detection_Count = GridView1.Rows[drv.RowIndex].Cells[5].Text;
-
+            string inspection_Type = GridView1.Rows[drv.RowIndex].Cells[7].Text;
 
             if (e.CommandName == "fill")
             {
@@ -66,7 +66,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 //获取KCI
                 string kci = Material_Inspection_Item_BLL.getKCI(sku);
                 //跳转到报告中
-                Response.Redirect("SurveyReport.aspx?batch_No=" + batch_no + "&sku=" + sku + "&product_Name=" + product_name + "&vendor_Code=" + vendor_Code + "&Amount=" + detection_Count + "&time=" + DateTime.Now.ToString() + "&form_ID=" + form_ID + "&kci=" + kci);
+                Response.Redirect("SurveyReport.aspx?batch_No=" + batch_no + "&sku=" + sku + "&product_Name=" + product_name + "&vendor_Code=" + vendor_Code + "&Amount=" + detection_Count + "&time=" + DateTime.Now.ToString() + "&form_ID=" + form_ID + "&kci=" + kci + "&inspection_Type=" + inspection_Type);
             }
         }
     }

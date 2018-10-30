@@ -56,8 +56,8 @@
                         SortExpression="Detection_Count" />
                     <asp:BoundField DataField="Remark" HeaderText="备注"
                         SortExpression="Remark" />
-                    <asp:BoundField DataField="Status" HeaderText="状态"
-                        SortExpression="Status" />
+                    <asp:BoundField DataField="Inspection_Type" HeaderText="检验类型"
+                        SortExpression="Inspection_Type" />
                     <asp:TemplateField>
                         <ItemTemplate>
                             <asp:LinkButton ID="lbfill" runat="server" CommandName="fill">

@@ -425,7 +425,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             string inspection_Type = Convert.ToString(ViewState["inspection_Type"]);
 
             //判断是否是退货检验
-            if (inspection_Type.Equals("tuihuo"))
+            if (inspection_Type.Equals("退货检验"))
             {
                 bool tuihuo = false;
                 tuihuo = Convert.ToString(qualified_list.SelectedIndex).Equals("0") ? true : false;
@@ -523,7 +523,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
 
                         //判断是否触发scar
-                        if (SCAR_BLL.isSCARQuilifited(Convert.ToString(ViewState["Vendor_Code"]), Convert.ToString(Session["Factory_Name"])) != 0)
+                        if (SCAR_BLL.isSCARQuilifited(Convert.ToString(ViewState["vendor_Code"]), Convert.ToString(Session["Factory_Name"])) != 0)
                         {
                             //触发Scar
                             QT_SCAR newSCAR = new QT_SCAR();
@@ -537,6 +537,8 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
                         }
 
+                        SurveyReport_BLL.updateSurveyStatus(form_ID, "完成");
+                        SurveyReport_BLL.setFinished(form_ID);
 
                     }
 

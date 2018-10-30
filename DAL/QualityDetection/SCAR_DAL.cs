@@ -10,7 +10,6 @@ namespace DAL.QualityDetection
 {
     public class SCAR_DAL
     {
- 
         public static string getSCARFormID(QT_SCAR SCAR)
         {
             string formID = "";
@@ -39,7 +38,7 @@ namespace DAL.QualityDetection
             if (type.Contains("直接物料常规"))
             {
                 //直接物料连续二批出现不合格 1
-                if (constantly(vendor_Code, 1, factory))
+                if (constantlyTwo(vendor_Code, factory))
                 {
                     return 1;
                 }
@@ -47,7 +46,7 @@ namespace DAL.QualityDetection
             else if (type.Contains("非生产性常规"))
             {
                 //非生产性物料连续三批出现不合格 2
-                if (constantly(vendor_Code, 2, factory))
+                if (constantlyThree(vendor_Code, factory))
                 {
                     return 2;
                 }
@@ -63,12 +62,11 @@ namespace DAL.QualityDetection
         /// <param name="times"></param>
         /// <param name="factory_Name"></param>
         /// <returns></returns>
-        public static bool constantly(string vendor_Code,int times,string factory_Name)
+        public static bool constantlyThree(string vendor_Code,string factory_Name)
         {
-            string sql = "select top @Times Result from View_QT_InspectionWithResult where Vendor_Code=@Vendor_Code and Factory_Name=@Factory_Name";
+            string sql = "select top 3 Result from View_QT_InspectionWithResult where Vendor_Code=@Vendor_Code and Factory_Name=@Factory_Name";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("@Times",times),
                 new SqlParameter("@Vendor_Code",vendor_Code),
                 new SqlParameter("@Factory_Name",factory_Name)
             };
@@ -85,7 +83,34 @@ namespace DAL.QualityDetection
             }
             return true;
         }
-
+        /// <summary>
+        /// 查询连续几次 需要减去1 因为 本次 自带一次
+        /// </summary>
+        /// <param name="vendor_Code"></param>
+        /// <param name="times"></param>
+        /// <param name="factory_Name"></param>
+        /// <returns></returns>
+        public static bool constantlyTwo(string vendor_Code, string factory_Name)
+        {
+            string sql = "select top 2 Result from View_QT_InspectionWithResult where Vendor_Code=@Vendor_Code and Factory_Name=@Factory_Name";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Vendor_Code",vendor_Code),
+                new SqlParameter("@Factory_Name",factory_Name)
+            };
+            DataTable table = DBHelp.GetDataSet(sql, sp);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    if (Convert.ToInt32(dr["Result"]) != 3)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
 
         public static bool haveSCAR(string batch_No, string vendorCode)
         {

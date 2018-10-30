@@ -96,7 +96,7 @@ namespace DAL.QualityDetection
 
             if (result == "0")
             {
-                result = "让步接收";
+                result = "退货";
             }
             else if (result == "1")
             {
