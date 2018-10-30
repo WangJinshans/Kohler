@@ -65,7 +65,7 @@ namespace DAL.QualityDetection
                 new SqlParameter("@Batch_No",batch_No),
                 new SqlParameter("@ID",ID)
             };
-            DBHelp.ExecuteCommand(sqls, sp);
+            DBHelp.ExecuteCommand(sqls, sps);
         }
 
         public static void updateRepertoryInspection(string batch_No)

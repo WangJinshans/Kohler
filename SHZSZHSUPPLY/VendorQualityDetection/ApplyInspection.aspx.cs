@@ -12,7 +12,8 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             //初始化SKU列表
             if (!IsPostBack)
             {
-                
+                SKU.DataSource = Material_Inspection_Item_BLL.getSKUList();
+                SKU.DataBind();
             }
             else
             {
@@ -61,13 +62,16 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 inspection.Unit = "kg/L";
             }
             inspection.Type = "车间";
+            inspection.Status = "NO";
+            inspection.Batch_No = batchNo.Text.ToString().Trim();
 
             inspection.SKU = SKU.SelectedValue;
             inspection.Vendor_Code = InspectionList_BLL.getVendorCode(batchNo.Text);
             //添加对象
             ViewState.Add("Batch_No", inspection.Batch_No);
             RepertoryInspection_BLL.addRepertoryInspection(inspection);
-            LocalScriptManager.CreateScript(Page, "", "");
+            LocalScriptManager.CreateScript(Page, String.Format("mytips('{0}')", "已成功报验"), "makeSure");
+
         }
     }
 }

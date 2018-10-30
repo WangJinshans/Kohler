@@ -81,6 +81,10 @@ namespace DAL.QualityDetection
                     }
                 }
             }
+            else
+            {
+                return false;
+            }
             return true;
         }
         /// <summary>
@@ -108,6 +112,10 @@ namespace DAL.QualityDetection
                         return false;
                     }
                 }
+            }
+            else
+            {
+                return false;
             }
             return true;
         }

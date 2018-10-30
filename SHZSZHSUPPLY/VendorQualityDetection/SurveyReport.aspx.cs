@@ -539,7 +539,8 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
                         SurveyReport_BLL.updateSurveyStatus(form_ID, "完成");
                         SurveyReport_BLL.setFinished(form_ID);
-
+                        LocalScriptManager.CreateScript(Page, String.Format("mytips_then_back('{0}','{1}')", "检验完成", "InspectionList.aspx"), "operateFinished");
+                        return;
                     }
 
                     if (flag == 0)
