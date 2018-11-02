@@ -64,7 +64,9 @@
 <body>
     <form id="form1" runat="server">
         <div>
-			<table>
+			<asp:HiddenField ID="hid" runat="server" />
+			<div>
+			<table  id="tb">
 				<tr><th colspan="12" style="font-size:30px;font-family:Serif">8D报告</th></tr>
 				<tr><td colspan="12" style="font-size:15px;text-align:center">（CA report in 8D format) </td></tr>
 				<tr>
@@ -389,15 +391,22 @@
 
 
 			</table>
+			</div>
 
 			<div style="text-align: center;">
                 <asp:Button ID="selected" runat="server" Text="提交结果" CssClass="layui-btn" OnClick="Submit"/>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 		        <asp:Button ID="Back" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger"  OnClick="Back_Click"/>
-            </div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+				<button type="button" class="layui-btn layui-btn-normal" onclick="tableToExcel('tb','data')">导出Excel</button>
+				
+
+			</div>
         </div>
     </form>
+	
 	<script type="text/javascript">
+		
 		function displayNo(label,n) {
 
 			
@@ -410,6 +419,28 @@
 			alert("成功");
 		}
 
+		function base64 (content) {
+       return window.btoa(unescape(encodeURIComponent(content)));         
+    }
+    /*
+    *@tableId: table的Id
+    *@fileName: 要生成excel文件的名字（不包括后缀，可随意填写）
+    */
+    function tableToExcel(tableID,fileName){
+      var table = document.getElementById(tableID);
+      var excelContent = table.innerHTML;
+      var excelFile = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:x='urn:schemas-microsoft-com:office:excel' xmlns='http://www.w3.org/TR/REC-html40'>";
+      excelFile += "<head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head>";
+      excelFile += "<body><table>";
+      excelFile += excelContent;
+      excelFile += "</table></body>";
+      excelFile += "</html>";
+      var link = "data:application/vnd.ms-excel;base64," + base64(excelFile);
+      var a = document.createElement("a");
+      a.download = fileName+".xlsx";
+      a.href = link;
+      a.click();
+    }
 	</script>
 	
 </body>
