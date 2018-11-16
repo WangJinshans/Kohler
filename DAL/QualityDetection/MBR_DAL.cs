@@ -72,6 +72,15 @@ namespace DAL.QualityDetection
                     choice.Quiltty_Manager = Convert.ToString(dr["Quiltty_Manager"]);
                     choice.General_Manager = Convert.ToString(dr["General_Manager"]);
                     choice.Chief_Manager = Convert.ToString(dr["Chief_Manager"]);
+
+                    choice.Purchase_Reason = Convert.ToString(dr["Purchase_Reason"]);
+                    choice.Logistics_Reason = Convert.ToString(dr["Logistics_Reason"]);
+                    choice.Product_Reason = Convert.ToString(dr["Product_Reason"]);
+                    choice.Market_Reason = Convert.ToString(dr["Market_Reason"]);
+                    choice.Project_Reason = Convert.ToString(dr["Project_Reason"]);
+                    choice.Quiltty_Reason = Convert.ToString(dr["Quiltty_Reason"]);
+                    choice.General_Reason = Convert.ToString(dr["General_Reason"]);
+                    choice.Chief_Reason = Convert.ToString(dr["Chief_Reason"]);
                 }
             }
             return choice;
@@ -227,12 +236,13 @@ namespace DAL.QualityDetection
             return list;
         }
 
-        public static void makeChoice(string choice,string position_Field,string form_ID)
+        public static void makeChoice(string choice, string reason, string position_Field,string position_Reason_Field, string form_ID)
         {
-            string sql = "update QT_MBR_Results set "+ position_Field + "=@Choice where Form_ID=@Form_ID";
+            string sql = "update QT_MBR_Results set "+ position_Field + "=@Choice,"+ position_Reason_Field + "=@position_Reason_Field where Form_ID=@Form_ID";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Choice",choice),
+                new SqlParameter("@position_Reason_Field",reason),
                 new SqlParameter("@Form_ID",form_ID)
             };
             DBHelp.ExecuteCommand(sql, sp);

@@ -444,6 +444,8 @@
     <Content Include="VendorAssess\VendorSharedUse.aspx" />
     <Content Include="VendorAssess\VendorModifyInfo.aspx" />
     <Content Include="VendorQualityDetection\ApplyInspection.aspx" />
+    <Content Include="VendorQualityDetection\HtmlPage1.html" />
+    <Content Include="VendorQualityDetection\Html\reInspectiom.html" />
     <Content Include="VendorQualityDetection\Html\itemAdd.html" />
     <Content Include="VendorQualityDetection\Html\Mail_Template.html" />
     <Content Include="VendorQualityDetection\InspectionItemIorD.aspx" />
@@ -584,6 +586,9 @@
     </Compile>
     <Compile Include="VendorQualityDetection\ASHX\LoadFileData.ashx.cs">
       <DependentUpon>LoadFileData.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorQualityDetection\ASHX\Progress.ashx.cs">
+      <DependentUpon>Progress.ashx</DependentUpon>
     </Compile>
     <Compile Include="VendorQualityDetection\InspectionItemIorD.aspx.cs">
       <DependentUpon>InspectionItemIorD.aspx</DependentUpon>
@@ -1105,7 +1110,6 @@
     <Folder Include="jsddm.0.25\pic\" />
     <Folder Include="Upload\" />
     <Folder Include="VendorAssess\TEST\TransferTemp\" />
-    <Folder Include="VendorQualityDetection\upload\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Account\Web.config" />
@@ -1179,6 +1183,8 @@
     <Content Include="VendorQualityDetection\Scripts\fine-uploader\jquery.fine-uploader.js.map" />
     <Content Include="VendorQualityDetection\Scripts\fine-uploader\jquery.fine-uploader.min.js.map" />
     <Content Include="VendorQualityDetection\Scripts\fine-uploader\LICENSE" />
+    <Content Include="VendorQualityDetection\ASHX\Progress.ashx" />
+    <Content Include="VendorQualityDetection\upload\news.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

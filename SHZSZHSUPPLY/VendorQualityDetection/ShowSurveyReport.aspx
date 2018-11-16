@@ -283,7 +283,9 @@
                 </tr>
                 <tr>
                     <td colspan="1">采购</td>
-                    <td colspan="3"></td>
+                    <td colspan="3">
+                        <asp:TextBox runat="server" TextMode="MultiLine" ID="purchase_reason"></asp:TextBox>
+                    </td>
                     <td colspan="1">
                         <asp:DropDownList runat="server" ID="purchase_manager">
                             <asp:ListItem Text="退货" />
@@ -293,7 +295,7 @@
                         </asp:DropDownList>
                     </td>
                     <td colspan="1">物流</td>
-                    <td colspan="3"></td>
+                    <td colspan="3"><asp:TextBox runat="server" TextMode="MultiLine" ID="logistics_reason"></asp:TextBox></td>
                     <td colspan="1">
                         <asp:DropDownList runat="server" ID="logistics_manager">
                             <asp:ListItem Text="退货" />
@@ -305,7 +307,7 @@
                 </tr>
                 <tr>
                     <td colspan="1">生产</td>
-                    <td colspan="3"></td>
+                    <td colspan="3"><asp:TextBox runat="server" TextMode="MultiLine" ID="product_reason"></asp:TextBox></td>
                     <td colspan="1">
                         <asp:DropDownList runat="server" ID="product_manager">
                             <asp:ListItem Text="退货" />
@@ -315,7 +317,7 @@
                         </asp:DropDownList>
                     </td>
                     <td colspan="1">市场</td>
-                    <td colspan="3"></td>
+                    <td colspan="3"><asp:TextBox runat="server" TextMode="MultiLine" ID="market_reason"></asp:TextBox></td>
                     <td colspan="1">
                         <asp:DropDownList runat="server" ID="market_manager">
                             <asp:ListItem Text="退货" />
@@ -327,7 +329,7 @@
                 </tr>
                 <tr>
                     <td colspan="1">工程</td>
-                    <td colspan="3"></td>
+                    <td colspan="3"><asp:TextBox runat="server" TextMode="MultiLine" ID="project_reason"></asp:TextBox></td>
                     <td colspan="1">
                         <asp:DropDownList runat="server" ID="project_manager">
                             <asp:ListItem Text="退货" />
@@ -337,7 +339,7 @@
                         </asp:DropDownList>
                     </td>
                     <td colspan="1">质量</td>
-                    <td colspan="3"></td>
+                    <td colspan="3"><asp:TextBox runat="server" TextMode="MultiLine" ID="quilty_reason"></asp:TextBox></td>
                     <td colspan="1">
                         <asp:DropDownList runat="server" ID="quilty_manager">
                             <asp:ListItem Text="退货" />
@@ -350,7 +352,7 @@
                 <tr>
                     <td colspan="2" style="font-size: 18px; font-weight: 700;">
                         <asp:Label Text="总经理/总监" runat="server" ID="final_decision" /></td>
-                    <td colspan="6"></td>
+                    <td colspan="6"><asp:TextBox runat="server" TextMode="MultiLine" ID="final_reason"></asp:TextBox></td>
                     <td colspan="2">
                         <asp:DropDownList ID="final_select" OnSelectedIndexChanged="final_select_SelectedIndexChanged" runat="server">
                             <asp:ListItem Text="退货" />

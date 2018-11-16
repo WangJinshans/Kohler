@@ -48,8 +48,6 @@
                         SortExpression="SKU" />
                     <asp:BoundField DataField="Product_Name" HeaderText="物料"
                         SortExpression="Product_Name" />
-                    <asp:BoundField DataField="Product_Describes" HeaderText="描述"
-                        SortExpression="Product_Describes" />
                     <asp:BoundField DataField="Vendor_Code" HeaderText="供应商"
                         SortExpression="Vendor_Code" />
                     <asp:BoundField DataField="Detection_Count" HeaderText="检测数量"
@@ -58,6 +56,8 @@
                         SortExpression="Remark" />
                     <asp:BoundField DataField="Status" HeaderText="状态"
                         SortExpression="Status" />
+                    <asp:BoundField DataField="Inspection_Type" HeaderText="检验类型"
+                        SortExpression="Inspection_Type" />
                     <asp:TemplateField>
                         <ItemTemplate>
                             <asp:LinkButton ID="lbfill" runat="server" CommandName="fill">

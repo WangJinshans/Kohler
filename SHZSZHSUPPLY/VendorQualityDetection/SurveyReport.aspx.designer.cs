@@ -247,22 +247,13 @@ namespace SHZSZHSUPPLY.VendorQualityDetection {
         protected global::System.Web.UI.WebControls.Button addItem;
         
         /// <summary>
-        /// reInspection 控件。
+        /// Back 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button reInspection;
-        
-        /// <summary>
-        /// submitReport 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button submitReport;
+        protected global::System.Web.UI.WebControls.Button Back;
         
         /// <summary>
         /// saveReport 控件。
@@ -274,12 +265,12 @@ namespace SHZSZHSUPPLY.VendorQualityDetection {
         protected global::System.Web.UI.WebControls.Button saveReport;
         
         /// <summary>
-        /// Back 控件。
+        /// submitReport 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Back;
+        protected global::System.Web.UI.WebControls.Button submitReport;
     }
 }

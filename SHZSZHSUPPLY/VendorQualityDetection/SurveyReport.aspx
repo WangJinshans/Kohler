@@ -226,6 +226,34 @@
 			location.href = "SCAR.aspx?batch_no=" + batch_no + "&vendor_code=" + vendor_code;
 
 		}
+
+
+
+		function startReInspection() {
+		    layui.use('form', function () {
+		        var form = layui.form
+                , layer = layui.layer;
+		        layer.open({
+		            title: ['请输入需要重新检验的项目', 'text-align:center;'],
+		            type: 2,
+		            area: ['500px', '300px'],
+		            content: 'Html/reInspectiom.html',
+		            btn: ['添加', '取消'],
+		            yes: function (index, layero) {
+		                var body = layer.getChildFrame('body', index);
+		                var items = body.find('#reInspectionItem').val();
+		                __myDoPostBack('startReInspection', items);
+		                layer.closeAll();
+		            },
+		            btn1: function () {
+		                layer.closeAll();
+		            }
+                    , cancle: function () {
+                        layer.closeAll();
+                    },
+		        })
+		    });
+		}
     </script>
 </head>
 <body>
@@ -250,9 +278,8 @@
                 </tr>
                 <tr>
                     <td colspan="1">链接:</td>
-
-                    <td colspan="8"><a id="map" runat="server">图纸连接</a>
-                        <label onclick="initMap()">图纸连接</label>
+                    <td colspan="8">
+                        <a id="map" runat="server">图纸连接</a>
                     </td>
                     <td colspan="1">SCAR入口</td>
                 </tr>
@@ -403,7 +430,7 @@
                         <asp:Label Text="" ID="mbr_result" runat="server" />
                     </td>
                     <td colspan="3" id="receive_lable" style="display: none;">接收数量</td>
-                    <td colspan="3" id="receive_text" style="display: none;">
+                    <td id="receive_text" style="display: none;">
                         <asp:TextBox runat="server" TextMode="MultiLine" BorderStyle="None" ID="rcm" />
                     </td>
                 </tr>
@@ -417,13 +444,15 @@
             <div style="text-align: center;">
                 <asp:Button Text="添加检验项" CssClass="layui-btn" ID="addItem" OnClick="addItem_Click" runat="server" />
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                <asp:Button ID="reInspection" runat="server" Text="开始复检" CssClass="layui-btn" OnClick="reInspection_Click" />
+<%--                <asp:Button ID="reInspection" runat="server" Text="开始复检" CssClass="layui-btn" OnClientClick="startReInspection()" />--%>
+                <a id="reInspection" class="layui-btn" onclick="startReInspection()">开始复检</a>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                <asp:Button ID="submitReport" runat="server" Text="完成检验" CssClass="layui-btn" OnClick="submitReport_Click" />
+                <asp:Button ID="Back" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Back_Click" />
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
 		        <asp:Button ID="saveReport" runat="server" Text="保存" CssClass="layui-btn layui-btn-normal" OnClientClick="addItems()" OnClick="saveReport_Click" />
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		        <asp:Button ID="Back" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Back_Click" />
+		        <asp:Button ID="submitReport" runat="server" Text="完成检验" CssClass="layui-btn" OnClick="submitReport_Click" />
+
             </div>
         </div>
     </form>

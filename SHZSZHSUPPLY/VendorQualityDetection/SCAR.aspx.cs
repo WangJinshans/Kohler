@@ -15,16 +15,16 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             Label9.Text = "1";
             Label13.Text = "1";
 
-            if (!IsPostBack)
-            {
-                getSessionInfo();
-                bool check = SCAR_BLL.checkSCAR(Convert.ToString(ViewState["form_ID"]));    //有待修改
-                if (check == false)
-                {
-                    Response.Write("<script>window.alert('表格初始化错误!')</script>");
-                }
+            //if (!IsPostBack)
+            //{
+            //    getSessionInfo();
+            //    bool check = SCAR_BLL.checkSCAR(Convert.ToString(ViewState["form_ID"]));    //有待修改
+            //    if (check == false)
+            //    {
+            //        Response.Write("<script>window.alert('表格初始化错误!')</script>");
+            //    }
 
-            }
+            //}
 
         }
 

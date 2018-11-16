@@ -33,10 +33,12 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
         {
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
             string batch_no = GridView1.Rows[drv.RowIndex].Cells[0].Text;
+            string inspection_Type = GridView1.Rows[drv.RowIndex].Cells[8].Text;
 
             if (e.CommandName == "done")
             {
                 LabInspectionList_BLL.updateStatus(batch_no, "已完成");
+                InspectionList_BLL.updateStatus(batch_no, inspection_Type, "实验室已确认");
 
                 //发送邮件 到 质量部文员 进行通知
 

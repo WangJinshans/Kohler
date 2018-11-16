@@ -35,6 +35,8 @@
                          SortExpression="Arrave_Time" />
                     <asp:BoundField DataField="Status" HeaderText="状态"
                          SortExpression="Status" />
+                    <asp:BoundField DataField="Inspection_Type" HeaderText="检验类型"
+                         SortExpression="Inspection_Type" />
                     <asp:TemplateField>
                         <ItemTemplate>
                             <asp:LinkButton ID="lbgo" runat="server" CommandName="done">

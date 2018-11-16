@@ -16,6 +16,15 @@ namespace MODEL.QualityDetection
         private string general_Manager;
         private string chief_Manager;
 
+        private string purchase_Reason;
+        private string logistics_Reason;
+        private string product_Reason;
+        private string market_Reason;
+        private string project_Reason;
+        private string quiltty_Reason;
+        private string general_Reason;
+        private string chief_Reason;
+
         public string Purchase_Manager
         {
             get
@@ -117,6 +126,110 @@ namespace MODEL.QualityDetection
             set
             {
                 chief_Manager = value;
+            }
+        }
+
+        public string Purchase_Reason
+        {
+            get
+            {
+                return purchase_Reason;
+            }
+
+            set
+            {
+                purchase_Reason = value;
+            }
+        }
+
+        public string Logistics_Reason
+        {
+            get
+            {
+                return logistics_Reason;
+            }
+
+            set
+            {
+                logistics_Reason = value;
+            }
+        }
+
+        public string Product_Reason
+        {
+            get
+            {
+                return product_Reason;
+            }
+
+            set
+            {
+                product_Reason = value;
+            }
+        }
+
+        public string Market_Reason
+        {
+            get
+            {
+                return market_Reason;
+            }
+
+            set
+            {
+                market_Reason = value;
+            }
+        }
+
+        public string Project_Reason
+        {
+            get
+            {
+                return project_Reason;
+            }
+
+            set
+            {
+                project_Reason = value;
+            }
+        }
+
+        public string Quiltty_Reason
+        {
+            get
+            {
+                return quiltty_Reason;
+            }
+
+            set
+            {
+                quiltty_Reason = value;
+            }
+        }
+
+        public string General_Reason
+        {
+            get
+            {
+                return general_Reason;
+            }
+
+            set
+            {
+                general_Reason = value;
+            }
+        }
+
+        public string Chief_Reason
+        {
+            get
+            {
+                return chief_Reason;
+            }
+
+            set
+            {
+                chief_Reason = value;
             }
         }
     }

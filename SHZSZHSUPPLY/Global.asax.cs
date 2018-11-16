@@ -15,7 +15,7 @@ namespace SHZSZHSUPPLY
         void Application_Start(object sender, EventArgs e)
         {
             // 在应用程序启动时运行的代码
-
+            this.BeginRequest += new EventHandler(Application_BeginRequest);
         }
 
         void Application_End(object sender, EventArgs e)
@@ -66,6 +66,11 @@ namespace SHZSZHSUPPLY
                 }
             }));
             thread.Start(System.Web.Hosting.HostingEnvironment.MapPath(Properties.Settings.Default.Transfer_Temp_Path) + Session.SessionID + ".pdf");
+        }
+
+        void Application_BeginRequest(object sender, EventArgs e)
+        {
+            string oldUrl = HttpContext.Current.Request.RawUrl;
         }
 
     }

@@ -18,7 +18,7 @@
     <script src="../VendorAssess/Script/Own/fileUploader.js"></script>
     <script src="Scripts/commonUtil.js?v=2"></script>
     <script>
-
+        
     </script>
 </head>
 <body>

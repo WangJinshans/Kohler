@@ -56,9 +56,23 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                         //添加检验项目 并且刷新 重新加载检验项
                         addInspectionItem(Request.Form["__EVENTARGUMENT"]);
                         break;
+
+                    case "startReInspection":
+                        ReInspection(Request.Form["__EVENTARGUMENT"]);
+                        break;
                     default:
                         break;
                 }
+            }
+        }
+
+        private void ReInspection(string items)
+        {
+            string position_Name = Employee_BLL.getEmployeePositionName(Session["Employee_ID"].ToString());
+            if (position_Name.Equals("质量部文员"))
+            {
+                //开始复检申请 
+                startReInspection(items);
             }
         }
 
@@ -102,11 +116,11 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             if (position_Name.Contains("检验员"))
             {
                 //检验员 隐藏 复检 按钮
-                reInspection.Visible = false;
+                //reInspection.Visible = false;
             }
             else if (ReInspection_BLL.isReInspection(formID))//复检
             {
-                reInspection.Visible = false;
+                //reInspection.Visible = false;
             }
         }
 
@@ -181,9 +195,6 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 //第一次的提示
                 LocalScriptManager.CreateScript(Page, String.Format("MRBtip('{0}')", "由于是第一次检验该物料，请先添加检验项目，第一次保存之后不可添加！"), "AddInspectionTip");
             }
-            //图纸链接初始化
-            //LocalScriptManager.CreateScript(Page, String.Format("initMap('{0}')", Session["Factory_Name"].ToString()), "maps");
-            
         }
 
 
@@ -535,6 +546,8 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
                             SCAR_BLL.addSCAR(newSCAR);
 
+
+                            //发送邮件提醒邮件工程师
                         }
 
 
@@ -647,29 +660,10 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             }
         }
 
-
-        /// <summary>
-        /// 只有质量部文员才可见 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void reInspection_Click(object sender, EventArgs e)
-        {
-
-            //判断是否 不合格 只有在不合格的情况下才能复检
-            string position_Name = Employee_BLL.getEmployeePositionName(Session["Employee_ID"].ToString());
-            if (position_Name.Equals("质量部文员"))
-            {
-                //开始复检申请 
-                startReInspection();
-            }
-        }
-
-
         /// <summary>
         /// 复检
         /// </summary>
-        private void startReInspection()
+        private void startReInspection(string args)
         {
             //复检时需要将原来的表的 检验项目添加的权限复制过来
 
@@ -691,6 +685,10 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             //更新待建列表里面的form_ID?
             int result = SurveyReport_BLL.upDateFormID(batch_No, newFormID);
 
+
+            //设置复检消息
+            ReInspection_BLL.setReInspectionItems(newFormID, form_ID, batch_No, args);
+
             if (result == 1)
             {
                 //发送邮件 通知实验室
@@ -698,6 +696,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 //更改实验室检验的Status 并标识Remark 为复检
                 LabInspectionList_BLL.updateStatus(batch_No, "未完成", "复检");
 
+                InspectionList_BLL.updateStatus(batch_No, Convert.ToString(ViewState["Inspection_Type"]), "实验室");
 
                 LocalScriptManager.CreateScript(Page, String.Format("reInspectionTips('{0}')", "复检申请成功 静待结果"), "reInspectionTips");
             }

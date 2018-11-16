@@ -85,6 +85,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                     {
                         purchase_manager.Text = "挑选全检";
                     }
+                    purchase_reason.Text = choice.Purchase_Reason;
                 }
 
                 if (choice.Logistics_Manager != "")
@@ -105,6 +106,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                     {
                         logistics_manager.Text = "挑选全检";
                     }
+                    logistics_reason.Text = choice.Logistics_Reason;
                 }
 
 
@@ -126,6 +128,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                     {
                         product_manager.Text = "挑选全检";
                     }
+                    product_reason.Text = choice.Product_Reason;
                 }
 
 
@@ -147,6 +150,8 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                     {
                         market_manager.Text = "挑选全检";
                     }
+
+                    market_reason.Text = choice.Market_Reason;
                 }
 
 
@@ -168,6 +173,8 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                     {
                         project_manager.Text = "挑选全检";
                     }
+
+                    project_reason.Text = choice.Project_Reason;
                 }
 
 
@@ -189,6 +196,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                     {
                         quilty_manager.Text = "挑选全检";
                     }
+                    quilty_reason.Text = choice.Quiltty_Reason;
                 }
 
 
@@ -210,27 +218,29 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                     {
                         final_select.Text = "挑选全检";
                     }
+                    final_reason.Text = choice.General_Reason;
                 }
 
 
                 if (choice.Chief_Manager != "")
                 {
-                    if (choice.Product_Manager.Equals("0"))
+                    if (choice.Chief_Manager.Equals("0"))
                     {
                         final_select.Text = "退货";
                     }
-                    else if (choice.Product_Manager.Equals("1"))
+                    else if (choice.Chief_Manager.Equals("1"))
                     {
                         final_select.Text = "让步接收";
                     }
-                    else if (choice.Product_Manager.Equals("2"))
+                    else if (choice.Chief_Manager.Equals("2"))
                     {
                         final_select.Text = "返工";
                     }
-                    else if (choice.Product_Manager.Equals("3"))
+                    else if (choice.Chief_Manager.Equals("3"))
                     {
                         final_select.Text = "挑选全检";
                     }
+                    final_reason.Text = choice.Chief_Reason;
                 }
 
             }
@@ -260,38 +270,46 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             string position_Name = Employee_BLL.getEmployeePositionName(Session["Employee_ID"].ToString());
             string form_ID = Convert.ToString(ViewState["form_ID"]);
             string choice = "";
+            string reason = "";
 
             if (position_Name.Equals("采购部经理")|| position_Name.Equals("供应链经理"))//采购经理
             {
                 choice = Convert.ToString(purchase_manager.SelectedIndex);
+                reason = Convert.ToString(purchase_reason.Text);
             }
             else if (position_Name.Equals("财务部经理"))//财务经理
             {
                 choice = Convert.ToString(logistics_manager.SelectedIndex);
+                reason = Convert.ToString(logistics_reason.Text);
             }
             else if (position_Name.Equals("生产部经理"))//采购经理
             {
                 choice = Convert.ToString(product_manager.SelectedIndex);
+                reason = Convert.ToString(product_reason.Text);
             }
             else if (position_Name.Equals("市场部经理"))//采购经理
             {
                 choice = Convert.ToString(market_manager.SelectedIndex);
+                reason = Convert.ToString(market_reason.Text);
             }
             else if (position_Name.Equals("项目部经理"))//采购经理
             {
                 choice = Convert.ToString(product_manager.SelectedIndex);
+                reason = Convert.ToString(product_reason.Text);
             }
             else if (position_Name.Equals("质量部经理"))//采购经理
             {
                 choice = Convert.ToString(quilty_manager.SelectedIndex);
+                reason = Convert.ToString(quilty_reason.Text);
             }
             else if (position_Name.Equals("总经理")||position_Name.Equals("总监"))
             {
                 choice = Convert.ToString(final_select.SelectedIndex);
+                reason = Convert.ToString(final_reason.Text);
             }
 
 
-            makeChoice(choice,Employee_BLL.getEmployeePositionName(Session["Employee_ID"].ToString()), Convert.ToString(ViewState["form_ID"]));
+            makeChoice(choice, reason, Employee_BLL.getEmployeePositionName(Session["Employee_ID"].ToString()), Convert.ToString(ViewState["form_ID"]));
 
             if (position_Name.Equals("总经理") || position_Name.Equals("总监"))
             {
@@ -305,7 +323,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 //显示MBR 结论
                 lb_mbr_result.Text = result;
 
-                makeChoice(choice, Employee_BLL.getEmployeePositionName(Session["Employee_ID"].ToString()), form_ID);
+                makeChoice(choice, reason, Employee_BLL.getEmployeePositionName(Session["Employee_ID"].ToString()), form_ID);
 
                 //MBR 完成 更新 QT_MBR_Results的states状态标志
                 MBR_BLL.updateMBRState(form_ID, "YES");
@@ -459,9 +477,9 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             lb_mbr_result.Text = result;
         }
 
-        private void makeChoice(string choice,string position_Name,string form_ID)
+        private void makeChoice(string choice,string reason,string position_Name,string form_ID)
         {
-            MBR_BLL.makeChoice(choice, position_Name, form_ID);
+            MBR_BLL.makeChoice(choice,reason, position_Name, form_ID);
         }
 
         protected void Repeater1_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -477,6 +495,8 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             lb_mbr_result.Text = final_select.SelectedValue;
 
             MBR_BLL.setMBRResult(Convert.ToString(ViewState["form_ID"]), result);
+
+            InspectionList_BLL.updateStatusByFormID(Convert.ToString(ViewState["form_ID"]), "MBR完成");
 
         }
     }

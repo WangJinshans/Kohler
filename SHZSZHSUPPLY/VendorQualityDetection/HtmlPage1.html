@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <script src="../VendorAssess/Script/jquery-3.2.1.min.js"></script>
+    <script src="../VendorAssess/Script/layui/layui.js"></script>
+    <link href="../VendorAssess/Script/layui/css/layui.css" rel="stylesheet" />
+    <script>
+
+        function test() {
+            var page_url = "ASHX/Progress.ashx";
+
+
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var name = xhr.getResponseHeader("Content-disposition");
+                    var filename = name.substring(20,name.length);
+                    var blob = new Blob([xhr.response], { type: 'text/xls' });
+                    var csvUrl = URL.createObjectURL(blob);
+                    var link = document.createElement('a');
+                    link.href = csvUrl;
+                    link.download = filename;
+                    link.click();
+          
+                }
+            };
+
+
+            xhr.open('GET', page_url, true);        // 也可以使用POST方式，根据接口
+            xhr.responseType = "blob";    // 返回类型blob
+
+            xhr.addEventListener('progress', function (evt) {
+                if (evt.lengthComputable) {
+                    var percentComplete = evt.loaded / evt.total;
+                    console.log(percentComplete);
+                    $('#progressing').html((percentComplete * 100) + '%');
+                }
+            }, false);
+
+            // 定义请求完成的处理函数，请求前也可以增加加载框/禁用下载按钮逻辑
+            //xhr.onload = function () {
+            //    // 请求完成
+            //    var blob = this.response;
+            //    var fileName = 'xxx';
+            //    fileName += ".xlsx";
+            //    if (window.navigator.msSaveOrOpenBlob) {
+            //        navigator.msSaveBlob(blob, fileName);
+            //    } else {
+            //        var link = document.createElement('a');
+            //        link.href = window.URL.createObjectURL(blob);
+            //        link.download = fileName;
+            //        link.click();
+            //        window.URL.revokeObjectURL(link.href);
+            //    }
+
+            //};
+
+
+            xhr.ontimeout = function (e) {
+                //下载超时请重试
+            };
+            xhr.onerror = function (e) {
+                //下载出错，请联系管理员
+            };
+            // 发送ajax请求
+            xhr.send();
+        }
+    </script>
+
+</head>
+<body>
+    <form id="form1">
+        <div>
+            <div id="progressing"></div>
+            <input type="button" onclick="test()" value="文件下载">
+        </div>
+    </form>
+</body>
+</html>
