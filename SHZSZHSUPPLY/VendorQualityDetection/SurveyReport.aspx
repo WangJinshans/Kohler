@@ -128,25 +128,27 @@
             });
         }
 
-        //显示MBR 以及MBR的结果
+        //显示MBR 以及MBR的结果  让步接收不显示接收数量以及拒收数量框  后台程序已经有过处理
         function showMRB(result) {
             document.getElementById("mbr_part").style.display = "table-row";
-
-            document.getElementById("mbr_result").innerText = result;
 
             var mbr_td = document.getElementById("mbr_list_td");
             var rec_lb = document.getElementById("receive_lable");
             var rec_tx = document.getElementById("receive_text");
             var rej_lb = document.getElementById("reject_lable");
             var rej_tx = document.getElementById("reject_text");
-            rec_lb.style.display = "table-cell";
-            rec_tx.style.display = "inline-block";
-            rec_tx.style.borderLeft = "none";
-            rec_tx.style.borderTop = "none";
-            rec_tx.style.borderRight = "none";
-            rej_lb.style.display = "table-cell";
-            rej_tx.style.display = "inline-block";
-            rej_tx.style.border = "none";
+
+            if (result != '让步接收') {
+                rec_lb.style.display = "table-cell";
+                rec_tx.style.display = "inline-block";
+                rec_tx.style.borderLeft = "none";
+                rec_tx.style.borderTop = "none";
+                rec_tx.style.borderRight = "none";
+                rej_lb.style.display = "table-cell";
+                rej_tx.style.display = "inline-block";
+                rej_tx.style.border = "none";
+                document.getElementById("mbr_result").innerText = result;
+            }
         }
 
 
@@ -218,6 +220,9 @@
             thisWindow.style.height = this.document.body.scrollHeight + 180 + "px";//调整页面
             showAllText();
         }
+        function showReInspection() {
+            $('#reInspection').css("display", "none");
+        }
 
 		function initializeData() {
 
@@ -227,7 +232,12 @@
 
 		}
 
-
+		function setUnDetecable() {
+		    //不需要表面检测等等
+		    document.getElementById('detecable_attachment').style.display = "none";
+		    document.getElementById('detecable').style.display = "none";
+		    document.getElementById('detecable_title').style.display = "none";
+		}
 
 		function startReInspection() {
 		    layui.use('form', function () {
@@ -318,10 +328,10 @@
                     <td colspan="1">全检</td>
                     <td colspan="1">退货检验</td>
                 </tr>
-                <tr>
+                <tr id="detecable_title">
                     <td colspan="10" style="text-align: left; padding-left: 20px;">表面质量检验 / 适配性检验记录 </td>
                 </tr>
-                <tr>
+                <tr id="detecable">
                     <td colspan="1" rowspan="2">表面质量检验</td>
                     <td colspan="1">检验数量:</td>
                     <td colspan="1">
@@ -341,7 +351,7 @@
                         <asp:TextBox runat="server" TextMode="MultiLine" ID="suitability_bad" BorderStyle="None" Text="" />
                     </td>
                 </tr>
-                <tr>
+                <tr id="detecable_attachment">
                     <td colspan="1">不良明细</td>
                     <td colspan="3">
                         <asp:TextBox runat="server" TextMode="MultiLine" BorderStyle="None" ID="appearance_detail" />
@@ -444,7 +454,7 @@
             <div style="text-align: center;">
                 <asp:Button Text="添加检验项" CssClass="layui-btn" ID="addItem" OnClick="addItem_Click" runat="server" />
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-<%--                <asp:Button ID="reInspection" runat="server" Text="开始复检" CssClass="layui-btn" OnClientClick="startReInspection()" />--%>
+                <%--<asp:Button ID="reInspection" runat="server" Text="开始复检" CssClass="layui-btn" OnClientClick="startReInspection()" />--%>
                 <a id="reInspection" class="layui-btn" onclick="startReInspection()">开始复检</a>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
                 <asp:Button ID="Back" runat="server" Text="返回" CssClass="layui-btn layui-btn-danger" OnClick="Back_Click" />

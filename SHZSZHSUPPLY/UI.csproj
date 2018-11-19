@@ -280,6 +280,7 @@
     <Content Include="VendorAssess\Script\PDF\js\html2canvas.js" />
     <Content Include="VendorAssess\Script\PDF\js\jspdf.debug.js" />
     <Content Include="VendorAssess\Script\PDF\js\main.js" />
+    <Content Include="VendorAssess\Script\SCAR_toExcel.js" />
     <Content Include="VendorAssess\SelectDepartment.aspx" />
     <Content Include="VendorAssess\ServiceComponentApplication.aspx" />
     <Content Include="VendorAssess\ShowApproveForm.aspx" />
@@ -448,6 +449,7 @@
     <Content Include="VendorQualityDetection\Html\reInspectiom.html" />
     <Content Include="VendorQualityDetection\Html\itemAdd.html" />
     <Content Include="VendorQualityDetection\Html\Mail_Template.html" />
+    <Content Include="VendorQualityDetection\Html\ScarUpload.html" />
     <Content Include="VendorQualityDetection\InspectionItemIorD.aspx" />
     <Content Include="VendorQualityDetection\InspectionList.aspx" />
     <Content Include="VendorQualityDetection\LabInspectionList.aspx" />
@@ -589,6 +591,9 @@
     </Compile>
     <Compile Include="VendorQualityDetection\ASHX\Progress.ashx.cs">
       <DependentUpon>Progress.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorQualityDetection\ASHX\ScarUpload.ashx.cs">
+      <DependentUpon>ScarUpload.ashx</DependentUpon>
     </Compile>
     <Compile Include="VendorQualityDetection\InspectionItemIorD.aspx.cs">
       <DependentUpon>InspectionItemIorD.aspx</DependentUpon>
@@ -1185,6 +1190,7 @@
     <Content Include="VendorQualityDetection\Scripts\fine-uploader\LICENSE" />
     <Content Include="VendorQualityDetection\ASHX\Progress.ashx" />
     <Content Include="VendorQualityDetection\upload\news.xlsx" />
+    <Content Include="VendorQualityDetection\ASHX\ScarUpload.ashx" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

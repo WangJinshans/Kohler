@@ -33,6 +33,18 @@ namespace DAL.QualityDetection
             return formID;
         }
 
+        public static int updateScarStatus(string batch_No, string vendor_Code, string file_Path)
+        {
+            string sql = "update QT_Scar_Detail set Status='Yes',File_Path=@File_Path where Batch_No=@Batch_No and Vendor_Code=@Vendor_Code";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@File_Path",file_Path),
+                new SqlParameter("@Batch_No",batch_No),
+                new SqlParameter("@Vendor_Code",vendor_Code)
+            };
+            return DBHelp.ExecuteCommand(sql, sp);
+        }
+
         public static int isSCARQuilifited(string vendor_Code, string factory)
         {
             List<string> type = TempVendor_DAL.getVendorTypeByCode(vendor_Code, factory);

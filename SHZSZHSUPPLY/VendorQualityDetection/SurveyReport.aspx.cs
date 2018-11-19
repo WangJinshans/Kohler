@@ -39,7 +39,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
                 }
                 //绩效评估部分的免检
-
+                LocalScriptManager.CreateScript(Page, "setUnDetecable()", "setUnDetecable");
             }
             else
             {
@@ -116,11 +116,15 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             if (position_Name.Contains("检验员"))
             {
                 //检验员 隐藏 复检 按钮
-                //reInspection.Visible = false;
+                //reInspection.Visible = false;showReInspection
+                LocalScriptManager.CreateScript(Page, "showReInspection()", "showReInspection");
+
             }
             else if (ReInspection_BLL.isReInspection(formID))//复检
             {
                 //reInspection.Visible = false;
+                LocalScriptManager.CreateScript(Page, "showReInspection()", "showReInspection");
+
             }
         }
 
@@ -154,7 +158,6 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             DataTable source = SurveyReport_BLL.getInsectionItems(Convert.ToString(ViewState["sku"]));
             if (source == null)
             {
-
                 Repeater1.DataSource = source;
                 Repeater1.DataBind();
             }
@@ -197,7 +200,6 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             }
         }
 
-
         /// <summary>
         /// 显示页面
         /// </summary>
@@ -217,6 +219,17 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             }
 
             remark.Text = SurveyReport_BLL.getReMark(formID);
+
+            string position_Name = Employee_BLL.getEmployeePositionName(Session["Employee_ID"].ToString());
+            if (position_Name.Contains("质量部文员"))
+            {
+                //委托检验 
+                appearance_amount.Text = "";
+                suitability_amount.Text = "";
+                LocalScriptManager.CreateScript(Page, "setUnDetecable()", "setUnDetecable");
+                return;
+            }
+
 
             //表面检验
             InspectionPlanResult plan = makePlans(0, Convert.ToString(ViewState["vendor_Code"]), Convert.ToString(ViewState["batch_No"]), Convert.ToString(ViewState["sku"]), Convert.ToString(ViewState["Amount"]));
