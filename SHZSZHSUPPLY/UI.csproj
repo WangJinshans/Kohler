@@ -280,6 +280,7 @@
     <Content Include="VendorAssess\Script\PDF\js\html2canvas.js" />
     <Content Include="VendorAssess\Script\PDF\js\jspdf.debug.js" />
     <Content Include="VendorAssess\Script\PDF\js\main.js" />
+    <Content Include="VendorAssess\Script\SCAR_toExcel.js" />
     <Content Include="VendorAssess\SelectDepartment.aspx" />
     <Content Include="VendorAssess\ServiceComponentApplication.aspx" />
     <Content Include="VendorAssess\ShowApproveForm.aspx" />
