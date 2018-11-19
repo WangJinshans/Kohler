@@ -327,12 +327,12 @@
 					<th colspan="12" style="border:;border-width:2px" >不良根本原因类型（勾选项，可多选）</th>
 				</tr>
 				<tr>
-					<th colspan="2" style="border-width:1px">人</th>
-					<th colspan="2" style="border-width:1px">机</th>
-					<th colspan="2" style="border-width:1px">料</th>
-					<th colspan="2" style="border-width:1px">法</th>
-					<th colspan="2" style="border-width:1px">环</th>
-					<th colspan="2" style="border-width:1px">测</th>
+					<th colspan="2" style="border:1px solid">人</th>
+					<th colspan="2" style="border:1px solid">机</th>
+					<th colspan="2" style="border:1px solid">料</th>
+					<th colspan="2" style="border:1px solid">法</th>
+					<th colspan="2" style="border:1px solid">环</th>
+					<th colspan="2" style="border:1px solid">测</th>
 				</tr>
 				<tr>
 					<td colspan="2" style="text-align:center"><asp:CheckBox Text="新员工" ID="CheckBox6" runat="server" TextAlign="Left" /></td>
@@ -404,7 +404,7 @@
 			</div>
         </div>
     </form>
-	
+	<script src="../VendorAssess/Script/SCAR_toExcel.js" type="text/javascript">
 	<script type="text/javascript">
 		
 		function displayNo(label,n) {
@@ -419,28 +419,7 @@
 			alert("成功");
 		}
 
-		function base64 (content) {
-       return window.btoa(unescape(encodeURIComponent(content)));         
-    }
-    /*
-    *@tableId: table的Id
-    *@fileName: 要生成excel文件的名字（不包括后缀，可随意填写）
-    */
-    function tableToExcel(tableID,fileName){
-      var table = document.getElementById(tableID);
-      var excelContent = table.innerHTML;
-      var excelFile = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:x='urn:schemas-microsoft-com:office:excel' xmlns='http://www.w3.org/TR/REC-html40'>";
-      excelFile += "<head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head>";
-      excelFile += "<body><table>";
-      excelFile += excelContent;
-      excelFile += "</table></body>";
-      excelFile += "</html>";
-      var link = "data:application/vnd.ms-excel;base64," + base64(excelFile);
-      var a = document.createElement("a");
-      a.download = fileName+".xlsx";
-      a.href = link;
-      a.click();
-    }
+		
 	</script>
 	
 </body>
