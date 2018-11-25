@@ -97,14 +97,14 @@ namespace BLL.QualityDetection
         /// </summary>
         /// <param name="position_Name"></param>
         /// <returns></returns>
-        public static List<MBR_Item> getMBRList(string position_Name,string status)
+        public static List<MBR_Item> getMBRList(string position_Name)
         {
             string position_Field = getFieldName(position_Name);
             if (position_Field.Equals(""))
             {
                 return null;
             }
-            return MBR_DAL.getMBRList(position_Field, status);
+            return MBR_DAL.getMBRList(position_Field);
         }
 
         private static string getFieldName(string position_Name)

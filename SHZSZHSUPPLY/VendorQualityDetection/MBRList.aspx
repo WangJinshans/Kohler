@@ -25,8 +25,8 @@
                         SortExpression="Batch_No" />
                     <asp:BoundField DataField="SKU" HeaderText="SKU"
                         SortExpression="SKU" />
-                    <asp:BoundField DataField="Product_Name" HeaderText="物料"
-                        SortExpression="Product_Name" />
+                    <asp:BoundField DataField="Product_Describes" HeaderText="物料"
+                        SortExpression="Product_Describes" />
                     <asp:BoundField DataField="Vender_Name" HeaderText="供应商"
                         SortExpression="Vender_Name" />
                     <asp:BoundField DataField="Detection_Count" HeaderText="检测数量"

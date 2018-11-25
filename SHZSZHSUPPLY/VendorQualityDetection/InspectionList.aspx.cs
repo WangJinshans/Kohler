@@ -120,8 +120,8 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
             string sku = GridView1.Rows[drv.RowIndex].Cells[1].Text;
             string product_name = GridView1.Rows[drv.RowIndex].Cells[2].Text;
-            string vendor_Code = GridView1.Rows[drv.RowIndex].Cells[4].Text;
-            string detection_Count = GridView1.Rows[drv.RowIndex].Cells[5].Text;
+            string vendor_Code = GridView1.Rows[drv.RowIndex].Cells[3].Text;
+            string detection_Count = GridView1.Rows[drv.RowIndex].Cells[4].Text;
 
             //检验类型
             string inspection_Type= GridView1.Rows[drv.RowIndex].Cells[7].Text;

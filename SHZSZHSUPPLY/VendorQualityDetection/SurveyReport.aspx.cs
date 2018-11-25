@@ -33,13 +33,14 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 if (Session["Factory_Name"].Equals("上海科勒"))
                 {
                     map.HRef = "I:\\ShanghaiKohlerManagementSystem-All-needed\\system\\daily maintenance\\drawings link.htm";
+                    //map.HRef = "D:\\chrome_position.html";
                 }
                 else
                 {
 
                 }
                 //绩效评估部分的免检
-                LocalScriptManager.CreateScript(Page, "setUnDetecable()", "setUnDetecable");
+                
             }
             else
             {
@@ -55,6 +56,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                     case "addItem":
                         //添加检验项目 并且刷新 重新加载检验项
                         addInspectionItem(Request.Form["__EVENTARGUMENT"]);
+
                         break;
 
                     case "startReInspection":
@@ -231,7 +233,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             }
 
 
-            //表面检验
+            //表面检验inspetionType,vendor_Code,batch_No,SKU,amount
             InspectionPlanResult plan = makePlans(0, Convert.ToString(ViewState["vendor_Code"]), Convert.ToString(ViewState["batch_No"]), Convert.ToString(ViewState["sku"]), Convert.ToString(ViewState["Amount"]));
             if (plan != null)//计划成功产出
             {
@@ -428,6 +430,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
         {
             //检验结果不能保存 
             save();
+            showReInspectionButton();
         }
 
 
@@ -668,7 +671,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
                     //申请成功
                     LocalScriptManager.CreateScript(Page, String.Format("mytips('{0}')", "已经自动申请MRB"), "MRBTip");
-
+                    showReInspectionButton();
                 }
             }
         }

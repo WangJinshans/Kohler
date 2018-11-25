@@ -46,7 +46,22 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             lb_arrivetime.Text = survey.Arrave_Time;
             lb_region.Text = "泰国";
 
-            lb_result.Text = survey.Result;
+            if (survey.Result.Equals("0"))
+            {
+                lb_result.Text = "退货";
+            }
+            else if (survey.Result.Equals("1"))
+            {
+                lb_result.Text = "让步接收";
+            }
+            else if (survey.Result.Equals("2"))
+            {
+                lb_result.Text = "返工";
+            }
+            else if (survey.Result.Equals("3"))
+            {
+                lb_result.Text = "挑选全检";
+            }
             lb_unqualifiedType.Text = survey.Un_Inspection_Type;
             lb_rc.Text = survey.RC;
             lb_rj.Text = survey.RJ;
@@ -262,7 +277,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
         protected void Back_Click(object sender, EventArgs e)
         {
-
+            Response.Redirect(Request.UrlReferrer.ToString());
         }
 
         protected void selected_Click(object sender, EventArgs e)
@@ -341,7 +356,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             }
 
             //提示 操作成功  返回刷新
-            LocalScriptManager.CreateScript(Page, String.Format("mytips_the_back('{0}','{1}')", "操作成功", "MBRList.aspx"), "back");
+            LocalScriptManager.CreateScript(Page, String.Format("mytips_then_back('{0}','{1}')", "操作成功", "MBRList.aspx"), "back");
         }
 
         /// <summary>
@@ -479,7 +494,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
         private void makeChoice(string choice,string reason,string position_Name,string form_ID)
         {
-            MBR_BLL.makeChoice(choice,reason, position_Name, form_ID);
+            MBR_BLL.makeChoice(choice, reason, position_Name, form_ID);
         }
 
         protected void Repeater1_ItemDataBound(object sender, RepeaterItemEventArgs e)

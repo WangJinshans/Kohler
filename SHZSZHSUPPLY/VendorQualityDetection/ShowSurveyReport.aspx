@@ -10,7 +10,7 @@
     <script src="../VendorAssess/Script/layui/layui.js"></script>
     <link href="../VendorAssess/Script/layui/css/layui.css" rel="stylesheet" />
     <script src="../VendorAssess/Script/Own/fileUploader.js"></script>
-    <script src="Scripts/commonUtil.js?v=1"></script>
+    <script src="Scripts/commonUtil.js?v=2"></script>
     <style type="text/css">
         * {
             padding: 0px;

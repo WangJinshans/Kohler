@@ -194,16 +194,12 @@ namespace DAL.QualityDetection
             }
         }
 
-        public static List<MBR_Item> getMBRList(string position_Field, string status)
+        public static List<MBR_Item> getMBRList(string position_Field)
         {
             List<MBR_Item> list = new List<MBR_Item>();
             MBR_Item item = null;
-            string sql = "select * from View_QT_MRB_List where " + position_Field + " is null and Status=@Status";
-            SqlParameter[] sp = new SqlParameter[]
-            {
-                new SqlParameter("@Status",status)
-            };
-            DataTable table = DBHelp.GetDataSet(sql, sp);
+            string sql = "select * from View_QT_MRB_List where " + position_Field + " is null and Status<>'YES'";
+            DataTable table = DBHelp.GetDataSet(sql);
 
             if (table.Rows.Count > 0)
             {
@@ -225,7 +221,7 @@ namespace DAL.QualityDetection
                     item.States = Convert.ToString(dr["Status"]);
                     item.Vender_Name= Convert.ToString(dr["Vender_Name"]);
                     item.Detection_Count = Convert.ToString(dr["Detection_Count"]);
-                    item.Product_Name = Convert.ToString(dr["Product_Name"]);
+                    item.Product_Describes = Convert.ToString(dr["Product_Describes"]);
                     item.Batch_No = Convert.ToString(dr["Batch_No"]);
                     item.SKU = Convert.ToString(dr["SKU"]);
 
