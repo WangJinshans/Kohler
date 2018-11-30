@@ -17,6 +17,8 @@ namespace MODEL.QualityDetection
         private string lab_Name;
         private string factory_Name;
         private string status;
+        private string inspection_Type;
+
         public string Batch_No
         {
             get
@@ -144,6 +146,19 @@ namespace MODEL.QualityDetection
             set
             {
                 status = value;
+            }
+        }
+
+        public string Inspection_Type
+        {
+            get
+            {
+                return inspection_Type;
+            }
+
+            set
+            {
+                inspection_Type = value;
             }
         }
     }

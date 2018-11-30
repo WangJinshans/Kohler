@@ -16,14 +16,17 @@
             padding: 0px;
             margin: 0px;
         }
+
         textarea {
             resize: none;
             border: none;
         }
+
         table {
             width: 1000px;
             margin: 100px auto 20px;
         }
+
             table.gridtable {
                 font-family: verdana,arial,sans-serif;
                 font-size: 11px;
@@ -32,6 +35,7 @@
                 border-color: #666666;
                 border-collapse: collapse;
             }
+
                 table.gridtable th {
                     border-width: 1px;
                     padding: 0px;
@@ -39,6 +43,7 @@
                     border-color: #666666;
                     background-color: #507CD1;
                 }
+
                 table.gridtable td {
                     border-width: 1px;
                     padding: 10px;
@@ -46,12 +51,14 @@
                     border-color: #666666;
                     background-color: #ffffff;
                 }
+
             table tr td {
                 border: solid #000000;
                 border-width: 1px 1px 1px 1px;
                 padding: 6px 0px;
                 text-align: center;
             }
+
         table {
             border: solid #000000;
             border-width: 1px 1px 1px 1px;
@@ -62,7 +69,7 @@
     <script>
         //合格
         function InspectionResultQualified() {
-            var mytd = document.getElementById("unqualified_list_td"); 
+            var mytd = document.getElementById("unqualified_list_td");
             var mytd1 = document.getElementById("unqualified_type");
             var qu = document.getElementById("qualified");
             mytd.style.display = "none";
@@ -86,7 +93,7 @@
                 InspectionResultUnQualified();
             }
         }
-       
+
         function MRBtip(msg) {
             layui.use('form', function () {
                 var form = layui.form
@@ -95,7 +102,7 @@
             });
         }
         //申请MRB 完成
-        function MRBfinish(msg,position_Name) {
+        function MRBfinish(msg, position_Name) {
             layui.use('form', function () {
                 var form = layui.form,
                     layer = layui.layer;
@@ -137,8 +144,11 @@
             var rec_tx = document.getElementById("receive_text");
             var rej_lb = document.getElementById("reject_lable");
             var rej_tx = document.getElementById("reject_text");
-
-            if (result != '让步接收') {
+            document.getElementById("mbr_result").innerText = result;
+            console.log("mbr_part................" + result);
+            if (result != "让步接收") {
+                //rec_lb.style.display = "table-cell";
+                //rec_tx.style.display = "inline-block";
                 rec_lb.style.display = "table-cell";
                 rec_tx.style.display = "inline-block";
                 rec_tx.style.borderLeft = "none";
@@ -146,8 +156,10 @@
                 rec_tx.style.borderRight = "none";
                 rej_lb.style.display = "table-cell";
                 rej_tx.style.display = "inline-block";
+                document.getElementById("mbr_list_td").colSpan = '5';
                 rej_tx.style.border = "none";
-                document.getElementById("mbr_result").innerText = result;
+            } else {
+                document.getElementById("mbr_list_td").colSpan = '9';
             }
         }
 
@@ -190,29 +202,8 @@
             });
         }
 
-        //加载数据
-        function showInspectionResults(json) {
-            
-            var obj = JSON.parse(json);
-
-            var results=new Array();
-            var judgements = new Array();
-
-            for (var i = 0; i < obj.length; i++) {
-                results.push(obj[i].Result);
-                judgements.push(obj[i].Judgement);
-            }
-            var tx_results = document.getElementsByName('surveyItem');
-            var tx_judgements = document.getElementsByName('itemJudgement');
-            document.getElementById('size').rowSpan = tx_results.length + 1;
-            for (var n = 0; n < results.length; n++) {
-                tx_results[n].value = results[n];
-            }
-
-            for (var n = 0; n < judgements.length; n++) {
-                tx_judgements[n].value = judgements[n];
-            }
-
+        function reSizeRepeater(height) {
+            document.getElementById('size').rowSpan = height;
         }
 
         window.onload = function () {
@@ -224,52 +215,55 @@
             $('#reInspection').css("display", "none");
         }
 
-		function initializeData() {
+        function initializeData() {
 
-			var batch_no = document.getElementById("TextBox1").value;
-			var vendor_code = document.getElementById("TextBox4").value;
-			location.href = "SCAR.aspx?batch_no=" + batch_no + "&vendor_code=" + vendor_code;
+            var batch_no = document.getElementById("TextBox1").value;
+            var vendor_code = document.getElementById("TextBox4").value;
+            location.href = "SCAR.aspx?batch_no=" + batch_no + "&vendor_code=" + vendor_code;
 
-		}
+        }
 
-		function setUnDetecable() {
-		    //不需要表面检测等等
-		    document.getElementById('detecable_attachment').style.display = "none";
-		    document.getElementById('detecable').style.display = "none";
-		    document.getElementById('detecable_title').style.display = "none";
-		}
+        function setUnDetecable() {
+            //不需要表面检测等等
+            document.getElementById('detecable_attachment').style.display = "none";
+            document.getElementById('detecable').style.display = "none";
+            document.getElementById('detecable_title').style.display = "none";
+        }
 
-		function startReInspection() {
-		    layui.use('form', function () {
-		        var form = layui.form
+        function startReInspection() {
+            layui.use('form', function () {
+                var form = layui.form
                 , layer = layui.layer;
-		        layer.open({
-		            title: ['请输入需要重新检验的项目', 'text-align:center;'],
-		            type: 2,
-		            area: ['500px', '300px'],
-		            content: 'Html/reInspectiom.html',
-		            btn: ['添加', '取消'],
-		            yes: function (index, layero) {
-		                var body = layer.getChildFrame('body', index);
-		                var items = body.find('#reInspectionItem').val();
-		                __myDoPostBack('startReInspection', items);
-		                layer.closeAll();
-		            },
-		            btn1: function () {
-		                layer.closeAll();
-		            }
+                layer.open({
+                    title: ['请输入需要重新检验的项目', 'text-align:center;'],
+                    type: 2,
+                    area: ['500px', '300px'],
+                    //content: 'Html/reInspectiom.html',
+                    content:'Html/FillReInspection.aspx',
+                    btn: ['添加', '取消'],
+                    yes: function (index, layero) {
+                        //var body = layer.getChildFrame('body', index);
+                        //var items = body.find('#reInspectionItem').val();
+                        var items = localStorage.getItem("itemArray");
+                        __myDoPostBack('startReInspection', items);
+                        layer.closeAll();
+                    },
+                    btn1: function () {
+                        layer.closeAll();
+                    }
                     , cancle: function () {
                         layer.closeAll();
                     },
-		        })
-		    });
-		}
+                })
+            });
+        }
     </script>
 </head>
 <body>
-    <form id="form1" runat="server">
+    <form id="form1" class="layui-form" runat="server">
         <input type="hidden" id="_itemValue" value="" name="_itemValue" />
-        <div>
+        <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
+        <div class="layui-form-item">
             <table>
                 <tr>
                     <td colspan="2">检验批</td>
@@ -313,7 +307,8 @@
                     <td colspan="2">
                         <asp:TextBox TextMode="MultiLine" ReadOnly="true" BorderStyle="None" runat="server" ID="TextBox6" /></td>
                     <td colspan="1">到货日期</td>
-                    <td colspan="2"><asp:TextBox TextMode="MultiLine" BorderStyle="None" runat="server" ID="TextBox7" /></td>
+                    <td colspan="2">
+                        <asp:TextBox TextMode="MultiLine" BorderStyle="None" runat="server" ID="TextBox7" /></td>
                     <td colspan="1">
                         <asp:Label Text="泰国" ID="lb_region" runat="server" />
                     </td>
@@ -321,7 +316,23 @@
                 <tr>
                     <td colspan="1">检验类型:</td>
                     <td colspan="2"></td>
-                    <td colspan="1">AQL2.5</td>
+                    <td colspan="1">
+                        <asp:DropDownList Style="display: block;" ID="Aql" AutoPostBack="true" OnSelectedIndexChanged="Aql_SelectedIndexChanged" runat="server">
+                            <asp:ListItem>AQL2.5</asp:ListItem>
+                            <asp:ListItem>AQL1.5</asp:ListItem>
+                            <asp:ListItem>AQL1.0</asp:ListItem>
+                            <asp:ListItem>AQL0.65</asp:ListItem>
+                            <asp:ListItem>AQL0.40</asp:ListItem>
+                            <asp:ListItem>AQL0.25</asp:ListItem>
+                            <asp:ListItem>AQL0.10</asp:ListItem>
+                            <asp:ListItem>AQL0.15</asp:ListItem>
+                            <asp:ListItem>AQL0.065</asp:ListItem>
+                            <asp:ListItem>AQL0.040</asp:ListItem>
+                            <asp:ListItem>AQL0.025</asp:ListItem>
+                            <asp:ListItem>AQL0.015</asp:ListItem>
+                            <asp:ListItem>AQL0.010</asp:ListItem>
+                        </asp:DropDownList>
+                    </td>
                     <td colspan="2">正常</td>
                     <td colspan="1">加严</td>
                     <td colspan="1">放宽</td>
@@ -331,36 +342,41 @@
                 <tr id="detecable_title">
                     <td colspan="10" style="text-align: left; padding-left: 20px;">表面质量检验 / 适配性检验记录 </td>
                 </tr>
-                <tr id="detecable">
-                    <td colspan="1" rowspan="2">表面质量检验</td>
-                    <td colspan="1">检验数量:</td>
-                    <td colspan="1">
-                        <asp:Label Text="text" ID="appearance_amount" runat="server" />
-                    </td>
-                    <td colspan="1">检出不良数:</td>
-                    <td colspan="1">
-                        <asp:TextBox runat="server" TextMode="MultiLine" Text="" BorderStyle="None" ID="appearance_bad" />
-                    </td>
-                    <td colspan="1" rowspan="2">适配性检验记录</td>
-                    <td colspan="1">检验数量:</td>
-                    <td colspan="1">
-                        <asp:Label Text="text" ID="suitability_amount" runat="server" />
-                    </td>
-                    <td colspan="1">检出不良数:</td>
-                    <td colspan="1">
-                        <asp:TextBox runat="server" TextMode="MultiLine" ID="suitability_bad" BorderStyle="None" Text="" />
-                    </td>
-                </tr>
-                <tr id="detecable_attachment">
-                    <td colspan="1">不良明细</td>
-                    <td colspan="3">
-                        <asp:TextBox runat="server" TextMode="MultiLine" BorderStyle="None" ID="appearance_detail" />
-                    </td>
-                    <td colspan="1">不良明细</td>
-                    <td colspan="3">
-                        <asp:TextBox runat="server" TextMode="MultiLine" BorderStyle="None" ID="suitability_detail" />
-                    </td>
-                </tr>
+                <asp:UpdatePanel ID="UpdatePanel1" UpdateMode="Conditional" runat="server">
+                    <ContentTemplate>
+                        <tr id="detecable">
+                            <td colspan="1" rowspan="2">表面质量检验</td>
+                            <td colspan="1">检验数量:</td>
+                            <td colspan="1">
+                                <asp:Label Text="text" ID="appearance_amount" runat="server" />
+                            </td>
+                            <td colspan="1">检出不良数:</td>
+                            <td colspan="1">
+                                <asp:TextBox runat="server" TextMode="MultiLine" Text="" BorderStyle="None" ID="appearance_bad" />
+                            </td>
+                            <td colspan="1" rowspan="2">适配性检验记录</td>
+                            <td colspan="1">检验数量:</td>
+                            <td colspan="1">
+                                <asp:Label Text="text" ID="suitability_amount" runat="server" />
+                            </td>
+                            <td colspan="1">检出不良数:</td>
+                            <td colspan="1">
+                                <asp:TextBox runat="server" TextMode="MultiLine" ID="suitability_bad" BorderStyle="None" Text="" />
+                            </td>
+                        </tr>
+                        <tr id="detecable_attachment">
+                            <td colspan="1">不良明细</td>
+                            <td colspan="3">
+                                <asp:TextBox runat="server" TextMode="MultiLine" BorderStyle="None" ID="appearance_detail" />
+                            </td>
+                            <td colspan="1">不良明细</td>
+                            <td colspan="3">
+                                <asp:TextBox runat="server" TextMode="MultiLine" BorderStyle="None" ID="suitability_detail" />
+                            </td>
+                        </tr>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+
                 <asp:Repeater ID="Repeater1" OnItemDataBound="Repeater1_ItemDataBound" runat="server">
                     <HeaderTemplate>
                         <tr>
@@ -376,10 +392,10 @@
                             <td colspan="2"><%# Eval("Item") %></td>
                             <td colspan="2"><%# Eval("Standard") %></td>
                             <td colspan="4">
-                                <input type="text" style="border:none" name="surveyItem" />
+                                <asp:TextBox runat="server" style="border: none" TextMode="MultiLine" ID="surveyItem" name="surveyItem"></asp:TextBox>
                             </td>
                             <td colspan="1">
-                                <input type="text" style="border:none" name="itemJudgement" />
+                                <asp:TextBox runat="server" style="border: none;text-align:center" TextMode="MultiLine" ID="itemJudgement" name="itemJudgement"></asp:TextBox>
                             </td>
                         </tr>
                     </ItemTemplate>
@@ -387,12 +403,7 @@
                 <tr>
                     <td colspan="3" rowspan="2">检验结论:</td>
                     <td colspan="6" id="qualified" rowspan="2">
-                        <%--<asp:DropDownList ID="qualified_list" OnSelectedIndexChanged="qualified_list_SelectedIndexChanged" AutoPostBack="true" runat="server">
-                            <asp:ListItem Text="" />
-                            <asp:ListItem Text="不合格" />
-                        </asp:DropDownList>--%>
-
-                        <select id="qualified_list" runat="server" onchange="judge()">
+                        <select id="qualified_list" style="display:block" runat="server" lay-filter="qualified_list" onchange="judge()">
                             <option value="合格">合格</option>
                             <option value="不合格">不合格</option>
                         </select>
@@ -401,19 +412,7 @@
                 </tr>
                 <tr>
                     <td colspan="1" id="unqualified_list_td" style="display: none;" rowspan="1">
-                        <%--<asp:DropDownList ID="unqualified_list" OnSelectedIndexChanged="unqualified_list_SelectedIndexChanged" AutoPostBack="true" runat="server">
-                            <asp:ListItem Text="1001" />
-                            <asp:ListItem Text="1002" />
-                            <asp:ListItem Text="2001" />
-                            <asp:ListItem Text="2002" />
-                            <asp:ListItem Text="3001" />
-                            <asp:ListItem Text="4001" />
-                            <asp:ListItem Text="4002" />
-                            <asp:ListItem Text="5001" />
-                            <asp:ListItem Text="5002" />
-                            <asp:ListItem Text="6001" />
-                        </asp:DropDownList>--%>
-                        <select id="unqualified_type_list"  runat="server">
+                        <select id="unqualified_type_list" style="display:block;" runat="server">
                             <option value="1001">1001</option>
                             <option value="1002">1002</option>
                             <option value="2001">2001</option>
@@ -430,13 +429,12 @@
                 <tr>
                     <td>备注:</td>
                     <td colspan="9">
-                        <asp:TextBox runat="server" BorderStyle="None" ID="remark" Text="" />
+                        <asp:TextBox runat="server" TextMode="MultiLine" BorderStyle="None" ID="remark"/>
                     </td>
                 </tr>
-                <tr id="mbr_part" style="display:none;">
+                <tr id="mbr_part" style="display: none;">
                     <td rowspan="2">按MRB结论处置结果</td>
                     <td colspan="5" id="mbr_list_td" rowspan="2">
-
                         <asp:Label Text="" ID="mbr_result" runat="server" />
                     </td>
                     <td colspan="3" id="receive_lable" style="display: none;">接收数量</td>

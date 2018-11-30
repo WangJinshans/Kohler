@@ -232,12 +232,13 @@ namespace DAL.QualityDetection
             return remark;
         }
 
-        public static int addServeyReport(string batch_No)
+        public static int addServeyReport(string batch_No, string vendor_Code)
         {
-            string sql = "insert into QT_Survey(Batch_No)values(@Batch_No)";
+            string sql = "insert into QT_Survey(Batch_No,Vendor_Code)values(@Batch_No,@Vendor_Code)";
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("@Batch_No",batch_No)
+                new SqlParameter("@Batch_No",batch_No),
+                new SqlParameter("@Vendor_Code",vendor_Code)
             };
             return DBHelp.ExecuteCommand(sql, sp);
         }

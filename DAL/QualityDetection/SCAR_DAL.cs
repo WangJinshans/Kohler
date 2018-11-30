@@ -33,6 +33,60 @@ namespace DAL.QualityDetection
             return formID;
         }
 
+        public static Dictionary<string, string[]> readScarVendorInfo(string factory)
+        {
+            Dictionary<string, string[]> info = null;
+            string sql = "select * from View_QT_Scar WHERE Factory_Name=@Factory_Name";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Factory_Name",factory),
+            };
+            DataTable table = DBHelp.GetDataSet(sql, sp);
+            if (table.Rows.Count > 0)
+            {
+
+                //IEnumerable<DataRow> query = from row in table.AsEnumerable()
+                //                             where row.Field<string>("Vendor_Code") == ""
+                //                             select row;
+
+
+                foreach (DataRow dr in table.Rows)
+                {
+                    info = new Dictionary<string, string[]>();
+                    if (!info.ContainsKey(Convert.ToString(dr["Vendor_Type"])))
+                    {
+                        DataRow[] drw = table.Select("Vendor_Type='" + Convert.ToString(dr["Vendor_Type"]) + "'");
+                        string[] vendor_Infos = new string[drw.Length * 2];
+                        info.Add(Convert.ToString(dr["Vendor_Type"]), vendor_Infos);
+
+                        //获取数据
+                        int index = 0;
+                        string[] vendor_Info = new string[table.Rows.Count * 2];
+                        foreach (DataRow row in drw)
+                        {
+                            vendor_Info[index] = Convert.ToString(dr["Vendor_Code"]);
+                            vendor_Info[index + 1] = Convert.ToString(dr["Temp_Vendor_Name"]);
+                            index += 2;
+                        }
+                        info[Convert.ToString(dr["Vendor_Type"])] = vendor_Info;
+                    }
+ 
+                }
+
+            }
+            return info;
+        }
+
+        public static DataTable getScarList(string vendor_Code)
+        {
+            string sql = "select * from View_QT_SCAR where Vendor_Code=@Vendor_Code";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Vendor_Code",vendor_Code)
+            };
+            return DBHelp.GetDataSet(sql, sp);
+        }
+
         public static int updateScarStatus(string batch_No, string vendor_Code, string file_Path)
         {
             string sql = "update QT_Scar_Detail set Status='Yes',File_Path=@File_Path where Batch_No=@Batch_No and Vendor_Code=@Vendor_Code";
@@ -101,7 +155,7 @@ namespace DAL.QualityDetection
 
         public static bool haveSCAR(string batch_No, string vendorCode)
         {
-            string sql = "select Form_ID from QT_SCAR where Batch_No=@Batch_No and Vendor_Code=@Vednor_Code";
+            string sql = "select Form_ID from QT_SCAR where Batch_No=@Batch_No and Vendor_Code=@Vendor_Code";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Batch_No",batch_No),

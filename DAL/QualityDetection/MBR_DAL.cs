@@ -20,6 +20,8 @@ namespace DAL.QualityDetection
                 new SqlParameter("@MBR_Distinction",KCI)
             };
             DBHelp.ExecuteCommand(sql, sp);
+
+            InspectionList_DAL.updateStatusByFormID(form_ID, "MBR");
         }
 
         public static List<QT_Goods_Returned> getGoodReturnedList(string factory_Name,string status)

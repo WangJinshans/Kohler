@@ -292,7 +292,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 choice = Convert.ToString(purchase_manager.SelectedIndex);
                 reason = Convert.ToString(purchase_reason.Text);
             }
-            else if (position_Name.Equals("财务部经理"))//财务经理
+            else if (position_Name.Equals("物流部经理"))//财务经理
             {
                 choice = Convert.ToString(logistics_manager.SelectedIndex);
                 reason = Convert.ToString(logistics_reason.Text);
@@ -309,8 +309,8 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             }
             else if (position_Name.Equals("项目部经理"))//采购经理
             {
-                choice = Convert.ToString(product_manager.SelectedIndex);
-                reason = Convert.ToString(product_reason.Text);
+                choice = Convert.ToString(project_manager.SelectedIndex);
+                reason = Convert.ToString(project_reason.Text);
             }
             else if (position_Name.Equals("质量部经理"))//采购经理
             {
@@ -385,7 +385,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 quilty_manager.Enabled = false;
                 final_select.Enabled = false;
             }
-            else if (position_Name.Equals("财务部经理"))//财务经理
+            else if (position_Name.Equals("物流部经理"))//物流经理
             {
                 purchase_manager.Enabled = false;
                 product_manager.Enabled = false;

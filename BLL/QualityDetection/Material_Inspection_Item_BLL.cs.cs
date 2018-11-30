@@ -74,5 +74,21 @@ namespace BLL.QualityDetection
         {
             return Material_Inspection_Item_DAL.getKCI(SKU);
         }
+
+        /// <summary>
+        /// repeater 控件的高度
+        /// </summary>
+        /// <param name="sku"></param>
+        /// <returns></returns>
+        public static int getInspectionItemCount(string sku)
+        {
+            return Material_Inspection_Item_DAL.getInspectionItemCount(sku);
+        }
+
+
+        public static DataTable getInspectionItemsOnly(string sku)
+        {
+            return Material_Inspection_Item_DAL.getInspectionItemsOnly(sku);
+        }
     }
 }

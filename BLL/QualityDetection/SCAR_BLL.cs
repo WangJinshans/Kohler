@@ -25,6 +25,23 @@ namespace BLL.QualityDetection
             return SCAR_DAL.addSCAR(qtSCAR);
         }
 
+
+        /// <summary>
+        /// 获取Scar下拉框的数据 
+        /// 数据输出格式: Vendor_Code Vendor_Name Batch_No 
+        /// </summary>
+        /// <param name="factory"></param>
+        /// <returns></returns>
+        public static Dictionary<string,string[]> readScarVendorInfo(string factory)
+        {
+            return SCAR_DAL.readScarVendorInfo(factory);
+        }
+
+        public static DataTable getScarList(string vendor_Code)
+        {
+            return SCAR_DAL.getScarList(vendor_Code);
+        }
+
         /// <summary>
         /// 更新Scar的状态 以及文件路径
         /// </summary>

@@ -67,6 +67,25 @@ namespace DAL.QualityDetection
             DBHelp.ExecuteCommand(sql, sp);
         }
 
+        public static string getReInspectionItems(string batch_no)
+        {
+            string sql = "select Items from QT_Re_Inspection where Batch_No=@Batch_No";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Batch_No",batch_no)
+            };
+            string items = "";
+            DataTable table = DBHelp.GetDataSet(sql, sp);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    items = dr["Items"].ToString();
+                }
+            }
+            return items;
+        }
+
         public static bool isReInspectionNeeded(string form_ID)
         {
             string sql = "select Form_ID from QT_Inspection_List where Form_ID=@Form_ID and Go='YES'";

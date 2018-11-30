@@ -94,12 +94,12 @@
 
 </head>
 <body>
-    <form id="form1" runat="server">
+    <form id="form1">
         <div id="fine-uploader-manual-trigger" style="width: 935px; margin: 50px auto;"></div>
         <script>
 
-            var vendor_Code = 'dsa';
-            var batch_No = 'dsaasd';
+            var vendor_Code = localStorage.getItem("QT_Vendor_Code");
+            var batch_No = localStorage.getItem("QT_Batch_No");
 
             function setOwnParams(vendorCode,batchNo) {
                 vendor_Code = vendorCode;
@@ -112,6 +112,7 @@
                     layer.msg(message);
                 });
             }
+
             var manualUploader = new qq.FineUploader({
                 element: document.getElementById('fine-uploader-manual-trigger'),
                 template: 'qq-template-manual-trigger',
@@ -162,6 +163,8 @@
             function upLoadSuccess() {
                 layui.use(['layer'], function () {
                     var layer = layui.layer;
+                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                    parent.layer.close(index); //再执行关闭      
                     layer.msg('Scar反馈上传成功');
                 });
             }

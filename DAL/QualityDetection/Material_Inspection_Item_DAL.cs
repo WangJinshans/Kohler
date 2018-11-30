@@ -77,6 +77,26 @@ namespace DAL.QualityDetection
             return sku_list;
         }
 
+        public static int getInspectionItemCount(string sku)
+        {
+            string sql = "select * from QT_Material_Inspection_Item where SKU=@SKU";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@SKU",sku)
+            };
+            DataTable table = DBHelp.GetDataSet(sql, sp);
+            return table.Rows.Count;
+        }
+
+        public static DataTable getInspectionItemsOnly(string sku)
+        {
+            string sql = "select * from QT_Material_Inspection_Item where SKU=@SKU";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@SKU",sku)
+            };
+            return DBHelp.GetDataSet(sql, sp);
+        }
 
         public static DataTable getSKUTable(string sku)
         {

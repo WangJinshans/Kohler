@@ -19,10 +19,10 @@ namespace SHZSZHSUPPLY.VendorQualityDetection.ASHX
             string vendorCode = context.Request.Params["vendorCode"];
             string batchNo = context.Request.Params["batchNo"];
 
-            string path = "../scar";
+            string path = "../scar/";
             string fileName = file.FileName;
 
-            string file_Path = HttpContext.Current.Server.MapPath(path + fileName+vendorCode+batchNo);
+            string file_Path = HttpContext.Current.Server.MapPath(path + vendorCode + batchNo + fileName);
             file.SaveAs(file_Path);
 
 

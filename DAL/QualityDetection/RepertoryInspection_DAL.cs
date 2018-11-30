@@ -35,7 +35,7 @@ namespace DAL.QualityDetection
 
         public static DataTable getRepertoryInspection()
         {
-            string sql = "select * QT_RepertoryInspection where Status='NO'";
+            string sql = "select * from QT_RepertoryInspection where Status='NO'";
             return DBHelp.GetDataSet(sql);
         }
 

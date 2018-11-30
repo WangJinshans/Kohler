@@ -93,7 +93,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 int n = SCAR_BLL.addSCAR(newSCAR);
                 if (n == 0)
                 {
-                    Response.Write("<script>window.alert('手动触发Scar成功')</script>");
+                    Response.Write("<script>window.alert('手动触发Scar失败')</script>");
                     return;
                 }
                 string formID = SCAR_BLL.getSCARFormID(newSCAR);

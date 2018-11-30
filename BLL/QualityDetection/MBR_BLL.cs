@@ -109,11 +109,11 @@ namespace BLL.QualityDetection
 
         private static string getFieldName(string position_Name)
         {
-            if (position_Name.Equals("采购部经理"))
+            if (position_Name.Equals("采购部经理")|| position_Name.Equals("供应链经理"))
             {
                 return "Purchase_Manager";
             }
-            else if(position_Name.Equals("财务部经理"))
+            else if (position_Name.Equals("物流部经理"))
             {
                 return "Logistics_Manager";
             }
@@ -157,11 +157,11 @@ namespace BLL.QualityDetection
 
         private static string getFieldReasonName(string position_Name)
         {
-            if (position_Name.Equals("采购部经理"))
+            if (position_Name.Equals("采购部经理")|| position_Name.Equals("供应链经理"))
             {
                 return "Purchase_Reason";
             }
-            else if (position_Name.Equals("财务部经理"))
+            else if (position_Name.Equals("物流部经理"))
             {
                 return "Logistics_Reason";
             }
