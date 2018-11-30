@@ -154,9 +154,9 @@ namespace BLL.QualityDetection
         /// </summary>
         /// <param name="batch_No"></param>
         /// <returns></returns>
-        public static int addServeyReport(string batch_No)
+        public static int addServeyReport(string batch_No, string vendor_Code)
         {
-            return SurveyReport_DAL.addServeyReport(batch_No);
+            return SurveyReport_DAL.addServeyReport(batch_No, vendor_Code);
         }
 
         /// <summary>
@@ -192,9 +192,14 @@ namespace BLL.QualityDetection
             return SurveyReport_DAL.getInsectionItems(sku);
         }
 
-        public static void saveInspectionValue(string sku, string form_ID, string values)
+        public static void saveInspectionValue(string sku, string form_ID, List<string> values)
         {
-            string[] itmeValue = values.Split(',');
+            if (values == null && values.Count <= 0)
+            {
+                return;
+            }
+            string[] itmeValue = values.ToArray();
+
             //通过SKU获取 Item  以及  Standard
             DataTable table = SurveyReport_DAL.getInsectionItems(sku);
             if (table.Rows.Count > 0)

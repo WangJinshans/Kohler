@@ -2,6 +2,7 @@
 using MODEL.QualityDetection;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 
@@ -17,6 +18,11 @@ namespace BLL.QualityDetection
         public static int deleteGoodReturned(string batch_No)
         {
             return GoodsReturned_DAL.deleteGoodReturned(batch_No);
+        }
+
+        public static DataTable getReturnList(string vendorCode, string factory)
+        {
+            return GoodsReturned_DAL.getReturnList(vendorCode, factory);
         }
     }
 }

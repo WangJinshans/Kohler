@@ -8,6 +8,8 @@ using BLL.QualityDetection;
 using System.Data.SqlClient;
 using Model;
 using System.Data;
+using SHZSZHSUPPLY.VendorAssess.Util;
+
 namespace SHZSZHSUPPLY.VendorQualityDetection
 {
 	public partial class ShowInspectionList : System.Web.UI.Page
@@ -84,8 +86,18 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
 		protected void dropStatus_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			string time = Session["time"].ToString();
-			string status = dropStatus.SelectedItem.Text;
+            string time = "";
+            try
+            {
+                time = Session["time"].ToString();
+            }
+            catch
+            {
+                LocalScriptManager.CreateScript(Page, String.Format("mytips('{0}')","请先选择时间"), "timeTip");
+            }
+
+
+            string status = dropStatus.SelectedItem.Text;
 			getListbyStatus(time, status);
 		}
 	}

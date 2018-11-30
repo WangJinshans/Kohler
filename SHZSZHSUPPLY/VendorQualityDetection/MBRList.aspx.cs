@@ -17,7 +17,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             if (position_Name.Equals("供应链经理") || position_Name.Equals("采购部经理") || position_Name.Equals("物流部经理") || position_Name.Equals("生产部经理") || position_Name.Equals("质量部经理") || position_Name.Equals("市场部经理") || position_Name.Equals("项目部经理"))
             {
                 //MBR裁定 职位筛选 并且刷新
-                GridView1.DataSource = MBR_BLL.getMBRList(position_Name, "YES");
+                GridView1.DataSource = MBR_BLL.getMBRList(position_Name);
                 GridView1.DataBind();
             }
         }

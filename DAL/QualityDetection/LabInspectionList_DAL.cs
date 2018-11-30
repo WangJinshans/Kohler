@@ -46,6 +46,7 @@ namespace DAL.QualityDetection
                     inspection.Arrave_Time = dr["Arrave_Time"].ToString();
                     inspection.Lab_Name = dr["Lab_Name"].ToString();
                     inspection.Factory_Name = dr["Factory_Name"].ToString();
+                    inspection.Inspection_Type= dr["Inspection_Type"].ToString();
                     list.Add(inspection);
                 }
             }
@@ -80,7 +81,7 @@ namespace DAL.QualityDetection
 
         public static int addConsignmentInspection(ConsignmentInspection inspection)
         {
-            string sql = "insert into QT_ConsignmentInspection(Batch_No,Consignment_KO,SKU,Product_Name,Vendor_Name,Amount,Arrave_Time,Lab_Name,Factory_Name)values(@Batch_No,@Consignment_KO,@SKU,@Product_Name,@Vendor_Name,@Amount,@Arrave_Time,@Lab_Name,@Factory_Name)";
+            string sql = "insert into QT_ConsignmentInspection(Batch_No,Consignment_KO,SKU,Product_Name,Vendor_Name,Amount,Arrave_Time,Lab_Name,Inspection_Type,Factory_Name)values(@Batch_No,@Consignment_KO,@SKU,@Product_Name,@Vendor_Name,@Amount,@Arrave_Time,@Lab_Name,@Inspection_Type,@Factory_Name)";
             SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@Batch_No",inspection.Batch_No),
@@ -91,6 +92,7 @@ namespace DAL.QualityDetection
                 new SqlParameter("@Amount",inspection.Amount),
                 new SqlParameter("@Arrave_Time",inspection.Arrave_Time),
                 new SqlParameter("@Lab_Name",inspection.Lab_Name),
+                new SqlParameter("@Inspection_Type",inspection.Inspection_Type),
                 new SqlParameter("@Factory_Name",inspection.Factory_Name)
             };
             return DBHelp.ExecuteCommand(sql, sp);

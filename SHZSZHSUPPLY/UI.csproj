@@ -49,6 +49,10 @@
     <Reference Include="AjaxControlToolkit">
       <HintPath>..\AjaxControlToolkit\AjaxControlToolkit\AjaxControlToolkit.dll</HintPath>
     </Reference>
+    <Reference Include="MathNet.Numerics, Version=4.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.4.7.0\lib\net40\MathNet.Numerics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -59,6 +63,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.Ajax">
       <HintPath>C:\Users\ko53327\Desktop\GridViewAddEditRecordsusingModalPopup\Bin\System.Web.Ajax.dll</HintPath>
     </Reference>
@@ -280,6 +286,7 @@
     <Content Include="VendorAssess\Script\PDF\js\html2canvas.js" />
     <Content Include="VendorAssess\Script\PDF\js\jspdf.debug.js" />
     <Content Include="VendorAssess\Script\PDF\js\main.js" />
+    <Content Include="VendorAssess\Script\SCAR_toExcel.js" />
     <Content Include="VendorAssess\SelectDepartment.aspx" />
     <Content Include="VendorAssess\ServiceComponentApplication.aspx" />
     <Content Include="VendorAssess\ShowApproveForm.aspx" />
@@ -444,8 +451,12 @@
     <Content Include="VendorAssess\VendorSharedUse.aspx" />
     <Content Include="VendorAssess\VendorModifyInfo.aspx" />
     <Content Include="VendorQualityDetection\ApplyInspection.aspx" />
+    <Content Include="VendorQualityDetection\HtmlPage1.html" />
+    <Content Include="VendorQualityDetection\Html\FillReInspection.aspx" />
+    <Content Include="VendorQualityDetection\Html\reInspectiom.html" />
     <Content Include="VendorQualityDetection\Html\itemAdd.html" />
     <Content Include="VendorQualityDetection\Html\Mail_Template.html" />
+    <Content Include="VendorQualityDetection\Html\ScarUpload.html" />
     <Content Include="VendorQualityDetection\InspectionItemIorD.aspx" />
     <Content Include="VendorQualityDetection\InspectionList.aspx" />
     <Content Include="VendorQualityDetection\LabInspectionList.aspx" />
@@ -457,6 +468,7 @@
     <Content Include="VendorQualityDetection\RequisitionForTest.aspx" />
     <Content Include="VendorQualityDetection\SCAR.aspx" />
     <Content Include="VendorQualityDetection\ScareList.aspx" />
+    <Content Include="VendorQualityDetection\ScarList.aspx" />
     <Content Include="VendorQualityDetection\Scripts\commonUtil.js" />
     <Content Include="VendorQualityDetection\Scripts\fine-uploader\continue.gif" />
     <Content Include="VendorQualityDetection\Scripts\fine-uploader\dnd.js" />
@@ -585,6 +597,19 @@
     <Compile Include="VendorQualityDetection\ASHX\LoadFileData.ashx.cs">
       <DependentUpon>LoadFileData.ashx</DependentUpon>
     </Compile>
+    <Compile Include="VendorQualityDetection\ASHX\Progress.ashx.cs">
+      <DependentUpon>Progress.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorQualityDetection\ASHX\ScarUpload.ashx.cs">
+      <DependentUpon>ScarUpload.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorQualityDetection\Html\FillReInspection.aspx.cs">
+      <DependentUpon>FillReInspection.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorQualityDetection\Html\FillReInspection.aspx.designer.cs">
+      <DependentUpon>FillReInspection.aspx</DependentUpon>
+    </Compile>
     <Compile Include="VendorQualityDetection\InspectionItemIorD.aspx.cs">
       <DependentUpon>InspectionItemIorD.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -661,6 +686,13 @@
     </Compile>
     <Compile Include="VendorQualityDetection\ScareList.aspx.designer.cs">
       <DependentUpon>ScareList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorQualityDetection\ScarList.aspx.cs">
+      <DependentUpon>ScarList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorQualityDetection\ScarList.aspx.designer.cs">
+      <DependentUpon>ScarList.aspx</DependentUpon>
     </Compile>
     <Compile Include="VendorQualityDetection\SelectLab.aspx.cs">
       <DependentUpon>SelectLab.aspx</DependentUpon>
@@ -1105,6 +1137,7 @@
     <Folder Include="jsddm.0.25\pic\" />
     <Folder Include="Upload\" />
     <Folder Include="VendorAssess\TEST\TransferTemp\" />
+    <Folder Include="VendorQualityDetection\scar\" />
     <Folder Include="VendorQualityDetection\upload\" />
   </ItemGroup>
   <ItemGroup>
@@ -1137,6 +1170,7 @@
     <Content Include="App_Browsers\Default.browser" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\test.pubxml" />
     <None Include="Properties\PublishProfiles\wjs_release.pubxml" />
     <None Include="Properties\Settings.settings">
@@ -1179,6 +1213,8 @@
     <Content Include="VendorQualityDetection\Scripts\fine-uploader\jquery.fine-uploader.js.map" />
     <Content Include="VendorQualityDetection\Scripts\fine-uploader\jquery.fine-uploader.min.js.map" />
     <Content Include="VendorQualityDetection\Scripts\fine-uploader\LICENSE" />
+    <Content Include="VendorQualityDetection\ASHX\Progress.ashx" />
+    <Content Include="VendorQualityDetection\ASHX\ScarUpload.ashx" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

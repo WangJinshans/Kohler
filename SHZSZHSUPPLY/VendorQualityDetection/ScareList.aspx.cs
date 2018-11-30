@@ -1,20 +1,55 @@
-﻿using BLL.QualityDetection;
+﻿using BLL;
+using BLL.QualityDetection;
 using MODEL.QualityDetection;
 using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
+using System.Web.Script.Serialization;
 using System.Web.UI.WebControls;
 
 namespace SHZSZHSUPPLY.VendorQualityDetection
 {
     public partial class ScareList : System.Web.UI.Page
     {
+        public Dictionary<string, Dictionary<string, string[]>> info;
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            //获取所有的供应商 类型 名称 初始化两个下拉列表
+            if (!IsPostBack)
+            {
+                info = TempVendor_BLL.readVendorInFactory(Convert.ToString(Session["Factory_Name"]));
+                JavaScriptSerializer jss = new JavaScriptSerializer();
+
+                string result = jss.Serialize(info[Session["Factory_Name"].ToString()]);
+                LocalScriptManager.CreateScript(Page, String.Format("setParam('{0}')", result), "setParameter");
+            }
+
+            else
+            {
+                switch (Request.Form["__EVENTTARGET"])
+                {
+                    case "loadInfo":
+                        initGridView(Request.Form["__EVENTARGUMENT"]);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private void initGridView(string tempVendorID)
+        {
+            //获取该供应商的所有检验批
+            string vendorCode = TempVendor_BLL.getNormalCode(tempVendorID);
+            string factory = Session["Factory_Name"].ToString();
+
+            //从退货列表中获取
+            GridView1.DataSource = GoodsReturned_BLL.getReturnList(vendorCode, factory);
+            GridView1.DataBind();
+
+            LocalScriptManager.CreateScript(Page, "reSetParam()", "reSetParameter");
+
+            
         }
 
 
@@ -41,10 +76,8 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 //原因 发生影响产品质量的重大问题  发生重大客户投诉  管理者认为需要书面纠正预防的其它问题
 
                 //获取原因 
-                DropDownList reason = (DropDownList)this.GridView1.Rows[drv.RowIndex].FindControl("DropDownList");
-
+                DropDownList reason = this.GridView1.Rows[drv.RowIndex].Cells[4].FindControl("DropDownList1") as DropDownList;
                 newSCAR.Reason = reason.SelectedValue;
-
                 newSCAR.Flag = 0;
 
                 //判断是否存在Scar 
@@ -54,10 +87,13 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                     return;
                 }
 
+
+
+                //下载文件？
                 int n = SCAR_BLL.addSCAR(newSCAR);
                 if (n == 0)
                 {
-                    Response.Write("<script>window.alert('表格初始化错误（新建插入失败）！')</script>");
+                    Response.Write("<script>window.alert('手动触发Scar失败')</script>");
                     return;
                 }
                 string formID = SCAR_BLL.getSCARFormID(newSCAR);

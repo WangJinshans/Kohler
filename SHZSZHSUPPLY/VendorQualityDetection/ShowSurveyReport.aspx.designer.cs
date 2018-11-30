@@ -211,6 +211,15 @@ namespace SHZSZHSUPPLY.VendorQualityDetection {
         protected global::System.Web.UI.WebControls.Label lb_rj;
         
         /// <summary>
+        /// purchase_reason 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox purchase_reason;
+        
+        /// <summary>
         /// purchase_manager 控件。
         /// </summary>
         /// <remarks>
@@ -218,6 +227,15 @@ namespace SHZSZHSUPPLY.VendorQualityDetection {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList purchase_manager;
+        
+        /// <summary>
+        /// logistics_reason 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox logistics_reason;
         
         /// <summary>
         /// logistics_manager 控件。
@@ -229,6 +247,15 @@ namespace SHZSZHSUPPLY.VendorQualityDetection {
         protected global::System.Web.UI.WebControls.DropDownList logistics_manager;
         
         /// <summary>
+        /// product_reason 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox product_reason;
+        
+        /// <summary>
         /// product_manager 控件。
         /// </summary>
         /// <remarks>
@@ -236,6 +263,15 @@ namespace SHZSZHSUPPLY.VendorQualityDetection {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList product_manager;
+        
+        /// <summary>
+        /// market_reason 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox market_reason;
         
         /// <summary>
         /// market_manager 控件。
@@ -247,6 +283,15 @@ namespace SHZSZHSUPPLY.VendorQualityDetection {
         protected global::System.Web.UI.WebControls.DropDownList market_manager;
         
         /// <summary>
+        /// project_reason 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox project_reason;
+        
+        /// <summary>
         /// project_manager 控件。
         /// </summary>
         /// <remarks>
@@ -254,6 +299,15 @@ namespace SHZSZHSUPPLY.VendorQualityDetection {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList project_manager;
+        
+        /// <summary>
+        /// quilty_reason 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox quilty_reason;
         
         /// <summary>
         /// quilty_manager 控件。
@@ -272,6 +326,15 @@ namespace SHZSZHSUPPLY.VendorQualityDetection {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label final_decision;
+        
+        /// <summary>
+        /// final_reason 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox final_reason;
         
         /// <summary>
         /// final_select 控件。

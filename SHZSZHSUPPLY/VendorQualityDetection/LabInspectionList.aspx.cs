@@ -33,14 +33,22 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
         {
             GridViewRow drv = ((GridViewRow)(((LinkButton)(e.CommandSource)).Parent.Parent));
             string batch_no = GridView1.Rows[drv.RowIndex].Cells[0].Text;
+            string inspection_Type = GridView1.Rows[drv.RowIndex].Cells[7].Text;
 
             if (e.CommandName == "done")
             {
                 LabInspectionList_BLL.updateStatus(batch_no, "已完成");
+                InspectionList_BLL.updateStatus(batch_no, inspection_Type, "实验室已确认");
 
                 //发送邮件 到 质量部文员 进行通知
 
                 LocalScriptManager.CreateScript(Page, String.Format("mytips('{0}')", "操作成功"), "labInspectionDone");
+            }
+            else if (e.CommandName.Equals("show"))
+            {
+                //显示 需要复检的项目
+                string items = ReInspection_BLL.getReInspectionItems(batch_no);
+                LocalScriptManager.CreateScript(Page, String.Format("mytips('{0}')", items), "showItems");
             }
         }
     }

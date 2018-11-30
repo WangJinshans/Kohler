@@ -99,7 +99,26 @@ namespace BLL.QualityDetection
 			InspectionList_DAL.selectListItem2(addtime);
 		}
 
-		
 
-	}
+        /// <summary>
+        /// 更改待检列表中的显示进度
+        /// </summary>
+        /// <param name="batch_No"></param>
+        /// <param name="inspection_Type"></param>
+        /// <param name="status"></param>
+        public static void updateStatus(string batch_No, string inspection_Type, string status)
+        {
+            InspectionList_DAL.updateStatus(batch_No, inspection_Type, status);
+        }
+
+        /// <summary>
+        /// 更具form_ID 更改待检列表的显示进度
+        /// </summary>
+        /// <param name="form_ID"></param>
+        /// <param name="status"></param>
+        public static void updateStatusByFormID(string form_ID, string status)
+        {
+            InspectionList_DAL.updateStatus(form_ID, status);
+        }
+    }
 }

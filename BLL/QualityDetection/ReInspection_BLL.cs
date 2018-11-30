@@ -51,5 +51,29 @@ namespace BLL.QualityDetection
         {
             return ReInspection_DAL.isReInspectionNeeded(form_ID);
         }
+
+
+        /// <summary>
+        /// 设置复检的项目
+        /// </summary>
+        /// <param name="newFormID"></param>
+        /// <param name="form_ID"></param>
+        /// <param name="batch_No"></param>
+        /// <param name="args"></param>
+        public static void setReInspectionItems(string newFormID, string form_ID, string batch_No, string items)
+        {
+            ReInspection_DAL.setReInspectionItems(newFormID, form_ID, batch_No, items);
+        }
+
+
+        /// <summary>
+        /// 查看复检的复检项目
+        /// </summary>
+        /// <param name="batch_no"></param>
+        /// <returns></returns>
+        public static string getReInspectionItems(string batch_no)
+        {
+            return ReInspection_DAL.getReInspectionItems(batch_no);
+        }
     }
 }

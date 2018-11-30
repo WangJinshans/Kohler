@@ -35,10 +35,21 @@
                          SortExpression="Arrave_Time" />
                     <asp:BoundField DataField="Status" HeaderText="状态"
                          SortExpression="Status" />
+                    <asp:BoundField DataField="Inspection_Type" HeaderText="检验类型"
+                         SortExpression="Inspection_Type" />
+                    <asp:TemplateField>
+                        <HeaderTemplate>
+                            复检项目
+                        </HeaderTemplate>
+                        <ItemTemplate>
+                            <asp:LinkButton ID="lbshow" runat="server" CommandName="show">
+                                查看复检</asp:LinkButton>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                     <asp:TemplateField>
                         <ItemTemplate>
                             <asp:LinkButton ID="lbgo" runat="server" CommandName="done">
-                                去检验</asp:LinkButton>
+                                检验完成</asp:LinkButton>
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>

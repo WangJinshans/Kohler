@@ -39,10 +39,11 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
                 }
                 //绩效评估部分的免检
-
+                
             }
             else
             {
+                #region
                 //操作填表数据
                 ViewState["itemValue"] = Request.Form["_itemValue"].ToString();
 
@@ -55,32 +56,45 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                     case "addItem":
                         //添加检验项目 并且刷新 重新加载检验项
                         addInspectionItem(Request.Form["__EVENTARGUMENT"]);
+
+                        break;
+
+                    case "startReInspection":
+                        ReInspection(Request.Form["__EVENTARGUMENT"]);
                         break;
                     default:
                         break;
                 }
+                #endregion
+            }
+        }
+
+        private void ReInspection(string items)
+        {
+            string position_Name = Employee_BLL.getEmployeePositionName(Session["Employee_ID"].ToString());
+            if (position_Name.Equals("质量部文员"))
+            {
+                //开始复检申请 
+                startReInspection(items);
             }
         }
 
         private void showInspectionValues(string form_ID)
         {
+            //检验结果
             DataTable table = SurveyReport_BLL.showInspectionResults(form_ID);
-            List<InspectionResult> list = new List<InspectionResult>();
-            InspectionResult result = null;
             if (table.Rows.Count > 0)
             {
                 foreach (DataRow dr in table.Rows)
                 {
-                    result = new InspectionResult();
-                    result.Result = Convert.ToString(dr["Result"]);
-                    result.Judgement = Convert.ToString(dr["Judgement"]);
-                    list.Add(result);
+                    int index = table.Rows.IndexOf(dr);
+                    TextBox surveyItem = this.Repeater1.Items[index].FindControl("surveyItem") as TextBox;
+                    TextBox itemJudgement = this.Repeater1.Items[index].FindControl("itemJudgement") as TextBox;
+                    surveyItem.Text = Convert.ToString(dr["Result"]);
+                    itemJudgement.Text = Convert.ToString(dr["Judgement"]);
                 }
             }
-
-            JavaScriptSerializer jss = new JavaScriptSerializer();
-            string serializedJson = jss.Serialize(list);
-            LocalScriptManager.CreateScript(Page, String.Format("showInspectionResults('{0}')", serializedJson), "showResults");
+            reSizeRepeater();
         }
 
 
@@ -89,7 +103,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
         /// </summary>
         private void noCheck()
         {
-            //
+            
         }
 
         /// <summary>
@@ -102,11 +116,11 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             if (position_Name.Contains("检验员"))
             {
                 //检验员 隐藏 复检 按钮
-                reInspection.Visible = false;
+                LocalScriptManager.CreateScript(Page, "showReInspection()", "showReInspection");
             }
             else if (ReInspection_BLL.isReInspection(formID))//复检
             {
-                reInspection.Visible = false;
+                LocalScriptManager.CreateScript(Page, "showReInspection()", "showReInspection");
             }
         }
 
@@ -120,7 +134,6 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
             if (MBR_BLL.isMBRNeeded(form_ID) && MBR_BLL.isMBRFinished(form_ID))
             {
-
                 //获取结论
                 string result = MBR_BLL.getMBRResult(form_ID);
 
@@ -140,7 +153,6 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             DataTable source = SurveyReport_BLL.getInsectionItems(Convert.ToString(ViewState["sku"]));
             if (source == null)
             {
-
                 Repeater1.DataSource = source;
                 Repeater1.DataBind();
             }
@@ -181,11 +193,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 //第一次的提示
                 LocalScriptManager.CreateScript(Page, String.Format("MRBtip('{0}')", "由于是第一次检验该物料，请先添加检验项目，第一次保存之后不可添加！"), "AddInspectionTip");
             }
-            //图纸链接初始化
-            //LocalScriptManager.CreateScript(Page, String.Format("initMap('{0}')", Session["Factory_Name"].ToString()), "maps");
-            
         }
-
 
         /// <summary>
         /// 显示页面
@@ -197,7 +205,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             if (check == 0)//不存在
             {
                 //插入记录Form_ID 
-                SurveyReport_BLL.addServeyReport(Convert.ToString(ViewState["batch_No"]));
+                SurveyReport_BLL.addServeyReport(Convert.ToString(ViewState["batch_No"]), Convert.ToString(ViewState["vendor_Code"]));
                 formID = SurveyReport_BLL.getReportFormID(Convert.ToString(ViewState["batch_No"]));
                 ViewState["form_ID"] = formID;
 
@@ -207,14 +215,25 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
             remark.Text = SurveyReport_BLL.getReMark(formID);
 
-            //表面检验
-            InspectionPlanResult plan = makePlans(0, Convert.ToString(ViewState["vendor_Code"]), Convert.ToString(ViewState["batch_No"]), Convert.ToString(ViewState["sku"]), Convert.ToString(ViewState["Amount"]));
+            string position_Name = Employee_BLL.getEmployeePositionName(Session["Employee_ID"].ToString());
+            if (position_Name.Contains("质量部文员"))
+            {
+                //委托检验 
+                appearance_amount.Text = "";
+                suitability_amount.Text = "";
+                LocalScriptManager.CreateScript(Page, "setUnDetecable()", "setUnDetecable");
+                return;
+            }
+            string aql = Aql.SelectedValue.Substring(3);
+
+            //表面检验inspetionType,vendor_Code,batch_No,SKU,amount
+            InspectionPlanResult plan = makePlans(aql,0, Convert.ToString(ViewState["vendor_Code"]), Convert.ToString(ViewState["batch_No"]), Convert.ToString(ViewState["sku"]), Convert.ToString(ViewState["Amount"]));
             if (plan != null)//计划成功产出
             {
                 appearance_amount.Text = plan.Sample_Amount;
             }
             //适配性检验
-            InspectionPlanResult plans = makePlans(0, Convert.ToString(ViewState["vendor_Code"]), Convert.ToString(ViewState["batch_No"]), Convert.ToString(ViewState["sku"]), Convert.ToString(ViewState["Amount"]));
+            InspectionPlanResult plans = makePlans(aql, 0, Convert.ToString(ViewState["vendor_Code"]), Convert.ToString(ViewState["batch_No"]), Convert.ToString(ViewState["sku"]), Convert.ToString(ViewState["Amount"]));
             if (plan != null)//计划成功产出
             {
                 suitability_amount.Text = plans.Sample_Amount;
@@ -260,10 +279,17 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
         /// </summary>
         private void save()
         {
-            string values = Convert.ToString(ViewState["itemValue"]);
+            List<string> values = new List<string>();
             string sku = Convert.ToString(ViewState["sku"]);
             string form_ID = Convert.ToString(ViewState["form_ID"]);
 
+            foreach (RepeaterItem item in this.Repeater1.Items)
+            {
+                TextBox surveyItem = item.FindControl("surveyItem") as TextBox;
+                TextBox itemJudgement = item.FindControl("itemJudgement") as TextBox;
+                values.Add(surveyItem.Text);
+                values.Add(itemJudgement.Text);
+            }
             //保存到数据库
             SurveyReport_BLL.saveInspectionValue(sku, form_ID, values);
 
@@ -327,13 +353,13 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
         /// <summary>
         /// 生成抽样检查计划 
         /// </summary>
-        private InspectionPlanResult makePlans(int inspetionType, string vendor_Code, string batch_No, string SKU, string amount)
+        private InspectionPlanResult makePlans(string aql, int inspetionType, string vendor_Code, string batch_No, string SKU, string amount)
         {
             //获取检验方式 加严 放宽  正常
             int result = SurveyReport_BLL.getInspectionMethod(vendor_Code, SKU);
 
             //AQL
-            string aql = Material_Inspection_Item_BLL.getAQL(SKU);
+            //string aql = Material_Inspection_Item_BLL.getAQL(SKU);
 
             //检验水平
             string class_Leval = "";
@@ -404,6 +430,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
         {
             //检验结果不能保存 
             save();
+            showReInspectionButton();
         }
 
 
@@ -535,6 +562,8 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
                             SCAR_BLL.addSCAR(newSCAR);
 
+
+                            //发送邮件提醒邮件工程师
                         }
 
 
@@ -642,40 +671,17 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
                     //申请成功
                     LocalScriptManager.CreateScript(Page, String.Format("mytips('{0}')", "已经自动申请MRB"), "MRBTip");
-
+                    showReInspectionButton();
                 }
             }
         }
 
-
-        /// <summary>
-        /// 只有质量部文员才可见 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void reInspection_Click(object sender, EventArgs e)
-        {
-
-            //判断是否 不合格 只有在不合格的情况下才能复检
-            string position_Name = Employee_BLL.getEmployeePositionName(Session["Employee_ID"].ToString());
-            if (position_Name.Equals("质量部文员"))
-            {
-                //开始复检申请 
-                startReInspection();
-            }
-        }
-
-
         /// <summary>
         /// 复检
         /// </summary>
-        private void startReInspection()
+        private void startReInspection(string args)
         {
-            //复检时需要将原来的表的 检验项目添加的权限复制过来
 
-            //ViewState暂不可用  原因不详
-
-            //string form_ID = Convert.ToString(ViewState["form_ID"]);
             string form_ID = SurveyReport_BLL.getReportFormID(Convert.ToString(ViewState["batch_No"]));
             string batch_No = Convert.ToString(ViewState["batch_No"]);
             //先生成一个新的表
@@ -691,6 +697,10 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             //更新待建列表里面的form_ID?
             int result = SurveyReport_BLL.upDateFormID(batch_No, newFormID);
 
+
+            //设置复检消息
+            ReInspection_BLL.setReInspectionItems(newFormID, form_ID, batch_No, args);
+
             if (result == 1)
             {
                 //发送邮件 通知实验室
@@ -698,6 +708,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 //更改实验室检验的Status 并标识Remark 为复检
                 LabInspectionList_BLL.updateStatus(batch_No, "未完成", "复检");
 
+                InspectionList_BLL.updateStatus(batch_No, Convert.ToString(ViewState["inspection_Type"]), "实验室");
 
                 LocalScriptManager.CreateScript(Page, String.Format("reInspectionTips('{0}')", "复检申请成功 静待结果"), "reInspectionTips");
             }
@@ -721,6 +732,21 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
         protected void addItem_Click(object sender, EventArgs e)
         {
             LocalScriptManager.CreateScript(Page, "addNewInspectionItem()", "addNewInspectionItem");
+        }
+
+        protected void reSizeRepeater()
+        {
+            int height = Material_Inspection_Item_BLL.getInspectionItemCount(Convert.ToString(ViewState["sku"]));
+            LocalScriptManager.CreateScript(Page, String.Format("reSizeRepeater('{0}')", height + 1), "reSize");
+            
+        }
+
+        protected void Aql_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            showReport();
+            showReInspectionButton();
+            reSizeRepeater();
+            UpdatePanel1.Update();
         }
     }
 }

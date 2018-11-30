@@ -28,6 +28,11 @@ namespace BLL.QualityDetection
             return Inspection_Item_DAL.getInspecctorItems(type, employee_ID);
         }
 
+        public static List<QT_Inspection_Item> getInspectionList(int type, string employee_ID)
+        {
+            return Inspection_Item_DAL.getInspectionList(type, employee_ID);
+        }
+
         public static object getQualityClerkItems(int type, string employee_ID)
         {
             return Inspection_Item_DAL.getQualityClerkItems(type, employee_ID);

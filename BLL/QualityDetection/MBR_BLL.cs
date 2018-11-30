@@ -97,23 +97,23 @@ namespace BLL.QualityDetection
         /// </summary>
         /// <param name="position_Name"></param>
         /// <returns></returns>
-        public static List<MBR_Item> getMBRList(string position_Name,string status)
+        public static List<MBR_Item> getMBRList(string position_Name)
         {
             string position_Field = getFieldName(position_Name);
             if (position_Field.Equals(""))
             {
                 return null;
             }
-            return MBR_DAL.getMBRList(position_Field, status);
+            return MBR_DAL.getMBRList(position_Field);
         }
 
         private static string getFieldName(string position_Name)
         {
-            if (position_Name.Equals("采购部经理"))
+            if (position_Name.Equals("采购部经理")|| position_Name.Equals("供应链经理"))
             {
                 return "Purchase_Manager";
             }
-            else if(position_Name.Equals("财务部经理"))
+            else if (position_Name.Equals("物流部经理"))
             {
                 return "Logistics_Manager";
             }
@@ -144,14 +144,52 @@ namespace BLL.QualityDetection
             return "";
         }
 
-        public static void makeChoice(string choice,string position_Name,string form_ID)
+        public static void makeChoice(string choice, string reason, string position_Name,string form_ID)
         {
             string position_Field = getFieldName(position_Name);
+            string position_Reason_Field = getFieldReasonName(position_Name);
             if (position_Field.Equals(""))
             {
                 return;
             }
-            MBR_DAL.makeChoice(choice,position_Field, form_ID);
+            MBR_DAL.makeChoice(choice, reason, position_Field, position_Reason_Field, form_ID);
+        }
+
+        private static string getFieldReasonName(string position_Name)
+        {
+            if (position_Name.Equals("采购部经理")|| position_Name.Equals("供应链经理"))
+            {
+                return "Purchase_Reason";
+            }
+            else if (position_Name.Equals("物流部经理"))
+            {
+                return "Logistics_Reason";
+            }
+            else if (position_Name.Equals("生产部经理"))
+            {
+                return "Product_Reason";
+            }
+            else if (position_Name.Equals("市场部经理"))
+            {
+                return "Market_Reason";
+            }
+            else if (position_Name.Equals("项目部经理"))
+            {
+                return "Project_Reason";
+            }
+            else if (position_Name.Equals("质量部经理"))
+            {
+                return "Quiltty_Reason";
+            }
+            else if (position_Name.Equals("总经理"))
+            {
+                return "General_Reason";
+            }
+            else if (position_Name.Equals("总监"))
+            {
+                return "Chief_Reason";
+            }
+            return "";
         }
     }
 }

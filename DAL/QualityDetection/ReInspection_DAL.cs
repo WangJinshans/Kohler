@@ -51,6 +51,41 @@ namespace DAL.QualityDetection
             }
         }
 
+        public static void setReInspectionItems(string newFormID, string form_ID, string batch_No, string args)
+        {
+            string sql = "update QT_Re_Inspection set Items=@Items where Form_ID=@Form_ID and Old_Form_ID=@Old_Form_ID and Batch_No=@Batch_No";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Items",args),
+                new SqlParameter("@Form_ID",newFormID),
+                new SqlParameter("@Old_Form_ID",form_ID),
+                new SqlParameter("@Batch_No",batch_No)
+
+
+            };
+
+            DBHelp.ExecuteCommand(sql, sp);
+        }
+
+        public static string getReInspectionItems(string batch_no)
+        {
+            string sql = "select Items from QT_Re_Inspection where Batch_No=@Batch_No";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Batch_No",batch_no)
+            };
+            string items = "";
+            DataTable table = DBHelp.GetDataSet(sql, sp);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow dr in table.Rows)
+                {
+                    items = dr["Items"].ToString();
+                }
+            }
+            return items;
+        }
+
         public static bool isReInspectionNeeded(string form_ID)
         {
             string sql = "select Form_ID from QT_Inspection_List where Form_ID=@Form_ID and Go='YES'";

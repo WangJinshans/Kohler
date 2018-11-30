@@ -2,11 +2,6 @@
 using MODEL.QualityDetection;
 using SHZSZHSUPPLY.VendorAssess.Util;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace SHZSZHSUPPLY.VendorQualityDetection
 {
@@ -17,7 +12,8 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             //初始化SKU列表
             if (!IsPostBack)
             {
-                
+                SKU.DataSource = Material_Inspection_Item_BLL.getSKUList();
+                SKU.DataBind();
             }
             else
             {
@@ -38,7 +34,6 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
         private void applyToInspection()
         {
             string batch_No = Convert.ToString(ViewState["Batch_No"]);
-            
             RepertoryInspection_BLL.updateRepertoryInspection(batch_No);
             LocalScriptManager.CreateScript(Page, String.Format("mytips('{0}')", "已经上报实验室"), "deepTip");
         }
@@ -69,8 +64,9 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
             //添加对象
             ViewState.Add("Batch_No", inspection.Batch_No);
-            RepertoryInspection_BLL.addRepertoryInspection(inspection);
-            LocalScriptManager.CreateScript(Page, "", "");
+            //RepertoryInspection_BLL.addRepertoryInspection(inspection);
+
+            LocalScriptManager.CreateScript(Page, "inFormRepertory()", "inFormRepertory");
         }
     }
 }

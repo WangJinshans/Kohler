@@ -45,6 +45,23 @@ namespace DAL.QualityDetection
             return "";
         }
 
+        /// <summary>
+        /// 更具form_ID更新状态
+        /// </summary>
+        /// <param name="form_ID"></param>
+        /// <param name="status"></param>
+        internal static void updateStatusByFormID(string form_ID, string status)
+        {
+            string sql = "update QT_Inspection_List set Status=@Status where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",form_ID),
+                new SqlParameter("@Status",status)
+            };
+
+            DBHelp.ExecuteCommand(sql, sp);
+        }
+
         public static int updateFormID(string batch_no, string form_ID)
         {
             string sql = "update QT_Inspection_List set Form_ID=@Form_ID where Batch_No=@Batch_No";
@@ -78,6 +95,31 @@ namespace DAL.QualityDetection
             };
 
             return DBHelp.GetDataSet(sql, sp);
+        }
+
+        public static void updateStatus(string batch_No, string inspection_Type, string status)
+        {
+            string sql = "update QT_Inspection_List set Status=@Status where Batch_No=@Batch_No and Inspection_Type=@Inspection_Type";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Batch_No",batch_No),
+                new SqlParameter("@Inspection_Type",inspection_Type),
+                new SqlParameter("@Status",status)
+            };
+
+            DBHelp.ExecuteCommand(sql, sp);
+        }
+
+        public static void updateStatus(string form_ID, string status)
+        {
+            string sql = "update QT_Inspection_List set Status=@Status where Form_ID=@Form_ID";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Form_ID",form_ID),
+                new SqlParameter("@Status",status)
+            };
+
+            DBHelp.ExecuteCommand(sql, sp);
         }
 
         public static void selectListItem2(string addtime)

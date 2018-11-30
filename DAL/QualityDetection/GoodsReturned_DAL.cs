@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MODEL.QualityDetection;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace DAL.QualityDetection
 {
@@ -24,6 +25,17 @@ namespace DAL.QualityDetection
                 new SqlParameter("@Factory_Name",good.Factory_Name)
             };
             return DBHelp.ExecuteCommand(sql, sp);
+        }
+
+        public static DataTable getReturnList(string vendorCode, string factory)
+        {
+            string sql = "select * from View_QT_Scar where Vendor_Code=@Vendor_Code and Factory_Name=@Factory_Name";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@Vendor_Code",vendorCode),
+                new SqlParameter("@Factory_Name",factory)
+            };
+            return DBHelp.GetDataSet(sql, sp);
         }
 
         public static int deleteGoodReturned(string batch_No)
