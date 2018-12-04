@@ -86,7 +86,7 @@ namespace DAL.QualityDetection
         }
         public static DataTable selectListItem(string addtime)
         {
-            string sql = "select distinct a.Product_Describes,b.Temp_Vendor_Name,a.[Go],a.[To],a.Form_ID,a.Status,a.Add_Time " +
+            string sql = "select a.Product_Describes,b.Temp_Vendor_Name,a.[Go],a.[To],a.Form_ID,a.Status,a.Add_Time " +
 
 							"from QT_Inspection_List a,As_Temp_Vendorchange b " +
 

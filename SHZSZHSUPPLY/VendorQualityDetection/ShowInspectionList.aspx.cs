@@ -110,5 +110,35 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
 			UpdatePanel1.Update(); //异步刷新页面
 		}
+
+		protected void bind()
+		{
+			string time = "";
+			try
+			{
+				time = Session["time"].ToString();
+			}
+			catch
+			{
+				Response.Write("<script>window.alert('请先填写时间!')</script>");
+			}
+
+
+			string status = dropStatus.SelectedItem.Text;
+			if (status == "全部")
+			{
+				getListbyTime(time);
+			}
+			else
+			{
+				getListbyStatus(time, status);
+			}
+		}
+
+		protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+		{
+			GridView1.PageIndex = e.NewPageIndex;
+			bind();
+		}
 	}
 }
