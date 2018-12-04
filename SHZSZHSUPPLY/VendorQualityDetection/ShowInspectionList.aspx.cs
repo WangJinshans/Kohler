@@ -16,6 +16,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
+			
 			ScriptManager1.RegisterAsyncPostBackControl(this.dropStatus);
 			if (!IsPostBack)
 			{
@@ -33,7 +34,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 							Session["time"] = Request.Form["__EVENTARGUMENT"];
 							string time = Session["time"].ToString();
 							getListbyTime(time);
-							
+							//Response.Write("<script>$('#test1').text('"+ time +"');</script>");
 							break;
 						}
 
@@ -93,12 +94,21 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             }
             catch
             {
-                LocalScriptManager.CreateScript(Page, String.Format("mytips('{0}')","请先选择时间"), "timeTip");
-            }
+				Response.Write("<script>window.alert('请先填写时间!')</script>");
+			}
 
-
+			
             string status = dropStatus.SelectedItem.Text;
-			getListbyStatus(time, status);
+			if (status == "全部")
+			{
+				getListbyTime(time);
+			}
+			else
+			{
+				getListbyStatus(time, status);
+			}
+
+			UpdatePanel1.Update(); //异步刷新页面
 		}
 	}
 }

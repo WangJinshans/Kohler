@@ -42,8 +42,14 @@
 
         function timeSelect(date) {
             var time = date;
-            __myDoPostBack('timeSelect', time);
-        }
+			__myDoPostBack('timeSelect', time);
+		}
+
+		$(document).ready(function(){
+
+            $('select').css();
+
+        });
     </script>
 
 </head>
@@ -53,34 +59,28 @@
             <fieldset class="layui-field-title layui-elem-field" style="margin: 50px auto 20px auto;">
                 <legend style="text-align: center;" runat="server">待检清单</legend>
             </fieldset>
-            <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true">
-            </asp:ScriptManager>
+            
 
-
-            <div class="layui-inline">
-                <label class="layui-form-label">请选择日期</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" id="test1" placeholder="选择日期" />
-                </div>
-            </div>
-
-
-            <div class="layui-inline">
-                <label class="layui-form-label">状态</label>
-                <div class="layui-input-inline">
-                    <asp:DropDownList ID="dropStatus" runat="server" Style="width: 100%; height: 38px;" OnSelectedIndexChanged="dropStatus_SelectedIndexChanged" AutoPostBack="True">
-                        <asp:ListItem Selected="True" Value="all">全部</asp:ListItem>
+			<div style="text-align:center;height:30px">
+					请选择日期:
+                    <input type="text" style="width: 15%; height: 85%" id="test1" placeholder="选择日期" />
+					<%--<asp:TextBox ID="test1" runat="server"></asp:TextBox>--%>
+					&nbsp;&nbsp;
+					状态:
+                    <asp:DropDownList ID="dropStatus" runat="server" Style="width: 15%; height: 100%;" OnSelectedIndexChanged="dropStatus_SelectedIndexChanged" AutoPostBack="True">
+                        <asp:ListItem Selected="True" Value="全部">全部</asp:ListItem>
                         <asp:ListItem Value="待检">待检</asp:ListItem>
                         <asp:ListItem Value="完成">完成</asp:ListItem>
                     </asp:DropDownList>
-                </div>
+                
             </div>
 
 
-
-            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+			<asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true">
+            </asp:ScriptManager>
+            <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
                 <ContentTemplate>
-                    <asp:GridView ID="GridView1" Style="width: 1000px; margin: 0 auto; margin-bottom: 50px;" class="layui-table" lay-even="" lay-skin="nob" runat="server" AutoGenerateColumns="False" CellPadding="4" ForeColor="#333333" GridLines="None">
+                    <asp:GridView ID="GridView1" Style="width: 1000px; margin: 0 auto; margin-bottom: 50px;" class="layui-table" lay-even="" lay-skin="nob" runat="server" AutoGenerateColumns="False" CellPadding="4" ForeColor="#333333" GridLines="None" AllowPaging="True">
                         <AlternatingRowStyle BackColor="White" />
                         <Columns>
                             <asp:BoundField DataField="Product_Describes" HeaderText="ProductDescribes"
