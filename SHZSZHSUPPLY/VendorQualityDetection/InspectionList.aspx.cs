@@ -46,24 +46,12 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                     case "fresh":
                         fresh();
                         break;
-                    case "GridView1":
-                        getNewPageData(Request["__EVENTARGUMENT"]);
-                        break;
                     default:
                         break;
                 }
             }
         }
 
-        private void getNewPageData(string pageIndex)
-        {
-            //获取新的一页
-
-            string[] values = pageIndex.Split('$');
-            int real = Convert.ToInt32(values[1]);
-            //获取分页数据
-
-        }
 
         private List<string> hasNewSKU(List<QT_Inspection_Item> list)
         {
@@ -96,10 +84,6 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             //更新处理人的ID  将原来检验员的划分到质量部文员
 
             InspectionList_BLL.updateChargeMan(batch_No, "clerk");
-
-
-            //生成委托检验书 并发送给选择的实验  type区分实验室
-
 
             ConsignmentInspection inspection = new ConsignmentInspection();
             if (Session["Type"].ToString().Contains("铸铁"))
@@ -192,60 +176,10 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
         protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             GridView1.PageIndex = e.NewPageIndex;
+            List<QT_Inspection_Item> list = Inspection_Item_BLL.getInspectionList(0, Session["Employee_ID"].ToString());
+            GridView1.DataSource = list;
+            GridView1.DataBind();
         }
 
-        protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        //    GridViewRow drv = GridView1.SelectedRow;
-        //    string batch_no = GridView1.Rows[drv.RowIndex].Cells[0].Text;
-
-        //    string sku = GridView1.Rows[drv.RowIndex].Cells[1].Text;
-        //    string product_name = GridView1.Rows[drv.RowIndex].Cells[2].Text;
-        //    string vendor_Code = GridView1.Rows[drv.RowIndex].Cells[3].Text;
-        //    string detection_Count = GridView1.Rows[drv.RowIndex].Cells[4].Text;
-
-        //    //检验类型
-        //    string inspection_Type = GridView1.Rows[drv.RowIndex].Cells[6].Text;
-
-        //    ViewState["sku"] = sku;
-        //    ViewState["product_name"] = product_name;
-        //    ViewState["vendor_Code"] = vendor_Code;
-        //    ViewState["detection_Count"] = detection_Count;
-        //    ViewState["Inspection_Type"] = inspection_Type;
-
-        //    if (e. == "go")
-        //    {
-
-        //        //获取报告form_ID
-        //        string form_ID = SurveyReport_BLL.getReportFormID(batch_no);
-        //        //获取KCI
-        //        string kci = Material_Inspection_Item_BLL.getKCI(sku);
-
-        //        string isLocked = "";
-        //        isLocked = InspectionList_BLL.isLocked(batch_no);
-        //        if (!isLocked.Equals(""))//已经锁定 提示后自动刷新一次
-        //        {
-        //            if (!isLocked.Equals(Session["Employee_ID"].ToString()))
-        //            {
-        //                LocalScriptManager.CreateScript(Page, String.Format("QTtip('{0}')", "有同事正在操作该批次"), "locktip");
-        //                return;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            //锁定该条记录 Employee_ID 方便历史查询 
-        //            InspectionList_BLL.LockItem(batch_no, Session["Employee_ID"].ToString());
-
-        //        }
-
-        //        //跳转到报告中
-        //        Response.Redirect("SurveyReport.aspx?batch_No=" + batch_no + "&sku=" + sku + "&product_Name=" + product_name + "&vendor_Code=" + vendor_Code + "&Amount=" + detection_Count + "&time=" + DateTime.Now.ToString() + "&form_ID=" + form_ID + "&kci=" + kci + "&inspection_Type=" + inspection_Type);
-        //    }
-        //    else if (e.CommandName == "to")
-        //    {
-        //        //委托检验
-        //        LocalScriptManager.CreateScript(Page, String.Format("wt('{0}')", batch_no), "weituo");
-        //    }
-        }
     }
 }
