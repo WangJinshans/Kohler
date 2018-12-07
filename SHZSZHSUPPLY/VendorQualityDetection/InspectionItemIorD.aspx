@@ -139,16 +139,17 @@
 	
 	<form id="form1" runat="server">
 		
-		<div class="layui-form-item" style="width: 80%; margin: 0 auto;">
+		<div class="layui-form-item" style="width: 60%; margin: 0 auto;">
 			<fieldset class="layui-field-title layui-elem-field" style="margin: 50px auto 20px auto;">
 				<legend id="Legend1" runat="server">SKU选择：</legend>
 			</fieldset>
-			<label class="layui-form-label" style="width: 200px">请选择SKU：</label>
-			
-			<asp:DropDownList lay-verify="required" lay-search="" ID="DropDownList1" AutoPostBack="true" runat="server"  Height="40px" onchange="itemChange();" Width="137px" >
-			</asp:DropDownList>
+			<div style="text-align:center">
+					请选择SKU：
+					<asp:DropDownList  lay-verify="required"  ID="DropDownList1" AutoPostBack="true" runat="server"  Height="40px" onchange="itemChange();" Width="137px" >
+					</asp:DropDownList>
+			</div>
 		</div>
-		<div class="layui-form-item" style="width: 80%; margin: 0 auto;">
+		<div class="layui-form-item" style="width: 60%; margin: 0 auto;">
 
 
 			<fieldset class="layui-field-title layui-elem-field" style="margin: 50px auto 20px auto;">
@@ -198,23 +199,25 @@
 			</asp:UpdatePanel>
 		</div>
 		
-		<div class="layui-form" style="width: 80%; margin: 0 auto;">
+		<div class="layui-form" style="width: 60%; margin: 0 auto;">
 			<fieldset class="layui-field-title layui-elem-field" style="margin: 50px auto 20px auto;">
 				<legend id="Legend2" runat="server">修改检测项：</legend>
 			</fieldset>
-			<label class="layui-form-label" style="width: 200px">请输入要修改的检测项：</label>
+			<div style="text-align:center">
+			请输入要修改的检测项：
 			<asp:TextBox ID="TextBox1" runat="server" class="layui-input-inline" Style="width: 200px; top: 0px; left: 0px; height: 33px;" BackColor="White" BorderColor="White" ForeColor="Gray"></asp:TextBox>
 			<asp:TextBox ID="TextBox2" runat="server" class="layui-input-inline" Style="width: 200px; top: 0px; left: 0px; height: 33px;" BackColor="White" BorderColor="White" ForeColor="Gray"></asp:TextBox>
 			<br />
 			<br />
 			<asp:Button ID="Button1" runat="server" Text="添加" class="layui-btn" OnClientClick="return insertError();" />
-
+			&nbsp
 			<asp:Button ID="Button2" runat="server" Text="删除" class="layui-btn layui-btn-danger" OnClientClick="return delError();" />
-
+			&nbsp
 			<asp:Button ID="Button3" runat="server" Text="修改" class="layui-btn layui-btn-warm" OnClientClick="" OnClick="Button3_Click" />
+			</div>
 		</div>
 		<div style="text-align: center">
-
+			<br />
 			<asp:Button ID="Button4" runat="server" Text="返回" class="layui-btn layui-btn-warm layui-btn-big" OnClick="Button4_Click" />
 		</div>
 	</form>

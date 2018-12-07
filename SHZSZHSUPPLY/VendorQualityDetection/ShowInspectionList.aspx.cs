@@ -16,6 +16,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
+			
 			ScriptManager1.RegisterAsyncPostBackControl(this.dropStatus);
 			if (!IsPostBack)
 			{
@@ -33,7 +34,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 							Session["time"] = Request.Form["__EVENTARGUMENT"];
 							string time = Session["time"].ToString();
 							getListbyTime(time);
-							
+							LocalScriptManager.CreateScript(Page, "getTime()", "getTime");
 							break;
 						}
 
@@ -43,7 +44,6 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
 
 			}
-
 		}
 		protected DataTable getList(string time)
 		{
@@ -55,11 +55,8 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 		protected void getListbyTime(string time)
 		{
 			DataTable itemList = getList(time);
-			if (itemList.Rows.Count != 0)
-			{
-				GridView1.DataSource = itemList.DefaultView;
-				GridView1.DataBind();
-			}
+			GridView1.DataSource = itemList.DefaultView;
+			GridView1.DataBind();
 		}
 
 		
@@ -74,11 +71,10 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 			foreach(DataRow dr in drs){
 				newdt.Rows.Add(dr.ItemArray);
 			}
-			if (newdt.Rows.Count != 0)
-			{
-				GridView1.DataSource = newdt.DefaultView;
-				GridView1.DataBind();
-			}
+			
+			GridView1.DataSource = newdt.DefaultView;
+			GridView1.DataBind();
+			
 
 
 
@@ -93,12 +89,51 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             }
             catch
             {
-                LocalScriptManager.CreateScript(Page, String.Format("mytips('{0}')","请先选择时间"), "timeTip");
-            }
+				Response.Write("<script>window.alert('请先填写时间!')</script>");
+			}
 
-
+			
             string status = dropStatus.SelectedItem.Text;
-			getListbyStatus(time, status);
+			if (status == "全部")
+			{
+				getListbyTime(time);
+			}
+			else
+			{
+				getListbyStatus(time, status);
+			}
+
+			UpdatePanel1.Update(); //异步刷新页面
+		}
+
+		protected void bind()
+		{
+			string time = "";
+			try
+			{
+				time = Session["time"].ToString();
+			}
+			catch
+			{
+				Response.Write("<script>window.alert('请先填写时间!')</script>");
+			}
+
+
+			string status = dropStatus.SelectedItem.Text;
+			if (status == "全部")
+			{
+				getListbyTime(time);
+			}
+			else
+			{
+				getListbyStatus(time, status);
+			}
+		}
+
+		protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+		{
+			GridView1.PageIndex = e.NewPageIndex;
+			bind();
 		}
 	}
 }
