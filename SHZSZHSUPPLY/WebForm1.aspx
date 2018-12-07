@@ -240,8 +240,6 @@
 								<li><a href="VendorQualityDetection/RepertoryInspection.aspx" id="cangku" target="iFrame1">仓库报验</a></li>
                                 <li><a href="VendorQualityDetection/ShowInspectionList.aspx" id="show" target="iFrame1">检验记录</a></li>
 								<li><a href="VendorQualityDetection/ScareList.aspx" id="scar" target="iFrame1">Scar</a></li>
-								<li><a href="VendorQualityDetection/ThirdPartySubmit.aspx" id="thrid" target="iFrame1">三方</a></li>
-								<li><a href="VendorQualityDetection/Html/FillReInspection.aspx" id="fill" target="iFrame1">fill</a></li>
                                 
                             </ul>
                         </li>

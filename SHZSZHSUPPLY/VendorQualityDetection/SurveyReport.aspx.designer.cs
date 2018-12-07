@@ -130,6 +130,15 @@ namespace SHZSZHSUPPLY.VendorQualityDetection {
         protected global::System.Web.UI.WebControls.Label lb_region;
         
         /// <summary>
+        /// lb_Inspection_Type 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lb_Inspection_Type;
+        
+        /// <summary>
         /// Aql 控件。
         /// </summary>
         /// <remarks>
@@ -137,6 +146,24 @@ namespace SHZSZHSUPPLY.VendorQualityDetection {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList Aql;
+        
+        /// <summary>
+        /// lb_Inspetion_Level 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lb_Inspetion_Level;
+        
+        /// <summary>
+        /// lb_Class_Level 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lb_Class_Level;
         
         /// <summary>
         /// UpdatePanel1 控件。

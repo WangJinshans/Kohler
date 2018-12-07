@@ -13,6 +13,7 @@ namespace MODEL.QualityDetection
         private string aQL;
         private string sample_Code;
         private string inspection_Leval;
+        private string class_Level;
 
         public string Sample_Amount
         {
@@ -89,6 +90,19 @@ namespace MODEL.QualityDetection
             set
             {
                 inspection_Leval = value;
+            }
+        }
+
+        public string Class_Level
+        {
+            get
+            {
+                return class_Level;
+            }
+
+            set
+            {
+                class_Level = value;
             }
         }
     }

@@ -10,8 +10,8 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
         protected void Page_Load(object sender, EventArgs e)
         {
             //仓库报验  情况确认  确认的需要重新检验
-
-            RepertoryInspection_BLL.getRepertoryInspection();
+            GridView1.DataSource=RepertoryInspection_BLL.getRepertoryInspection();
+            GridView1.DataBind();
         }
 
 

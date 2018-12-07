@@ -26,22 +26,21 @@
 </head>
 <body>
     <form class="layui-form" runat="server" id="form1">
-        <fieldset class="layui-field-title layui-elem-field" style="width:800px;margin: 50px auto 20px auto;">
-            <legend>请选择需要重新检验的项目</legend>
+        <fieldset class="layui-field-title layui-elem-field" style="width:800px;margin: 0 auto;">
+            <legend style="text-align:center;">请选择需要重新检验的项目</legend>
         </fieldset>
         <div class="layui-form-item" style="width:800px;margin: 50px auto 20px auto;">
             <div class="layui-input-block">
                 <table>
                     <asp:Repeater runat="server" ID="repeater">
                         <ItemTemplate>
-                            <%--<%# Eval("Item") %>--%>
                             <asp:CheckBox runat="server" Text='<%# Eval("Item") %>' ID="check" />
                         </ItemTemplate>
                     </asp:Repeater>
                 </table>
             </div>
         </div>
-        <div class="layui-form-item">
+        <div class="layui-form-item" style="margin:0 auto;width:800px;">
             <asp:Button ID="submit" runat="server" CssClass="layui-btn" Text="确认选择" OnClick="submit_Click" />
         </div>
 
