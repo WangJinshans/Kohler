@@ -95,16 +95,14 @@
         }
 
         function MRBtip(msg) {
-            layui.use('form', function () {
-                var form = layui.form
-                , layer = layui.layer;
+            layui.use('layer', function () {
+                layer = layui.layer;
                 layer.msg(msg);
             });
         }
         //申请MRB 完成
         function MRBfinish(msg, position_Name) {
-            layui.use('form', function () {
-                var form = layui.form,
+            layui.use('layer', function () {
                     layer = layui.layer;
                 layer.msg(msg, {
                     time: 3000
@@ -119,8 +117,7 @@
             });
         }
         function addStock(msg, position_Name) {
-            layui.use('form', function () {
-                var form = layui.form,
+            layui.use('layer', function () {
                     layer = layui.layer;
                 layer.msg(msg, {
                     time: 3000
@@ -176,9 +173,8 @@
         }
 
         function addNewInspectionItem() {
-            layui.use('form', function () {
-                var form = layui.form
-                , layer = layui.layer;
+            layui.use('layer', function () {
+                layer = layui.layer;
                 layer.open({
                     title: ['请输入', 'text-align:center;'],
                     type: 2,
@@ -315,7 +311,8 @@
                 </tr>
                 <tr>
                     <td colspan="1">检验类型:</td>
-                    <td colspan="2"></td>
+                    <td colspan="2"><asp:Label style="background-color:red;font-size:x-large" runat="server" ID="lb_Inspection_Type"></asp:Label></td>
+                    <td colspan="1">AQL</td>
                     <td colspan="1">
                         <asp:DropDownList Style="display: block;" ID="Aql" AutoPostBack="true" OnSelectedIndexChanged="Aql_SelectedIndexChanged" runat="server">
                             <asp:ListItem>AQL2.5</asp:ListItem>
@@ -333,11 +330,10 @@
                             <asp:ListItem>AQL0.010</asp:ListItem>
                         </asp:DropDownList>
                     </td>
-                    <td colspan="2">正常</td>
-                    <td colspan="1">加严</td>
-                    <td colspan="1">放宽</td>
-                    <td colspan="1">全检</td>
-                    <td colspan="1">退货检验</td>
+                    <td colspan="1">检验等级</td>
+                    <td colspan="2"><asp:Label style="background-color:red;font-size:x-large" runat="server" ID="lb_Inspetion_Level"></asp:Label></td>
+                    <td colspan="1">检验水平</td>
+                    <td colspan="1"><asp:Label style="background-color:red;font-size:x-large" runat="server" ID="lb_Class_Level"></asp:Label></td>
                 </tr>
                 <tr id="detecable_title">
                     <td colspan="10" style="text-align: left; padding-left: 20px;">表面质量检验 / 适配性检验记录 </td>

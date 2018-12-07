@@ -239,6 +239,23 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 suitability_amount.Text = plans.Sample_Amount;
             }
 
+            //检验提示栏
+            lb_Inspection_Type.Text = Convert.ToString(ViewState["inspection_Type"]).Equals("Normal") ? "正常检验" : "退货检验";//正常检验 退货检验
+            if (plan.Inspection_Leval.Equals("1"))
+            {
+                lb_Inspetion_Level.Text = "放宽";
+            }
+            else if (plan.Inspection_Leval.Equals("2"))
+            {
+                lb_Inspetion_Level.Text = "正常";
+
+            }
+            else if (plan.Inspection_Leval.Equals("3"))
+            {
+                lb_Inspetion_Level.Text = "加严";
+
+            }
+            lb_Class_Level.Text = plan.Class_Level;
 
             //检验类型初始化 inspection_Type
 
@@ -375,7 +392,8 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
             //获取计划
             InspectionPlanResult plan = getInspectionPlan(class_Leval, amount, aql, result);
-
+            plan.Inspection_Leval = Convert.ToString(result);
+            plan.Class_Level = class_Leval;//检验等级
             //返回计划 
             return plan;
 
@@ -582,6 +600,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 {
                     //MBR未出结果  请等待
                     LocalScriptManager.CreateScript(Page, String.Format("mytips('{0}')", "请等待MRB的裁定结果"), "waitMRBResultTip");
+
                 }
                 return;
             }

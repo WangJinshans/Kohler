@@ -11,13 +11,23 @@
     <link href="../VendorAssess/Script/layui/css/layui.css" rel="stylesheet" />
     <script src="../VendorAssess/Script/Own/fileUploader.js"></script>
     <script src="Scripts/commonUtil.js?v=2"></script>
+    <script>
+        layui.use(['form'], function () {
+            var form = layui.form(),
+                layer = layui.layer;
+
+
+        })
+    </script>
 </head>
 <body>
-    <form id="form1" runat="server">
+    <form id="form1" class="layui-form" runat="server">
         <div>
             <%--仓库检验--%>
-
-            <asp:GridView ID="GridView1" class="layui-table" Style="width: 550px; margin: 0 auto; margin-bottom: 50px;" lay-even="" lay-skin="nob" runat="server" CssClass="layui-form" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
+            <fieldset class="layui-field-title layui-elem-field" style="margin: 50px auto; width: 850px;">
+                <legend style="text-align: center;" runat="server">仓库报验</legend>
+            </fieldset>
+            <asp:GridView ID="GridView1" Style="width: 850px; margin: 0 auto; margin-bottom: 50px;" lay-even="" lay-skin="nob" runat="server" CssClass="layui-table" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" CellPadding="4" ForeColor="#333333" GridLines="None">
                 <AlternatingRowStyle BackColor="White" />
                 <Columns>
 

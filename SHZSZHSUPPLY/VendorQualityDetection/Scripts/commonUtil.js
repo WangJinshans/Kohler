@@ -1,5 +1,5 @@
 ﻿function QT_flashTip(msg, position_Name) {
-    layui.use('form', function () {
+    layui.use('layer', function () {
         var form = layui.form,
             layer = layui.layer;
         layer.msg(msg, {
@@ -16,7 +16,7 @@
 }
 
 function reInspectionTips(msg) {
-    layui.use('form', function () {
+    layui.use('layer', function () {
         var form = layui.form,
             layer = layui.layer;
         layer.msg(msg, {
@@ -30,14 +30,14 @@ function reInspectionTips(msg) {
 
 
 function mytips(msg) {
-    layui.use('form', function () {
+    layui.use('layer', function () {
         var layer = layui.layer;
         layer.msg(msg);
     });
 }
 
 function mytips_then_back(msg, url) {
-    layui.use('form', function () {
+    layui.use('layer', function () {
         var layer = layui.layer;
         layer.msg(msg, {
             time: 3000

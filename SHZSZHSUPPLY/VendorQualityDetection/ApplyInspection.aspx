@@ -48,41 +48,48 @@
 </head>
 <body>
     <form id="form1" class="layui-form" runat="server">
-        <fieldset class="layui-field-title layui-elem-field" style="margin: 0 auto; width: 1000px;">
+        <fieldset class="layui-field-title layui-elem-field" style="margin: 50px auto; width: 500px;">
             <legend id="Legend1" style="text-align: center;" runat="server">车间报验</legend>
         </fieldset>
-        <div class="layui-form-item" style="margin: 0 auto; width: 1000px;">
-            <div class="layui-inline">
-                <label class="layui-form-label" style="width: 100px;">SKU列表</label>
-                <div class="layui-input-inline">
-                    <asp:DropDownList runat="server" name="modules" lay-verify="required" lay-search="" ID="SKU">
-                    </asp:DropDownList>
-                </div>
+        <div class="layui-form-item" style="margin: 0 auto; width: 500px;">
+            <label class="layui-form-label">SKU列表</label>
+            <div class="layui-input-block" style="width:300px;">
+                <asp:DropDownList runat="server" name="modules" lay-verify="required" lay-search="" ID="SKU">
+                </asp:DropDownList>
             </div>
-            <div class="layui-inline">
-                <asp:TextBox runat="server" TextMode="MultiLine" ID="batchNo" />
+        </div>
+        <div class="layui-form-item" style="margin: 0 auto; width: 500px;">
+            <label class="layui-form-label" style="width: 100px;">检验批</label>
+            <div class="layui-input-block" style="width:300px;">
+                <asp:TextBox runat="server" CssClass="layui-input" ID="batchNo" />
             </div>
-            <div class="layui-inline" id="ge_inline">
+        </div>
+
+        <div class="layui-form-item" style="margin: 0 auto; width: 500px;">
+            <div class="layui-input-block" id="ge_inline">
                 <asp:RadioButton ID="ge" Text="件/个" runat="server" Checked="true" GroupName="radio" />
             </div>
-            <div class="layui-inline" id="kg_inline">
+        </div>
+        <div class="layui-form-item" style="margin: 0 auto; width: 500px;">
+            <div class="layui-input-block" id="kg_inline">
                 <asp:RadioButton ID="kg" Text="千克/升" runat="server" GroupName="radio" />
             </div>
         </div>
-        <div class="layui-form-item" style="margin: 0 auto; width: 1000px;">
+
+        <div class="layui-form-item" style="margin: 0 auto; width: 500px;">
             <label class="layui-form-label" style="width: 100px;">取出</label>
-            <div class="layui-input-inline">
-                <asp:TextBox runat="server" ID="takeout" TextMode="MultiLine" />
+            <div class="layui-input-block">
+                <asp:TextBox runat="server"  CssClass="layui-input" ID="takeout"/>
             </div>
         </div>
-        <div class="layui-form-item" style="margin: 0 auto; width: 1000px;">
+        <div class="layui-form-item" style="margin: 0 auto; width: 500px;">
             <label class="layui-form-label" style="width: 100px;">有瑕疵</label>
-            <div class="layui-input-inline">
-                <asp:TextBox runat="server" ID="amount" TextMode="MultiLine" />
+            <div class="layui-input-block">
+                <asp:TextBox runat="server" CssClass="layui-input" ID="amount"/>
             </div>
         </div>
         <div class="layui-form-item">
-            <div class="layui-input" style="text-align: center;">
+            <div class="layui-input-block" style="text-align: center;margin-top:20px;">
                 <asp:Button CssClass="layui-btn" Text="确认" ID="apply" OnClick="apply_Click" runat="server" />
             </div>
         </div>
