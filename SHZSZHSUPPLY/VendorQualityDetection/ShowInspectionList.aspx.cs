@@ -34,7 +34,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 							Session["time"] = Request.Form["__EVENTARGUMENT"];
 							string time = Session["time"].ToString();
 							getListbyTime(time);
-							//Response.Write("<script>$('#test1').text('"+ time +"');</script>");
+							LocalScriptManager.CreateScript(Page, "getTime()", "getTime");
 							break;
 						}
 
@@ -44,7 +44,6 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 
 
 			}
-
 		}
 		protected DataTable getList(string time)
 		{
@@ -56,11 +55,8 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 		protected void getListbyTime(string time)
 		{
 			DataTable itemList = getList(time);
-			if (itemList.Rows.Count != 0)
-			{
-				GridView1.DataSource = itemList.DefaultView;
-				GridView1.DataBind();
-			}
+			GridView1.DataSource = itemList.DefaultView;
+			GridView1.DataBind();
 		}
 
 		
@@ -75,11 +71,10 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
 			foreach(DataRow dr in drs){
 				newdt.Rows.Add(dr.ItemArray);
 			}
-			if (newdt.Rows.Count != 0)
-			{
-				GridView1.DataSource = newdt.DefaultView;
-				GridView1.DataBind();
-			}
+			
+			GridView1.DataSource = newdt.DefaultView;
+			GridView1.DataBind();
+			
 
 
 

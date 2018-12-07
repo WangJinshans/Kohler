@@ -41,15 +41,17 @@
         });
 
         function timeSelect(date) {
-            var time = date;
+			var time = date;
+			var storage = window.localStorage;
+			storage.settime = date;
 			__myDoPostBack('timeSelect', time);
 		}
 
-		$(document).ready(function(){
 
-            $('select').css();
-
-        });
+		function getTime() {
+			var time = localStorage.getItem("settime");
+			document.getElementById('test1').value = time;
+		}
     </script>
 
 </head>
@@ -57,14 +59,13 @@
     <form id="form1" runat="server">
         <div class="layui-form-item" style="width: 80%; margin: 0 auto;">
             <fieldset class="layui-field-title layui-elem-field" style="margin: 50px auto 20px auto;">
-                <legend style="text-align: center;" runat="server">待检清单</legend>
+                <legend style="text-align: center;" runat="server">检验记录</legend>
             </fieldset>
             
 
 			<div style="text-align:center;height:30px">
 					请选择日期:
                     <input type="text" style="width: 15%; height: 85%" id="test1" placeholder="选择日期" />
-					<%--<asp:TextBox ID="test1" runat="server"></asp:TextBox>--%>
 					&nbsp;&nbsp;
 					状态:
                     <asp:DropDownList ID="dropStatus" runat="server" Style="width: 15%; height: 100%;" OnSelectedIndexChanged="dropStatus_SelectedIndexChanged" AutoPostBack="True">
@@ -75,7 +76,7 @@
                 
             </div>
 
-
+			<br />
 			<asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true">
             </asp:ScriptManager>
             <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
@@ -91,8 +92,11 @@
                                 SortExpression="Go" />
                             <asp:BoundField DataField="To" HeaderText="To"
                                 SortExpression="To" />
-                            <asp:BoundField DataField="Form_ID" HeaderText="FormID"
-                                SortExpression="Form_ID" />
+                            <%--<asp:BoundField DataField="Form_ID" HeaderText="FormID"
+                                SortExpression="Form_ID" />--%>
+							<asp:HyperLinkField DataNavigateUrlFields="Form_ID" 
+							DataNavigateUrlFormatString="ShowSurveyReport.aspx?form_ID={0}" 
+							DataTextField="Form_ID" HeaderText="FormID" />
                             <asp:BoundField DataField="Status" HeaderText="状态"
                                 SortExpression="Status" />
 
@@ -111,9 +115,6 @@
                     </asp:GridView>
 
                 </ContentTemplate>
-                <%--<Triggers>
-					<asp:AsyncPostBackTrigger ControlID="dropStatus" EventName="dropStatus_SelectedIndexChanged"/>
-				</Triggers>--%>
             </asp:UpdatePanel>
         </div>
     </form>
