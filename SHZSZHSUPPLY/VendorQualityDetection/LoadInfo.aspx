@@ -101,7 +101,7 @@
         <div id="fine-uploader-manual-trigger" style="width: 935px; margin: 50px auto;"></div>
 
         <fieldset class="layui-elem-field layui-field-title" style="width: 950px; margin: 50px auto 20px auto;">
-            <legend style="text-align: center;" runat="server">进货列表</legend>
+            <legend style="text-align: center;" runat="server">手动添加</legend>
         </fieldset>
         <script>
             function showMsg(message) {
@@ -160,6 +160,66 @@
                 });
             }
         </script>
+        <%--<div style="text-align:center;height:30px">
+					检验批:
+                    <asp:TextBox runat="server" style="width: 15%; height: 85%" CssClass="layui-input" ID="TextBox1" />
+         </div>--%>
+         <div class="layui-form-item" style="margin: 0 auto; width: 500px;">
+            <label class="layui-form-label" style="width: 100px;">检验批</label>
+            
+                <asp:TextBox runat="server" style="width:300px;" CssClass="layui-input" ID="BatchNo" />
+            
+        </div>
+        <br />
+        <div class="layui-form-item" style="margin: 0 auto; width: 500px;">
+            <label class="layui-form-label" style="width: 100px;">材料描述</label>
+                <asp:TextBox runat="server" style="width:300px;" CssClass="layui-input" ID="Material" />
+        </div>
+        <br />
+        <div class="layui-form-item" style="margin: 0 auto; width: 500px;">
+            <label class="layui-form-label" style="width: 100px;">SKU</label>
+                <asp:TextBox runat="server" style="width:300px;" CssClass="layui-input" ID="SKUInput" />
+        </div>
+        <br />
+        <div class="layui-form-item" style="margin: 0 auto; width: 500px;">
+            <label class="layui-form-label" style="width: 100px;">供应商编号</label>
+                <asp:TextBox runat="server" style="width:300px;" CssClass="layui-input" ID="VendorCode" />
+        </div>
+        <br />
+        <div class="layui-form-item" style="margin: 0 auto; width: 500px;">
+            <label class="layui-form-label" style="width: 100px;">数量</label>
+                <asp:TextBox runat="server" style="width:300px;" CssClass="layui-input" ID="Quantity" />
+        </div>
+        <br />
+        <div class="layui-form-item" style="margin: 0 auto; width: 500px;">
+            <label class="layui-form-label" style="width: 100px;">导入人ko</label>
+                <asp:TextBox runat="server" style="width:300px;" CssClass="layui-input" ID="InputKO" />
+        </div>
+
+        <script>
+            function whetherInsert() {
+			layui.use('layer', function () {
+				var layer = layui.layer;
+
+				layer.open({
+					title: '提示',
+					content: '确定添加检验项?',
+					btn: ['确定', '返回'],
+					yes: function (index, layero) {
+						__myDoPostBack('insertItem', '');
+					},
+					btn2: function (index, layero) {
+						layer.close(index);
+					}
+				});
+			});
+		}
+        </script>
+        
+        <div style="text-align: center;margin-top:20px;">
+            <asp:Button CssClass="layui-btn" Text="确认" ID="apply" OnClick="apply_Click1" runat="server" />
+        </div>
+        
     </form>
 </body>
 </html>

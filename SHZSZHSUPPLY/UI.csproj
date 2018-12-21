@@ -501,6 +501,7 @@
     <Content Include="VendorQualityDetection\ShowSurveyReport.aspx" />
     <Content Include="VendorQualityDetection\SurveyReport.aspx" />
     <Content Include="VendorQualityDetection\ThirdPartySubmit.aspx" />
+    <Content Include="VendorQualityDetection\VendorInspectionInfo.aspx" />
     <Content Include="WebForm1.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -1115,6 +1116,13 @@
     </Compile>
     <Compile Include="VendorAssess\VendorModifyInfo.aspx.designer.cs">
       <DependentUpon>VendorModifyInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorQualityDetection\VendorInspectionInfo.aspx.cs">
+      <DependentUpon>VendorInspectionInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorQualityDetection\VendorInspectionInfo.aspx.designer.cs">
+      <DependentUpon>VendorInspectionInfo.aspx</DependentUpon>
     </Compile>
     <Compile Include="WebForm1.aspx.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
