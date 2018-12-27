@@ -463,6 +463,7 @@
     <Content Include="VendorQualityDetection\LoadInfo.aspx" />
     <Content Include="VendorQualityDetection\MBRAppliy.aspx" />
     <Content Include="VendorQualityDetection\MBRList.aspx" />
+    <Content Include="VendorQualityDetection\QT_Component_Maintain.aspx" />
     <Content Include="VendorQualityDetection\QualityClerkOperateList.aspx" />
     <Content Include="VendorQualityDetection\RepertoryInspection.aspx" />
     <Content Include="VendorQualityDetection\RequisitionForTest.aspx" />
@@ -652,6 +653,13 @@
     </Compile>
     <Compile Include="VendorQualityDetection\MBRList.aspx.designer.cs">
       <DependentUpon>MBRList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VendorQualityDetection\QT_Component_Maintain.aspx.cs">
+      <DependentUpon>QT_Component_Maintain.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VendorQualityDetection\QT_Component_Maintain.aspx.designer.cs">
+      <DependentUpon>QT_Component_Maintain.aspx</DependentUpon>
     </Compile>
     <Compile Include="VendorQualityDetection\QualityClerkOperateList.aspx.cs">
       <DependentUpon>QualityClerkOperateList.aspx</DependentUpon>

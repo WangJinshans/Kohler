@@ -45,6 +45,7 @@
     <Compile Include="QualityDetection\InspectionResult.cs" />
     <Compile Include="QualityDetection\MBRSingleChoice.cs" />
     <Compile Include="QualityDetection\MBR_Item.cs" />
+    <Compile Include="QualityDetection\QT_Component_List.cs" />
     <Compile Include="QualityDetection\QT_Goods_Returned.cs" />
     <Compile Include="QualityDetection\QT_Inspection_Item.cs" />
     <Compile Include="QualityDetection\QT_Material_Inspection_Item.cs" />

@@ -46,6 +46,7 @@
     <Compile Include="ItemNotifyInfo\ItemNotify_BLL.cs" />
     <Compile Include="LDAP\LdapAuthentication.cs" />
     <Compile Include="PlantInfo\PlantInfo_BLL.cs" />
+    <Compile Include="QualityDetection\ComponentList_BLL.cs" />
     <Compile Include="QualityDetection\GoodsReturned_BLL.cs" />
     <Compile Include="QualityDetection\InspectionList_BLL.cs" />
     <Compile Include="QualityDetection\InspectionPlan_BLL.cs" />
