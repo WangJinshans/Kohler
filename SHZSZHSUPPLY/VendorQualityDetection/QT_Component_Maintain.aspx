@@ -18,22 +18,54 @@
                 var layer = layui.layer;
 
                 layer.open({
-                    type: 1,
-                    offset: type,
-                    title: '信息',
+                    title: '提醒！',
                     content: '查无此SKU对应Component信息,请重新输入！',
-                    btn: ['确定'],
-                    btnAlign: 'c',
+                    btn: ['返回'],
                     yes: function () {
-                        layer.closeAll();
+                        layer.close(index);
                     },
-                    shade: 0,
                     cancel: function (index, layero) {
                         layer.close(index);
                     }
                 });
             });
         }
+
+        function whetherInsert() {
+			layui.use('layer', function () {
+				var layer = layui.layer;
+
+				layer.open({
+					title: '提示',
+					content: '确定添加检验项?',
+					btn: ['确定', '返回'],
+					yes: function (index, layero) {
+						__myDoPostBack('add_Click', '');
+					},
+					btn2: function (index, layero) {
+						layer.close(index);
+					}
+				});
+			});
+		}
+
+        function whetherChange() {
+			layui.use('layer', function () {
+				var layer = layui.layer;
+
+				layer.open({
+					title: '提示',
+					content: '确定修改检验项?',
+					btn: ['确定', '返回'],
+					yes: function (index, layero) {
+						__myDoPostBack('change_Click', '');
+					},
+					btn2: function (index, layero) {
+						layer.close(index);
+					}
+				});
+			});
+		}
 
         function deleteError() {
 			layui.use('layer', function () {
@@ -54,7 +86,7 @@
 			});
 		}
 
-        function getTime() {
+        function test1() {
             layui.use('layer', function () {
 				var layer = layui.layer;
 
@@ -207,7 +239,8 @@
                 <div style="text-align:center">
                     <asp:Button ID="clear" runat="server" Text="清空" class="layui-btn layui-btn-warm" OnClick="clear_Click" />
                     &nbsp 
-                    <asp:Button ID="change" runat="server" Text="修改" class="layui-btn layui-btn-danger" OnClick="change_Click" />
+                    <input type="button" value="修改(test)" class="layui-btn layui-btn-danger" onclick="whetherChange()"/>
+                    <%--<asp:Button ID="change" runat="server" Text="修改" class="layui-btn layui-btn-danger" OnClick="change_Click" />--%>
                 </div>
             </div>
             </div>
@@ -266,7 +299,8 @@
             <div class="layui-form-item" style="text-align:center">
                 <asp:Button ID="clearInsert" runat="server" Text="清空" class="layui-btn layui-btn-warm" OnClick="clearInsert_Click" />
                     &nbsp 
-			    <asp:Button ID="add" runat="server" Text="添加" class="layui-btn" OnClick="add_Click"/>
+                <input type="button" value="添加(test)" class="layui-btn" onclick="whetherInsert()"/>
+			    <%--<asp:Button ID="add" runat="server" Text="添加" class="layui-btn" OnClick="add_Click"/>--%>
             </div>
         
     </form>

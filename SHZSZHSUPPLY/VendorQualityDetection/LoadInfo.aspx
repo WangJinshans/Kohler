@@ -12,6 +12,7 @@
     <link href="Scripts/fine-uploader/fine-uploader-gallery.css" rel="stylesheet" />
     <link href="Scripts/fine-uploader/fine-uploader-new.css" rel="stylesheet" />
     <script src="Scripts/fine-uploader/fine-uploader.js"></script>
+    <script src="../VendorAssess/Script/Own/fileUploader.js"></script>
     <script type="text/template" id="qq-template-manual-trigger">
         <div class="qq-uploader-selector qq-uploader" qq-drop-area-text="拖动文件到此处">
             <div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
@@ -217,7 +218,8 @@
         </script>
         
         <div style="text-align: center;margin-top:20px;">
-            <asp:Button CssClass="layui-btn" Text="确认" ID="apply" OnClick="apply_Click1" runat="server" />
+            <input type="button" value="添加数据" class="layui-btn layui-btn-war" onclick="whetherInsert()"/>
+            <%--<asp:Button CssClass="layui-btn" Text="确认" ID="apply" OnClick="apply_Click1" runat="server" />--%>
         </div>
         
     </form>

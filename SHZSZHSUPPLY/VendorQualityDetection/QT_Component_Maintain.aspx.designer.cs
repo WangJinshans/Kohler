@@ -184,15 +184,6 @@ namespace SHZSZHSUPPLY.VendorQualityDetection {
         protected global::System.Web.UI.WebControls.Button clear;
         
         /// <summary>
-        /// change 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button change;
-        
-        /// <summary>
         /// insert1 控件。
         /// </summary>
         /// <remarks>
@@ -317,14 +308,5 @@ namespace SHZSZHSUPPLY.VendorQualityDetection {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button clearInsert;
-        
-        /// <summary>
-        /// add 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button add;
     }
 }

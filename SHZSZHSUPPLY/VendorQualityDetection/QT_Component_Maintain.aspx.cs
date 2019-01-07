@@ -45,13 +45,28 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                     //        LocalScriptManager.CreateScript(Page, "getTime()", "getTime");   //调用前端函数
                     //        break;
                     //    }
-
+                    case "add_Click":
+                        {
+                            add_Click();
+                            break;
+                        }
+                    case "change_Click":
+                        {
+                            change_Click();
+                            break;
+                        }
                     default:
                         break;
                 }
             }
 
         }
+
+        protected void test()
+        {
+            LocalScriptManager.CreateScript(Page, "test1()", "test1");
+        }
+
 
         protected DataTable getComponentBySKU(string sku)
         {
@@ -69,15 +84,15 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
                 DataTable itemList = getComponentBySKU(sku);
                 GridView1.DataSource = itemList.DefaultView;
                 GridView1.DataBind();
-
+                UpdatePanel1.Update();
             }
             else  //！有点问题无法使用前端语句
             {
                 //Response.Write("<script>window.alert('查无此SKU对应Component信息,请重新输入')</script>");
-                LocalScriptManager.CreateScript(Page, "selectSKUError()", "selectSKUError");  //可以换这种写法优化界面显示
+                /*LocalScriptManager.CreateScript(Page, "selectSKUError()", "selectSKUError"); */ //可以换这种写法优化界面显示
+                test();
             }
 
-            UpdatePanel1.Update();
         }
 
         //比较填写的内容和已有的内容 如果没有填写则按照原有的item填写
@@ -124,7 +139,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             return item;
         }
 
-        protected void change_Click(object sender, EventArgs e)
+        protected void change_Click()
         {
             string sku = inputSKU.Text.ToString();
             if (ComponentList_BLL.hasSKU(sku))
@@ -136,6 +151,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             }
             else  //！有点问题无法使用前端语句
             {
+                test();
                 //提醒不存在SKU不能操作
             }
 
@@ -197,7 +213,7 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
         }
 
         //添加Component数据
-        protected void add_Click(object sender, EventArgs e)
+        protected void add_Click()
         {
             QT_Component_List item = getItem_add();
             ComponentList_BLL.addComponent(item);

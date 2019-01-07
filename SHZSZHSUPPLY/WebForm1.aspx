@@ -240,6 +240,7 @@
 								<li><a href="VendorQualityDetection/RepertoryInspection.aspx" id="cangku" target="iFrame1">仓库报验</a></li>
                                 <li><a href="VendorQualityDetection/ShowInspectionList.aspx" id="show" target="iFrame1">检验记录</a></li>
 								<li><a href="VendorQualityDetection/ScareList.aspx" id="scar" target="iFrame1">Scar</a></li>
+                                <li><a href="VendorQualityDetection/QT_Component_Maintain.aspx" id="component" target="iFrame1">添加修改Component</a></li>
                                 
                             </ul>
                         </li>

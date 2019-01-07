@@ -3,7 +3,6 @@ using BLL.QualityDetection;
 using SHZSZHSUPPLY.QualityDetection.Utils;
 using System;
 using System.Web.UI.WebControls;
-using BLL.QualityDetection;
 using MODEL.QualityDetection;
 
 namespace SHZSZHSUPPLY.VendorQualityDetection
@@ -19,19 +18,19 @@ namespace SHZSZHSUPPLY.VendorQualityDetection
             }
             else
             {
-                //switch (Request["_EVENTTARGET"])
-                //{
-                //    case "InsertItem": { apply_Click(); break; }
-                //    default:
-                //        break;
-                //}
+                switch (Request["__EVENTTARGET"])
+                {
+                    case "insertItem": { apply_Click1(); break; }
+                    default:
+                        break;
+                }
             }
             // HTTP 连接超时60s 响应超时30s 
         }
 
         //添加检验项
 
-        protected void apply_Click1(object sender, EventArgs e)
+        protected void apply_Click1()
         {
             QT_Inspection_Item item = null;
             item = new QT_Inspection_Item();
